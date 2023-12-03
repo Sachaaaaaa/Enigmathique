@@ -1,4 +1,4 @@
-### Équipe `<nom-équipe>`
+### Équipe `LogiGre Edutainment`
 
 <dl>
 <dt>Chef projet</dt>
