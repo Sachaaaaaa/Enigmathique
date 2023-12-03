@@ -1,15 +1,18 @@
 ### Équipe `<nom-équipe>`
 
 <dl>
-<dt>Chef·fe projet</dt>
-<dd>NOM Prénom</dd>
+<dt>Chef projet</dt>
+<dd>DUPUIS Thibaut</dd>
 <dt>Membres</dt>
 <dd>
 
-- NOM Prénom
-- NOM Prénom
-- NOM Prénom
-- …
+- DALBAN Yvain
+- BERGERY Loïc
+- BRIAND Damien
+- GUILLEVIC Mathéo
+- PIVOT Raphaël
+- TARDY Mathéo
+- WOS Sacha
 
 </dd>
 
