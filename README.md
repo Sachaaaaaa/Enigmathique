@@ -6,9 +6,9 @@
 <dt>Membres</dt>
 <dd>
 
-- DALBAN Yvain
 - BERGERY Loïc
 - BRIAND Damien
+- DALBAN Yvain
 - GUILLEVIC Mathéo
 - PIVOT Raphaël
 - TARDY Mathéo
