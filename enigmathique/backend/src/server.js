@@ -9,6 +9,8 @@ const app = express();
 const db = require("./models/db.js");
 db.sequelize.sync();
 
+require("./routes/professor.route.js")(app);
+
 app.get("/", (req, res) => {
 	return res.status(200).json({message: "Hello, World!"});
 });
