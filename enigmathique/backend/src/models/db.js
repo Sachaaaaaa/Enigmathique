@@ -25,7 +25,7 @@ db.sequelize = sequelize;
 
 // Ajouter les modèles ici
 
-//db.professor = require("./professor.model.js")(sequelize, Sequelize);
+db.professor = require("./professor.model.js")(sequelize, Sequelize);
 
 // ---------------------------------------------
 
