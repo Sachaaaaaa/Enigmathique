@@ -9,6 +9,8 @@ const Op = db.Sequelize.Op;
 // Créer et enregistrer un nouveau professeur
 exports.create = (req, res) => {
 	// Valider la requête
+	// TODO: Vérifier que le mail est bien un mail
+	// TODO: Vérifier que le mot de passe est assez fort
 	if (!req.body.lastname || !req.body.firstname || !req.body.mail || !req.body.password) {
 		res.status(400).send({
 			message: "Il manque des informations pour créer le professeur."
