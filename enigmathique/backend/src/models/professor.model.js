@@ -23,12 +23,12 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.STRING,
 			allowNull:false,
 		},
-		date_created: {
+		createdAt: {
 			type: Sequelize.DATE,
 			allowNull: false,
 			defaultValue: Sequelize.NOW,
 		},
-		date_updated: {
+		updatedAt: {
 			type: Sequelize.DATE,
 			allowNull: false,
 			defaultValue: Sequelize.NOW,
