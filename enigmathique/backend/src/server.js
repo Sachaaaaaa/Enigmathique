@@ -5,6 +5,7 @@
 // Importe les modules nécessaires
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 // Initialise l'application
 const app = express();
@@ -12,6 +13,9 @@ const app = express();
 // Utilise le middleware bodyParser pour parser les requêtes de type application/json et application/x-www-form-urlencoded (POST)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+// Utilise le middleware cors pour autoriser les requêtes cross-origin
+app.use(cors(origin = "*"));
+
 
 // Initialise la base de données
 const db = require("./models/db.js");
