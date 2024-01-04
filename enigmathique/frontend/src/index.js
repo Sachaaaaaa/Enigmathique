@@ -1,13 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Routes,
+	Link
+} from "react-router-dom";
+import './assets/index.css';
+import Home from './pages/Home';
 import reportWebVitals from './reportWebVitals';
+
+function PageDoesNotExist() {
+	return (
+		<div>
+			<h1>Page does not exist</h1>
+			<p>Sorry, the page you are looking for does not exist.</p>
+		</div>
+	);
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Router>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="*" element={<PageDoesNotExist />} />
+			</Routes>
+		</Router>
   </React.StrictMode>
 );
 
