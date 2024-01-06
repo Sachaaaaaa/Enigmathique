@@ -19,6 +19,8 @@ db.sequelize.sync();
 
 // Définit les routes
 require("./routes/professor.route.js")(app);
+require("./routes/course.route.js")(app);
+require("./routes/student.route.js")(app);
 
 // Route par défaut
 app.get("/", (req, res) => {
