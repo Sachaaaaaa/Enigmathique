@@ -29,10 +29,6 @@ module.exports = {
 		'react'
 	],
 	'rules': {
-		'indent': [
-			'error',
-			'tab'
-		],
 		'quotes': [
 			'error',
 			'single'
