@@ -10,6 +10,9 @@ module.exports = app => {
 	// Créer un nouveau professeur
 	router.post("/", professors.create);
 
+	// Se connecter à un professeur
+	router.post("/login", professors.login);
+
 	// Récupérer tous les professeurs
 	router.get("/", professors.findAll);
 
