@@ -43,9 +43,23 @@ module.exports = (sequelize, Sequelize) => {
 			onDelete: 'SET NULL', // si une équipe est supprimée, 'teamId' est mis à null
 		},
 
+		// Date de création de l'objet
+		createdAt: {
+			type: Sequelize.DATE,
+			allowNull: false,
+			defaultValue: Sequelize.NOW,
+		},
+
+		// Date de mise à jour de l'objet
+		updatedAt: {
+			type: Sequelize.DATE,
+			allowNull: false,
+			defaultValue: Sequelize.NOW,
+		},
+
 	}, { // Options
 		freezeTableName: true, // Ne pas mettre de 's' à la fin du nom de la table
-        timestamps: false, // Désactive les colonnes createdAt et updatedAt
+        timestamps: true, // Active les colonnes createdAt et updatedAt
 	});
 
 	return Student;
