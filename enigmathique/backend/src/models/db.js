@@ -28,6 +28,8 @@ db.sequelize = sequelize;
 db.professor = require("./professor.model.js")(sequelize, Sequelize);
 db.student = require("./student.model.js")(sequelize, Sequelize);
 db.course = require("./course.model.js")(sequelize, Sequelize);
+db.team = require("./team.model.js")(sequelize, Sequelize);
+db.gameSession = require("./gameSession.model.js")(sequelize, Sequelize);
 
 // ---------------------------------------------
 
