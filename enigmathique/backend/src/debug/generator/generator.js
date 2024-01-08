@@ -1,8 +1,7 @@
 // Génère des données de test pour la base de données
+
 const faker = require('faker');
 const db = require('../../models/db.js');
-
-
 
 const Professor = db.professor;
 
@@ -29,9 +28,6 @@ const generateProfessors = (n) => {
 	}
 }
 
-// Can't use await outside of an async function
-//await db.sequelize.sync({force: true});
-// Fix
 db.sequelize.sync({force: true}).then(() => {
 	generateProfessors(10);
 });
