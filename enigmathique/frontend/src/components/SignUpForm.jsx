@@ -18,22 +18,21 @@ function SignUpForm() {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<label>Enter your name:
 				<input
 					type="text"
 					name="username"
-					value={inputs.username || ' '}
+					value={inputs.username || ''}
+					placeholder='Prénom'
 					onChange={handleChange}
 				/>
-			</label>
-			<label>Enter your age:
 				<input
-					type="number"
-					name="age"
-					value={inputs.age || ' '}
+					type="text"
+					name="name"
+					value={inputs.name || ''}
 					onChange={handleChange}
+					placeholder='nom'
 				/>
-			</label>
+
 			<input type="submit" />
 		</form>
 	)
