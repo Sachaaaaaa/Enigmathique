@@ -6,6 +6,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const { initSocketio } = require("./sockets/sockets.js");
 
 // Initialise l'application
 const app = express();
@@ -15,6 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 // Utilise le middleware cors pour autoriser les requêtes cross-origin
 app.use(cors(origin = "*"));
+
+// Initialise le socket.io
+const server = require("http").createServer(app);
+initSocketio(server);
 
 
 // Initialise la base de données
@@ -33,6 +38,6 @@ app.get("/", (req, res) => {
 
 // Lance le serveur
 const PORT = 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
 	console.log(`Server is running: http://localhost:${PORT}`);
 });
