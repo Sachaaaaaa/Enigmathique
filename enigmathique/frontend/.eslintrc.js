@@ -32,6 +32,23 @@ module.exports = {
 		'semi': [
 			'warn',
 			'always'
-		]
+		],
+		'quotes': [
+			'warn',
+			'single'
+		],
+		'indent': [
+			'warn',
+			'tab'
+		],
+		'no-unused-vars': [
+			'warn'
+		],
+		'react/no-unknown-property': [ // Pour threejs, ignore les propriétés inconnues
+			'warn',
+			{
+				'ignore': ['position', 'rotation', 'scale', 'geometry', 'material', 'castShadow', 'receiveShadow', 'visible', 'lookAt', 'add', 'remove', 'children', 'parent' ]
+			}			
+		],
 	}
 };
