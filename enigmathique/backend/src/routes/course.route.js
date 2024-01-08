@@ -3,18 +3,15 @@
 */
 
 module.exports = app => {
-	const professors = require("../controllers/professor.controller.js");
+	const course = require("../controllers/course.controller.js");
 
 	var router = require("express").Router();
 
 	// Créer un nouveau professeur
-	router.post("/", professors.create);
-
-	// Se connecter à un professeur
-	router.post("/login", professors.login);
+	router.post("/", course.create);
 
 	// Récupérer tous les professeurs
-	router.get("/", professors.findAll);
+	router.get("/", course.findAll);
 
 	// Récupérer un professeur par son id
 	//router.get("/:id", professors.findOne);
@@ -25,5 +22,5 @@ module.exports = app => {
 	// Supprimer un professeur par son id
 	//router.delete("/:id", professors.delete);
 
-	app.use("/api/professor", router);
+	app.use("/api/course", router);
 }
