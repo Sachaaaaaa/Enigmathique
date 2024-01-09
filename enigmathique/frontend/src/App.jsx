@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import Test from './pages/Test';
 import Dashboard from './pages/Dashboard';
 import './index.css';
-import SideBar from "./components/SideBar";
+import CreationGame1 from "./pages/CreationGame1";
 
 const App = () => {
 	return(
@@ -16,7 +16,7 @@ const App = () => {
 			<Route path='/login' element={<Login />} />
 			<Route path='/test' element={<Test/>} />
 			<Route path='/dashboard' element={<Dashboard/>} />
-			<Route path='/sideBar' element={<SideBar/>} />
+			<Route path='/creationgame' element={<CreationGame1/>} />
 		</Routes>
 	);
 }

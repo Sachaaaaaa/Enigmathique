@@ -21,12 +21,12 @@ const SideBar = () => {
 				<img src={logo} alt="logo" className="items-center"/>
 			</Link>
 			<ul>
-				<ItemList name="Tableau de Bord" path="*"/>
-				<ItemList name="Créer une Partie" path="*"/>
-				<ItemList name="Créer une Classe" path="*"/>
-				<ItemList name="Voir les Salles" path="*"/>
+				<ItemList name="Tableau de Bord" path="../dashboard"/>
+				<ItemList name="Mes classes" path="*"/>
+				<ItemList name="Mes parties" path="*"/>
+				<ItemList name="Salles d'énigmes" path="*"/>
 			</ul>
-			<Link to="../test">
+			<Link to="../creationgame">
 				<button className="bg-blue-300 hover:bg-amber-200 w-full h-20">Nouvelle partie</button>
 			</Link>
 		</nav>
