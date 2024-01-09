@@ -39,6 +39,9 @@ db.sequelize.sync();
 require("./routes/professor.route.js")(app);
 require("./routes/course.route.js")(app);
 require("./routes/student.route.js")(app);
+require("./routes/authentification.route.js")(app);
+require("./routes/game.route.js")(app);
+
 
 // Route par défaut
 app.get("/", (req, res) => {
