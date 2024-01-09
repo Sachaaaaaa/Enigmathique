@@ -1,6 +1,7 @@
 import React from "react";
 import { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { SocketManager } from "../components/SocketManager";
 
 function Box(props) {
 	// This reference will give us direct access to the mesh
@@ -29,6 +30,7 @@ function Box(props) {
 const Game = () => {
 	return (
 		<Canvas>
+			<SocketManager />
 			<ambientLight intensity={Math.PI / 2} />
 			<spotLight
 				position={[10, 10, 10]}
