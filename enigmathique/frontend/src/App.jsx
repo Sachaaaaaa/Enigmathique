@@ -6,7 +6,6 @@ import Login from './pages/Login';
 import Test from './pages/Test';
 import Dashboard from './pages/Dashboard';
 import './index.css';
-import SideBar from "./components/SideBar";
 
 const App = () => {
 	return(
@@ -16,8 +15,7 @@ const App = () => {
 			<Route path='/login' element={<Login />} />
 			<Route path='/test' element={<Test/>} />
 			<Route path='/dashboard' element={<Dashboard/>} />
-			<Route path='/sideBar' element={<SideBar/>} />
 		</Routes>
 	);
-}
+};
 export default App;

@@ -21,7 +21,7 @@ const SideBar = () => {
 				<img src={logo} alt="logo" className="items-center"/>
 			</Link>
 			<ul>
-				<ItemList name="Tableau de Bord" path="*"/>
+				<ItemList name="Tableau de Bord" path="../dashboard"/>
 				<ItemList name="Créer une Partie" path="*"/>
 				<ItemList name="Créer une Classe" path="*"/>
 				<ItemList name="Voir les Salles" path="*"/>
