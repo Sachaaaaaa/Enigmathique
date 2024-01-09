@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors(origin = "*"));
 
 // Initialise le socket manager
+const server = http.createServer(app);
 const io = socketio(server, {
 	cors: {
 		origin: "*"
