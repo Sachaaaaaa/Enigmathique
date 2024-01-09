@@ -9,7 +9,10 @@ export const Scene = () => {
         <Environment preset="sunset" />
         <ambientLight intensity={0.3} />
         <OrbitControls />
+        {// Comment
         <Room001 />
+        }
+        <Model />
         </>
     );
 };
