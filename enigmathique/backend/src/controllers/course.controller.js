@@ -34,7 +34,7 @@ exports.create = (req, res) => {
 		});
 }
 
-// Récupérer tous les classes de la base de données
+// Récupérer toutes les classes de la base de données
 exports.findAll = (req, res) => {
 	Course.findAll()
 		.then(data => {
@@ -46,28 +46,3 @@ exports.findAll = (req, res) => {
 			});
 		});
 }
-
-
-/** 
-// Récupérer tous les élèves contenu dans la classe 
-exports.findStudentsInCourse = (req, res) => {
-  const courseId = req.params.idCourse;
-
-  Course.findByPk(courseId, {include: 'students'})
-    .then(course => {
-      if (!course) {
-        return res.status(404).send({
-          message: `Classe avec l'identifiant ${courseId} non trouvée.` 
-        });
-      }
-      res.send(course.students);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || `Erreur lors de la récupération des élèves de la classe avec l'identifiant ${courseId}.`
-      });
-    });
-};
-**/
-
