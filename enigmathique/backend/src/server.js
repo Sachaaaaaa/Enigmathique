@@ -20,9 +20,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Utilise le middleware cors pour autoriser les requêtes cross-origin
 app.use(cors(origin = "*"));
 
-// Initialise le serveur socket.io
+// Initialise le socket manager
 const server = http.createServer(app);
-initSocketio(server);
+const io = socketio(server, {
+	cors: {
+		origin: "*"
+	}
+});
+initSocketio(io);
 
 
 // Initialise la base de données
@@ -39,16 +44,6 @@ require("./routes/student.route.js")(app);
 app.get("/", (req, res) => {
 	return res.status(200).json({message: "Hello, World!"});
 });
-
-
-// Initialise le socket manager
-const io = socketio(server, {
-	cors: {
-		origin: "*"
-	}
-});
-initSocketManager(io);
-
 
 // Lance le serveur
 const PORT = 5000;
