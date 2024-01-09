@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import AuthService from "../services/auth.service";
 
-function SignupForm() {
+const SignupForm = () => {
 	const [firstname, setFirstname] = useState("");
 	const [secondname, setSecondname] = useState("");
 	const [mail, setMail] = useState("");
