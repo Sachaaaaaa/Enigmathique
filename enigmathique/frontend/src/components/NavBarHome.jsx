@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../assets/img/logo-enigmathique.png";
+import {Link} from "react-router-dom";
 
 
 
@@ -15,12 +16,12 @@ function NavBarHome(){
 			</div>
 		</div>
 		<div className="flex space-x-10 justify-end mr-10">
-			<a href={loginPath}>
+			<Link to={loginPath}>
 				<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 w-32 rounded-lg">Login</button>
-			</a>
-			<a href={registerPath}>
+			</Link>
+			<Link to={registerPath}>
 				<button className="bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-3 px-4 w-32 border-2 border-white hover:border-transparent rounded-lg">Sign up</button>
-			</a>
+			</Link>
 		</div>
 	</nav>);
 }
