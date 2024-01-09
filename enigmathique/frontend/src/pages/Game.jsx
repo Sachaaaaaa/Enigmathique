@@ -32,7 +32,7 @@ const Game = () => {
 	return (
 		<Canvas shadows camera={{position:[8,8,8], fov:35}}
 		style={{height:'100vh' , width:'100vw'  }} >
-			<color attach="background" args={["#ececec"]} />
+			<color attach="background" args={["#9999e6"]} />
 			<Scene />
 		</Canvas>
 	);
