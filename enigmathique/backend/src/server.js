@@ -47,7 +47,7 @@ const io = socketio(server, {
 		origin: "*"
 	}
 });
-initSocketManager(io);
+initSocketio(io);
 
 
 // Lance le serveur
