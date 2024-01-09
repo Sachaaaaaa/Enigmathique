@@ -21,5 +21,5 @@ const App = () => {
 			<Route path='/game' element={<Game/>} />
 		</Routes>
 	);
-};
+}
 export default App;
