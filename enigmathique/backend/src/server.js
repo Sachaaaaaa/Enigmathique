@@ -22,12 +22,7 @@ app.use(cors(origin = "*"));
 
 // Initialise le socket manager
 const server = http.createServer(app);
-const io = socketio(server, {
-	cors: {
-		origin: "*"
-	}
-});
-initSocketio(io);
+const io = initSocketio(server);
 
 
 // Initialise la base de données
