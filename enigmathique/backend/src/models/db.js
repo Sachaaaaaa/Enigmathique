@@ -30,6 +30,7 @@ db.student = require("./student.model.js")(sequelize, Sequelize);
 db.course = require("./course.model.js")(sequelize, Sequelize);
 db.team = require("./team.model.js")(sequelize, Sequelize);
 db.gameSession = require("./gameSession.model.js")(sequelize, Sequelize);
+db.play = require("./play.model.js")(sequelize, Sequelize);
 // TODO: ajouter le modele pour DateSupression
 
 // ---------------------------------------------
