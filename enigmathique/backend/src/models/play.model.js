@@ -31,7 +31,7 @@ module.exports = (sequelize, Sequelize) => {
         
     }, { // Options
         freezeTableName: true, // Ne pas mettre de 's' à la fin du nom de la table
-        timestamps: false, // Désactive les colonnes createdAt et updatedAt
+        timestamps: true, // Active les colonnes createdAt et updatedAt
     });
 
     return Play;
