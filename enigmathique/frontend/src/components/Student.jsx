@@ -15,6 +15,10 @@ const Student = (props) => {
     }
 
     const handleState = () => {
+        if (selected.length === props.teamSize && !props.isSelected) {
+            alert("Vous avez atteint la taille maximale de l'équipe : "+props.teamSize);
+            return;
+        }
         if (available.some(student =>
         student.name === targetStudent.name && student.firstname === targetStudent.firstname)) {
             setAvailable(available.filter(student =>
@@ -49,5 +53,6 @@ Student.propTypes = {
     name: PropTypes.string.isRequired,
     firstname: PropTypes.string.isRequired,
     isSelected: PropTypes.bool.isRequired,
+    teamSize: PropTypes.number,
 }
 export default Student;
