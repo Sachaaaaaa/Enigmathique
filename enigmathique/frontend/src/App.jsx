@@ -5,8 +5,10 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Test from './pages/Test';
 import Dashboard from './pages/Dashboard';
-import './index.css';
 import CreationGame1 from "./pages/CreationGame1";
+import CreationGame2 from "./pages/CreationGame2";
+import './index.css';
+
 
 const App = () => {
 	return(
@@ -17,6 +19,7 @@ const App = () => {
 			<Route path='/test' element={<Test/>} />
 			<Route path='/dashboard' element={<Dashboard/>} />
 			<Route path='/creationgame' element={<CreationGame1/>} />
+			<Route path='/creationgame2' element={<CreationGame2/>} />
 		</Routes>
 	);
 };
