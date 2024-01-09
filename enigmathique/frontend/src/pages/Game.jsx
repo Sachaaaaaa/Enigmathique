@@ -2,7 +2,9 @@ import React from "react";
 import { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { SocketManager } from "../components/SocketManager";
+import { Scene } from "../components/SceneGLTF";
 
+/*
 function Box(props) {
 	// This reference will give us direct access to the mesh
 	const meshRef = useRef();
@@ -26,22 +28,13 @@ function Box(props) {
 		</mesh>
 	);
 }
-
+*/
 const Game = () => {
 	return (
-		<Canvas>
+		<Canvas shadows camera={{position:[8,8,8], fov:35}} style={{height:'100vh' , width:'100vw' }} >
 			<SocketManager />
-			<ambientLight intensity={Math.PI / 2} />
-			<spotLight
-				position={[10, 10, 10]}
-				angle={0.15}
-				penumbra={1}
-				decay={0}
-				intensity={Math.PI}
-			/>
-			<pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-			<Box position={[-1.2, 0, 0]} />
-			<Box position={[1.2, 0, 0]} />
+			<color attach="background" args={["#9999e6"]} />
+			<Scene />
 		</Canvas>
 	);
 };
