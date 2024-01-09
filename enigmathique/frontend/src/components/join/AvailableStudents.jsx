@@ -34,7 +34,7 @@ const AvailableStudents = (props) => {
                 </nav>
             </section>
             <section className="p-2">
-                <div className="flex flex-col gap-2 p-4 h-[500px] overflow-y-scroll">
+                <div className="flex flex-col gap-2 p-4 h-[440px] overflow-y-scroll">
                     {searchResult.map((student, index) => {
                         return(
                             <Student
@@ -42,6 +42,7 @@ const AvailableStudents = (props) => {
                                 name={student.name}
                                 firstname={student.firstname}
                                 isSelected={false}
+                                teamSize={props.teamSize}
                             />
                         );
 
@@ -53,5 +54,6 @@ const AvailableStudents = (props) => {
 }
 AvailableStudents.propTypes = {
     available: PropTypes.array.isRequired,
+    teamSize: PropTypes.number.isRequired
 }
 export default AvailableStudents;
