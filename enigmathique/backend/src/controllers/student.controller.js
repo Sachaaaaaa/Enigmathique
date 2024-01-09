@@ -24,13 +24,27 @@ exports.create = (req, res) => {
 	};
 
 	// Enregistrer l'élève dans la base de données
-	Course.create(course)
+	Student.create(student)
 		.then(data => {
 			res.status(201).send(data);
 		})
 		.catch(err => {
 			res.status(500).send({
 				message: err.message || "Une erreur s'est produite lors de la création de l'élève."
+			});
+		});
+}
+
+
+// Récupérer tous les élèves de la base de données
+exports.findAll = (req, res) => {
+	Student.findAll()
+		.then(data => {
+			res.status(200).send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: err.message || "Une erreur s'est produite lors de la récupération des élèves."
 			});
 		});
 }

@@ -1,18 +1,22 @@
 import React from 'react';
 import {Routes, Route } from 'react-router-dom';
-import './index.css';
 import Home from './pages/Home';
-import SignUp from './pages/SignUp';
-import LogIn from './pages/LogIn'; // le style de l'application
-import Test from './pages/Test'; // le style de l'application
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Test from './pages/Test';
+import Dashboard from './pages/Dashboard';
+import './index.css';
+import CreationGame1 from "./pages/CreationGame1";
 
 const App = () => {
 	return(
 		<Routes>
 			<Route path='/' element={<Home />} />
-			<Route path='/SignUp' element={<SignUp />} />
-			<Route path='/LogIn' element={<LogIn />} />
+			<Route path='/signup' element={<Signup />} />
+			<Route path='/login' element={<Login />} />
 			<Route path='/test' element={<Test/>} />
+			<Route path='/dashboard' element={<Dashboard/>} />
+			<Route path='/creationgame' element={<CreationGame1/>} />
 		</Routes>
 	);
 }
