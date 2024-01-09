@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Test from './pages/Test';
+import Dashboard from './pages/Dashboard';
 import './index.css';
 import SideBar from "./components/SideBar";
 
@@ -14,6 +15,7 @@ const App = () => {
 			<Route path='/signup' element={<Signup />} />
 			<Route path='/login' element={<Login />} />
 			<Route path='/test' element={<Test/>} />
+			<Route path='/dashboard' element={<Dashboard/>} />
 			<Route path='/sideBar' element={<SideBar/>} />
 		</Routes>
 	);
