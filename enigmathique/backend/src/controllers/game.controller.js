@@ -3,46 +3,37 @@
 */
 
 const db = require("../models/db.js");
-const Course = db.course;
+const Game = db.game;
 const Op = db.Sequelize.Op;
 
 // Créer et enregistrer une nouvelle classe
 exports.create = (req, res) => {
-	// Valider la requête
-	if (!req.body.name) {
-		res.status(400).send({
-			message: "Il manque des informations pour créer la classe."
-		});
-		return;
-	}
 
 	// Créer une classe
-	const course = {
-		name: req.body.name,
-		idProfessor: req.body.idProfessor,
+	const game = {
 	};
 
 	// Enregistrer la classe dans la base de données
-	Course.create(course)
+	Game.create(game)
 		.then(data => {
 			res.status(201).send(data);
 		})
 		.catch(err => {
 			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la création de la classe."
+				message: err.message || "Une erreur s'est produite lors de la création de la partie."
 			});
 		});
 }
 
 // Récupérer toutes les classes de la base de données
 exports.findAll = (req, res) => {
-	Course.findAll()
+	Game.findAll()
 		.then(data => {
 			res.status(200).send(data);
 		})
 		.catch(err => {
 			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+				message: err.message || "Une erreur s'est produite lors de la récupération des parties."
 			});
 		});
 }
