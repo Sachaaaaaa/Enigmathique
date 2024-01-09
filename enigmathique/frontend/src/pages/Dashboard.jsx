@@ -38,7 +38,7 @@ const Dashboard = () => {
                             <div>
                                 <p>{/*nombre de parties jouées*/} parties jouées</p>
                                 <p>Temps moyen : {/*temps moyen de résolution des salles de la classe*/}</p>
-                                <p>Nb moyen d{"'"}indices : {/*nb moyen d'indices utilisés par salle de la classe*/}</p>
+                                <p>Nb moyen d&apos;indices : {/*nb moyen d'indices utilisés par salle de la classe*/}</p>
                             </div>
                         </div>
                     </Link>
