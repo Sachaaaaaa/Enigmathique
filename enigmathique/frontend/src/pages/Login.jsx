@@ -21,7 +21,7 @@ const Login = () => {
 		AuthService.login(username, password).then(
 			() => {
 				// Redirection vers la page d'accueil
-				window.location.href = "/";
+				//window.location.href = "/";
 			},
 			(error) => {
 				// Gestion des erreurs

@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import Counter from "./Counter";
 
 const GameCreationForm = () =>  {
 
@@ -49,13 +50,21 @@ const GameCreationForm = () =>  {
 					<div className="mb-4">
 						<label
 							className="block text-gray-700 text-sm font-bold mb-2"
-							htmlFor="username"
+							htmlFor="TailleEquipe"
 						>
 							Classe
 						</label>
 						<select>
 							<ListClass/>
 						</select>
+					</div>
+					<div className="mb-4">
+						<label
+							className="block text-gray-700 text-sm font-bold mb-2"
+							htmlFor="username"
+						>Taille de l&apos;équipe
+						</label>
+						<Counter/>
 					</div>
 					<div className="flex items-center justify-between">
 						<button

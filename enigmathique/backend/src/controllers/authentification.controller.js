@@ -34,9 +34,12 @@ exports.register = async (req, res) => {
 	// Enregistrer le professeur dans la base de données
 	Professor.create(professor)
 		.then(data => {
-            // Génère le token de connexion
-            const token = jwt.sign( {id: data['dataValues']['id']}, secretKey, { expiresIn: '1h' });
-			res.status(201).send(token);
+      // Génère le token de connexion
+      const token = jwt.sign( {id: data['dataValues']['id']}, secretKey, { expiresIn: '1h' });
+			res.status(201).send({
+				token: token,
+				id: data['dataValues']['id']
+			});
 		})
 		.catch(err => {
 			res.status(500).send({
@@ -66,12 +69,13 @@ exports.login = async (req, res) => {
 		const password = existingProfessor['dataValues']['password']
 
 		// On vérifie qu'il s'agissent du bon mdp
-		if(bcrypt.compareSync(req.body.password, password)){
-
-
-            // On récupère l'id du prof pour le token
-            const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, secretKey, { expiresIn: '1h' });
-			res.status(201).send(token);
+		if(bcrypt.compareSync(req.body.password, password)) {
+      // On récupère l'id du prof pour le token
+      const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, secretKey, { expiresIn: '1h' });
+			res.status(201).send({
+				token: token,
+				id: existingProfessor['dataValues']['id']
+			});
 			return;
 		}
 		res.status(400).send({
