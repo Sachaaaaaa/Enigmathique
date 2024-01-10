@@ -17,6 +17,9 @@ module.exports = app => {
 	// Récupérer tous les élèves d'un professeur
 	router.get("/", middleware.verifyToken, student.findAll);
 
+	// Supprime un élève d'un professeur
+	router.delete("/", middleware.verifyToken, student.delete);
+
 	
 
 	app.use("/api/student", router);
