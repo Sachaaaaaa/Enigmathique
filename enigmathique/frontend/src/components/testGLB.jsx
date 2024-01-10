@@ -1,10 +1,12 @@
 /* eslint-disable indent */
+
+/*
 import React, { useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Html } from "@react-three/drei";
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF("/models/test.glb");
+  const { gltf, materials } = useGLTF("/models/test.glb");
   const mesh = useRef();
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -28,7 +30,7 @@ export function Model(props) {
         name="Suzanne"
         castShadow
         receiveShadow
-        geometry={nodes.Suzanne.geometry}
+        geometry={gltf.Suzanne.geometry}
         material={materials.RedColor}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
@@ -57,3 +59,30 @@ export function Model(props) {
 }
 
 useGLTF.preload("/models/test.glb");
+*/
+
+// SceneLoader.js
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useGLTF } from '@react-three/drei';
+
+const SceneLoader = ({ glbPath, onObjectsLoaded }) => {
+  const group = useRef();
+  const gltf = useGLTF(glbPath);
+
+  if (gltf && group.current && onObjectsLoaded) {
+    onObjectsLoaded(group.current.children);
+  }
+  
+  console.log(gltf.scene.children);
+  return <group ref={group}>{gltf ? <primitive object={gltf.scene || gltf.group} /> : null}</group>;
+};
+
+SceneLoader.propTypes = {
+  glbPath: PropTypes.string.isRequired,
+  onObjectsLoaded: PropTypes.func,
+};
+
+export default SceneLoader;
+
+
