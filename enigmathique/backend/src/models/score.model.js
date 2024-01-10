@@ -5,6 +5,39 @@ module.exports = (sequelize, Sequelize) => {
     // Définition du modèle
     const Score = sequelize.define("score", {
 
+        idTeam:{
+            type: Sequelize.INTEGER,
+			allowNull: false, 
+			primaryKey: true,
+			references: {
+				model: 'team', 
+				key: 'id', 
+			},
+			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
+			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
+        },
+        idRoom:{
+            type: Sequelize.INTEGER,
+			allowNull: false, 
+			primaryKey: true,
+			references: {
+				model: 'room', 
+				key: 'id', 
+			},
+			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
+			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
+        },
+        idGame:{
+            type: Sequelize.INTEGER,
+			allowNull: false, 
+			primaryKey: true,
+			references: {
+				model: 'game', 
+				key: 'id', 
+			},
+			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
+			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
+        },
         // Temps 
         time: {
             type: Sequelize.INTEGER,
@@ -27,40 +60,6 @@ module.exports = (sequelize, Sequelize) => {
         nbHints: {
             type: Sequelize.INTEGER,
             allowNull: false,
-        },
-
-        // Lien vers l'id de la session de jeu
-        idGameSession:{
-            type: Sequelize.INTEGER,
-			allowNull: false, 
-			references: {
-				model: 'gameSession', 
-				key: 'id', 
-			},
-			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
-			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
-        },
-
-        // Lien vers l'id de l'équipe
-        idTeam:{
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'team',
-                key: 'id',
-            },
-            onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
-			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
-        },
-
-        // Lien vers l'id de l'énigme (room)
-        idRoom:{
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'room',
-                key: 'id',
-            },
         },
 
         // Date de création de l'objet
