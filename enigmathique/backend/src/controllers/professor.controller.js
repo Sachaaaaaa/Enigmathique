@@ -53,7 +53,7 @@ exports.delete = (req, res) => {
 
 
 
-
+// to do : hash le password
 // methode pour mettre à jour un professeur en fonction de son id
 exports.update = (req, res) => {
 	console.log(req.body)

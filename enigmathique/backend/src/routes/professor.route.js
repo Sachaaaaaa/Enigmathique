@@ -11,10 +11,11 @@ module.exports = app => {
 	// Récupérer un professeur par son id
 	router.get("/", middleware.verifyToken,professors.findOne);
 
-	// Supprimer une classe du professeur
+	// to do : revok le token ?
+	// Supprimer le professeur
 	router.delete("/", middleware.verifyToken, professors.delete);
 
-	// Mettre à jour une classe du professeur
+	// Mettre à jour une le professeur
 	router.put("/", middleware.verifyToken, professors.update);
 
 	app.use("/api/professor", router);
