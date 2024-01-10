@@ -29,10 +29,9 @@ const ListStudents = () => {
 				<h3 className="w-40 text-center">{student.firstname}</h3>
 				<h3 className="w-40 text-center">{student.secondname}</h3>
 				<h3 className="w-40 text-center">{student.class}</h3>
-				<PopupDelete firstname={student.firstname} secondname={student.secondname}/>
 				<button className="bg-green-300 w-40 border-2 border-green-900">voir statistiques</button>
 				<button className="bg-amber-300 w-40 border-2 border-amber-900">Modifier élève</button>
-				<button className="bg-red-800 w-40 border-2 border-amber-900">Supprimer élève </button>
+				<PopupDelete firstname={student.firstname} secondname={student.secondname} type="student"/>
 			</li>
 		);
 	}
