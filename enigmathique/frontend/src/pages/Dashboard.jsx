@@ -1,48 +1,103 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import SideBar from "../components/SideBar";
+import { Link } from 'react-router-dom';
+import SideBar from '../components/SideBar';
+import ClassElem  from '../components/dashboard/ClassElem';
+import RoomElem from '../components/dashboard/RoomElem';
+import GameElem from '../components/dashboard/GameElem';
+
 
 const Dashboard = () => {
+
+    const rooms = [
+        {
+            name: "Room1",
+            difficulty: "facile",
+            cat: "proba"
+        },
+        {
+            name: "Room2",
+            difficulty: "moyen",
+            cat: "suit"
+        },
+        {
+            name: "Room3",
+            difficulty: "difficile",
+            cat: "fonct"
+        }
+    ]
+
+    const games = [
+        {
+            name: "Entrainement proba",
+            date: "17/11/23",
+            className: "A",
+            winners: ["Julie Lustret", "Monstre Gentil"],
+            winRate: 80
+        },
+        {
+            name: "Entrainement fonct",
+            date: "11/12/23",
+            className: "A",
+            winners: ["Lucas Crespin", "Girafe Agréable"],
+            winRate: 75
+        }
+    ]
+
+    const classGroups = [
+        {
+            name: "A",
+            nbStudents : 32,
+            lastGame : "11/12/23",
+            nbGames : 4
+        },
+        {
+            name: "B",
+            nbStudents: 31,
+            lastGame: "23/10/23",
+            nbGames: 3
+        }
+    ]
+
     return (
         <div className="flex">
-            <SideBar />
+            <SideBar/>
             <div className="flex"> {/*divs à changer si nécessaire*/}
-                <h2>MON TABLEAU DE BORD</h2>
+                <h2>Vue d&apos;ensemble</h2>
                 <img src={""} alt="user-icon"/>
             </div>
             <div>
-                <section className="flex">
-                    <Link to="" className="w-1/2 border-2 drop-shadow-md m-1 hover:bg-gray-200"> {/*Lien vers la liste des parties*/}
-                        <h3>Mes parties récentes</h3>
-                        <Link to="">Partie du {/*date de la partie*/}  Seconde {/*libellé de la classe*/}</Link> {/*liens vers les parties spécifiques*/}
-                        <Link to="">Partie du {/*date de la partie*/}  Seconde {/*libellé de la classe*/}</Link>
-                        <Link to="">Partie du {/*date de la partie*/}  Seconde {/*libellé de la classe*/}</Link>
-                    </Link>
-                    <Link to="" className="w-1/2 border-2 drop-shadow-md m-1 hover:bg-gray-200">
-                        <h3>Mes classes</h3>
-                        <Link to="" className="hover:bg-gray-300">Seconde</Link>
-                        <Link to="">Seconde</Link>
-                        <Link to="">Seconde</Link>
-                    </Link>
-                </section>
-                <section className="flex">
-                    <Link to="" className="w-1/2 border-2 drop-shadow-md m-1 hover:bg-gray-200">
-                        <h3>Proposition de salles</h3>
-                        <Link to="">{/*nom de la salle*/}</Link>
-                        <Link to="">{/*nom de la salle*/}</Link>
-                        <Link to="">{/*nom de la salle*/}</Link>
-                    </Link>
-                    <Link to="" className="w-1/2 border-2 drop-shadow-md m-1 hover:bg-gray-200">
-                        <h3>Meilleure classe</h3>
-                        <div>
-                            <div>
-                                <p>{/*nombre de parties jouées*/} parties jouées</p>
-                                <p>Temps moyen : {/*temps moyen de résolution des salles de la classe*/}</p>
-                                <p>Nb moyen d&apos;indices : {/*nb moyen d'indices utilisés par salle de la classe*/}</p>
-                            </div>
-                        </div>
-                    </Link>
-                </section>
+                <div>
+                    <h2>Mes Parties</h2>
+                    <Link to="">Voir tout</Link>
+                </div>
+                <div>
+                    {games.map((game, index) => (
+                        <GameElem key={index} game={game}/>
+                    ))}
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h2>Proposition de salles</h2>
+                    <Link to="">Voir tout</Link>
+                </div>
+                <div>
+                    {rooms.map((room, index) => (
+                        <RoomElem key={index} room={room}/>
+                    ))}
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h2>Mes Classes</h2>
+                    <button>{'<'}</button>
+                    <button>{'>'}</button>
+                </div>
+                <div>
+                    {classGroups.map((classGroup, index) => (
+                        <ClassElem key={index} classGroup={classGroup}/>
+                    ))}
+                </div>
             </div>
         </div>
     );

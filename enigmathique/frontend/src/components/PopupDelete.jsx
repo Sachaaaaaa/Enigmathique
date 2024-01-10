@@ -1,23 +1,15 @@
-import React from "react";
-import Popup from "reactjs-popup";
-import PropTypes from "prop-types";
-
+import React from 'react';
+import Popup from 'reactjs-popup';
+import PropTypes from 'prop-types';
+import '../index.css';
 const PopupDelete = (props) => {
 	return (
-		<Popup trigger={<button>trigger</button>}>
-			<div className="bg-white">
-				<p>Voulez vous vraiment supprimer l&apos;élève {props.firstname} {props.secondname}</p>
+		<Popup trigger={<button className="btn-delete">supprimer {props.type === "class" ? "la classe": "l'élève"}</button>}>
+			<div className="bg-white p-2 border-gray-500 border-opacity-100">
+				<p>Voulez vous vraiment supprimer {props.type === "class"? "la classe " + props.name : "l'élève " +props.firstname +" "+ props.secondname}</p>
 				<div className="flex">
-					<button
-						className="bg-red-800 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-50"
-						type="submit">
-						Annuler
-					</button>
-					<button
-						className="bg-blue-950 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-50"
-						type="submit">
-						valider
-					</button>
+					<button className="btn-cancel">Annuler</button>
+					<button className="btn-validate">Valider</button>
 				</div>
 			</div>
 		</Popup>
@@ -25,8 +17,10 @@ const PopupDelete = (props) => {
 }
 
 PopupDelete.propTypes = {
-	firstname: PropTypes.string.isRequired,
-	secondname: PropTypes.string.isRequired,
+	firstname: PropTypes.string,
+	secondname: PropTypes.string,
+	name: PropTypes.string,
+	type: PropTypes.string,
 };
 
 export default PopupDelete;

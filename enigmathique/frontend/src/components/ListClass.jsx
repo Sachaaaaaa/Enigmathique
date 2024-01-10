@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import CourseService from "../services/course.service";
 import AuthService from "../services/auth.service";
 import AuthHeader from "../services/auth-header";
+import PopupDelete from './PopupDelete';
 
 const ListClass = () => {
 
@@ -28,9 +29,8 @@ const ListClass = () => {
 						<Link to="/*">
 							<button className="bg-amber-300 w-40 border-2 border-amber-900">Modifier la classe</button>
 						</Link>
-						<Link to="/*">
-							<button className="bg-red-800 w-40 border-2 border-amber-900">Supprimer la classe</button>
-						</Link>
+						<PopupDelete name={classe.name} type="class"/>
+
 
 					</li>
 				);

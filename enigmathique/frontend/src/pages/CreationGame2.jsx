@@ -1,7 +1,7 @@
 import React from 'react';
-import SideBar from "../components/SideBar";
-import RoomItem from "../components/creationgame2/RoomItem";
-import {useState} from "react";
+import SideBar from '../components/SideBar';
+import RoomItem from '../components/creationgame2/RoomItem';
+import {useState} from 'react';
 
 
 const CreationGame2 = () => {
@@ -33,48 +33,48 @@ const CreationGame2 = () => {
     return (
         <div className="flex">
             <SideBar/>
-            <div>
+            <div className="flex-grow">
                 <div>
                     <h2>Séléction des salles</h2>
-                    <label>
+                    <label className="hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600 w-1/4">
                         <input
                             value="suit"
                             type="radio"
                             name="chapitre"
-                            className=""
+                            className="hidden"
                             checked={selected==='suit'}
                             onChange={handleChange}
                         />
                         Suites
                     </label>
-                    <label>
+                    <label className="hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600">
                         <input
                             value="proba"
                             type="radio"
                             name="chapitre"
-                            className=""
+                            className="hidden"
                             checked={selected==='proba'}
                             onChange={handleChange}
                         />
                         Probabilités
                     </label>
-                    <label>
+                    <label className="hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600">
                         <input
                             value="fonct"
                             type="radio"
                             name="chapitre"
-                            className=""
+                            className="hidden"
                             checked={selected==='fonct'}
                             onChange={handleChange}
                         />
                         Fonctions
                     </label>
-                    <label>
+                    <label className="hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600">
                         <input
                             value="ens"
                             type="radio"
                             name="chapitre"
-                            className=""
+                            className="hidden"
                             checked={selected==='ens'}
                             onChange={handleChange}
                         />

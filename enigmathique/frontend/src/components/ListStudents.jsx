@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import PopupDelete from "./PopupDelete";
 import PropTypes from "prop-types";
 import StudentService from "../services/student.service";
-import AuthService from "../services/auth.service";
 
 const ListStudents = (props) => {
 
@@ -27,10 +26,9 @@ const ListStudents = (props) => {
 				<h3 className="w-40 text-center">{student.firstname}</h3>
 				<h3 className="w-40 text-center">{student.lastname}</h3>
 				<h3 className="w-40 text-center">{student.class}</h3>
-				<PopupDelete firstname={student.firstname} secondname={student.lastname}/>
 				<button className="bg-green-300 w-40 border-2 border-green-900">voir statistiques</button>
 				<button className="bg-amber-300 w-40 border-2 border-amber-900">Modifier élève</button>
-				<button className="bg-red-800 w-40 border-2 border-amber-900">Supprimer élève </button>
+				<PopupDelete firstname={student.firstname} secondname={student.lastname} type="student"/>
 			</li>
 		);
 	}
