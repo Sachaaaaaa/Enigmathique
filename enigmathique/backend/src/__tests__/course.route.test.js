@@ -4,11 +4,11 @@
   ==============================
 */
 const request = require('supertest');
-const app = 'http://localhost:5000'; // Remplacez par l'URL de votre serveur
+const app = 'http://localhost:5000'; 
 
 let token; // Pour stocker le token JWT
 let courseId1; // Pour stocker l'ID de la classe créée
-let courseId2; // Pour stocker l'ID de la classe créée
+let courseId2; // Pour stocker l'ID de la classe créée n°2
 let professorId; // Pour stocker l'ID du professeur créé
 
 describe('Test des routes /api/course', () => {
@@ -81,8 +81,8 @@ describe('Test des routes /api/course', () => {
     };
 
     const response = await request(app)
-        .put(`/api/course/`) // Remplacez :${courseId1} par /${courseId1}
-        .set('Authorization', `${token}`) // Utilisez "Bearer" pour la cohérence
+        .put(`/api/course/`) 
+        .set('Authorization', `${token}`)
         .send(updatedCourseData);
 
     expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
