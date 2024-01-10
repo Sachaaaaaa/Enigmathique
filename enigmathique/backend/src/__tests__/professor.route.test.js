@@ -1,7 +1,7 @@
 /*
-  ==============================
-  Test des routes /api/professor
-  ==============================
+  ================================
+   Test des routes /api/professor
+  ================================
 */
 
 
@@ -9,7 +9,7 @@ const request = require('supertest');
 const express = require('express');
 const professorRoutes = require('../routes/professor.route');
 
-const app = 'http://localhost:5000'; // Remplacez 'app' par l'URL de votre serveur
+const app = 'http://localhost:5000'; 
 
 // Mock du middleware verifyToken
 jest.mock('../routes/middleware.js', () => ({
