@@ -34,6 +34,11 @@ const handleConnection = (socket) => {
 		handleHint(socket, data);
 	});		
 
+	// Lorsqu'un utilisateur envoie un message
+	socket.on('message', (data) => {
+		handleMessage(socket, data);
+	});
+
 	socket.emit('message', 'Hello, World!');
 }
 
@@ -50,6 +55,10 @@ const handleSubmit = (socket, data) => {
 
 const handleHint = (socket, data) => {
 	console.log('Un utilisateur a demandé un indice');
+}
+
+const handleMessage = (socket, data) => {
+	console.log(clc.yellowBright('Un utilisateur a envoyé un message : ' + data));
 }
 
 // Initialise le socket.io
