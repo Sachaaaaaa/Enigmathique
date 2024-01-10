@@ -1,12 +1,12 @@
 /* eslint-disable indent */
 // Test
-/*
 import React, { useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Html } from "@react-three/drei";
+import { node } from "prop-types";
 
 export function Model(props) {
-  const { gltf, materials } = useGLTF("/models/test.glb");
+	const { nodes, materials } = useGLTF("/models/test.glb");
   const mesh = useRef();
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -30,7 +30,7 @@ export function Model(props) {
         name="Suzanne"
         castShadow
         receiveShadow
-        geometry={gltf.Suzanne.geometry}
+        geometry={nodes.Suzanne.geometry}
         material={materials.RedColor}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
@@ -59,9 +59,9 @@ export function Model(props) {
 }
 
 useGLTF.preload("/models/test.glb");
-*/
 
 // SceneLoader
+/*
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useGLTF } from '@react-three/drei';
@@ -101,5 +101,5 @@ SceneLoader.propTypes = {
 };
 
 export default SceneLoader;
-
+*/
 
