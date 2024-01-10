@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Environment, OrbitControls } from "@react-three/drei";
 import {Model} from "./testGLB";
-import Room001 from "./RoomGLTF-001";
+import {Room001} from "./RoomGLTF-001";
 
 export const Scene = () => {
 		const [hoveredObject, setHoveredObject] = useState(false);
@@ -34,10 +34,11 @@ export const Scene = () => {
         <OrbitControls />
 
         {// Comment
-        //<Room001 />
+        //
 				// <SceneLoader glbPath={scenePath} onObjectsLoaded={handleObjectsLoaded} onHover={handleHover}/>
 				<Model />
-        }        
+        }
+				<Room001 />        
         </>
     );
 };
