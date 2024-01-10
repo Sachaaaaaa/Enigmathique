@@ -7,6 +7,7 @@ import Test from './pages/Test';
 import Dashboard from './pages/Dashboard';
 import './index.css';
 import CreationGame1 from "./pages/CreationGame1";
+import Class from "./pages/Class";
 
 const App = () => {
 	return(
@@ -17,6 +18,7 @@ const App = () => {
 			<Route path='/test' element={<Test/>} />
 			<Route path='/dashboard' element={<Dashboard/>} />
 			<Route path='/creationgame' element={<CreationGame1/>} />
+			<Route path='/class' element={<Class/>} />
 		</Routes>
 	);
 }

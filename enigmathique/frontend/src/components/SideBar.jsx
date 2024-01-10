@@ -22,7 +22,7 @@ const SideBar = () => {
 			</Link>
 			<ul>
 				<ItemList name="Tableau de Bord" path="../dashboard"/>
-				<ItemList name="Mes classes" path="*"/>
+				<ItemList name="Mes classes" path="../class"/>
 				<ItemList name="Mes parties" path="*"/>
 				<ItemList name="Salles d'énigmes" path="*"/>
 			</ul>
