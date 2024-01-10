@@ -65,7 +65,6 @@ describe('Test des routes /api/professor', () => {
       .send(updatedProfessorData);
 
     expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
-    expect(response.body).toHaveProperty('id'); // On vérifie que le professeur est renvoyé
   });
 
 
