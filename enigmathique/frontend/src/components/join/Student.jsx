@@ -9,10 +9,6 @@ const Student = (props) => {
 
     const {available, setAvailable} = useContext(AvailableContext);
     const {selected, setSelected} = useContext(SelectedContext);
-    const targetStudent = {
-        name: props.name,
-        firstname: props.firstname,
-    }
 
     const handleState = () => {
         if (selected.length === props.teamSize && !props.isSelected) {
@@ -20,14 +16,14 @@ const Student = (props) => {
             return;
         }
         if (available.some(student =>
-        student.name === targetStudent.name && student.firstname === targetStudent.firstname)) {
+            student.name === props.name && student.firstname === props.firstname)) {
             setAvailable(available.filter(student =>
-                student.name !== targetStudent.name || student.firstname !== targetStudent.firstname));
-            setSelected([...selected, targetStudent]);
+                student.name !== props.name || student.firstname !== props.firstname));
+            setSelected([...selected, props]);
         } else {
             setSelected(selected.filter(student =>
-                student.name !== targetStudent.name || student.firstname !== targetStudent.firstname));
-            setAvailable([...available, targetStudent]);
+                student.name !== props.name || student.firstname !== props.firstname));
+            setAvailable([...available, props]);
         }
 
     };
