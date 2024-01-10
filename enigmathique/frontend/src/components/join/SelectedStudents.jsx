@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Student from "../Student";
+import Student from "./Student";
 
 const SelectedStudents = (props) => {
     const color = props.selected.length === props.teamSize ? "text-green-500" : "text-red-500";
