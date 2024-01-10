@@ -1,6 +1,6 @@
-import React from "react";
-import SignupForm from "../components/SignupForm";
-import "../index.css";
+import React from 'react';
+import SignupForm from '../components/SignupForm';
+import '../index.css';
 
 
 function Signup() {

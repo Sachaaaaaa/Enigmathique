@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import logo from "../assets/img/logo-enigmathique.png";
-import PropTypes from "prop-types";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../assets/img/logo-enigmathique.png';
+import PropTypes from 'prop-types';
 
 const ItemList = (props) => {
 	return (
