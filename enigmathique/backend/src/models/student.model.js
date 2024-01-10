@@ -31,7 +31,7 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 		},
 
-		// Lien vers l'équipe qui suit le cours
+		// Lien vers l'équipe que l'étudiant a rejoint
 		teamId: {
 			type: Sequelize.INTEGER,
 			allowNull: true, // permettre null si l'étudiant n'est pas dans une équipe

@@ -5,18 +5,19 @@
 
 const socketio = require('socket.io');
 const db = require('../models/db.js');
+const clc = require('cli-color');
 
 // Server socket, permet de broadcast des événements à tous les utilisateurs connectés
 let io;
 // Sockets des utilisateurs connectés
-const sockets = [];
+const sockets = {};
 
 
 const handleConnection = (socket) => {
-	console.log('Un utilisateur s\'est connecté');
+	console.log(clc.greenBright('Un utilisateur s\'est connecté'));
 
 	// Enregistre le socket de l'utilisateur
-	sockets.push(socket);
+	sockets[socket.id] = socket;
 
 	// Lorsqu'un utilisateur se déconnecte
 	socket.on('disconnect', () => {
@@ -32,10 +33,20 @@ const handleConnection = (socket) => {
 	socket.on('hint', (data) => {
 		handleHint(socket, data);
 	});		
+
+	// Lorsqu'un utilisateur envoie un message
+	socket.on('message', (data) => {
+		handleMessage(socket, data);
+	});
+
+	socket.emit('message', 'Hello, World!');
 }
 
 const handleDisconnection = (socket) => {
-	console.log('Un utilisateur s\'est déconnecté');
+	console.log(clc.yellow('Un utilisateur s\'est déconnecté'));
+	
+	// Supprime le socket de l'utilisateur
+	delete sockets[socket.id];
 }
 
 const handleSubmit = (socket, data) => {
@@ -46,21 +57,31 @@ const handleHint = (socket, data) => {
 	console.log('Un utilisateur a demandé un indice');
 }
 
+const handleMessage = (socket, data) => {
+	console.log(clc.yellowBright('Un utilisateur a envoyé un message : ' + data));
+}
+
 // Initialise le socket.io
 const init = (server) => {
-	io = socketio(server);
+	io = socketio(server, {
+		cors: {
+			origin: '*',
+		}
+	});
 
 	io.on('connection', (socket) => {
 		handleConnection(socket);
 	});
 
-	console.log('Socket.io initialisé');
-
+	
 	// Game loop
 	setInterval(() => {
-		console.log("Game loop");
+		console.log(clc.blueBright('Loop : ' + Object.keys(sockets).length + ' sockets'));
 	}, 1000);
+	
 
+	console.log(clc.green('Socket.io initialisé'));
+	
 	return io;
 }
 
