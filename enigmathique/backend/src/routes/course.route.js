@@ -8,12 +8,17 @@ module.exports = app => {
 
 	var router = require("express").Router();
 
-	// Créer une nouvelle classe
+	// Créer une nouvelle classe pour le professeur
 	router.post("/", middleware.verifyToken, course.create);
 
-	// Récupérer toutes les classes
+	// Récupérer toutes les classes du professeur
 	router.get("/", middleware.verifyToken, course.findAll);
 
+	// Supprimer une classe du professeur
+	router.delete("/", middleware.verifyToken, course.delete);
+
+	// Mettre à jour une classe du professeur
+	router.put("/", middleware.verifyToken, course.update);
 
 	app.use("/api/course", router);
 }
