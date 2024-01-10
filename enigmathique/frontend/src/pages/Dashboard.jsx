@@ -65,26 +65,28 @@ const Dashboard = () => {
                 <h2>Vue d&apos;ensemble</h2>
                 <img src={""} alt="user-icon"/>
             </div>
-            <div>
-                <div>
-                    <h2>Mes Parties</h2>
-                    <Link to="">Voir tout</Link>
+            <div className="flex-grow">
+                <div className="flex-grow">
+                    <div>
+                        <h2>Mes Parties</h2>
+                        <Link to="">Voir tout</Link>
+                    </div>
+                    <div className="flex justify-around">
+                        {games.map((game, index) => (
+                            <GameElem key={index} game={game}/>
+                        ))}
+                    </div>
                 </div>
-                <div>
-                    {games.map((game, index) => (
-                        <GameElem key={index} game={game}/>
-                    ))}
-                </div>
-            </div>
-            <div>
-                <div>
-                    <h2>Proposition de salles</h2>
-                    <Link to="">Voir tout</Link>
-                </div>
-                <div>
-                    {rooms.map((room, index) => (
-                        <RoomElem key={index} room={room}/>
-                    ))}
+                <div className="flex-grow">
+                    <div>
+                        <h2>Proposition de salles</h2>
+                        <Link to="">Voir tout</Link>
+                    </div>
+                    <div className="flex justify-around">
+                        {rooms.map((room, index) => (
+                            <RoomElem key={index} room={room}/>
+                        ))}
+                    </div>
                 </div>
             </div>
             <div>
