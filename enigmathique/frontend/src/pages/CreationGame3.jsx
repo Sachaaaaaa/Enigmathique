@@ -1,11 +1,18 @@
 import React, {useState} from 'react';
 import SideBar from "../components/SideBar";
-import PropTypes from "prop-types";
 import WaitingTeams from "../components/creation3/WaitingTeams";
 import AcceptedTeams from "../components/creation3/AcceptedTeams";
 import TeamContext from "../components/creation3/Teams.context";
-
+import authService from "../services/auth.service";
+import authHeader from "../services/auth-header";
 const CreationGame3 = () => {
+
+    // authHeader();
+    //
+    // authService.login("admin@admin.com", "admin").then(
+    //     (response) => {console.log(response);}).catch((error) => {console.log(error);});
+
+
 
     const waitingTeams = [
         {
