@@ -3,7 +3,7 @@
  */
 module.exports = (sequelize, Sequelize) => {
     // Définition du modèle
-    const GameSession = sequelize.define("gameSession", {
+    const GameSession = sequelize.define("room", {
 
         // Nom de la salle
         name: {
