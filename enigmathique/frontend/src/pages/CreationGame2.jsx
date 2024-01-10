@@ -1,17 +1,9 @@
 import React from 'react';
 import SideBar from "../components/SideBar";
-import PropTypes from "prop-types";
+import RoomItem from "../components/creationgame2/RoomItem";
 
 
-const RoomItem = (props) => {
-  return (
-      <section>
-        <img src="" alt="img-room"/>
-        <h2>{props.name}</h2>
-        <p>Difficulté : {props.difficulty}</p>
-      </section>
-  )
-}
+
 
 const CreationGame2 = () => {
 
@@ -32,10 +24,14 @@ const CreationGame2 = () => {
         <div>
           <div>
             <h2>Séléction des salles</h2>
-            <button>Suites</button>
-            <button>Probabilités</button>
-            <button>Fonctions</button>
-            <button>Ensembles</button>
+              <input id="Suites" type="radio" name="chapitre" className="" checked/>
+              <label htmlFor="Suites">Suites</label>
+              <input id="Proba" type="radio" name="chapitre" className=""/>
+              <label htmlFor="Proba">Probabilités</label>
+              <input id="Fonct" type="radio" name="chapitre" className=""/>
+              <label htmlFor="Fonct">Fonctions</label>
+              <input id="Ens" type="radio" name="chapitre" className=""/>
+              <label htmlFor="Ens">Ensembles</label>
           </div>
           {rooms.map((room, index) => (<RoomItem key={index} name={room.name} difficulty={room.difficulty} />))}
         </div>
@@ -43,9 +39,6 @@ const CreationGame2 = () => {
   );
 };
 
-RoomItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  difficulty: PropTypes.string.isRequired
-}
+
 
 export default CreationGame2;
