@@ -9,6 +9,7 @@ import Game from './pages/Game';
 import CreationGame1 from "./pages/CreationGame1";
 import CreationGame2 from "./pages/CreationGame2";
 import './index.css';
+import CreationGame3 from "./pages/CreationGame3";
 
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
 			<Route path='/dashboard' element={<Dashboard/>} />
 			<Route path='/creationgame' element={<CreationGame1/>} />
 			<Route path='/creationgame2' element={<CreationGame2/>} />
+			<Route path='/creationgame3' element={<CreationGame3/>} />
 			<Route path='/game' element={<Game/>} />
 		</Routes>
 	);
