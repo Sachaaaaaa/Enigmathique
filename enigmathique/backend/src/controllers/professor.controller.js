@@ -23,15 +23,60 @@ exports.findOne = (req, res) => {
 		});
 }
 
-// Récupérer tous les professeurs de la base de données
-exports.findAll = (req, res) => {
-	Professor.findAll()
-		.then(data => {
-			res.status(200).send(data);
-		})
+
+// methode pour supprimer un professeur en fonction de son id
+exports.delete = (req, res) => {
+
+	Professor.destroy({ where: { id: req.tokenId} })
+	.then(num => {
+
+		// Vérifie si le professeur a bien été supprimé
+		if (num == 1) {
+		  res.status(200).send({
+			message: "La classe a été supprimée avec succès"
+		  });
+
+		// Si aucunes colonnes traités on relève une erreur
+		} else {
+		  res.status(500).send({
+			message: "Impossible de supprimer la classe"
+		  });
+		}
+	  	})
+		// Gère les erreurs
 		.catch(err => {
 			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la récupération des professeurs."
+				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
 			});
-		});
+		});	
 }
+
+
+
+// to do : hash le password
+// methode pour mettre à jour un professeur en fonction de son id
+exports.update = (req, res) => {
+	console.log(req.body)
+	
+	// Effectue la requête de mise à jour
+	Professor.update(req.body, {where: { id: req.tokenId} })
+		// Vérifie que la colonne à effectivement été mise à jour
+	  .then(num => {
+		if (num == 1) {
+		  res.status(200).send({
+			message: "La classe à été mise a jour avec succès"
+		  });
+		// Si aucunes colonnes traités on relève une erreur
+		} else {
+		  res.status(500).send({
+			message: "Impossible de mettre à jour la classe"
+		  });
+		}
+	  })
+	  // Gère les erreurs
+	  .catch(err => {
+		res.status(500).send({
+			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+		});
+	  });
+  };

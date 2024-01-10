@@ -8,17 +8,15 @@ module.exports = app => {
 
 	var router = require("express").Router();
 
-	// Récupérer tous les professeurs
-	router.get("/", middleware.verifyToken, professors.findAll);
-
 	// Récupérer un professeur par son id
-	router.get("/:id", middleware.verifyToken,professors.findOne);
+	router.get("/", middleware.verifyToken,professors.findOne);
 
-	// Mettre à jour un professeur par son id
-	//router.put("/:id", professors.update);
+	// to do : revok le token ?
+	// Supprimer le professeur
+	router.delete("/", middleware.verifyToken, professors.delete);
 
-	// Supprimer un professeur par son id
-	//router.delete("/:id", professors.delete);
+	// Mettre à jour une le professeur
+	router.put("/", middleware.verifyToken, professors.update);
 
 	app.use("/api/professor", router);
 }

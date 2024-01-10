@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from "prop-types";
 import logo from '../../assets/img/logo-enigmathique.png';
 import AvailableStudents from "./AvailableStudents";
@@ -45,9 +45,8 @@ const Join = (props) => {
         },
     ]
 
-
-    const [available, setAvailable] = React.useState(students);
-    const [selected, setSelected] = React.useState([]);
+    const [available, setAvailable] = useState(students);
+    const [selected, setSelected] = useState([]);
 
     const handleCreateTeam = () => {
         if (selected.length !== 4) {
