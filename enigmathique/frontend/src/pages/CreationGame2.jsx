@@ -6,7 +6,7 @@ import {useState} from "react";
 
 const CreationGame2 = () => {
 
-    const [selected, setSelected] = useState('suit')
+    const [selected, setSelected] = useState('suit');
 
     const rooms = [
         {
@@ -24,11 +24,11 @@ const CreationGame2 = () => {
             difficulty: "difficile",
             cat: "fonct"
         }
-    ]
+    ];
 
     const handleChange = changeEvent => {
         setSelected(changeEvent.target.value);
-    }
+    };
 
     return (
         <div className="flex">
