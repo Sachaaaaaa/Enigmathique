@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
-import Student from "../Student";
+import Student from "./Student";
 import {FaSearch} from "react-icons/fa";
 
 const AvailableStudents = (props) => {

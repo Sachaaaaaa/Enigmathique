@@ -2,8 +2,8 @@ import React, {useContext} from "react";
 import PropTypes from "prop-types";
 import { IoAddCircle, IoRemoveCircle } from "react-icons/io5";
 
-import AvailableContext from "./join/AvailableStudents.context";
-import SelectedContext from "./join/SelectedStudents.context";
+import AvailableContext from "./AvailableStudents.context";
+import SelectedContext from "./SelectedStudents.context";
 
 const Student = (props) => {
 
