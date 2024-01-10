@@ -38,7 +38,6 @@ exports.register = async (req, res) => {
       const token = jwt.sign( {id: data['dataValues']['id']}, secretKey, { expiresIn: '1h' });
 			res.status(201).send({
 				token: token,
-				id: data['dataValues']['id']
 			});
 		})
 		.catch(err => {
@@ -74,7 +73,6 @@ exports.login = async (req, res) => {
       const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, secretKey, { expiresIn: '1h' });
 			res.status(201).send({
 				token: token,
-				id: existingProfessor['dataValues']['id']
 			});
 			return;
 		}
