@@ -1,6 +1,6 @@
-import React from "react";
-import {Link} from "react-router-dom";
-import PopupDelete from "./PopupDelete";
+import React from 'react';
+import {Link} from 'react-router-dom';
+import PopupDelete from './PopupDelete';
 
 const ListClass = () => {
 	const ObjectClass = [

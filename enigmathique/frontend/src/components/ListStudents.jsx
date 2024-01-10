@@ -1,5 +1,5 @@
-import React from "react";
-import PopupDelete from "./PopupDelete";
+import React from 'react';
+import PopupDelete from './PopupDelete';
 
 const ListStudents = () => {
 	const ObjectStudents = [

@@ -1,7 +1,7 @@
 import React from 'react';
-import SideBar from "../components/SideBar";
-import RoomItem from "../components/creationgame2/RoomItem";
-import {useState} from "react";
+import SideBar from '../components/SideBar';
+import RoomItem from '../components/creationgame2/RoomItem';
+import {useState} from 'react';
 
 
 const CreationGame2 = () => {

@@ -1,7 +1,7 @@
-import React, {useContext, useState} from "react";
-import PropTypes from "prop-types";
-import {IoRemoveCircle, IoCheckmarkCircleOutline, IoChevronDown, IoChevronUp} from "react-icons/io5";
-import TeamContext from "./Teams.context";
+import React, {useContext, useState} from 'react';
+import PropTypes from 'prop-types';
+import {IoRemoveCircle, IoCheckmarkCircleOutline, IoChevronDown, IoChevronUp} from 'react-icons/io5';
+import TeamContext from './Teams.context';
 
 const Team = (props) => {
 

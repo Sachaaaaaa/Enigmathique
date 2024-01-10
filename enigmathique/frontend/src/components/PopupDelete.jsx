@@ -1,7 +1,7 @@
-import React from "react";
-import Popup from "reactjs-popup";
-import PropTypes from "prop-types";
-import "../index.css";
+import React from 'react';
+import Popup from 'reactjs-popup';
+import PropTypes from 'prop-types';
+import '../index.css';
 const PopupDelete = (props) => {
 	return (
 		<Popup trigger={<button className="btn-delete">supprimer {props.type === "class" ? "la classe": "l'élève"}</button>}>

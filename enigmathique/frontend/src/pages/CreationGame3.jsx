@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import SideBar from "../components/SideBar";
+import SideBar from '../components/SideBar';
 import PropTypes from "prop-types";
-import WaitingTeams from "../components/creation3/WaitingTeams";
-import AcceptedTeams from "../components/creation3/AcceptedTeams";
-import TeamContext from "../components/creation3/Teams.context";
+import WaitingTeams from '../components/creation3/WaitingTeams';
+import AcceptedTeams from '../components/creation3/AcceptedTeams';
+import TeamContext from '../components/creation3/Teams.context';
 
 const CreationGame3 = () => {
 

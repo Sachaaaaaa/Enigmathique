@@ -6,12 +6,12 @@ import Login from './pages/Login';
 import Test from './pages/Test';
 import Dashboard from './pages/Dashboard';
 import Game from './pages/Game';
-import CreationGame1 from "./pages/CreationGame1";
-import Class from "./pages/Class";
-import Students from "./pages/Students";
-import CreationGame2 from "./pages/CreationGame2";
+import CreationGame1 from './pages/CreationGame1';
+import Class from './pages/Class';
+import Students from './pages/Students';
+import CreationGame2 from './pages/CreationGame2';
 import './index.css';
-import CreationGame3 from "./pages/CreationGame3";
+import CreationGame3 from './pages/CreationGame3';
 
 
 const App = () => {

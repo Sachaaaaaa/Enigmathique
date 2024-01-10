@@ -1,6 +1,6 @@
-import React, {useContext} from "react";
-import Team from "./Team";
-import TeamContext from "./Teams.context";
+import React, {useContext} from 'react';
+import Team from './Team';
+import TeamContext from './Teams.context';
 
 const AcceptedTeams = () => {
 

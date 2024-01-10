@@ -1,8 +1,8 @@
-import React from "react";
-import { useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { SocketManager } from "../components/SocketManager";
-import { Scene } from "../components/SceneGLTF";
+import React from 'react';
+import { useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { SocketManager } from '../components/SocketManager';
+import { Scene } from '../components/SceneGLTF';
 
 /*
 function Box(props) {
