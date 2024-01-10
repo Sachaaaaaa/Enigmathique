@@ -37,7 +37,16 @@
     .btn-edit {
         @apply bg-amber-500 text-white font-bold py-2 px-4 rounded;
     }
+
     .btn-delete:hover {
         @apply bg-amber-300;
+    }
+
+    .txt-dashboard {
+        @apply uppercase text-[#4C49ED] font-semibold;
+    }
+
+    .elem-dashboard {
+        @apply p-1 ml-3 mr-3
     }
 }
