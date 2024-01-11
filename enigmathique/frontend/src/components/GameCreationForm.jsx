@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import Counter from './Counter';
+import {Link} from "react-router-dom";
 
-const GameCreationForm = () =>  {
+const GameCreationForm = () => {
 
 	const [gameName, setGameName] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -67,16 +68,18 @@ const GameCreationForm = () =>  {
 						<Counter/>
 					</div>
 					<div className="flex items-center justify-between">
-						<button
-							className="bg-red-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-							type="submit"
-							disabled={loading}
-						>
-							{loading && (
-								<span className="spinner-border spinner-border-sm"></span>
-							)}
-							<span>Valider</span>
-						</button>
+						<Link to="../creationgame2">
+							<button
+								className="bg-red-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+								type="submit"
+								disabled={loading}
+							>
+								{loading && (
+									<span className="spinner-border spinner-border-sm"></span>
+								)}
+								<span>Valider</span>
+							</button>
+						</Link>
 					</div>
 					{message && (
 						<div className="text-red-500 text-xs mt-2">{message}</div>
