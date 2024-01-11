@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
+
 import { SocketManager, socket } from '../components/SocketManager';
 import { Scene } from '../components/SceneManager';
 import { SocketContext } from '../context/socket';

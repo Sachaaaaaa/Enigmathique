@@ -2,8 +2,9 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import { Environment, OrbitControls } from "@react-three/drei";
+
 import { Model } from "./testGLB";
-import Room001 from "./RoomGLTF-001";
+import { Room001 } from "./RoomGLTF-001";
 import { SocketContext } from "../context/socket";
 
 export const Scene = () => {
@@ -35,8 +36,10 @@ export const Scene = () => {
 			<ambientLight intensity={0.4} />
 			<OrbitControls />
 
-			{/* Mettre la scène ici */}
-			<Model />
+			{/* Mettre la scène ici
+			<Model /> */}
+			
+			<Room001 />
 		</>
 	);
 };
