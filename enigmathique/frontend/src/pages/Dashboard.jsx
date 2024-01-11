@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState, useEffect} from "react";
 import {Link} from 'react-router-dom';
 import SideBar from '../components/SideBar';
 import ClassElem from '../components/dashboard/ClassElem';
@@ -12,54 +12,99 @@ const Dashboard = () => {
 
 	const rooms = [
 		{
-			name: "Room1",
-			difficulty: "facile",
-			cat: "proba"
+			name: 'Room1',
+			difficulty: 'facile',
+			cat: 'Probabilités',
+			image:require('../assets/img/room-img/room-fonction-1.png')
 		},
 		{
-			name: "Room2",
-			difficulty: "moyen",
-			cat: "suit"
+			name: 'Room2',
+			difficulty: 'moyen',
+			cat: 'Suites',
+			image:require('../assets/img/room-img/room-proba-1.png')
 		},
 		{
-			name: "Room3",
-			difficulty: "difficile",
-			cat: "fonct"
+			name: 'Room3',
+			difficulty: 'difficile',
+			cat: 'Fonctions',
+			image:require('../assets/img/room-img/room-fonction-1.png')
 		}
 	]
 
 	const games = [
 		{
-			name: "Entrainement proba",
-			date: "17/11/23",
-			className: "A",
-			winners: ["Julie Lustret", "Monstre Gentil"],
+			name: 'Entrainement proba',
+			date: '17/11/23',
+			className: 'A',
+			winners: ['Julie Lustret', 'Monstre Gentil'],
 			winRate: 80
 		},
 		{
-			name: "Entrainement fonct",
-			date: "11/12/23",
-			className: "A",
-			winners: ["Lucas Crespin", "Girafe Agréable"],
+			name: 'Entrainement fonct',
+			date: '11/12/23',
+			className: 'A',
+			winners: ['Lucas Crespin', 'Girafe Agréable'],
 			winRate: 75
 		}
 	]
 
 	const classGroups = [
 		{
-			name: "A",
+			name: 'A',
 			nbStudents: 32,
 			lastGame: '11/12/23',
 			nbGames: 4,
 			winRate: 80
 		},
 		{
-			name: "B",
+			name: 'B',
 			nbStudents: 31,
-			lastGame: "23/10/23",
-			nbGames: 3
+			lastGame: '23/10/23',
+			nbGames: 3,
+			winRate: 75
 		}
 	]
+
+	// Choix des salles à afficher
+	const roomSelection = (rooms) => {
+		let max = rooms.length-1;
+		let roomSelect = [];
+		let selectedIndex = -1;
+		while(roomSelect.length < 2) {
+			let index = randInt(0, max);
+			if(index !== selectedIndex) {
+				roomSelect.push(rooms[index]);
+			}
+			selectedIndex = index;
+		}
+		return roomSelect;
+	}
+
+	// Ajout d'un état pour les salles sélectionnées
+	const [selectedRooms, setSelectedRooms] = useState([]);
+
+
+	useEffect(() => {
+		setSelectedRooms(roomSelection(rooms));
+	}, []); // s'éxécute seulement au montage
+
+
+	// Ajout d'un état pour suivre l'indice de la classe actuelle
+	const [currentClassIndex, setCurrentClassIndex] = useState(0);
+
+	// Fonction pour aller à la classe précédente
+	const prevClass = () => {
+		setCurrentClassIndex(prevIndex =>
+			prevIndex > 0 ? prevIndex - 1 : classGroups.length - 1
+		);
+	};
+
+	// Fonction pour aller à la classe suivante
+	const nextClass = () => {
+		setCurrentClassIndex(prevIndex =>
+			prevIndex < classGroups.length - 1 ? prevIndex + 1 : 0
+		);
+	};
 
 	return (
 		<LayoutProf>
