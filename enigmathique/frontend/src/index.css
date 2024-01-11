@@ -7,10 +7,10 @@
     * Bouton valider
      */
     .btn-validate{
-        @apply bg-blue-800 text-white font-bold py-2 px-4 rounded;
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]  text-white text-xl font-bold p-7 rounded;
     }
     .btn-validate:hover{
-        @apply bg-blue-500;
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
     }
     /**
     * Bouton annuler
@@ -39,5 +39,30 @@
     }
     .btn-delete:hover {
         @apply bg-amber-300;
+    }
+
+
+    .nav-container {
+        @apply flex flex-col items-center w-1/6 h-screen border-r-2 border-[#E6EFF5];
+    }
+    .nav-content {
+        @apply flex flex-col justify-between items-center h-full w-full py-6;
+    }
+
+    .nav-item {
+        @apply flex flex-row justify-start items-center gap-4 w-full text-[#B1B1B1];
+    }
+    .nav-item:hover {
+        @apply text-[#7C79FF];
+    }
+    .nav-item-indicator {
+        @apply w-2 h-16 bg-transparent border-r-2 border-transparent;
+    }
+
+    .nav-item-selected {
+        @apply flex flex-row justify-start items-center gap-4 w-full text-[#4C49ED];
+    }
+    .nav-item-indicator-selected {
+        @apply w-2 h-16 bg-[#4C49ED] border-r-2 border-[#4C49ED] rounded-r-xl;
     }
 }
