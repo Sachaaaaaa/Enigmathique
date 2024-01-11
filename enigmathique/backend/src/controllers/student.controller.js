@@ -63,14 +63,14 @@ exports.create = async(req, res) => {
 
 	// Valider la requête
 	if (!req.body.lastname || !req.body.firstname || !req.body.idCourse) {
-		return res.status(400).send({
+		return res.status(400).json({
 			message: "Il manque des informations pour créer l'élève."
 		});
 	}
 
 	// Vérifie que la classe appartient bien au professeur
 	if(! await isClassBelongsProfessor(req.body.idCourse, req)){
-		return res.status(403).send({
+		return res.status(403).json({
 			message: "Vous n'avez pas accès à cette classe."
 		})
 	}
@@ -91,7 +91,7 @@ exports.create = async(req, res) => {
 
 		// Gère les erreurs
 		.catch(err => {
-			return res.status(500).send({
+			return res.status(500).json({
 				message: err.message || "Une erreur s'est produite lors de la création de l'élève."
 			});
 		});
@@ -108,7 +108,7 @@ exports.findById = async (req, res) => {
 	// Vérifie que l'élève appartient bien au professeur et qu'il existe bien
 	const isBelongsToProfessor = await isStudentBelongsProfessor(req.params.id, req);
 	if (!isBelongsToProfessor) {
-		return res.status(403).send({
+		return res.status(403).json({
 			message: "Vous n'avez pas accès à cet élève."
 		});
 	}
@@ -121,7 +121,7 @@ exports.findById = async (req, res) => {
 	
 	// Gérer les erreurs
 	} catch (err) {
-		return res.status(500).send({
+		return res.status(500).json({
 			message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
 		});
 	}
@@ -138,7 +138,7 @@ exports.update = async(req, res) => {
 	// Vérifie que l'élève appartient bien au professeur
 	const isBelongsToProfessor = await isStudentBelongsProfessor(req.params.id, req);
 	if (!isBelongsToProfessor) {
-		return res.status(403).send({
+		return res.status(403).json({
 			message: "Vous n'avez pas accès à cette classe."
 		});
 	}
@@ -161,7 +161,7 @@ exports.update = async(req, res) => {
 
 		// Vérifie que la classe appartient bien au professeur
 		if(! await isClassBelongsProfessor(req.body.idCourse, req)){
-			return res.status(403).send({
+			return res.status(403).json({
 				message: "Vous n'avez pas accès à cette classe."
 			})	
 		}
@@ -173,13 +173,13 @@ exports.update = async(req, res) => {
 		// Vérifie que la colonne à effectivement été mise à jour
 	  .then(num => {
 		if (num == 1) {
-			return res.status(201).send({
+			return res.status(201).json({
 				message: "La classe à été mise a jour avec succès"
 			});
 
 		// Si aucunes colonnes traités on relève une erreur
 		} else {
-			return res.status(404).send({
+			return res.status(404).json({
 				message: "Impossible de mettre à jour la classe"
 			});
 		}
@@ -187,7 +187,7 @@ exports.update = async(req, res) => {
 
 	  // Gère les erreurs
 	  .catch(err => {
-		return res.status(500).send({
+		return res.status(500).json({
 			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
 		});
 	  });
@@ -205,7 +205,7 @@ exports.delete = async (req, res) => {
 	// Vérifie que l'élève appartient bien au professeur
 	const isBelongsToProfessor = await isStudentBelongsProfessor(req.params.id, req);
 	if (!isBelongsToProfessor) {
-		return res.status(403).send({
+		return res.status(403).json({
 			message: "Vous n'avez pas accès à cette classe."
 		});
 	}
@@ -216,20 +216,20 @@ exports.delete = async (req, res) => {
 
 		// Vérifie si le professeur a bien été supprimé
 		if (num == 1) {
-			return res.status(201).send({
+			return res.status(201).json({
 				message: "L'élève a été supprimée avec succès"
 			});
  
 		// Si aucunes colonnes traités on relève une erreur
 		} else {
-			return res.status(404).send({
+			return res.status(404).json({
 				message: "Impossible de supprimer l'élève"
 			});
 		}
 	})
 	// Gérer les erreurs
 	} catch (err) {
-		return res.status(500).send({
+		return res.status(500).json({
 			message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
 		});
 	}
