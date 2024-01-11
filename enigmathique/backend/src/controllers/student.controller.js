@@ -19,6 +19,7 @@ exports.create = (req, res) => {
 		return;
 	}
 
+	//todo : faire en sorte que l'id soit associé au prof
 	// Créer un élève
 	const student = {
 		lastname: req.body.lastname,

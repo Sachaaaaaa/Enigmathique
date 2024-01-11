@@ -38,7 +38,7 @@ exports.delete = (req, res) => {
 
 		// Si aucunes colonnes traités on relève une erreur
 		} else {
-		  res.status(500).send({
+		  res.status(501).send({
 			message: "Impossible de supprimer la classe"
 		  });
 		}
@@ -68,7 +68,7 @@ exports.update = (req, res) => {
 		  });
 		// Si aucunes colonnes traités on relève une erreur
 		} else {
-		  res.status(500).send({
+		  res.status(501).send({
 			message: "Impossible de mettre à jour la classe"
 		  });
 		}
