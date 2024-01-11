@@ -44,7 +44,7 @@ const ClassElem = (props) => {
             </div>
 
             {/* Bouton "Voir" */}
-            <Link to"" className="btn-show">
+            <Link to="" className="btn-show">
                 Voir
             </Link>
         </article>
