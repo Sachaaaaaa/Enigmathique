@@ -40,4 +40,5 @@
     .btn-delete:hover {
         @apply bg-amber-300;
     }
+
 }
