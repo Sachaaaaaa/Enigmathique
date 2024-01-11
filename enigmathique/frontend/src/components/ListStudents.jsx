@@ -1,29 +1,25 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PopupDelete from "./PopupDelete";
-import { useState } from "react";
 import Modal, { ModalBody, ModalHeader } from "./Modal";
+import PropTypes from "prop-types";
+import StudentService from "../services/student.service";
 
-const ListStudents = () => {
-	const ObjectStudents = [
-		{
-			firstname: "Samanta",
-			secondname: "William",
-			id: 1,
-			class: "seconde A",
-		},
-		{
-			firstname: "Samanta",
-			secondname: "William",
-			id: 1,
-			class: "seconde A",
-		},
-		{
-			firstname: "Samanta",
-			secondname: "William",
-			id: 1,
-			class: "seconde A",
-		},
-	];
+const ListStudents = (props) => {
+
+	const [students, setStudents] = useState([]);
+
+	useEffect(() => {
+		StudentService.get(props.id).then((response) => {
+			console.log(response)
+			setStudents(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}, []);
+
+
+
+
 
 
 	// TODO: Ajouter ce qu'il faut pour appliquer les modifications à l'élève
@@ -32,7 +28,7 @@ const ListStudents = () => {
 	return (
 		<>
 			<ul className="bg-blue-300 space-y-10">
-				{ObjectStudents.map((student) => (
+				{students.map((student) => (
 					<li key={student.id} value={student.firstname} className="bg-blue-700 flex h-10 p-1">
 						<h3 className="w-40 text-center">{student.firstname}</h3>
 						<h3 className="w-40 text-center">{student.secondname}</h3>
@@ -66,5 +62,8 @@ const ListStudents = () => {
 				</Modal> )}
 		</>
 	);
+}
+ListStudents.propTypes = {
+	id: PropTypes.number.isRequired,
 }
 export default ListStudents;
