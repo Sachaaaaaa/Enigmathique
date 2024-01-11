@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const GameElem = (props) => {
 	return (
-		<article className="flex w-1/3 flex-wrap bg-white m-5 border-2 rounded-[30px] shadow-md">
+		<article className="flex w-1/3 flex-wrap bg-white m-5 border-2 rounded-[30px] shadow-md items-end">
 			<article className="flex-grow elem-dashboard">
 				<h3 className="txt-dashboard">Nom</h3>
 				<p>{props.game.name}</p>
@@ -25,7 +25,9 @@ const GameElem = (props) => {
 				<h3 className="txt-dashboard">Taux de réussite</h3>
 				<p>{props.game.winRate} %</p>
 			</article>
-			<Link to="" className="bg-[#4C49ED] text-white rounded-b-[30px] w-full text-center">Voir</Link>
+			<Link to="" className="btn-show">
+				Voir
+			</Link>
 		</article>
 	)
 }
