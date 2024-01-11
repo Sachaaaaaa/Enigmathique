@@ -60,6 +60,10 @@
         @apply bg-purple-600
     }
 
+    .btn-show {
+        @apply bg-[#4C49ED] text-white rounded-b-3xl w-full text-center uppercase flex items-center
+        justify-center h-12 hover:bg-[#3b36d1] transition-colors duration-300;
+    }
     /**
    * NavBar
    */
