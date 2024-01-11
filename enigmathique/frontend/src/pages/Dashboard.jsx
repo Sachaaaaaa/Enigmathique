@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import {Link} from 'react-router-dom';
-import SideBar from '../components/SideBar';
+
 import ClassElem from '../components/dashboard/ClassElem';
 import RoomElem from '../components/dashboard/RoomElem';
 import GameElem from '../components/dashboard/GameElem';
