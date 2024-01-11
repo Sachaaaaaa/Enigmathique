@@ -6,12 +6,32 @@ const db = require("../models/db.js");
 const Course = db.course;
 const Op = db.Sequelize.Op;
 
+// Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
+async function appartienAuProf(id, req) {
+	try {
+
+		// Récupère toutes les classes du professeur courant
+		const data = await Course.findAll({ where: { idProfessor: req.tokenId } });
+
+		// Récupère les id correspondant aux classes du professeur courant
+		const ids = data.map(item => item.id);
+		id = parseInt(id)
+
+		// Vérifie que la classe appartient bien au professeur
+		return ids.includes(id);
+
+	} catch (err) {
+		// Gère les erreurs
+		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+	}
+}
+  
 // Créer et enregistrer une nouvelle classe au professeurs
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
 
 	// Valider la requête
 	if (!req.body.name) {
-		res.status(400).send({
+		res.status(402).send({
 			message: "Il manque des informations pour créer la classe."
 		});
 		return;
@@ -39,12 +59,33 @@ exports.create = (req, res) => {
 
 
 
-
 // methode pour récuperer les classes du professeur
 exports.findAll = (req, res) => {
-
-
 	Course.findAll({ where: { idProfessor: req.tokenId } })
+		.then(data => {
+			res.status(201).send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+			});
+		});	
+}
+
+
+
+// methode pour récuperer une clase du professeur par son id
+exports.findById = async (req, res) => {
+
+	// Vérifie que la classe appartient bien au professeur
+	if(! await appartienAuProf(req.params.id, req)){
+		res.status(403).send({
+			message: "Vous n'avez pas accès à cette classe."
+		})
+		return;
+	}
+
+	Course.findAll({ where: { id: req.params.id, idProfessor: req.tokenId } })
 		.then(data => {
 			res.status(200).send(data);
 		})
@@ -57,20 +98,20 @@ exports.findAll = (req, res) => {
 
 
 
-
 // To do : probleme de dependence avec student
 // methode pour supprimer une classe en fonction de son id
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
 
-	// Valider la requête
-	if (!req.body.id) {
-		res.status(400).send({
-			message: "Il manque des informations pour supprimer la classe."
-		});
+	// Vérifie que la classe appartient bien au professeur
+	if(! await appartienAuProf(req.params.id, req)){
+		res.status(403).send({
+			message: "Vous n'avez pas accès à cette classe."
+		})
 		return;
 	}
 
-	Course.destroy({ where: { id: req.body.id, idProfessor: req.tokenId} })
+	// Effectue la requête de delete
+	Course.destroy({ where: { id: req.params.id, idProfessor: req.tokenId} })
 	.then(num => {
 
 		// Vérifie si la classe a bien été supprimé
@@ -81,7 +122,7 @@ exports.delete = (req, res) => {
 
 		// Si aucunes colonnes traités on relève une erreur
 		} else {
-		  res.status(500).send({
+		  res.status(401).send({
 			message: "Impossible de supprimer la classe"
 		  });
 		}
@@ -98,21 +139,20 @@ exports.delete = (req, res) => {
 
 
 // methode pour mettre à jour une classe en fonction de son id
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
 
-	
-	// Valider la requête
-	if (!req.body.id) {
-		res.status(400).send({
-			message: "Il manque des informations pour mettre à jour une classe."
-		});
+	// Vérifie que la classe appartient bien au professeur	
+	if(! await appartienAuProf(req.params.id, req)){
+		res.status(403).send({
+			message: "Vous n'avez pas accès à cette classe."
+		})
 		return;
 	}
   
 	// Effectue la requête de mise à jour
 	Course.update(req.body, {
 
-	  where: { id: req.body.id, idProfessor: req.tokenId} })
+	  where: { id: req.params.id, idProfessor: req.tokenId} })
 
 		// Vérifie que la colonne à effectivement été mise à jour
 	  .then(num => {
@@ -122,7 +162,7 @@ exports.update = (req, res) => {
 		  });
 		// Si aucunes colonnes traités on relève une erreur
 		} else {
-		  res.status(500).send({
+		  res.status(401).send({
 			message: "Impossible de mettre à jour la classe"
 		  });
 		}

@@ -13,7 +13,7 @@ const Op = db.Sequelize.Op;
 exports.create = (req, res) => {
 	// Valider la requête
 	if (!req.body.lastname || !req.body.firstname || !req.body.idCourse) {
-		res.status(400).send({
+		res.status(502).send({
 			message: "Il manque des informations pour créer l'élève."
 		});
 		return;
@@ -44,7 +44,7 @@ exports.create = (req, res) => {
 exports.findById = (req, res) => {
 
 	if (!req.body.idCourse) {
-		res.status(400).send({
+		res.status(502).send({
 			message: "Il manque des informations pour récupèrer les élèves d'une classe."
 		});
 		return;
@@ -57,7 +57,7 @@ exports.findById = (req, res) => {
 
 		// Vérifie que la classe appartienne bien au professeur
 		if(!ids.includes(req.body.idCourse)){
-			res.status(500).send({
+			res.status(503).send({
 				message: "La classe spécifiée ne vous appartient pas."
 			});
 			return;
@@ -115,7 +115,7 @@ exports.delete = (req, res) => {
 	console.log("shesh");
 	// Valider la requête
 	if (!req.body.id) {
-		res.status(400).send({
+		res.status(502).send({
 			message: "Il manque des informations pour supprimer l'élève."
 		});
 		return;
@@ -133,7 +133,7 @@ exports.delete = (req, res) => {
 
 			// Vérifie que l'élève appartienne bien à une classe du professeur
 			if(!idStudentofProfessor.includes(req.body.id)){
-				res.status(500).send({
+				res.status(503).send({
 					message: "L'élève spécifié ne vous appartient pas."
 				});
 				return;
@@ -151,7 +151,7 @@ exports.delete = (req, res) => {
 		
 				// Si aucunes colonnes traités on relève une erreur
 				} else {
-				  res.status(500).send({
+				  res.status(501).send({
 					message: "Impossible de supprimer l'élève"
 				  });
 				}

@@ -14,11 +14,14 @@ module.exports = app => {
 	// Récupérer toutes les classes du professeur
 	router.get("/", middleware.verifyToken, course.findAll);
 
+	// Récupérer toutes les classes du professeur
+	router.get("/:id", middleware.verifyToken, course.findById);
+
 	// Supprimer une classe du professeur
-	router.delete("/", middleware.verifyToken, course.delete);
+	router.delete("/:id", middleware.verifyToken, course.delete);
 
 	// Mettre à jour une classe du professeur
-	router.put("/", middleware.verifyToken, course.update);
+	router.put("/:id", middleware.verifyToken, course.update);
 
 	app.use("/api/course", router);
 }
