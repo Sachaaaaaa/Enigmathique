@@ -7,7 +7,7 @@ const Course = db.course;
 const Op = db.Sequelize.Op;
 
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
-async function appartienAuProf(id, req) {
+async function isClassBelongsProfessor(idCourse, req) {
 	try {
 
 		// Récupère toutes les classes du professeur courant
@@ -15,10 +15,10 @@ async function appartienAuProf(id, req) {
 
 		// Récupère les id correspondant aux classes du professeur courant
 		const ids = data.map(item => item.id);
-		id = parseInt(id)
+		idCourse = parseInt(idCourse)
 
 		// Vérifie que la classe appartient bien au professeur
-		return ids.includes(id);
+		return ids.includes(idCourse);
 
 	} catch (err) {
 		// Gère les erreurs
@@ -78,7 +78,7 @@ exports.findAll = (req, res) => {
 exports.findById = async (req, res) => {
 
 	// Vérifie que la classe appartient bien au professeur
-	if(! await appartienAuProf(req.params.id, req)){
+	if(! await isClassBelongsProfessor(req.params.id, req)){
 		res.status(403).send({
 			message: "Vous n'avez pas accès à cette classe."
 		})
@@ -103,7 +103,7 @@ exports.findById = async (req, res) => {
 exports.delete = async (req, res) => {
 
 	// Vérifie que la classe appartient bien au professeur
-	if(! await appartienAuProf(req.params.id, req)){
+	if(! await isClassBelongsProfessor(req.params.id, req)){
 		res.status(403).send({
 			message: "Vous n'avez pas accès à cette classe."
 		})
@@ -142,7 +142,7 @@ exports.delete = async (req, res) => {
 exports.update = async (req, res) => {
 
 	// Vérifie que la classe appartient bien au professeur	
-	if(! await appartienAuProf(req.params.id, req)){
+	if(! await isClassBelongsProfessor(req.params.id, req)){
 		res.status(403).send({
 			message: "Vous n'avez pas accès à cette classe."
 		})

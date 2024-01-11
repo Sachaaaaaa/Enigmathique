@@ -9,6 +9,49 @@ const Student = db.student;
 const Course = db.course;
 const Op = db.Sequelize.Op;
 
+// Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
+async function isClassBelongsProfessor(idCourse, req) {
+	try {
+
+		// Récupère toutes les classes du professeur courant
+		const data = await Course.findAll({ where: { idProfessor: req.tokenId } });
+
+		// Récupère les id correspondant aux classes du professeur courant
+		const ids = data.map(item => item.id);
+		idCourse = parseInt(idCourse)
+
+		// Vérifie que la classe appartient bien au professeur
+		return ids.includes(idCourse);
+
+	} catch (err) {
+		// Gère les erreurs
+		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+	}
+}
+
+// Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
+async function isStudentBelongsProfessor(idStudent, req) {
+	try {
+
+		// Récupère toutes les classes du professeur courant
+		const data = await Student.findOne({ where: { id: idStudent} });
+		if(data){
+			// Récupère les id correspondant aux classes du professeur courant
+			const idCourse = data.idCourse;
+
+			// Vérifie que la classe appartient bien au professeur
+			return await isClassBelongsProfessor(idCourse, req);
+		} else {
+			throw new Error("L'élève n'existe pas.");
+		}
+
+	} catch (err) {
+		// Gère les erreurs
+		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+	}
+}
+  
+
 // Créer et enregistrer un nouvel élève
 exports.create = (req, res) => {
 	// Valider la requête
@@ -41,45 +84,28 @@ exports.create = (req, res) => {
 
 
 // Récupérer tous les élèves d'une classe du professeur
-exports.findById = (req, res) => {
-
-	if (!req.body.idCourse) {
-		res.status(502).send({
-			message: "Il manque des informations pour récupèrer les élèves d'une classe."
+exports.findById = async (req, res) => {
+	try {
+	  // Vérifie que la classe appartient bien au professeur
+	  const isBelongsToProfessor = await isStudentBelongsProfessor(req.params.id, req);
+  
+	  if (!isBelongsToProfessor) {
+		res.status(403).send({
+		  message: "Vous n'avez pas accès à cette classe."
 		});
 		return;
+	  }
+  
+	  // Continuez avec la récupération des étudiants
+	  const dataStudent = await Student.findAll({ where: { id: req.params.id } });
+	  res.status(200).send(dataStudent);
+	} catch (err) {
+	  res.status(500).send({
+		message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
+	  });
 	}
-
-	Course.findAll({ where: { idProfessor: req.tokenId } })
-	.then(data => {
-		// Récupère les id correspondant aux classe du professeur courant
-		let ids = data.map(item => item.id);
-
-		// Vérifie que la classe appartienne bien au professeur
-		if(!ids.includes(req.body.idCourse)){
-			res.status(503).send({
-				message: "La classe spécifiée ne vous appartient pas."
-			});
-			return;
-		}
-		
-		// Pour chaque id de classe, recupère les étudiants de cette dernière
-		Student.findAll({ where: { idCourse: { [Op.in]: ids } } })
-		.then(dataStudent => {res.status(200).send(dataStudent);})
-		.catch(err => {
-			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
-			});
-		});	
-	})
-	.catch(err => {
-		res.status(500).send({
-			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-		});
-	});	
-
-
-}
+  };
+  
 
 // todo : moyen de faire un truc plus propre ?
 // Récupérer tous les élèves des classes du professeur

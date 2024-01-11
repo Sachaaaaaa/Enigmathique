@@ -12,7 +12,7 @@ module.exports = app => {
 	router.post("/", middleware.verifyToken, student.create);
 
 	// Récupérer tous les élèves d'un classe
-	router.post("/:id", middleware.verifyToken, student.findById);
+	router.get("/:id", middleware.verifyToken, student.findById);
 
 	// Récupérer tous les élèves d'un professeur
 	router.get("/", middleware.verifyToken, student.findAll);
