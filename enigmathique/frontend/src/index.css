@@ -40,5 +40,14 @@
     .btn-delete:hover {
         @apply bg-amber-300;
     }
+    /**
+    * Bouton utilitaire élève
+     */
+    .btn-utils-student{
+        @apply bg-purple-800 rounded-full p-3
+    }
+    .btn-utils-student:hover{
+        @apply bg-purple-600
+    }
 
 }
