@@ -4,7 +4,7 @@ import '../index.css';
 
 
 function Signup() {
-	return <SignupForm />;
+	return <SignupForm/>;
 }
 
 
