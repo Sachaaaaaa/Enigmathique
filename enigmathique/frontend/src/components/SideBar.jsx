@@ -1,41 +1,91 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/img/logo-enigmathique.png';
 import PropTypes from 'prop-types';
+import { IconContext } from "react-icons";
+import {MdGames, MdCollectionsBookmark, MdHome, MdDoorFront} from 'react-icons/md';
 
-const ItemList = (props) => {
-	return (
-		<li className="hover:bg-red-800">
-			<Link to={props.path} className="h-20">
-				<button className="w-full text-white h-20">{props.name}</button>
-			</Link>
-		</li>
-	);
-};
 
 const SideBar = () => {
 
+	const location = useLocation();
+	const path = location.pathname;
+
 	return (
-		<nav className="w-40 bg-blue-950 h-screen">
+		<nav className="nav-container">
 			<Link to="..">
-				<img src={logo} alt="logo" className="items-center"/>
+				<img src={logo} alt="logo" className="w-40"/>
 			</Link>
-			<ul>
-				<ItemList name="Tableau de Bord" path="../dashboard"/>
-				<ItemList name="Mes classes" path="../class"/>
-				<ItemList name="Mes parties" path="*"/>
-				<ItemList name="Salles d'énigmes" path="*"/>
-			</ul>
-			<Link to="../creationgame">
-				<button className="bg-blue-300 hover:bg-amber-200 w-full h-20">Nouvelle partie</button>
-			</Link>
+			<section className="nav-content">
+				<ul className="w-full text-xl">
+					<ItemList type="dashboard" currentPath={path}/>
+					<ItemList type="class" currentPath={path}/>
+					<ItemList type="game" currentPath={path}/>
+					<ItemList type="room" currentPath={path}/>
+				</ul>
+				<Link to="../creationgame">
+					<button className="btn-validate">Nouvelle partie</button>
+				</Link>
+			</section>
 		</nav>
+	);
+};
+
+const ItemList = (props) => {
+	const type = {
+		dashboard: {
+			name: "Tableau de Bord",
+			path: "/dashboard",
+			icon: <MdHome/>,
+		},
+		class: {
+			name: "Mes classes",
+			path: "/class",
+			icon: <MdCollectionsBookmark/>,
+		},
+		game: {
+			name: "Mes parties",
+			path: "/game",
+			icon: <MdGames/>,
+		},
+		room: {
+			name: "Salles d'énigmes",
+			path: "/room",
+			icon: <MdDoorFront/>,
+		},
+	}
+	const selected = props.currentPath === type[props.type].path ;
+
+	return (
+		<>
+			{selected ? (
+			<li className="nav-item-selected">
+				<div className="nav-item-indicator-selected"></div>
+				<Link to={type[props.type].path} className="h-20 w-full flex flex-row justify-start items-center gap-4">
+					<IconContext.Provider value={{ className: "text-inherit h-10 w-10"}}>
+						{type[props.type].icon}
+					</IconContext.Provider>
+					<button className="text-inherit h-20">{type[props.type].name}</button>
+				</Link>
+			</li>
+		) : (
+			<li className="nav-item">
+				<div className="nav-item-indicator"></div>
+				<Link to={type[props.type].path} className="h-20 w-full flex flex-row justify-start items-center gap-4">
+					<IconContext.Provider value={{ className: "text-inherit h-10 w-10"}}>
+						{type[props.type].icon}
+					</IconContext.Provider>
+					<button className="text-inherit h-20">{type[props.type].name}</button>
+				</Link>
+			</li>
+		)}
+		</>
 	);
 };
 
 
 ItemList.propTypes = {
-	name: PropTypes.string.isRequired,
-	path: PropTypes.string.isRequired,
+	type: PropTypes.string.isRequired,
+	currentPath: PropTypes.string.isRequired,
 };
 export default SideBar;
