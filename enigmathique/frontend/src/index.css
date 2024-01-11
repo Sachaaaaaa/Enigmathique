@@ -49,4 +49,15 @@
     .elem-dashboard {
         @apply p-1 ml-3 mr-3
     }
+
+    /**
+    * Bouton utilitaire élève
+     */
+    .btn-utils-student{
+        @apply bg-purple-800 rounded-full p-3
+    }
+    .btn-utils-student:hover{
+        @apply bg-purple-600
+    }
+
 }
