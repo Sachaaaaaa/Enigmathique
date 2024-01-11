@@ -39,7 +39,15 @@ const handleConnection = (socket) => {
 		handleMessage(socket, data);
 	});
 
+	// Envoie un message à l'utilisateur
 	socket.emit('message', 'Hello, World!');
+	// Demande à l'utilisateur de charger une scène
+	socket.emit('scene', 'LaboratoryVariant');
+
+	// Attends 5 secondes et demande de charger la scène suivante
+	setTimeout(() => {
+		socket.emit('scene', 'Laboratory');
+	}, 5000);
 }
 
 const handleDisconnection = (socket) => {

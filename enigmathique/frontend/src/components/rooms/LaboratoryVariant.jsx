@@ -56,7 +56,7 @@ export default function Room001(props) {
             castShadow
             receiveShadow
             geometry={nodes.Cylinder.geometry}
-            material={materials.Room}
+            material={materials.Floor}
           />
           <mesh
             name="Cylinder_1"

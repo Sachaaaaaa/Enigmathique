@@ -2,21 +2,24 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import { Environment, OrbitControls } from "@react-three/drei";
-
-import { Model } from "./testGLB";
-import { Room001 } from "./rooms/Laboratory";
 import { SocketContext } from "../context/socket";
 
 export const Scene = () => {
 	const socket = useContext(SocketContext);
+	const [roomComponent, setRoomComponent] = useState(null);
 	const [roomName, setRoomName] = useState(null);
+
 
 	// Charge la scène en fonction de son nom
 	useEffect(() => {
 		if (roomName) {
-			import(`./rooms/${roomName}.jsx`).then((scene) => {
-				console.log(scene);
-			});
+			const importComponent = async () => {
+				const module = await import(`./rooms/${roomName}.jsx`);
+				const AnotherComponent = module.default;
+				setRoomComponent(<AnotherComponent />);
+			};
+	
+			importComponent();
 		}
 	}, [roomName]);
 
@@ -30,6 +33,7 @@ export const Scene = () => {
 		};
 
 		const onScene = (data) => {
+			console.log('Serveur demande de charger la scène', data);
 			setRoomName(data);
 		};
 
@@ -53,11 +57,7 @@ export const Scene = () => {
 			<Environment preset="sunset" />
 			<ambientLight intensity={0.4} />
 			<OrbitControls />
-
-			{/* Mettre la scène ici
-			<Model /> */}
-			
-			<Room001 />
+			{roomComponent}
 		</>
 	);
 };
