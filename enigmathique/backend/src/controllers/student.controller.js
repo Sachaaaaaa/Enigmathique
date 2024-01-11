@@ -2,12 +2,15 @@
  * Définition des opérations CRUD pour les élèves
 */
 
-// todo : factoriser en fonctions
 
 const db = require("../models/db.js");
 const Student = db.student;
 const Course = db.course;
 const Op = db.Sequelize.Op;
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 FONCTIONS                                 //
+/////////////////////////////////////////////////////////////////////////////////
 
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
 async function isClassBelongsProfessor(idCourse, req) {
@@ -50,19 +53,29 @@ async function isStudentBelongsProfessor(idStudent, req) {
 		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
 	}
 }
-  
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 CREATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
 
 // Créer et enregistrer un nouvel élève
-exports.create = (req, res) => {
+exports.create = async(req, res) => {
+
 	// Valider la requête
 	if (!req.body.lastname || !req.body.firstname || !req.body.idCourse) {
-		res.status(502).send({
+		return res.status(400).send({
 			message: "Il manque des informations pour créer l'élève."
 		});
-		return;
 	}
 
-	//todo : faire en sorte que l'id soit associé au prof
+	// Vérifie que la classe appartient bien au professeur
+	if(! await isClassBelongsProfessor(req.body.idCourse, req)){
+		return res.status(403).send({
+			message: "Vous n'avez pas accès à cette classe."
+		})
+	}
+
+
 	// Créer un élève
 	const student = {
 		lastname: req.body.lastname,
@@ -71,138 +84,153 @@ exports.create = (req, res) => {
 	};
 
 	// Enregistrer l'élève dans la base de données
-	Student.create(student)
+	await Student.create(student)
 		.then(data => {
-			res.status(201).send(data);
+			return res.status(201).json(data);
 		})
+
+		// Gère les erreurs
 		.catch(err => {
-			res.status(500).send({
+			return res.status(500).send({
 				message: err.message || "Une erreur s'est produite lors de la création de l'élève."
 			});
 		});
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+// 									 READ                                      //
+/////////////////////////////////////////////////////////////////////////////////
 
-// Récupérer tous les élèves d'une classe du professeur
+// Récupérer un élève par son id
 exports.findById = async (req, res) => {
 	try {
-	  // Vérifie que la classe appartient bien au professeur
-	  const isBelongsToProfessor = await isStudentBelongsProfessor(req.params.id, req);
-  
-	  if (!isBelongsToProfessor) {
-		res.status(403).send({
-		  message: "Vous n'avez pas accès à cette classe."
+
+	// Vérifie que l'élève appartient bien au professeur et qu'il existe bien
+	const isBelongsToProfessor = await isStudentBelongsProfessor(req.params.id, req);
+	if (!isBelongsToProfessor) {
+		return res.status(403).send({
+			message: "Vous n'avez pas accès à cet élève."
 		});
-		return;
-	  }
+	}
   
-	  // Continuez avec la récupération des étudiants
-	  const dataStudent = await Student.findAll({ where: { id: req.params.id } });
-	  res.status(200).send(dataStudent);
+	// Continuez avec la récupération des étudiants
+	const dataStudent = await Student.findOne({ where: { id: req.params.id } });
+
+	// Envoyer les données de l'élèves
+	return res.status(200).json(dataStudent);
+	
+	// Gérer les erreurs
 	} catch (err) {
-	  res.status(500).send({
-		message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
-	  });
+		return res.status(500).send({
+			message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
+		});
 	}
   };
   
 
-// todo : moyen de faire un truc plus propre ?
-// Récupérer tous les élèves des classes du professeur
-exports.findAll = (req, res) => {
+/////////////////////////////////////////////////////////////////////////////////
+// 									 UPDATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
 
-	Course.findAll({ where: { idProfessor: req.tokenId } })
-	.then(data => {
-		// Récupère les id correspondant aux classe du professeur courant
-		let ids = data.map(item => item.id);
+// methode pour mettre à jour un professeur en fonction de son id
+exports.update = async(req, res) => {
 
-		// Pour chaque id de classe, recupère les étudiants de cette dernière
-		Student.findAll({ where: { idCourse: { [Op.in]: ids } } })
-		.then(dataStudent => {res.status(200).send(dataStudent);})
-		.catch(err => {
-			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
-			});
-		});	
-	})
-	.catch(err => {
-		res.status(500).send({
-			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+	// Vérifie que l'élève appartient bien au professeur
+	const isBelongsToProfessor = await isStudentBelongsProfessor(req.params.id, req);
+	if (!isBelongsToProfessor) {
+		return res.status(403).send({
+			message: "Vous n'avez pas accès à cette classe."
 		});
-	});	
+	}
+	
+	// Stock les changements apportés à l'élève
+    const updateData = {};
 
+	// Si le professeur souhaite changer le prénom de l'élève
+    if (req.body.firstname) {
+    	updateData.firstname = req.body.firstname;
+    }
 
-}
+	// Si le professeur souhaite changer le nom de l'élève
+    if (req.body.lastname) {
+    	updateData.lastname = req.body.lastname;
+    }
 
+	// Si le professeur souhaite changer la classe de l'élève
+	if (req.body.idCourse) {
 
-
-
-exports.delete = (req, res) => {
-	console.log("shesh");
-	// Valider la requête
-	if (!req.body.id) {
-		res.status(502).send({
-			message: "Il manque des informations pour supprimer l'élève."
-		});
-		return;
+		// Vérifie que la classe appartient bien au professeur
+		if(! await isClassBelongsProfessor(req.body.idCourse, req)){
+			return res.status(403).send({
+				message: "Vous n'avez pas accès à cette classe."
+			})	
+		}
+		updateData.idCourse = req.body.idCourse;
 	}
 
-	Course.findAll({ where: { idProfessor: req.tokenId } })
-	.then(data => {
-		// Récupère les id correspondant aux classe du professeur courant
-		let idCourseOfProfessor = data.map(item => item.id);
-
-		// Pour chaque id de classe, recupère les étudiants de cette dernière
-		Student.findAll({ where: { idCourse: { [Op.in]: idCourseOfProfessor } } })
-		.then(dataStudent => {
-			let idStudentofProfessor = data.map(item => item.id);
-
-			// Vérifie que l'élève appartienne bien à une classe du professeur
-			if(!idStudentofProfessor.includes(req.body.id)){
-				res.status(503).send({
-					message: "L'élève spécifié ne vous appartient pas."
-				});
-				return;
-			}
-
-			// Si l'élève appartient bien a une classe du professeur, on le supprime
-			Student.destroy({ where: { id: req.body.id} })
-			.then(num => {
-		
-				// Vérifie si le professeur a bien été supprimé
-				if (num == 1) {
-				  res.status(200).send({
-					message: "L'élève a été supprimée avec succès"
-				  });
-		
-				// Si aucunes colonnes traités on relève une erreur
-				} else {
-				  res.status(501).send({
-					message: "Impossible de supprimer l'élève"
-				  });
-				}
-				  })
-				// Gère les erreurs
-			.catch(err => {
-				res.status(500).send({
-					message: err.message || "Une erreur s'est produite lors de la suppression des élèves."
-				});
-			});	
-
-
-			
-		})
-		.catch(err => {
-			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
+	// Effectue la requête de mise à jour
+	await Student.update(updateData, {where: { id: req.params.id} })
+		// Vérifie que la colonne à effectivement été mise à jour
+	  .then(num => {
+		if (num == 1) {
+			return res.status(201).send({
+				message: "La classe à été mise a jour avec succès"
 			});
-		});	
-	})
-	.catch(err => {
-		res.status(500).send({
+
+		// Si aucunes colonnes traités on relève une erreur
+		} else {
+			return res.status(404).send({
+				message: "Impossible de mettre à jour la classe"
+			});
+		}
+	  })
+
+	  // Gère les erreurs
+	  .catch(err => {
+		return res.status(500).send({
 			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
 		});
-	});	
+	  });
+  };
+  
+/////////////////////////////////////////////////////////////////////////////////
+// 									 DELETE                                    //
+/////////////////////////////////////////////////////////////////////////////////
 
+// Supprimer un étudiant à partir de son id
+exports.delete = async (req, res) => {
 
-}
+	try{
+
+	// Vérifie que l'élève appartient bien au professeur
+	const isBelongsToProfessor = await isStudentBelongsProfessor(req.params.id, req);
+	if (!isBelongsToProfessor) {
+		return res.status(403).send({
+			message: "Vous n'avez pas accès à cette classe."
+		});
+	}
+	
+	// Si l'élève appartient bien a une classe du professeur, on le supprime
+	Student.destroy({ where: { id: req.params.id} })
+	.then(num => {
+
+		// Vérifie si le professeur a bien été supprimé
+		if (num == 1) {
+			return res.status(201).send({
+				message: "L'élève a été supprimée avec succès"
+			});
+ 
+		// Si aucunes colonnes traités on relève une erreur
+		} else {
+			return res.status(404).send({
+				message: "Impossible de supprimer l'élève"
+			});
+		}
+	})
+	// Gérer les erreurs
+	} catch (err) {
+		return res.status(500).send({
+			message: err.message || "Une erreur s'est produite lors de la récupération des étudiants."
+		});
+	}
+};
