@@ -6,8 +6,8 @@
     /**
     * Bouton valider
      */
-    .btn-validate {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]  text-white text-xl font-bold p-7 rounded;
+    .btn-validate{
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white text-xl font-bold rounded whitespace-normal p-4;
     }
 
     .btn-validate:hover {
@@ -47,6 +47,13 @@
         @apply bg-amber-300;
     }
 
+
+    /**
+    * TopBar
+    */
+    .topbar-container {
+        @apply flex flex-row p-6 items-center border-b-2 border-[#E6EFF5];
+    }
     .txt-dashboard {
         @apply uppercase bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-transparent bg-clip-text font-semibold;
     }
@@ -75,11 +82,11 @@
    * NavBar
    */
     .nav-container {
-        @apply flex flex-col items-center w-1/6 h-screen border-r-2 border-[#E6EFF5];
+        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-[#E6EFF5];
     }
 
     .nav-content {
-        @apply flex flex-col justify-between items-center h-full w-full py-6;
+        @apply flex flex-col justify-between items-center h-full w-full py-6 pr-2 whitespace-nowrap;
     }
 
     .nav-item {

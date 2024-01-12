@@ -13,11 +13,11 @@ const Counter = () => {
 		<div className='flex'>
 
 			<button className='w-5 bg-blue-300 text-2xl rounded-l-lg'
-			        onClick={handleOnClickminus}>-
+					onClick={handleOnClickminus}>-
 			</button>
 			<p className=' text-2xl w-5 flex justify-center'>{count}</p>
 			<button className='w-5 bg-blue-300 text-2xl rounded-r-lg'
-			        onClick={handleOnClickplus}>+
+					onClick={handleOnClickplus}>+
 			</button>
 		</div>
 	);

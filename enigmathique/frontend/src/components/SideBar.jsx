@@ -13,7 +13,7 @@ const SideBar = () => {
 
 	return (
 		<nav className='nav-container'>
-			<Link to='..'>
+			<Link to='/'>
 				<img src={logo} alt='logo' className='w-40'/>
 			</Link>
 			<section className='nav-content'>
@@ -23,7 +23,7 @@ const SideBar = () => {
 					<ItemList type='game' currentPath={path}/>
 					<ItemList type='room' currentPath={path}/>
 				</ul>
-				<Link to='../creationgame'>
+				<Link to='/create-game'>
 					<button className='btn-validate'>Nouvelle partie</button>
 				</Link>
 			</section>
@@ -49,7 +49,7 @@ const ItemList = (props) => {
 			icon: <MdGames/>,
 		},
 		room: {
-			name: `Salles d'énigmes`,
+			name: 'Salles d\'énigmes',
 			path: '/room',
 			icon: <MdDoorFront/>,
 		},
