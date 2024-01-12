@@ -39,14 +39,66 @@ export function Model(props) {
 	};
 
 
+	const useInteractiveObject = () => {
+		const [hovered, setHovered] = useState(false);
+		const [clicked, setClicked] = useState(false);
+		const mesh = useRef();
+	
+		const handlePointerOver = () => {
+			setHovered(true);
+		};
+	
+		const handlePointerOut = () => {
+			setHovered(false);
+		};
+	
+		const handleClick = () => {
+			setClicked(!clicked);
+		};
+	
+		return {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+		};
+	};
+	
+	const Object1 = () => {
+    const { mesh, hovered, clicked, handlePointerOver, handlePointerOut, handleClick } =
+      useInteractiveObject();
+
+    return (
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Suzanne.geometry}
+        material={materials.RedColor}
+        position={[0, 0.1, 0]}
+        ref={mesh}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+        onClick={handleClick}
+      >
+        {hovered && <meshBasicMaterial color={0x00ff00} />}
+        {clicked && <div>une page HTML différente</div>}
+      </mesh>
+    );
+  };
+
   return (
     <group {...props} dispose={null}>
-      <mesh
+      <Object1 />
+
+			<mesh
         name="Suzanne"
         castShadow
         receiveShadow
         geometry={nodes.Suzanne.geometry}
         material={materials.RedColor}
+				position={[4, 0, 0]}
 				onPointerDown={handleCickSuzanne}
       >
       </mesh>

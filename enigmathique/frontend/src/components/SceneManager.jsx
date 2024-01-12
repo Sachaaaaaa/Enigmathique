@@ -1,8 +1,10 @@
 /* eslint-disable indent */
-import React, { useEffect } from "react";
-import { useState, useContext } from "react";
-import { Environment, OrbitControls } from "@react-three/drei";
-import { SocketContext } from "../context/socket";
+import React from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { Environment, OrbitControls } from '@react-three/drei';
+
+import { Model } from './testGLB';
+import { SocketContext } from '../context/socket';
 
 export const Scene = () => {
 	const socket = useContext(SocketContext);
