@@ -2,43 +2,54 @@ const clc = require('cli-color');
 const { ServerToClient, ClientToServer } = require('./socketMessages');
 
 class SocketTeam {
-	constructor(socket, manager) {
+	constructor(socket, session) {
+		console.log(clc.greenBright('[Socket] Nouvelle équipe'));
 		this.socket = socket;
-		this.manager = manager;
+		this.gameSession = session;
 
 		this.socket.on(ClientToServer.Message, this.onMessage); 
 		this.socket.on(ClientToServer.Ready, this.onReady);
 
+		this.sendMessage('Bienvenue dans Enigmathique !');
+		this.sendRoom('Laboratory', {});
+
 		this.isReady = false;
 	}
 
-	getSocket() {
+	getSocket = () => {
 		return this.socket;
 	}
 
-	onMessage(data) {
+	onDisconnect = () => {
+		console.log(clc.redBright('[Socket] Déconnexion'));
+		this.socket.removeAllListeners();
+		this.gameSession.removeTeam(this);
+	}
+
+	onMessage = (data) => {
 		console.log(clc.yellowBright('[Socket] Message reçu: '), clc.yellow(data));
 	}
 
-	onReady() {
+	onReady = () => {
 		console.log(clc.greenBright('[Socket] Ready'));
 		this.isReady = true;
+		this.gameSession.onTeamReady(this);
 	}
 
-	sendMessage(message) {
+	sendMessage = (message) => {
 		console.log(clc.greenBright('[Socket] Envoi message: '), clc.yellow(message));
 		this.socket.emit(ServerToClient.Message, message);
 	}
 
-	sendScene(roomName, roomData) {
+	sendRoom = (roomName, roomData) => {
 		console.log(clc.greenBright('[Socket] Envoi salle: '), clc.yellow(roomName));
 
-		this.socket.emit(ServerToClient.SwitchRoom, { sceneName: roomName, sceneData: roomData });
+		this.socket.emit(ServerToClient.SwitchRoom, { roomName, roomData });
 		// Attends que le client charge la scène
 		this.ready = false;
 	}
 
-	clear() {
+	clear = () => {
 	}
 }
 

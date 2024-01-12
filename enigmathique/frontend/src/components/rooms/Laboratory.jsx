@@ -26,12 +26,22 @@ et un onPointerOver et onPointerOut qui change l'état de la variable hovered
 				</mesh>
 */
 
-import React, { useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useGLTF } from '@react-three/drei';
 
+
 import Enigme from '../Enigme';
+import { SocketContext } from '../../context/socket';
+
 
 export default function Room001(props) {
+	const socket = useContext(SocketContext);
+	
+	
+	useEffect(() => {
+		socket.emit('ready');
+	});
+
   const { nodes, materials } = useGLTF("/models/Demo_Room-002.glb");
 
 	const mesh = useRef();

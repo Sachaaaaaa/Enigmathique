@@ -11,7 +11,6 @@ export const Scene = () => {
 	const [roomComponent, setRoomComponent] = useState(null);
 	const [roomName, setRoomName] = useState(null);
 
-
 	// Charge la scène en fonction de son nom
 	useEffect(() => {
 		if (roomName) {
@@ -28,15 +27,26 @@ export const Scene = () => {
 
 	// Ecoute les changements de scène
 	useEffect(() => {
+		socket.on('connect', () => {
+			console.log('Connecté au serveur');
+		});
+
+		socket.on('disconnect', () => {
+			console.log('Déconnecté du serveur');
+		});
+
 		// { roomName, roomData }
 		socket.on('room', (data) => {
+			console.log(data);
 			console.log('Changement de room : ' + data.roomName);
 			setRoomName(data.roomName);
 		});
 
-		socket.emit('ready');
+		socket.connect();
 
 		return () => {
+			socket.off('connect');
+			socket.off('disconnect');
 			socket.off('room');
 		};
 	}, []);
