@@ -8,32 +8,14 @@ const Session = require('./session');
 const TICKS_PER_SECOND = 1;
 
 class Game {
-	/**
-	 * Initialise le jeu.
-	 * @param {http.Server} server 
-	 */
-	constructor(server) {
+	constructor(io) {
+		this.io = io;
 		this.sessions = {};
 		this.roomsData = {};
 
-		this.initSocketio(server);
+		this.io.on(ClientToServer.Connection, this.handleConnection);
 		this.loadRoomsData();
 		this.run(TICKS_PER_SECOND);
-	}
-
-	/**
-	 * Initialise le socket manager.
-	 * @param {http.Server} server - Le serveur HTTP.
-	 * @returns {socketio.Server} Le socket manager.
-	 */
-	initSocketio = (server) => {
-		this.io = socketio(server, {
-			cors: {
-				origin: '*',
-			},
-		});
-		this.io.on(ClientToServer.Connection, this.handleConnection);
-		return this.io;
 	}
 
 	/**
