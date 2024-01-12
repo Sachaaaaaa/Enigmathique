@@ -5,7 +5,7 @@ const CreationGameContext = createContext(null);
 
 export const CreationGameDataProvider = (props) => {
 	const [step, setStep] = useState(1);
-	const [formData, setFormData] = useState({gameName:null, course:null, teamSize:null});
+	const [formData, setFormData] = useState({gameName:'', course:0, teamSize:1});
 
 	const data = {
 		step,
