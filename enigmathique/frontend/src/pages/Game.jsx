@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 
-import { Scene } from '../components/SceneManager';
-import { socket, SocketContext } from '../context/socket';
+import { Scene } from '../components/game/SceneManager';
+import { socket, SocketContext } from '../context/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ServerToClient } from '../data/socketMessages';
+import { RoomProvider } from '../context/RoomContext';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -41,10 +42,16 @@ const Game = () => {
 
 	return (
 		<SocketContext.Provider value={socket}>
-			<Canvas shadows camera={{position:[8,8,8], fov:35}} style={{height:'100vh' , width:'100vw' }} >
-				<color attach="background" args={['#9999e6']} />
-				<Scene />
-			</Canvas>
+			<RoomProvider>
+				<Canvas
+					shadows
+					camera={{ position: [8, 8, 8], fov: 35 }}
+					style={{ height: '100vh', width: '100vw' }}
+				>
+					<color attach="background" args={['#9999e6']} />
+					<Scene />
+				</Canvas>
+			</RoomProvider>
 		</SocketContext.Provider>
 	);
 };

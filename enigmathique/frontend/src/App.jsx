@@ -13,6 +13,7 @@ import './index.css';
 import CreationGame3 from './pages/CreationGame3';
 import CreateGame from "./pages/CreateGame";
 import {CreationGameDataProvider} from "./components/contexts/CreationGame.context";
+import { RoomProvider } from './context/RoomContext';
 
 
 const App = () => {
@@ -28,7 +29,7 @@ const App = () => {
 				<Route path='/class/:id' element={<Students/>}/>
 				<Route path='/creationgame2' element={<CreationGame2/>}/>
 				<Route path='/creationgame3' element={<CreationGame3/>}/>
-				<Route path='/game' element={<Game/>}/>
+				<Route path='/game' element={ <Game/> }/>
 				<Route path='/create-game' element={<CreateGame/>}/>
 			</Routes>
 		</CreationGameDataProvider>

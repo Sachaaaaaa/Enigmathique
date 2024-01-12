@@ -3,10 +3,54 @@ import PropTypes from 'prop-types';
 import { extend } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 
-import { socket } from '../context/socket';
-import { ClientToServer } from '../data/socketMessages';
+import { socket } from '../../../context/SocketContext';
+import { ClientToServer } from '../../../data/socketMessages';
+import { useRoom } from '../../../context/RoomContext';
 
 extend({ Html });
+
+const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
+	const { room } = useRoom();
+
+	// Recupère les données dynamiques de l'énigme (envoyées par le serveur)
+	if (!room.data.enigmas[enigmaId]) {
+		throw new Error(`L'énigme ${enigmaId} n'existe pas!`);
+	}
+	const enigmaData = room.data.enigmas[enigmaId];
+
+	return (
+		<Html>
+			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
+				<h1>{enigmaData.title}</h1>
+				<p>Text</p>
+
+				{enigmaDisplayTemplate({ enigmaData })}
+
+				<input
+					type="text"
+					placeholder="Enter your answer"
+					className="m-1.5 p-1.5"
+				/>
+
+				<button className="m-1.5">Check Answer</button>
+
+				<button onClick={closeEnigma} className="mt-3">
+					Go Back
+				</button>
+			</div>
+		</Html>
+	);
+};
+
+export default Enigma;
+
+Enigma.propTypes = {
+	enigmaId: PropTypes.number.isRequired,
+	enigmaDisplayTemplate: PropTypes.elementType.isRequired,
+	closeEnigma: PropTypes.func.isRequired,
+};
+
+/*
 
 const Enigme = ({ title, text, image, answer, hint }) => {
 	const [isPuzzleVisible, setIsPuzzleVisible] = useState(true);
@@ -108,3 +152,5 @@ Enigme.propTypes = {
 };
 
 export default Enigme;
+
+*/

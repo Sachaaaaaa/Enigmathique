@@ -5,7 +5,7 @@ import { useGLTF } from "@react-three/drei";
 import { Html } from "@react-three/drei";
 import { node } from "prop-types";
 
-import useInteractiveObject from "../../hooks/useInteractiveObject";
+import useInteractiveObject from "../../../hooks/useInteractiveObject";
 
 export function Model(props) {
 	const { nodes, materials } = useGLTF("/models/test.glb");

@@ -19,6 +19,12 @@ const useInteractiveObject = () => {
 		setClicked(!clicked);
 	};
 
+	// Sert à forcer la sortie de l'interraction sur l'objet 
+	const forceExit = () => {
+		setHovered(false);
+		setClicked(false);
+	};
+
 	return {
 		mesh,
 		hovered,
@@ -26,6 +32,7 @@ const useInteractiveObject = () => {
 		handlePointerOver,
 		handlePointerOut,
 		handleClick,
+		forceExit
 	};
 };
 
