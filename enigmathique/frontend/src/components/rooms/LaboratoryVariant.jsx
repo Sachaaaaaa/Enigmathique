@@ -29,15 +29,10 @@ et un onPointerOver et onPointerOut qui change l'état de la variable hovered
 import React, { useRef, useState } from 'react';
 import { useGLTF } from '@react-three/drei';
 
-import Enigme from './Enigme';
+import Enigme from '../Enigme';
 
-<<<<<<< HEAD:enigmathique/frontend/src/components/rooms/LaboratoryVariant.jsx
 export default function Room001(props) {
   const { nodes, materials } = useGLTF("/models/Demo_Room-002.glb");
-=======
-export function Room001(props) {
-  const { nodes, materials } = useGLTF('/models/Demo_Room-002.glb');
->>>>>>> fc267e90b21a1edaee5cb7f258723f4a35bd9f0e:enigmathique/frontend/src/components/RoomGLTF-001.jsx
 
 	const mesh = useRef();
   const [hovered, setHovered] = useState(false);
