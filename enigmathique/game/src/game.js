@@ -4,7 +4,6 @@ const { ServerToClient, ClientToServer } = require('./socketMessages');
 const SocketTeam = require('./team');
 const Session = require('./session');
 
-
 const TICKS_PER_SECOND = 1;
 
 class Game {
@@ -28,12 +27,12 @@ class Game {
 		// Pour l'instant
 		this.roomsData = roomsData;
 		console.log(clc.green('[Game] Données des salles chargées'));
-	}
+	};
 
 	handleDisconnection = (socket) => {
 		// Supprime les événements
 		socket.removeAllListeners();
-	}
+	};
 
 	handleConnection = (socket) => {
 		console.log(clc.green('[Game] Nouvelle connexion ' + socket.id));
@@ -46,14 +45,16 @@ class Game {
 
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
-			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));
-			this.sessions[sessionId] = new Session(this, sessionId, 1, {});
+			console.log(
+				clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée')
+			);
+			this.sessions[sessionId] = new Session(this, sessionId, 1, roomsData);
 		}
 
 		// Crée une nouvelle équipe et l'ajoute à la session, le reste sera géré dedans
 		const team = new SocketTeam(socket, this.sessions[sessionId]);
 		this.sessions[sessionId].addTeam(team);
-	}
+	};
 
 	run = (ticksPerSecond) => {
 		setInterval(() => {
@@ -63,16 +64,22 @@ class Game {
 				session.tick();
 			}
 		}, 1000 / ticksPerSecond);
-	}
-
+	};
 }
 
 // Pour l'instant dans le code, les salles sont codées en dur
-const roomsData = {
-	'Laboratory': {
-		sceneName: 'Laboratory',
-		sceneData: {}
-	}
-};
+const roomsData = [
+	{
+		name: 'Laboratory',
+		data: {
+			enigmas: [ // TODO: Définir intervalles et générer aléatoirement lors de l'assignement à une team
+				{
+					x: 2,
+					y: 42,
+				},
+			],
+		},
+	},
+];
 
 module.exports = Game;

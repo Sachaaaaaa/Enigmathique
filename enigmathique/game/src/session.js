@@ -10,6 +10,7 @@ class Session {
 		this.game = game;
 		this.sessionId = sessionId;
 		this.teams = [];
+		this.rooms = rooms;
 
 		this.roundStart = 0;
 		this.isSessionRunning = false;
@@ -50,7 +51,7 @@ class Session {
 
 		// Envoi la nouvelle salle à chaque équipe
 		this.teams.forEach(team => {
-			team.sendRoom('Laboratory', {});
+			team.sendRoom(this.rooms[0].name, this.rooms[0].data);
 		});
 	}	
 
