@@ -1,56 +1,95 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Counter from './Counter';
-import {useCreationGameContext} from "../../contexts/CreationGame.context";
+import {initialFormData, useCreationGameContext} from "../../contexts/CreationGame.context";
 import '../../../index.css';
+import '../createGame.css'
 import ClassList from "./ClassList";
-import courseService from "../../../services/course.service";
+import CourseService from "../../../services/course.service";
+import AuthService from "../../../services/auth.service";
+import {Link} from "react-router-dom";
 const GameCreationForm = () => {
 
-	const {formData, setFormData, setStep} = useCreationGameContext();
+	const {formData, setFormData, setStep, setCourses} = useCreationGameContext();
 	console.log(formData);
 
-	courseService.getAll().then(res => console.log(res));
+	// AuthService.login('admin@admin.com', 'admin').then((response) => {
+	// 	console.log(response);
+	// }).catch((error) => {
+	// 	console.log(error);
+	// });
 
+	const loadClasses = () => {
+		CourseService.getAll().then((response) => {
+			setCourses(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
 
-
-	const classes = [
-		{name:'Seconde 1', id:1},
-		{name:'Seconde 2', id:2},
-		{name:'Seconde 3', id:3},
-		{name:'Seconde 4', id:4},
-	];
+	useEffect(() => {
+		loadClasses();
+	}, []);
 
 
 	const handleSuivant = () => {
-		setStep(2);
+		if (formData.gameName !== '' && formData.course !== 0) {
+			setStep(2);
+			return;
+		}
+		let messages = ['Veuillez remplir le(s) champ(s) suivant(s) :'];
+		if (formData.gameName === '') {
+			messages.push('-Nom de la partie');
+		}
+		if (formData.course === 0) {
+			messages.push('-Classe');
+		}
+		alert(messages.join('\n'));
 	};
+	const handleAnnuler = (event) => {
+		if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
+			setFormData(initialFormData)
+			return;
+		}
+		event.preventDefault();
+	}
 
 	return (
-		<>
-			<section className='flex flex-col items-center justify-center h-full w-full'>
-				<section>
-					<div className='mb-4'>
-						<label
-							className='block text-gray-700 text-sm font-bold mb-2'
-							htmlFor='gameName'
-						>
-							Nom de la partie
-						</label>
-						<input
-							id='gameName'
-							value={formData.gameName}
-							onChange={(e) => setFormData({...formData, gameName: e.target.value})}
-							placeholder='Entrer le nom'
-							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-						/>
-					</div>
-					<div className='mb-4'>
-						<ClassList classes={classes}/>
-					</div>
-					<div className='mb-4'>
-						<Counter/>
-					</div>
-				</section>
+
+		<section className='flex flex-col items-center h-full w-full'>
+			<section className="w-full">
+				<h1 className='text-2xl pl-4'>Paramètres</h1>
+			</section>
+			<section className="w-1/3">
+				<div className='mb-4'>
+					<label
+						className='label-creation'
+						htmlFor='gameName'
+					>
+						Nom de la partie
+					</label>
+					<input
+						id='gameName'
+						value={formData.gameName}
+						onChange={(e) => setFormData({...formData, gameName: e.target.value})}
+						placeholder='Entrer le nom'
+						className='data-selection'
+					/>
+				</div>
+				<div className='mb-4'>
+					<ClassList/>
+				</div>
+				<div className='mb-4 w-full'>
+					<Counter/>
+				</div>
+			</section>
+			<section className="flex flex-row justify-evenly items-end h-1/2 w-5/6">
+				<Link
+					className='btn-cancel'
+					to={'/dashboard'}
+					onClick={handleAnnuler}
+				>
+					Annuler
+				</Link>
 				<button
 					className='btn-validate'
 					onClick={handleSuivant}
@@ -58,7 +97,8 @@ const GameCreationForm = () => {
 					Suivant
 				</button>
 			</section>
-		</>
+
+		</section>
 	);
 
 };
