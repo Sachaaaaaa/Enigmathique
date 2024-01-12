@@ -108,13 +108,13 @@ const Dashboard = () => {
 
 	return (
 		<LayoutProf>
-			<main className="flex flex-grow bg-[#F5F7FA] border-2 flex-wrap overflow-y-scroll">
+			<main className="flex flex-grow bg-[#F5F7FA] border-2 flex-wrap overflow-y-scroll w-[80%]">
 				<div className="flex bg-white w-full h-24 justify-between items-center shadow-sm"> {/*divs à changer si nécessaire*/}
 					<h2 className="h-fit font-semibold ml-7">Vue d&apos;ensemble</h2>
 					<img className="h-fit mr-5" src={""} alt="user-icon"/>
 				</div>
 				<div className="flex">
-					<div className="flex-grow mr-2 flex-wrap max-w-[1000px]">
+					<div className="flex-grow mr-2 flex-wrap">
 						<div className="flex-grow p-5">
 							<div className="flex justify-between">
 								<h2 className="block font-semibold">Mes Parties</h2>
