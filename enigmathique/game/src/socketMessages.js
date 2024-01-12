@@ -4,6 +4,8 @@
 
 // Messages que le serveur envoie au client
 const ServerToClient = {
+	Connection: 'connect',
+	Disconnection: 'disconnect',
 	SwitchRoom: 'room', // + {roomTag: string}
 	Message: 'message', // + {message: string}
 	StartRound: 'startRound', // + {}
