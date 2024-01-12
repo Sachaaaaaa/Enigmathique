@@ -4,10 +4,11 @@ import ListClass from '../components/ListClass';
 
 function Class() {
 	return (
-		<div className="flex">
-			<SideBar />
-			<ListClass />
+		<div className='flex'>
+			<SideBar/>
+			<ListClass/>
 		</div>
 	);
 }
+
 export default Class;
