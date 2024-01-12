@@ -1,5 +1,6 @@
 import React from 'react';
 import {useCreationGameContext} from "../../contexts/CreationGame.context";
+import '../createGame.css'
 
 const Counter = () => {
 
@@ -13,16 +14,18 @@ const Counter = () => {
 	}
 	return (
 		<>
-			<p className='block text-gray-700 text-sm font-bold mb-2'>
+			<p className='label-creation'>
 				Taille de l&apos;équipe
 			</p>
-			<div className='flex'>
+			<div className='flex w-full'>
+				<button className={`w-1/3 ${formData.teamSize<2?'bg-[#4c49ed]':'bg-[#0a06f4]'} text-2xl text-white rounded-l-lg`}
+						onClick={handleOnClickminus}
+						disabled={formData.teamSize < 2}
 
-				<button className='w-5 bg-blue-300 text-2xl rounded-l-lg'
-						onClick={handleOnClickminus}>-
+				>-
 				</button>
-				<p className=' text-2xl w-5 flex justify-center'>{formData.teamSize}</p>
-				<button className='w-5 bg-blue-300 text-2xl rounded-r-lg'
+				<span className='bg-white border-y text-2xl w-1/3 flex justify-center'>{formData.teamSize}</span>
+				<button className='w-1/3 bg-[#0a06f4] text-2xl text-white rounded-r-lg'
 						onClick={handleOnClickplus}>+
 				</button>
 			</div>
