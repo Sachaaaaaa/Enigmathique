@@ -1,25 +1,32 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {useCreationGameContext} from "../../contexts/CreationGame.context";
 
 const Counter = () => {
 
-	const [count, setCount] = useState(1);
+	const {formData, setFormData} = useCreationGameContext();
+
 	const handleOnClickplus = () => {
-		setCount(count + 1);
+		setFormData({...formData, teamSize: formData.teamSize + 1});
 	};
 	const handleOnClickminus = () => {
-		count > 1 ? setCount(count - 1) : setCount(1);
+		formData.teamSize > 1 ? setFormData({...formData, teamSize: formData.teamSize - 1}) : setFormData({...formData, teamSize: 1});
 	}
 	return (
-		<div className='flex'>
+		<>
+			<p className='block text-gray-700 text-sm font-bold mb-2'>
+				Taille de l&apos;équipe
+			</p>
+			<div className='flex'>
 
-			<button className='w-5 bg-blue-300 text-2xl rounded-l-lg'
-					onClick={handleOnClickminus}>-
-			</button>
-			<p className=' text-2xl w-5 flex justify-center'>{count}</p>
-			<button className='w-5 bg-blue-300 text-2xl rounded-r-lg'
-					onClick={handleOnClickplus}>+
-			</button>
-		</div>
+				<button className='w-5 bg-blue-300 text-2xl rounded-l-lg'
+						onClick={handleOnClickminus}>-
+				</button>
+				<p className=' text-2xl w-5 flex justify-center'>{formData.teamSize}</p>
+				<button className='w-5 bg-blue-300 text-2xl rounded-r-lg'
+						onClick={handleOnClickplus}>+
+				</button>
+			</div>
+		</>
 	);
 }
 export default Counter;
