@@ -11,8 +11,8 @@ const ServerToClient = {
 
 // Messages que le client envoie au serveur
 const ClientToServer = {
-	Connection: 'connection', // + {roomTag: string} => dans le query
-	Disconnection: 'disconnection', // { }
+	Connection: 'connect', // + {roomTag: string} => dans le query
+	Disconnection: 'disconnect', // { }
 	Message: 'message', // + {message: string}
 	Submit: 'submit', // + {answer: string}
 	Hint: 'hint', // + {hint: string}
