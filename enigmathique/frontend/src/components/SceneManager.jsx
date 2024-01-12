@@ -23,35 +23,6 @@ export const Scene = () => {
 		}
 	}, [roomName]);
 
-	useEffect(() => {
-		const onConnection = () => {
-			console.log('Connecté');
-		};
-
-		const onDisconnection = () => {
-			console.log('Déconnecté');
-		};
-
-		const onScene = (data) => {
-			console.log('Serveur demande de charger la scène', data);
-			setRoomName(data);
-		};
-
-		socket.on('connect', onConnection);
-		socket.on('disconnect', onDisconnection);
-		socket.on('scene', onScene);
-
-		socket.connect();
-
-		return () => {
-			socket.off('connect', onConnection);
-			socket.off('disconnect', onDisconnection);
-			socket.off('scene', onScene);
-		};
-	});
-
-
-
 	return (
 		<>
 			<Environment preset="sunset" />
