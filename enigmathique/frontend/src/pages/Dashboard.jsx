@@ -5,6 +5,8 @@ import RoomElem from '../components/dashboard/RoomElem';
 import GameElem from '../components/dashboard/GameElem';
 import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
+import { FaAngleLeft } from 'react-icons/fa6';
+import { FaAngleRight } from 'react-icons/fa6';
 
 
 const Dashboard = () => {
@@ -137,8 +139,8 @@ const Dashboard = () => {
 						<div className='flex justify-between items-center'>
 							<h2 className='block font-semibold'>Mes Classes</h2>
 							<div>
-								<button onClick={prevClass}>{'<'}</button>
-								<button onClick={nextClass}>{'>'}</button>
+								<button onClick={prevClass}><FaAngleLeft /></button>
+								<button onClick={nextClass}><FaAngleRight /></button>
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
