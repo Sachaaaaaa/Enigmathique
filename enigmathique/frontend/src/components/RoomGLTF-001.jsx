@@ -477,6 +477,7 @@ export function Room001(props) {
           position={[0.68, 0.312, 1.228]}
           rotation={[Math.PI / 2, 0, 0.436]}
           scale={0.08}
+					
         />
         <mesh
           name="Feuille004"

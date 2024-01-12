@@ -55,6 +55,7 @@ const Enigme = (props) => {
 			}}>
 				<h1>{props.titre}</h1>
 				<p>{props.textEnigme}</p>
+				<img src={`/models/models/${props.imageEnigme}.png`} alt="imageEnigme" />
 
 				<input
 					type="text"
@@ -86,6 +87,7 @@ const Enigme = (props) => {
 Enigme.propTypes = {
 	titre: PropTypes.string.isRequired,
 	textEnigme: PropTypes.string.isRequired,
+	imageEnigme: PropTypes.string.isRequired,
 	reponseEnigme: PropTypes.string,
 	indiceEnigme: PropTypes.string,
 };

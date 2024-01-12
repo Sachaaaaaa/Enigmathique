@@ -37,9 +37,9 @@ export const Scene = () => {
 			<OrbitControls />
 
 			{/* Mettre la scène ici
-			<Model /> */}
+			<Room001 />*/}
+			<Model /> 
 			
-			<Room001 />
 		</>
 	);
 };
