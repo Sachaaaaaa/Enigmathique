@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 /**
  * Définition des opérations CRUD pour les professeurs
 */
@@ -7,95 +6,117 @@ const db = require("../models/db.js");
 const Professor = db.professor;
 const Op = db.Sequelize.Op;
 
-// Créer et enregistrer un nouveau professeur
-exports.create = (req, res) => {
+/////////////////////////////////////////////////////////////////////////////////
+// 									 CREATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
 
+// On ne peut pas créer un professeur ici, c'est dans le controller de l'authentification
 
-	//sconst existingProfessor = await Professor.findOne({mail: req.body.mail });
-	
+/////////////////////////////////////////////////////////////////////////////////
+// 									 READ                                      //
+/////////////////////////////////////////////////////////////////////////////////
 
+exports.findOne = (req, res) => {
 
-
-	// Valider la requête
-	// TODO: Vérifier que le mail est bien un mail
-	// TODO: Vérifier que le mot de passe est assez fort
-	if (!req.body.lastname || !req.body.firstname || !req.body.mail || !req.body.password) {
-		res.status(400).send({
-			message: "Il manque des informations pour créer le professeur."
-		});
-		return;
-	}
-
-	// Créer un professeur
-	const professor = {
-		lastname: req.body.lastname,
-		firstname: req.body.firstname,
-		mail: req.body.mail,
-		password: bcrypt.hashSync(req.body.password, 10),
-	};
-
-
-	// Enregistrer le professeur dans la base de données
-	Professor.create(professor)
+	// Récupère le professeur connecté
+	Professor.findOne({ where: { id: req.tokenId } })
 		.then(data => {
-			res.status(201).send(data);
+			return res.status(200).json(data);
 		})
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la création du professeur."
-			});
-		});
-}
-
-// Gère la connexion d'un professeur
-exports.login = async (req, res) => {
-
-	// Verifie que le mail et le password ont été indiqués
-	if(!req.body.mail || !req.body.password){
-		res.status(400).send({
-			message: "Il manque des informations pour créer se connecter."
-		});
-		return;
-	}
-
-	// Essaye de récuperer le professeur dans la DB à partir du mail
-	const existingProfessor = await Professor.findOne({ where: { mail: req.body.mail } });
-
-	// Si ce prof existe
-	if(existingProfessor){
-
-		// On récupère le mdp du prof
-		const password = existingProfessor['dataValues']['password']
-
-		// On vérifie qu'il s'agissent du bon mdp
-		if(bcrypt.compareSync(req.body.password, password)){
-			res.status(200).send({
-				message: "Bon MDP"
-			});
-			return;
-		}
-		res.status(400).send({
-			message: "Mauvais mdp"
-		});
-		return;
-	}
-	// Si le prof n'existe pas on renvoie une erreur
-	res.status(400).send({
-		message: "Aucun compte ne correspond au mail indiqué."
-	});
-	return;
-}
-
-
-// Récupérer tous les professeurs de la base de données
-exports.findAll = (req, res) => {
-	Professor.findAll()
-		.then(data => {
-			res.status(200).send(data);
-		})
-		.catch(err => {
-			res.status(500).send({
+			return res.status(404).json({
 				message: err.message || "Une erreur s'est produite lors de la récupération des professeurs."
 			});
 		});
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 UPDATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+// to do : hash le password
+// methode pour mettre à jour le professeur connecté
+exports.update = async(req, res) => {
+	
+	// Stock les changements apportés au professeur	
+    const updateData = {};
+
+	// Si le professeur souhaite changer le prénom de l'élève
+    if (req.body.firstname) {
+    	updateData.firstname = req.body.firstname;
+    }
+
+	// Si le professeur souhaite changer le nom de l'élève
+    if (req.body.lastname) {
+    	updateData.lastname = req.body.lastname;
+    }
+
+	// todo : pas deux fois le même mail dans la BD ?
+	// Si le professeur souhaite changer le nom de l'élève
+	if (req.body.mail) {
+		updateData.lastname = req.body.mail;
+	}
+	
+
+	// Effectue la requête de mise à jour
+	await Professor.update(updateData, {where: { id: req.tokenId} })
+
+		// Vérifie que la colonne à effectivement été mise à jour
+	  .then(num => {
+		if (num == 1) {
+			return res.status(201).send({
+				message: "Le professeur à été mise a jour avec succès"
+			});
+
+		// Si aucunes colonnes traités on relève une erreur
+		} else {
+			return res.status(404).send({
+				message: "Impossible de mettre à jour le professeur"
+			});
+		}
+	  })
+
+	  // Gère les erreurs
+	  .catch(err => {
+		return res.status(500).send({
+			message: err.message || "Une erreur s'est produite lors de la récupération du professeur."
+		});
+	  });
+  };
+
+  
+/////////////////////////////////////////////////////////////////////////////////
+// 									 DELETE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// methode pour supprimer un professeur en fonction de son id
+exports.delete = (req, res) => {
+
+	// Effectue la requête de suppression du professeur connecté
+	Professor.destroy({ where: { id: req.tokenId} })
+	.then(num => {
+
+		// Vérifie si le professeur a bien été supprimé
+		if (num == 1) {
+		  	return res.status(200).json({
+				message: "La classe a été supprimée avec succès"
+		});
+
+		// Si aucunes colonnes traités on relève une erreur
+		} else {
+			return res.status(404).json({
+				message: "Impossible de supprimer la classe"
+		  });
+		}
+	  	})
+
+		// Gère les erreurs
+		.catch(err => {
+			return res.status(500).json({
+				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+			});
+		});	
+}
+
+

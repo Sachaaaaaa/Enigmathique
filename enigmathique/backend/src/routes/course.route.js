@@ -4,23 +4,24 @@
 
 module.exports = app => {
 	const course = require("../controllers/course.controller.js");
+	const middleware = require("./middleware.js");
 
 	var router = require("express").Router();
 
-	// Créer un nouveau professeur
-	router.post("/", course.create);
+	// Créer une nouvelle classe pour le professeur
+	router.post("/", middleware.verifyToken, course.create);
 
-	// Récupérer tous les professeurs
-	router.get("/", course.findAll);
+	// Récupérer toutes les classes du professeur
+	router.get("/", middleware.verifyToken, course.findAll);
 
-	// Récupérer un professeur par son id
-	//router.get("/:id", professors.findOne);
+	// Récupérer toutes les classes du professeur
+	router.get("/:id", middleware.verifyToken, course.findById);
 
-	// Mettre à jour un professeur par son id
-	//router.put("/:id", professors.update);
+	// Supprimer une classe du professeur
+	router.delete("/:id", middleware.verifyToken, course.delete);
 
-	// Supprimer un professeur par son id
-	//router.delete("/:id", professors.delete);
+	// Mettre à jour une classe du professeur
+	router.put("/:id", middleware.verifyToken, course.update);
 
 	app.use("/api/course", router);
 }

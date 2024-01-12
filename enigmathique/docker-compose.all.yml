@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  api: 
+    depends_on:
+      - database
+    image: backend
+    build: ./backend
+    ports:
+      - "5000:5000"
+    links:
+      - "database:db"
+  web: 
+    depends_on:
+      - api
+    image: frontend
+    build: ./frontend
+    ports:
+      - "3000:3000"
+  database:
+    image: postgres:16.1-alpine
+    environment: # Login et mot de passe : 'dev'
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+      - POSTGRES_DB=enigmathique
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/data:/var/lib/postgresql/data # Sauvegarde les données (tables, etc.)
+volumes:
+  database:
+    driver: local

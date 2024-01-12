@@ -1,18 +1,30 @@
-
 const jwt = require('jsonwebtoken');
+const secretKey = 'bloubiboulba';
 
 exports.verifyToken = (req, res, next) => {
-    console.log("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+
     const token = req.headers['authorization']
-    console.log(token)
-  
-    if (token == null) return res.sendStatus(401)
-  
-    console.log(jwt.verify(token, process.env.TOKEN_SECRET))
-    console.log("ll")
+
+    // Si il n'y a pas de token, indique à l'utilisateur qu'on est pas connecté
+    if(!token){
+        res.status(403).send({
+			message: "Vous n'êtes pas connecté"
+		});
+		return;
+    }
     
+
+    // Vérifie la validité du token, si il l'est on accède a la ressource demandé, sinon on retourne une erreur 403
+    try {
+        const decodedToken = jwt.verify(token, secretKey)
+        req.tokenId = decodedToken.id;
+        next()
+    } catch (error) {
+        res.status(403).send({
+			message: "Token non valide"
+		});
+		return;
+    }
 }
 
 
-
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoic2FjaGFAZ21haWwuY29tIiwiaWF0IjoxNzA0NzMwMzkyLCJleHAiOjE3MDQ3MzIxOTJ9.pia3xPOK8-j_utjckC3GyeT_48gG2LlRGFueQ_NARas"

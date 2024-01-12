@@ -6,9 +6,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { initSocketio } = require("./sockets/sockets.js");
 const socketio = require("socket.io");
 const http = require("http");
+const Game = require("./game/game.js");
 
 
 // Initialise l'application
@@ -22,7 +22,7 @@ app.use(cors(origin = "*"));
 
 // Initialise le socket manager
 const server = http.createServer(app);
-const io = initSocketio(server);
+const game = new Game(server);
 
 
 // Initialise la base de données
@@ -34,6 +34,10 @@ db.sequelize.sync();
 require("./routes/professor.route.js")(app);
 require("./routes/course.route.js")(app);
 require("./routes/student.route.js")(app);
+require("./routes/authentification.route.js")(app);
+require("./routes/game.route.js")(app);
+require("./routes/team.route.js")(app);
+
 
 // Route par défaut
 app.get("/", (req, res) => {
@@ -41,7 +45,7 @@ app.get("/", (req, res) => {
 });
 
 // Lance le serveur
-const PORT = 5000;
+const PORT = process.env.NODE_ENV === 'test' ? 5001 : 5000;
 server.listen(PORT, () => {
-	console.log(`Server is running: http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

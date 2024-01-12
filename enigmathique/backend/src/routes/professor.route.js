@@ -4,26 +4,19 @@
 
 module.exports = app => {
 	const professors = require("../controllers/professor.controller.js");
+	const middleware = require("./middleware.js");
 
 	var router = require("express").Router();
 
-	// Créer un nouveau professeur
-	router.post("/", professors.create);
-
-	// Se connecter à un professeur
-	router.post("/login", professors.login);
-
-	// Récupérer tous les professeurs
-	router.get("/", professors.findAll);
-
 	// Récupérer un professeur par son id
-	//router.get("/:id", professors.findOne);
+	router.get("/", middleware.verifyToken,professors.findOne);
 
-	// Mettre à jour un professeur par son id
-	//router.put("/:id", professors.update);
+	// to do : revok le token ?
+	// Supprimer le professeur
+	router.delete("/", middleware.verifyToken, professors.delete);
 
-	// Supprimer un professeur par son id
-	//router.delete("/:id", professors.delete);
+	// Mettre à jour une le professeur
+	router.put("/", middleware.verifyToken, professors.update);
 
 	app.use("/api/professor", router);
 }
