@@ -4,11 +4,12 @@ const { ServerToClient, ClientToServer } = require('./socketMessages');
 const SocketTeam = require('./team');
 
 class Session {
-	constructor(game, sessionId) {
+	constructor(game, sessionId, expectedTeamCount) {
 		this.game = game;
 		this.sessionId = sessionId;
 		this.teams = [];
 		this.started = false;
+		this.expectedTeamCount = 0;
 	}
 
 	getTotalTeamCount = () => {
@@ -37,6 +38,7 @@ class Session {
 	}
 
 	onTeamReady = (team) => {
+
 	}
 }
 

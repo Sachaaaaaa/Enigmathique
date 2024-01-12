@@ -15,8 +15,6 @@ class Game {
 	constructor(server) {
 		this.sessions = {};
 
-		this.handleConnection = this.handleConnection.bind(this);
-
 		this.initSocketio(server);
 		this.loadRoomsData();
 		this.run(TICKS_PER_SECOND);
@@ -27,7 +25,7 @@ class Game {
 	 * @param {http.Server} server - Le serveur HTTP.
 	 * @returns {socketio.Server} Le socket manager.
 	 */
-	initSocketio(server) {
+	initSocketio = (server) => {
 		this.io = socketio(server, {
 			cors: {
 				origin: '*',
@@ -40,18 +38,18 @@ class Game {
 	/**
 	 * Charge les données des salles.
 	 */
-	loadRoomsData() {
+	loadRoomsData = () => {
 		console.log(clc.yellow('[Game] Chargement des salles...'));
 		// { ... }
 		console.log(clc.green('[Game] Données des salles chargées'));
 	}
 
-	handleDisconnection(socket) {
+	handleDisconnection = (socket) => {
 		// Supprime les événements
 		socket.removeAllListeners();
 	}
 
-	handleConnection(socket) {
+	handleConnection = (socket) => {
 		console.log(clc.green('[Game] Nouvelle connexion ' + socket.id));
 
 		// Recupère l'id de session
@@ -71,7 +69,7 @@ class Game {
 		this.sessions[sessionId].addTeam(team);
 	}
 
-	run(ticksPerSecond) {
+	run = (ticksPerSecond) => {
 		setInterval(() => {
 			//console.log(clc.cyan('[Game] Boucle...'));
 			for (const sessionId in this.sessions) {
