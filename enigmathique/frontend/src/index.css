@@ -75,7 +75,11 @@
 
     .btn-show {
         @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white rounded-b-3xl w-full text-center uppercase flex items-center
-        justify-center h-12 hover:bg-[#3b36d1] transition-colors duration-300;
+        justify-center h-12 transition-colors duration-300;
+    }
+
+    .btn-show:hover {
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
     }
 
     /**
