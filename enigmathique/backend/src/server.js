@@ -6,9 +6,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { initSocketio } = require("./sockets/sockets.js");
 const socketio = require("socket.io");
 const http = require("http");
+const Game = require("./game/game.js");
 
 
 // Initialise l'application
@@ -22,7 +22,7 @@ app.use(cors(origin = "*"));
 
 // Initialise le socket manager
 const server = http.createServer(app);
-const io = initSocketio(server);
+const game = new Game(server);
 
 
 // Initialise la base de données
