@@ -39,7 +39,7 @@ class SocketTeam {
 		this.gameSession.onTeamLoadedRoom(this);
 	}
 
-	onSubmit = (enigmaId, answer) => {
+	onSubmit = (answer) => {
 		console.log(clc.yellowBright('[Team] Réponse reçu: ' + answer));
 		// Vérifie si la réponse est juste.
 		// { ... }
@@ -47,7 +47,7 @@ class SocketTeam {
 		const isOk = true;
 
 		//this.gameSession.onTeamSubmitAnswer(this, enigmaId, isOk);
-		this.sendAnswerFeedback(enigmaId, isOk);
+		//this.sendAnswerFeedback(enigmaId, isOk);
 	}
 
 	sendMessage = (message) => {

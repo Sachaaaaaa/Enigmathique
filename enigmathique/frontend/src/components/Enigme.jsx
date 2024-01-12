@@ -1,83 +1,98 @@
-// Une enigme a un *texte, un *champ de réponse, une image et un *bouton de validation, un *indice, un *bouton d'annulation.
-// * = obligatoire
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { extend } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 
-// Étendez le composant Mesh pour inclure votre élément Enigme
+import { socket } from '../context/socket';
+import { ClientToServer } from '../data/socketMessages';
+
 extend({ Html });
 
-const Enigme = (props) => {
-	const [enigmeVisible, setEnigmeVisible] = useState(true);
-	const [reponseUtilisateur, setReponseUtilisateur] = useState('');
-	const [reponseCorrecte, setReponseCorrecte] = useState(false);
-	const [afficherIndice, setAfficherIndice] = useState(false);
-
+const Enigme = ({ title, text, image, answer, hint }) => {
+	const [isPuzzleVisible, setIsPuzzleVisible] = useState(true);
+	const [userAnswer, setUserAnswer] = useState('');
+	const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+	const [showHint, setShowHint] = useState(false);
+	
 	const handleCancelClick = () => {
-		// Mettez à jour l'état pour indiquer que l'énigme ne devrait plus être affichée
-		setEnigmeVisible(false);
+		setIsPuzzleVisible(false);
 	};
 
 	const handleInputChange = (e) => {
-		// Mettez à jour l'état pour suivre la réponse saisie par l'utilisateur
-		setReponseUtilisateur(e.target.value);
+		setUserAnswer(e.target.value);
 	};
 
 	const handleCheckAnswer = () => {
-		// Ajoutez ici la logique pour vérifier si la réponse est correcte (numérique)
-		const reponseCorrecte = (parseFloat(reponseUtilisateur) === props.reponseEnigme);
-		setReponseCorrecte(reponseCorrecte);
+		const isNumeric = !isNaN(parseFloat(userAnswer)) && isFinite(userAnswer);
+		setIsAnswerCorrect(isNumeric);
+
+		socket.emit(ClientToServer.Submit, { userAnswer, isNumeric });
 	};
 
 	const handleShowHint = () => {
-		// Mettez à jour l'état pour indiquer que l'indice doit être affiché
-		setAfficherIndice(true);
+		setShowHint(true);
 	};
 
+	useEffect(() => {
+		const handleServerSubmit = (data) => {
+			setIsAnswerCorrect(data.isAnswerCorrect);
+			setShowHint(data.showHint);
+		};
 
-	// Si l'énigme n'est plus visible, ne rien rendre
-	if (!enigmeVisible) {
+		socket.on(ClientToServer.Submit, handleServerSubmit);
+
+		return () => {
+			socket.off(ClientToServer.Submit, handleServerSubmit);
+		};
+	}, []);
+
+	if (!isPuzzleVisible) {
 		return null;
 	}
 
 	return (
 		<Html>
-			<div style={{
-				position: 'absolute', transform: 'translate(-50%, 0%)',
-				top: '50%', left: '50%',
-				padding: '15px',
-				background: 'white',
-				borderRadius: '5px',
-				display: 'flex',
-				flexDirection: 'column', alignItems: 'center',
-			}}>
-				<h1>{props.titre}</h1>
-				<p>{props.textEnigme}</p>
-				<img src={`/models/models/${props.imageEnigme}.png`} alt="imageEnigme" />
+			<div
+				style={{
+					position: 'absolute',
+					transform: 'translate(-50%, 0%)',
+					top: '50%',
+					left: '50%',
+					padding: '15px',
+					background: 'white',
+					borderRadius: '5px',
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<h1>{title}</h1>
+				<p>{text}</p>
+				<img src={`/models/models/${image}.png`} alt="Puzzle" />
 
 				<input
 					type="text"
-					value={reponseUtilisateur}
+					value={userAnswer}
 					onChange={handleInputChange}
-					placeholder="Saisissez votre réponse"
+					placeholder="Enter your answer"
 					style={{ margin: '10px 0', padding: '5px' }}
 				/>
 
 				<button onClick={handleCheckAnswer} style={{ margin: '5px 0' }}>
-					Vérifier la réponse
+					Check Answer
 				</button>
-				{reponseCorrecte === true && <p style={{ color: 'green' }} >Correcte</p>}
-				{reponseCorrecte === false && <p style={{ color: 'red' }}> ---- </p>}
+				{isAnswerCorrect && <p style={{ color: 'green' }}>Correct</p>}
+				{!isAnswerCorrect && <p style={{ color: 'red' }}>----</p>}
 
-				{!afficherIndice && <button onClick={handleShowHint} style={{ margin: '10px 0' }}>
-					Obtenir un indice
-				</button>}
-				{afficherIndice && <p>{props.indiceEnigme}</p>}
+				{!showHint && (
+					<button onClick={handleShowHint} style={{ margin: '10px 0' }}>
+						Get Hint
+					</button>
+				)}
+				{showHint && <p>{hint}</p>}
 
 				<button onClick={handleCancelClick} style={{ marginTop: '10px' }}>
-					Retour
+					Go Back
 				</button>
 			</div>
 		</Html>
@@ -85,11 +100,11 @@ const Enigme = (props) => {
 };
 
 Enigme.propTypes = {
-	titre: PropTypes.string.isRequired,
-	textEnigme: PropTypes.string.isRequired,
-	imageEnigme: PropTypes.string,
-	reponseEnigme: PropTypes.number,
-	indiceEnigme: PropTypes.string,
+	title: PropTypes.string.isRequired,
+	text: PropTypes.string.isRequired,
+	image: PropTypes.string,
+	answer: PropTypes.number,
+	hint: PropTypes.string,
 };
 
 export default Enigme;

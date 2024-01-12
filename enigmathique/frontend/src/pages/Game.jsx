@@ -20,7 +20,6 @@ const Game = () => {
 	socket.io.opts.query = { sessionId, teamId: 1 };
 
 	useEffect(() => {
-		console.log('Effect 1: Connection status');
 		socket.on(ServerToClient.Message, (message) => {
 			console.log('Message du serveur : ' + message);
 		});
@@ -34,7 +33,6 @@ const Game = () => {
 		});
 
 		return () => {
-			console.log('Clean up Effect 1');
 			socket.off(ServerToClient.Message);
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnect);
