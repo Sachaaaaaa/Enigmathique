@@ -48,7 +48,7 @@
     }
 
     .txt-dashboard {
-        @apply uppercase text-[#4C49ED] font-semibold;
+        @apply uppercase bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-transparent bg-clip-text font-semibold;
     }
 
     .elem-dashboard {
@@ -67,7 +67,7 @@
     }
 
     .btn-show {
-        @apply bg-[#4C49ED] text-white rounded-b-3xl w-full text-center uppercase flex items-center
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white rounded-b-3xl w-full text-center uppercase flex items-center
         justify-center h-12 hover:bg-[#3b36d1] transition-colors duration-300;
     }
 

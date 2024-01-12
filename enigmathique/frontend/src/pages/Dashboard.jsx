@@ -46,6 +46,7 @@ const Dashboard = () => {
 			winRate: 75
 		}
 	];
+
 	const classGroups = [
 		{
 			name: 'A',
@@ -107,8 +108,7 @@ const Dashboard = () => {
 	return (
 		<LayoutProf>
 			<main className='flex flex-grow bg-[#F5F7FA] border-2 flex-wrap overflow-y-scroll'>
-				<div
-					className='flex bg-white w-full h-24 justify-between items-center shadow-sm'> {/*divs à changer si nécessaire*/}
+				<div className='flex bg-white w-full h-24 justify-between items-center shadow-sm'> {/*divs à changer si nécessaire*/}
 					<h2 className='h-fit font-semibold ml-7'>Vue d&apos;ensemble</h2>
 					<img className='h-fit mr-5' src={''} alt='user-icon'/>
 				</div>

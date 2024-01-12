@@ -5,16 +5,6 @@ import {Link} from 'react-router-dom';
 
 const ClassElem = (props) => {
 
-	const rateCalc = (winRate) => {
-		if (winRate < 50) {
-			return 'bas';
-		} else if (winRate < 80) {
-			return 'moyen';
-		} else {
-			return 'haut';
-		}
-	}
-
 	return (
 		<article
 			className='bg-white m-5 border-2 rounded-[30px] shadow-md w-full md:max-w-md xl:max-w-lg flex flex-col min-h-screen'>
@@ -42,7 +32,7 @@ const ClassElem = (props) => {
 			{/* Div pour les statistiques avec un texte placeholder */}
 			<div className='px-5 mt-auto'>
 				<p className='text-lg font-semibold mb-4'>Taux de
-					réussite {rateCalc(props.classGroup.winRate)} : {props.classGroup.winRate}%</p>
+					réussite moyen : {props.classGroup.winRate}%</p>
 			</div>
 
 			{/* Bouton 'Voir' */}
