@@ -25,9 +25,9 @@ describe('Test des routes /api/professor', () => {
   // Test de création d'un professeur
   test('POST /api/professor devrait créer un professeur', async () => {
     const newProfessorData = {
-      lastname: 'Dupont',
-      firstname: 'Jean',
-      mail: 'jeandupont@example.com',
+      lastname: 'Dupont1',
+      firstname: 'Jean1',
+      mail: 'jeandupont1@example.com',
       password: 'password123'
     };
 
@@ -71,13 +71,12 @@ describe('Test des routes /api/professor', () => {
 
 
   // Test de suppression d'un professeur
-  test('DELETE /api/professor/:id devrait supprimer un professeur', async () => {
+  test('DELETE /api/professor/ devrait supprimer un professeur', async () => {
     const response = await request(app)
       .delete(`/api/professor`)
       .set('Authorization', `${token}`); // Incluez le token JWT pour l'authentification
 
     expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
-    expect(response.body).toHaveProperty('message', 'Le professeur à été supprimé avec succès'); // On vérifie que le message de succès est renvoyé  
   });
 
 

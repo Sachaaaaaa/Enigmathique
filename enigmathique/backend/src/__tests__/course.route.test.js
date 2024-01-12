@@ -34,7 +34,7 @@ describe('Test des routes /api/course', () => {
     // Test de création d'une classe Seconde 1
     test('POST /api/course devrait créer une classe', async () => {
         const newCourseData = {
-        name: 'Secondes 1', // Nom de la classe
+        name: 'Secondes test', // Nom de la classe
         idProfessor: professorId // ID du professeur 
         };
 
@@ -50,7 +50,7 @@ describe('Test des routes /api/course', () => {
     // Test de création d'une classe Seconde 2
     test('POST /api/course devrait créer une classe', async () => {
         const newCourseData = {
-        name: 'Secondes 2', // Nom de la classe
+        name: 'Secondes test2', // Nom de la classe
         idProfessor: professorId // ID du professeur 
         };
 
@@ -64,7 +64,7 @@ describe('Test des routes /api/course', () => {
     });
 
     // Test de récupération des classes
-    test('GET /api/course devrait récupérer une classe', async () => {
+    test('GET /api/course devrait récupérer les classes', async () => {
         const response = await request(app)
         .get('/api/course')
         .set('Authorization', `${token}`); // Token JWT pour l'authentification
@@ -72,44 +72,52 @@ describe('Test des routes /api/course', () => {
         expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
     });
 
+    // Test de récupération d'une classe par id
+    test('GET /api/course/id devrait récupérer les élèves de la seconde 1', async () => {
+        const response = await request(app)
+        .get(`/api/course/${courseId1}`) // ID de la classe
+        .set('Authorization', `${token}`); // Token JWT pour l'authentification
+
+        expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+    });
+
     // Test de modification de la classe Seconde 1
-    test('PUT /api/course/:id devrait mettre à jour une classe', async () => {
+    test('PUT /api/course/id devrait mettre à jour une classe', async () => {
     const updatedCourseData = {
         name: 'Secondes 1 modifié', // Nom de la classe modifié
         idProfessor: professorId, // ID du professeur 
-        id: courseId1 // ID de la classe à modifier
     };
 
     const response = await request(app)
-        .put(`/api/course/`) 
+        .put(`/api/course/${courseId1}`) 
         .set('Authorization', `${token}`)
         .send(updatedCourseData);
 
-    expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+    expect(response.statusCode).toBe(201); // On s'assure que le statut est 200 (OK)
     });
 
     // Test de suppression de la classe Seconde 1
-    test('DELETE /api/course devrait supprimer une classe', async () => {
+    test('DELETE /api/course/id devrait supprimer la classe Seconde 1', async () => {
         const response = await request(app)
-        .delete('/api/course')
+        .delete(`/api/course/${courseId1}`) // ID de la classe
         .set('Authorization', `${token}`)
-        .send({ id: courseId1 }); // ID de la classe à supprimer
 
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(201);
+
     });
 
     // Test de suppression de la classe Seconde 2
-    test('DELETE /api/course devrait supprimer une classe', async () => {
+    test('DELETE /api/course/id devrait supprimer la classe Seconde 2', async () => {
         const response = await request(app)
-        .delete('/api/course')
+        .delete(`/api/course/${courseId2}`) // ID de la classe
         .set('Authorization', `${token}`)
-        .send({ id: courseId2 }); // ID de la classe à supprimer
 
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(201);
+
     });
 
      // Suppression du professeur
-    test('DELETE /api/professor/:id devrait supprimer un professeur', async () => {
+    test('DELETE /api/professor/ devrait supprimer le professeur', async () => {
         const response = await request(app)
         .delete(`/api/professor`)
         .set('Authorization', `${token}`); // Inclue le token JWT pour l'authentification
