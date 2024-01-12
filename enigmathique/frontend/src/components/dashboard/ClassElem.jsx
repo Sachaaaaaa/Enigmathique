@@ -2,8 +2,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import { Chart as ChartJS, registerables } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+ChartJS.register(...registerables);
 
 const ClassElem = (props) => {
+
+	const data = {
+		labels: ['Taux de réussite moyen'],
+		datasets: [
+			{
+				label: 'Taux de réussite moyen',
+				data: [props.classGroup.winRate],
+				backgroundColor: 'green',
+			}
+		],
+	}
+
+	const options = {
+		scales: {
+			yAxes: [{
+				gridLines: {
+					drawBorder: false,
+				},
+			}]
+		},
+	}
+
 
 	return (
 		<article
@@ -29,7 +54,8 @@ const ClassElem = (props) => {
 				</div>
 			</div>
 
-			{/* Div pour les statistiques avec un texte placeholder */}
+			{/* Div pour les statistiques */}
+			<Bar data={data} options={options}/>
 			<div className='px-5 mt-auto'>
 				<p className='text-lg font-semibold mb-4'>Taux de
 					réussite moyen : {props.classGroup.winRate}%</p>

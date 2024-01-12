@@ -144,7 +144,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						<div className='max-w-md xl:max-w-lg mx-auto'>
+						<div className='max-w-md xl:max-w-lg mx-auto p-5'>
 							<ClassElem key={currentClassIndex} classGroup={classGroups[currentClassIndex]}/>
 						</div>
 					</div>
