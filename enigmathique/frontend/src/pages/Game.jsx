@@ -5,6 +5,7 @@ import { SocketManager, socket } from '../components/SocketManager';
 import { Scene } from '../components/SceneManager';
 import { SocketContext } from '../context/socket';
 import { useSearchParams } from 'react-router-dom';
+import { ServerToClient } from '../data/socketMessages';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -20,7 +21,7 @@ const Game = () => {
 	socket.io.opts.query = { sessionId, teamId: 1 };
 
 	useEffect(() => {
-		socket.on('message', (message) => {
+		socket.on(ServerToClient.Message, (message) => {
 			console.log('Message du serveur : ' + message);
 		});
 	});

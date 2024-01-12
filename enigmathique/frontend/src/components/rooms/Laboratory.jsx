@@ -8,12 +8,13 @@ import { useGLTF } from "@react-three/drei";
 import Enigme from "../Enigme";
 import useInteractiveObject from "../../hooks/useInteractiveObject";
 import { SocketContext } from "../../context/socket";
+import { ClientToServer } from "../../data/socketMessages";
 
 export default function Room001(props) {
 	const socket = useContext(SocketContext);
 
 	useEffect(() => {
-		socket.emit("ready");
+		socket.emit(ClientToServer.RoomLoaded);
 	});
 
 	const { nodes, materials } = useGLTF("/models/Demo_Room-002.glb");
