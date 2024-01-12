@@ -9,4 +9,32 @@
     .progress-bar-off{
         @apply w-1/3 bg-[#E5E5E5] rounded-xl;
     }
+
+    .label-creation {
+        @apply text-gray-700 text-sm font-bold mb-2;
+    }
+
+    .data-selection {
+        @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight bg-white;
+    }
+
+    .label-filter-selected {
+        @apply border-b-2 border-[#0A06F4] text-[#0A06F4] w-1/4 p-4 text-center min-w-fit
+    }
+    .label-filter {
+        @apply border-b-2 border-gray-400 text-gray-400 w-1/4 p-4 text-center min-w-fit;
+    }
+    .label-filter:hover {
+        @apply text-[#7c79ff] border-[#7c79ff];
+    }
+    .chip-facile {
+        @apply w-1/2 rounded-full bg-[#4cbc9a] px-4 py-2 text-center text-white;
+    }
+    .chip-moyen {
+        @apply w-1/2 rounded-full bg-[#fb7d5bX] px-4 py-2 text-center text-white;
+    }
+    .chip-difficile {
+        @apply w-1/2 rounded-full bg-[#ff4550] px-4 py-2 text-center text-white;
+    }
+
 }
