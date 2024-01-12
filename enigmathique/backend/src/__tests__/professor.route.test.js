@@ -8,6 +8,7 @@
 const request = require('supertest');
 const express = require('express');
 const professorRoutes = require('../routes/professor.route');
+const e = require('cors');
 
 const app = 'http://localhost:5000'; 
 
@@ -24,7 +25,7 @@ describe('Test des routes /api/professor', () => {
   // Test de création d'un professeur
   test('POST /api/professor devrait créer un professeur', async () => {
     const newProfessorData = {
-      lastname: 'Dupontb',
+      lastname: 'Dupont',
       firstname: 'Jean',
       mail: 'jeandupont@example.com',
       password: 'password123'
@@ -54,17 +55,18 @@ describe('Test des routes /api/professor', () => {
   // Test de mise à jour d'un professeur (sans son id)
   test('PUT /api/professor devrait mettre à jour un professeur', async () => {
     const updatedProfessorData = {
-      lastname: 'Dupont',
-      firstname: 'Jean',
-      mail: 'jeandupontmodif@example.com',
-      password: 'password123modif'
+      lastname: 'Dupontmodif',
+      firstname: 'Jeanmodif',
+      mail: 'jeandupontmodif@example.com'
     };
+
     const response = await request(app)
       .put(`/api/professor`)
       .set('Authorization', `${token}`) // Token JWT pour l'authentification
       .send(updatedProfessorData);
 
-    expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+    expect(response.statusCode).toBe(201); // On s'assure que le statut est 201 (OK)
+    expect(response.body).toHaveProperty('message', 'Le professeur à été mise a jour avec succès'); // On vérifie que le message de succès est renvoyé  
   });
 
 
@@ -75,6 +77,7 @@ describe('Test des routes /api/professor', () => {
       .set('Authorization', `${token}`); // Incluez le token JWT pour l'authentification
 
     expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+    expect(response.body).toHaveProperty('message', 'Le professeur à été supprimé avec succès'); // On vérifie que le message de succès est renvoyé  
   });
 
 
