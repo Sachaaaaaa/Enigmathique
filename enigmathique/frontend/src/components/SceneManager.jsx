@@ -3,7 +3,6 @@ import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { Environment, OrbitControls } from '@react-three/drei';
 
-import { Model } from './testGLB';
 import { SocketContext } from '../context/socket';
 
 export const Scene = () => {
@@ -56,15 +55,7 @@ export const Scene = () => {
 			<Environment preset="sunset" />
 			<ambientLight intensity={0.4} />
 			<OrbitControls />
-<<<<<<< HEAD
-
-			{/* Mettre la scène ici
-			<Model /> */}
-			
-			<Room001 />
-=======
 			{roomComponent}
->>>>>>> 5f17efdd2138265ee1632daab78cde7cd4aa2f03
 		</>
 	);
 };

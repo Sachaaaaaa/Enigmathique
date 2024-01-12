@@ -4,9 +4,9 @@ import React, { useRef, useState, useContext, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Html } from "@react-three/drei";
 import { node } from "prop-types";
-import { SocketContext } from "../context/socket";
+import { SocketContext } from "../../context/socket";
 
-import useInteractiveObject from "./UseInteractiveObject";
+import useInteractiveObject from "../../hooks/useInteractiveObject";
 
 export function Model(props) {
 	const socket = useContext(SocketContext);
