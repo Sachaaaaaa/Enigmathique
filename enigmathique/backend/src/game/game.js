@@ -61,7 +61,7 @@ class Game {
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
 			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));
-			this.sessions[sessionId] = new Session(this, sessionId);
+			this.sessions[sessionId] = new Session(this, sessionId, 1, {});
 		}
 
 		// Crée une nouvelle équipe et l'ajoute à la session, le reste sera géré dedans
@@ -80,5 +80,12 @@ class Game {
 	}
 
 }
+
+const roomsData = {
+	'Laboratory': {
+		sceneName: 'Laboratory',
+		sceneData: {}
+	}
+};
 
 module.exports = Game;

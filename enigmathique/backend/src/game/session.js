@@ -3,13 +3,19 @@ const clc = require('cli-color');
 const { ServerToClient, ClientToServer } = require('./socketMessages');
 const SocketTeam = require('./team');
 
+const TIME_PER_ROUND = 60 * 10; // 10 minutes
+
 class Session {
-	constructor(game, sessionId, expectedTeamCount) {
+	constructor(game, sessionId, expectedTeamCount, rooms) {
 		this.game = game;
 		this.sessionId = sessionId;
 		this.teams = [];
 		this.started = false;
-		this.expectedTeamCount = 0;
+		this.expectedTeamCount = expectedTeamCount;
+		this.rooms = rooms;
+
+		this.roundStart = 0;
+		this.isPlaying = false;
 	}
 
 	getTotalTeamCount = () => {
@@ -31,14 +37,39 @@ class Session {
 		}
 	}
 
+	rotateRooms = () => {
+		// { ... }
+	}	
+
+	broadcastStartRound = () => {
+		console.log(clc.greenBright('[Session] Début du round'));
+		this.teams.forEach(team => {
+			team.sendStartRound();
+		});
+		console.log(clc.greenBright(`[Session] Lancement du timer (${TIME_PER_ROUND} secondes)`));
+		this.roundStart = Date.now();
+		this.isPlaying = true;
+	}
+
 
 
 	tick = () => {
-		//console.log(clc.cyan(`[Session ${this.sessionId}] Tick...`));
+		// Decrémente le timer si le round est en cours
+		if (this.isPlaying) {
+			const now = Date.now();
+			const elapsed = now - this.roundStart;
+			const timeLeft = TIME_PER_ROUND - elapsed / 1000;
+			console.log(clc.greenBright(`[Session] Tick: ${timeLeft} secondes restantes`));
+		} else {
+			console.log(clc.greenBright(`[Session] Tick: En attente de joueurs...`));
+		}
 	}
 
 	onTeamReady = (team) => {
-
+		// Vérifie si le nombre d'équipes est suffisant
+		if (this.getTotalTeamCount() == this.expectedTeamCount && this.areAllTeamsReady()) {
+			this.broadcastStartRound();
+		}
 	}
 }
 

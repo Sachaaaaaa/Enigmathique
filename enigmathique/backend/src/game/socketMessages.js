@@ -7,6 +7,7 @@ const ServerToClient = {
 	SwitchRoom: 'room', // + {roomTag: string}
 	Message: 'message', // + {message: string}
 	StartRound: 'startRound', // + {}
+	TeamCount: 'teamCount', // + {count: int}
 };
 
 // Messages que le client envoie au serveur

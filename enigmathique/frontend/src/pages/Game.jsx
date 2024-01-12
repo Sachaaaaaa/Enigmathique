@@ -17,7 +17,7 @@ const Game = () => {
 	}
 
 	// Met à jour l'id de session dans le handshake du socket
-	socket.io.opts.query = { sessionId };
+	socket.io.opts.query = { sessionId, teamId: 1 };
 
 	useEffect(() => {
 		socket.on('message', (message) => {

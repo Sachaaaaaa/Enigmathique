@@ -54,6 +54,11 @@ class SocketTeam {
 		this.ready = false;
 	}
 
+	sendStartRound = () => {
+		console.log(clc.greenBright('[Team] Envoi début du round'));
+		this.socket.emit(ServerToClient.StartRound, {});
+	}
+
 	clear = () => {
 	}
 }
