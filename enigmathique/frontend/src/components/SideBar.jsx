@@ -23,7 +23,7 @@ const SideBar = () => {
 					<ItemList type='game' currentPath={path}/>
 					<ItemList type='room' currentPath={path}/>
 				</ul>
-				<Link to='/creationgame'>
+				<Link to='/create-game'>
 					<button className='btn-validate'>Nouvelle partie</button>
 				</Link>
 			</section>

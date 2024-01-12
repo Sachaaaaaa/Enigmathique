@@ -14,10 +14,11 @@ const TopBar = () => {
 	} // faire une requete
 
 	const textMap ={
-		dashboard: "Tableau de bord",
-		class: "Mes classes",
-		game: "Mes parties",
-		room: "Salles d'énigmes",
+		"dashboard": "Tableau de bord",
+		"class": "Mes classes",
+		"game": "Mes parties",
+		"room": "Salles d'énigmes",
+		"create-game": "Création de partie",
 	}
 
 	let text = textMap[path[0]];
