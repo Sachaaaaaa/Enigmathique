@@ -21,10 +21,11 @@ function ModalBody({children}) {
 function Modal({setOpenModal, children, width = 500, height = 500}) {
 	// setOpenModal sert a fermer le modal quand on clique en dehors du modal
 	// Faire en sorte que le modal se ferme lorsqu'on clique en dehors
+	console.log(width)
 	return (
 		<div className='mt-0 absolute top-0 left-0 '>
 			<div className='w-full h-full fixed backdrop-blur-sm top-0'>
-				<div className={`w-[${width}px] h-[${height}px] relative m-auto bg-white rounded-lg shadow-2xl`}>
+				<div className={`p-auto bg-white relative rounded-lg shadow-2xl`} style={{width: `${width}px`, height: `${height}px`}}>
 					{children}
 				</div>
 			</div>
