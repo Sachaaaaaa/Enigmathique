@@ -27,7 +27,7 @@ const Enigme = (props) => {
 
 	const handleCheckAnswer = () => {
 		// Ajoutez ici la logique pour vérifier si la réponse est correcte (numérique)
-		const reponseCorrecte = (parseFloat(reponseUtilisateur) === 1);
+		const reponseCorrecte = (parseFloat(reponseUtilisateur) === props.reponseEnigme);
 		setReponseCorrecte(reponseCorrecte);
 	};
 
@@ -87,8 +87,8 @@ const Enigme = (props) => {
 Enigme.propTypes = {
 	titre: PropTypes.string.isRequired,
 	textEnigme: PropTypes.string.isRequired,
-	imageEnigme: PropTypes.string.isRequired,
-	reponseEnigme: PropTypes.string,
+	imageEnigme: PropTypes.string,
+	reponseEnigme: PropTypes.number,
 	indiceEnigme: PropTypes.string,
 };
 

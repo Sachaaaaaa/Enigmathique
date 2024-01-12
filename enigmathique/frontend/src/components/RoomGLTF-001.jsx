@@ -30,25 +30,62 @@ import React, { useRef, useState } from 'react';
 import { useGLTF } from '@react-three/drei';
 
 import Enigme from './Enigme';
+import useInteractiveObject from './UseInteractiveObject';
 
 export function Room001(props) {
   const { nodes, materials } = useGLTF('/models/Demo_Room-002.glb');
 
 	const mesh = useRef();
-  const [hovered, setHovered] = useState(false);
-  const [clicked, setClicked] = useState(false);
-
-  const handlePointerOver = () => {
-    setHovered(true);
+  
+	const MarmiteInt = () => {
+    const { mesh, hovered, clicked, handlePointerOver, handlePointerOut, handleClick } =
+      useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+    return (
+      <mesh
+				ref={mesh}
+				name="Marmite"
+				castShadow
+				receiveShadow
+				geometry={nodes.Marmite.geometry}
+				material={materials["Metal.001"]}
+				position={[0, 0.1, 0]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+      >
+        {hovered && <meshBasicMaterial color={0x00ff00} />}
+        {clicked && (<Enigme titre='Titre de l enigme' textEnigme='Contenue de l enigme' indiceEnigme='0<x<2' reponseEnigme={1}/>)}
+      </mesh>
+    );
   };
 
-  const handlePointerOut = () => {
-    setHovered(false);
-  };
-
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
+	const FeuilleInt = () => {
+		const { mesh, hovered, clicked, handlePointerOver, handlePointerOut, handleClick } =
+		useInteractiveObject();
+	// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+	return (
+		<mesh
+			ref={mesh}
+			name="Feuille005"
+			castShadow
+			receiveShadow
+			geometry={nodes.Feuille005.geometry}
+      material={nodes.Feuille005.material}
+      position={[0.68, 0.312, 1.228]}
+      rotation={[Math.PI / 2, 0, 0.436]}
+      scale={0.08}
+			onPointerOver={handlePointerOver}
+			onPointerOut={handlePointerOut}
+			onClick={handleClick}
+		>
+			{hovered && <meshBasicMaterial color={0x00ff00} />}
+			{clicked && (<Enigme titre='Recette de potion de souris' 
+			textEnigme='C la seule chose qui est compréhensible parmit le tas de feuille'
+			indiceEnigme='Regarder bien autour de vous'/>)}
+		</mesh>
+		);
+	};
 
   return (
     <group {...props} dispose={null}>
@@ -112,20 +149,7 @@ export function Room001(props) {
             material={materials["Metal_Vers.002"]}
           />
         </group>
-        <mesh
-          name="Marmite"
-          castShadow
-          receiveShadow
-          geometry={nodes.Marmite.geometry}
-          material={materials["Metal.001"]}
-          position={[0, 0.1, 0]}
-					onPointerOver={handlePointerOver}
-					onPointerOut={handlePointerOut}
-					onClick={handleClick}
-        >
-				{hovered && <meshBasicMaterial color={0x00ff00} />}
-        {clicked && (<Enigme titre='Titre de l enigme' textEnigme='Contenue de l enigme' indiceEnigme='0<x<2' />)}
-				</mesh>
+        <MarmiteInt	/>
         <group
           name="Cylinder002"
           position={[0, 1.39, 0]}
@@ -468,17 +492,7 @@ export function Room001(props) {
           position={[0.49, 1.14, 1.7]}
           rotation={[0.593, -Math.PI / 2, 0]}
         />
-        <mesh
-          name="Feuille005"
-          castShadow
-          receiveShadow
-          geometry={nodes.Feuille005.geometry}
-          material={nodes.Feuille005.material}
-          position={[0.68, 0.312, 1.228]}
-          rotation={[Math.PI / 2, 0, 0.436]}
-          scale={0.08}
-					
-        />
+        <FeuilleInt />
         <mesh
           name="Feuille004"
           castShadow
