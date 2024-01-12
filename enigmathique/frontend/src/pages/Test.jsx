@@ -4,7 +4,7 @@ import Join from '../components/join/Join';
 const Test = () => {
 	return (
 		<>
-			<Join professorName="Grasset-Gothon" />
+			<Join professorName='Grasset-Gothon'/>
 		</>
 	);
 };

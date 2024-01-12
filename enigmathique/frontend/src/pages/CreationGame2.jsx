@@ -9,19 +9,19 @@ const CreationGame2 = () => {
 
 	const rooms = [
 		{
-			name: "Room1",
-			difficulty: "facile",
-			cat: "proba"
+			name: 'Room1',
+			difficulty: 'facile',
+			cat: 'proba'
 		},
 		{
-			name: "Room2",
-			difficulty: "moyen",
-			cat: "suit"
+			name: 'Room2',
+			difficulty: 'moyen',
+			cat: 'suit'
 		},
 		{
-			name: "Room3",
-			difficulty: "difficile",
-			cat: "fonct"
+			name: 'Room3',
+			difficulty: 'difficile',
+			cat: 'fonct'
 		}
 	]
 
@@ -30,50 +30,50 @@ const CreationGame2 = () => {
 	}
 
 	return (
-		<div className="flex">
+		<div className='flex'>
 			<SideBar/>
-			<div className="flex-grow">
+			<div className='flex-grow'>
 				<div>
 					<h2>Séléction des salles</h2>
-					<label className="hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600 w-1/4">
+					<label className='hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600 w-1/4'>
 						<input
-							value="suit"
-							type="radio"
-							name="chapitre"
-							className="hidden"
+							value='suit'
+							type='radio'
+							name='chapitre'
+							className='hidden'
 							checked={selected === 'suit'}
 							onChange={handleChange}
 						/>
 						Suites
 					</label>
-					<label className="hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600">
+					<label className='hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600'>
 						<input
-							value="proba"
-							type="radio"
-							name="chapitre"
-							className="hidden"
+							value='proba'
+							type='radio'
+							name='chapitre'
+							className='hidden'
 							checked={selected === 'proba'}
 							onChange={handleChange}
 						/>
 						Probabilités
 					</label>
-					<label className="hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600">
+					<label className='hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600'>
 						<input
-							value="fonct"
-							type="radio"
-							name="chapitre"
-							className="hidden"
+							value='fonct'
+							type='radio'
+							name='chapitre'
+							className='hidden'
 							checked={selected === 'fonct'}
 							onChange={handleChange}
 						/>
 						Fonctions
 					</label>
-					<label className="hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600">
+					<label className='hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600'>
 						<input
-							value="ens"
-							type="radio"
-							name="chapitre"
-							className="hidden"
+							value='ens'
+							type='radio'
+							name='chapitre'
+							className='hidden'
 							checked={selected === 'ens'}
 							onChange={handleChange}
 						/>

@@ -31,17 +31,6 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 		},
 
-		// Lien vers l'équipe que l'étudiant a rejoint
-		teamId: {
-			type: Sequelize.INTEGER,
-			allowNull: true, // permettre null si l'étudiant n'est pas dans une équipe
-			references: {
-				model: 'team', // référence le modèle 'team'
-				key: 'id', // référence la clé primaire 'id' du modèle 'team'
-			},
-			onUpdate: 'CASCADE', // si une équipe est mise à jour, 'teamId' est mis à jour
-			onDelete: 'SET NULL', // si une équipe est supprimée, 'teamId' est mis à null
-		},
 
 		// Date de création de l'objet
 		createdAt: {
@@ -59,7 +48,7 @@ module.exports = (sequelize, Sequelize) => {
 
 	}, { // Options
 		freezeTableName: true, // Ne pas mettre de 's' à la fin du nom de la table
-        timestamps: true, // Active les colonnes createdAt et updatedAt
+        timestamps: false, // Active les colonnes createdAt et updatedAt
 	});
 
 	return Student;

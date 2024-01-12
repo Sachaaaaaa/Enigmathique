@@ -36,6 +36,7 @@ require("./routes/course.route.js")(app);
 require("./routes/student.route.js")(app);
 require("./routes/authentification.route.js")(app);
 require("./routes/game.route.js")(app);
+require("./routes/team.route.js")(app);
 
 
 // Route par défaut
@@ -44,7 +45,7 @@ app.get("/", (req, res) => {
 });
 
 // Lance le serveur
-const PORT = 5000;
+const PORT = process.env.NODE_ENV === 'test' ? 5001 : 5000;
 server.listen(PORT, () => {
-	console.log(`Server is running: http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

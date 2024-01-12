@@ -11,14 +11,14 @@ module.exports = app => {
 	// Créer un nouvel élève
 	router.post("/", middleware.verifyToken, student.create);
 
-	// Récupérer tous les élèves d'un classe
-	router.post("/:id", middleware.verifyToken, student.findById);
+	// Récupérer un élève à partir de son id
+	router.get("/:id", middleware.verifyToken, student.findById);
 
-	// Récupérer tous les élèves d'un professeur
-	router.get("/", middleware.verifyToken, student.findAll);
+	// Mettre a jour un élève
+	router.put("/:id", middleware.verifyToken, student.update);
 
 	// Supprime un élève d'un professeur
-	router.delete("/", middleware.verifyToken, student.delete);
+	router.delete("/:id", middleware.verifyToken, student.delete);
 
 	
 

@@ -6,15 +6,42 @@ const db = require("../models/db.js");
 const Course = db.course;
 const Op = db.Sequelize.Op;
 
+/////////////////////////////////////////////////////////////////////////////////
+// 									 FONCTIONS                                 //
+/////////////////////////////////////////////////////////////////////////////////
+
+// Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
+async function isClassBelongsProfessor(idCourse, req) {
+	try {
+
+		// Récupère toutes les classes du professeur courant
+		const data = await Course.findAll({ where: { idProfessor: req.tokenId } });
+
+		// Récupère les id correspondant aux classes du professeur courant
+		const ids = data.map(item => item.id);
+		idCourse = parseInt(idCourse)
+
+		// Vérifie que la classe appartient bien au professeur
+		return ids.includes(idCourse);
+
+	} catch (err) {
+		// Gère les erreurs
+		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+	}
+}
+  
+/////////////////////////////////////////////////////////////////////////////////
+// 									 CREATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
 // Créer et enregistrer une nouvelle classe au professeurs
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
 
 	// Valider la requête
 	if (!req.body.name) {
-		res.status(400).send({
+		return res.status(400).json({
 			message: "Il manque des informations pour créer la classe."
 		});
-		return;
 	}
 
 	// Créer une classe
@@ -24,32 +51,33 @@ exports.create = (req, res) => {
 	};
 
 	// Enregistrer la classe dans la base de données
-	Course.create(course)
+	await Course.create(course)
+
 		// Renvoie les données créées
 		.then(data => {
-			res.status(201).send(data);
+			return res.status(201).json(data);
 		})
+
 		// Gère les erreurs
 		.catch(err => {
-			res.status(500).send({
+			return res.status(500).json({
 				message: err.message || "Une erreur s'est produite lors de la création de la classe."
 			});
 		});
 }
 
-
-
+/////////////////////////////////////////////////////////////////////////////////
+// 									 READ                                      //
+/////////////////////////////////////////////////////////////////////////////////
 
 // methode pour récuperer les classes du professeur
-exports.findAll = (req, res) => {
-
-
-	Course.findAll({ where: { idProfessor: req.tokenId } })
+exports.findAll = async (req, res) => {
+	await Course.findAll({ where: { idProfessor: req.tokenId } })
 		.then(data => {
-			res.status(200).send(data);
+			return res.status(200).json(data);
 		})
 		.catch(err => {
-			res.status(500).send({
+			return res.status(500).json({
 				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
 			});
 		});	
@@ -57,39 +85,114 @@ exports.findAll = (req, res) => {
 
 
 
+// methode pour récuperer une clase du professeur par son id
+exports.findById = async (req, res) => {
+
+	// Vérifie que la classe appartient bien au professeur
+	if(! await isClassBelongsProfessor(req.params.id, req)){
+		return res.status(403).json({
+			message: "Vous n'avez pas accès à cette classe."
+		})
+	}
+
+	await Course.findAll({ where: { id: req.params.id, idProfessor: req.tokenId } })
+		.then(data => {
+			return res.status(200).json(data);
+		})
+		.catch(err => {
+			return res.status(500).json({
+				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+			});
+		});	
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 UPDATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+// methode pour mettre à jour le professeur connecté
+exports.update = async(req, res) => {
+	
+	// Valider la requête
+	if (!req.body.name) {
+		return res.status(400).json({
+			message: "Il manque des informations pour mettre à jour la classe."
+		});
+	}
+
+	// Vérifie que la classe appartient bien au professeur
+	if(! await isClassBelongsProfessor(req.params.id, req)){
+		return res.status(403).json({
+			message: "Vous n'avez pas accès à cette classe."
+		})	
+	}
+
+	// Effectue la requête de mise à jour
+	await Course.update({name: req.body.name}, {where: { id: req.params.id} })
+
+		// Vérifie que la colonne à effectivement été mise à jour
+	  .then(num => {
+		if (num == 1) {
+			return res.status(201).json({
+				message: "La classe à été mise a jour avec succès"
+			});
+
+		// Si aucunes colonnes traités on relève une erreur
+		} else {
+			return res.status(404).json({
+				message: "Impossible de mettre à jour la classe"
+			});
+		}
+	  })
+
+	  // Gère les erreurs
+	  .catch(err => {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération de la classe."
+		});
+	  });
+  };
+
+  
+
+	  
+/////////////////////////////////////////////////////////////////////////////////
+// 									 DELETE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
 
 // To do : probleme de dependence avec student
 // methode pour supprimer une classe en fonction de son id
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
 
-	// Valider la requête
-	if (!req.body.id) {
-		res.status(400).send({
-			message: "Il manque des informations pour supprimer la classe."
-		});
-		return;
+	// Vérifie que la classe appartient bien au professeur
+	if(! await isClassBelongsProfessor(req.params.id, req)){
+		return res.status(403).json({
+			message: "Vous n'avez pas accès à cette classe."
+		})
 	}
 
-	Course.destroy({ where: { id: req.body.id, idProfessor: req.tokenId} })
+	// Effectue la requête de delete
+	await Course.destroy({ where: { id: req.params.id, idProfessor: req.tokenId} })
 	.then(num => {
 
 		// Vérifie si la classe a bien été supprimé
 		if (num == 1) {
-		  res.status(200).send({
-			message: "La classe a été supprimée avec succès"
+			return res.status(201).json({
+				message: "La classe a été supprimée avec succès"
 		  });
 
 		// Si aucunes colonnes traités on relève une erreur
 		} else {
-		  res.status(500).send({
-			message: "Impossible de supprimer la classe"
+			return res.status(404).json({
+				message: "Aucune classe n'a été supprimée"
 		  });
 		}
 	  	})
 		// Gère les erreurs
 		.catch(err => {
-			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+			return res.status(500).json({
+				message: err.message || "Une erreur est intervenue durant la suppression de la classe."
 			});
 		});	
 }
@@ -97,40 +200,3 @@ exports.delete = (req, res) => {
 
 
 
-// methode pour mettre à jour une classe en fonction de son id
-exports.update = (req, res) => {
-
-	
-	// Valider la requête
-	if (!req.body.id) {
-		res.status(400).send({
-			message: "Il manque des informations pour mettre à jour une classe."
-		});
-		return;
-	}
-  
-	// Effectue la requête de mise à jour
-	Course.update(req.body, {
-
-	  where: { id: req.body.id, idProfessor: req.tokenId} })
-
-		// Vérifie que la colonne à effectivement été mise à jour
-	  .then(num => {
-		if (num == 1) {
-		  res.status(200).send({
-			message: "La classe à été mise a jour avec succès"
-		  });
-		// Si aucunes colonnes traités on relève une erreur
-		} else {
-		  res.status(500).send({
-			message: "Impossible de mettre à jour la classe"
-		  });
-		}
-	  })
-	  // Gère les erreurs
-	  .catch(err => {
-		res.status(500).send({
-			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-		});
-	  });
-  };

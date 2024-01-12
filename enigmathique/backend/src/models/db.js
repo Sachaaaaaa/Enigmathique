@@ -9,6 +9,7 @@ const dbConfig = require("../config/db.config.js");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 	host: dbConfig.HOST,
+	port:'5432',
 	dialect: dbConfig.dialect,
 	operatorsAliases: false,
 	pool: {
@@ -30,6 +31,9 @@ db.student = require("./student.model.js")(sequelize, Sequelize);
 db.course = require("./course.model.js")(sequelize, Sequelize);
 db.team = require("./team.model.js")(sequelize, Sequelize);
 db.game = require("./game.model.js")(sequelize, Sequelize);
+db.room = require("./room.model.js")(sequelize, Sequelize);
+db.score = require("./score.model.js")(sequelize, Sequelize);
+
 db.gameSession = require("./gameSession.model.js")(sequelize, Sequelize);
 db.play = require("./play.model.js")(sequelize, Sequelize);
 // TODO: ajouter le modele pour DateSupression
