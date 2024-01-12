@@ -10,11 +10,9 @@ class Session {
 		this.game = game;
 		this.sessionId = sessionId;
 		this.teams = [];
-		this.started = false;
-		this.expectedTeamCount = expectedTeamCount;
-		this.rooms = rooms;
 
 		this.roundStart = 0;
+		this.isSessionRunning = false;
 		this.isPlaying = false;
 	}
 
@@ -28,6 +26,8 @@ class Session {
 
 	addTeam = (team) => {
 		this.teams.push(team);
+
+		this.startSession();
 	}
 
 	removeTeam = (team) => {
@@ -37,8 +37,21 @@ class Session {
 		}
 	}
 
+	startSession = () => {
+		console.log(clc.greenBright('[Session] Démarrage de la session'));
+		this.isSessionRunning = true;
+
+		this.rotateRooms();
+	}
+
 	rotateRooms = () => {
-		// { ... }
+		console.log(clc.greenBright('[Session] Rotation des salles'));
+		// TODO: Rotation des salles
+
+		// Envoi la nouvelle salle à chaque équipe
+		this.teams.forEach(team => {
+			team.sendRoom('Laboratory', {});
+		});
 	}	
 
 	broadcastStartRound = () => {
@@ -60,16 +73,17 @@ class Session {
 			const elapsed = now - this.roundStart;
 			const timeLeft = TIME_PER_ROUND - elapsed / 1000;
 			console.log(clc.greenBright(`[Session] Tick: ${timeLeft} secondes restantes`));
+		} else if (this.isSessionRunning) {
+			console.log(clc.greenBright(`[Session] Tick: En attente de chargements des joueurs...`));
 		} else {
 			console.log(clc.greenBright(`[Session] Tick: En attente de joueurs...`));
 		}
 	}
 
-	onTeamReady = (team) => {
-		// Vérifie si le nombre d'équipes est suffisant
-		if (this.getTotalTeamCount() == this.expectedTeamCount && this.areAllTeamsReady()) {
-			this.broadcastStartRound();
-		}
+	onTeamLoadedRoom = (team) => {
+		
+
+		this.broadcastStartRound();
 	}
 }
 

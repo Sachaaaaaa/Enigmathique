@@ -14,6 +14,7 @@ class Game {
 	 */
 	constructor(server) {
 		this.sessions = {};
+		this.roomsData = {};
 
 		this.initSocketio(server);
 		this.loadRoomsData();
@@ -40,7 +41,10 @@ class Game {
 	 */
 	loadRoomsData = () => {
 		console.log(clc.yellow('[Game] Chargement des salles...'));
+		// Charger depuis JSON
 		// { ... }
+		// Pour l'instant
+		this.roomsData = roomsData;
 		console.log(clc.green('[Game] Données des salles chargées'));
 	}
 
@@ -81,6 +85,7 @@ class Game {
 
 }
 
+// Pour l'instant dans le code, les salles sont codées en dur
 const roomsData = {
 	'Laboratory': {
 		sceneName: 'Laboratory',

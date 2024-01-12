@@ -4,21 +4,16 @@ const { ServerToClient, ClientToServer } = require('./socketMessages');
 class SocketTeam {
 	constructor(socket, session) {
 		console.log(clc.greenBright('[Team] Nouvelle équipe'));
-		console.log(clc.greenBright('[Team] ID: '), clc.yellow(socket.id));
-		console.log(clc.greenBright('[Team] Session: '), clc.yellow(session.sessionId));
 		console.log(socket.handshake.query);
 		this.socket = socket;
 		this.gameSession = session;
 		this.teamId = socket.handshake.query.teamId;
 
 		this.socket.on(ClientToServer.Message, this.onMessage); 
-		this.socket.on(ClientToServer.Ready, this.onReady);
+		this.socket.on(ClientToServer.RoomLoaded, this.onRoomLoaded);
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
 
-		this.sendMessage('Bienvenue dans Enigmathique !');
-		this.sendRoom('Laboratory', {});
-
-		this.isReady = false;
+		this.haveLoadedRoom = false;
 	}
 
 	getSocket = () => {
@@ -35,27 +30,28 @@ class SocketTeam {
 		console.log(clc.yellowBright('[Team] Message reçu: '), clc.yellow(data));
 	}
 
-	onReady = () => {
-		console.log(clc.greenBright('[Team] Ready'));
-		this.isReady = true;
-		this.gameSession.onTeamReady(this);
+	onRoomLoaded = () => {
+		console.log(clc.yellowBright('[Team] Salle chargée'));
+		this.haveLoadedRoom = true;
+
+		this.gameSession.onTeamLoadedRoom(this);
 	}
 
 	sendMessage = (message) => {
-		console.log(clc.greenBright('[Team] Envoi message: '), clc.yellow(message));
+		console.log(clc.yellowBright('[Team] Envoi message: '), clc.yellow(message));
 		this.socket.emit(ServerToClient.Message, message);
 	}
 
 	sendRoom = (roomName, roomData) => {
-		console.log(clc.greenBright('[Team] Envoi salle: '), clc.yellow(roomName));
+		console.log(clc.yellowBright('[Team] Envoi salle: '), clc.yellow(roomName));
 
 		this.socket.emit(ServerToClient.SwitchRoom, { roomName, roomData });
-		// Attends que le client charge la scène
-		this.ready = false;
+		// Attends que le client charge la room
+		this.haveLoadedRoom = false;
 	}
 
 	sendStartRound = () => {
-		console.log(clc.greenBright('[Team] Envoi début du round'));
+		console.log(clc.yellowBright('[Team] Envoi début du round'));
 		this.socket.emit(ServerToClient.StartRound, {});
 	}
 
