@@ -15,6 +15,7 @@ const ClientToServer = {
 	Message: 'message', // + {message: string}
 	Submit: 'submit', // + {answer: string}
 	Hint: 'hint', // + {hint: string}
+	Ready: 'ready', // { }
 };
 
 module.exports = {

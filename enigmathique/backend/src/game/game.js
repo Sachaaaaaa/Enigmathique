@@ -50,9 +50,15 @@ class Game {
 		// Permet de gérér la déconnexion
 		socket.on(ClientToServer.Disconnection, (socket) => this.handleDisconnection(socket));
 
-		// Crée une nouvelle équipe
-		const team = new SocketTeam(socket, this);
-		team.
+		// Sleep 5s
+		setTimeout(() => {
+			// Crée une nouvelle équipe
+			const team = new SocketTeam(socket, this);
+			team.sendMessage('Bienvenue !');
+			team.sendScene('Laboratory', {});
+		}, 5000);
+
+
 	}
 
 	run(ticksPerSecond) {

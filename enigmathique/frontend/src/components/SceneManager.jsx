@@ -16,6 +16,7 @@ export const Scene = () => {
 	useEffect(() => {
 		if (roomName) {
 			const importComponent = async () => {
+				console.log('Chargement de la scène : ' + roomName);
 				const module = await import(`./rooms/${roomName}.jsx`);
 				const AnotherComponent = module.default;
 				setRoomComponent(<AnotherComponent />);
@@ -24,6 +25,21 @@ export const Scene = () => {
 			importComponent();
 		}
 	}, [roomName]);
+
+	// Ecoute les changements de scène
+	useEffect(() => {
+		// { roomName, roomData }
+		socket.on('room', (data) => {
+			console.log('Changement de room : ' + data.roomName);
+			setRoomName(data.roomName);
+		});
+
+		socket.emit('ready');
+
+		return () => {
+			socket.off('room');
+		};
+	}, []);
 
 	return (
 		<>

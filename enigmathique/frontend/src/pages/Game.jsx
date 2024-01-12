@@ -22,16 +22,22 @@ const Game = () => {
 
 	useEffect(() => {
 		// Si le socket est déconnecté, on quitte la page
+		
+		socket.on('connect', () => {
+			console.log('Connecté');
+		});
+		
 		socket.on('disconnect', () => {
 			console.log('Déconnecté');
 		});
 
-		socket.on('connect', () => {
-			console.log('Connecté');
+		socket.on('message', (message) => {
+			console.log('Message du serveur : ' + message);
 		});
 
 		socket.connect();
 		console.log('Tentative de connexion');
+
 	});
 
 	return (
