@@ -2,49 +2,39 @@
 import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { Environment, OrbitControls } from '@react-three/drei';
-import { socket } from '../context/socket';
+import { SocketContext } from '../context/socket';
+import { ClientToServer, ServerToClient } from '../data/socketMessages';
 
 export const Scene = () => {
-	const [roomComponent, setRoomComponent] = useState(null);
-	const [roomName, setRoomName] = useState(null);
+	const socket = useContext(SocketContext);
+
+	const [room, setRoom] = useState({name: null, data: null, component: null});
 
 	// Charge la scène en fonction de son nom
 	useEffect(() => {
-		if (roomName) {
+		if (room.name) {
 			const importComponent = async () => {
-				console.log('Chargement de la scène : ' + roomName);
-				const module = await import(`./rooms/${roomName}.jsx`);
+				console.log('Chargement de la scène : ' + room.name);
+				const module = await import(`./rooms/${room.name}.jsx`);
 				const AnotherComponent = module.default;
-				setRoomComponent(<AnotherComponent />);
+				setRoom((val) => ({ ...val, component: <AnotherComponent />}));
 			};
 	
 			importComponent();
 		}
-	}, [roomName]);
+	}, [room.name]);
 
 	// Ecoute les changements de scène
-	useEffect(() => {
-		socket.on('connect', () => {
-			console.log('Connecté au serveur');
-		});
-
-		socket.on('disconnect', () => {
-			console.log('Déconnecté du serveur');
-		});
-
-		// { roomName, roomData }
-		socket.on('room', (data) => {
-			console.log(data);
-			console.log('Changement de room : ' + data.roomName);
-			setRoomName(data.roomName);
+	useEffect(() => {	
+		socket.on(ServerToClient.SwitchRoom, ({roomName, roomData}) => {
+			console.log('Changement de room : ' + roomName);
+			setRoom({name: roomName, data: roomData, component: null});
 		});
 
 		socket.connect('http://localhost:4000');
 
 		return () => {
-			socket.off('connect');
-			socket.off('disconnect');
-			socket.off('room');
+			socket.off(ServerToClient.SwitchRoom);
 		};
 	}, []);
 
@@ -53,7 +43,7 @@ export const Scene = () => {
 			{ /* <Environment preset="sunset" /> */ }
 			<ambientLight intensity={0.4} />
 			<OrbitControls />
-			{roomComponent}
+			{room.component}
 		</>
 	);
 };
