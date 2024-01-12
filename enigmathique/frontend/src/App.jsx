@@ -8,7 +8,6 @@ import Dashboard from './pages/Dashboard';
 import Game from './pages/Game';
 import Class from './pages/Class';
 import Students from './pages/Students';
-import CreationGame2 from './pages/CreationGame2';
 import './index.css';
 import CreationGame3 from './pages/CreationGame3';
 import CreateGame from "./pages/CreateGame";
@@ -26,7 +25,6 @@ const App = () => {
 				<Route path='/dashboard' element={<Dashboard/>}/>
 				<Route path='/class' element={<Class/>}/>
 				<Route path='/class/:id' element={<Students/>}/>
-				<Route path='/creationgame2' element={<CreationGame2/>}/>
 				<Route path='/creationgame3' element={<CreationGame3/>}/>
 				<Route path='/game' element={<Game/>}/>
 				<Route path='/create-game' element={<CreateGame/>}/>
