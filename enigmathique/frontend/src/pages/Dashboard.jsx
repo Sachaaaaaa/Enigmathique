@@ -1,6 +1,6 @@
-import {useState, useEffect} from "react";
+import React from 'react';
+import {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-
 import ClassElem from '../components/dashboard/ClassElem';
 import RoomElem from '../components/dashboard/RoomElem';
 import GameElem from '../components/dashboard/GameElem';
@@ -118,7 +118,7 @@ const Dashboard = () => {
 						<div className="flex-grow p-5">
 							<div className="flex justify-between">
 								<h2 className="block font-semibold">Mes Parties</h2>
-								<Link to="" className="block font-semibold">Voir tout</Link>
+								<Link to="" className="block font-semibold hover:underline">Voir tout</Link>
 							</div>
 							<div className="flex justify-around ">
 								{games.map((game, index) => (
@@ -129,7 +129,7 @@ const Dashboard = () => {
 						<div className="flex-grow p-5">
 							<div className="flex justify-between">
 								<h2 className="block font-semibold">Proposition de salles</h2>
-								<Link to="" className="block font-semibold">Voir tout</Link>
+								<Link to="" className="block font-semibold hover:underline">Voir tout</Link>
 							</div>
 							<div className="flex justify-around">
 								{selectedRooms.map((room,index) => (
@@ -147,7 +147,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						<div className="max-w-md xl:max-w-lg mx-auto">
+						<div className="max-w-md xl:max-w-lg mx-auto pr-5">
 							<ClassElem key={currentClassIndex} classGroup={classGroups[currentClassIndex]}/>
 						</div>
 					</div>
