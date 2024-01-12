@@ -1,97 +1,81 @@
 import React, {useState} from 'react';
-import RoomItem from './RoomItem';
-import {useCreationGameContext} from '../../contexts/CreationGame.context';
+import {initialFormData, useCreationGameContext} from '../../contexts/CreationGame.context';
 import '../../../index.css';
-
+import {Link} from 'react-router-dom';
+import RoomNav from "./RoomNav";
+import Room from "./Room";
 
 const CreationGame2 = () => {
 
 	const [selected, setSelected] = useState('suit');
-	const {setStep} = useCreationGameContext();
+	const {setStep, setFormData} = useCreationGameContext();
 
 	const rooms = [
 		{
-			name: 'Room1',
-			difficulty: 'facile',
-			cat: 'proba'
+			id:1,
+			name: 'La menuiserie Seguin',
+			difficulty: 'Facile',
+			cat: 'proba',
+			riddles: 5,
+			winrate: 99,
 		},
 		{
-			name: 'Room2',
-			difficulty: 'moyen',
-			cat: 'suit'
+			id:2,
+			name: 'La menuiserie Seguin',
+			difficulty: 'Difficile',
+			cat: 'proba',
+			riddles: 5,
+			winrate: 45,
 		},
 		{
-			name: 'Room3',
-			difficulty: 'difficile',
-			cat: 'fonct'
-		}
+			id:3,
+			name: 'La menuiserie Seguin',
+			difficulty: 'Moyen',
+			cat: 'proba',
+			riddles: 5,
+			winrate: 70,
+		},
+		{
+			id:4,
+			name: 'La menuiserie Seguin',
+			difficulty: 'Facile',
+			cat: 'proba',
+			riddles: 5,
+			winrate: 99,
+		},
+
 	]
 
-	const handleChange = changeEvent => {
-		setSelected(changeEvent.target.value);
-	}
-	const handleSuivant = () => {
-		alert('Pas encore implémenté');
-	}
+
+
 	const handlePrecedent = () => {
 		setStep(1);
 	}
 
+	const handleSuivant = (event) => {
+		if (confirm("Les informations entrées sont exactes ?")) {
+			setFormData(initialFormData)
+			return;
+		}
+		event.preventDefault();
+		//TODO: Creation de la game et get de l'id
+	}
+
 	return (
-		<section className='flex flex-col h-full w-full'>
-			<nav>
-				<h2>Séléction des salles</h2>
-				<label className='hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600 w-1/4'>
-					<input
-						value='suit'
-						type='radio'
-						name='chapitre'
-						className='hidden'
-						checked={selected === 'suit'}
-						onChange={handleChange}
-					/>
-					Suites
-				</label>
-				<label className='hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600'>
-					<input
-						value='proba'
-						type='radio'
-						name='chapitre'
-						className='hidden'
-						checked={selected === 'proba'}
-						onChange={handleChange}
-					/>
-					Probabilités
-				</label>
-				<label className='hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600'>
-					<input
-						value='fonct'
-						type='radio'
-						name='chapitre'
-						className='hidden'
-						checked={selected === 'fonct'}
-						onChange={handleChange}
-					/>
-					Fonctions
-				</label>
-				<label className='hover:bg-gray-300 has-[:checked]:border-b-2 border-indigo-600'>
-					<input
-						value='ens'
-						type='radio'
-						name='chapitre'
-						className='hidden'
-						checked={selected === 'ens'}
-						onChange={handleChange}
-					/>
-					Ensembles
-				</label>
-			</nav>
+		<section className='flex flex-col h-full w-full p-10 gap-4'>
 			<section>
-				{rooms.map((room, index) => (
-					room.cat === selected && <RoomItem key={index} name={room.name} difficulty={room.difficulty}/>
-				))}
+				<h1 className='text-2xl pl-4'>Sélection des salles</h1>
 			</section>
-			<section>
+
+			<RoomNav/>
+			<section className='w-full h-4/6'>
+				{rooms.map((room, index) => {
+					//TODO: Implementer le filtrage
+					return(<Room key={room.id} name={room.name} difficulty={room.difficulty} riddles={room.riddles} winrate={room.winrate} id={room.id}/>);
+				})}
+			</section>
+
+			<section className="flex flex-row justify-evenly items-end w-5/6">
 				<button
 					className='btn-cancel'
 					type='submit'
@@ -99,13 +83,9 @@ const CreationGame2 = () => {
 				>
 					Retour
 				</button>
-				<button
-					className='btn-validate'
-					type='submit'
-					onClick={handleSuivant}
-				>
+				<Link className='btn-validate' to='/pregame/AG874AJ' onClick={handleSuivant}>
 					Suivant
-				</button>
+				</Link>
 			</section>
 
 		</section>
