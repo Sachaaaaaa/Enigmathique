@@ -5,6 +5,8 @@ import RoomElem from '../components/dashboard/RoomElem';
 import GameElem from '../components/dashboard/GameElem';
 import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
+import { FaAngleLeft } from 'react-icons/fa6';
+import { FaAngleRight } from 'react-icons/fa6';
 
 
 const Dashboard = () => {
@@ -108,16 +110,12 @@ const Dashboard = () => {
 	return (
 		<LayoutProf>
 			<main className='flex flex-grow bg-[#F5F7FA] border-2 flex-wrap overflow-y-scroll'>
-				<div className='flex bg-white w-full h-24 justify-between items-center shadow-sm'> {/*divs à changer si nécessaire*/}
-					<h2 className='h-fit font-semibold ml-7'>Vue d&apos;ensemble</h2>
-					<img className='h-fit mr-5' src={''} alt='user-icon'/>
-				</div>
 				<div className='flex'>
 					<div className='flex-grow mr-2 flex-wrap max-w-[1000px]'>
 						<div className='flex-grow p-5'>
 							<div className='flex justify-between'>
 								<h2 className='block font-semibold'>Mes Parties</h2>
-								<Link to='' className='block font-semibold'>Voir tout</Link>
+								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
 							</div>
 							<div className='flex justify-around '>
 								{games.map((game, index) => (
@@ -128,7 +126,7 @@ const Dashboard = () => {
 						<div className='flex-grow p-5'>
 							<div className='flex justify-between'>
 								<h2 className='block font-semibold'>Proposition de salles</h2>
-								<Link to='' className='block font-semibold'>Voir tout</Link>
+								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
 							</div>
 							<div className='flex justify-around'>
 								{selectedRooms.map((room, index) => (
@@ -141,8 +139,8 @@ const Dashboard = () => {
 						<div className='flex justify-between items-center'>
 							<h2 className='block font-semibold'>Mes Classes</h2>
 							<div>
-								<button onClick={prevClass}>{'<'}</button>
-								<button onClick={nextClass}>{'>'}</button>
+								<button onClick={prevClass}><FaAngleLeft /></button>
+								<button onClick={nextClass}><FaAngleRight /></button>
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}

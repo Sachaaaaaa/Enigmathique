@@ -7,25 +7,25 @@ const ClassElem = (props) => {
 
 	return (
 		<article
-			className='bg-white m-5 border-2 rounded-[30px] shadow-md w-full md:max-w-md xl:max-w-lg flex flex-col min-h-screen'>
+			className='bg-white m-5 border-2 rounded-[30px] shadow-md w-full md:max-w-md xl:max-w-lg flex flex-col min-h-[700px]'>
 			<div className='p-5'>
-				<h3 className='text-lg font-semibold'>NOM</h3>
-				<p className='text-xl mb-4'>Seconde {props.classGroup.name}</p>
+				<h3 className='txt-dashboard'>NOM</h3>
+				<p className='mb-4'>Seconde {props.classGroup.name}</p>
 
 				<div className='grid grid-cols-2 gap-4 mb-4'>
 					<div>
-						<h3 className='text-lg font-semibold'>ÉLÈVES</h3>
-						<p className='text-xl'>{props.classGroup.nbStudents}</p>
+						<h3 className='txt-dashboard'>ÉLÈVES</h3>
+						<p className=''>{props.classGroup.nbStudents}</p>
 					</div>
 					<div>
-						<h3 className='text-lg font-semibold'>NOMBRE DE PARTIES JOUÉES</h3>
-						<p className='text-xl'>{props.classGroup.nbGames}</p>
+						<h3 className='txt-dashboard'>NOMBRE DE PARTIES JOUÉES</h3>
+						<p className=''>{props.classGroup.nbGames}</p>
 					</div>
 				</div>
 
 				<div>
-					<h3 className='text-lg font-semibold'>DERNIÈRE PARTIE</h3>
-					<p className='text-xl mb-4'>{props.classGroup.lastGame}</p>
+					<h3 className='txt-dashboard'>DERNIÈRE PARTIE</h3>
+					<p className='mb-4'>{props.classGroup.lastGame}</p>
 				</div>
 			</div>
 
