@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import SideBar from '../components/SideBar';
-import WaitingTeams from '../components/creation3/WaitingTeams';
-import AcceptedTeams from '../components/creation3/AcceptedTeams';
+import WaitingTeams from '../components/preGame/WaitingTeams';
+import AcceptedTeams from '../components/preGame/AcceptedTeams';
 import TeamContext from '../components/creation3/Teams.context';
 import LayoutProf from "../layouts/LayoutProf";
 
