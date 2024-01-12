@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import SideBar from '../components/SideBar';
 import WaitingTeams from '../components/creation3/WaitingTeams';
 import AcceptedTeams from '../components/creation3/AcceptedTeams';
 import TeamContext from '../components/creation3/Teams.context';
+import LayoutProf from "../layouts/LayoutProf";
 
 const CreationGame3 = () => {
 
@@ -72,10 +72,9 @@ const CreationGame3 = () => {
 	}
 
 	return (
-		<TeamContext.Provider value={{teams, setTeams}}>
-			<div className="flex">
-				<SideBar/>
-				<main className="flex flex-col gap-4 w-full h-screen p-4">
+		<LayoutProf>
+			<TeamContext.Provider value={{teams, setTeams}}>
+				<main className="flex flex-col gap-4 w-full h-full p-4">
 					<h1 className="text-3xl">Validation des équipes</h1>
 					<section className="flex flex-row justify-evenly w-full">
 						<WaitingTeams/>
@@ -86,8 +85,8 @@ const CreationGame3 = () => {
 						</button>
 					</section>
 				</main>
-			</div>
-		</TeamContext.Provider>
+			</TeamContext.Provider>
+		</LayoutProf>
 	);
 };
 
