@@ -2,11 +2,9 @@
 import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { Environment, OrbitControls } from '@react-three/drei';
-
-import { SocketContext } from '../context/socket';
+import { socket } from '../context/socket';
 
 export const Scene = () => {
-	const socket = useContext(SocketContext);
 	const [roomComponent, setRoomComponent] = useState(null);
 	const [roomName, setRoomName] = useState(null);
 
@@ -41,7 +39,7 @@ export const Scene = () => {
 			setRoomName(data.roomName);
 		});
 
-		socket.connect();
+		socket.connect('http://localhost:4000');
 
 		return () => {
 			socket.off('connect');
@@ -52,7 +50,7 @@ export const Scene = () => {
 
 	return (
 		<>
-			<Environment preset="sunset" />
+			{ /* <Environment preset="sunset" /> */ }
 			<ambientLight intensity={0.4} />
 			<OrbitControls />
 			{roomComponent}

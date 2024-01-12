@@ -7,11 +7,10 @@ import { useGLTF } from "@react-three/drei";
 
 import Enigme from "../Enigme";
 import useInteractiveObject from "../../hooks/useInteractiveObject";
-import { SocketContext } from "../../context/socket";
+import { socket } from "../../context/socket";
 import { ClientToServer } from "../../data/socketMessages";
 
 export default function Room001(props) {
-	const socket = useContext(SocketContext);
 
 	useEffect(() => {
 		socket.emit(ClientToServer.RoomLoaded);

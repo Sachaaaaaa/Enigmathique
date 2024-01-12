@@ -1,9 +1,6 @@
 const io = require('socket.io')();
 const Game = require('./game');
-
-io.on('connect', (socket) => {
-	console.log('Nouvelle connexion ' + socket.id);
-});
+const { ClientToServer } = require('./socketMessages');
 
 const game = new Game(io);
 

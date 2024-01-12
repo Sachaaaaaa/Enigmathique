@@ -4,25 +4,11 @@ import React, { useRef, useState, useContext, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Html } from "@react-three/drei";
 import { node } from "prop-types";
-import { SocketContext } from "../../context/socket";
 
 import useInteractiveObject from "../../hooks/useInteractiveObject";
 
 export function Model(props) {
-	const socket = useContext(SocketContext);
 	const { nodes, materials } = useGLTF("/models/test.glb");
-
-	useEffect(() => {
-		const onGameEvent = (data) => {
-			console.log('Evenement de jeu: ' + data);
-		};
-
-		socket.on('gameEvent', onGameEvent);
-
-		return () => {
-			socket.off('gameEvent', onGameEvent);
-		};
-	}, []);
 
 	const [gameState, setGameState] = useState({
 		'suzanneClicked': false,
@@ -30,14 +16,6 @@ export function Model(props) {
 	});
 	
 	const handleCickSuzanne = (e) => {
-		setGameState({
-			...gameState,
-			'suzanneClicked': true,
-		});
-		console.log("Suzanne clicked");
-		console.log(gameState);
-
-		socket.emit('message', 'J\'ai cliqué sur Suzanne mdr');
 	};
 
 	// Initialiser d'un objet interactif avec le hook
