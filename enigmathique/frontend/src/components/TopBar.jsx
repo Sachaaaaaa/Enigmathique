@@ -31,7 +31,7 @@ const TopBar = () => {
 
 
 	return(
-		<section className="flex flex-row p-6 items-center border-b-2 border-[#E6EFF5]">
+		<section className="topbar-container">
 			<div className="w-11/12">
 				<h1 className="text-3xl">{text}</h1>
 			</div>
