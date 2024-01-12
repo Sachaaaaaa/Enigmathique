@@ -7,11 +7,11 @@ const RoomElem = (props) => {
 	return (
 		<article className='bg-white m-5 border-2 rounded-3xl shadow-md overflow-hidden w-1/3 flex flex-col'>
 			<figure className='relative h-40 bg-blue-500 rounded-t-3xl'
-			        style={{
-				        backgroundImage: `url(${props.room.image})`,
-				        backgroundSize: 'cover',
-				        backgroundPosition: 'center'
-			        }}>
+					style={{
+						backgroundImage: `url(${props.room.image})`,
+						backgroundSize: 'cover',
+						backgroundPosition: 'center'
+					}}>
 				<figcaption className='absolute text-white font-bold bottom-2 left-4'>{props.room.name}</figcaption>
 			</figure>
 			<div className='flex-grow flex flex-col justify-between'>
