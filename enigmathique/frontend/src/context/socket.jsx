@@ -1,6 +1,9 @@
+import { createContext, useContext } from 'react';
 import { io } from 'socket.io-client';
-import { createContext, useContext, useEffect, useState } from 'react';
 
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000';
+export const SocketContext = createContext();
 
-export const socket = io(URL);
+export const useSocket = () => useContext(SocketContext);
+
+const URL = 'http://localhost:4000';
+export const socket = io(URL, { autoConnect: false });
