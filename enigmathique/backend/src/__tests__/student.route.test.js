@@ -85,55 +85,50 @@ describe('Test des routes /api/student', () => {
     
 
     // Test de récupération des élève d'une classe du professeur
-    test('GET /api/student devrait récupérer un élève', async () => {
+    test('GET /api/student devrait récupérer l élève 1', async () => {
         const response = await request(app)
-            .get('/api/student')
+            .get(`/api/student/${studentId1}`) // ID de l'élève dans l'URL
             .set('Authorization', `${token}`) // Token JWT pour l'authentification
-            .send({ idCourse: courseId }); // ID de la classe
 
         expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
     });
 
     // Test de récupération des élève des classe du professeur
-    test('GET /api/student devrait récupérer un élève', async () => {
+    test('GET /api/student devrait récupérer l élève 2', async () => {
         const response = await request(app)
-            .get('/api/student')
+            .get(`/api/student/${studentId2}`) // ID de l'élève dans l'URL
             .set('Authorization', `${token}`) // Token JWT pour l'authentification
 
         expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
     });
 
 
-    /* TODO: décommenter les tests suivants lorsque la méthode delete sera implémentée (dans le controller et le routeur)
-
-    // Test suppression d'un élève
-    test('DELETE /api/student/:id devrait supprimer un élève', async () => {
+    // Test suppression de l'élève n°1
+    test('DELETE /api/student/id devrait supprimer un élève', async () => {
         const response = await request(app)
-            .delete(`/api/student/`)
+            .delete(`/api/student/${studentId1}`) // Id de l'élève à supprimer
             .set('Authorization', `${token}`) // Token JWT pour l'authentification
-            .send({ id: studentId1 }); // ID de l'élève à supprimer
 
-        expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+        expect(response.statusCode).toBe(201); // On s'assure que le statut est 200 (OK)
     });
 
-    // Test suppression d'un élève
-    test('DELETE /api/student/:id devrait supprimer un élève', async () => {
+    // Test suppression de l'élève n°2
+    test('DELETE /api/student/id devrait supprimer un élève', async () => {
         const response = await request(app)
-            .delete(`/api/student/`)
+            .delete(`/api/student/${studentId2}`)// Id de l'élève à supprimer
             .set('Authorization', `${token}`) // Token JWT pour l'authentification
-            .send({ id: studentId2 }); // ID de l'élève à supprimer
 
-        expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+        expect(response.statusCode).toBe(201); // On s'assure que le statut est 200 (OK)
     });
 
     // suppression de la classe
-    test('DELETE /api/course/:id devrait supprimer une classe', async () => {
+     test('DELETE /api/course/id devrait supprimer la classe Seconde 2', async () => {
         const response = await request(app)
-            .delete(`/api/course/`)
-            .set('Authorization', `${token}`) // Token JWT pour l'authentification
-            .send({ id: courseId }); // ID de la classe à supprimer
+        .delete(`/api/course/${courseId}`) // ID de la classe
+        .set('Authorization', `${token}`)
 
-        expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+        expect(response.statusCode).toBe(201);
+
     });
 
     // Suppression du professeur
@@ -145,6 +140,4 @@ describe('Test des routes /api/student', () => {
         expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
 
     });
-
-    */
 });
