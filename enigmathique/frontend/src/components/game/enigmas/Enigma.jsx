@@ -21,8 +21,6 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	return (
 		<Html>
 			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
-				<h1>{enigmaData.title}</h1>
-				<p>Text</p>
 
 				{enigmaDisplayTemplate({ enigmaData })}
 

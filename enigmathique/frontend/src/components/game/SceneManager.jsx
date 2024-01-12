@@ -40,7 +40,7 @@ export const Scene = () => {
 
 	return (
 		<>
-			{/* <Environment preset="sunset" /> */}
+			<Environment preset="sunset" />
 			<ambientLight intensity={0.4} />
 			<OrbitControls />
 			{room.component}

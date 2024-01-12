@@ -9,7 +9,7 @@ import Enigma from "../enigmas/Enigma";
 import useInteractiveObject from "../../../hooks/useInteractiveObject";
 import { SocketContext } from "../../../context/SocketContext";
 import { ClientToServer } from "../../../data/socketMessages";
-import ImageDisplayTemplate from "../enigmas/BasicDisplayTemplate";
+import BasicDisplayTemplate from "../enigmas/BasicDisplayTemplate";
 
 export default function Room001(props) {
 	const socket = useContext(SocketContext);
@@ -51,7 +51,7 @@ export default function Room001(props) {
 					<Enigma						
 						enigmaId={0}
 						closeEnigma={forceExit}
-						enigmaDisplayTemplate={(data)=> <ImageDisplayTemplate image={data.image} />}
+						enigmaDisplayTemplate={(data)=> <BasicDisplayTemplate title='La Marmite' description='Une description bien longue....' image={data.image} />}
 					/>
 				)}
 			</mesh>
