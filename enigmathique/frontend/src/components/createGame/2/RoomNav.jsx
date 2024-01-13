@@ -9,9 +9,9 @@ const RoomNav = () => {
 
 	const {filter, setFilter} = useCreationGameContext();
 
-	const handleChangeType = (e) => {
+	const handleChangeCat = (e) => {
 		console.log(filter);
-		setFilter({...filter, type: e.target.value});
+		setFilter({...filter, cat: e.target.value});
 	}
 	const handleChangeText = (e) => {
 		console.log(filter);
@@ -31,47 +31,47 @@ const RoomNav = () => {
 				/>
 			</section>
 			<section className="flex flex-row justify-center items-center">
-				<label className={filter.type === 'suit'?'label-filter-selected':'label-filter'}>
+				<label className={filter.cat === 'suit'?'label-filter-selected':'label-filter'}>
 					<input
 						value='suit'
 						type='radio'
 						name='chapitre'
 						className='hidden'
-						checked={filter.type === 'suit'}
-						onChange={handleChangeType}
+						checked={filter.cat === 'suit'}
+						onChange={handleChangeCat}
 					/>
 					Suites
 				</label>
-				<label className={filter.type === 'proba'?'label-filter-selected':'label-filter'}>
+				<label className={filter.cat === 'proba'?'label-filter-selected':'label-filter'}>
 					<input
 						value='proba'
 						type='radio'
 						name='chapitre'
 						className='hidden'
-						checked={filter.type === 'proba'}
-						onChange={handleChangeType}
+						checked={filter.cat === 'proba'}
+						onChange={handleChangeCat}
 					/>
 					Probabilités
 				</label>
-				<label className={filter.type === 'fonct'?'label-filter-selected':'label-filter'}>
+				<label className={filter.cat === 'fonct'?'label-filter-selected':'label-filter'}>
 					<input
 						value='fonct'
 						type='radio'
 						name='chapitre'
 						className='hidden'
-						checked={filter.type === 'fonct'}
-						onChange={handleChangeType}
+						checked={filter.cat === 'fonct'}
+						onChange={handleChangeCat}
 					/>
 					Fonctions
 				</label>
-				<label className={filter.type === 'ens'?'label-filter-selected':'label-filter'}>
+				<label className={filter.cat === 'ens'?'label-filter-selected':'label-filter'}>
 					<input
 						value='ens'
 						type='radio'
 						name='chapitre'
 						className='hidden'
-						checked={filter.type === 'ens'}
-						onChange={handleChangeType}
+						checked={filter.cat === 'ens'}
+						onChange={handleChangeCat}
 					/>
 					Ensembles
 				</label>
