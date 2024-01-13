@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { extend } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 
-import { socket } from '../../../context/SocketContext';
-import { ClientToServer } from '../../../data/socketMessages';
 import { useRoom } from '../../../context/RoomContext';
+import { useSocket } from '../../../context/SocketContext';
+import { ClientToServer } from '../../../data/socketMessages';
 
 extend({ Html });
 
 const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	const { room } = useRoom();
+	const socket = useSocket();
 
 	// Recupère les données dynamiques de l'énigme (envoyées par le serveur)
 	if (!room.data.enigmas[enigmaId]) {
@@ -18,19 +19,17 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	}
 	const enigmaData = room.data.enigmas[enigmaId];
 
+	const handleSubmitAnswer = (data) => {
+		socket.emit(ClientToServer.Submit, data);
+	};
+
 	return (
 		<Html>
 			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
 
-				{enigmaDisplayTemplate({ enigmaData })}
+				{enigmaDisplayTemplate(enigmaData, handleSubmitAnswer)}
 
-				<input
-					type="text"
-					placeholder="Enter your answer"
-					className="m-1.5 p-1.5"
-				/>
 
-				<button className="m-1.5">Check Answer</button>
 
 				<button onClick={closeEnigma} className="mt-3">
 					Go Back
