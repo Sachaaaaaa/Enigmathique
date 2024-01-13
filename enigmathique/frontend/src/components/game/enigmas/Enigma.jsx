@@ -33,7 +33,7 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 				<button className="m-1.5">Check Answer</button>
 
 				<button onClick={closeEnigma} className="mt-3">
-					Go Back
+					Fermer
 				</button>
 			</div>
 		</Html>
