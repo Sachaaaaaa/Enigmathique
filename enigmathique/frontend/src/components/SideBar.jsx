@@ -4,20 +4,21 @@ import logo from '../assets/img/logo-enigmathique.png';
 import PropTypes from 'prop-types';
 import {IconContext} from 'react-icons';
 import {MdCollectionsBookmark, MdDoorFront, MdGames, MdHome} from 'react-icons/md';
-import {useCreationGameContext, initialFormData} from "./contexts/CreationGame.context";
+import {useCreationGameContext, initialFormData, initialFilterData} from "./contexts/CreationGame.context";
 
 
 const SideBar = () => {
 
 	const location = useLocation();
 	const path = location.pathname;
-	const {setFormData} = useCreationGameContext();
+	const {setFormData, setFilterData} = useCreationGameContext();
 
 	const handleNav = (event) => {
 		console.log(path)
 		if (path === "/create-game") {
 			if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
-				setFormData(initialFormData)
+				setFormData(initialFormData);
+				setFilterData(initialFilterData);
 				return;
 			}
 			event.preventDefault();
