@@ -3,6 +3,7 @@ import {useCreationGameContext} from "../../contexts/CreationGame.context";
 import {FaSearch} from 'react-icons/fa';
 import {IconContext} from 'react-icons';
 import '../createGame.css'
+import SearchInput from "../../SearchInput";
 
 
 const RoomNav = () => {
@@ -19,17 +20,7 @@ const RoomNav = () => {
 	}
 	return(
 		<nav className='flex flex-row justify-end w-full h-[7%] pr-4 gap-12'>
-			<section className='flex flex-row items-center justify-center bg-white rounded-full p-4 gap-2 shadow'>
-				<IconContext.Provider value={{className: 'text-[#0a06f4]'}} >
-					<FaSearch/>
-				</IconContext.Provider>
-				<input
-					type='text'
-					placeholder='Rechercher'
-					onChange={handleChangeText}
-					className="focus:border-transparent"
-				/>
-			</section>
+			<SearchInput handleChangeText={handleChangeText}/>
 			<section className="flex flex-row justify-center items-center">
 				<label className={filter.cat === 'suit'?'label-filter-selected':'label-filter'}>
 					<input
