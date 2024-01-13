@@ -7,7 +7,7 @@ import { useGLTF } from '@react-three/drei';
 
 import Enigma from '../enigmas/Enigma';
 import useInteractiveObject from '../../../hooks/useInteractiveObject';
-import { SocketContext } from '../../../context/SocketContext';
+import { SocketContext } from '../../../contexts/SocketContext';
 import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
@@ -66,6 +66,49 @@ export default function Room001(props) {
 		);
 	};
 
+	const MarmiteVariantInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Marmite"
+				castShadow
+				receiveShadow
+				geometry={nodes.Marmite.geometry}
+				material={materials['Metal.001']}
+				position={[2, 0.1, 0]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={1}
+						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
+							<BasicDisplayTemplate
+								title="La Marmite Variante"
+								description="Une description bien longue...."
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
 	const FeuilleInt = () => {
 		const {
 			mesh,
@@ -101,13 +144,6 @@ export default function Room001(props) {
 						closePopup={forceExit}
 					/>
 				}
-				{/* {clicked && (
-					<Enigma
-						titre="Recette de potion de souris"
-						textEnigme="C la seule chose qui est compréhensible parmit le tas de feuille"
-						indiceEnigme="Regarder bien autour de vous"
-					/>
-				)} */}
 			</mesh>
 		);
 	};
@@ -175,6 +211,7 @@ export default function Room001(props) {
 					/>
 				</group>
 				<MarmiteInt />
+				<MarmiteVariantInt />
 				<group
 					name="Cylinder002"
 					position={[0, 1.39, 0]}

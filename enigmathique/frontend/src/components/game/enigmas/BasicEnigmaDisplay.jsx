@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { extend } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
 
-extend({ Html });
 
 const BasicDisplayTemplate = ({handleSubmitAnswer, title, description, image}) => {
 	const [userAnswer, setUserAnswer] = useState('');
@@ -23,7 +20,7 @@ const BasicDisplayTemplate = ({handleSubmitAnswer, title, description, image}) =
 				value={userAnswer}
 				onChange={handleInputChange}
 				className="m-1.5" />
-			<button onClick={handleSubmitAnswer} className="m-1.5">Check Answer</button>
+			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5">Check Answer</button>
 		</>
 	);
 };

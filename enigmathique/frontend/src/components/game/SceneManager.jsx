@@ -2,9 +2,9 @@
 import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 import { Environment, OrbitControls } from '@react-three/drei';
-import { SocketContext } from '../../context/SocketContext';
+import { SocketContext } from '../../contexts/SocketContext';
 import { ClientToServer, ServerToClient } from '../../data/socketMessages';
-import { RoomProvider, useRoom } from '../../context/RoomContext';
+import { RoomProvider, useRoom } from '../../contexts/RoomContext';
 
 export const Scene = () => {
 	const socket = useContext(SocketContext);

@@ -13,7 +13,7 @@ import './index.css';
 import CreationGame3 from './pages/CreationGame3';
 import CreateGame from "./pages/CreateGame";
 import {CreationGameDataProvider} from "./components/contexts/CreationGame.context";
-import { RoomProvider } from './context/RoomContext';
+import { RoomProvider } from './contexts/RoomContext';
 
 
 const App = () => {

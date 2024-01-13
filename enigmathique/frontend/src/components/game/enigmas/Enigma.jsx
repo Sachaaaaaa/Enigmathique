@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { extend } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 
-import { useRoom } from '../../../context/RoomContext';
-import { useSocket } from '../../../context/SocketContext';
-import { ClientToServer } from '../../../data/socketMessages';
+import { useRoom } from 'contexts/RoomContext';
+import { useSocket } from 'contexts/SocketContext';
+import useMemoryState from 'hooks/useMemoryState';
+import { ClientToServer, ServerToClient } from 'data/socketMessages';
 
 extend({ Html });
 
@@ -13,23 +14,45 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	const { room } = useRoom();
 	const socket = useSocket();
 
+	const [enigmaState, setEnigmaState] = useMemoryState(room.name + enigmaId, { isSolved: false, endMessage: null});
+	const [answerFeedback, setAnswerFeedback] = useState(null);
+
 	// Recupère les données dynamiques de l'énigme (envoyées par le serveur)
 	if (!room.data.enigmas[enigmaId]) {
 		throw new Error(`L'énigme ${enigmaId} n'existe pas!`);
 	}
 	const enigmaData = room.data.enigmas[enigmaId];
 
-	const handleSubmitAnswer = (data) => {
-		socket.emit(ClientToServer.Submit, data);
+	const submitAnswer = (answer) => {
+		console.log('submit answer', answer);
+		socket.emit(ClientToServer.Submit, {enigmaId, answer});
 	};
+
+	useEffect(() => {
+		const handleAnswerFeedback = ({isSolved, endMessage}) => {
+			if (isSolved) {
+				setEnigmaState({isSolved: true, endMessage});
+			}
+		};
+
+		socket.on(ServerToClient.Feedback, handleAnswerFeedback);
+
+		return () => {
+			socket.off(ServerToClient.Feedback, handleAnswerFeedback);
+		};
+
+	}, []);
+
+
+
 
 	return (
 		<Html>
 			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
 
-				{enigmaDisplayTemplate(enigmaData, handleSubmitAnswer)}
+				{enigmaDisplayTemplate(enigmaData, submitAnswer)}
 
-
+				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
 
 				<button onClick={closeEnigma} className="mt-3">
 					Go Back

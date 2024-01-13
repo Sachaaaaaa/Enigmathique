@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 
 import { Scene } from '../components/game/SceneManager';
-import { socket, SocketContext } from '../context/SocketContext';
+import { socket, SocketContext } from '../contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ServerToClient } from '../data/socketMessages';
-import { RoomProvider } from '../context/RoomContext';
+import { RoomProvider } from '../contexts/RoomContext';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
