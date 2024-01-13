@@ -16,7 +16,7 @@ const TopBar = () => {
 	const textMap ={
 		"dashboard": "Tableau de bord",
 		"class": "Mes classes",
-		"game": "Mes parties",
+		"games": "Mes parties",
 		"room": "Salles d'énigmes",
 		"create-game": "Création de partie",
 		"pregame":"",

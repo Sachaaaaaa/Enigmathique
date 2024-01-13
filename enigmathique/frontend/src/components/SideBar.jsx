@@ -14,7 +14,6 @@ const SideBar = () => {
 	const {setFormData, setFilterData} = useCreationGameContext();
 
 	const handleNav = (event) => {
-		console.log(path)
 		if (path === "/create-game") {
 			if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
 				setFormData(initialFormData);
@@ -34,7 +33,7 @@ const SideBar = () => {
 				<ul className='w-full text-xl'>
 					<ItemList type='dashboard' onClick={handleNav} currentPath={path}/>
 					<ItemList type='class' onClick={handleNav} currentPath={path}/>
-					<ItemList type='game' onClick={handleNav} currentPath={path}/>
+					<ItemList type='games' onClick={handleNav} currentPath={path}/>
 					<ItemList type='room' onClick={handleNav} currentPath={path}/>
 				</ul>
 				<Link to='/create-game'>
@@ -57,9 +56,9 @@ const ItemList = (props) => {
 			path: '/class',
 			icon: <MdCollectionsBookmark/>,
 		},
-		game: {
+		games: {
 			name: 'Mes parties',
-			path: '/game',
+			path: '/games',
 			icon: <MdGames/>,
 		},
 		room: {
