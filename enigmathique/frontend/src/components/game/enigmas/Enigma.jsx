@@ -15,7 +15,6 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	const socket = useSocket();
 
 	const [enigmaState, setEnigmaState] = useMemoryState(room.name + enigmaId, { isSolved: false, endMessage: null});
-	const [answerFeedback, setAnswerFeedback] = useState(null);
 
 	// Recupère les données dynamiques de l'énigme (envoyées par le serveur)
 	if (!room.variables[enigmaId]) {
@@ -42,9 +41,6 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 		};
 
 	}, []);
-
-
-
 
 	return (
 		<Html>
