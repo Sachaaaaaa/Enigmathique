@@ -55,40 +55,42 @@ const GameCreationForm = () => {
 
 	return (
 
-		<section className='flex flex-col items-center h-full w-full'>
-			<section className="w-full">
+		<section className='flex flex-col h-[96%] w-full gap-4'>
+			<section className="h-[5%]">
 				<h1 className='text-2xl pl-4'>Paramètres</h1>
 			</section>
-			<section className="w-1/3">
-				<div className='mb-4'>
-					<label
-						className='label-creation'
-						htmlFor='gameName'
-					>
-						Nom de la partie
-					</label>
-					<input
-						id='gameName'
-						value={formData.gameName}
-						onChange={(e) => setFormData({...formData, gameName: e.target.value})}
-						placeholder='Entrer le nom'
-						className='data-selection'
-					/>
-				</div>
-				<div className='mb-4'>
-					<ClassList/>
-				</div>
-				<div className='mb-4 w-full'>
-					<Counter/>
+			<section className=" h-[85%] flex flex-col justify-center items-center">
+				<div>
+					<div className='mb-4'>
+						<label
+							className='label-creation'
+							htmlFor='gameName'
+						>
+							Nom de la partie
+						</label>
+						<input
+							id='gameName'
+							value={formData.gameName}
+							onChange={(e) => setFormData({...formData, gameName: e.target.value})}
+							placeholder='Entrer le nom'
+							className='data-selection'
+						/>
+					</div>
+					<div className='mb-4'>
+						<ClassList/>
+					</div>
+					<div className='mb-4 w-full'>
+						<Counter/>
+					</div>
 				</div>
 			</section>
-			<section className="flex flex-row justify-evenly items-end h-1/2 w-5/6">
+			<section className="flex flex-row justify-evenly items-end h-[10%] w-full">
 				<Link
 					className='btn-cancel'
 					to={'/dashboard'}
 					onClick={handleAnnuler}
 				>
-					Annuler
+					Retour
 				</Link>
 				<button
 					className='btn-validate'

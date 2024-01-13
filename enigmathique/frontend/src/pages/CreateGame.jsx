@@ -18,7 +18,7 @@ const CreateGame = () => {
 
 	return (
 		<LayoutProf>
-			<main className="h-full w-full bg-[#f5f7fa]">
+			<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
 				<ProgressBar step={step}/>
 				{stepComponent[step]}
 			</main>

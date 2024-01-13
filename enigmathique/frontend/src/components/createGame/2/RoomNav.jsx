@@ -18,7 +18,7 @@ const RoomNav = () => {
 		setFilter({...filter, text: e.target.value})
 	}
 	return(
-		<nav className='flex flex-row justify-end w-full pr-4 gap-12'>
+		<nav className='flex flex-row justify-end w-full h-[7%] pr-4 gap-12'>
 			<section className='flex flex-row items-center justify-center bg-white rounded-full p-4 gap-2 shadow'>
 				<IconContext.Provider value={{className: 'text-[#0a06f4]'}} >
 					<FaSearch/>
