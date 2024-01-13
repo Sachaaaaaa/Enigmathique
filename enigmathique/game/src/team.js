@@ -39,15 +39,16 @@ class SocketTeam {
 		this.gameSession.onTeamLoadedRoom(this);
 	}
 
-	onSubmit = (answer) => {
+	onSubmit = ({enigmaId, answer}) => {
 		console.log(clc.yellowBright('[Team] Réponse reçu: ' + answer));
+		
 		// Vérifie si la réponse est juste.
 		// { ... }
 
-		const isOk = true;
+		const isSolved = true;
+		const endMessage = 'Tu es trop fort'; // Rajouter une indication sur ce qu'il faut faire après
 
-		//this.gameSession.onTeamSubmitAnswer(this, enigmaId, isOk);
-		//this.sendAnswerFeedback(enigmaId, isOk);
+		this.socket.emit(ServerToClient.Feedback, { isSolved, endMessage});
 	}
 
 	sendMessage = (message) => {

@@ -77,6 +77,9 @@ const roomsData = [
 					x: 2,
 					y: 42,
 				},
+				{
+					x:2
+				}
 			],
 		},
 	},

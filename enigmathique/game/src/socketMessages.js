@@ -10,6 +10,7 @@ const ServerToClient = {
 	Message: 'message', // + {message: string}
 	StartRound: 'startRound', // + {}
 	TeamCount: 'teamCount', // + {count: int}
+	Feedback: 'feedback', // + {isSolved: bool, ~endMessage: string}
 };
 
 // Messages que le client envoie au serveur
