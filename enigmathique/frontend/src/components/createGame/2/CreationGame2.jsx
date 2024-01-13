@@ -62,20 +62,25 @@ const CreationGame2 = () => {
 	}
 
 	return (
-		<section className='flex flex-col h-full w-full p-10 gap-4'>
-			<section>
+		<section className='flex flex-col h-[96%] w-full gap-4'>
+			<section className='h-[5%]'>
 				<h1 className='text-2xl pl-4'>Sélection des salles</h1>
 			</section>
 
 			<RoomNav/>
-			<section className='w-full h-4/6'>
+			<section className='flex flex-col w-full h-[78%] overflow-y-scroll pr-4'>
 				{rooms.map((room, index) => {
 					//TODO: Implementer le filtrage
-					return(<Room key={room.id} name={room.name} difficulty={room.difficulty} riddles={room.riddles} winrate={room.winrate} id={room.id}/>);
+					return(
+						<>
+							<Room key={room.id} name={room.name} difficulty={room.difficulty} riddles={room.riddles} winrate={room.winrate} id={room.id}/>
+							{index!==rooms.length-1 && <hr></hr>}
+						</>
+					);
 				})}
 			</section>
 
-			<section className="flex flex-row justify-evenly items-end w-5/6">
+			<section className="flex flex-row justify-evenly items-end className='h-[10%]' w-full">
 				<button
 					className='btn-cancel'
 					type='submit'
