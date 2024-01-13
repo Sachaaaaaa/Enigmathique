@@ -7,7 +7,6 @@ import Room from "./Room";
 
 const CreationGame2 = () => {
 
-	const [selected, setSelected] = useState('suit');
 	const {setStep, setFormData, filter, setFilter} = useCreationGameContext();
 
 	const rooms = [
