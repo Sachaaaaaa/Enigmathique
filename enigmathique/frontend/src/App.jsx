@@ -9,7 +9,6 @@ import Game from './pages/Game';
 import Class from './pages/Class';
 import Students from './pages/Students';
 import './index.css';
-import CreationGame3 from './pages/CreationGame3';
 import CreateGame from "./pages/CreateGame";
 import {CreationGameDataProvider} from "./components/contexts/CreationGame.context";
 import PreGame from "./pages/PreGame";
