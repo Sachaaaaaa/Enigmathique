@@ -20,7 +20,7 @@ export default function Room001(props) {
 
 	const mesh = useRef();
 
-	const MarmiteInt = () => {
+	const ArmoirInt = () => {
 		const {
 			mesh,
 			hovered,
@@ -33,12 +33,12 @@ export default function Room001(props) {
 		return (
 			<mesh
 				ref={mesh}
-				name="Marmite"
+				name="Armoir"
 				castShadow
 				receiveShadow
-				geometry={nodes.Marmite.geometry}
-				material={materials["Metal.001"]}
-				position={[0, 0.1, 0]}
+				geometry={nodes.Armoir.geometry}
+				material={materials["Wood.001"]}
+				position={[1.3, 0.7, -1.85]}
 				onPointerOver={handlePointerOver}
 				onPointerOut={handlePointerOut}
 				onClick={handleClick}
@@ -46,10 +46,12 @@ export default function Room001(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigme
-						titre="Titre de l enigme"
-						textEnigme="Contenue de l enigme"
-						indiceEnigme="0<x<2"
-						reponseEnigme={1}
+						titre="Dans quel tiroir voulait vous chercher ?"
+						indiceEnigme="Regarder bien la recette"
+						reponseF="Ce n'est pas ce que vous cherchez"
+						reponseV="Vous avez trouvé un ingrédient"
+						reponseEnigme={12}
+						inputReponse={true}
 					/>
 				)}
 			</mesh>
@@ -87,11 +89,88 @@ export default function Room001(props) {
 						titre="Recette de potion de souris"
 						textEnigme="C la seule chose qui est compréhensible parmit le tas de feuille"
 						indiceEnigme="Regarder bien autour de vous"
+						inputReponse={false}
 					/>
 				)}
 			</mesh>
 		);
 	};
+
+	const CuveInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Sphere"
+				castShadow
+				receiveShadow
+				geometry={nodes.Sphere.geometry}
+				material={materials["Metal.001"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<Enigme
+						titre="A"
+						textEnigme="A"
+						indiceEnigme="A"
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+
+	const ChaudInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cylinder035_1"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cylinder035_1.geometry}
+				material={materials["Metal_Vers.002"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<Enigme
+						titre="Une bonne cuisson !"
+						textEnigme="Mettre la bonne quantité de charbon."
+						indiceEnigme="Trouver l'antécédant de 4."
+						reponseEnigme={250}
+						inputReponse = {true}
+						reponseV="Une cuisson parfaite !"
+						reponseF="Attention à ne pas la faire bruler ."
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	
+
 
 	return (
 		<group {...props} dispose={null}>
@@ -117,13 +196,7 @@ export default function Room001(props) {
 					position={[0, 1.8, 0]}
 					rotation={[0, 0, -Math.PI / 2]}
 				>
-					<mesh
-						name="Sphere"
-						castShadow
-						receiveShadow
-						geometry={nodes.Sphere.geometry}
-						material={materials["Metal.001"]}
-					/>
+					<CuveInt/>
 					<mesh
 						name="Sphere_1"
 						castShadow
@@ -155,7 +228,14 @@ export default function Room001(props) {
 						material={materials["Metal_Vers.002"]}
 					/>
 				</group>
-				<MarmiteInt />
+				<mesh
+					name="Marmite"
+					castShadow
+					receiveShadow
+					geometry={nodes.Marmite.geometry}
+					material={materials["Metal.001"]}
+					position={[0, 0.1, 0]}
+				/>
 				<group
 					name="Cylinder002"
 					position={[0, 1.39, 0]}
@@ -202,13 +282,7 @@ export default function Room001(props) {
 					/>
 				</group>
 				<group name="Chaud" position={[-0.7, 0.4, -0.6]}>
-					<mesh
-						name="Cylinder035_1"
-						castShadow
-						receiveShadow
-						geometry={nodes.Cylinder035_1.geometry}
-						material={materials["Metal_Vers.002"]}
-					/>
+					<ChaudInt/>
 					<mesh
 						name="Cylinder035_2"
 						castShadow
@@ -217,14 +291,7 @@ export default function Room001(props) {
 						material={materials["Metal.001"]}
 					/>
 				</group>
-				<mesh
-					name="Armoir"
-					castShadow
-					receiveShadow
-					geometry={nodes.Armoir.geometry}
-					material={materials["Wood.001"]}
-					position={[1.3, 0.7, -1.85]}
-				/>
+				<ArmoirInt/>
 				<group
 					name="Rangement"
 					position={[0.72, 1.28, -1.83]}

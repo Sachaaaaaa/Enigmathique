@@ -55,26 +55,30 @@ const Enigme = (props) => {
 			}}>
 				<h1>{props.titre}</h1>
 				<p>{props.textEnigme}</p>
-				<img src={`/models/models/${props.imageEnigme}.png`} alt="imageEnigme" />
-
+				{props.imageEnigme != null && <img src={`/models/models/${props.imageEnigme}.png`} alt="imageEnigme" />}
+			
+				{props.inputReponse === true &&
 				<input
 					type="text"
 					value={reponseUtilisateur}
 					onChange={handleInputChange}
 					placeholder="Saisissez votre réponse"
 					style={{ margin: '10px 0', padding: '5px' }}
-				/>
+				/>}
 
-				<button onClick={handleCheckAnswer} style={{ margin: '5px 0' }}>
+				{props.inputReponse === true &&
+					<button onClick={handleCheckAnswer} style={{ margin: '5px 0' }}>
 					Vérifier la réponse
-				</button>
-				{reponseCorrecte === true && <p style={{ color: 'green' }} >Correcte</p>}
-				{reponseCorrecte === false && <p style={{ color: 'red' }}> ---- </p>}
+					</button>
+				}
+				{reponseCorrecte === true && <p style={{ color: 'green' }} > {props.reponseV} </p>}
+				{reponseCorrecte === false && <p style={{ color: 'red' }}> {props.reponseF} </p>}
+				{reponseUtilisateur === null && <p style={{ color: 'red' }}> ---- </p>}
 
-				{!afficherIndice && <button onClick={handleShowHint} style={{ margin: '10px 0' }}>
+				{props.inputReponse === true && !afficherIndice && <button onClick={handleShowHint} style={{ margin: '10px 0' }}>
 					Obtenir un indice
 				</button>}
-				{afficherIndice && <p>{props.indiceEnigme}</p>}
+				{props.inputReponse === true && afficherIndice && <p>{props.indiceEnigme}</p>}
 
 				<button onClick={handleCancelClick} style={{ marginTop: '10px' }}>
 					Retour
@@ -87,9 +91,14 @@ const Enigme = (props) => {
 Enigme.propTypes = {
 	titre: PropTypes.string.isRequired,
 	textEnigme: PropTypes.string.isRequired,
+	reponseF : PropTypes.string.isRequired,
+	reponseV : PropTypes.string.isRequired,
 	imageEnigme: PropTypes.string,
 	reponseEnigme: PropTypes.number,
 	indiceEnigme: PropTypes.string,
+	inputReponse : PropTypes.bool,
+	// Si on veux juste du texte ou une enigme avec tout se qui va avec (Champ réponse, indice ...)
+	typeEnigme :  PropTypes.string,
 };
 
 export default Enigme;
