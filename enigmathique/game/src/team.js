@@ -49,6 +49,14 @@ class SocketTeam {
 		console.log(isSolved ? clc.green('[Team] Réponse correcte') : clc.redBright('[Team] Réponse incorrecte'));
 
 		this.socket.emit(ServerToClient.Feedback, { isSolved, endMessage});
+
+		if (isSolved) {
+			this.room.enigmasSolved.push(enigmaId);
+			this.gameSession.onTeamSolvedEnigma(this, enigmaId);
+			if (this.room.enigmasSolved.length == this.room.enigmas.length) {
+				this.gameSession.onTeamSolvedRoom(this);
+			}
+		}
 	}
 
 	sendMessage = (message) => {

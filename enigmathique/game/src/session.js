@@ -84,6 +84,14 @@ class Session {
 	onTeamLoadedRoom = (team) => {
 		this.broadcastStartRound();
 	}
+
+	onTeamSolvedEnigma = (team, enigmaId) => {
+		console.log(clc.cyanBright('[Session] Une équipe a résolu une énigme'));
+	}
+
+	onTeamSolvedRoom = (team) => {
+		console.log(clc.cyan('[Session] Une équipe a résolu sa salle'));
+	}
 }
 
 module.exports = Session;
