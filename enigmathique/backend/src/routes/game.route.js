@@ -8,11 +8,25 @@ module.exports = app => {
 
 	var router = require("express").Router();
 
-	// Créer une nouvelle partie
-	router.post("/", middleware.verifyToken, game.create);
+	// Quatre statues d'une partie : créée, ouverte, en cours, terminée
 
-	// Récupérer toutes les partie
-	router.get("/", middleware.verifyToken, game.findAll);
+	// Créer une partie
+	router.post("/", middleware.verifyToken, game.create);
+	
+	// Récupérer une partie à partir de son id
+	router.get("/:id", middleware.verifyToken, game.findById);
+	
+	//post
+	// Ouvre une partie (aux élèves)
+	router.get("/open/:id", middleware.verifyToken, game.open);
+
+	// post
+	// Ferme une partie (aux élèves)
+	router.get("/close/:id", middleware.verifyToken, game.close)
+
+
+	// Récupérer les élèves en fonction du code de la partie (il faut ouvrir la game avant)
+	router.get("/course/:code", middleware.verifyToken, game.course)
 
 
 	app.use("/api/game", router);
