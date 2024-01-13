@@ -13,6 +13,7 @@ import CreateGame from "./pages/CreateGame";
 import {CreationGameDataProvider} from "./components/contexts/CreationGame.context";
 import PreGame from "./pages/PreGame";
 import TeamStats from "./pages/TeamStats";
+import Games from "./pages/Games";
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
 				<Route path='/class' element={<Class/>}/>
 				<Route path='/class/:id' element={<Students/>}/>
 				<Route path='/game' element={<Game/>}/>
+				<Route path='/games' element={<Games/>}/>
 				<Route path='/create-game' element={<CreateGame/>}/>
 				<Route path='/pregame/:id' element={<PreGame/>}/>
 				<Route path='/teamstats' element={<TeamStats/>}/>
