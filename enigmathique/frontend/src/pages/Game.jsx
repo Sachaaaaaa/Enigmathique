@@ -9,16 +9,18 @@ import { RoomProvider } from '../contexts/RoomContext';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
+	// A changer, facilement modifiable par l'utilisateur
 	const [searchParams, setSearchParams] = useSearchParams();
 	const sessionId = searchParams.get('sessionId');
+	const teamId = searchParams.get('teamId');
 
 	// Si l'id de session n'est pas défini, on quitte la page
-	if (!sessionId) {
+	if (!sessionId || !teamId) {
 		window.location.href = '/';
 	}
 
 	// Met à jour l'id de session dans le handshake du socket
-	socket.io.opts.query = { sessionId, teamId: 1 };
+	socket.io.opts.query = { sessionId, teamId };
 
 	useEffect(() => {
 		socket.on(ServerToClient.Message, (message) => {

@@ -15,8 +15,6 @@ export const Scene = () => {
 	// Ecoute les changements de scène
 	useEffect(() => {
 		const importRoom = async (roomName) => {
-			// Remet à 0 le hook useMemoryState
-			// TODO : trouver une meilleure solution
 			resetAllMemoryState();
 
 			console.log('Chargement de la scène : ' + roomName);
