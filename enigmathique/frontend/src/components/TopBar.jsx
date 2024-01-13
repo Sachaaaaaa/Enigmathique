@@ -19,6 +19,7 @@ const TopBar = () => {
 		"game": "Mes parties",
 		"room": "Salles d'énigmes",
 		"create-game": "Création de partie",
+		"pregame":"",
 	}
 
 	let text = textMap[path[0]];
@@ -27,6 +28,9 @@ const TopBar = () => {
 		switch (path[0]) {
 			case "class":
 				text = "nomclasse" //faire requete sur api;
+				return;
+			case "pregame":
+				text="Validation des équipes"
 		}
 	}
 
