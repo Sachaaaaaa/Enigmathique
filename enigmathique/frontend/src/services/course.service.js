@@ -12,8 +12,38 @@ const getAll = () => {
 			return response.data;
 		});
 }
+const deleteId = (id) => {
+	const token = authHeader();
+	// Envoie une requête au serveur pour créer une nouvelle classe
+	return axios
+		.delete(API_URL + 'course/' + id, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+}
+const create = (name) => {
+	const token = authHeader();
+	// Envoie une requête au serveur pour créer une nouvelle classe
+	return axios
+		.post(API_URL + 'course', {name: name}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+}
+const edit = (name, id) => {
+	const token = authHeader();
+	// Envoie une requête au serveur pour créer une nouvelle classe
+	return axios
+		.put(API_URL + 'course/' + id, {name: name}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+}
 
 const CourseService = {
-	getAll
+	getAll,
+	deleteId,
+	create,
+	edit
 }
 export default CourseService;

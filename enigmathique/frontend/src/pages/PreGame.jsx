@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import SideBar from '../components/SideBar';
-import WaitingTeams from '../components/preGame/WaitingTeams';
-import AcceptedTeams from '../components/preGame/AcceptedTeams';
-import TeamContext from '../components/creation3/Teams.context';
+import React, {useEffect} from "react";
+import WaitingTeams from "../components/preGame/WaitingTeams";
+import AcceptedTeams from "../components/preGame/AcceptedTeams";
 import LayoutProf from "../layouts/LayoutProf";
+import {useCreationGameContext} from "../components/contexts/CreationGame.context";
+import CourseService from "../services/course.service";
 
-const CreationGame3 = () => {
+const PreGame = () => {
 
 	const waitingTeams = [
 		{
@@ -67,29 +67,36 @@ const CreationGame3 = () => {
 		},
 
 	]
-	const [teams, setTeams] = useState(waitingTeams);
+	const {setTeams} = useCreationGameContext();
+
+
+	const loadTeams = () => {
+		setTeams(waitingTeams);
+	}
+
+	useEffect(() => {
+		loadTeams();
+	}, []);
+
 	const handleStartGame = () => {
 		alert('La partie va commencer');
 	}
 
 	return (
 		<LayoutProf>
-			<TeamContext.Provider value={{teams, setTeams}}>
-				<main className="flex flex-col gap-4 w-full h-full p-4">
-					<h1 className="text-3xl">Validation des équipes</h1>
-					<section className="flex flex-row justify-evenly w-full">
-						<WaitingTeams/>
-						<AcceptedTeams/>
-					</section>
-					<section className='flex flex-row justify-end p-4 w-full'>
-						<button className='p-2 bg-blue-800 rounded-xl text-white' onClick={handleStartGame}>Commencer la partie
-						</button>
-					</section>
-				</main>
-			</TeamContext.Provider>
+			<main className="flex flex-col gap-4 w-full h-full p-4">
+				<h1 className="text-3xl">Validation des équipes</h1>
+				<section className="flex flex-row justify-evenly w-full">
+					<WaitingTeams/>
+					<AcceptedTeams/>
+				</section>
+				<section className='flex flex-row justify-end p-4 w-full'>
+					<button className='p-2 bg-blue-800 rounded-xl text-white' onClick={handleStartGame}>Commencer la partie
+					</button>
+				</section>
+			</main>
 		</LayoutProf>
 	);
-};
+}
 
-
-export default CreationGame3;
+export default PreGame;

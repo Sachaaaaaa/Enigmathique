@@ -1,25 +1,35 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {useCreationGameContext} from "../../contexts/CreationGame.context";
+import '../createGame.css'
 
 const Counter = () => {
 
-	const [count, setCount] = useState(1);
+	const {formData, setFormData} = useCreationGameContext();
+
 	const handleOnClickplus = () => {
-		setCount(count + 1);
+		setFormData({...formData, teamSize: formData.teamSize + 1});
 	};
 	const handleOnClickminus = () => {
-		count > 1 ? setCount(count - 1) : setCount(1);
+		formData.teamSize > 1 ? setFormData({...formData, teamSize: formData.teamSize - 1}) : setFormData({...formData, teamSize: 1});
 	}
 	return (
-		<div className='flex'>
+		<>
+			<p className='label-creation'>
+				Taille de l&apos;équipe
+			</p>
+			<div className='flex w-full'>
+				<button className={`w-1/3 ${formData.teamSize<2?'bg-[#4c49ed]':'bg-[#0a06f4]'} text-2xl text-white rounded-l-lg`}
+						onClick={handleOnClickminus}
+						disabled={formData.teamSize < 2}
 
-			<button className='w-5 bg-blue-300 text-2xl rounded-l-lg'
-					onClick={handleOnClickminus}>-
-			</button>
-			<p className=' text-2xl w-5 flex justify-center'>{count}</p>
-			<button className='w-5 bg-blue-300 text-2xl rounded-r-lg'
-					onClick={handleOnClickplus}>+
-			</button>
-		</div>
+				>-
+				</button>
+				<span className='bg-white border-y text-2xl w-1/3 flex justify-center'>{formData.teamSize}</span>
+				<button className='w-1/3 bg-[#0a06f4] text-2xl text-white rounded-r-lg'
+						onClick={handleOnClickplus}>+
+				</button>
+			</div>
+		</>
 	);
 }
 export default Counter;
