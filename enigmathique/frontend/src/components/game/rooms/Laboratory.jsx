@@ -19,7 +19,7 @@ export default function Room001(props) {
 		socket.emit(ClientToServer.RoomLoaded);
 	});
 
-	const { nodes, materials } = useGLTF('/models/Demo_Room-002.glb');
+	const { nodes, materials } = useGLTF('models/Laboratory_Room.glb');
 
 	const mesh = useRef();
 
@@ -123,7 +123,7 @@ export default function Room001(props) {
 		return (
 			<mesh
 				ref={mesh}
-				name="Feuille005"
+				name="Feuilles"
 				castShadow
 				receiveShadow
 				geometry={nodes.Feuille005.geometry}
@@ -136,14 +136,14 @@ export default function Room001(props) {
 				onClick={handleClick}
 			>
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
-				{clicked &&
+				{clicked && (
 					<InformationPopup
 						title="Recette de potion de souris"
 						information="C'est la seule chose qui est compréhensible partmit le tas de feuille"
 						image="undef"
 						closePopup={forceExit}
 					/>
-				}
+				)}
 			</mesh>
 		);
 	};
@@ -151,6 +151,15 @@ export default function Room001(props) {
 	return (
 		<group {...props} dispose={null}>
 			<group name="Scene">
+				<mesh
+					name="Cube"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cube.geometry}
+					material={materials.Crane}
+					position={[1.302, 0.864, -1.692]}
+					scale={[0.673, 0.003, 0.008]}
+				/>
 				<group name="Room">
 					<mesh
 						name="Cylinder"
@@ -212,6 +221,14 @@ export default function Room001(props) {
 				</group>
 				<MarmiteInt />
 				<MarmiteVariantInt />
+				<mesh
+					name="Marmite"
+					castShadow
+					receiveShadow
+					geometry={nodes.Marmite.geometry}
+					material={materials['Metal.001']}
+					position={[0, 0.1, 0]}
+				/>
 				<group
 					name="Cylinder002"
 					position={[0, 1.39, 0]}
@@ -511,22 +528,6 @@ export default function Room001(props) {
 					scale={0.3}
 				/>
 				<mesh
-					name="Cube"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube.geometry}
-					material={materials['Metal_Vers.002']}
-					position={[1.39, 0.6, 1.96]}
-					rotation={[0, -1.571, 0]}
-				/>
-				<mesh
-					name="Pipe005"
-					castShadow
-					receiveShadow
-					geometry={nodes.Pipe005.geometry}
-					material={materials['Glass.001']}
-				/>
-				<mesh
 					name="Masque"
 					castShadow
 					receiveShadow
@@ -554,55 +555,14 @@ export default function Room001(props) {
 					position={[0.49, 1.14, 1.7]}
 					rotation={[0.593, -Math.PI / 2, 0]}
 				/>
-				<FeuilleInt />
 				<mesh
-					name="Feuille004"
+					name="Feuilles"
 					castShadow
 					receiveShadow
-					geometry={nodes.Feuille004.geometry}
-					material={nodes.Feuille004.material}
+					geometry={nodes.Feuilles.geometry}
+					material={materials.Default}
 					position={[0.75, 0.312, 1.318]}
 					rotation={[Math.PI / 2, 0, -0.175]}
-					scale={0.08}
-				/>
-				<mesh
-					name="Feuille006"
-					castShadow
-					receiveShadow
-					geometry={nodes.Feuille006.geometry}
-					material={nodes.Feuille006.material}
-					position={[0.79, 0.312, 1.118]}
-					rotation={[Math.PI / 2, 0, 1.222]}
-					scale={0.08}
-				/>
-				<mesh
-					name="Feuille003"
-					castShadow
-					receiveShadow
-					geometry={nodes.Feuille003.geometry}
-					material={nodes.Feuille003.material}
-					position={[0.72, 0.312, 1.398]}
-					rotation={[Math.PI / 2, 0, Math.PI / 9]}
-					scale={0.08}
-				/>
-				<mesh
-					name="Feuille002"
-					castShadow
-					receiveShadow
-					geometry={nodes.Feuille002.geometry}
-					material={nodes.Feuille002.material}
-					position={[0.68, 0.312, 1.508]}
-					rotation={[Math.PI / 2, 0, 0]}
-					scale={0.08}
-				/>
-				<mesh
-					name="Feuille001"
-					castShadow
-					receiveShadow
-					geometry={nodes.Feuille001.geometry}
-					material={nodes.Feuille001.material}
-					position={[0.66, 0.313, 1.528]}
-					rotation={[Math.PI / 2, 0, -0.087]}
 					scale={0.08}
 				/>
 				<mesh
@@ -655,7 +615,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Chaise.geometry}
-					material={materials['Wood.001']}
+					material={materials['Wood.002']}
 					position={[1.01, 0.19, 1.31]}
 				/>
 				<mesh
@@ -666,14 +626,22 @@ export default function Room001(props) {
 					material={materials['Wood.002']}
 					position={[0.32, 0.357, 1.288]}
 				/>
-				<mesh
-					name="Coffre"
-					castShadow
-					receiveShadow
-					geometry={nodes.Coffre.geometry}
-					material={nodes.Coffre.material}
-					position={[0.41, 0.915, 1.04]}
-				/>
+				<group name="Coffre" position={[0.41, 0.915, 1.04]}>
+					<mesh
+						name="Cube010"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube010.geometry}
+						material={materials['Metal.001']}
+					/>
+					<mesh
+						name="Cube010_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube010_1.geometry}
+						material={materials['Metal_Vers.002']}
+					/>
+				</group>
 				<mesh
 					name="ancre"
 					castShadow
@@ -1056,4 +1024,4 @@ export default function Room001(props) {
 	);
 }
 
-useGLTF.preload('/models/Demo_Room-002.glb');
+useGLTF.preload('models/Laboratory_Room.glb');
