@@ -13,6 +13,7 @@ import CreationGame3 from './pages/CreationGame3';
 import CreateGame from "./pages/CreateGame";
 import {CreationGameDataProvider} from "./components/contexts/CreationGame.context";
 import PreGame from "./pages/PreGame";
+import TeamStats from "./pages/TeamStats";
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
 				<Route path='/game' element={<Game/>}/>
 				<Route path='/create-game' element={<CreateGame/>}/>
 				<Route path='/pregame/:id' element={<PreGame/>}/>
+				<Route path='/teamstats' element={<TeamStats/>}/>
 			</Routes>
 		</CreationGameDataProvider>
 	);
