@@ -10,7 +10,8 @@ class SocketTeam {
 		this.socket = socket;
 		this.gameSession = session;
 		this.teamId = socket.handshake.query.teamId;
-		this.room = null;
+		this.rooms = {};
+		this.currentRoom = null;
 
 		this.socket.on(ClientToServer.Message, this.onMessage); 
 		this.socket.on(ClientToServer.RoomLoaded, this.onRoomLoaded);
@@ -18,6 +19,7 @@ class SocketTeam {
 		this.socket.on(ClientToServer.Submit, this.onSubmit);
 
 		this.haveLoadedRoom = false;
+		this.leaved = false;
 	}
 
 	getSocket = () => {
@@ -26,8 +28,9 @@ class SocketTeam {
 
 	onDisconnect = () => {
 		console.log(clc.redBright('[Team] Déconnexion'));
+		this.leaved = true;
 		this.socket.removeAllListeners();
-		this.gameSession.removeTeam(this);
+		this.gameSession.onTeamLeave(this);
 	}
 
 	onMessage = (data) => {
@@ -44,16 +47,16 @@ class SocketTeam {
 	onSubmit = ({enigmaId, answer}) => {
 		console.log(clc.yellowBright(`[Team] Réponse reçu: (${enigmaId}, ${answer})`));
 	
-		const isSolved = this.room.checkAnswer(enigmaId, answer);
-		const endMessage = isSolved ? this.room.getEndMessage(enigmaId): null;
+		const isSolved = this.currentRoom.checkAnswer(enigmaId, answer);
+		const endMessage = isSolved ? this.currentRoom.getEndMessage(enigmaId): null;
 		console.log(isSolved ? clc.green('[Team] Réponse correcte') : clc.redBright('[Team] Réponse incorrecte'));
 
 		this.socket.emit(ServerToClient.Feedback, { isSolved, endMessage});
 
 		if (isSolved) {
-			this.room.enigmasSolved.push(enigmaId);
+			this.currentRoom.enigmasSolved.push(enigmaId);
 			this.gameSession.onTeamSolvedEnigma(this, enigmaId);
-			if (this.room.enigmasSolved.length == this.room.enigmas.length) {
+			if (this.currentRoom.enigmasSolved.length == this.currentRoom.enigmas.length) {
 				this.gameSession.onTeamSolvedRoom(this);
 			}
 		}
@@ -69,7 +72,8 @@ class SocketTeam {
 	 * @param {RoomPlayable} room 
 	 */
 	sendRoom = (room) => {
-		this.room = room;
+		this.rooms[room.name] = room;
+		this.currentRoom = room;
 
 		const roomName = room.name;
 		const roomVariables = room.getEnigmasVariables();

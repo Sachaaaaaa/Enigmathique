@@ -58,6 +58,11 @@ class Game {
 		this.sessions[sessionId].addTeam(team);
 	};
 
+	onSessionEnd = (sessionId) => {
+		console.log(clc.yellow('[Game] Fin de la session ' + sessionId));
+		delete this.sessions[sessionId];
+	};
+
 	run = (ticksPerSecond) => {
 		setInterval(() => {
 			//console.log(clc.cyan('[Game] Boucle...'));
