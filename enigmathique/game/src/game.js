@@ -4,54 +4,37 @@ const { ServerToClient, ClientToServer } = require('./socketMessages');
 const SocketTeam = require('./team');
 const Session = require('./session');
 
-
 const TICKS_PER_SECOND = 1;
 
 class Game {
-	/**
-	 * Initialise le jeu.
-	 * @param {http.Server} server 
-	 */
-	constructor(server) {
+	constructor(io) {
+		this.io = io;
 		this.sessions = {};
+		this.roomsData = {};
 
-		this.handleConnection = this.handleConnection.bind(this);
-
-		this.initSocketio(server);
+		this.io.on(ClientToServer.Connection, this.handleConnection);
 		this.loadRoomsData();
 		this.run(TICKS_PER_SECOND);
 	}
 
 	/**
-	 * Initialise le socket manager.
-	 * @param {http.Server} server - Le serveur HTTP.
-	 * @returns {socketio.Server} Le socket manager.
-	 */
-	initSocketio(server) {
-		this.io = socketio(server, {
-			cors: {
-				origin: '*',
-			},
-		});
-		this.io.on(ClientToServer.Connection, this.handleConnection);
-		return this.io;
-	}
-
-	/**
 	 * Charge les données des salles.
 	 */
-	loadRoomsData() {
+	loadRoomsData = () => {
 		console.log(clc.yellow('[Game] Chargement des salles...'));
+		// Charger depuis JSON
 		// { ... }
+		// Pour l'instant
+		this.roomsData = roomsData;
 		console.log(clc.green('[Game] Données des salles chargées'));
-	}
+	};
 
-	handleDisconnection(socket) {
+	handleDisconnection = (socket) => {
 		// Supprime les événements
 		socket.removeAllListeners();
-	}
+	};
 
-	handleConnection(socket) {
+	handleConnection = (socket) => {
 		console.log(clc.green('[Game] Nouvelle connexion ' + socket.id));
 
 		// Recupère l'id de session
@@ -62,16 +45,18 @@ class Game {
 
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
-			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));
-			this.sessions[sessionId] = new Session(this, sessionId);
+			console.log(
+				clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée')
+			);
+			this.sessions[sessionId] = new Session(this, sessionId, 1, roomsData);
 		}
 
 		// Crée une nouvelle équipe et l'ajoute à la session, le reste sera géré dedans
 		const team = new SocketTeam(socket, this.sessions[sessionId]);
 		this.sessions[sessionId].addTeam(team);
-	}
+	};
 
-	run(ticksPerSecond) {
+	run = (ticksPerSecond) => {
 		setInterval(() => {
 			//console.log(clc.cyan('[Game] Boucle...'));
 			for (const sessionId in this.sessions) {
@@ -79,8 +64,22 @@ class Game {
 				session.tick();
 			}
 		}, 1000 / ticksPerSecond);
-	}
-
+	};
 }
+
+// Pour l'instant dans le code, les salles sont codées en dur
+const roomsData = [
+	{
+		name: 'Laboratory',
+		data: {
+			enigmas: [ // TODO: Définir intervalles et générer aléatoirement lors de l'assignement à une team
+				{
+					x: 2,
+					y: 42,
+				},
+			],
+		},
+	},
+];
 
 module.exports = Game;
