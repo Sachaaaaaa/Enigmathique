@@ -4,6 +4,7 @@
 
 const db = require("../models/db.js");
 const Course = db.course;
+const Student = db.student;
 const Op = db.Sequelize.Op;
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +86,7 @@ exports.findAll = async (req, res) => {
 
 
 
-// methode pour récuperer une clase du professeur par son id
+// methode pour récuperer les élèves d'une classe du professeur par son id
 exports.findById = async (req, res) => {
 
 	// Vérifie que la classe appartient bien au professeur
@@ -95,7 +96,7 @@ exports.findById = async (req, res) => {
 		})
 	}
 
-	await Course.findAll({ where: { id: req.params.id, idProfessor: req.tokenId } })
+	await Student.findAll({ where: { idCourse: req.params.id} })
 		.then(data => {
 			return res.status(200).json(data);
 		})

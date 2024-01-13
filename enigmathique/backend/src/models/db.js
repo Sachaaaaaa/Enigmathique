@@ -33,6 +33,8 @@ db.team = require("./team.model.js")(sequelize, Sequelize);
 db.game = require("./game.model.js")(sequelize, Sequelize);
 db.room = require("./room.model.js")(sequelize, Sequelize);
 db.score = require("./score.model.js")(sequelize, Sequelize);
+db.gameCode = require("./gameCode.model.js")(sequelize, Sequelize);
+
 
 db.gameSession = require("./gameSession.model.js")(sequelize, Sequelize);
 db.play = require("./play.model.js")(sequelize, Sequelize);

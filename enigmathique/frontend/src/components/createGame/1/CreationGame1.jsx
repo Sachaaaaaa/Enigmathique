@@ -1,69 +1,103 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import Counter from './Counter';
-import {useCreationGameContext} from "../../contexts/CreationGame.context";
+import {initialFormData, useCreationGameContext} from "../../contexts/CreationGame.context";
+import '../../../index.css';
+import '../createGame.css'
+import ClassList from "./ClassList";
+import CourseService from "../../../services/course.service";
+import AuthService from "../../../services/auth.service";
+import {Link} from "react-router-dom";
 const GameCreationForm = () => {
 
-	const [gameName, setGameName] = useState('');
-	const {formData, setFormData} = useCreationGameContext();
+	const {formData, setFormData, setStep, setCourses} = useCreationGameContext();
+	console.log(formData);
+
+	// AuthService.login('admin@admin.com', 'admin').then((response) => {
+	// 	console.log(response);
+	// }).catch((error) => {
+	// 	console.log(error);
+	// });
+
+	const loadClasses = () => {
+		CourseService.getAll().then((response) => {
+			setCourses(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
+	useEffect(() => {
+		loadClasses();
+	}, []);
 
 
-	const ClassList = () => {
-		const classes = ['seconde A', 'seconde B', 'seconde C'];
-		const options = classes.map((classe) => <option key={classe} value={classe}>{classe}</option>);
-		console.log(options)
-		return(
-			<>
-				<label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-				<select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-					{options}
-				</select>
-			</>
-		);
+	const handleSuivant = () => {
+		if (formData.gameName !== '' && formData.course !== 0) {
+			setStep(2);
+			return;
+		}
+		let messages = ['Veuillez remplir le(s) champ(s) suivant(s) :'];
+		if (formData.gameName === '') {
+			messages.push('-Nom de la partie');
+		}
+		if (formData.course === 0) {
+			messages.push('-Classe');
+		}
+		alert(messages.join('\n'));
 	};
-
-	const handleSuivant = (e) => {
-		// Empêcher le rechargement de la page
-		e.preventDefault();
-		// Réinitialiser le message d'erreur
-		alert('accès à la page suivante');
-	};
+	const handleAnnuler = (event) => {
+		if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
+			setFormData(initialFormData)
+			return;
+		}
+		event.preventDefault();
+	}
 
 	return (
-		<section className='flex flex-col items-center justify-center h-full w-full'>
-			<form
-				onSubmit={handleSuivant}
 
-			>
+		<section className='flex flex-col items-center h-full w-full'>
+			<section className="w-full">
+				<h1 className='text-2xl pl-4'>Paramètres</h1>
+			</section>
+			<section className="w-1/3">
 				<div className='mb-4'>
 					<label
-						className='block text-gray-700 text-sm font-bold mb-2'
+						className='label-creation'
 						htmlFor='gameName'
 					>
 						Nom de la partie
 					</label>
 					<input
-						type='text'
 						id='gameName'
-						name='gameName'
-						value={gameName}
-						onChange={(e) => setGameName(e.target.value)}
+						value={formData.gameName}
+						onChange={(e) => setFormData({...formData, gameName: e.target.value})}
 						placeholder='Entrer le nom'
-						className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-						required
+						className='data-selection'
 					/>
 				</div>
 				<div className='mb-4'>
 					<ClassList/>
 				</div>
-				<div className='mb-4'>
-					<label
-						className='block text-gray-700 text-sm font-bold mb-2'
-						htmlFor='username'
-					>Taille de l&apos;équipe
-					</label>
+				<div className='mb-4 w-full'>
 					<Counter/>
 				</div>
-			</form>
+			</section>
+			<section className="flex flex-row justify-evenly items-end h-1/2 w-5/6">
+				<Link
+					className='btn-cancel'
+					to={'/dashboard'}
+					onClick={handleAnnuler}
+				>
+					Annuler
+				</Link>
+				<button
+					className='btn-validate'
+					onClick={handleSuivant}
+				>
+					Suivant
+				</button>
+			</section>
+
 		</section>
 	);
 

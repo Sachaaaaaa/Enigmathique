@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import {IoCheckmarkCircleOutline, IoChevronDown, IoChevronUp, IoRemoveCircle} from 'react-icons/io5';
-import TeamContext from './Teams.context';
+import {useCreationGameContext} from "../contexts/CreationGame.context";
 
 const Team = (props) => {
 
 	const [isExpanded, setIsExpanded] = useState(false);
 
-	const {teams, setTeams} = useContext(TeamContext);
+	const {teams, setTeams} = useCreationGameContext();
 
 	const addingTeam = (event) => {
 		event.stopPropagation();
