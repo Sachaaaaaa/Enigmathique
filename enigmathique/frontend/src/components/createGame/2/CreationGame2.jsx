@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {initialFormData, useCreationGameContext} from '../../contexts/CreationGame.context';
+import {initialFilterData, initialFormData, useCreationGameContext} from '../../contexts/CreationGame.context';
 import '../../../index.css';
 import {Link} from 'react-router-dom';
 import RoomNav from "./RoomNav";
@@ -8,12 +8,12 @@ import Room from "./Room";
 const CreationGame2 = () => {
 
 	const [selected, setSelected] = useState('suit');
-	const {setStep, setFormData} = useCreationGameContext();
+	const {setStep, setFormData, filter, setFilter} = useCreationGameContext();
 
 	const rooms = [
 		{
 			id:1,
-			name: 'La menuiserie Seguin',
+			name: 'La chambre dorée',
 			difficulty: 'Facile',
 			cat: 'proba',
 			riddles: 5,
@@ -21,7 +21,7 @@ const CreationGame2 = () => {
 		},
 		{
 			id:2,
-			name: 'La menuiserie Seguin',
+			name: 'La case de Pedro',
 			difficulty: 'Difficile',
 			cat: 'proba',
 			riddles: 5,
@@ -37,12 +37,61 @@ const CreationGame2 = () => {
 		},
 		{
 			id:4,
-			name: 'La menuiserie Seguin',
+			name: 'La chaumiere d\'Antoine',
+			difficulty: 'Facile',
+			cat: 'fonct',
+			riddles: 5,
+			winrate: 99,
+		},
+		{
+			id:5,
+			name: 'La maison du pere Andre',
+			difficulty: 'Facile',
+			cat: 'ens',
+			riddles: 5,
+			winrate: 99,
+		},
+		{
+			id:6,
+			name: 'Le garage de Gerard',
+			difficulty: 'Facile',
+			cat: 'suit',
+			riddles: 5,
+			winrate: 99,
+		},
+		{
+			id:7,
+			name: 'La chambre dorée',
 			difficulty: 'Facile',
 			cat: 'proba',
 			riddles: 5,
 			winrate: 99,
 		},
+		{
+			id:8,
+			name: 'La chambre dorée',
+			difficulty: 'Facile',
+			cat: 'proba',
+			riddles: 5,
+			winrate: 99,
+		},
+		{
+			id:9,
+			name: 'La chambre dorée',
+			difficulty: 'Facile',
+			cat: 'proba',
+			riddles: 5,
+			winrate: 99,
+		},
+		{
+			id:10,
+			name: 'La chambre dorée',
+			difficulty: 'Facile',
+			cat: 'proba',
+			riddles: 5,
+			winrate: 99,
+		},
+
 
 	]
 
@@ -54,7 +103,8 @@ const CreationGame2 = () => {
 
 	const handleSuivant = (event) => {
 		if (confirm("Les informations entrées sont exactes ?")) {
-			setFormData(initialFormData)
+			setFormData(initialFormData);
+			setFilter(initialFilterData);
 			return;
 		}
 		event.preventDefault();
@@ -70,12 +120,12 @@ const CreationGame2 = () => {
 			<RoomNav/>
 			<section className='flex flex-col w-full h-[78%] overflow-y-scroll pr-4'>
 				{rooms.map((room, index) => {
-					//TODO: Implementer le filtrage
 					return(
-						<>
-							<Room key={room.id} name={room.name} difficulty={room.difficulty} riddles={room.riddles} winrate={room.winrate} id={room.id}/>
-							{index!==rooms.length-1 && <hr></hr>}
-						</>
+						room.cat === filter.cat && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
+							<>
+								<Room key={room.id} name={room.name} difficulty={room.difficulty} riddles={room.riddles} winrate={room.winrate} id={room.id}/>
+								{index!==rooms.length-1 && <hr></hr>}
+							</>
 					);
 				})}
 			</section>
@@ -94,7 +144,7 @@ const CreationGame2 = () => {
 			</section>
 
 		</section>
-	);
+	)
 };
 
 
