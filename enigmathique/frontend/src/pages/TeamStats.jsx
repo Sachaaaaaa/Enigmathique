@@ -2,6 +2,7 @@ import React from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import {Link} from 'react-router-dom';
 import GameTeam from '../components/stats/GameTeam';
+import ScoreTeam from '../components/stats/ScoreTeam';
 
 const TeamStats = () => {
 
@@ -16,6 +17,11 @@ const TeamStats = () => {
 		}
 	]
 
+	const score = {
+		nbHints: 5,
+		nbMis: 3
+	}
+
 	return (
 		<LayoutProf>
 			<main>
@@ -25,6 +31,7 @@ const TeamStats = () => {
 				</div>
 				<div>
 					<GameTeam rooms={rooms}/>
+					<ScoreTeam rooms={rooms} score={score}/>
 				</div>
 			</main>
 		</LayoutProf>
