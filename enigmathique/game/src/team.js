@@ -1,5 +1,6 @@
 const clc = require('cli-color');
 const { ServerToClient, ClientToServer } = require('./socketMessages');
+const RoomPlayable = require('./rooms/roomPlayable');
 
 class SocketTeam {
 	constructor(socket, session) {
@@ -9,6 +10,7 @@ class SocketTeam {
 		this.socket = socket;
 		this.gameSession = session;
 		this.teamId = socket.handshake.query.teamId;
+		this.room = null;
 
 		this.socket.on(ClientToServer.Message, this.onMessage); 
 		this.socket.on(ClientToServer.RoomLoaded, this.onRoomLoaded);
@@ -40,13 +42,11 @@ class SocketTeam {
 	}
 
 	onSubmit = ({enigmaId, answer}) => {
-		console.log(clc.yellowBright('[Team] Réponse reçu: ' + answer));
-		
-		// Vérifie si la réponse est juste.
-		// { ... }
-
-		const isSolved = true;
-		const endMessage = 'Tu es trop fort'; // Rajouter une indication sur ce qu'il faut faire après
+		console.log(clc.yellowBright(`[Team] Réponse reçu: (${enigmaId}, ${answer})`));
+	
+		const isSolved = this.room.checkAnswer(enigmaId, answer);
+		const endMessage = isSolved ? this.room.getEndMessage(enigmaId): null;
+		console.log(isSolved ? clc.green('[Team] Réponse correcte') : clc.redBright('[Team] Réponse incorrecte'));
 
 		this.socket.emit(ServerToClient.Feedback, { isSolved, endMessage});
 	}
@@ -56,10 +56,20 @@ class SocketTeam {
 		this.socket.emit(ServerToClient.Message, message);
 	}
 
-	sendRoom = (roomName, roomData) => {
-		console.log(clc.yellowBright('[Team] Envoi salle: ' + roomName));
+	/**
+	 * 
+	 * @param {RoomPlayable} room 
+	 */
+	sendRoom = (room) => {
+		this.room = room;
 
-		this.socket.emit(ServerToClient.SwitchRoom, { roomName, roomData });
+		const roomName = room.name;
+		const roomVariables = room.getEnigmasVariables();
+
+		console.log(clc.yellowBright('[Team] Envoi salle: ' + roomName));
+		console.log(room.enigmas);
+
+		this.socket.emit(ServerToClient.SwitchRoom, { roomName, roomVariables });
 		// Attends que le client charge la room
 		this.haveLoadedRoom = false;
 	}

@@ -18,10 +18,10 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	const [answerFeedback, setAnswerFeedback] = useState(null);
 
 	// Recupère les données dynamiques de l'énigme (envoyées par le serveur)
-	if (!room.data.enigmas[enigmaId]) {
+	if (!room.variables[enigmaId]) {
 		throw new Error(`L'énigme ${enigmaId} n'existe pas!`);
 	}
-	const enigmaData = room.data.enigmas[enigmaId];
+	const variables = room.variables[enigmaId];
 
 	const submitAnswer = (answer) => {
 		console.log('submit answer', answer);
@@ -50,7 +50,7 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 		<Html>
 			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
 
-				{enigmaDisplayTemplate(enigmaData, submitAnswer)}
+				{enigmaDisplayTemplate(variables, submitAnswer)}
 
 				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
 

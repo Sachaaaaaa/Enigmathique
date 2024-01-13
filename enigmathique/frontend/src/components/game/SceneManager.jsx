@@ -26,9 +26,9 @@ export const Scene = () => {
 
 	// Ecoute les changements de scène
 	useEffect(() => {
-		socket.on(ServerToClient.SwitchRoom, ({ roomName, roomData }) => {
+		socket.on(ServerToClient.SwitchRoom, ({roomName, roomVariables}) => {
 			console.log('Changement de room : ' + roomName);
-			setRoom({ name: roomName, data: roomData, component: null });
+			setRoom({ name: roomName, variables: roomVariables, component: null });
 		});
 
 		socket.connect('http://localhost:4000');

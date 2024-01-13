@@ -3,6 +3,7 @@ const clc = require('cli-color');
 const { ServerToClient, ClientToServer } = require('./socketMessages');
 const SocketTeam = require('./team');
 const Session = require('./session');
+const RoomDefinition = require('./rooms/roomDefinition');
 
 const TICKS_PER_SECOND = 1;
 
@@ -12,8 +13,8 @@ class Game {
 		this.sessions = {};
 		this.roomsData = {};
 
-		this.io.on(ClientToServer.Connection, this.handleConnection);
 		this.loadRoomsData();
+		this.io.on(ClientToServer.Connection, this.handleConnection);
 		this.run(TICKS_PER_SECOND);
 	}
 
@@ -23,9 +24,10 @@ class Game {
 	loadRoomsData = () => {
 		console.log(clc.yellow('[Game] Chargement des salles...'));
 		// Charger depuis JSON
-		// { ... }
-		// Pour l'instant
-		this.roomsData = roomsData;
+		this.roomsData = [
+			new RoomDefinition(require('../data/rooms/Laboratory.json'))
+		]
+
 		console.log(clc.green('[Game] Données des salles chargées'));
 	};
 
@@ -48,7 +50,7 @@ class Game {
 			console.log(
 				clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée')
 			);
-			this.sessions[sessionId] = new Session(this, sessionId, 1, roomsData);
+			this.sessions[sessionId] = new Session(this, sessionId, 1, this.roomsData);
 		}
 
 		// Crée une nouvelle équipe et l'ajoute à la session, le reste sera géré dedans
@@ -66,23 +68,5 @@ class Game {
 		}, 1000 / ticksPerSecond);
 	};
 }
-
-// Pour l'instant dans le code, les salles sont codées en dur
-const roomsData = [
-	{
-		name: 'Laboratory',
-		data: {
-			enigmas: [ // TODO: Définir intervalles et générer aléatoirement lors de l'assignement à une team
-				{
-					x: 2,
-					y: 42,
-				},
-				{
-					x:2
-				}
-			],
-		},
-	},
-];
 
 module.exports = Game;

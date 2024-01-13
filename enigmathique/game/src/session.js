@@ -51,7 +51,7 @@ class Session {
 
 		// Envoi la nouvelle salle à chaque équipe
 		this.teams.forEach(team => {
-			team.sendRoom(this.rooms[0].name, this.rooms[0].data);
+			team.sendRoom(this.rooms[0].toRoom());
 		});
 	}	
 
@@ -82,8 +82,6 @@ class Session {
 	}
 
 	onTeamLoadedRoom = (team) => {
-		
-
 		this.broadcastStartRound();
 	}
 }
