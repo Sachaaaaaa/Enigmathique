@@ -1,9 +1,7 @@
 import React, {useEffect} from "react";
-import WaitingTeams from "../components/preGame/WaitingTeams";
-import AcceptedTeams from "../components/preGame/AcceptedTeams";
 import LayoutProf from "../layouts/LayoutProf";
 import {useCreationGameContext} from "../components/contexts/CreationGame.context";
-import CourseService from "../services/course.service";
+import TeamContainer from "../components/preGame/TeamContainer";
 
 const PreGame = () => {
 
@@ -84,15 +82,19 @@ const PreGame = () => {
 
 	return (
 		<LayoutProf>
-			<main className="flex flex-col gap-4 w-full h-full p-4">
-				<h1 className="text-3xl">Validation des équipes</h1>
-				<section className="flex flex-row justify-evenly w-full">
-					<WaitingTeams/>
-					<AcceptedTeams/>
-				</section>
-				<section className='flex flex-row justify-end p-4 w-full'>
-					<button className='p-2 bg-blue-800 rounded-xl text-white' onClick={handleStartGame}>Commencer la partie
-					</button>
+			<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
+				<section className='flex flex-col h-[96%] w-full gap-4'>
+					<section className='h-[10%] flex flex-row justify-evenly items-center rounded-full shadow bg-white'>
+						<h1 className='font-bold'>Code de connexion : UGVB</h1>
+					</section>
+					<section className="h-[80%] flex flex-row justify-evenly items-center">
+						<TeamContainer accepted={false}/>
+						<TeamContainer accepted={true}/>
+					</section>
+					<section className='flex flex-row justify-end items-center h-[10%] w-full'>
+						<button className='btn-validate' onClick={handleStartGame}>Commencer la partie
+						</button>
+					</section>
 				</section>
 			</main>
 		</LayoutProf>

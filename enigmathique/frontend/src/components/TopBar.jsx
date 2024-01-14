@@ -5,7 +5,7 @@ import CourseService from "../services/course.service";
 
 
 const TopBar = () => {
-	
+
 	const location = useLocation();
 	const path = location.pathname.split("/");
 	path.shift();
@@ -45,24 +45,22 @@ const TopBar = () => {
 	const textMap ={
 		"dashboard": "Tableau de bord",
 		"class": "Mes classes",
-		"game": "Mes parties",
+		"games": "Mes parties",
 		"room": "Salles d'énigmes",
 		"create-game": "Création de partie",
+		"pregame":"",
 	}
-	
-	
-	
-	
+
 	let text = textMap[path[0]];
-	
 
 	if (path.length === 2) {
 		switch (path[0]) {
 			case "class":
 				text = course ? course.name : "Chargement...";
-				
-				//text = "course.name";
-				//text = "nomclasse" //faire requete sur api;
+				//faire requete sur api;
+				return;
+			case "pregame":
+				text="Validation des équipes"
 		}
 	}
 

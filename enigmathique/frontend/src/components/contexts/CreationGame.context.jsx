@@ -9,7 +9,7 @@ export const initialFormData = {
 }
 export const initialFilterData = {
 	text:'',
-	type:'suit',
+	cat:'suit',
 }
 export const CreationGameDataProvider = (props) => {
 

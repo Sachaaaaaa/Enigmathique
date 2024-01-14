@@ -17,7 +17,7 @@ const ClassList = () => {
 				onChange={(e) => setFormData({...formData, course: parseInt(e.target.value)})}
 				value={formData.course}
 			>
-				<option value={0} disabled={true}>Choississez une classe</option>
+				<option value={0} disabled={true}>Choississez une classe :</option>
 				{courses.map((course) => <option key={course.id} value={course.id}>{course.name}</option>)}
 			</select>
 		</>
