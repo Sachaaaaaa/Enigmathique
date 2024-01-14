@@ -135,7 +135,10 @@ const ListStudents = (props) => {
 	// TODO : récupérer l'id de la classe
 	const URL = window.location.href;
 	const id = URL.substring(URL.lastIndexOf('/') + 1);
-	const loadClasses = () => {
+	/**
+	 * récupère la liste de tous les élèves de la classe
+	 */
+	const loadStudents = () => {
 		StudentService.get(props.id).then((response) => {
 			console.log(response)
 			setStudents(response);
@@ -143,20 +146,23 @@ const ListStudents = (props) => {
 			console.log(error);
 		});
 	}
+	
+	
 	useEffect(() => {
-		loadClasses();
+		loadStudents();
 	}, []);
 	
 	const handleClickCreate = (event, firstname, lastname, id) => {
 		event.preventDefault();
 		StudentService.create(firstname, lastname, id).then((response) => {
 			console.log(response);
-			loadClasses();
+			loadStudents();
 		});
 		setCreateModalOpen(false);
 		setFirstname('');
 		setLastname('');
 	}
+	
 	const [filter, setFilter] = useState({text: ''});
 	const handleChangeText = (e) => {
 		console.log(filter);
@@ -194,7 +200,7 @@ const ListStudents = (props) => {
 			</nav>
 			<ul className='bg-blue-300 flex flex-wrap p-5'>
 				{filteredStudents.map((student) => (
-					<ClassElement key={student.id} student={student} onChange={() => loadClasses()}/>
+					<ClassElement key={student.id} student={student} onChange={() => loadStudents()}/>
 				))}
 			</ul>
 			{createModalOpen && (
