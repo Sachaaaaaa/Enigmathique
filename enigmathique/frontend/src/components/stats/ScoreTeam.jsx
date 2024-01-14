@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GameTeam from "./GameTeam";
 
 const ScoreTeam = (props) => {
 
@@ -24,12 +23,12 @@ const ScoreTeam = (props) => {
 				<section>
 					<img src='' alt='logo'/>
 					<p>Indices utilisés</p>
-					<p>{props.score.nbHints}</p>
+					<p>{props.rooms[0].score.nbHints}</p>
 				</section>
 				<section>
 					<img src='' alt='logo'/>
 					<p>Erreurs commises</p>
-					<p>{props.score.nbMis}</p>
+					<p>{props.rooms[0].score.nbMis}</p>
 				</section>
 				<section>
 					<img src='' alt='logo'/>
@@ -42,8 +41,7 @@ const ScoreTeam = (props) => {
 }
 
 ScoreTeam.propTypes = {
-	rooms: PropTypes.array.isRequired,
-	score: PropTypes.object.isRequired
+	rooms: PropTypes.array.isRequired
 }
 
 export default ScoreTeam;

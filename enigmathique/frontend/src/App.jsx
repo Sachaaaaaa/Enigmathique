@@ -13,6 +13,7 @@ import CreateGame from "./pages/CreateGame";
 import {CreationGameDataProvider} from "./components/contexts/CreationGame.context";
 import PreGame from "./pages/PreGame";
 import TeamStats from "./pages/TeamStats";
+import { RoomProvider } from './contexts/RoomContext';
 import Games from "./pages/Games";
 
 

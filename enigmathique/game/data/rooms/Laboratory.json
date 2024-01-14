@@ -1,0 +1,51 @@
+{
+	"name": "Laboratory",
+	"enigmas": [
+		{
+			"variables": {
+				"x": {
+					"type": "fixed",
+					"value": 0
+				},
+				"y": {
+					"type": "generator",
+					"min": 0,
+					"max": 100
+				}
+			},
+			"answer": {
+				"type": "dynamic",
+				"expression": "x + y"
+			},
+			"hint": "Indice",
+			"endMessage": "Tu as trouvé la réponse"
+		},
+		{
+			"variables": {},
+			"answer": {
+				"type": "fixed",
+				"value": 1
+			},
+			"hint": "Indice",
+			"endMessage": "Tu as trouvé la réponse"
+		},
+		{
+			"variables":{},
+			"answer": {
+				"type": "fixed",
+				"value": 2
+			},
+			"hint": "Indice",
+			"endMessage": "Tu as trouvé la réponse"
+		},
+		{
+			"variables":{},
+			"answer": {
+				"type": "fixed",
+				"value": 3
+			},
+			"hint": "Indice",
+			"endMessage": "Tu as trouvé la réponse"
+		}
+	]
+}
