@@ -38,6 +38,7 @@ require("./routes/authentification.route.js")(app);
 require("./routes/team.route.js")(app);
 require("./routes/game.route.js")(app);
 
+
 // Route par défaut
 app.get("/", (req, res) => {
 	return res.status(200).json({message: "Hello, World!"});

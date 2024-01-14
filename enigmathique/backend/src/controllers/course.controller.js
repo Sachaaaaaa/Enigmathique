@@ -84,10 +84,30 @@ exports.findAll = async (req, res) => {
 		});	
 }
 
+// methode pour récuperer une classe du professeur
+exports.findOne = async (req, res) => {
 
+	// Vérifie que la classe appartient bien au professeur
+	if(! await isClassBelongsProfessor(req.params.id, req)){
+		return res.status(403).json({
+			message: "Vous n'avez pas accès à cette classe."
+		})	
+	}
+
+	// Récupèrer la classe
+	await Course.findOne({ where: { idProfessor: req.tokenId } })
+		.then(data => {
+			return res.status(200).json(data);
+		})
+		.catch(err => {
+			return res.status(500).json({
+				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+			});
+		});	
+}
 
 // methode pour récuperer les élèves d'une classe du professeur par son id
-exports.findById = async (req, res) => {
+exports.findStudents = async (req, res) => {
 
 	// Vérifie que la classe appartient bien au professeur
 	if(! await isClassBelongsProfessor(req.params.id, req)){
@@ -111,6 +131,7 @@ exports.findById = async (req, res) => {
 // 									 UPDATE                                    //
 /////////////////////////////////////////////////////////////////////////////////
 
+// todo: verif qu'il y a au moins un truc à modifier 
 // methode pour mettre à jour le professeur connecté
 exports.update = async(req, res) => {
 	
