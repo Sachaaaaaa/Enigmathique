@@ -1,6 +1,5 @@
 const io = require('socket.io')();
 const Game = require('./game');
-const { ClientToServer } = require('./socketMessages');
 
 const game = new Game(io);
 
