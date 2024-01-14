@@ -21,7 +21,13 @@ function useMemoryState(key, initialState) {
 		setState(nextState);
 	}
 
-	return [state, onChange];
+	function resetAll() {
+		for (const key in memoryState) {
+			delete memoryState[key];
+		}
+	}
+
+	return [state, onChange, resetAll];
 }
 
 export default useMemoryState;
