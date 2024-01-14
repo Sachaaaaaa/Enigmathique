@@ -33,15 +33,17 @@ const ClassElement = ({classe, onChange}) => {
 
 
 	return (
-		<li key={classe.id} value={classe.name} className='bg-blue-700 flex p-1'>
-			<h3 className='w-40 text-center'>{classe.name}</h3>
-			<button className='btn-utils-student' onClick={() => setEditModalOpen(true)}><MdOutlineModeEdit
-				color='white' size='1.5em'/></button>
+		<li key={classe.id} value={classe.name} className='bg-gray-300 flex p-1 rounded-2xl'>
+			<h3 className='w-40 text-center my-auto'>{classe.name}</h3>
 			<Link to={`/class/${classe.id}`}>
-				<button className='btn-utils-student'><CiSquareMore color='white' size='1.5em'/></button>
+				<button className='btn-utils-course-student text-white flex space-x-2'><CiSquareMore color='white' size='1.5em'/><p>Voir les élèves</p></button>
 			</Link>
-			<button className='btn-utils-student' onClick={() => setDeleteModalOpen(true)}>
-				<MdDeleteForever color='white' size='1.5em'/></button>
+			<div className='ml-auto space-x-3'>
+				<button className='btn-utils-course-student-edit' onClick={() => setEditModalOpen(true)}><MdOutlineModeEdit
+					color='white' size='1.5em'/></button>
+				<button className='btn-utils-course-student-delete' onClick={() => setDeleteModalOpen(true)}>
+					<MdDeleteForever color='white' size='1.5em'/></button>
+			</div>
 			{editModalOpen && (
 				<Modal setOpenModal={setEditModalOpen}>
 					<ModalHeader>
@@ -50,7 +52,7 @@ const ClassElement = ({classe, onChange}) => {
 					<ModalBody>
 						<form className='flex flex-col space-y-5'>
 							<label htmlFor='name'>Nom de la classe</label>
-							<input type='text' name='name' id='name' value={name} onChange={(e) => setName(e.target.value)} className='border-2 border-blue-900 rounded-md'/>
+							<input type='text' name='name' id='name' defaultValue={classe.name} onChange={(e) => setName(e.target.value)} className='border-2 border-blue-900 rounded-md'/>
 							<button className='btn-delete' onClick={() => setEditModalOpen(false)}>Annuler</button>
 							<button type='submit' className='btn-validate' onClick={(event) => handleClickEdit(event, classe.id)}>Valider la
 								modification
@@ -104,17 +106,20 @@ const ListClass = () => {
 				loadClasses();
 			});
 		setCreateModalOpen(false);
+		setName('');
 	}
 
 	return (
 		<>
-			<ul className='bg-blue-300 space-y-10'>
+			<div className='flex justify-end p-5'>
+				<button className="btn-utils-course-student text-white" onClick={() => setCreateModalOpen(true)}>Créer une classe
+				</button>
+			</div>
+			<ul className='bg-blue-300 space-y-10 p-5'>
 				{courses.map((classe) => (
-					<ClassElement key={classe.id} classe={classe} onChange={() => loadClasses()} />
+					<ClassElement key={classe.id} classe={classe} onChange={() => loadClasses()}/>
 				))}
 			</ul>
-			<button className="btn-utils-student text-white" onClick={() => setCreateModalOpen(true)}>Créer une classe
-			</button>
 			{createModalOpen && (
 				<Modal setOpenModal={setCreateModalOpen} height='400'>
 					<ModalHeader>
@@ -135,7 +140,7 @@ const ListClass = () => {
 
 ClassElement.propTypes = {
 	classe: PropTypes.object.isRequired,
-	onChange : PropTypes.func.isRequired,
+	onChange: PropTypes.func.isRequired,
 }
 
 export default ListClass;

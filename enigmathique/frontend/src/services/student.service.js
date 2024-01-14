@@ -22,20 +22,20 @@ const deleteId = (id) => {
 			return response.data;
 		});
 }
-const create = (firstname, secondname, idCourse) => {
+const create = (firstname, lastname, idCourse) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
 	return axios
-		.post(API_URL + 'course', {firstname: firstname, secondname:secondname, idCourse:idCourse }, {headers: token})
+		.post(API_URL + 'student', {firstname: firstname, lastname:lastname, idCourse:idCourse }, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
 }
-const edit = (firstname, secondname, idCourse, id) => {
+const edit = (firstname, lastname, idCourse, idStudent) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
 	return axios
-		.put(API_URL + 'course/' + id, {firstname: firstname, secondname:secondname, idCourse:idCourse }, {headers: token})
+		.put(API_URL + 'course/' + idCourse, {firstname: firstname, lastname:lastname, idStudent: idStudent }, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
