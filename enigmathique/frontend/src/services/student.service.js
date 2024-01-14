@@ -36,8 +36,9 @@ const create = (firstname, lastname, idCourse) => {
 const edit = (firstname, lastname, idCourse, idStudent) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
+	console.log(firstname, lastname, idCourse, idStudent);
 	return axios
-		.put(API_URL + 'course/' + idCourse, {firstname: firstname, lastname:lastname, idStudent: idStudent }, {headers: token})
+		.put(API_URL + 'student/' + idStudent, {firstname: firstname, lastname:lastname, idCourse: idCourse }, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
