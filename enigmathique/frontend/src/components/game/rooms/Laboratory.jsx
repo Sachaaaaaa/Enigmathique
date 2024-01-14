@@ -23,92 +23,6 @@ export default function Room001(props) {
 
 	const mesh = useRef();
 
-	const MarmiteInt = () => {
-		const {
-			mesh,
-			hovered,
-			clicked,
-			handlePointerOver,
-			handlePointerOut,
-			handleClick,
-			forceExit,
-		} = useInteractiveObject();
-		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
-		return (
-			<mesh
-				ref={mesh}
-				name="Marmite"
-				castShadow
-				receiveShadow
-				geometry={nodes.Marmite.geometry}
-				material={materials['Metal.001']}
-				position={[0, 0.1, 0]}
-				onPointerOver={handlePointerOver}
-				onPointerOut={handlePointerOut}
-				onClick={handleClick}
-			>
-				{hovered && <meshBasicMaterial color={0x00ff00} />}
-				{clicked && (
-					<Enigma
-						enigmaId={0}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
-							<BasicDisplayTemplate
-								title="La Marmite"
-								description="Une description bien longue...."
-								image={data.image}
-								handleSubmitAnswer={handleSubmitAnswer}
-							/>
-						)}
-						closeEnigma={forceExit}
-					/>
-				)}
-			</mesh>
-		);
-	};
-
-	const MarmiteVariantInt = () => {
-		const {
-			mesh,
-			hovered,
-			clicked,
-			handlePointerOver,
-			handlePointerOut,
-			handleClick,
-			forceExit,
-		} = useInteractiveObject();
-		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
-		return (
-			<mesh
-				ref={mesh}
-				name="Marmite"
-				castShadow
-				receiveShadow
-				geometry={nodes.Marmite.geometry}
-				material={materials['Metal.001']}
-				position={[2, 0.1, 0]}
-				onPointerOver={handlePointerOver}
-				onPointerOut={handlePointerOut}
-				onClick={handleClick}
-			>
-				{hovered && <meshBasicMaterial color={0x00ff00} />}
-				{clicked && (
-					<Enigma
-						enigmaId={1}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
-							<BasicDisplayTemplate
-								title="La Marmite Variante"
-								description="Une description bien longue...."
-								image={data.image}
-								handleSubmitAnswer={handleSubmitAnswer}
-							/>
-						)}
-						closeEnigma={forceExit}
-					/>
-				)}
-			</mesh>
-		);
-	};
-
 	const FeuilleInt = () => {
 		const {
 			mesh,
@@ -126,10 +40,10 @@ export default function Room001(props) {
 				name="Feuilles"
 				castShadow
 				receiveShadow
-				geometry={nodes.Feuille005.geometry}
-				material={nodes.Feuille005.material}
-				position={[0.68, 0.312, 1.228]}
-				rotation={[Math.PI / 2, 0, 0.436]}
+				geometry={nodes.Feuilles.geometry}
+				material={materials.Default}
+				position={[0.75, 0.312, 1.318]}
+				rotation={[Math.PI / 2, 0, -0.175]}
 				scale={0.08}
 				onPointerOver={handlePointerOver}
 				onPointerOut={handlePointerOut}
@@ -138,8 +52,8 @@ export default function Room001(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<InformationPopup
-						title="Recette de potion de souris"
-						information="C'est la seule chose qui est compréhensible partmit le tas de feuille"
+						title="Recette de potion de Nano"
+						information="Cette recette vous dit quelque chose... Ca a l'air d'être une recette alternative a la potion de souris !"
 						image="undef"
 						closePopup={forceExit}
 					/>
@@ -147,6 +61,176 @@ export default function Room001(props) {
 			</mesh>
 		);
 	};
+
+	const ArmoirInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Armoir"
+				castShadow
+				receiveShadow
+				geometry={nodes.Armoir.geometry}
+				material={materials['Wood.001']}
+				position={[1.3, 0.7, -1.85]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={0}
+						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
+							<BasicDisplayTemplate
+								title="L'ingrédient mystère doit être ici !"
+								description="Encore faut-il trouver le bon tiroir..."
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const CoffreInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cube010"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cube010.geometry}
+				material={materials['Metal.001']}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={1}
+						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
+							<BasicDisplayTemplate
+								title="Ouvrir le coffre"
+								description="Quel est le code du coffre ?"
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const MelangeurInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Sphere"
+				castShadow
+				receiveShadow
+				geometry={nodes.Sphere.geometry}
+				material={materials['Metal.001']}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={2}
+						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
+							<BasicDisplayTemplate
+								title="Une bonne mixture !"
+								description="Mais pendant combien de temps il faut melanger ?"
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const CuisssonInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cylinder035_1"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cylinder035_1.geometry}
+				material={materials["Metal_Vers.002"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={3}
+						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
+							<BasicDisplayTemplate
+								title="Chaud devant !"
+								description="La cuisson est presque terminée, mais combien de temps faut-il encore attendre ?"
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
 
 	return (
 		<group {...props} dispose={null}>
@@ -160,6 +244,36 @@ export default function Room001(props) {
 					position={[1.302, 0.864, -1.692]}
 					scale={[0.673, 0.003, 0.008]}
 				/>
+				<mesh
+					name="Cadre_porte"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cadre_porte.geometry}
+					material={materials["Wood.002"]}
+					position={[1.6, 0.5, 1.98]}
+					rotation={[0, -1.571, 0]}
+				/>
+				<group
+					name="Porte"
+					position={[1.6, 0.5, 1.988]}
+					rotation={[0, -1.571, 0]}
+					scale={[0.6, 1, 1]}
+				>
+					<mesh
+						name="Cube015"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube015.geometry}
+						material={materials["Metal.001"]}
+					/>
+					<mesh
+						name="Cube015_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube015_1.geometry}
+						material={materials["Metal_Vers.002"]}
+					/>
+				</group>
 				<group name="Room">
 					<mesh
 						name="Cylinder"
@@ -181,19 +295,22 @@ export default function Room001(props) {
 					position={[0, 1.8, 0]}
 					rotation={[0, 0, -Math.PI / 2]}
 				>
-					<mesh
-						name="Sphere"
-						castShadow
-						receiveShadow
-						geometry={nodes.Sphere.geometry}
-						material={materials['Metal.001']}
-					/>
+					{/* Remplacer le mesh par le composant MelangeurInt
+						<mesh
+							name="Sphere"
+							castShadow
+							receiveShadow
+							geometry={nodes.Sphere.geometry}
+							material={materials["Metal.001"]}
+						/>
+					*/}
+					<MelangeurInt />
 					<mesh
 						name="Sphere_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere_1.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 					<mesh
 						name="Sphere_2"
@@ -209,24 +326,22 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere001.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 					<mesh
 						name="Sphere001_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere001_1.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 				</group>
-				<MarmiteInt />
-				<MarmiteVariantInt />
 				<mesh
 					name="Marmite"
 					castShadow
 					receiveShadow
 					geometry={nodes.Marmite.geometry}
-					material={materials['Metal.001']}
+					material={materials["Metal.001"]}
 					position={[0, 0.1, 0]}
 				/>
 				<group
@@ -239,14 +354,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder003.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 					<mesh
 						name="Cylinder003_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder003_1.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 				</group>
 				<mesh
@@ -254,7 +369,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Pipe004.geometry}
-					material={materials['Metal_Vers.002']}
+					material={materials["Metal_Vers.002"]}
 					position={[0.25, 2.27, 0]}
 					scale={[0.027, 0.2, 0.027]}
 				/>
@@ -264,40 +379,46 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder009.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 					<mesh
 						name="Cylinder009_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder009_1.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 				</group>
 				<group name="Chaud" position={[-0.7, 0.4, -0.6]}>
-					<mesh
-						name="Cylinder035_1"
-						castShadow
-						receiveShadow
-						geometry={nodes.Cylinder035_1.geometry}
-						material={materials['Metal_Vers.002']}
-					/>
+					{/* Remplacer le mesh par le composant CuisssonInt
+						<mesh
+							name="Cylinder035_1"
+							castShadow
+							receiveShadow
+							geometry={nodes.Cylinder035_1.geometry}
+							material={materials["Metal_Vers.002"]}
+						/>
+					*/}
+					<CuisssonInt />
 					<mesh
 						name="Cylinder035_2"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder035_2.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 				</group>
-				<mesh
-					name="Armoir"
-					castShadow
-					receiveShadow
-					geometry={nodes.Armoir.geometry}
-					material={materials['Wood.001']}
-					position={[1.3, 0.7, -1.85]}
-				/>
+				{/* Remplacer le mesh par le composant ArmoirInt
+					<mesh
+						name="Armoir"
+						castShadow
+						receiveShadow
+						geometry={nodes.Armoir.geometry}
+						material={materials["Wood.001"]}
+						position={[1.3, 0.7, -1.85]}
+					/>
+				*/}
+				<ArmoirInt />
 				<group
 					name="Rangement"
 					position={[0.72, 1.28, -1.83]}
@@ -308,14 +429,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cube012.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 					<mesh
 						name="Cube012_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cube012_1.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 				</group>
 				<mesh
@@ -323,7 +444,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Poigne.geometry}
-					material={materials['Metal_Vers.002']}
+					material={materials["Metal_Vers.002"]}
 					position={[0.72, 1.28, -1.66]}
 					rotation={[Math.PI / 2, 0, 0]}
 					scale={0.02}
@@ -333,7 +454,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Echelle001.geometry}
-					material={materials['Wood.002']}
+					material={materials["Wood.002"]}
 					position={[0.462, 0.971, -1.829]}
 					rotation={[0, 0, -0.262]}
 				/>
@@ -343,21 +464,21 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder037_1.geometry}
-						material={materials['Glass.002']}
+						material={materials["Glass.002"]}
 					/>
 					<mesh
 						name="Cylinder037_2"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder037_2.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 					<mesh
 						name="Cylinder037_3"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder037_3.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 				</group>
 				<mesh
@@ -365,7 +486,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Support_Cuve.geometry}
-					material={materials['Metal.001']}
+					material={materials["Metal.001"]}
 					position={[-1.7, 0.2, 0.6]}
 					scale={[0.9, 0.2, 0.9]}
 				/>
@@ -375,14 +496,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder015_1.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 					<mesh
 						name="Cylinder015_2"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder015_2.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 				</group>
 				<group
@@ -396,7 +517,7 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder038_1.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 					<mesh
 						name="Cylinder038_2"
@@ -412,14 +533,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder001.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 					<mesh
 						name="Cylinder001_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder001_1.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 				</group>
 				<mesh
@@ -427,14 +548,14 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Pipe002.geometry}
-					material={materials['Glass.001']}
+					material={materials["Glass.001"]}
 				/>
 				<mesh
 					name="Pipe003"
 					castShadow
 					receiveShadow
 					geometry={nodes.Pipe003.geometry}
-					material={materials['Glass.001']}
+					material={materials["Glass.001"]}
 					position={[-0.004, 0, -0.001]}
 				/>
 				<mesh
@@ -442,14 +563,14 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Pipe001.geometry}
-					material={materials['Glass.001']}
+					material={materials["Glass.001"]}
 				/>
 				<mesh
 					name="Porte_Potion001"
 					castShadow
 					receiveShadow
 					geometry={nodes.Porte_Potion001.geometry}
-					material={materials['Metal.001']}
+					material={materials["Metal.001"]}
 					position={[-0.7, 1.447, -0.6]}
 					rotation={[Math.PI, -1.396, Math.PI]}
 					scale={[0.191, 0.152, 0.191]}
@@ -459,7 +580,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Potion010.geometry}
-					material={materials['Glass.003']}
+					material={materials["Glass.003"]}
 					position={[-0.7, 1.51, -0.6]}
 					rotation={[0.436, 0, 0]}
 					scale={0.252}
@@ -469,7 +590,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Echelle002.geometry}
-					material={materials['Wood.002']}
+					material={materials["Wood.002"]}
 					position={[-0.388, 0.971, -0.849]}
 					rotation={[-Math.PI, -0.698, 2.88]}
 				/>
@@ -478,7 +599,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Bouchon.geometry}
-					material={materials['Wood.002']}
+					material={materials["Wood.002"]}
 					position={[-0.7, 1.51, -0.6]}
 					rotation={[0.436, 0, 0]}
 					scale={0.252}
@@ -488,7 +609,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Sphere011.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[-0.7, 1.51, -0.6]}
 					scale={0.227}
 				/>
@@ -515,7 +636,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Chaine.geometry}
-					material={materials['Metal.001']}
+					material={materials["Metal.001"]}
 					position={[0, 1.33, 0.5]}
 				/>
 				<mesh
@@ -542,7 +663,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Deco_Bureau.geometry}
-					material={materials['Wood.001']}
+					material={materials["Wood.001"]}
 					position={[0.5, 1.04, 1.7]}
 					rotation={[0.593, -Math.PI / 2, 0]}
 				/>
@@ -551,26 +672,29 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Deco_Bureau001.geometry}
-					material={materials['Wood.001']}
+					material={materials["Wood.001"]}
 					position={[0.49, 1.14, 1.7]}
 					rotation={[0.593, -Math.PI / 2, 0]}
 				/>
-				<mesh
-					name="Feuilles"
-					castShadow
-					receiveShadow
-					geometry={nodes.Feuilles.geometry}
-					material={materials.Default}
-					position={[0.75, 0.312, 1.318]}
-					rotation={[Math.PI / 2, 0, -0.175]}
-					scale={0.08}
-				/>
+				{/* Remplacer le mesh par le composant FeuilleInt
+					<mesh
+						name="Feuilles"
+						castShadow
+						receiveShadow
+						geometry={nodes.Feuilles.geometry}
+						material={materials.Default}
+						position={[0.75, 0.312, 1.318]}
+						rotation={[Math.PI / 2, 0, -0.175]}
+						scale={0.08}
+					/>
+				*/}
+				<FeuilleInt />
 				<mesh
 					name="Porte_Potion"
 					castShadow
 					receiveShadow
 					geometry={nodes.Porte_Potion.geometry}
-					material={materials['Metal.001']}
+					material={materials["Metal.001"]}
 					position={[0.27, 0.4, 1.04]}
 					scale={0.042}
 				/>
@@ -584,14 +708,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cone.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cone_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cone_1.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 				</group>
 				<mesh
@@ -599,7 +723,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Bureau.geometry}
-					material={materials['Wood.001']}
+					material={materials["Wood.001"]}
 					position={[0.29, 0.5, 1.3]}
 				/>
 				<mesh
@@ -607,7 +731,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Table.geometry}
-					material={materials['Wood.001']}
+					material={materials["Wood.001"]}
 					position={[0.7, 0.3, 1.3]}
 				/>
 				<mesh
@@ -615,7 +739,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Chaise.geometry}
-					material={materials['Wood.002']}
+					material={materials["Wood.002"]}
 					position={[1.01, 0.19, 1.31]}
 				/>
 				<mesh
@@ -623,23 +747,26 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Support_Tube.geometry}
-					material={materials['Wood.002']}
+					material={materials["Wood.002"]}
 					position={[0.32, 0.357, 1.288]}
 				/>
 				<group name="Coffre" position={[0.41, 0.915, 1.04]}>
+					{/* Remplacer le mesh par le composant CoffreInt
 					<mesh
 						name="Cube010"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cube010.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
+					*/}
+					<CoffreInt />
 					<mesh
 						name="Cube010_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cube010_1.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 				</group>
 				<mesh
@@ -647,7 +774,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.ancre.geometry}
-					material={materials['Metal.001']}
+					material={materials["Metal.001"]}
 					position={[0.67, 0.322, 1.099]}
 				/>
 				<group
@@ -676,7 +803,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Tube_Essai.geometry}
-					material={materials['Glass.001']}
+					material={materials["Glass.001"]}
 					position={[0.32, 0.42, 1.34]}
 				/>
 				<group name="Potion002" position={[0.39, 0.355, 1.56]} scale={0.048}>
@@ -685,14 +812,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder019.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cylinder019_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder019_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<group name="Potion005" position={[0.388, 0.725, 1.17]} scale={1.1}>
@@ -701,14 +828,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder022.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cylinder022_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder022_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<mesh
@@ -716,7 +843,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Potion006.geometry}
-					material={materials['Glass.001']}
+					material={materials["Glass.001"]}
 					position={[0.405, 0.733, 1.28]}
 					scale={[1.13, 0.6, 1.13]}
 				/>
@@ -730,14 +857,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder025.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cylinder025_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder025_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<group name="Potion008" position={[0.41, 0.715, 1.441]} scale={0.045}>
@@ -746,14 +873,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder026.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cylinder026_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder026_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<group name="Potion009" position={[0.37, 0.706, 1.53]} scale={0.036}>
@@ -762,14 +889,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder027.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cylinder027_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder027_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<group name="Potion011" position={[0.42, 0.706, 1.6]} scale={0.036}>
@@ -778,14 +905,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder028.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cylinder028_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder028_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<mesh
@@ -793,7 +920,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Sphere_Bureau.geometry}
-					material={materials['Wood.002']}
+					material={materials["Wood.002"]}
 					position={[0.5, 1.16, 1.7]}
 				/>
 				<group
@@ -807,14 +934,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere004.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Sphere004_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere004_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<group name="Orbe" position={[0.41, 0.905, 1.26]}>
@@ -830,21 +957,21 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere005_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 					<mesh
 						name="Sphere005_2"
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere005_2.geometry}
-						material={materials['Metal.001']}
+						material={materials["Metal.001"]}
 					/>
 					<mesh
 						name="Sphere005_3"
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere005_3.geometry}
-						material={materials['Metal_Vers.002']}
+						material={materials["Metal_Vers.002"]}
 					/>
 				</group>
 				<mesh
@@ -852,7 +979,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Support_Bureau.geometry}
-					material={materials['Metal.001']}
+					material={materials["Metal.001"]}
 					position={[0.22, 0.62, 1.61]}
 					scale={[1, 1, 0.549]}
 				/>
@@ -861,7 +988,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Support_Bureau001.geometry}
-					material={materials['Metal.001']}
+					material={materials["Metal.001"]}
 					position={[0.32, 0.962, 1.61]}
 					scale={[1, 1, 0.549]}
 				/>
@@ -870,7 +997,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Livre001.geometry}
-					material={materials['Livre.004']}
+					material={materials["Livre.004"]}
 					position={[0.4, 1.062, 1.138]}
 				/>
 				<mesh
@@ -878,7 +1005,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Livre002.geometry}
-					material={materials['Livre.003']}
+					material={materials["Livre.003"]}
 					position={[0.4, 1.081, 1.017]}
 				/>
 				<mesh
@@ -886,7 +1013,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Livre003.geometry}
-					material={materials['Livre.001']}
+					material={materials["Livre.001"]}
 					position={[0.4, 1.078, 1.076]}
 				/>
 				<mesh
@@ -894,7 +1021,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cube028.geometry}
-					material={materials['Livre.002']}
+					material={materials["Livre.002"]}
 					position={[0.4, 1.082, 1.599]}
 				/>
 				<mesh
@@ -902,7 +1029,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder033.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.388, 0.724, 1.17]}
 					scale={1.015}
 				/>
@@ -912,14 +1039,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder017.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cylinder017_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder017_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<mesh
@@ -927,7 +1054,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder035.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.371, 0.724, 1.072]}
 					scale={1.015}
 				/>
@@ -937,14 +1064,14 @@ export default function Room001(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder029.geometry}
-						material={materials['Glass.001']}
+						material={materials["Glass.001"]}
 					/>
 					<mesh
 						name="Cylinder029_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cylinder029_1.geometry}
-						material={materials['Wood.002']}
+						material={materials["Wood.002"]}
 					/>
 				</group>
 				<mesh
@@ -952,7 +1079,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder037.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.407, 0.724, 0.99]}
 					scale={1.015}
 				/>
@@ -970,7 +1097,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder016.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.41, 0.715, 1.441]}
 					scale={0.041}
 				/>
@@ -979,7 +1106,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder038.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.36, 0.72, 1.34]}
 					scale={[0.04, 0.045, 0.04]}
 				/>
@@ -988,7 +1115,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder039.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.37, 0.706, 1.53]}
 					scale={0.032}
 				/>
@@ -997,7 +1124,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder040.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.42, 0.706, 1.6]}
 					scale={0.032}
 				/>
@@ -1006,7 +1133,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder041.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.405, 0.723, 1.28]}
 					scale={[1.084, 0.576, 1.084]}
 				/>
@@ -1015,7 +1142,7 @@ export default function Room001(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Sphere008.geometry}
-					material={materials['Liquide.001']}
+					material={materials["Liquide.001"]}
 					position={[0.27, 0.419, 1.04]}
 					scale={0.04}
 				/>
