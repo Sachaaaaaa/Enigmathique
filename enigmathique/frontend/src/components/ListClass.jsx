@@ -5,6 +5,7 @@ import Modal, {ModalBody, ModalHeader} from './Modal';
 import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
 import {CiSquareMore} from 'react-icons/ci';
 import PropTypes from 'prop-types';
+import { FaPlus } from "react-icons/fa6";
 
 const ClassElement = ({classe, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -36,16 +37,16 @@ const ClassElement = ({classe, onChange}) => {
 		<li key={classe.id} value={classe.name} className='bg-gray-300 flex p-1 rounded-2xl'>
 			<h3 className='w-40 text-center my-auto'>{classe.name}</h3>
 			<Link to={`/class/${classe.id}`}>
-				<button className='btn-utils-course-student text-white flex space-x-2'><CiSquareMore color='white' size='1.5em'/><p>Voir les élèves</p></button>
+				<button className='btn-utils-course-student-icons'><CiSquareMore size='1.5em'/><p>Voir les élèves</p></button>
 			</Link>
 			<div className='ml-auto space-x-3'>
 				<button className='btn-utils-course-student-edit' onClick={() => setEditModalOpen(true)}><MdOutlineModeEdit
-					color='white' size='1.5em'/></button>
+					size='1.5em'/></button>
 				<button className='btn-utils-course-student-delete' onClick={() => setDeleteModalOpen(true)}>
-					<MdDeleteForever color='white' size='1.5em'/></button>
+					<MdDeleteForever size='1.5em'/></button>
 			</div>
 			{editModalOpen && (
-				<Modal setOpenModal={setEditModalOpen}>
+				<Modal setOpenModal={setEditModalOpen} height='400'>
 					<ModalHeader>
 						<h1 className='text-3xl text-center'>Modifier la classe {classe.name}</h1>
 					</ModalHeader>
@@ -112,7 +113,7 @@ const ListClass = () => {
 	return (
 		<>
 			<div className='flex justify-end p-5'>
-				<button className="btn-utils-course-student text-white" onClick={() => setCreateModalOpen(true)}>Créer une classe
+				<button className="btn-utils-course-student-icons" onClick={() => setCreateModalOpen(true)}><FaPlus /><p>Créer une classe</p>
 				</button>
 			</div>
 			<ul className='bg-blue-300 space-y-10 p-5'>
