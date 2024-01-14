@@ -4,23 +4,11 @@ import React, { useRef, useState, useContext, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Html } from "@react-three/drei";
 import { node } from "prop-types";
-import { SocketContext } from "../context/socket";
+
+import useInteractiveObject from "../../../hooks/useInteractiveObject";
 
 export function Model(props) {
-	const socket = useContext(SocketContext);
 	const { nodes, materials } = useGLTF("/models/test.glb");
-
-	useEffect(() => {
-		const onGameEvent = (data) => {
-			console.log('Evenement de jeu: ' + data);
-		};
-
-		socket.on('gameEvent', onGameEvent);
-
-		return () => {
-			socket.off('gameEvent', onGameEvent);
-		};
-	}, []);
 
 	const [gameState, setGameState] = useState({
 		'suzanneClicked': false,
@@ -28,45 +16,32 @@ export function Model(props) {
 	});
 	
 	const handleCickSuzanne = (e) => {
-		setGameState({
-			...gameState,
-			'suzanneClicked': true,
-		});
-		console.log("Suzanne clicked");
-		console.log(gameState);
-
-		socket.emit('message', 'J\'ai cliqué sur Suzanne mdr');
 	};
 
-
-	const useInteractiveObject = () => {
-		const [hovered, setHovered] = useState(false);
-		const [clicked, setClicked] = useState(false);
-		const mesh = useRef();
-	
-		const handlePointerOver = () => {
-			setHovered(true);
-		};
-	
-		const handlePointerOut = () => {
-			setHovered(false);
-		};
-	
-		const handleClick = () => {
-			setClicked(!clicked);
-		};
-	
-		return {
-			mesh,
-			hovered,
-			clicked,
-			handlePointerOver,
-			handlePointerOut,
-			handleClick,
-		};
-	};
-	
+	// Initialiser d'un objet interactif avec le hook
 	const Object1 = () => {
+    const { mesh, hovered, clicked, handlePointerOver, handlePointerOut, handleClick } =
+      useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+    return (
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Suzanne.geometry}
+        material={materials.RedColor}
+        position={[0, 0, 0]}
+        ref={mesh}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+        onClick={handleClick}
+      >
+        {hovered && <meshBasicMaterial color={0x00ff00} />}
+        {clicked && console.log("Object1 clicked")}
+      </mesh>
+    );
+  };
+
+	const Object2 = () => {
     const { mesh, hovered, clicked, handlePointerOver, handlePointerOut, handleClick } =
       useInteractiveObject();
 
@@ -76,14 +51,14 @@ export function Model(props) {
         receiveShadow
         geometry={nodes.Suzanne.geometry}
         material={materials.RedColor}
-        position={[0, 0.1, 0]}
+        position={[4, 0, 0]}
         ref={mesh}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
         onClick={handleClick}
       >
-        {hovered && <meshBasicMaterial color={0x00ff00} />}
-        {clicked && <div>une page HTML différente</div>}
+        {hovered && <meshBasicMaterial color={0xff0000} />}
+        {clicked && console.log("Object2 clicked")}
       </mesh>
     );
   };
@@ -91,17 +66,7 @@ export function Model(props) {
   return (
     <group {...props} dispose={null}>
       <Object1 />
-
-			<mesh
-        name="Suzanne"
-        castShadow
-        receiveShadow
-        geometry={nodes.Suzanne.geometry}
-        material={materials.RedColor}
-				position={[4, 0, 0]}
-				onPointerDown={handleCickSuzanne}
-      >
-      </mesh>
+			<Object2 />
     </group>
   );
 }

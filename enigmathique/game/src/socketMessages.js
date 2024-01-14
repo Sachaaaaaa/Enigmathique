@@ -4,9 +4,13 @@
 
 // Messages que le serveur envoie au client
 const ServerToClient = {
+	Connection: 'connect',
+	Disconnection: 'disconnect',
 	SwitchRoom: 'room', // + {roomTag: string}
 	Message: 'message', // + {message: string}
 	StartRound: 'startRound', // + {}
+	TeamCount: 'teamCount', // + {count: int}
+	Feedback: 'feedback', // + {isSolved: bool, ~endMessage: string}
 };
 
 // Messages que le client envoie au serveur
@@ -16,7 +20,7 @@ const ClientToServer = {
 	Message: 'message', // + {message: string}
 	Submit: 'submit', // + {answer: string}
 	Hint: 'hint', // + {hint: string}
-	Ready: 'ready', // { }
+	RoomLoaded: 'roomLoaded', // { }
 };
 
 module.exports = {

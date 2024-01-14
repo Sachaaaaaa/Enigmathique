@@ -24,8 +24,8 @@ function Modal({setOpenModal, children, width = 500, height = 500}) {
 	console.log(width)
 	return (
 		<div className='mt-0 absolute top-0 left-0 '>
-			<div className='w-full h-full fixed backdrop-blur-sm top-0'>
-				<div className={`p-auto bg-white relative rounded-lg shadow-2xl`} style={{width: `${width}px`, height: `${height}px`}}>
+			<div className='w-full h-full fixed backdrop-blur-sm flex items-center'>
+				<div className={`p-auto bg-gray-200 relative rounded-lg shadow-2xl mx-auto `} style={{width: `${width}px`, height: `${height}px`}}>
 					{children}
 				</div>
 			</div>
