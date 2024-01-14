@@ -47,7 +47,7 @@ class Game {
 
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
-			this.sessions[sessionId] = new Session(this, sessionId, [1, 2], this.roomsData);
+			this.sessions[sessionId] = new Session(this, sessionId, [1], this.roomsData);
 			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));
 		}
 
