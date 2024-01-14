@@ -12,7 +12,7 @@ const SearchInput = (props) => {
 			<input
 				type='text'
 				placeholder='Rechercher'
-				onChange={props.handleChangeText}
+				onChange={(event) => props.handleChangeText(event)}
 				className="focus:border-transparent"
 			/>
 		</section>
