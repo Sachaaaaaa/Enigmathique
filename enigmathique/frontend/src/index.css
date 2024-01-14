@@ -1,3 +1,115 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+@layer components {
+    /**
+    * Bouton valider
+     */
+    .btn-validate{
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white text-xl font-bold rounded whitespace-normal p-4;
+    }
+
+    .btn-validate:hover {
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
+    }
+
+    /**
+    * Bouton annuler
+     */
+    .btn-cancel {
+        @apply bg-[#ef4565] text-white text-xl font-bold p-4 rounded whitespace-normal;
+    }
+
+    .btn-cancel:hover {
+        @apply bg-red-500;
+    }
+
+    /**
+    * Bouton Supprimer
+     */
+    .btn-delete {
+        @apply bg-red-800 text-white font-bold py-2 px-4 rounded;
+    }
+
+    .btn-delete:hover {
+        @apply bg-red-600;
+    }
+
+    /**
+    * Bouton modifier
+     */
+    .btn-edit {
+        @apply bg-amber-500 text-white font-bold py-2 px-4 rounded;
+    }
+
+    .btn-delete:hover {
+        @apply bg-amber-300;
+    }
+
+
+    /**
+    * TopBar
+    */
+    .topbar-container {
+        @apply flex flex-row p-6 items-center border-b-2 border-[#E6EFF5];
+    }
+    .txt-dashboard {
+        @apply uppercase bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-transparent bg-clip-text font-semibold;
+    }
+
+    .elem-dashboard {
+        @apply p-1 ml-3 mr-3
+    }
+
+    /**
+    * Bouton utilitaire élève
+     */
+    .btn-utils-student {
+        @apply bg-purple-800 rounded-full p-3
+    }
+
+    .btn-utils-student:hover {
+        @apply bg-purple-600
+    }
+
+    .btn-show {
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white rounded-b-3xl w-full text-center uppercase flex items-center
+        justify-center h-12 transition-colors duration-300;
+    }
+
+    .btn-show:hover {
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
+    }
+
+    /**
+   * NavBar
+   */
+    .nav-container {
+        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-[#E6EFF5];
+    }
+
+    .nav-content {
+        @apply flex flex-col justify-between items-center h-full w-full py-6 pr-2 whitespace-nowrap;
+    }
+
+    .nav-item {
+        @apply flex flex-row justify-start items-center gap-4 w-full text-[#B1B1B1];
+    }
+
+    .nav-item:hover {
+        @apply text-[#7C79FF];
+    }
+
+    .nav-item-indicator {
+        @apply w-2 h-16 bg-transparent border-r-2 border-transparent;
+    }
+
+    .nav-item-selected {
+        @apply flex flex-row justify-start items-center gap-4 w-full text-[#4C49ED];
+    }
+
+    .nav-item-indicator-selected {
+        @apply w-2 h-16 bg-[#4C49ED] border-r-2 border-[#4C49ED] rounded-r-xl;
+    }
+}
