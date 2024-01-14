@@ -1,12 +1,41 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { FaGear } from "react-icons/fa6";
 import {useLocation} from "react-router-dom";
-const TopBar = () => {
+import CourseService from "../services/course.service";
 
+
+const TopBar = () => {
+	
 	const location = useLocation();
 	const path = location.pathname.split("/");
 	path.shift();
+	
+	const [course, setCourse] = useState(null);
+	const classId = parseInt(path[1]);
+	
+	
+	/**
+	 * chargment de l'objet classe pour changer le nom en fonction de la classe
+	 */
+	
+	//TODO à corriger
+	useEffect(() => {
+		const loadOneClass = () => {
+			CourseService.getOne(classId)
+			.then((response) => {
+				setCourse(response);
+			}).catch((error) => {
+				console.log(error);
+			});
+		}
+		if (path[0] === "class" && classId){
+			loadOneClass();
+		}
+	}, [path[1], classId]);
+	
+	
 
+	
 
 	const prof = {
 		firstname: "Philippe",
@@ -20,13 +49,20 @@ const TopBar = () => {
 		"room": "Salles d'énigmes",
 		"create-game": "Création de partie",
 	}
-
+	
+	
+	
+	
 	let text = textMap[path[0]];
+	
 
 	if (path.length === 2) {
 		switch (path[0]) {
 			case "class":
-				text = "nomclasse" //faire requete sur api;
+				text = course ? course.name : "Chargement...";
+				
+				//text = "course.name";
+				//text = "nomclasse" //faire requete sur api;
 		}
 	}
 
