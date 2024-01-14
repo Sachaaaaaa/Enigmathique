@@ -28,6 +28,24 @@
 			},
 			"hint": "Indice",
 			"endMessage": "Tu as trouvé la réponse"
+		},
+		{
+			"variables":{},
+			"answer": {
+				"type": "fixed",
+				"value": 2
+			},
+			"hint": "Indice",
+			"endMessage": "Tu as trouvé la réponse"
+		},
+		{
+			"variables":{},
+			"answer": {
+				"type": "fixed",
+				"value": 3
+			},
+			"hint": "Indice",
+			"endMessage": "Tu as trouvé la réponse"
 		}
 	]
 }
