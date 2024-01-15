@@ -1,12 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Team from './Team';
-import {useCreationGameContext} from "../contexts/CreationGame.context";
 import PropTypes from "prop-types";
+import {usePreGameContext} from "../contexts/PreGame.context";
 
 const TeamContainer = (props) => {
 
-	const {teams} = useCreationGameContext();
-
+	const {teams} = usePreGameContext();
 	return (
 		<section className='w-5/12 flex h-full flex-col items-start gap-2'>
 			<h2 className='text-center text-xl'>
@@ -26,6 +25,7 @@ const TeamContainer = (props) => {
 								<>
 									<Team
 										key={index}
+										id={team.id}
 										name={team.name}
 										students={team.students}
 										isValidated={team.isValidated}
@@ -44,6 +44,7 @@ const TeamContainer = (props) => {
 								<>
 									<Team
 										key={index}
+										id={team.id}
 										name={team.name}
 										students={team.students}
 										isValidated={team.isValidated}
