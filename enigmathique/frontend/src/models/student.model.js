@@ -14,8 +14,8 @@ class Student {
 		this.idCourse = idCourse;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
+		this.createdAt = new Date(createdAt);
+		this.updatedAt = new Date(updatedAt);
 	}
 	static async getAll(id) {
 		try {
@@ -56,6 +56,6 @@ class Student {
 			console.log(error);
 		}
 	}
-	
+
 }
 export default Student;

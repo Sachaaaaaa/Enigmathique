@@ -13,8 +13,8 @@ class Course {
 		this.id = id;
 		this.name = name;
 		this.idProfessor = idProfessor;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
+		this.createdAt = new Date(createdAt);
+		this.updatedAt = new Date(updatedAt);
 	}
 
 	static async get(id) {
