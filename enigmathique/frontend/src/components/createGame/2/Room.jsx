@@ -7,18 +7,11 @@ import {useCreationGameContext} from '../../contexts/CreationGame.context';
 
 
 const Room = (props) => {
-	const {rooms, setRooms} = useCreationGameContext();
 
 	const [selected, setSelected] = useState(false);
 	const handleChange = () => {
-		console.log(rooms)
-		if (rooms.includes(props.id)) {
-			setRooms(rooms.filter((room)=> room !== props.id));
-			setSelected(!selected);
-		} else {
-			setRooms([...rooms, props.id]);
-			setSelected(!selected);
-		}
+		props.handleRoomSelection(props.name);
+		setSelected(!selected);
 	}
 	return(
 		<IconContext.Provider value={{className: 'h-1/4 w-1/4 text-[#0A06F4]'}}>
@@ -60,11 +53,11 @@ const Room = (props) => {
 	);
 }
 Room.propTypes = {
-	id: PropTypes.number.isRequired,
 	name: PropTypes.string.isRequired,
 	difficulty: PropTypes.string.isRequired,
 	riddles: PropTypes.number.isRequired,
 	winrate: PropTypes.number.isRequired,
+	handleRoomSelection: PropTypes.func.isRequired,
 }
 
 export default Room;
