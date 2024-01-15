@@ -134,8 +134,8 @@ export default function Room001(props) {
 						enigmaId={1}
 						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
 							<BasicDisplayTemplate
-								title="Ouvrir le coffre"
-								description="Quel est le code du coffre ?"
+								title="OOH un coffre !"
+								description="Vous vous en doutiez mais il faut un code ?"
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 							/>
@@ -219,7 +219,7 @@ export default function Room001(props) {
 						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
 							<BasicDisplayTemplate
 								title="Chaud devant !"
-								description="La cuisson est presque terminée, mais combien de temps faut-il encore attendre ?"
+								description="La potion est presque terminée, mais il ne faut pas la faire bruler !"
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 							/>

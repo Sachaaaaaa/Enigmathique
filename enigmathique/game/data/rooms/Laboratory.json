@@ -17,8 +17,8 @@
 				"type": "dynamic",
 				"expression": "x + y"
 			},
-			"hint": "Indice",
-			"endMessage": "Tu as trouvé la réponse"
+			"hint": "Regardez bien la recette !",
+			"endMessage": "Vous ouvrez le tirroir et vous récupérez l'ingrédient, au fond du tirroir vous trouvez un papier avec écrit dessus : g(x) = 2x"
 		},
 		{
 			"variables": {},
@@ -26,8 +26,8 @@
 				"type": "fixed",
 				"value": 1
 			},
-			"hint": "Indice",
-			"endMessage": "Tu as trouvé la réponse"
+			"hint": "f(x) = g(x) <=> f(x) - g(x) = 0",
+			"endMessage": "Le coffre s'ouvre, un papier si trouve avec écrit dessus : Bien mélanger la potion pendant 1 minute."
 		},
 		{
 			"variables":{},
@@ -35,8 +35,8 @@
 				"type": "fixed",
 				"value": 2
 			},
-			"hint": "Indice",
-			"endMessage": "Tu as trouvé la réponse"
+			"hint": "La réponse a été donnée dans le coffre.",
+			"endMessage": "Vous attendez 1 minute et vous récupérez une potion de 4 déciLitres."
 		},
 		{
 			"variables":{},
@@ -44,8 +44,8 @@
 				"type": "fixed",
 				"value": 3
 			},
-			"hint": "Indice",
-			"endMessage": "Tu as trouvé la réponse"
+			"hint": "Lire l'antécédant.",
+			"endMessage": "Une fois la potion chauffée a 250 celsius, vous vous empressez de la boire."
 		}
 	]
 }
