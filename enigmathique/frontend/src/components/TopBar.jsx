@@ -26,6 +26,7 @@ const TopBar = () => {
 	useEffect(() => {
 		const loadOneClass = async () => {
 			const data = await Course.get(classId);
+			setCourse(data);
 			console.log(data);
 		}
 		const loadProfessore = () => {
@@ -36,6 +37,7 @@ const TopBar = () => {
 					console.log(error);
 			});
 		}
+
 		loadProfessore();
 
 		if (path[0] === "class" && classId){

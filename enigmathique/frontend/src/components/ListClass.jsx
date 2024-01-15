@@ -6,35 +6,28 @@ import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
 import {CiSquareMore} from 'react-icons/ci';
 import PropTypes from 'prop-types';
 import { FaPlus } from "react-icons/fa6";
+import Course from "../models/course.model";
+import courseModel from "../models/course.model";
 
 const ClassElement = ({classe, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [name, setName] = useState('');
 
-	const handleClickDelete = (event, id) => {
-		console.log('Delete ' + id);
-		CourseService.deleteId(id)
-			.then((response) => {
-				console.log(response);
-				onChange();
-			}).catch((error) => {
-				console.log(error);
-			});
+	const handleClickDelete =  async (event, id) => {
+		event.preventDefault();
+		await courseModel.delete(id);
+		onChange();
 		setDeleteModalOpen(false);
+		console.log('delete ' + id);
 	}
 
-	const handleClickEdit = (event, id) => {
+	const handleClickEdit = async (event, id) => {
 		event.preventDefault();
-		CourseService.edit(name, id)
-			.then((response) => {
-				console.log(response);
-				onChange();
-			}).catch((error) => {
-				console.log(error);
-			});
-
-		setEditModalOpen(false)
+		const data = await courseModel.edit(name, id);
+		onChange();
+		setEditModalOpen(false);
+		console.log('edit ' + id);
 	}
 
 
@@ -91,12 +84,10 @@ const ListClass = () => {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [name, setName] = useState('');
 
-	const loadClasses = () => {
-		CourseService.getAll().then((response) => {
-			setCourses(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	const loadClasses = async () => {
+		const data = await Course.getAll();
+		setCourses(data);
+		console.log(data);
 	}
 
 	useEffect(() => {
@@ -104,15 +95,11 @@ const ListClass = () => {
 	}, []);
 
 
-	const handleClickCreate = (event) => {
-			event.preventDefault();
-			CourseService.create(name)
-				.then((response) => {
-					console.log(response);
-					loadClasses();
-				}).catch((error) => {
-					console.log(error);
-				});
+	const handleClickCreate = async (event) => {
+		event.preventDefault();
+		const data = await Course.create(name);
+		console.log(data);
+		loadClasses();
 		setCreateModalOpen(false);
 		setName('');
 	}
@@ -138,7 +125,7 @@ const ListClass = () => {
 							<label htmlFor='name'>Nom de la classe</label>
 							<input type='text' name='name' id='name' value={name} onChange={(e) => setName(e.target.value)} className='border-2 border-blue-900 rounded-md'/>
 							<button className='btn-delete' onClick={() => setCreateModalOpen(false)}>Annuler</button>
-							<button type='submit' className='btn-validate' onClick={handleClickCreate}>Valider la création</button>
+							<button type='submit' className='btn-validate' onClick={(event) => handleClickCreate(event)}>Valider la création</button>
 						</form>
 					</ModalBody>
 				</Modal>)}

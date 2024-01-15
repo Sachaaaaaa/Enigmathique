@@ -50,6 +50,14 @@ class Course {
 			console.log(error);
 		}
 	}
+	static async edit(name, id) {
+		try {
+			const data = await CourseService.edit(name, id);
+			return new Course(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
+		}catch (error){
+			console.log(error);
+		}
+	}
 
 }
 
