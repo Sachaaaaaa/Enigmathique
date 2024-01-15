@@ -17,9 +17,19 @@ const createGame = (idCourse, name, teamSize) => {
 		});
 };
 
+const getAll = () => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+'game')
+		.then((response) => {
+			return response.data;
+		});
+}
+
 
 const GameService = {
-	createGame
+	createGame,
+	getAll
 };
 
 export default GameService;
