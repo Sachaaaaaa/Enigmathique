@@ -22,6 +22,8 @@ const ClassElement = ({student, onChange}) => {
 		StudentService.deleteId(id).then((response) => {
 			console.log(response);
 			onChange();
+		}).catch((error) => {
+			console.log(error);
 		});
 		setDeleteModalOpen(false);
 	}
@@ -32,6 +34,8 @@ const ClassElement = ({student, onChange}) => {
 		StudentService.edit(firstname, lastname, idCourse, idStudent).then((response) => {
 			console.log(response);
 			onChange();
+		}).catch((error) => {
+			console.log(error);
 		});
 		setEditModalOpen(false)
 	}
@@ -77,7 +81,7 @@ const ClassElement = ({student, onChange}) => {
 								type='text'
 								name='firstname'
 								id='firstname'
-								defaultValue={firstname}
+								defaultValue={student.firstname}
 								onChange={(e) => setFirstname(e.target.value)}
 								className='border-2 border-blue-900 rounded-md'/>
 							<label htmlFor='lastname'>Nom</label>
@@ -85,7 +89,7 @@ const ClassElement = ({student, onChange}) => {
 								type='text'
 								name='lastname'
 								id='lastname'
-								defaultValue={lastname}
+								defaultValue={student.lastname}
 								onChange={(e) => setLastname(e.target.value)}
 								className='border-2 border-blue-900 rounded-md'/>
 							<button
@@ -157,6 +161,8 @@ const ListStudents = (props) => {
 		StudentService.create(firstname, lastname, id).then((response) => {
 			console.log(response);
 			loadStudents();
+		}).catch((error) => {
+			console.log(error);
 		});
 		setCreateModalOpen(false);
 		setFirstname('');
