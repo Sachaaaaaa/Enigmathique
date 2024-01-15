@@ -15,6 +15,7 @@ class GameManager {
 		this.roomsData = {};
 
 		this.loadRoomsData();
+		
 		this.io.on(ClientToServer.Connection, this.handleConnection);
 		this.run(TICKS_PER_SECOND);
 	}

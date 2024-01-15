@@ -25,7 +25,7 @@ class SocketProfessor {
 		});
 	}
 
-	// TODO: Envoyer un seul message avec toutes les équipes
+	
 	sendAllTeamsProgress = (data) => {
 		console.log(clc.yellowBright('[Professor] Envoi de la progression des équipes'));
 

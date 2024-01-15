@@ -9,24 +9,27 @@ class SocketTeam {
 		this.socket = socket;
 		this.gameSession = session;
 		this.teamId = socket.handshake.query.teamId;
+		
+		// Rooms que l'équipe a traversé / est en train de traverser
 		this.rooms = [];
 		this.currentRoom = null;
 
+		// Enregistre les callbacks
 		this.socket.on(ClientToServer.Message, this.onMessage); 
 		this.socket.on(ClientToServer.RoomLoaded, this.onRoomLoaded);
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
 		this.socket.on(ClientToServer.Submit, this.onSubmit);
 		this.socket.on(ClientToServer.AskHint, this.onAskHint);
 
+		// Permet d'attendre que tout le monde ait chargé sa room
 		this.haveLoadedRoom = false;
-		this.leaved = false;
 	}
 
-	getSocket = () => {
-		return this.socket;
-	}
-
-	getRoomsData = () => {
+	/**
+	 * 
+	 * @returns {Object} La progression de l'équipe
+	 */
+	getProgressionData = () => {
 		const roomsData = [];
 
 		this.rooms.forEach(room => {
@@ -44,6 +47,7 @@ class SocketTeam {
 		this.gameSession.onTeamLeave(this);
 	}
 
+	// Debug
 	onMessage = (data) => {
 		console.log(clc.yellowBright('[Team] Message reçu: '), clc.yellow(data));
 	}
@@ -90,22 +94,22 @@ class SocketTeam {
 	}
 
 	/**
-	 * 
+	 * Envoie la salle au client, doit la charger pour pouvoir jouer
 	 * @param {RoomPlayable} room 
 	 */
 	sendRoom = (room) => {
 		this.rooms.push(room);
 		this.currentRoom = room;
 
+		// Extrait les variables pour les mettre dans le message
 		const roomName = room.name;
 		const roomVariables = room.getEnigmasVariables();
 
 		console.log(clc.yellowBright('[Team] Envoi salle: ' + roomName));
-		console.log(room.enigmas);
 
 		this.socket.emit(ServerToClient.SwitchRoom, { roomName, roomVariables });
 
-		// Attends que le client charge la room
+		// Permet d'attendre que le client charge la room
 		this.haveLoadedRoom = false;
 	}
 
@@ -122,9 +126,6 @@ class SocketTeam {
 	sendHint = (enigmaId, hint) => {
 		console.log(clc.yellowBright('[Team] Envoi indice'));
 		this.socket.emit(ServerToClient.Hint, { hint });
-	}
-
-	clear = () => {
 	}
 }
 
