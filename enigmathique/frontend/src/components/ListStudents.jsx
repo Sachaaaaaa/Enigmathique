@@ -7,6 +7,7 @@ import {ImStatsDots} from 'react-icons/im';
 import {FaPlus} from "react-icons/fa6";
 import {Link} from 'react-router-dom';
 import {FaSearch} from "react-icons/fa";
+import Student from "../models/student.model";
 
 const ClassElement = ({student, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -142,13 +143,11 @@ const ListStudents = (props) => {
 	/**
 	 * récupère la liste de tous les élèves de la classe
 	 */
-	const loadStudents = () => {
-		StudentService.get(props.id).then((response) => {
-			console.log(response)
-			setStudents(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	const loadStudents = async () => {
+		const data = await Student.getAll(props.id);
+		setStudents(data);
+		console.log(data);
+
 	}
 	
 	
