@@ -35,7 +35,7 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 		};
 
 		socket.on(ServerToClient.Feedback, handleAnswerFeedback);
-
+		
 		return () => {
 			socket.off(ServerToClient.Feedback, handleAnswerFeedback);
 		};

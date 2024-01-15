@@ -21,6 +21,44 @@ export function Model(props) {
 
 	const { nodes, materials } = useGLTF("models/Test_Room_Switch.glb");
 
+	const SuzanneEvent = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Suzanne"
+				castShadow
+				receiveShadow
+				geometry={nodes.Suzanne.geometry}
+				material={materials.Monkey}
+				position={[0, 0.55, 0]}
+				rotation={[-0.72, -0.516, -0.408]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<InformationPopup
+						title="Salut ! Gnibo !"
+						information="Je suis un singe !"
+						image="undef"
+						closePopup={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
 	return (
 		<group {...props} dispose={null}>
 			<group name="Scene">
@@ -32,7 +70,7 @@ export function Model(props) {
 					material={materials.Florr}
 					scale={3}
 				/>
-				<mesh
+				{/*<mesh
 					name="Suzanne"
 					castShadow
 					receiveShadow
@@ -40,7 +78,8 @@ export function Model(props) {
 					material={materials.Monkey}
 					position={[0, 0.55, 0]}
 					rotation={[-0.72, -0.516, -0.408]}
-				/>
+				/>*/}
+				<SuzanneEvent />
 			</group>
 		</group>
 	);
