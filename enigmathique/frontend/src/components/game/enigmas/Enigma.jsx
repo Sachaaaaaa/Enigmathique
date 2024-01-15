@@ -14,7 +14,7 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	const { room } = useRoom();
 	const socket = useSocket();
 
-	const [enigmaState, setEnigmaState] = useMemoryState(room.name + enigmaId, { isSolved: false, endMessage: null});
+	const [enigmaState, setEnigmaState] = useMemoryState(room.name + enigmaId, { isSolved: false, endMessage: null });
 
 	// Recupère les données dynamiques de l'énigme (envoyées par le serveur)
 	if (!room.variables[enigmaId]) {
@@ -24,18 +24,18 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 
 	const submitAnswer = (answer) => {
 		console.log('submit answer', answer);
-		socket.emit(ClientToServer.Submit, {enigmaId, answer});
+		socket.emit(ClientToServer.Submit, { enigmaId, answer });
 	};
 
 	useEffect(() => {
-		const handleAnswerFeedback = ({isSolved, endMessage}) => {
+		const handleAnswerFeedback = ({ isSolved, endMessage }) => {
 			if (isSolved) {
-				setEnigmaState({isSolved: true, endMessage});
+				setEnigmaState({ isSolved: true, endMessage });
 			}
 		};
 
 		socket.on(ServerToClient.Feedback, handleAnswerFeedback);
-		
+
 		return () => {
 			socket.off(ServerToClient.Feedback, handleAnswerFeedback);
 		};
@@ -49,7 +49,13 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 				{enigmaDisplayTemplate(variables, submitAnswer)}
 
 				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
-				<button onClick={closeEnigma} className="mt-3">
+				<button onClick={closeEnigma} className="mt-3"
+					style={{
+						background: '#ff6666',
+						padding: '8px',
+						borderRadius: '8px',
+						width: '12vw'
+					}}>
 					Fermer
 				</button>
 			</div>
