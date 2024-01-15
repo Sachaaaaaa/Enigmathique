@@ -48,16 +48,23 @@ export function Model(props) {
 			>
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
-					<InformationPopup
-						title="Salut ! Gnibo !"
-						information="Je suis un singe !"
-						image="undef"
-						closePopup={forceExit}
+					<Enigma
+						enigmaId={1}
+						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
+							<BasicDisplayTemplate
+								title="Salut Gnibo!"
+								description="Je suis un singe! La réponse est 1."
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+							/>
+						)}
+						closeEnigma={forceExit}
 					/>
 				)}
 			</mesh>
 		);
 	};
+
 
 	return (
 		<group {...props} dispose={null}>
