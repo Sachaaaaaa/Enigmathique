@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
 		// Définition des attributs
 
 		roomName:{
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             primaryKey: true,
             allowNull: false,
             references: {
