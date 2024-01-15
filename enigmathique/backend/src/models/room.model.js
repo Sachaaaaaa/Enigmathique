@@ -12,6 +12,12 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
         },
 
+        // Difficulté de la salle
+        difficulty: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+
         // Nom du chapitre auquel appartient la salle
         chapter: {
             type: Sequelize.STRING,

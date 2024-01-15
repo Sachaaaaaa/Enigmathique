@@ -21,6 +21,11 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false,
 		},
+		state: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			defaultValue: 0,
+		},
 		teamSize: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
