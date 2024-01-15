@@ -1,7 +1,7 @@
 const io = require('socket.io')();
-const Game = require('./gameManager');
+const SocketManager = require('./socketManager');
 
-const game = new Game(io);
+const socketManager = new SocketManager(io);
 
 io.listen(4000, {
 	cors: {

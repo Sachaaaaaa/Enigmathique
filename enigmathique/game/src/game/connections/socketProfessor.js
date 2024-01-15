@@ -1,5 +1,5 @@
 const clc = require('cli-color');
-const { ClientToServer, ServerToClient } = require('./socketMessages');
+const { ClientToServer, ServerToClient } = require('../../socketMessages');
 
 class SocketProfessor {
 	constructor(socket, session) {

@@ -30,7 +30,14 @@ const ClientToServer = {
 	RoomLoaded: 'roomLoaded', // { }
 };
 
+// Types de connexion
+const ConnectionType = {
+	Game: 'game',
+	TeamComposition: 'teamComposition',
+};
+
 module.exports = {
 	ServerToClient,
 	ClientToServer,
+	ConnectionType
 };

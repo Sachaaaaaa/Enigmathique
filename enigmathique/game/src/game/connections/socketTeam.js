@@ -1,6 +1,6 @@
 const clc = require('cli-color');
-const { ServerToClient, ClientToServer } = require('./socketMessages');
-const RoomPlayable = require('./rooms/roomPlayable');
+const { ServerToClient, ClientToServer } = require('../../socketMessages');
+const RoomPlayable = require('../rooms/roomPlayable');
 
 class SocketTeam {
 	constructor(socket, session) {

@@ -1,17 +1,18 @@
 const socketio = require('socket.io');
 const clc = require('cli-color');
-const { ServerToClient, ClientToServer } = require('./socketMessages');
-const SocketTeam = require('./team');
-const SocketProfessor = require('./professor');
+const { ServerToClient, ClientToServer } = require('../socketMessages');
+const SocketTeam = require('./connections/socketTeam');
+const SocketProfessor = require('./connections/socketProfessor');
+const RoomPlayable = require('./rooms/roomPlayable');
 
 const TIME_PER_ROUND = 60 * 10; // 10 minutes
 
-class Session {
+class GameSession {
 	/**
 	 * @param {Game} game
 	 * @param {int} sessionId
 	 * @param {int[]} expectedTeams
-	 * @param {Room[]} rooms
+	 * @param {RoomPlayable[]} rooms
 	 */
 	constructor(game, sessionId, expectedTeams, rooms) {
 		this.game = game;
@@ -74,7 +75,7 @@ class Session {
 			totalEnigma: this.totalEnigmas,
 		};
 	}
-	
+
 	areAllTeamsReady = () => {
 		return this.getTotalTeamCount() > 0 && this.teams.every(team => team.isReady);
 	}
@@ -86,19 +87,13 @@ class Session {
 			return;
 		}
 
-		// Vérifier que l'équipe est valide
-		if (team.teamId == null || team.teamId == undefined) {
-			console.log(clc.redBright('[Session] L\'équipe n\'a pas d\'id'));
-			return;
-		}
-
 		// Vérifier que l'équipe n'est pas déjà dans la session
 		if (this.teams.some(t => t.teamId == team.teamId)) {
 			console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} est déjà dans la session`));
 			return;
 		}
 
-		// Vérifier que l'équipe est attendue (/!\  type string et number)
+		// Vérifier que l'équipe est attendue (/!\ type string et number)
 		if (!this.expectedTeams.some((t) => t == team.teamId)) {
 			console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} n'est pas attendue`));
 			return;
@@ -106,6 +101,7 @@ class Session {
 		
 		this.teams.push(team);
 
+		// Vérifier si toutes les équipes sont présentes
 		if (this.expectedTeams.length == this.teams.length) {
 			console.log(clc.greenBright('[Session] Toutes les équipes sont présentes'));
 			this.startSession();
@@ -124,7 +120,7 @@ class Session {
 	}
 
 	/**
-	 * Lorqu'une équipe se déconnecte
+	 * Lorsqu'une équipe se déconnecte
 	 * Ferme la session si il n'y a plus d'équipes
 	 * @param {SocketTeam} team 
 	 */
@@ -220,7 +216,7 @@ class Session {
 	getSessionResult = () => {
 		const teamsResult = {};
 		this.teams.forEach(team => {
-			teamsResult[team.teamId] = team.getRoomsData();
+			teamsResult[team.teamId] = team.getProgressionData();
 		});
 
 		return {
@@ -301,4 +297,4 @@ class Session {
 	
 }
 
-module.exports = Session;
+module.exports = GameSession;

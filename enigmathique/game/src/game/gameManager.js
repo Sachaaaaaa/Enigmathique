@@ -1,22 +1,19 @@
 const socketio = require('socket.io');
 const clc = require('cli-color');
-const { ServerToClient, ClientToServer } = require('./socketMessages');
-const SocketTeam = require('./team');
-const SocketProfessor = require('./professor');
-const Session = require('./session');
+const { ServerToClient, ClientToServer } = require('../socketMessages');
+const SocketTeam = require('./connections/socketTeam');
+const SocketProfessor = require('./connections/socketProfessor');
+const Session = require('./gameSession');
 const RoomDefinition = require('./rooms/roomDefinition');
 
 const TICKS_PER_SECOND = 1;
 
 class GameManager {
-	constructor(io) {
-		this.io = io;
+	constructor() {
 		this.sessions = {};
 		this.roomsData = {};
 
 		this.loadRoomsData();
-		
-		this.io.on(ClientToServer.Connection, this.handleConnection);
 		this.run(TICKS_PER_SECOND);
 	}
 
@@ -27,9 +24,9 @@ class GameManager {
 		console.log(clc.yellow('[Game] Chargement des salles...'));
 		// Charger depuis JSON
 		this.roomsData = [
-			new RoomDefinition(require('../data/rooms/Laboratory.json')),
-			new RoomDefinition(require('../data/rooms/SwitchRoom.json')),
-			new RoomDefinition(require('../data/rooms/DemoRoom.json')),
+			new RoomDefinition(require('../../data/rooms/Laboratory.json')),
+			new RoomDefinition(require('../../data/rooms/SwitchRoom.json')),
+			new RoomDefinition(require('../../data/rooms/DemoRoom.json')),
 		]
 
 		console.log(clc.green('[Game] Données des salles chargées'));
