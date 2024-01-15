@@ -12,6 +12,16 @@ const getAll = () => {
 			return response.data;
 		});
 }
+const getOne = (id) => {
+	const token = authHeader();
+	// Envoie une requête au serveur pour créer une nouvelle classe
+	return axios
+	.get(API_URL + 'course/' + id, {headers: token})
+	.then((response) => {
+		console.log(response.data);
+		return response.data;
+	});
+}
 const deleteId = (id) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
@@ -42,6 +52,7 @@ const edit = (name, id) => {
 
 const CourseService = {
 	getAll,
+	getOne,
 	deleteId,
 	create,
 	edit
