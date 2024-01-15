@@ -28,13 +28,16 @@
         @apply text-[#7c79ff] border-[#7c79ff];
     }
     .chip-facile {
-        @apply w-1/2 rounded-full bg-[#4cbc9a] px-4 py-2 text-center text-white;
+        @apply w-1/3 rounded-full bg-[#4cbc9a] px-4 py-2 text-center text-white;
     }
     .chip-moyen {
-        @apply w-1/2 rounded-full bg-[#fb7d5bX] px-4 py-2 text-center text-white;
+        @apply w-1/3 rounded-full bg-[#fb7d5bX] px-4 py-2 text-center text-white;
     }
     .chip-difficile {
-        @apply w-1/2 rounded-full bg-[#ff4550] px-4 py-2 text-center text-white;
+        @apply w-1/3 rounded-full bg-[#ff4550] px-4 py-2 text-center text-white;
+    }
+    .room-container {
+        @apply flex flex-row items-center justify-between w-full;
     }
 
 }

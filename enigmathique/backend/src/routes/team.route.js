@@ -8,12 +8,29 @@ module.exports = app => {
 
 	var router = require("express").Router();
 
+	// todo : remove un student from a team
+	// todo : tout mettre en cascade 
+
 	// Ajoute un élève à une équipe
-	router.post("/", middleware.verifyToken, team.addStudent);
+	router.post("/student/", middleware.verifyToken, team.addStudents);
+
+	// Supprime un élève de l'équipe
+	router.post("/student/:id", middleware.verifyToken, team.removeStudent);
+
+	// Récupère toutes les teams d'une partie
+	router.get("/:id", middleware.verifyToken, team.findAll);
+
+	// Supprime une équipe
+	router.delete("/:id", middleware.verifyToken, team.delete);
+
+	// Récupère le score de l'équipe
+	router.get("/score/:id", middleware.verifyToken, team.getScore);
+
+	// Modifie le score de l'équipe
+	router.put("/score/:id", middleware.verifyToken, team.updateScore);
 
 	// Retourne les élèves d'une team
-	router.post("/:id", middleware.verifyToken, team.findAll);
-
+	router.get("/students/:id", middleware.verifyToken, team.findOne);
 
 
 	

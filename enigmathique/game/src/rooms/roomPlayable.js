@@ -1,9 +1,10 @@
 
 
 class RoomPlayable {
-	constructor(name, enigmas) {
+	constructor(name, enigmas, rotationId) {
 		this.name = name;
 		this.enigmas = enigmas;
+		this.rotationId = rotationId;
 		this.enigmasSolved = [];
 	}
 
@@ -27,6 +28,13 @@ class RoomPlayable {
 		}
 
 		return enigma.endMessage;
+	}
+
+	getResult = () => {
+		return {
+			name: this.name,
+			enigmas: this.enigmasSolved
+		};
 	}
 }
 

@@ -7,10 +7,10 @@ class RoomDefinition {
 		this.enigmas = roomJson.enigmas;
 	}
 
-	toRoom = () => {
+	toRoom = (round) => {
 		const enigmasValues = RoomDefinition.generateEnigmasValues(this.enigmas);
 
-		return new Room(this.name, enigmasValues);
+		return new Room(this.name, enigmasValues, round);
 	}
 
 	static generateEnigmasValues = (enigmas) => {
