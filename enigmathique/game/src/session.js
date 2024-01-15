@@ -10,11 +10,13 @@ class Session {
 		this.game = game;
 		this.sessionId = sessionId;
 		this.teams = [];
+		this.professors = [];
 		this.rooms = rooms;
 		this.expectedTeams = expectedTeams;
 
 		this.results = {};
 		this.roundStartTime = 0;
+		this.round = -1;
 
 		this.isSessionRunning = false;
 		this.isPlaying = false;
@@ -26,6 +28,17 @@ class Session {
 
 	getActiveTeamCount = () => {
 		return this.teams.filter(team => !team.leaved).length;
+	}
+
+	getTeamsProgress = () => {
+		const teamsProgress = {};
+
+		this.teams.forEach(team => {
+			teamsProgress[team.teamId] = team.getRoomsData();
+		});
+
+
+		return teamsProgress;		
 	}
 
 	areAllTeamsReady = () => {
@@ -72,13 +85,23 @@ class Session {
 		}
 	}
 
-
 	onTeamLeave = (team) => {
 		this.removeTeam(team);
 
 		if (this.getActiveTeamCount() == 0) {
 			console.log(clc.yellow('[Session] Il n\'y a plus d\'équipes'));
 			this.stopSession();
+		}
+	}
+
+	addProfessor = (professor) => {
+		this.professors.push(professor);
+	}
+
+	removeProfessor = (professor) => {
+		const index = this.professors.indexOf(professor);
+		if (index >= 0) {
+			this.professors.splice(index, 1);
 		}
 	}
 
@@ -100,10 +123,11 @@ class Session {
 		console.log(clc.greenBright('[Session] Rotation des salles'));
 		// TODO: Rotation des salles
 		this.isPlaying = false;
+		this.round += 1;
 
 		// Envoi la nouvelle salle à chaque équipe
 		this.teams.forEach(team => {
-			team.sendRoom(this.rooms[0].toRoom());
+			team.sendRoom(this.rooms[0].toRoom(this.round));
 		});
 	}	
 
@@ -116,8 +140,6 @@ class Session {
 		this.roundStartTime = Date.now();
 		this.isPlaying = true;
 	}
-
-
 
 	tick = () => {
 		if (this.isPlaying) {
@@ -151,6 +173,12 @@ class Session {
 
 	onTeamSolvedEnigma = (team, enigmaId) => {
 		console.log(clc.cyanBright('[Session] Une équipe a résolu une énigme'));
+
+		// Pour l'instant, envoie toutes les informations de progression aux professeurs
+		const teamsProgress = this.getTeamsProgress();
+		this.professors.forEach(professor => {
+			professor.sendAllTeamsProgress(teamsProgress);
+		});
 	}
 
 	onTeamSolvedRoom = (team) => {
@@ -164,6 +192,8 @@ class Session {
 			this.rotateRooms();
 		}
 	}
+
+	
 }
 
 module.exports = Session;

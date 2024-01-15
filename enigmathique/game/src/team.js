@@ -5,12 +5,11 @@ const RoomPlayable = require('./rooms/roomPlayable');
 class SocketTeam {
 	constructor(socket, session) {
 		console.log(clc.greenBright('[Team] Nouvelle équipe'));
-		console.log(socket.handshake.query);
 
 		this.socket = socket;
 		this.gameSession = session;
 		this.teamId = socket.handshake.query.teamId;
-		this.rooms = {};
+		this.rooms = [];
 		this.currentRoom = null;
 
 		this.socket.on(ClientToServer.Message, this.onMessage); 
@@ -24,6 +23,21 @@ class SocketTeam {
 
 	getSocket = () => {
 		return this.socket;
+	}
+
+	getRoomsData = () => {
+		const roomsData = [];
+
+		this.rooms.forEach(room => {
+			const roomData = {
+				roomName: room.name,
+				enigmas: room.enigmasSolved,
+			};
+
+			roomsData.push(roomData);
+		});
+
+		return roomsData;
 	}
 
 	onDisconnect = () => {
@@ -51,7 +65,7 @@ class SocketTeam {
 		const endMessage = isSolved ? this.currentRoom.getEndMessage(enigmaId): null;
 		console.log(isSolved ? clc.green('[Team] Réponse correcte') : clc.redBright('[Team] Réponse incorrecte'));
 
-		this.socket.emit(ServerToClient.Feedback, { isSolved, endMessage});
+		this.sendAnswerFeedback(enigmaId, isSolved, endMessage);
 
 		if (isSolved) {
 			this.currentRoom.enigmasSolved.push(enigmaId);
@@ -72,7 +86,7 @@ class SocketTeam {
 	 * @param {RoomPlayable} room 
 	 */
 	sendRoom = (room) => {
-		this.rooms[room.name] = room;
+		this.rooms.push(room);
 		this.currentRoom = room;
 
 		const roomName = room.name;
@@ -82,6 +96,7 @@ class SocketTeam {
 		console.log(room.enigmas);
 
 		this.socket.emit(ServerToClient.SwitchRoom, { roomName, roomVariables });
+
 		// Attends que le client charge la room
 		this.haveLoadedRoom = false;
 	}
@@ -91,9 +106,9 @@ class SocketTeam {
 		this.socket.emit(ServerToClient.StartRound, {});
 	}
 
-	sendAnswerFeedback = (enigmaId, isTrue) => {
+	sendAnswerFeedback = (enigmaId, isSolved, endMessage) => {
 		console.log(clc.yellowBright('[Team] Envoi feedback réponse'));
-		this.socket.emit(ServerToClient.AnswerFeedback, { enigmaId, isTrue });
+		this.socket.emit(ServerToClient.Feedback, { enigmaId, isSolved, endMessage });
 	}
 
 	clear = () => {

@@ -30,7 +30,7 @@ export const Scene = () => {
 			
 		});
 
-		socket.connect('http://localhost:4000');
+		socket.connect();
 
 		return () => {
 			socket.off(ServerToClient.SwitchRoom);

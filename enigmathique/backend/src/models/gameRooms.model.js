@@ -4,37 +4,31 @@
 
 module.exports = (sequelize, Sequelize) => {
 	// Définition du modèle
-	const Game = sequelize.define("game", {
+	const Game = sequelize.define("gameRooms", {
 		// Définition des attributs
 
-		idCourse:{
+		idRoom:{
             type: Sequelize.INTEGER,
+            primaryKey: true,
             allowNull: false,
             references: {
-                model: 'course',
+                model: 'room',
                 key: 'id',
             },
             onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
 			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL   
         },
-		name: {
-			type: Sequelize.STRING,
-			allowNull: false,
-		},
-		state: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			defaultValue: 0,
-		},
-		teamSize: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-		},
 		// Date de création de l'objet
-		createdAt: {
-			type: Sequelize.DATE,
-			allowNull: false,
-			defaultValue: Sequelize.NOW,
+		idGame: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            references: {
+                model: 'game',
+                key: 'id',
+            },
+            onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
+			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL   
 		},
 
 	}, { // Options

@@ -9,6 +9,7 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING,
             allowNull: false,
+            primaryKey: true,
         },
 
         // Nom du chapitre auquel appartient la salle

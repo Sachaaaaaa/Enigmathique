@@ -14,8 +14,11 @@ module.exports = app => {
 	// Récupérer toutes les classes du professeur
 	router.get("/", middleware.verifyToken, course.findAll);
 
-	// Récupérer toutes les classes du professeur
-	router.get("/:id", middleware.verifyToken, course.findById);
+	// Récupérer tous les élèves d'une classe
+	router.get("/students/:id", middleware.verifyToken, course.findStudents);
+
+	// Récupérer les infos d'une classe
+	router.get("/:id", middleware.verifyToken, course.findOne);
 
 	// Supprimer une classe du professeur
 	router.delete("/:id", middleware.verifyToken, course.delete);

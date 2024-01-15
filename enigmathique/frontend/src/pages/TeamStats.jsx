@@ -9,18 +9,21 @@ const TeamStats = () => {
 	const rooms = [
 		{
 			name: 'La menuiserie Seguin',
-			time: '3:45'
+			time: '3:45',
+			score: {
+				nbHints: 5,
+				nbMis: 3,
+			},
 		},
 		{
 			name: 'Le Labo',
-			time: '2:50'
-		}
+			time: '2:50',
+			score: {
+				nbHints: 4,
+				nbMis: 4,
+			},
+		},
 	]
-
-	const score = {
-		nbHints: 5,
-		nbMis: 3
-	}
 
 	return (
 		<LayoutProf>
@@ -31,7 +34,7 @@ const TeamStats = () => {
 				</div>
 				<div>
 					<GameTeam rooms={rooms}/>
-					<ScoreTeam rooms={rooms} score={score}/>
+					<ScoreTeam rooms={rooms}/>
 				</div>
 			</main>
 		</LayoutProf>
