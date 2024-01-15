@@ -49,22 +49,22 @@ const ItemList = (props) => {
 		dashboard: {
 			name: 'Tableau de bord',
 			path: '/dashboard',
-			icon: <MdHome size={30}/>,
+			icon: <MdHome/>,
 		},
 		class: {
 			name: 'Mes classes',
 			path: '/class',
-			icon: <MdCollectionsBookmark size={30}/>,
+			icon: <MdCollectionsBookmark/>,
 		},
 		games: {
 			name: 'Mes parties',
 			path: '/games',
-			icon: <MdGames size={30}/>,
+			icon: <MdGames/>,
 		},
 		room: {
 			name: 'Salles d\'énigmes',
 			path: '/room',
-			icon: <MdDoorFront size={30}/>,
+			icon: <MdDoorFront/>,
 		},
 	}
 	const selected = props.currentPath === type[props.type].path;
@@ -74,9 +74,9 @@ const ItemList = (props) => {
 		<>
 			{selected ? (
 				<li className='nav-item-selected'>
-					<div className='nav-item-indicator-selected'></div>
-					<Link to={type[props.type].path} onClick={props.onClick} className='h-20 w-full flex flex-row justify-start items-center gap-4'>
-						<IconContext.Provider value={{className: 'text-inherit h-10 w-10'}}>
+					<div className='nav-item-indicator nav-item-indicator-selected'></div>
+					<Link to={type[props.type].path} onClick={props.onClick} className='nav-menu-link'>
+						<IconContext.Provider value={{className: 'text-inherit w-[25px] h-[25px] '}}>
 							{type[props.type].icon}
 						</IconContext.Provider>
 						<button className='text-inherit h-20'>{type[props.type].name}</button>
@@ -85,8 +85,8 @@ const ItemList = (props) => {
 			) : (
 				<li className='nav-item'>
 					<div className='nav-item-indicator'></div>
-					<Link to={type[props.type].path} onClick={props.onClick} className='h-20 w-full flex flex-row justify-start items-center gap-4'>
-						<IconContext.Provider value={{className: 'text-inherit h-10 w-10'}}>
+					<Link to={type[props.type].path} onClick={props.onClick} className='h-[60px] w-full flex flex-row justify-start items-center gap-2'>
+						<IconContext.Provider value={{className: 'text-inherit w-[25px] h-[25px]'}}>
 							{type[props.type].icon}
 						</IconContext.Provider>
 						<button className='text-inherit h-20'>{type[props.type].name}</button>

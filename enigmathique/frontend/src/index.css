@@ -15,7 +15,7 @@
     * Bouton valider
      */
     .btn-validate{
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-bold rounded whitespace-normal p-4;
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-semibold uppercase rounded-[8px] whitespace-normal p-4;
     }
 
     .btn-validate:hover {
@@ -143,7 +143,7 @@
     }
 
     .nav-item-indicator {
-        @apply w-2 h-16 bg-transparent border-r-2 border-transparent;
+        @apply w-2 h-[60px] bg-transparent border-r-2 border-transparent rounded-r-[30px];
     }
 
     .nav-item-selected {
@@ -151,6 +151,10 @@
     }
 
     .nav-item-indicator-selected {
-        @apply w-2 h-16 bg-[#4C49ED] border-r-2 border-[#4C49ED] rounded-r-xl;
+        @apply  bg-[#4C49ED]  border-[#4C49ED] ;
+    }
+
+    .nav-menu-link {
+        @apply h-[60px] w-full flex flex-row justify-start items-center gap-2 ;
     }
 }
