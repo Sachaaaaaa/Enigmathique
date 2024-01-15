@@ -10,7 +10,7 @@ const TopBar = () => {
 	const path = location.pathname.split("/");
 	path.shift();
 	
-	const [course, setCourse] = useState(null);
+	const [course, setCourse] = useState();
 	const classId = parseInt(path[1]);
 	
 	
@@ -21,9 +21,11 @@ const TopBar = () => {
 	//TODO à corriger
 	useEffect(() => {
 		const loadOneClass = () => {
+			console.log(classId)
 			CourseService.getOne(classId)
 			.then((response) => {
 				setCourse(response);
+				console.log(response);
 			}).catch((error) => {
 				console.log(error);
 			});
@@ -58,7 +60,7 @@ const TopBar = () => {
 			case "class":
 				text = course ? course.name : "Chargement...";
 				//faire requete sur api;
-				return;
+				break;
 			case "pregame":
 				text="Validation des équipes"
 		}

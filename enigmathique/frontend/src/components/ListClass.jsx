@@ -18,6 +18,8 @@ const ClassElement = ({classe, onChange}) => {
 			.then((response) => {
 				console.log(response);
 				onChange();
+			}).catch((error) => {
+				console.log(error);
 			});
 		setDeleteModalOpen(false);
 	}
@@ -28,7 +30,10 @@ const ClassElement = ({classe, onChange}) => {
 			.then((response) => {
 				console.log(response);
 				onChange();
+			}).catch((error) => {
+				console.log(error);
 			});
+
 		setEditModalOpen(false)
 	}
 
@@ -100,12 +105,14 @@ const ListClass = () => {
 
 
 	const handleClickCreate = (event) => {
-		event.preventDefault();
-		CourseService.create(name)
-			.then((response) => {
-				console.log(response);
-				loadClasses();
-			});
+			event.preventDefault();
+			CourseService.create(name)
+				.then((response) => {
+					console.log(response);
+					loadClasses();
+				}).catch((error) => {
+					console.log(error);
+				});
 		setCreateModalOpen(false);
 		setName('');
 	}
