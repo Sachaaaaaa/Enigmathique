@@ -38,7 +38,7 @@ const ClassElement = ({student, onChange}) => {
 	
 	return (
 		<li key={student.id} value={student.firstname}
-				className='bg-gray-200 flex-col space-y-3 m-3  p-1 h-[250px] w-[250px] rounded-2xl'>
+				className='bg-gray-200 flex-col space-y-3 m-3  p-1 h-[250px] w-[250px] rounded-2xl drop-shadow-md'>
 			<section className='flex flex-col h-full space-y-1'>
 				<figure className="bg-amber-200 w-[100px] h-[100px] rounded-full mx-auto">
 				</figure>
@@ -46,7 +46,7 @@ const ClassElement = ({student, onChange}) => {
 					{`${student.firstname} ${student.lastname}`}
 				</h3>
 				<div className="flex-grow"></div>
-				<div className="flex justify-center space-x-2 mt-auto">
+				<div className="flex justify-center space-x-5 mt-auto">
 					<button
 						className='btn-utils-course-student'>
 						<ImStatsDots color='white' size='1.5em'/>
