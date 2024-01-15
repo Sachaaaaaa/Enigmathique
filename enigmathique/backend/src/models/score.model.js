@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
 			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
         },
         roomName:{
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
 			allowNull: false, 
 			primaryKey: true,
 			references: {
