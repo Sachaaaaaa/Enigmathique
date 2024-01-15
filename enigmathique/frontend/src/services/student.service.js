@@ -8,8 +8,9 @@ const get = (id) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
 	return axios
-		.get(API_URL + 'course/' + id, {headers: token})
+		.get(API_URL + 'course/students/' + id, {headers: token})
 		.then((response) => {
+			console.log(response.data);
 			return response.data;
 		});
 }
@@ -35,8 +36,9 @@ const create = (firstname, lastname, idCourse) => {
 const edit = (firstname, lastname, idCourse, idStudent) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
+	console.log(firstname, lastname, idCourse, idStudent);
 	return axios
-		.put(API_URL + 'course/' + idCourse, {firstname: firstname, lastname:lastname, idStudent: idStudent }, {headers: token})
+		.put(API_URL + 'student/' + idStudent, {firstname: firstname, lastname:lastname, idCourse: idCourse }, {headers: token})
 		.then((response) => {
 			return response.data;
 		});

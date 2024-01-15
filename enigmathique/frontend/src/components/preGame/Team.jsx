@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import {IoCheckmarkCircleOutline, IoChevronDown, IoChevronUp, IoRemoveCircle} from 'react-icons/io5';
+import {IconContext} from "react-icons";
 import {useCreationGameContext} from "../contexts/CreationGame.context";
 
 const Team = (props) => {
@@ -31,45 +32,53 @@ const Team = (props) => {
 
 	return (
 		<section
-			className='flex flex-col items-center gap-10 justify-start p-4 bg-cyan-500 text-white rounded-xl'
+			className='flex flex-col items-start justify-center py-2 px-4 gap-2'
 			onClick={() => setIsExpanded(!isExpanded)}
 		>
 			<div className='flex flex-row items-center justify-between w-full'>
-				<p className='w-56'>{props.name}</p>
+				<p className='w-4/12'>{props.name}</p>
 				{props.isValidated ?
 					<>
+						{isExpanded ? <IoChevronUp/> : <IoChevronDown/>}
 						<div>
-							<button className='p-2 bg-red-500 rounded-xl' onClick={removingTeam}>
-								<IoRemoveCircle size={25}/>
+							<button onClick={removingTeam}>
+								<IconContext.Provider value={{className: 'text-[#ef4565]'}}>
+									<IoRemoveCircle size={25}/>
+								</IconContext.Provider>
 							</button>
 						</div>
-						{isExpanded ? <IoChevronUp/> : <IoChevronDown/>}
 					</>
 					:
 					<>
+						{isExpanded ? <IoChevronUp/> : <IoChevronDown/>}
 						<div className='flex flex-row gap-2'>
-							<button className='p-2 bg-green-500 rounded-xl' onClick={addingTeam}>
-								<IoCheckmarkCircleOutline size={25}/>
+							<button onClick={addingTeam}>
+								<IconContext.Provider value={{className: 'text-[#019799]'}}>
+									<IoCheckmarkCircleOutline size={25}/>
+								</IconContext.Provider>
 							</button>
-							<button className='p-2 bg-red-500 rounded-xl' onClick={removingTeam}>
-								<IoRemoveCircle size={25}/>
+							<button onClick={removingTeam}>
+								<IconContext.Provider value={{className: 'text-[#ef4565]'}}>
+									<IoRemoveCircle size={25}/>
+								</IconContext.Provider>
 							</button>
 						</div>
-						{isExpanded ? <IoChevronUp/> : <IoChevronDown/>}
 					</>
 				}
 			</div>
-			{isExpanded && props.students.map((student) => {
-				return (
-					<div
-						className='flex flex-row items-center w-full'
-						key={student.name + student.firstname}
-					>
-						<p className='w-56'>{student.name}</p>
-						<p className='w-56'>{student.firstname}</p>
-					</div>
-				);
-			})}
+			<div className='flex flex-col gap-2 items-start w-full'>
+				{isExpanded && props.students.map((student) => {
+					return (
+						<div
+							className='flex flex-row items-center w-full gap-4'
+							key={student.name + student.firstname}
+						>
+							<div className='h-10 w-10 rounded-full bg-gray-500'></div>
+							<p>{student.name} {student.firstname}</p>
+						</div>
+					);
+				})}
+			</div>
 		</section>
 	);
 }

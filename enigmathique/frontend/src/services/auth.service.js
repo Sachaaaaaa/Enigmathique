@@ -5,7 +5,7 @@ const API_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PR
 const register = (firstname, lastname, mail, password) => {
 	// Envoie une requête au serveur pour créer un nouvel utilisateur
 	return axios
-		.post(API_URL + '/auth/register', {
+		.post(API_URL + 'auth/register', {
 			firstname,
 			lastname,
 			mail,
@@ -22,7 +22,7 @@ const register = (firstname, lastname, mail, password) => {
 const login = (mail, password) => {
 	// Envoie une requête au serveur pour authentifier un utilisateur
 	return axios
-		.post(API_URL + '/auth/login', {
+		.post(API_URL + 'auth/login', {
 			mail,
 			password
 		})

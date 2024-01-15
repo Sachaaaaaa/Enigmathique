@@ -22,6 +22,8 @@ const ClassElement = ({student, onChange}) => {
 		StudentService.deleteId(id).then((response) => {
 			console.log(response);
 			onChange();
+		}).catch((error) => {
+			console.log(error);
 		});
 		setDeleteModalOpen(false);
 	}
@@ -32,6 +34,8 @@ const ClassElement = ({student, onChange}) => {
 		StudentService.edit(firstname, lastname, idCourse, idStudent).then((response) => {
 			console.log(response);
 			onChange();
+		}).catch((error) => {
+			console.log(error);
 		});
 		setEditModalOpen(false)
 	}
@@ -77,7 +81,7 @@ const ClassElement = ({student, onChange}) => {
 								type='text'
 								name='firstname'
 								id='firstname'
-								defaultValue={firstname}
+								defaultValue={student.firstname}
 								onChange={(e) => setFirstname(e.target.value)}
 								className='border-2 border-blue-900 rounded-md'/>
 							<label htmlFor='lastname'>Nom</label>
@@ -85,7 +89,7 @@ const ClassElement = ({student, onChange}) => {
 								type='text'
 								name='lastname'
 								id='lastname'
-								defaultValue={lastname}
+								defaultValue={student.lastname}
 								onChange={(e) => setLastname(e.target.value)}
 								className='border-2 border-blue-900 rounded-md'/>
 							<button
@@ -135,7 +139,10 @@ const ListStudents = (props) => {
 	// TODO : récupérer l'id de la classe
 	const URL = window.location.href;
 	const id = URL.substring(URL.lastIndexOf('/') + 1);
-	const loadClasses = () => {
+	/**
+	 * récupère la liste de tous les élèves de la classe
+	 */
+	const loadStudents = () => {
 		StudentService.get(props.id).then((response) => {
 			console.log(response)
 			setStudents(response);
@@ -143,20 +150,25 @@ const ListStudents = (props) => {
 			console.log(error);
 		});
 	}
+	
+	
 	useEffect(() => {
-		loadClasses();
+		loadStudents();
 	}, []);
 	
 	const handleClickCreate = (event, firstname, lastname, id) => {
 		event.preventDefault();
 		StudentService.create(firstname, lastname, id).then((response) => {
 			console.log(response);
-			loadClasses();
+			loadStudents();
+		}).catch((error) => {
+			console.log(error);
 		});
 		setCreateModalOpen(false);
 		setFirstname('');
 		setLastname('');
 	}
+	
 	const [filter, setFilter] = useState({text: ''});
 	const handleChangeText = (e) => {
 		console.log(filter);
@@ -194,7 +206,7 @@ const ListStudents = (props) => {
 			</nav>
 			<ul className='bg-blue-300 flex flex-wrap p-5'>
 				{filteredStudents.map((student) => (
-					<ClassElement key={student.id} student={student} onChange={() => loadClasses()}/>
+					<ClassElement key={student.id} student={student} onChange={() => loadStudents()}/>
 				))}
 			</ul>
 			{createModalOpen && (

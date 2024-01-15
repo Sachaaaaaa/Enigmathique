@@ -52,7 +52,7 @@
     * TopBar
     */
     .topbar-container {
-        @apply flex flex-row p-6 items-center border-b-2 border-[#E6EFF5];
+        @apply flex flex-row p-6 items-center border-b-2 border-[#E6EFF5] h-1/6;
     }
     .txt-dashboard {
         @apply uppercase bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-transparent bg-clip-text font-semibold;
