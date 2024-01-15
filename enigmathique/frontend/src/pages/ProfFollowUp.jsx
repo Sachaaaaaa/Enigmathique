@@ -3,7 +3,7 @@ import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
 import { SocketContext, socket } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
-import { ServerToClient } from 'data/socketMessages';
+import { ServerToClient, ConnectionType } from 'data/socketMessages';
 
 function ProfFollowUp() {
 	// Vérifie si le token est présent dans le localStorage
@@ -28,6 +28,7 @@ function ProfFollowUp() {
 	socket.io.opts.query = {
 		token: token,
 		sessionId: sessionId,
+		connectionType: ConnectionType.Game,
 	}; // se connecter avec le prof avec son token
 
 	// se connecter a la session avec un useEffect

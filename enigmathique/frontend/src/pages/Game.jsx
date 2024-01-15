@@ -4,7 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Scene } from '../components/game/SceneManager';
 import { socket, SocketContext } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
-import { ServerToClient } from '../data/socketMessages';
+import { ConnectionType, ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
 
 const Game = () => {
@@ -20,7 +20,7 @@ const Game = () => {
 	}
 
 	// Met à jour l'id de session dans le handshake du socket
-	socket.io.opts.query = { sessionId, teamId };
+	socket.io.opts.query = { sessionId, teamId, connectionType: ConnectionType.Game };
 
 	useEffect(() => {
 		socket.on(ServerToClient.Message, (message) => {
