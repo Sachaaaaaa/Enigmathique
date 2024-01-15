@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import { FaGear } from "react-icons/fa6";
 import {useLocation} from "react-router-dom";
 import CourseService from "../services/course.service";
+import ProfessorService from "../services/professor.course";
+import Course from "../models/course.model";
 
 
 const TopBar = () => {
@@ -11,38 +13,37 @@ const TopBar = () => {
 	path.shift();
 	
 	const [course, setCourse] = useState();
+	const [professor, setProfessor] = useState('unknown')
 	const classId = parseInt(path[1]);
+
+	console.log(Course.get(33));
 	
 	
 	/**
 	 * chargment de l'objet classe pour changer le nom en fonction de la classe
 	 */
-	
-	//TODO à corriger
+
 	useEffect(() => {
-		const loadOneClass = () => {
-			console.log(classId)
-			CourseService.getOne(classId)
-			.then((response) => {
-				setCourse(response);
-				console.log(response);
-			}).catch((error) => {
-				console.log(error);
+		const loadOneClass = async () => {
+			const data = await Course.get(classId);
+			console.log(data);
+		}
+		const loadProfessore = () => {
+			ProfessorService.getCurrentProfessor()
+				.then((response) => {
+					setProfessor(response);
+				}).catch((error) => {
+					console.log(error);
 			});
 		}
+		loadProfessore();
+
 		if (path[0] === "class" && classId){
 			loadOneClass();
 		}
 	}, [path[1], classId]);
 	
-	
 
-	
-
-	const prof = {
-		firstname: "Philippe",
-		lastname: "Lacherez",
-	} // faire une requete
 
 	const textMap ={
 		"dashboard": "Tableau de bord",
@@ -77,8 +78,8 @@ const TopBar = () => {
 					<FaGear/>
 				</div>
 				<div className="p-2 text-right">
-					<p>{prof.firstname}</p>
-					<p>{prof.lastname}</p>
+					<p>{professor.firstname}</p>
+					<p>{professor.lastname}</p>
 				</div>
 				<img src="https://placehold.co/40" alt="profile picture" className="rounded-full p-2"/>
 			</div>
