@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import CourseService from '../services/course.service';
 import Modal, {ModalBody, ModalHeader} from './Modal';
 import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
 import {CiSquareMore} from 'react-icons/ci';

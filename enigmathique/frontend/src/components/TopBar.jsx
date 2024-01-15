@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { FaGear } from "react-icons/fa6";
 import {useLocation} from "react-router-dom";
-import CourseService from "../services/course.service";
 import ProfessorService from "../services/professor.course";
 import Course from "../models/course.model";
 
