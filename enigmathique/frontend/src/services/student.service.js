@@ -10,7 +10,15 @@ const getAll = (id) => {
 	return axios
 		.get(API_URL + 'course/students/' + id, {headers: token})
 		.then((response) => {
-			console.log(response.data);
+			return response.data;
+		});
+}
+
+const getOne = (idStudent) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+ 'student/' + idStudent, {headers: token})
+		.then((response) => {
 			return response.data;
 		});
 }
@@ -45,6 +53,7 @@ const edit = (firstname, lastname, idCourse, idStudent) => {
 }
 const StudentService = {
 	getAll,
+	getOne,
 	create,
 	deleteId,
 	edit,
