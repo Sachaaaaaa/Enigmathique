@@ -18,7 +18,6 @@ const getOne = (id) => {
 	return axios
 	.get(API_URL + 'course/' + id, {headers: token})
 	.then((response) => {
-		console.log(response.data);
 		return response.data;
 	});
 }
