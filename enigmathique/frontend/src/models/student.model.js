@@ -33,6 +33,14 @@ class Student {
 			console.log(error);
 		}
 	}
+	static async delete(id) {
+		try {
+			return await StudentService.deleteId(id);
+		}catch (error){
+			console.log(error);
+		}
+	}
+
 
 
 
