@@ -2,15 +2,20 @@ const clc = require('cli-color');
 const { Socket } = require('socket.io');
 
 const GameManager = require('./game/gameManager');
-const { ClientToServer } = require('./socketMessages');
+const TeamCompositionManager = require('./teamComposition/teamCompositionManager');
+const { ClientToServer, ConnectionType } = require('./socketMessages');
+const CompositionSession = require('./teamComposition/compositionSession');
 
 class SocketManager {
 	constructor(io) {
 		this.io = io;
 
 		this.gameManager = new GameManager();
+		this.teamCompositionManager = new TeamCompositionManager();
 
 		this.io.on(ClientToServer.Connection, this.handleConnection);
+
+		console.log(clc.green('[Socket] SocketManager prêt'));
 	}
 
 	/**
@@ -52,8 +57,10 @@ class SocketManager {
 		const connectionType = socket.handshake.query.connectionType;
 
 		// Redirige vers le bon gestionnaire
-		if (connectionType == 'game') {
+		if (connectionType == ConnectionType.Game) {
 			this.gameManager.handleConnection(socket);
+		} else if (connectionType == ConnectionType.TeamComposition) {
+			this.teamCompositionManager.handleConnection(socket);
 		} else {
 			console.log(clc.red('[Socket] Type de connexion inconnu: ' + connectionType));
 		}

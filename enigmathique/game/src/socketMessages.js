@@ -24,7 +24,7 @@ const ServerToClient = {
 	// Equipe
 	SyncTeamStudents: 'syncTeamStudents', // + {students: array[]}
 	// Professeur
-	SyncTeams: 'syncTeams', // + {teams: array[]}
+	SyncTeams: 'syncTeams', // + {teams: array[{students: array[], confirmed: bool}]}
 };
 
 // Messages que le client envoie au serveur
