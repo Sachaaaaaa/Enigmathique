@@ -10,7 +10,10 @@ const db = require("../models/db.js");
 const Professor = db.professor;
 const Op = db.Sequelize.Op;
 //const secretKey = 'bloubiboulba';
-const secretKey = process.env.SECRET_KEY
+
+// Génère une chaîne aléatoire de longueur length
+// Provient de https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+
 
 // Créer et enregistrer un nouveau professeur
 exports.register = async (req, res) => {
@@ -29,7 +32,8 @@ exports.register = async (req, res) => {
 		lastname: req.body.lastname,
 		firstname: req.body.firstname,
 		mail: req.body.mail,
-		password: bcrypt.hashSync(req.body.password, 10),
+		salt: bcrypt.genSaltSync(10),
+		password: bcrypt.hashSync(req.body.password + process.env.PEPPER_KEY, bcrypt.genSaltSync(10)),
 	};
 
 
@@ -38,7 +42,7 @@ exports.register = async (req, res) => {
 	Professor.create(professor)
 		.then(data => {
       // Génère le token de connexion
-      const token = jwt.sign( {id: data['dataValues']['id']}, secretKey, { expiresIn: '1h' });
+      const token = jwt.sign( {id: data['dataValues']['id']}, process.env.SECRET_KEY, { expiresIn: '1h' });
 			res.status(201).send({
 				token: token,
 			});
@@ -67,13 +71,14 @@ exports.login = async (req, res) => {
 	// Si ce prof existe
 	if(existingProfessor){
 
-		// On récupère le mdp du prof
+		// On récupère le mdp et le sel du prof
 		const password = existingProfessor['dataValues']['password']
+		const salt = existingProfessor['dataValues']['salt']
 
 		// On vérifie qu'il s'agissent du bon mdp
-		if(bcrypt.compareSync(req.body.password, password)) {
+		if(bcrypt.compareSync(req.body.password+process.env.PEPPER_KEY, password, salt)) {
       // On récupère l'id du prof pour le token
-      const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, secretKey, { expiresIn: '1h' });
+      const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, process.env.SECRET_KEY, { expiresIn: '1h' });
 			res.status(201).send({
 				token: token,
 			});
