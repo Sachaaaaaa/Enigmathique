@@ -51,9 +51,21 @@ class Game {
 			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));
 		}
 
-		// Crée une nouvelle équipe et l'ajoute à la session, le reste sera géré dedans
-		const team = new SocketTeam(socket, this.sessions[sessionId]);
-		this.sessions[sessionId].addTeam(team);
+		// Vérifier s'il s'agit d'une connexion type professeur ou équipe (superviseur ou joueur)
+		const isProfessor = socket.handshake.query.professor;
+		if (isProfessor) {
+			// Vérifier le token du professeur
+			const token = socket.handshake.query.token;
+			// { ... }
+
+			const professor = new SocketProfessor(socket, this.sessions[sessionId]);
+			this.sessions[sessionId].addProfessor(professor);
+
+		} else {
+			// Crée une nouvelle équipe et l'ajoute à la session, le reste sera géré dedans
+			const team = new SocketTeam(socket, this.sessions[sessionId]);
+			this.sessions[sessionId].addTeam(team);
+		}
 	};
 
 	onSessionEnd = (sessionId) => {

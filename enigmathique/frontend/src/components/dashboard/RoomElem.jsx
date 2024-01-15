@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const RoomElem = (props) => {
 	return (
-		<article className='bg-white m-5 border-2 rounded-3xl shadow-md overflow-hidden w-1/3 flex flex-col'>
+		<article className='bg-white mt-5 w-[48%] rounded-[30px] shadow-md overflow-hidden flex flex-col'>
 			<figure className='relative h-40 bg-blue-500 rounded-t-3xl'
 					style={{
 						backgroundImage: `url(${props.room.image})`,
@@ -19,11 +19,11 @@ const RoomElem = (props) => {
 					<div className='flex justify-between items-center'>
 						<article className='elem-dashboard mr-2'>
 							<h3 className='txt-dashboard'>CHAPITRE</h3>
-							<p className='text-lg'>{props.room.cat}</p>
+							<p >{props.room.cat}</p>
 						</article>
 						<article className='elem-dashboard ml-2'>
 							<h3 className='txt-dashboard'>DIFFICULTE</h3>
-							<p className='text-lg'>{props.room.difficulty}</p>
+							<p>{props.room.difficulty}</p>
 						</article>
 					</div>
 				</div>
