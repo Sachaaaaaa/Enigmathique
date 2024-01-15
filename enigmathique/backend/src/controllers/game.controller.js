@@ -229,6 +229,18 @@ exports.findById = async (req, res) => {
 // 									 OTHER                                     //
 /////////////////////////////////////////////////////////////////////////////////
 
+exports.getScore = (req, res) => {
+
+	Score.findAll({ where: { idGame: req.params.id } })
+		.then(data => {
+			res.status(200).json(data);
+		})
+		.catch(err => {
+			res.status(500).json({
+				message: err.message || "Une erreur s'est produite lors de la récupération des scores."
+			});
+		});	
+}
 
 // methode pour vérifier si une partie, à partir de son id, appartient au prof
 exports.gameBelongsToProf = async (req, res) => {

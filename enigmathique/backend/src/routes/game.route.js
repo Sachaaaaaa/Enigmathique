@@ -40,6 +40,8 @@ module.exports = app => {
 	// Termine une partie 
 	router.post("/end/:id", middleware.verifyGameToken, game.end)
 
+	// Récupère les score d'une partie 
+	router.post("/score/:id", middleware.verifyGameToken, game.getScore)
 
 	// Récupérer les élèves en fonction du code de la partie (il faut ouvrir la game avant)
 	router.get("/course/:code", middleware.verifyToken, game.course)
