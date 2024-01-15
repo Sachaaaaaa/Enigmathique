@@ -7,13 +7,13 @@ module.exports = (sequelize, Sequelize) => {
 	const Game = sequelize.define("gameRooms", {
 		// Définition des attributs
 
-		idRoom:{
+		roomName:{
             type: Sequelize.INTEGER,
             primaryKey: true,
             allowNull: false,
             references: {
                 model: 'room',
-                key: 'id',
+                key: 'name',
             },
             onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
 			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL   

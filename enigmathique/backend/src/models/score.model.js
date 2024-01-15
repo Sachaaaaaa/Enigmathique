@@ -16,13 +16,13 @@ module.exports = (sequelize, Sequelize) => {
 			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
 			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
         },
-        idRoom:{
+        roomName:{
             type: Sequelize.INTEGER,
 			allowNull: false, 
 			primaryKey: true,
 			references: {
 				model: 'room', 
-				key: 'id', 
+				key: 'name', 
 			},
 			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
 			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
