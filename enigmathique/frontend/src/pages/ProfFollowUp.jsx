@@ -6,30 +6,32 @@ import { useSearchParams } from 'react-router-dom';
 import { ServerToClient } from 'data/socketMessages';
 
 function ProfFollowUp() {
-	
+	// Vérifie si le token est présent dans le localStorage
+	const token = JSON.parse(localStorage.getItem('user'))?.token;
+	if (!token) {
+		throw new Error('Token non trouvé');
+	}
+
 	// Recupère l'id de session dans l'url
 	// A changer, facilement modifiable par l'utilisateur
 	const [searchParams, setSearchParams] = useSearchParams();
 	const sessionId = searchParams.get('sessionId');
-	const teamId = searchParams.get('teamId');
 
 	// Si l'id de session n'est pas défini, on quitte la page
-	if (!sessionId || !teamId) {
-		window.location.href = '/';
+	if (!sessionId) {
+		throw new Error('Id de session non trouvé');
 	}
 
 	const [gameData, setGameData] = useState(null);
 	const rankings = [];
 
 	socket.io.opts.query = {
-		token: JSON.parse(localStorage.getItem('user')).token,
+		token: token,
 		sessionId: sessionId,
-
 	}; // se connecter avec le prof avec son token
 
 	// se connecter a la session avec un useEffect
 	useEffect(() => {
-
 		socket.on(ServerToClient.Connection, () => {
 			console.log('Connecté au serveur');
 		});
@@ -38,10 +40,13 @@ function ProfFollowUp() {
 			console.log('Déconnecté du serveur');
 		});
 
+		socket.on(ServerToClient.AllTeamsProgress, (data) => {
+			console.log(data);
+		});
+
 		socket.connect();
 
 		return () => {
-			socket.off(ServerToClient.Message);
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnection);
 		};

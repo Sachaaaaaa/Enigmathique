@@ -29,11 +29,7 @@ class SocketTeam {
 		const roomsData = [];
 
 		this.rooms.forEach(room => {
-			const roomData = {
-				roomName: room.name,
-				enigmas: room.enigmasSolved,
-			};
-
+			const roomData = room.getData();
 			roomsData.push(roomData);
 		});
 
@@ -68,7 +64,6 @@ class SocketTeam {
 		this.sendAnswerFeedback(enigmaId, isSolved, endMessage);
 
 		if (isSolved) {
-			this.currentRoom.enigmasSolved.push(enigmaId);
 			this.gameSession.onTeamSolvedEnigma(this, enigmaId);
 			if (this.currentRoom.enigmasSolved.length == this.currentRoom.enigmas.length) {
 				this.gameSession.onTeamSolvedRoom(this);

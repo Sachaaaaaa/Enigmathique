@@ -3,6 +3,8 @@ const { ClientToServer, ServerToClient } = require('./socketMessages');
 
 class SocketProfessor {
 	constructor(socket, session) {
+		console.log(clc.greenBright('[Professor] Nouvelle connexion'));
+
 		this.socket = socket;
 		this.session = session;
 
@@ -24,41 +26,14 @@ class SocketProfessor {
 	}
 
 	// TODO: Envoyer un seul message avec toutes les équipes
-	sendAllTeamsProgress = (teamsProgress) => {
+	sendAllTeamsProgress = (data) => {
 		console.log(clc.yellowBright('[Professor] Envoi de la progression des équipes'));
 
 		this.socket.emit(ServerToClient.AllTeamsProgress, {
-			sampleTeamsData
+			data
 		});
 	}
 
-}
-
-const sampleTeamsData = {
-	meta: {
-		sessionStartTime: 0,
-		roundStartTime: 0,
-		currentRound: 0,
-		totalEnigma: 10,
-	},
-	teams: {
-		1: [
-			{
-				room: "Laboratory",
-				numSolved: 1,
-				numHint: 0,
-				isSolved: false,
-			}
-		],
-		4: [
-			{
-				room: "Laboratory",
-				numSolved: 2,
-				numHint: 2,
-				isSolved: true,
-			}
-		]
-	}
 }
 
 module.exports = SocketProfessor;

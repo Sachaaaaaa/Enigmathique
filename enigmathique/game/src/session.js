@@ -19,6 +19,12 @@ class Session {
 		this.roundStartTime = 0;
 		this.numRounds = rooms.length;
 		this.round = -1;
+		
+		// Calcul le nombre total d'énigmes dans la session
+		this.totalEnigmas = 0;
+		this.rooms.forEach(room => {
+			this.totalEnigmas += room.enigmas.length;
+		});
 
 		this.isSessionRunning = false;
 		this.isPlaying = false;
@@ -39,8 +45,20 @@ class Session {
 			teamsProgress[team.teamId] = team.getRoomsData();
 		});
 
-
 		return teamsProgress;		
+	}
+
+	getMetadata = () => {
+		return {
+			sessionStartTime: this.sessionStartTime,
+			roundStartTime: this.roundStartTime,
+			currentRound: this.round,
+			totalEnigma: this.totalEnigmas,
+		};
+	}
+
+	getTeamsData = () => {
+
 	}
 
 	areAllTeamsReady = () => {
@@ -146,6 +164,18 @@ class Session {
 		this.isPlaying = true;
 	}
 
+	getSessionResult = () => {
+		const teamsResult = {};
+		this.teams.forEach(team => {
+			teamsResult[team.teamId] = team.getRoomsData();
+		});
+
+		return {
+			metadata: this.getMetadata(),
+			teams: teamsResult,
+		};
+	}
+
 	tick = () => {
 		if (this.isPlaying) {
 			const now = Date.now();
@@ -154,7 +184,7 @@ class Session {
 			console.log(clc.greenBright(`[Session] Tick: ${timeLeft} secondes restantes`));
 
 			// Test, envoie la progression de chaque équipe
-			const teamsProgress = this.getTeamsProgress();
+			const teamsProgress = this.getSessionResult();
 			this.professors.forEach(professor => {
 				professor.sendAllTeamsProgress(teamsProgress);
 			});
@@ -162,6 +192,7 @@ class Session {
 			// Affiche les énigmes résolues
 			this.teams.forEach(team => {
 				console.log(clc.greenBright(`[Session] ${team.teamId}: ${team.currentRoom.enigmasSolved.length}/${team.currentRoom.enigmas.length}`));
+				console.log(team.getRoomsData());
 			});
 
 			
@@ -188,9 +219,8 @@ class Session {
 		console.log(clc.cyanBright('[Session] Une équipe a résolu une énigme'));
 
 		// Pour l'instant, envoie toutes les informations de progression aux professeurs
-		const teamsProgress = this.getTeamsProgress();
 		this.professors.forEach(professor => {
-			professor.sendAllTeamsProgress(teamsProgress);
+			professor.sendAllTeamsProgress(this.getSessionResult());
 		});
 	}
 

@@ -1,11 +1,14 @@
 
 
 class RoomPlayable {
-	constructor(name, enigmas, rotationId) {
+	constructor(name, enigmas, roundIndex) {
 		this.name = name;
 		this.enigmas = enigmas;
-		this.rotationId = rotationId;
+		this.roundIndex = roundIndex;
+
 		this.enigmasSolved = [];
+		this.numHints = 0;
+		this.numBadAnswers = 0;
 	}
 
 	getEnigmasVariables = () => {
@@ -14,11 +17,19 @@ class RoomPlayable {
 
 	checkAnswer = (enigmaId, answer) => {
 		const enigma = this.enigmas[enigmaId];
+		
 		if (!enigma) {
 			return false;
 		}
 
-		return enigma.answer == answer;
+		const isSolved = enigma.answer == answer;
+		if (!isSolved) {
+			this.numBadAnswers++;
+		} else {
+			this.enigmasSolved.push(enigmaId);
+		}
+
+		return isSolved;
 	}
 
 	getEndMessage = (enigmaId) => {
@@ -34,6 +45,21 @@ class RoomPlayable {
 		return {
 			name: this.name,
 			enigmas: this.enigmasSolved
+		};
+	}
+
+	isRoomSolved = () => {
+		return this.enigmasSolved.length == this.enigmas.length;
+	}
+
+	// Retourne toutes les infos => sera envoyé au professeur
+	getData = () => {
+		return {
+			name: this.name,
+			numSolved: this.enigmasSolved.length,
+			numBadAnswers: this.numBadAnswers,
+			numHints: this.numHints,
+			isSolved: this.isRoomSolved(),
 		};
 	}
 }
