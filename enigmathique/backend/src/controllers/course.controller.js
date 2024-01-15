@@ -95,7 +95,7 @@ exports.findOne = async (req, res) => {
 	}
 
 	// Récupèrer la classe
-	await Course.findOne({ where: { idProfessor: req.tokenId } })
+	await Course.findOne({ where: { id: req.params.id, idProfessor: req.tokenId } })
 		.then(data => {
 			return res.status(200).json(data);
 		})

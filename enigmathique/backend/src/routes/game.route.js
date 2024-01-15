@@ -23,6 +23,9 @@ module.exports = app => {
 	// Récupérer toutes les parties du professeur connecté
 	router.get("/", middleware.verifyToken, game.findAll);
 
+	// Vérifie si une partie, à partir de son id, appartient au prof
+	router.get("/gameBelongsToProf/{id}", middleware.verifyToken, game.gameBelongsToProf);
+
 	// Récupérer une partie à partir de son id
 	router.get("/:id", middleware.verifyToken, game.findById);
 	

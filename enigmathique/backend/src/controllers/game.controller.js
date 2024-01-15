@@ -229,6 +229,33 @@ exports.findById = async (req, res) => {
 // 									 OTHER                                     //
 /////////////////////////////////////////////////////////////////////////////////
 
+
+// methode pour vérifier si une partie, à partir de son id, appartient au prof
+exports.gameBelongsToProf = async (req, res) => {
+
+	try{
+		
+		// Vérifie que la partie appartient bien au professeur
+		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+		if (!isBelongsToProfessor) {
+			return res.status(200).json({
+				isBelongsTo: false 
+			});
+		} else {
+			return res.status(200).json({
+				isBelongsTo: true 
+			});
+		}
+
+	// Gère les erreurs
+	} catch (err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
+		});
+	}
+}
+
+
 // Ouvre la partie aux élèves
 exports.open = async (req, res) => {
 
