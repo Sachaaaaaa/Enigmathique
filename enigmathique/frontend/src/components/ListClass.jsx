@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import {FaPlus} from "react-icons/fa6";
 import Course from "../models/course.model";
 import courseModel from "../models/course.model";
+import {ImStatsDots} from "react-icons/im";
 
 const ClassElement = ({classe, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -51,12 +52,19 @@ const ClassElement = ({classe, onChange}) => {
 				<button
 					className='btn-utils-course-student-delete'
 					onClick={() => setDeleteModalOpen(true)}>
-					<MdDeleteForever size='1.5em'/></button>
+					<MdDeleteForever size='1.5em'/>
+				</button>
+				<Link to='/'>
+					<button
+						className='btn-utils-course-student'>
+						<ImStatsDots color='white' size='1.5em'/>
+					</button>
+				</Link>
 			</div>
 			{editModalOpen && (
 				<Modal setOpenModal={setEditModalOpen} height='400'>
 					<ModalHeader>
-						<h1 className='text-3xl text-center'>
+					<h1 className='text-3xl text-center'>
 							Modifier la classe {classe.name}
 						</h1>
 					</ModalHeader>
