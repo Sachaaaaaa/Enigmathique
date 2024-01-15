@@ -63,7 +63,7 @@ const ItemList = (props) => {
 		},
 		room: {
 			name: 'Salles d\'énigmes',
-			path: '/room',
+			path: '/rooms',
 			icon: <MdDoorFront/>,
 		},
 	}

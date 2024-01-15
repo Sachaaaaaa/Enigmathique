@@ -15,6 +15,7 @@ import PreGame from "./pages/PreGame";
 import TeamStats from "./pages/TeamStats";
 import { RoomProvider } from './contexts/RoomContext';
 import Games from "./pages/Games";
+import RoomList from 'pages/RoomList';
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
 				<Route path='/create-game' element={<CreateGame/>}/>
 				<Route path='/pregame/:id' element={<PreGame/>}/>
 				<Route path='/teamstats' element={<TeamStats/>}/>
+				<Route path='/rooms' element={<RoomList/>}/>
 			</Routes>
 		</CreationGameDataProvider>
 	);

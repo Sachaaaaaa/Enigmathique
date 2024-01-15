@@ -53,9 +53,9 @@
     * TopBar
     */
     .topbar-container {
-        @apply flex flex-row p-6 items-center border-b-2 border-[#E6EFF5] h-1/6;
+        @apply flex flex-row px-0 py-0 items-center border-b-2 border-[#E6EFF5] h-1/6;
     }
-    
+
     .small-title {
         @apply uppercase font-semibold bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-[11px] text-transparent bg-clip-text;
     }

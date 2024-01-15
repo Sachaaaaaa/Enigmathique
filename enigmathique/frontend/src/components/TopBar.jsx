@@ -13,7 +13,7 @@ const TopBar = () => {
 	path.shift();
 	
 	const [course, setCourse] = useState();
-	const [professor, setProfessor] = useState('unknown')
+	const [professor, setProfessor] = useState('unknown');
 	const classId = parseInt(path[1]);
 	
 	
@@ -49,7 +49,7 @@ const TopBar = () => {
 		"dashboard": "Tableau de bord",
 		"class": "Mes classes",
 		"games": "Mes parties",
-		"room": "Salles d'énigmes",
+		"rooms": "Salles d'énigmes",
 		"create-game": "Création de partie",
 		"pregame":"",
 	}
@@ -69,9 +69,9 @@ const TopBar = () => {
 
 
 	return(
-		<section className="topbar-container p-0 pl-5 flex justify-between">
+		<section className="topbar-container pl-5 flex justify-between h-fit">
 			<div >
-				<h1 className="text-[#343C6A] text-2xl font-semibold">{text}</h1>
+				<h1 className="text-[#343C6A] text-2xl font-semibold py-5">{text}</h1>
 			</div>
 			<div className="flex flex-row items-center gap-2">
 				<div className="p-2 rounded-full bg-[#E6EFF5]">
