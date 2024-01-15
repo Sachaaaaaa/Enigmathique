@@ -4,6 +4,7 @@ import { FaGear } from "react-icons/fa6";
 import {useLocation} from "react-router-dom";
 import ProfessorService from "../services/professor.course";
 import Course from "../models/course.model";
+import Professor from "../models/professor.model";
 
 
 const TopBar = () => {
@@ -25,15 +26,12 @@ const TopBar = () => {
 		const loadOneClass = async () => {
 			const data = await Course.get(classId);
 			setCourse(data);
-			console.log(data);
+			console.log('L id de la classe est ' + data.id);
 		}
-		const loadProfessore = () => {
-			ProfessorService.getCurrentProfessor()
-				.then((response) => {
-					setProfessor(response);
-				}).catch((error) => {
-					console.log(error);
-			});
+		const loadProfessore = async () => {
+			const data = await Professor.getCurrent();
+			setProfessor(data);
+			console.log('Le nom du prof est' + data.lastname);
 		}
 
 		loadProfessore();
