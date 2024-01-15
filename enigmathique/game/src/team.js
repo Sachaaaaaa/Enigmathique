@@ -9,7 +9,7 @@ class SocketTeam {
 		this.socket = socket;
 		this.gameSession = session;
 		this.teamId = socket.handshake.query.teamId;
-		this.rooms = {};
+		this.rooms = [];
 		this.currentRoom = null;
 
 		this.socket.on(ClientToServer.Message, this.onMessage); 
@@ -23,6 +23,21 @@ class SocketTeam {
 
 	getSocket = () => {
 		return this.socket;
+	}
+
+	getRoomsData = () => {
+		const roomsData = [];
+
+		this.rooms.forEach(room => {
+			const roomData = {
+				roomName: room.name,
+				enigmas: room.enigmasSolved,
+			};
+
+			roomsData.push(roomData);
+		});
+
+		return roomsData;
 	}
 
 	onDisconnect = () => {
@@ -71,7 +86,7 @@ class SocketTeam {
 	 * @param {RoomPlayable} room 
 	 */
 	sendRoom = (room) => {
-		this.rooms[room.name] = room;
+		this.rooms.push(room);
 		this.currentRoom = room;
 
 		const roomName = room.name;

@@ -6,11 +6,17 @@
 const ServerToClient = {
 	Connection: 'connect',
 	Disconnection: 'disconnect',
+	
+	// Equipe
 	SwitchRoom: 'room', // + {roomTag: string}
 	Message: 'message', // + {message: string}
 	StartRound: 'startRound', // + {}
 	TeamCount: 'teamCount', // + {count: int}
 	Feedback: 'feedback', // + {isSolved: bool, ~endMessage: string}
+
+	// Professeur
+	TeamProgress: 'teamProgress', // + {teamId: int, progress: object}
+	AllTeamsProgress: 'allTeamsProgress', // + {teamsProgress: object}
 };
 
 // Messages que le client envoie au serveur
