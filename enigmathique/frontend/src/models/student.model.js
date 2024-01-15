@@ -40,9 +40,22 @@ class Student {
 			console.log(error);
 		}
 	}
-
-
-
-
+	static async create(firstname, lastname, idCourse) {
+		try {
+			const data = await StudentService.create(firstname, lastname, idCourse);
+			return new Student(data.id, data.idCourse, data.firstname, data.lastname, data.createdAt, data.updatedAt);
+		}catch (error){
+			console.log(error);
+		}
+	}
+	static async edit(firstname, lastname, idCourse, idStudent) {
+		try {
+			const data = await StudentService.edit(firstname, lastname, idCourse, idStudent);
+			return new Student(data.id, data.idCourse, data.firstname, data.lastname, data.createdAt, data.updatedAt);
+		}catch (error){
+			console.log(error);
+		}
+	}
+	
 }
 export default Student;
