@@ -12,7 +12,7 @@ import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
 
-export function Model(props) {
+export default function Model(props) {
 	const socket = useContext(SocketContext);
 
 	useEffect(() => {

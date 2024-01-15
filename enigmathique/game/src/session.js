@@ -121,18 +121,21 @@ class Session {
 
 	rotateRooms = () => {
 		console.log(clc.greenBright('[Session] Rotation des salles'));
-		// TODO: Rotation des salles
+
 		this.isPlaying = false;
 		this.round += 1;
 
 		// Envoi la nouvelle salle à chaque équipe
+		let i = this.round;
 		this.teams.forEach(team => {
-			team.sendRoom(this.rooms[0].toRoom(this.round));
+			const roomIndex = (i++) % this.rooms.length;
+
+			team.sendRoom(this.rooms[roomIndex].toRoom(this.round));
 		});
 	}	
 
 	broadcastStartRound = () => {
-		console.log(clc.greenBright('[Session] Début du round'));
+		console.log(clc.greenBright('[Session] Début du round', this.round));
 		this.teams.forEach(team => {
 			team.sendStartRound();
 		});
