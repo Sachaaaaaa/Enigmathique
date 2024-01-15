@@ -175,7 +175,11 @@ const ListStudents = (props) => {
 		<>
 			<nav className='flex flex-row justify-end w-full p-5 gap-12'>
 				<Link to='/class' className='mr-auto'>
-					<button className="btn-back h-full"><MdArrowBackIos size='1.5em'/><p>Élèves</p></button>
+					<button
+						className="btn-back h-full">
+						<MdArrowBackIos size='1.5em'/>
+						<p>Élèves</p>
+					</button>
 				</Link>
 				<section className='flex flex-row items-center justify-center bg-white rounded-full p-4 gap-2 shadow'>
 					<FaSearch color="#0a06f4"/>
