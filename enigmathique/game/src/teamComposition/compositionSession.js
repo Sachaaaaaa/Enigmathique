@@ -69,7 +69,7 @@ class CompositionSession {
 		}
 	};
 
-	onTeamJoin = (team) => {
+	addTeam = (team) => {
 		this.teamSockets.push(team);
 
 		this.resyncAll();
@@ -150,8 +150,8 @@ class CompositionSession {
 	};
 
 	sendCompositionToProfessor = () => {
-		const lockedTeams = this.getLockedTeams();
-		const confirmedTeams = this.getConfirmedTeams();
+		const lockedTeams = this.getLockedTeams().map((t) => t.toData());
+		const confirmedTeams = this.getConfirmedTeams().map((t) => t.toData());
 
 		this.professorSockets.forEach((p) =>
 			p.sendComposition(this.availableStudents, lockedTeams, confirmedTeams)

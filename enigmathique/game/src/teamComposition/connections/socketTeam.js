@@ -18,6 +18,19 @@ class SocketTeam {
 		this.confirmed = false;
 	}
 
+	/**
+	 * Permet de convertir l'objet en données JSON.
+	 * @returns {Object} Les données de l'équipe
+	 */
+	toData = () => {
+		return {
+			id: this.socket.id,
+			locked: this.locked,
+			confirmed: this.confirmed,
+			composition: this.composition
+		}
+	}
+
 	hasStudent = (studentId) => {
 		return this.composition.find(student => student.id === studentId);
 	}
@@ -64,7 +77,7 @@ class SocketTeam {
 	sendTeamComposition = () => {
 		console.log(clc.yellowBright('[Team] Envoi de la composition de l\'équipe'));
 
-		this.socket.emit(ServerToClient.SyncTeamStudents, { composition: this.composition });
+		this.socket.emit(ServerToClient.SyncTeamStudents, { composition: this.toData() });
 	}
 
 	wipeComposition = () => {
