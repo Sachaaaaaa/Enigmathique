@@ -7,9 +7,12 @@ import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
+import CourseService from "../services/course.service";
 
 
 const Dashboard = () => {
+
+	//TODO: intégration avec l'API
 
 	const rooms = [
 		{

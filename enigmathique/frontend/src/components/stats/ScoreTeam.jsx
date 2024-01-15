@@ -8,7 +8,6 @@ const ScoreTeam = (props) => {
 	const [option, setOption] = useState('global');
 
 	const handleOption = (e) => {
-		let room = rooms[0];
 		setOption(e.target.value);
 	}
 
@@ -20,7 +19,6 @@ const ScoreTeam = (props) => {
 				score: {
 					nbHints: rooms.reduce((sum, room) => (sum + room.score.nbHints), 0),
 					nbMis: rooms.reduce((sum, room) => (sum + room.score.nbMis), 0)
-					//TODO: Résoudre le problème avec les reduces
 				}
 			}
 		} else {

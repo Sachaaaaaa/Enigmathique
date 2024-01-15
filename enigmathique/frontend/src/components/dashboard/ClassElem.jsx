@@ -9,10 +9,10 @@ ChartJS.register(...registerables);
 const ClassElem = (props) => {
 
 	const data = {
-		labels: ['Taux de réussite moyen'],
+		labels: [''],
 		datasets: [
 			{
-				label: 'Taux de réussite moyen',
+				label: 'Taux de réussite',
 				data: [props.classGroup.winRate],
 				backgroundColor: 'green',
 			}
@@ -20,13 +20,20 @@ const ClassElem = (props) => {
 	}
 
 	const options = {
+		barPercentage: 1,
 		scales: {
-			yAxes: [{
-				gridLines: {
-					drawBorder: false,
-				},
-			}]
+			x: {
+				display: false,
+				suggestedMax: 100
+			}
 		},
+		legend: {
+			title: {
+				display: false
+			}
+		},
+		indexAxis: 'y',
+		borderRadius: 20
 	}
 
 
