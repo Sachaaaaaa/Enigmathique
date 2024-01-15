@@ -26,10 +26,25 @@ const getAll = () => {
 		});
 }
 
+/**
+ * Permet d'avoir tous les scores liés à une partie
+ * @param id id de la partie dont on veut les scores
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
+const getScores = (id) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+'game/score/'+id, {headers: token})
+		.then((response) => {
+			return response.data;
+		})
+}
+
 
 const GameService = {
 	createGame,
-	getAll
+	getAll,
+	getScores
 };
 
 export default GameService;

@@ -7,12 +7,21 @@ import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
-import CourseService from "../services/course.service";
+import GameService from '../services/game.service';
+import Course from '../models/course.model';
+import courseModel from '../models/course.model';
 
 
 const Dashboard = () => {
 
-	//TODO: intégration avec l'API
+	// Ajout d'un état pour avoir les classes
+	const [courses, setCourses] = useState([]);
+	// Ajout d'un état pour avoir les parties
+	const [gameList, setGames] = useState([]);
+	// Ajout d'un état pour les salles sélectionnées
+	const [selectedRooms, setSelectedRooms] = useState([]);
+	// Ajout d'un état pour suivre l'indice de la classe actuelle
+	const [currentClassIndex, setCurrentClassIndex] = useState(0);
 
 	const rooms = [
 		{
@@ -52,22 +61,30 @@ const Dashboard = () => {
 		}
 	];
 
-	const classGroups = [
-		{
-			name: 'A',
-			nbStudents: 32,
-			lastGame: '11/12/23',
-			nbGames: 4,
-			winRate: 80
-		},
-		{
-			name: 'B',
-			nbStudents: 31,
-			lastGame: '23/10/23',
-			nbGames: 3,
-			winRate: 75
-		}
-	];
+	const loadClasses = async () => {
+		const data = await Course.getAll();
+		setCourses(data);
+		console.log(data);
+	}
+
+	useEffect(() => {
+		loadClasses();
+	}, []);
+
+	const loadGames = () => {
+		GameService.getAll().then((response) => {
+			setGames(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
+	useEffect(() => {
+		loadGames();
+	}, []);
+
+
+
 
 	// Choix des salles à afficher
 	const roomSelection = (rooms) => {
@@ -84,29 +101,22 @@ const Dashboard = () => {
 		return roomSelect;
 	};
 
-	// Ajout d'un état pour les salles sélectionnées
-	const [selectedRooms, setSelectedRooms] = useState([]);
-
 
 	useEffect(() => {
 		setSelectedRooms(roomSelection(rooms));
 	}, []); // s'éxécute seulement au montage
 
-
-	// Ajout d'un état pour suivre l'indice de la classe actuelle
-	const [currentClassIndex, setCurrentClassIndex] = useState(0);
-
 	// Fonction pour aller à la classe précédente
 	const prevClass = () => {
 		setCurrentClassIndex(prevIndex =>
-			prevIndex > 0 ? prevIndex - 1 : classGroups.length - 1
+			prevIndex > 0 ? prevIndex - 1 : courses.length - 1
 		);
 	};
 
 	// Fonction pour aller à la classe suivante
 	const nextClass = () => {
 		setCurrentClassIndex(prevIndex =>
-			prevIndex < classGroups.length - 1 ? prevIndex + 1 : 0
+			prevIndex < courses.length - 1 ? prevIndex + 1 : 0
 		);
 	};
 
@@ -148,7 +158,7 @@ const Dashboard = () => {
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
 						<div className='w-[48vw] xl:max-w-lg mx-auto p-5'>
-							<ClassElem key={currentClassIndex} classGroup={classGroups[currentClassIndex]}/>
+							{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
 						</div>
 					</div>
 				</div>
