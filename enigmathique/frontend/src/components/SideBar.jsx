@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import logo from '../assets/img/logo-enigmathique.png';
+import logo from '../assets/img/logo-name-enigmathique.png';
 import PropTypes from 'prop-types';
 import {IconContext} from 'react-icons';
 import {MdCollectionsBookmark, MdDoorFront, MdGames, MdHome} from 'react-icons/md';

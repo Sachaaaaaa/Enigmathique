@@ -125,7 +125,7 @@ const Dashboard = () => {
 			<main className='flex flex-grow bg-[#F5F7FA] flex-wrap overflow-y-scroll'>
 				<div className='flex'>
 					<div className='flex-grow mr-2 flex-wrap max-w-[1000px]'>
-						<div className='flex-grow p-5'>
+						<div className='p-5'>
 							<div className='flex justify-between'>
 								<h2 className='block font-semibold'>Mes Parties</h2>
 								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
@@ -136,7 +136,7 @@ const Dashboard = () => {
 								))}
 							</div>
 						</div>
-						<div className='flex-grow p-5'>
+						<div className='p-5 pt-2'>
 							<div className='flex justify-between'>
 								<h2 className='block font-semibold'>Proposition de salles</h2>
 								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
