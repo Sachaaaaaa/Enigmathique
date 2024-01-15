@@ -27,10 +27,10 @@ const SideBar = () => {
 	return (
 		<nav className='nav-container'>
 			<Link to='/'>
-				<img src={logo} alt='logo' className='w-40'/>
+				<img src={logo} alt='logo'/>
 			</Link>
 			<section className='nav-content'>
-				<ul className='w-full text-xl'>
+				<ul className='w-full text-base'>
 					<ItemList type='dashboard' onClick={handleNav} currentPath={path}/>
 					<ItemList type='class' onClick={handleNav} currentPath={path}/>
 					<ItemList type='games' onClick={handleNav} currentPath={path}/>
@@ -47,24 +47,24 @@ const SideBar = () => {
 const ItemList = (props) => {
 	const type = {
 		dashboard: {
-			name: 'Tableau de Bord',
+			name: 'Tableau de bord',
 			path: '/dashboard',
-			icon: <MdHome/>,
+			icon: <MdHome size={30}/>,
 		},
 		class: {
 			name: 'Mes classes',
 			path: '/class',
-			icon: <MdCollectionsBookmark/>,
+			icon: <MdCollectionsBookmark size={30}/>,
 		},
 		games: {
 			name: 'Mes parties',
 			path: '/games',
-			icon: <MdGames/>,
+			icon: <MdGames size={30}/>,
 		},
 		room: {
 			name: 'Salles d\'énigmes',
 			path: '/room',
-			icon: <MdDoorFront/>,
+			icon: <MdDoorFront size={30}/>,
 		},
 	}
 	const selected = props.currentPath === type[props.type].path;

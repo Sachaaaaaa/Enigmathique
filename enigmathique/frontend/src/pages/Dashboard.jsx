@@ -34,7 +34,7 @@ const Dashboard = () => {
 
 	const games = [
 		{
-			name: 'Entrainement proba',
+			name: 'Entrainement probabilités',
 			date: '17/11/23',
 			className: 'A',
 			winners: ['Julie Lustret', 'Monstre Gentil'],
@@ -109,7 +109,7 @@ const Dashboard = () => {
 
 	return (
 		<LayoutProf>
-			<main className='flex flex-grow bg-[#F5F7FA] border-2 flex-wrap overflow-y-scroll'>
+			<main className='flex flex-grow bg-[#F5F7FA] flex-wrap overflow-y-scroll'>
 				<div className='flex'>
 					<div className='flex-grow mr-2 flex-wrap max-w-[1000px]'>
 						<div className='flex-grow p-5'>
@@ -117,7 +117,7 @@ const Dashboard = () => {
 								<h2 className='block font-semibold'>Mes Parties</h2>
 								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
 							</div>
-							<div className='flex justify-around '>
+							<div className='flex justify-between'>
 								{games.map((game, index) => (
 									<GameElem key={index} game={game}/>
 								))}
@@ -128,7 +128,7 @@ const Dashboard = () => {
 								<h2 className='block font-semibold'>Proposition de salles</h2>
 								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
 							</div>
-							<div className='flex justify-around'>
+							<div className='flex justify-between'>
 								{selectedRooms.map((room, index) => (
 									<RoomElem key={index} room={room}></RoomElem>
 								))}
@@ -144,7 +144,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						<div className='max-w-md xl:max-w-lg mx-auto p-5'>
+						<div className='w-[48vw] xl:max-w-lg mx-auto p-5'>
 							<ClassElem key={currentClassIndex} classGroup={classGroups[currentClassIndex]}/>
 						</div>
 					</div>
