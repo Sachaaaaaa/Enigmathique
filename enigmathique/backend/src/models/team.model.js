@@ -8,6 +8,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             primaryKey: true,
             allowNull: false, 
+            unique: true,
         },
         // Lien vers le l'étudiant contenu dans l'équipe
         idStudent: {

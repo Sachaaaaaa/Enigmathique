@@ -12,9 +12,19 @@ module.exports = app => {
 
 	// Créer une partie
 	router.post("/", middleware.verifyToken, game.create);
-	
+
+
+	// Accepte une équipe au sein de la partie
+	router.post("/team/accept/:id", middleware.verifyToken, game.accept);
+
+	// Ajouter les salles
+	router.post("/rooms/", middleware.verifyToken, game.addRooms);
+
 	// Récupérer toutes les parties du professeur connecté
 	router.get("/", middleware.verifyToken, game.findAll);
+
+	// Vérifie si une partie, à partir de son id, appartient au prof
+	router.get("/gameBelongsToProf/{id}", middleware.verifyToken, game.gameBelongsToProf);
 
 	// Récupérer une partie à partir de son id
 	router.get("/:id", middleware.verifyToken, game.findById);
