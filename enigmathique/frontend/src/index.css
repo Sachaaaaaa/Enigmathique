@@ -5,13 +5,6 @@
 @layer components {
 
     /**
-    * Police montserrat
-     */
-    .montserrat {
-        @apply font-['Montserrat'] ;
-    } 
-
-    /**
     * Bouton valider
      */
     .btn-validate{
@@ -62,10 +55,16 @@
     .topbar-container {
         @apply flex flex-row p-6 items-center border-b-2 border-[#E6EFF5] h-1/6;
     }
-    .txt-dashboard {
-        @apply uppercase bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-[12px] text-transparent bg-clip-text font-semibold;
+    
+    .small-title {
+        @apply uppercase font-semibold bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-[11px] text-transparent bg-clip-text;
     }
-
+    .small-text {
+        @apply text-sm leading-none ;
+    }
+    .info-container {
+        @apply bg-white mt-2 w-[48%] h-full rounded-[30px] shadow-md overflow-hidden flex flex-col;
+    }
     .elem-dashboard {
         @apply p-1 ml-3 mr-3
     }

@@ -71,13 +71,13 @@ const TopBar = () => {
 	return(
 		<section className="topbar-container p-0 pl-5 flex justify-between">
 			<div >
-				<h1 className="text-slate-700 text-2xl font-semibold">{text}</h1>
+				<h1 className="text-[#343C6A] text-2xl font-semibold">{text}</h1>
 			</div>
 			<div className="flex flex-row items-center gap-2">
 				<div className="p-2 rounded-full bg-[#E6EFF5]">
 						<FaGear color="#807FF7"/>
 				</div>
-				<div className="px-0 py-2 text-right text-xs">
+				<div className="text-[#343C6A] px-0 py-2 text-right text-xs">
 					<p>{prof.firstname}</p>
 					<p>{prof.lastname}</p>
 				</div>
