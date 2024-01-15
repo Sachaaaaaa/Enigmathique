@@ -322,6 +322,7 @@ exports.close = async (req, res) => {
 
 		// Renvoie les données supprimées
 		.then(data => {
+			Game.update({state: 1},{where: { id: req.params.id }});
 			return res.status(200).json(data);
 		})
 
@@ -331,6 +332,32 @@ exports.close = async (req, res) => {
 				message: err.message || "Une erreur s'est produite lors de la création de la classe."
 			});
 		});
+}
+
+// Termine la partie
+exports.end = async (req, res) => {
+
+	// Vérifie que la partie appartient bien au professeur
+	const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+	if (!isBelongsToProfessor) {
+		return res.status(403).json({
+			message: "Vous n'avez pas accès à cette partie."
+	});
+	}
+
+	// Enregistrer la classe dans la base de données
+	await Game.update({state: 2},{where: { id: req.params.id }})
+	// Renvoie les données supprimées
+	.then(data => {
+		return res.status(201).json(data);
+	})
+
+	// Gère les erreurs
+	.catch(err => {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la création de la classe."
+		});
+	});
 }
 
 
