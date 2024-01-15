@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import Modal, {ModalBody, ModalHeader} from './Modal';
 import PropTypes from 'prop-types';
-import StudentService from '../services/student.service';
 import {MdDeleteForever, MdOutlineModeEdit, MdArrowBackIos} from 'react-icons/md';
 import {ImStatsDots} from 'react-icons/im';
 import {FaPlus} from "react-icons/fa6";
 import {Link} from 'react-router-dom';
 import {FaSearch} from "react-icons/fa";
 import Student from "../models/student.model";
+import studentModel from "../models/student.model";
 
 const ClassElement = ({student, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -18,27 +18,21 @@ const ClassElement = ({student, onChange}) => {
 	const id = URL.substring(URL.lastIndexOf('/') + 1);
 	
 	
-	const handleClickDelete = (event, id) => {
-		console.log('Delete ' + id);
-		StudentService.deleteId(id).then((response) => {
-			console.log(response);
-			onChange();
-		}).catch((error) => {
-			console.log(error);
-		});
+	const handleClickDelete = async (event, id) => {
+		event.preventDefault();
+		await studentModel.delete(id);
+		onChange();
 		setDeleteModalOpen(false);
+		console.log('delete ' + id);
 	}
 	
 	
-	const handleClickEdit = (event, firstname, lastname, idCourse, idStudent) => {
+	const handleClickEdit = async (event, firstname, lastname, idCourse, idStudent) => {
 		event.preventDefault();
-		StudentService.edit(firstname, lastname, idCourse, idStudent).then((response) => {
-			console.log(response);
-			onChange();
-		}).catch((error) => {
-			console.log(error);
-		});
-		setEditModalOpen(false)
+		await studentModel.edit(firstname, lastname, idCourse, idStudent);
+		onChange();
+		setEditModalOpen(false);
+		console.log('edit ' + id);
 	}
 	
 	
@@ -147,23 +141,18 @@ const ListStudents = (props) => {
 		const data = await Student.getAll(props.id);
 		setStudents(data);
 		console.log(data);
-
 	}
-	
 	
 	useEffect(() => {
 		loadStudents();
 	}, []);
 	
-	const handleClickCreate = (event, firstname, lastname, id) => {
+	const handleClickCreate = async (event, firstname, lastname, idCourse) => {
 		event.preventDefault();
-		StudentService.create(firstname, lastname, id).then((response) => {
-			console.log(response);
-			loadStudents();
-		}).catch((error) => {
-			console.log(error);
-		});
+		await studentModel.create(firstname, lastname, idCourse);
+		loadStudents();
 		setCreateModalOpen(false);
+		console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
 	}
