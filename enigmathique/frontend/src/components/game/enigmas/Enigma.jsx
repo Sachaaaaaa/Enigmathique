@@ -49,7 +49,6 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 				{enigmaDisplayTemplate(variables, submitAnswer)}
 
 				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
-
 				<button onClick={closeEnigma} className="mt-3">
 					Fermer
 				</button>

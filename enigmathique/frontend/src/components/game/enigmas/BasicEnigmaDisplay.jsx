@@ -14,13 +14,13 @@ const BasicDisplayTemplate = ({handleSubmitAnswer, title, description, image}) =
 		<>
 			<h1>{title}</h1>
 			<p>{description}</p>
-			<img src={image} alt='enigma image'/>
+			{image!=null && <img src={image} alt='enigma image'/>}
 			<input
 				type="text"
 				value={userAnswer}
 				onChange={handleInputChange}
 				className="m-1.5" />
-			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5">Check Answer</button>
+			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5">Essayer</button>
 		</>
 	);
 };
