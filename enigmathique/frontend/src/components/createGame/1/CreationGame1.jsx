@@ -4,9 +4,8 @@ import {initialFormData, useCreationGameContext} from "../../contexts/CreationGa
 import '../../../index.css';
 import '../createGame.css'
 import ClassList from "./ClassList";
-import CourseService from "../../../services/course.service";
-import AuthService from "../../../services/auth.service";
 import {Link} from "react-router-dom";
+import Course from "../../../models/course.model";
 const GameCreationForm = () => {
 
 	const {formData, setFormData, setStep, setCourses} = useCreationGameContext();
@@ -18,12 +17,10 @@ const GameCreationForm = () => {
 	// 	console.log(error);
 	// });
 
-	const loadClasses = () => {
-		CourseService.getAll().then((response) => {
-			setCourses(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	const loadClasses = async () => {
+		const data = await Course.getAll();
+		setCourses(data);
+		console.log(data);
 	}
 
 	useEffect(() => {
