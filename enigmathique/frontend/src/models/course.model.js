@@ -33,6 +33,23 @@ class Course {
 			console.log(error);
 		}
 	}
+	static async delete(id) {
+		try {
+			const data = await CourseService.deleteId(id);
+			return 1;
+		}catch (error){
+			console.log(error);
+		}
+	}
+
+	static async create(name) {
+		try {
+			const data = await CourseService.create(name);
+			return new Course(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
+		}catch (error){
+			console.log(error);
+		}
+	}
 
 }
 
