@@ -9,7 +9,6 @@ import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
 import GameService from '../services/game.service';
 import Course from '../models/course.model';
-import courseModel from '../models/course.model';
 
 
 const Dashboard = () => {
