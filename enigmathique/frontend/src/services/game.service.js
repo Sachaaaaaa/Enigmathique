@@ -20,7 +20,7 @@ const createGame = (idCourse, name, teamSize) => {
 const getAll = () => {
 	const token = authHeader();
 	return axios
-		.get(API_URL+'game')
+		.get(API_URL+'game', {headers: token})
 		.then((response) => {
 			return response.data;
 		});
