@@ -7,9 +7,20 @@ import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
+import GameService from '../services/game.service';
+import Course from '../models/course.model';
 
 
 const Dashboard = () => {
+
+	// Ajout d'un état pour avoir les classes
+	const [courses, setCourses] = useState([]);
+	// Ajout d'un état pour avoir les parties
+	const [gameList, setGames] = useState([]);
+	// Ajout d'un état pour les salles sélectionnées
+	const [selectedRooms, setSelectedRooms] = useState([]);
+	// Ajout d'un état pour suivre l'indice de la classe actuelle
+	const [currentClassIndex, setCurrentClassIndex] = useState(0);
 
 	const rooms = [
 		{
@@ -34,7 +45,7 @@ const Dashboard = () => {
 
 	const games = [
 		{
-			name: 'Entrainement proba',
+			name: 'Entrainement probabilités',
 			date: '17/11/23',
 			className: 'A',
 			winners: ['Julie Lustret', 'Monstre Gentil'],
@@ -49,22 +60,30 @@ const Dashboard = () => {
 		}
 	];
 
-	const classGroups = [
-		{
-			name: 'A',
-			nbStudents: 32,
-			lastGame: '11/12/23',
-			nbGames: 4,
-			winRate: 80
-		},
-		{
-			name: 'B',
-			nbStudents: 31,
-			lastGame: '23/10/23',
-			nbGames: 3,
-			winRate: 75
-		}
-	];
+	const loadClasses = async () => {
+		const data = await Course.getAll();
+		setCourses(data);
+		console.log(data);
+	}
+
+	useEffect(() => {
+		loadClasses();
+	}, []);
+
+	const loadGames = () => {
+		GameService.getAll().then((response) => {
+			setGames(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
+	useEffect(() => {
+		loadGames();
+	}, []);
+
+
+
 
 	// Choix des salles à afficher
 	const roomSelection = (rooms) => {
@@ -81,54 +100,47 @@ const Dashboard = () => {
 		return roomSelect;
 	};
 
-	// Ajout d'un état pour les salles sélectionnées
-	const [selectedRooms, setSelectedRooms] = useState([]);
-
 
 	useEffect(() => {
 		setSelectedRooms(roomSelection(rooms));
 	}, []); // s'éxécute seulement au montage
 
-
-	// Ajout d'un état pour suivre l'indice de la classe actuelle
-	const [currentClassIndex, setCurrentClassIndex] = useState(0);
-
 	// Fonction pour aller à la classe précédente
 	const prevClass = () => {
 		setCurrentClassIndex(prevIndex =>
-			prevIndex > 0 ? prevIndex - 1 : classGroups.length - 1
+			prevIndex > 0 ? prevIndex - 1 : courses.length - 1
 		);
 	};
 
 	// Fonction pour aller à la classe suivante
 	const nextClass = () => {
 		setCurrentClassIndex(prevIndex =>
-			prevIndex < classGroups.length - 1 ? prevIndex + 1 : 0
+			prevIndex < courses.length - 1 ? prevIndex + 1 : 0
 		);
 	};
 
 	return (
 		<LayoutProf>
-			<main className='flex flex-grow bg-[#F5F7FA] border-2 flex-wrap overflow-y-scroll'>
+			<main className='flex flex-grow bg-[#F5F7FA] flex-wrap overflow-y-scroll'>
 				<div className='flex'>
 					<div className='flex-grow mr-2 flex-wrap max-w-[1000px]'>
-						<div className='flex-grow p-5'>
+						<div className='p-5'>
 							<div className='flex justify-between'>
 								<h2 className='block font-semibold'>Mes Parties</h2>
 								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
 							</div>
-							<div className='flex justify-around '>
+							<div className='flex justify-between'>
 								{games.map((game, index) => (
 									<GameElem key={index} game={game}/>
 								))}
 							</div>
 						</div>
-						<div className='flex-grow p-5'>
+						<div className='p-5 pt-2'>
 							<div className='flex justify-between'>
 								<h2 className='block font-semibold'>Proposition de salles</h2>
 								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
 							</div>
-							<div className='flex justify-around'>
+							<div className='flex justify-between'>
 								{selectedRooms.map((room, index) => (
 									<RoomElem key={index} room={room}></RoomElem>
 								))}
@@ -144,8 +156,8 @@ const Dashboard = () => {
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						<div className='max-w-md xl:max-w-lg mx-auto p-5'>
-							<ClassElem key={currentClassIndex} classGroup={classGroups[currentClassIndex]}/>
+						<div className='w-[48vw] xl:max-w-lg mx-auto p-5'>
+							{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
 						</div>
 					</div>
 				</div>

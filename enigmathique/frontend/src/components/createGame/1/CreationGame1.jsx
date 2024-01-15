@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Counter from './Counter';
 import {initialFormData, useCreationGameContext} from "../../contexts/CreationGame.context";
 import '../../../index.css';
@@ -84,7 +84,5 @@ const CreationGame1 = (props) => {
 	);
 
 };
-CreationGame1.propTypes = {
-	setStep: PropTypes.func.isRequired,
-}
-export default CreationGame1;
+
+export default GameCreationForm;

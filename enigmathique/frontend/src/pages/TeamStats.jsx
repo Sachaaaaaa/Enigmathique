@@ -12,17 +12,17 @@ const TeamStats = () => {
 			time: '3:45',
 			score: {
 				nbHints: 5,
-				nbMis: 3
-			}
+				nbMis: 3,
+			},
 		},
 		{
 			name: 'Le Labo',
 			time: '2:50',
 			score: {
 				nbHints: 4,
-				nbMis: 4
-			}
-		}
+				nbMis: 4,
+			},
+		},
 	]
 
 	return (

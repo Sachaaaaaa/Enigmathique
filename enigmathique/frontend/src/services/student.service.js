@@ -4,13 +4,21 @@ import authHeader from './auth-header';
 const API_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
 
-const get = (id) => {
+const getAll = (id) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
 	return axios
 		.get(API_URL + 'course/students/' + id, {headers: token})
 		.then((response) => {
-			console.log(response.data);
+			return response.data;
+		});
+}
+
+const getOne = (idStudent) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+ 'student/' + idStudent, {headers: token})
+		.then((response) => {
 			return response.data;
 		});
 }
@@ -44,7 +52,8 @@ const edit = (firstname, lastname, idCourse, idStudent) => {
 		});
 }
 const StudentService = {
-	get,
+	getAll,
+	getOne,
 	create,
 	deleteId,
 	edit,

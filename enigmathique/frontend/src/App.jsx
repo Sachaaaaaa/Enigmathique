@@ -18,6 +18,7 @@ import Games from "./pages/Games";
 import {PreGameDataProvider} from "./components/contexts/PreGame.context";
 import PreGameWrapper from "./components/contexts/PreGame.wrapper";
 import CreateGameWrapper from "./components/contexts/CreationGame.wrapper";
+import RoomList from 'pages/RoomList';
 
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
 			<Route path='/create-game' element={<CreateGameWrapper/>}/>
 			<Route path='/pregame/:code' element={<PreGameWrapper/>}/>
 			<Route path='/teamstats' element={<TeamStats/>}/>
+			<Route path='/rooms' element={<RoomList/>}/>
 		</Routes>
 	);
 };

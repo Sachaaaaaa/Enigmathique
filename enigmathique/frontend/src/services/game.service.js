@@ -48,12 +48,36 @@ const acceptTeam = (idTeam) => {
 		});
 };
 
+const getAll = () => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+'game', {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+}
+
+/**
+ * Permet d'avoir tous les scores liés à une partie
+ * @param id id de la partie dont on veut les scores
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
+const getScores = (id) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+'game/score/'+id, {headers: token})
+		.then((response) => {
+			return response.data;
+		})
+}
+
 
 const GameService = {
 	createGame,
 	addRooms,
 	openGame,
-	acceptTeam
+	acceptTeam,
+	getAll
 };
 
 export default GameService;
