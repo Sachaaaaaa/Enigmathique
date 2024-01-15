@@ -32,3 +32,5 @@ class SocketProfessor {
 	}
 
 }
+
+module.exports = SocketProfessor;

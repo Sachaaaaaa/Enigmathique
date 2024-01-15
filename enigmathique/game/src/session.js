@@ -13,9 +13,11 @@ class Session {
 		this.professors = [];
 		this.rooms = rooms;
 		this.expectedTeams = expectedTeams;
-
+		
 		this.results = {};
+		this.sessionStartTime = 0;
 		this.roundStartTime = 0;
+		this.numRounds = rooms.length;
 		this.round = -1;
 
 		this.isSessionRunning = false;

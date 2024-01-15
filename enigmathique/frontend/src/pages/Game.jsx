@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 
 import { Scene } from '../components/game/SceneManager';
-import { socket, SocketContext } from '../contexts/SocketContext';
+import { socket, SocketContext } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
@@ -38,7 +38,7 @@ const Game = () => {
 		return () => {
 			socket.off(ServerToClient.Message);
 			socket.off(ServerToClient.Connection);
-			socket.off(ServerToClient.Disconnect);
+			socket.off(ServerToClient.Disconnection);
 		};
 	});
 

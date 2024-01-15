@@ -49,7 +49,7 @@ export default function Model(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigma
-						enigmaId={1}
+						enigmaId={0}
 						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
 							<BasicDisplayTemplate
 								title="Salut Gnibo!"
