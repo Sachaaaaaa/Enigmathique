@@ -9,9 +9,10 @@ module.exports = app => {
 	var router = require("express").Router();
 
 	// todo : remove un student from a team
+	// todo : tout mettre en cascade 
 
 	// Ajoute un élève à une équipe
-	router.post("/student/", middleware.verifyToken, team.addStudent);
+	router.post("/student/", middleware.verifyToken, team.addStudents);
 
 	// Supprime un élève de l'équipe
 	router.post("/student/:id", middleware.verifyToken, team.removeStudent);
