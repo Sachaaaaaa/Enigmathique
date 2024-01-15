@@ -2,12 +2,15 @@
  * Définition des opérations CRUD pour les professeurs
 */
 
+require('dotenv').config();
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require("../models/db.js");
 const Professor = db.professor;
 const Op = db.Sequelize.Op;
-const secretKey = 'bloubiboulba';
+//const secretKey = 'bloubiboulba';
+const secretKey = process.env.SECRET_KEY
 
 // Créer et enregistrer un nouveau professeur
 exports.register = async (req, res) => {

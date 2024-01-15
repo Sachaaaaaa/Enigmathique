@@ -403,7 +403,7 @@ exports.addRooms = async(req, res) => {
 	}
 
 	// Vérifie que la partie appartient bien au professeur
-	const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+	const isBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
 	if (!isBelongsToProfessor) {
 		return res.status(403).json({
 			message: "Vous n'avez pas accès à cette partie."
@@ -411,7 +411,7 @@ exports.addRooms = async(req, res) => {
 	}
 
 	// Récupère les id des salles à ajouter
-	const roomNames = JSON.parse(req.body.roomName);
+	const roomNames = req.body.roomName;
 	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, name: currentRoomName }));
 
 
