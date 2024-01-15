@@ -7,7 +7,7 @@ import { node } from "prop-types";
 
 import useInteractiveObject from "../../../hooks/useInteractiveObject";
 
-export function Model(props) {
+export default function Model(props) {
 	const { nodes, materials } = useGLTF("/models/test.glb");
 
 	const [gameState, setGameState] = useState({

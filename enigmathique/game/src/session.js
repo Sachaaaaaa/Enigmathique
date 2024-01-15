@@ -13,9 +13,11 @@ class Session {
 		this.professors = [];
 		this.rooms = rooms;
 		this.expectedTeams = expectedTeams;
-
+		
 		this.results = {};
+		this.sessionStartTime = 0;
 		this.roundStartTime = 0;
+		this.numRounds = rooms.length;
 		this.round = -1;
 
 		this.isSessionRunning = false;
@@ -121,18 +123,21 @@ class Session {
 
 	rotateRooms = () => {
 		console.log(clc.greenBright('[Session] Rotation des salles'));
-		// TODO: Rotation des salles
+
 		this.isPlaying = false;
 		this.round += 1;
 
 		// Envoi la nouvelle salle à chaque équipe
+		let i = this.round;
 		this.teams.forEach(team => {
-			team.sendRoom(this.rooms[0].toRoom(this.round));
+			const roomIndex = (i++) % this.rooms.length;
+
+			team.sendRoom(this.rooms[roomIndex].toRoom(this.round));
 		});
 	}	
 
 	broadcastStartRound = () => {
-		console.log(clc.greenBright('[Session] Début du round'));
+		console.log(clc.greenBright('[Session] Début du round', this.round));
 		this.teams.forEach(team => {
 			team.sendStartRound();
 		});
@@ -148,10 +153,18 @@ class Session {
 			const timeLeft = TIME_PER_ROUND - elapsed / 1000;
 			console.log(clc.greenBright(`[Session] Tick: ${timeLeft} secondes restantes`));
 
+			// Test, envoie la progression de chaque équipe
+			const teamsProgress = this.getTeamsProgress();
+			this.professors.forEach(professor => {
+				professor.sendAllTeamsProgress(teamsProgress);
+			});
+
 			// Affiche les énigmes résolues
 			this.teams.forEach(team => {
 				console.log(clc.greenBright(`[Session] ${team.teamId}: ${team.currentRoom.enigmasSolved.length}/${team.currentRoom.enigmas.length}`));
 			});
+
+			
 		} else if (this.isSessionRunning) {
 			console.log(clc.greenBright(`[Session] Tick: En attente de chargements des joueurs ...`));
 		} else {

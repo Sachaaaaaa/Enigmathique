@@ -9,12 +9,13 @@ import Game from './pages/Game';
 import Class from './pages/Class';
 import Students from './pages/Students';
 import './index.css';
-import CreateGame from "./pages/CreateGame";
-import {CreationGameDataProvider} from "./components/contexts/CreationGame.context";
-import PreGame from "./pages/PreGame";
-import TeamStats from "./pages/TeamStats";
+import CreateGame from './pages/CreateGame';
+import {CreationGameDataProvider} from './components/contexts/CreationGame.context';
+import PreGame from './pages/PreGame';
+import TeamStats from './pages/TeamStats';
 import { RoomProvider } from './contexts/RoomContext';
-import Games from "./pages/Games";
+import Games from './pages/Games';
+import ProfFollowUp from './pages/ProfFollowUp';
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
 				<Route path='/create-game' element={<CreateGame/>}/>
 				<Route path='/pregame/:id' element={<PreGame/>}/>
 				<Route path='/teamstats' element={<TeamStats/>}/>
+				<Route path='/prof-folow-up' element={<ProfFollowUp/>}/>
 			</Routes>
 		</CreationGameDataProvider>
 	);

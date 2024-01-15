@@ -1,4 +1,5 @@
 const clc = require('cli-color');
+const { ClientToServer, ServerToClient } = require('./socketMessages');
 
 class SocketProfessor {
 	constructor(socket, session) {
@@ -27,8 +28,37 @@ class SocketProfessor {
 		console.log(clc.yellowBright('[Professor] Envoi de la progression des équipes'));
 
 		this.socket.emit(ServerToClient.AllTeamsProgress, {
-			teamsProgress
+			sampleTeamsData
 		});
 	}
 
 }
+
+const sampleTeamsData = {
+	meta: {
+		sessionStartTime: 0,
+		roundStartTime: 0,
+		currentRound: 0,
+		totalEnigma: 10,
+	},
+	teams: {
+		1: [
+			{
+				room: "Laboratory",
+				numSolved: 1,
+				numHint: 0,
+				isSolved: false,
+			}
+		],
+		4: [
+			{
+				room: "Laboratory",
+				numSolved: 2,
+				numHint: 2,
+				isSolved: true,
+			}
+		]
+	}
+}
+
+module.exports = SocketProfessor;

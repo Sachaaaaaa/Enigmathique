@@ -12,7 +12,7 @@ import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
 
-export function Model(props) {
+export default function Model(props) {
 	const socket = useContext(SocketContext);
 
 	useEffect(() => {
@@ -49,7 +49,7 @@ export function Model(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigma
-						enigmaId={1}
+						enigmaId={0}
 						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
 							<BasicDisplayTemplate
 								title="Salut Gnibo!"

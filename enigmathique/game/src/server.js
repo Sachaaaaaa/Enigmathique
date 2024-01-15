@@ -1,5 +1,5 @@
 const io = require('socket.io')();
-const Game = require('./game');
+const Game = require('./gameManager');
 
 const game = new Game(io);
 
