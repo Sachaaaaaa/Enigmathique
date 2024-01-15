@@ -117,7 +117,7 @@ async function isGameBelongsProfessor(idGame, req) {
 exports.create = async (req, res) => {
 
 	// Valider la requête
-	if (!req.body.idCourse | !req.body.teamSize  | !req.body.name ) {
+	if (!req.body.idCourse || !req.body.teamSize || !req.body.name ) {
 		return res.status(400).json({
 			message: "Il manque des informations pour créer la partie."
 		});
@@ -392,10 +392,11 @@ exports.course = async (req, res) => {
 
 // Ajoute des salles à une partie
 exports.addRooms = async(req, res) => {
-	
+
+	console.log(req.body)
 	
 	// Valide la requête
-	if (!req.body.idGame || !req.body.roomName) {
+	if (!req.body.idGame ||!req.body.roomName) {
 		res.status(400).json({
 			message: "Il manque des informations pour ajouter des salles."
 		});
@@ -403,17 +404,17 @@ exports.addRooms = async(req, res) => {
 	}
 
 	// Vérifie que la partie appartient bien au professeur
-	const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+	const isBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
 	if (!isBelongsToProfessor) {
 		return res.status(403).json({
 			message: "Vous n'avez pas accès à cette partie."
 	});
 	}
 
-	// Récupère les id des salles à ajouter
-	const roomNames = JSON.parse(req.body.roomName);
-	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, name: currentRoomName }));
-
+	// Récupère les nom des salles à ajouter
+	const roomNames = req.body.roomName
+	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, roomName: currentRoomName }));
+	console.log(roomsToAdd)
 
 	// Enregistrer les rooms dans la table GameRooms
 	GameRooms.bulkCreate(roomsToAdd)
