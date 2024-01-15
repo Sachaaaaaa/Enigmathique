@@ -35,8 +35,7 @@ class Course {
 	}
 	static async delete(id) {
 		try {
-			const data = await CourseService.deleteId(id);
-			return 1;
+			return await CourseService.deleteId(id);
 		}catch (error){
 			console.log(error);
 		}
