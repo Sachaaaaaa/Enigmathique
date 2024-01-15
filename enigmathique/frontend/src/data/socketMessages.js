@@ -13,6 +13,7 @@ const ServerToClient = {
 	StartRound: 'startRound', // + {}
 	TeamCount: 'teamCount', // + {count: int}
 	Feedback: 'feedback', // + {isSolved: bool, ~endMessage: string}
+	Hint: 'hint', // + {hint: string}
 
 	// Professeur
 	TeamProgress: 'teamProgress', // + {teamId: int, progress: object}
@@ -25,7 +26,7 @@ const ClientToServer = {
 	Disconnection: 'disconnect', // { }
 	Message: 'message', // + {message: string}
 	Submit: 'submit', // + {answer: string}
-	Hint: 'hint', // + {hint: string}
+	AskHint: 'hint', // { }
 	RoomLoaded: 'roomLoaded', // { }
 };
 

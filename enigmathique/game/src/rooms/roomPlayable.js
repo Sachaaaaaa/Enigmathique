@@ -7,7 +7,7 @@ class RoomPlayable {
 		this.roundIndex = roundIndex;
 
 		this.enigmasSolved = [];
-		this.numHints = 0;
+		this.enigmasHint = [];
 		this.numBadAnswers = 0;
 	}
 
@@ -25,11 +25,25 @@ class RoomPlayable {
 		const isSolved = enigma.answer == answer;
 		if (!isSolved) {
 			this.numBadAnswers++;
-		} else {
+		} else if(!this.enigmasSolved.includes(enigmaId)) {
 			this.enigmasSolved.push(enigmaId);
 		}
 
 		return isSolved;
+	}
+
+	getHint(enigmaId) {
+		const enigma = this.enigmas[enigmaId];
+		if (!enigma) {
+			return null;
+		}
+
+		const hint = enigma.hint;
+		if (hint && !this.enigmasHint.includes(enigmaId)) {
+			this.enigmasHint.push(enigmaId);
+		}
+
+		return hint;
 	}
 
 	getEndMessage = (enigmaId) => {
@@ -58,7 +72,7 @@ class RoomPlayable {
 			name: this.name,
 			numSolved: this.enigmasSolved.length,
 			numBadAnswers: this.numBadAnswers,
-			numHints: this.numHints,
+			numHints: this.enigmasHint.length,
 			isSolved: this.isRoomSolved(),
 		};
 	}

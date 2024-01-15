@@ -16,6 +16,7 @@ class SocketTeam {
 		this.socket.on(ClientToServer.RoomLoaded, this.onRoomLoaded);
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
 		this.socket.on(ClientToServer.Submit, this.onSubmit);
+		this.socket.on(ClientToServer.AskHint, this.onAskHint);
 
 		this.haveLoadedRoom = false;
 		this.leaved = false;
@@ -71,6 +72,18 @@ class SocketTeam {
 		}
 	}
 
+	onAskHint = ({enigmaId}) => {
+		console.log(clc.yellowBright(`[Team] Demande d'indice: (${enigmaId})`));
+
+		const hint = this.currentRoom.getHint(enigmaId);
+
+		if (hint) {
+			this.sendHint(enigmaId, hint);
+		} else {
+			console.log(clc.redBright('[Team] Indice non disponible'));
+		}
+	}
+
 	sendMessage = (message) => {
 		console.log(clc.yellowBright('[Team] Envoi message: ' + message));
 		this.socket.emit(ServerToClient.Message, message);
@@ -104,6 +117,11 @@ class SocketTeam {
 	sendAnswerFeedback = (enigmaId, isSolved, endMessage) => {
 		console.log(clc.yellowBright('[Team] Envoi feedback réponse'));
 		this.socket.emit(ServerToClient.Feedback, { enigmaId, isSolved, endMessage });
+	}
+
+	sendHint = (enigmaId, hint) => {
+		console.log(clc.yellowBright('[Team] Envoi indice'));
+		this.socket.emit(ServerToClient.Hint, { hint });
 	}
 
 	clear = () => {
