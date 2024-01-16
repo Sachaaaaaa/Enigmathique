@@ -15,6 +15,7 @@ const SelectedStudents = (props) => {
 						return (
 							<Student
 								key={student.id}
+								id={student.id}
 								lastname={student.lastname}
 								firstname={student.firstname}
 								isSelected={true}

@@ -1,18 +1,20 @@
-import React, {useEffect, useState} from "react";
-import LayoutProf from "../layouts/LayoutProf";
-import TeamContainer from "../components/preGame/TeamContainer";
+import React, { useEffect, useState } from 'react';
+import LayoutProf from '../layouts/LayoutProf';
+import TeamContainer from '../components/preGame/TeamContainer';
 import { socket } from 'contexts/SocketContext';
-import { useParams} from 'react-router-dom';
-import { ClientToServer,	ConnectionType, ServerToClient } from 'data/socketMessages';
-import AuthService from "../services/auth.service";
-
+import { useParams } from 'react-router-dom';
+import {
+	ClientToServer,
+	ConnectionType,
+	ServerToClient,
+} from 'data/socketMessages';
+import AuthService from '../services/auth.service';
 
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
 	const [confirmedTeams, setConfirmedTeams] = useState([]);
-	
 
-	const {sessionId} = useParams();
+	const { sessionId } = useParams();
 	const token = AuthService.getToken();
 
 	// Met à jour l'id de session dans le handshake du socket
@@ -32,6 +34,7 @@ const PreGame = () => {
 		});
 
 		socket.on(ServerToClient.SyncTeams, (data) => {
+			console.log(data);
 			setLockedTeams(data.lockedTeams);
 			setConfirmedTeams(data.confirmedTeams);
 		});
@@ -43,32 +46,31 @@ const PreGame = () => {
 			socket.off(ServerToClient.Disconnection);
 			socket.off(ServerToClient.SyncTeams);
 		};
-
 	}, []);
-
 
 	const handleStartGame = () => {
 		alert('La partie va commencer');
 	};
 
-	console.log(lockedTeams);
-	console.log(confirmedTeams);
+	if(!Array.isArray(lockedTeams) || !Array.isArray(confirmedTeams)) {
+		throw new Error('lockedTeams and confirmedTeams must be arrays');
+	}
 
 	return (
-
-			<LayoutProf>
-				<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
-					<section className="h-[80%] flex flex-row justify-evenly items-center">
-						<TeamContainer teams={lockedTeams} accepted={false}/>
-						<TeamContainer teams={confirmedTeams} accepted={true}/>
-					</section>
-					<section className='flex flex-row justify-end items-center h-[10%] w-full'>
-						<button className='btn-validate' onClick={handleStartGame}>Commencer la partie
-						</button>
-					</section>
+		<LayoutProf>
+			<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
+				<section className="h-[80%] flex flex-row justify-evenly items-center">
+					<TeamContainer teams={lockedTeams} accepted={false} />
+					<TeamContainer teams={confirmedTeams} accepted={true} />
+				</section>
+				<section className="flex flex-row justify-end items-center h-[10%] w-full">
+					<button className="btn-validate" onClick={handleStartGame}>
+						Commencer la partie
+					</button>
+				</section>
 			</main>
 		</LayoutProf>
 	);
-}
+};
 
 export default PreGame;

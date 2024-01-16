@@ -37,18 +37,10 @@ class SocketProfessor {
 
 	sendComposition = (availableStudents, lockedTeams, confirmedTeams) => {
 		console.log(clc.yellowBright('[Professor] Envoi de la composition'));
-
-		// this.socket.emit(ServerToClient.SyncTeams, {
-		// 	availableStudents,
-		// 	lockedTeams,
-		// 	confirmedTeams
-		// })
 		
 		this.socket.emit(ServerToClient.SyncTeams, {
 			availableStudents,
-			lockedTeams: {
-				
-			},
+			lockedTeams,
 			confirmedTeams
 		})
 	}

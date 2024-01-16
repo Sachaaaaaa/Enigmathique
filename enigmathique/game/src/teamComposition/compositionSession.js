@@ -125,6 +125,14 @@ class CompositionSession {
 		return this.teamSockets.filter((t) => t.confirmed);
 	};
 
+	getStudentWithId = (id) => {
+		return this.students.find((s) => s.id === id);
+	};
+
+	isStudentAvailable = (id) => {
+		return this.teamSockets.every((t) => !t.hasStudent(id));
+	}
+
 	/**
 	 *
 	 * @param {SocketTeam} team

@@ -5,6 +5,7 @@ const GameManager = require('./game/gameManager');
 const TeamCompositionManager = require('./teamComposition/teamCompositionManager');
 const { ClientToServer, ConnectionType } = require('./socketMessages');
 const CompositionSession = require('./teamComposition/compositionSession');
+const ApiService = require('./api/api');
 
 class SocketManager {
 	constructor(io) {
@@ -23,7 +24,7 @@ class SocketManager {
 	 * Redirige vers GameManager ou TeamCompositionManager en fonction du type de connexion
 	 * @param {Socket} socket 
 	 */
-	handleConnection = (socket) => {
+	handleConnection = async(socket) => {
 		console.log(clc.green('[Socket] Nouvelle connexion ' + socket.id));
 
 		// Vérifier si il y a un id de session (évite reverifier dans chaque gestionnaire)
@@ -35,7 +36,12 @@ class SocketManager {
 		}
 
 		// Vérifier si la session est valide
-		// { ... }
+		const session = await ApiService.getGameById(sessionId);
+		if (session == null || session.state >= 2) {
+			console.log(clc.red('[Socket] Session invalide ou terminée, déconnexion'));
+			socket.disconnect();
+			return;
+		}
 
 		// Vérifier si la connexion a un token (professeur)
 		const token = socket.handshake.query.token;

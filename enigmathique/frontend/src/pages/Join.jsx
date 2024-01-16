@@ -14,9 +14,11 @@ const Join = (props) => {
 	const [available, setAvailable] = useState([]);
 	const [selected, setSelected] = useState([]);
 
+	console.log(selected);
+
 	// Recupère l'id de session dans l'url
 	// A changer, facilement modifiable par l'utilisateur
-		const { sessionId } = useParams();
+	const { sessionId } = useParams();
 	// Si l'id de session n'est pas défini, on quitte la page
 	if (!sessionId) {
 		throw new Error('Il faut spécifier un id de session dans l\'url');
@@ -24,9 +26,6 @@ const Join = (props) => {
 
 	// Met à jour l'id de session dans le handshake du socket
 	socket.io.opts.query = { sessionId, connectionType: ConnectionType.TeamComposition };
-
-	console.log(available);
-	console.log(selected);
 
 	useEffect(() => {
 
@@ -39,8 +38,11 @@ const Join = (props) => {
 		});
 
 		socket.on(ServerToClient.SyncAvailableStudents, (data) => {
-			console.log(data);
 			setAvailable(data.students);
+		});
+
+		socket.on(ServerToClient.SyncTeamStudents, (data) => {
+			setSelected(data.composition.composition);
 		});
 
 		socket.connect();
@@ -63,9 +65,9 @@ const Join = (props) => {
 		const team = {
 			name: document.getElementById('teamName').value,
 			students: selected,
-		}
+		};
 		console.log(team);
-	}
+	};
 
 	return (
 		<SocketContext.Provider value={socket}>
@@ -105,8 +107,8 @@ const Join = (props) => {
 			</main>
 		</SocketContext.Provider>
 	);
-}
+};
 Join.propTypes = {
 	professorName: PropTypes.string,
-}
+};
 export default Join;

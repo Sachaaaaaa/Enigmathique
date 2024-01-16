@@ -1,23 +1,23 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {IoAddCircle, IoRemoveCircle} from 'react-icons/io5';
 
-import AvailableContext from './AvailableStudents.context';
-import SelectedContext from './SelectedStudents.context';
-import {useSocket} from "../../contexts/SocketContext";
-import {ClientToServer} from "../../data/socketMessages";
+
+import {useSocket} from '../../contexts/SocketContext';
+import {ClientToServer} from '../../data/socketMessages';
 
 const Student = (props) => {
 
 	const socket = useSocket();
-	const onAvailableStudentClick = (student) => {
+	const onAvailableStudentClick = () => {
 		// Demande via le socket de rejoindre l'équipe
-		socket.emit(ClientToServer.JoinTeam, student.id);
+		console.log('Emiting join team : ' + props.id);
+		socket.emit(ClientToServer.AddStudent, props.id);
 	};
 
-	const onSelectedStudentClick = (student) => {
+	const onSelectedStudentClick = () => {
 		// Demande via le socket de quitter l'équipe
-		socket.emit(ClientToServer.LeaveTeam, student.id);
+		socket.emit(ClientToServer.RemoveStudent, props.id);
 	};
 
 	return (
@@ -35,11 +35,12 @@ const Student = (props) => {
 			}
 		</div>
 	);
-}
+};
 Student.propTypes = {
+	id: PropTypes.number.isRequired,
 	lastname: PropTypes.string.isRequired,
 	firstname: PropTypes.string.isRequired,
 	isSelected: PropTypes.bool.isRequired,
 	teamSize: PropTypes.number,
-}
+};
 export default Student;
