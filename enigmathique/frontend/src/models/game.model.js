@@ -48,6 +48,16 @@ class Game{
 			console.log(e);
 		}
 	}
+	static async getScores(gameCode) {
+		try {
+			const data = await GameService.getScores(gameCode);
+			console.log('testttttttttttttttttttttttttttttt'+data);
+			return await GameService.getScores(gameCode);
+
+		}catch (e) {
+			console.log(e);
+		}
+	}
 
 }
 export default Game;

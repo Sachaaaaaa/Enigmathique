@@ -4,7 +4,6 @@ import '../../../index.css';
 import { useNavigate } from 'react-router-dom';
 import RoomNav from "./RoomNav";
 import Room from "./Room";
-import GameService from "../../../services/game.service";
 import PropTypes from "prop-types";
 import Game from "../../../models/game.model";
 const CreationGame2 = (props) => {
