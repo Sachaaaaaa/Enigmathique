@@ -4,25 +4,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const RoomElem = (props) => {
+
+	const room = props.room;
+
 	return (
 		<article className='info-container'>
 			<figure className='relative h-40 bg-blue-500 rounded-t-[30px]'
 					style={{
-						backgroundImage: `url(${props.room.image})`,
+						backgroundImage: `url(${require('../../assets/img/room-img/'+room.name+'.png')})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center'
 					}}>
-				<figcaption className='absolute text-white font-bold bottom-2 left-4'>{props.room.name}</figcaption>
+				<figcaption className='absolute text-white font-bold bottom-2 left-4'>{room.name}</figcaption>
 			</figure>
 			<div className='flex-grow flex flex-col justify-between'>
 				<div className='p-1 flex justify-around items-center'>
 					<article className='elem-dashboard'>
 						<h3 className='small-title'>Chapitre</h3>
-						<p className='small-text'>{props.room.cat}</p>
+						<p className='small-text'>{room.chapter}</p>
 					</article>
 					<article className='elem-dashboard '>
 						<h3 className='small-title'>Difficulté</h3>
-						<p className='small-text'>{props.room.difficulty}</p>
+						<p className='small-text'>{room.difficulty}</p>
 					</article>
 				</div>
 				<Link to='' className='btn-show'>

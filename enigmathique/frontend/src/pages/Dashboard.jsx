@@ -9,6 +9,7 @@ import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
 import GameService from '../services/game.service';
 import Course from '../models/course.model';
+import RoomService from "../services/room.service";
 
 
 const Dashboard = () => {
@@ -21,28 +22,6 @@ const Dashboard = () => {
 	const [selectedRooms, setSelectedRooms] = useState([]);
 	// Ajout d'un état pour suivre l'indice de la classe actuelle
 	const [currentClassIndex, setCurrentClassIndex] = useState(0);
-
-	const rooms = [
-		{
-			name: 'Room1',
-			difficulty: 'facile',
-			cat: 'Probabilités',
-			image: require('../assets/img/room-img/room-fonction-1.png')
-		},
-		{
-			name: 'Room2',
-			difficulty: 'moyen',
-			cat: 'Suites',
-			image: require('../assets/img/room-img/room-proba-1.png')
-		},
-		{
-			name: 'Room3',
-			difficulty: 'difficile',
-			cat: 'Fonctions',
-			image: require('../assets/img/room-img/room-fonction-1.png')
-		}
-	];
-
 
 	const loadClasses = async () => {
 		const data = await Course.getAll();
@@ -67,26 +46,38 @@ const Dashboard = () => {
 	}, []);
 
 
-
+	const loadRooms = () => {
+		let rooms = [];
+		RoomService.getAllRooms().then((response) => {
+			rooms = response
+		}).catch((error) => {
+			console.log(error);
+		});
+		return rooms;
+	}
 
 	// Choix des salles à afficher
 	const roomSelection = (rooms) => {
-		let max = rooms.length - 1;
-		let roomSelect = [];
-		let selectedIndex = -1;
-		while (roomSelect.length < 2) {
-			let index = randInt(0, max);
-			if (index !== selectedIndex) {
-				roomSelect.push(rooms[index]);
+		if(rooms.length !== 0) {
+			let max = rooms.length - 1;
+			let roomSelect = [];
+			let selectedIndex = -1;
+			while (roomSelect.length < 2) {
+				let index = randInt(0, max);
+				if (index !== selectedIndex) {
+					roomSelect.push(rooms[index]);
+				}
+				selectedIndex = index;
 			}
-			selectedIndex = index;
+			return roomSelect;
+		} else {
+			return []
 		}
-		return roomSelect;
 	};
 
 
 	useEffect(() => {
-		setSelectedRooms(roomSelection(rooms));
+		setSelectedRooms(roomSelection(loadRooms()));
 	}, []); // s'éxécute seulement au montage
 
 	// Fonction pour aller à la classe précédente
