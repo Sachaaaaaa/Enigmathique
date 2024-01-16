@@ -1,11 +1,9 @@
-
-
 import React, { useEffect, useState, useContext } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
 import { SocketContext, socket } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
-import { ServerToClient, ConnectionType } from 'data/socketMessages';
+import { ConnectionType, ServerToClient } from 'data/socketMessages';
 
 function ProfFollowUp() {
 	
@@ -29,18 +27,12 @@ function ProfFollowUp() {
 	const [rankings, setRankings] = useState([]);
 	const [gameData, setGameData] = useState(null);
 
-	socket.io.opts.query = {
-		token: token,
-		sessionId: sessionId,
-		connectionType: ConnectionType.Game,
-	}; // se connecter avec le prof avec son token
-
-	// se connecter a la session avec un useEffect
 	useEffect(() => {
 		if (token && sessionId) {
 			socket.io.opts.query = {
 				token,
 				sessionId,
+				connectionType: ConnectionType.Game
 			};
 
 			// Écouteur de connexion au serveur
