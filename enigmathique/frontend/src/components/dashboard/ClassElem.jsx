@@ -109,12 +109,12 @@ const ClassElem = (props) => {
 
 	return (
 		<article
-			className='info-container w-full md:max-w-md xl:max-w-lg '>
-			<article className='col-span-2 pt-2 flex-grow elem-dashboard'>
+			className='grid grid-cols-2 gap-1 info-container min-w-[450px]'>
+			<article className='col-span-1 elem-dashboard'>
 				<h3 className='small-title'>NOM</h3>
 				<p className='small-text'>Seconde {classGroup.name}</p>
 			</article>
-			<article className='col-span-2 pt-2 flex-grow elem-dashboard'>
+			<article className='col-span-2  elem-dashboard'>
 				<h3 className='small-title'>ÉLÈVES</h3>
 				<p className='small-text'>{students.length}</p>
 			</article>
