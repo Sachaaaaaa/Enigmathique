@@ -30,16 +30,6 @@ const addRooms = (idGame, roomName) => {
 			return response.data;
 		});
 };
-const acceptTeam = (idGame, idTeam) => {
-	const token = authHeader();
-	return axios
-		.post(API_URL + 'game/team/accept/' + idTeam, {
-			idGame
-		}, {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-};
 
 const createGame = (idCourse, name, teamSize) => {
 	const token = authHeader();
@@ -54,22 +44,67 @@ const createGame = (idCourse, name, teamSize) => {
 			return response.data;
 		});
 };
-
-
-const openGame = (idGame) => {
+const getScores = (idGame) => {
 	const token = authHeader();
 	return axios
-		.post(API_URL + 'game/open/' + idGame, {
+		.get(API_URL+'game/score/'+idGame, {headers: token})
+		.then((response) => {
+			return response.data;
+		})
+}
+
+//socket
+const acceptTeam = (idGame, idTeam) => {
+	const token = authHeader();
+	return axios
+		.post(API_URL + 'game/team/accept/' + idTeam, {
 			idGame
 		}, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
 };
+//socket
 const getGameBelongsToProfessor = (idProfessor) => {
 	const token = authHeader();
 	return axios
 		.get(API_URL + 'game/gameBelongsToProf/' + idProfessor, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+//socket
+const EndGame = (idGame) => {
+	const token = authHeader();
+	return axios
+		.post(API_URL + 'game/end/' + idGame, {}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+//socket
+const openGame = (idGame) => {
+	const token = authHeader();
+	return axios
+		.post(API_URL + 'game/open/' + idGame, {}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+//socket
+const closeGame = (idGame) => {
+	const token = authHeader();
+	return axios
+		.post(API_URL + 'game/close/' + idGame,  {}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+//socket
+const getCourseFromGameCode = (gameCode) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL + 'game/course/' + gameCode, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
@@ -83,23 +118,15 @@ const getGameBelongsToProfessor = (idProfessor) => {
  * @param id id de la partie dont on veut les scores
  * @returns {Promise<axios.AxiosResponse<any>>}
  */
-const getScores = (id) => {
-	const token = authHeader();
-	return axios
-		.get(API_URL+'game/score/'+id, {headers: token})
-		.then((response) => {
-			return response.data;
-		})
-}
+
 
 
 const GameService = {
 	createGame,
 	addRooms,
-	openGame,
-	acceptTeam,
 	getAll,
-	getOne
+	getOne,
+	getScores
 };
 
 export default GameService;
