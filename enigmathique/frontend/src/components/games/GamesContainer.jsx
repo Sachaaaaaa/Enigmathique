@@ -48,7 +48,7 @@ const GamesContainer = () => {
 			numberRoom:4
 		},
 	]
-	const {filter} = useCreationGameContext();
+	// const {filter} = useCreationGameContext();
 	return(
 		<>
 			<section className='flex flex-row items-end h-[10%] w-full text-[#0A06F4] text-xl'>
@@ -63,7 +63,7 @@ const GamesContainer = () => {
 			<section className='flex flex-col h-[90%] w-full overflow-y-scroll'>
 				{games.map((game, index) => {
 					return(
-						game.name.toLowerCase().includes(filter.text.toLowerCase()) &&
+						// game.name.toLowerCase().includes(filter.text.toLowerCase()) &&
 						<>
 							<GameItem
 								name={game.name}

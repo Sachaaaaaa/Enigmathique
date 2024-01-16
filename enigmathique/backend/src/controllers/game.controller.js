@@ -117,7 +117,7 @@ async function isGameBelongsProfessor(idGame, req) {
 exports.create = async (req, res) => {
 
 	// Valider la requête
-	if (!req.body.idCourse | !req.body.teamSize  | !req.body.name ) {
+	if (!req.body.idCourse || !req.body.teamSize || !req.body.name ) {
 		return res.status(400).json({
 			message: "Il manque des informations pour créer la partie."
 		});

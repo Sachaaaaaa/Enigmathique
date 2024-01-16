@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import LayoutProf from "../layouts/LayoutProf";
-import {useCreationGameContext} from "../components/contexts/CreationGame.context";
+import {usePreGameContext} from "../components/contexts/PreGame.context";
 import TeamContainer from "../components/preGame/TeamContainer";
 import { socket } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ClientToServer,	ConnectionType, ServerToClient } from 'data/socketMessages';
+
 
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
@@ -45,6 +46,7 @@ const PreGame = () => {
 
 	}, []);
 
+
 	const handleStartGame = () => {
 		alert('La partie va commencer');
 	};
@@ -53,12 +55,9 @@ const PreGame = () => {
 	console.log(confirmedTeams);
 
 	return (
-		<LayoutProf>
-			<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
-				<section className='flex flex-col h-[96%] w-full gap-4'>
-					<section className='h-[10%] flex flex-row justify-evenly items-center rounded-full shadow bg-white'>
-						<h1 className='font-bold'>Code de connexion : UGVB</h1>
-					</section>
+
+			<LayoutProf>
+				<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
 					<section className="h-[80%] flex flex-row justify-evenly items-center">
 						<TeamContainer teams={lockedTeams} accepted={false}/>
 						<TeamContainer teams={confirmedTeams} accepted={true}/>
@@ -67,7 +66,6 @@ const PreGame = () => {
 						<button className='btn-validate' onClick={handleStartGame}>Commencer la partie
 						</button>
 					</section>
-				</section>
 			</main>
 		</LayoutProf>
 	);

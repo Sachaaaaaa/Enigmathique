@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import logo from '../../assets/img/logo-enigmathique.png';
+import logo from '../../assets/img/logo-name-enigmathique.png';
 import AvailableStudents from './AvailableStudents';
 import SelectedStudents from './SelectedStudents';
 

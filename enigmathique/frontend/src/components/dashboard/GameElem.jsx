@@ -4,28 +4,28 @@ import PropTypes from 'prop-types';
 
 const GameElem = (props) => {
 	return (
-		<article className='flex w-1/3 flex-wrap bg-white m-5 pt-1 border-2 rounded-[30px] shadow-md items-end'>
-			<article className='flex-grow elem-dashboard'>
-				<h3 className='txt-dashboard'>Nom</h3>
-				<p>{props.game.name}</p>
+		<article className='grid grid-cols-2 gap-1 info-container'>
+			<article className='col-span-2 pt-2 flex-grow elem-dashboard'>
+				<h3 className='small-title'>Nom</h3>
+				<p className='small-text'>{props.game.name}</p>
 			</article>
-			<article className='elem-dashboard'>
-				<h3 className='txt-dashboard'>Classe</h3>
-				<p>Seconde {props.game.className}</p>
+			<article className='col-span-1 elem-dashboard'>
+				<h3 className='small-title'>Classe</h3>
+				<p className='small-text'>Seconde {props.game.className}</p>
 			</article>
-			<article className='elem-dashboard'>
-				<h3 className='txt-dashboard'>Date</h3>
-				<p>{props.game.date}</p>
+			<article className='col-span-1 elem-dashboard'>
+				<h3 className='small-title'>Date</h3>
+				<p className='small-text'>{props.game.date}</p>
 			</article>
-			<article className='elem-dashboard'>
-				<h3 className='txt-dashboard'>Gagnants</h3>
-				<p>{props.game.winners[0]} & {props.game.winners[1]}</p>
+			<article className='col-span-1 elem-dashboard'>
+				<h3 className='small-title'>Gagnants</h3>
+				<p className='small-text'>{props.game.winners[0]} & {props.game.winners[1]}</p>
 			</article>
-			<article className='elem-dashboard'>
-				<h3 className='txt-dashboard'>Taux de réussite</h3>
-				<p>{props.game.winRate} %</p>
+			<article className='col-span-1 elem-dashboard'>
+				<h3 className='small-title'>Taux de réussite</h3>
+				<p className='small-text'>{props.game.winRate} %</p>
 			</article>
-			<Link to='' className='btn-show'>
+			<Link to='' className='col-span-2 btn-show'>
 				Voir
 			</Link>
 		</article>

@@ -3,11 +3,12 @@
 @import 'tailwindcss/utilities';
 
 @layer components {
+
     /**
     * Bouton valider
      */
     .btn-validate{
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white text-xl font-bold rounded whitespace-normal p-4;
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-semibold uppercase rounded-[8px] whitespace-normal p-4;
     }
 
     .btn-validate:hover {
@@ -52,12 +53,18 @@
     * TopBar
     */
     .topbar-container {
-        @apply flex flex-row p-6 items-center border-b-2 border-[#E6EFF5] h-1/6;
-    }
-    .txt-dashboard {
-        @apply uppercase bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-transparent bg-clip-text font-semibold;
+        @apply flex flex-row px-0 py-0 items-center border-b-2 border-[#E6EFF5] h-1/6;
     }
 
+    .small-title {
+        @apply uppercase font-semibold bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-[11px] text-transparent bg-clip-text;
+    }
+    .small-text {
+        @apply text-sm leading-none ;
+    }
+    .info-container {
+        @apply bg-white mt-2 w-[48%] h-full rounded-[30px] shadow-md overflow-hidden flex flex-col;
+    }
     .elem-dashboard {
         @apply p-1 ml-3 mr-3
     }
@@ -68,6 +75,9 @@
     .btn-utils-course-student {
         @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
     }
+    .btn-utils{
+        @apply text-white font-bold rounded-full whitespace-normal p-3
+    }
 
     .btn-utils-course-student:hover {
         @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
@@ -75,8 +85,7 @@
 
 
     .btn-utils-course-student-icons {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
-        items-center
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] flex space-x-2 items-center
     }
 
     .btn-utils-course-student-icons:hover {
@@ -84,20 +93,28 @@
     }
 
     .btn-utils-course-student-edit {
-        @apply bg-[#FB7D5B] text-white font-bold rounded-full whitespace-normal p-3
+        @apply bg-[#FB7D5B]
     }
 
     .btn-utils-course-student-edit:hover {
         @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
     }
+    .btn-utils-course-student-stat {
+        @apply bg-[#4C49ED]
+    }
+
+    .btn-utils-course-student-stat:hover {
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
+    }
 
     .btn-utils-course-student-delete {
-        @apply bg-[#EF4565] text-white font-bold rounded-full whitespace-normal p-3
+        @apply bg-[#EF4565]
     }
 
     .btn-utils-course-student-delete:hover {
         @apply bg-gradient-to-r from-[#F87A90] to-[#FF4565];
     }
+
     .btn-back {
         @apply bg-gradient-to-r from-[#DDDDDD] to-[#CCCCCC] text-black font-bold rounded-full whitespace-normal p-3 flex space-x-2
         items-center
@@ -107,8 +124,8 @@
     }
 
     .btn-show {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white rounded-b-3xl w-full text-center uppercase flex items-center
-        justify-center h-12 transition-colors duration-300;
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white rounded-b-[30px] w-full h-10 text-center uppercase flex items-center
+        justify-center transition-colors duration-300;
     }
 
     .btn-show:hover {
@@ -135,7 +152,7 @@
     }
 
     .nav-item-indicator {
-        @apply w-2 h-16 bg-transparent border-r-2 border-transparent;
+        @apply w-2 h-[60px] bg-transparent border-r-2 border-transparent rounded-r-[30px];
     }
 
     .nav-item-selected {
@@ -143,6 +160,10 @@
     }
 
     .nav-item-indicator-selected {
-        @apply w-2 h-16 bg-[#4C49ED] border-r-2 border-[#4C49ED] rounded-r-xl;
+        @apply  bg-[#4C49ED]  border-[#4C49ED] ;
+    }
+
+    .nav-menu-link {
+        @apply h-[60px] w-full flex flex-row justify-start items-center gap-2 ;
     }
 }
