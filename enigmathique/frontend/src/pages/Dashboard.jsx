@@ -7,9 +7,9 @@ import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
-import GameService from '../services/game.service';
 import Course from '../models/course.model';
 import RoomService from "../services/room.service";
+import Game from "../models/game.model";
 
 
 const Dashboard = () => {
@@ -35,12 +35,10 @@ const Dashboard = () => {
 		loadClasses();
 	}, []);
 
-	const loadGames = () => {
-		GameService.getAll().then((response) => {
-			setGames(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	const loadGames = async () => {
+		const data = await Game.getAll();
+		setGames(data);
+		console.log(data);
 	}
 
 	useEffect(() => {
@@ -55,7 +53,7 @@ const Dashboard = () => {
 			let max = rooms.length - 1;
 			let roomSelect = [];
 			let selectedIndex = -1;
-			for(let i = 0; i < 2; i++) {
+			while (roomSelect.length < 2) {
 				let index = randInt(0, max);
 				if (index !== selectedIndex) {
 					roomSelect.push(rooms[index]);
@@ -83,7 +81,6 @@ const Dashboard = () => {
 		roomSelection();
 	}, []); // s'éxécute seulement au montage
 
-
 	// Fonction pour aller à la classe précédente
 	const prevClass = () => {
 		setCurrentClassIndex(prevIndex =>
@@ -100,17 +97,21 @@ const Dashboard = () => {
 
 	return (
 		<LayoutProf>
-			<main className='flex bg-[#F5F7FA] flex-wrap overflow-y-scroll'>
+			<main className='h-full flex bg-[#F5F7FA] flex-wrap overflow-y-scroll'>
 					<div className='w-[45svw] min-w-[280px] mr-2 flex-wrap'>
 						<div className='flex flex-col p-5'>
 							<div className='flex justify-between w-full min-w-[280px]'>
 								<h2 className='font-semibold'>Mes Parties</h2>
-								<Link to='' className='text-sm font-semibold hover:underline'>Voir tout</Link>
+								<Link to='/games' className='text-sm font-semibold hover:underline'>Voir tout</Link>
 							</div>
 							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
 								{games.slice(-2).map((game, index) => (
-									<GameElem key={index} game={game}/>
-								))}
+													<GameElem key={index} game={game}/>
+												))}
+								{games.length <= 1 ? <div className='h-[216px] info-container'> <Link to='' > </Link></div> : ''}
+								{games.length === 0 ? <div className='h-[216px] info-container'> </div> : ''}
+
+
 							</div>
 						</div>
 						<div className='flex flex-col p-5 pt-2'>

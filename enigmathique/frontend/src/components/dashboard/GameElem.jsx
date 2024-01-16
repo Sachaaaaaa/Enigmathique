@@ -1,9 +1,9 @@
 import {Link} from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import CourseModel from '../../models/course.model';
 import TeamService from "../../services/team.service";
-import GameService from "../../services/game.service";
+import Game from "../../models/game.model";
+import Course from "../../models/course.model";
 
 const maxTime = 600;
 
@@ -14,12 +14,9 @@ const GameElem = (props) => {
 	const [scores, setScores] = useState([]);
 	const [course, setCourse] = useState({});
 
-	const loadScores = (idGame) => {
-		GameService.getScores(idGame).then((response) => {
-			setScores(response);
-		}).catch((error) => {
-			console.log(error)
-		});
+	const loadScores = async (idGame) => {
+		const data = await Game.getScores(idGame);
+		return data===1? setScores(data): console.log('pas de score disponible');
 	}
 
 	useEffect(() => {
@@ -27,7 +24,7 @@ const GameElem = (props) => {
 	}, []);
 
 	const loadCourse = async (game) => {
-		const data = await CourseModel.get(game.idCourse);
+		const data = await Course.get(game.idCourse);
 		setCourse(data);
 	}
 
@@ -39,7 +36,7 @@ const GameElem = (props) => {
 		let maxScore= scores[0];
 		let winners=  [];
 		scores.forEach((score) => {
-			if((score.time < maxTime ? 500 : 0)+(score.nbGoodAnswers*100)-(score.nbHints*20)-(score.nbBadAnswers*10)) {
+			if((score.time < maxTime ? 500 : 0)+(score.nbGoodAnswers*100)-(score.nbHints*20)-(score.nbBadAnswers*10)>maxScore) {
 				maxScore = score;
 			}
 		});
@@ -66,17 +63,18 @@ const GameElem = (props) => {
 
 	return (
 		<article className='grid grid-cols-2 gap-1 info-container'>
+			<p></p>
 			<article className='col-span-2 pt-2 flex-grow elem-dashboard'>
 				<h3 className='small-title'>Nom</h3>
 				<p className='small-text'>{game.name}</p>
 			</article>
 			<article className='col-span-1 elem-dashboard'>
 				<h3 className='small-title'>Classe</h3>
-				<p className='small-text'>Seconde {course.name}</p>
+				<p className='small-text'>{course.name}</p>
 			</article>
 			<article className='col-span-1 elem-dashboard'>
 				<h3 className='small-title'>Date</h3>
-				<p className='small-text'>{game.createdAt}</p>
+				<p className='small-text'>{game.createdAt.toLocaleString()}</p>
 			</article>
 			<article className='col-span-1 elem-dashboard'>
 				<h3 className='small-title'>Gagnants</h3>
