@@ -10,14 +10,14 @@ const AvailableStudents = (props) => {
 
 	const handleSearch = (event) => {
 		setSearch(event.target.value);
-	}
+	};
 
 	useEffect(() => {
 		if (search === '') {
 			setSearchResult(props.available);
 		} else {
 			setSearchResult(props.available.filter(student =>
-				student.name.toLowerCase().includes(search.toLowerCase()) || student.firstname.toLowerCase().includes(search.toLowerCase())));
+				student.lastname.toLowerCase().includes(search.toLowerCase()) || student.firstname.toLowerCase().includes(search.toLowerCase())));
 		}
 	}, [search, props.available]);
 	return (
@@ -39,8 +39,8 @@ const AvailableStudents = (props) => {
 					{searchResult.map((student, index) => {
 						return (
 							<Student
-								key={index}
-								name={student.name}
+								key={student.id}
+								lastname={student.lastname}
 								firstname={student.firstname}
 								isSelected={false}
 								teamSize={props.teamSize}

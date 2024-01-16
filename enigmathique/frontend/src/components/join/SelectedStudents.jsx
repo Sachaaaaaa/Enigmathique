@@ -14,8 +14,8 @@ const SelectedStudents = (props) => {
 					{props.selected.map((student, index) => {
 						return (
 							<Student
-								key={index}
-								name={student.name}
+								key={student.id}
+								lastname={student.lastname}
 								firstname={student.firstname}
 								isSelected={true}
 							/>

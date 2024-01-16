@@ -16,6 +16,7 @@ export default function Model(props) {
 	});
 	
 	const handleCickSuzanne = (e) => {
+		
 	};
 
 	// Initialiser d'un objet interactif avec le hook

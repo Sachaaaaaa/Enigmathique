@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import logo from '../../assets/img/logo-enigmathique.png';
 import AvailableStudents from './AvailableStudents';
@@ -7,46 +7,50 @@ import SelectedStudents from './SelectedStudents';
 import AvailableContext from './AvailableStudents.context';
 import SelectedContext from './SelectedStudents.context';
 
+import { socket } from 'contexts/SocketContext';
+import { useSearchParams } from 'react-router-dom';
+import { ClientToServer, ConnectionType, ServerToClient } from 'data/socketMessages';
+
 const Join = (props) => {
-
-	const students = [
-		{
-			name: 'Tardy',
-			firstname: 'Mathéo',
-
-		},
-		{
-			name: 'Dupuis',
-			firstname: 'Aboubacar aqualand népal',
-		},
-		{
-			name: 'Briand',
-			firstname: 'Damien',
-		},
-		{
-			name: 'Dalban',
-			firstname: 'Yvain',
-		},
-		{
-			name: 'Guillevic',
-			firstname: 'Mathéo',
-		},
-		{
-			name: 'Wos',
-			firstname: 'Sacha',
-		},
-		{
-			name: 'Pivot',
-			firstname: 'Raphaël',
-		},
-		{
-			name: 'Bergery',
-			firstname: 'Loic',
-		},
-	]
-
-	const [available, setAvailable] = useState(students);
+	const [available, setAvailable] = useState([]);
 	const [selected, setSelected] = useState([]);
+
+		// Recupère l'id de session dans l'url
+	// A changer, facilement modifiable par l'utilisateur
+	const [searchParams, setSearchParams] = useSearchParams();
+	const sessionId = searchParams.get('sessionId');
+
+	// Si l'id de session n'est pas défini, on quitte la page
+	if (!sessionId) {
+		throw new Error('Il faut spécifier un id de session dans l\'url');
+	}
+
+	// Met à jour l'id de session dans le handshake du socket
+	socket.io.opts.query = { sessionId, connectionType: ConnectionType.TeamComposition };
+
+
+	useEffect(() => {
+
+		socket.on(ServerToClient.Connection, () => {
+			console.log('Connecté au serveur');
+		});
+
+		socket.on(ServerToClient.Disconnection, () => {
+			console.log('Déconnecté du serveur');
+		});
+
+		socket.on(ServerToClient.SyncAvailableStudents, (data) => {
+			console.log(data);
+			setAvailable(data.students);
+		});
+
+		socket.connect();
+
+		return () => {
+			socket.off(ServerToClient.Connection);
+			socket.off(ServerToClient.Disconnection);
+		};
+	});
 
 	const handleCreateTeam = () => {
 		if (selected.length !== 4) {
