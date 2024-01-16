@@ -73,6 +73,7 @@ class GameSession {
 			roundStartTime: this.roundStartTime,
 			currentRound: this.round,
 			totalEnigma: this.totalEnigmas,
+			rooms: this.rooms.map(room => room.name),
 		};
 	}
 
