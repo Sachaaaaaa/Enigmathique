@@ -40,9 +40,10 @@ class Game{
 			console.log(e);
 		}
 	}
-	static async acceptTeam(idGame, idTeam) {
+	static async openGame(idGame) {
 		try {
-			return await GameService.acceptTeam(idGame, idTeam);
+			const data = await GameService.openGame(idGame);
+			return new Game(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt);
 		}catch (e) {
 			console.log(e);
 		}
