@@ -34,7 +34,7 @@ const App = () => {
 				<Route path='/games' element={<Games/>}/>
 				<Route path='/create-game' element={<CreateGame/>}/>
 				<Route path='/pregame/:id' element={<PreGame/>}/>
-				<Route path='/join/:id' element={<Join/>}/>
+				<Route path='/join/:sessionId' element={<Join/>}/>
 				<Route path='/teamstats' element={<TeamStats/>}/>
 				<Route path='/prof-folow-up' element={<ProfFollowUp/>}/>
 			</Routes>
