@@ -13,7 +13,7 @@ const getByGame = (idGame) => {
 }
 
 const TeamService = {
-
+	getByGame
 }
 
 export default TeamService
