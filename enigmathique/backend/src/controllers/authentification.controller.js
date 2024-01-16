@@ -3,8 +3,7 @@
 */
 
 require('dotenv').config();
-
-const bcrypt = require('bcrypt');
+const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const db = require("../models/db.js");
 const Professor = db.professor;
@@ -32,8 +31,7 @@ exports.register = async (req, res) => {
 		lastname: req.body.lastname,
 		firstname: req.body.firstname,
 		mail: req.body.mail,
-		salt: bcrypt.genSaltSync(10),
-		password: bcrypt.hashSync(req.body.password + process.env.PEPPER_KEY, bcrypt.genSaltSync(10)),
+		password: await argon2.hash(req.body.password + process.env.PEPPER_KEY),
 	};
 
 
@@ -76,7 +74,7 @@ exports.login = async (req, res) => {
 		const salt = existingProfessor['dataValues']['salt']
 
 		// On vérifie qu'il s'agissent du bon mdp
-		if(bcrypt.compareSync(req.body.password+process.env.PEPPER_KEY, password, salt)) {
+		if(await argon2.verify(password, req.body.password + process.env.PEPPER_KEY)) {
       // On récupère l'id du prof pour le token
       const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, process.env.SECRET_KEY, { expiresIn: '1h' });
 			res.status(201).send({
