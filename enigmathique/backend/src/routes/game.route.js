@@ -5,7 +5,6 @@
 module.exports = app => {
 	const game = require("../controllers/game.controller.js");
 	const middleware = require("./middleware.js");
-
 	var router = require("express").Router();
 
 	// Quatre statues d'une partie : créée, ouverte, en cours, terminée
@@ -24,7 +23,7 @@ module.exports = app => {
 	router.get("/", middleware.verifyToken, game.findAll);
 
 	// Vérifie si une partie, à partir de son id, appartient au prof
-	router.get("/gameBelongsToProf/{id}", middleware.verifyToken, game.gameBelongsToProf);
+	router.get("/gameBelongsToProf/{id}", middleware.verifyGameToken, game.gameBelongsToProf);
 
 	// Récupérer une partie à partir de son id
 	router.get("/:id", middleware.verifyToken, game.findById);
@@ -38,8 +37,14 @@ module.exports = app => {
 	// Ferme une partie (aux élèves)
 	router.post("/close/:id", middleware.verifyToken, game.close)
 
+	// Termine une partie 
+	router.post("/end/:id", middleware.verifyGameToken, game.end)
+
+	// Récupère les score d'une partie 
+	router.post("/score/:id", middleware.verifyGameToken, game.getScore)
+
 	// Récupérer les élèves en fonction du code de la partie (il faut ouvrir la game avant)
-	router.get("/course/:code", middleware.verifyToken, game.course)
+	router.get("/course/:code", middleware.verifyGameToken, game.course)
 
 	app.use("/api/game", router);
 }

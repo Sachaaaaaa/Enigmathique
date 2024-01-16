@@ -117,7 +117,7 @@ async function isGameBelongsProfessor(idGame, req) {
 exports.create = async (req, res) => {
 
 	// Valider la requête
-	if (!req.body.idCourse | !req.body.teamSize  | !req.body.name ) {
+	if (!req.body.idCourse || !req.body.teamSize || !req.body.name ) {
 		return res.status(400).json({
 			message: "Il manque des informations pour créer la partie."
 		});
@@ -229,6 +229,18 @@ exports.findById = async (req, res) => {
 // 									 OTHER                                     //
 /////////////////////////////////////////////////////////////////////////////////
 
+exports.getScore = (req, res) => {
+
+	Score.findAll({ where: { idGame: req.params.id } })
+		.then(data => {
+			res.status(200).json(data);
+		})
+		.catch(err => {
+			res.status(500).json({
+				message: err.message || "Une erreur s'est produite lors de la récupération des scores."
+			});
+		});	
+}
 
 // methode pour vérifier si une partie, à partir de son id, appartient au prof
 exports.gameBelongsToProf = async (req, res) => {
@@ -322,6 +334,7 @@ exports.close = async (req, res) => {
 
 		// Renvoie les données supprimées
 		.then(data => {
+			Game.update({state: 1},{where: { id: req.params.id }});
 			return res.status(200).json(data);
 		})
 
@@ -331,6 +344,32 @@ exports.close = async (req, res) => {
 				message: err.message || "Une erreur s'est produite lors de la création de la classe."
 			});
 		});
+}
+
+// Termine la partie
+exports.end = async (req, res) => {
+
+	// Vérifie que la partie appartient bien au professeur
+	const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+	if (!isBelongsToProfessor) {
+		return res.status(403).json({
+			message: "Vous n'avez pas accès à cette partie."
+	});
+	}
+
+	// Enregistrer la classe dans la base de données
+	await Game.update({state: 2},{where: { id: req.params.id }})
+	// Renvoie les données supprimées
+	.then(data => {
+		return res.status(201).json(data);
+	})
+
+	// Gère les erreurs
+	.catch(err => {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la création de la classe."
+		});
+	});
 }
 
 
@@ -356,7 +395,7 @@ exports.addRooms = async(req, res) => {
 	
 	
 	// Valide la requête
-	if (!req.body.idGame || !req.body.idRooms) {
+	if (!req.body.idGame || !req.body.roomName) {
 		res.status(400).json({
 			message: "Il manque des informations pour ajouter des salles."
 		});
@@ -364,7 +403,7 @@ exports.addRooms = async(req, res) => {
 	}
 
 	// Vérifie que la partie appartient bien au professeur
-	const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+	const isBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
 	if (!isBelongsToProfessor) {
 		return res.status(403).json({
 			message: "Vous n'avez pas accès à cette partie."
@@ -372,8 +411,8 @@ exports.addRooms = async(req, res) => {
 	}
 
 	// Récupère les id des salles à ajouter
-	const idRooms = JSON.parse(req.body.idRooms);
-	const roomsToAdd = idRooms.map(idCurrentRoom => ({ idGame: req.body.idGame, idRoom: idCurrentRoom }));
+	const roomNames = req.body.roomName;
+	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, name: currentRoomName }));
 
 
 	// Enregistrer les rooms dans la table GameRooms

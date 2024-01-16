@@ -16,6 +16,37 @@ const createGame = (idCourse, name, teamSize) => {
 			return response.data;
 		});
 };
+const addRooms = (idGame, roomName) => {
+	const token = authHeader();
+	return axios
+		.post(API_URL + 'game/rooms', {
+			idGame,
+			roomName
+		}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+const openGame = (idGame) => {
+	const token = authHeader();
+	return axios
+		.post(API_URL + 'game/open/' + idGame, {
+			idGame
+		}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+const acceptTeam = (idTeam) => {
+	const token = authHeader();
+	return axios
+		.post(API_URL + 'game/team/accept/' + idTeam, {
+			idTeam
+		}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
 
 const getAll = () => {
 	const token = authHeader();
@@ -43,8 +74,10 @@ const getScores = (id) => {
 
 const GameService = {
 	createGame,
-	getAll,
-	getScores
+	addRooms,
+	openGame,
+	acceptTeam,
+	getAll
 };
 
 export default GameService;

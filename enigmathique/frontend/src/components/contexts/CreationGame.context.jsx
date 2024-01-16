@@ -9,7 +9,7 @@ export const initialFormData = {
 }
 export const initialFilterData = {
 	text:'',
-	cat:'suit',
+	chapter:'suit',
 }
 export const CreationGameDataProvider = (props) => {
 
@@ -20,7 +20,6 @@ export const CreationGameDataProvider = (props) => {
 
 	//Data étape 2
 	const [rooms, setRooms] = useState([]); //Id des rooms sélectionnées
-	const [filter, setFilter] = useState(initialFilterData); //Filtres sélectionnés
 
 	//Data pregame
 	const [teams, setTeams] = useState([{}]);
@@ -36,8 +35,6 @@ export const CreationGameDataProvider = (props) => {
 		setRooms,
 		teams,
 		setTeams,
-		filter,
-		setFilter
 	};
 
 	return (

@@ -4,17 +4,14 @@ import SearchInput from "../SearchInput";
 import {useCreationGameContext} from "../contexts/CreationGame.context";
 
 const GameNav = () => {
-	const {filter, setFilter} = useCreationGameContext();
+	// const {filter, setFilter} = useCreationGameContext();
 	const handleChangeText = (e) => {
-		console.log(filter);
-		setFilter({...filter, text: e.target.value})
+		// console.log(filter);
+		// setFilter({...filter, text: e.target.value})
 	}
 	return(
 		<nav className='flex flex-row gap-10 justify-end w-full'>
 			<SearchInput handleChangeText={handleChangeText}/>
-			<button className='btn-validate'>
-				Nouvelle partie
-			</button>
 		</nav>
 	);
 }

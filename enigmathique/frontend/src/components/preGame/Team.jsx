@@ -1,16 +1,18 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {IoCheckmarkCircleOutline, IoChevronDown, IoChevronUp, IoRemoveCircle} from 'react-icons/io5';
 import {IconContext} from "react-icons";
-import {useCreationGameContext} from "../contexts/CreationGame.context";
+import {usePreGameContext} from "../contexts/PreGame.context";
+import gameService from "../../services/game.service";
 
 const Team = (props) => {
 
 	const [isExpanded, setIsExpanded] = useState(false);
 
-	const {teams, setTeams} = useCreationGameContext();
+	const {teams, setTeams} = usePreGameContext();
 
 	const addingTeam = (event) => {
+		gameService.acceptTeam(props.id, );
 		event.stopPropagation();
 		const updatedTeams = teams.filter(team =>
 			team.name !== props.name || team.students !== props.students);
@@ -84,6 +86,7 @@ const Team = (props) => {
 }
 
 Team.propTypes = {
+	id: PropTypes.number.isRequired,
 	name: PropTypes.string.isRequired,
 	students: PropTypes.array.isRequired,
 	isValidated: PropTypes.bool.isRequired,
