@@ -57,11 +57,7 @@ const getAll = () => {
 		});
 }
 
-/**
- * Permet d'avoir tous les scores liés à une partie
- * @param id id de la partie dont on veut les scores
- * @returns {Promise<axios.AxiosResponse<any>>}
- */
+
 const getScores = (id) => {
 	const token = authHeader();
 	return axios
@@ -77,7 +73,8 @@ const GameService = {
 	addRooms,
 	openGame,
 	acceptTeam,
-	getAll
+	getAll,
+	getScores
 };
 
 export default GameService;
