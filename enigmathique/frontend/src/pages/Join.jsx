@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import logo from '../assets/img/logo-enigmathique.png';
+import logo from '../assets/img/logo-name-enigmathique.png';
 import AvailableStudents from '../components/join/AvailableStudents';
 import SelectedStudents from '../components/join/SelectedStudents';
 
 
 
-import { socket } from 'contexts/SocketContext';
+import { socket , SocketContext} from 'contexts/SocketContext';
 import { useParams } from 'react-router-dom';
 import { ClientToServer, ConnectionType, ServerToClient } from 'data/socketMessages';
 
@@ -16,7 +16,7 @@ const Join = (props) => {
 
 	// Recupère l'id de session dans l'url
 	// A changer, facilement modifiable par l'utilisateur
-	const { sessionId } = useParams();
+		const { sessionId } = useParams();
 	// Si l'id de session n'est pas défini, on quitte la page
 	if (!sessionId) {
 		throw new Error('Il faut spécifier un id de session dans l\'url');
@@ -68,7 +68,7 @@ const Join = (props) => {
 	}
 
 	return (
-		<>
+		<SocketContext.Provider value={socket}>
 			<header className='flex flex-row items-center p-5'>
 				<img
 					className='h-24 w-24 rounded-full'
@@ -103,7 +103,7 @@ const Join = (props) => {
 					</button>
 				</section>
 			</main>
-		</>
+		</SocketContext.Provider>
 	);
 }
 Join.propTypes = {
