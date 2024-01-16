@@ -27,6 +27,7 @@ class SocketTeam {
 	toData = () => {
 		return {
 			id: this.socket.id,
+			name: this.name,
 			locked: this.locked,
 			confirmed: this.confirmed,
 			composition: this.composition
