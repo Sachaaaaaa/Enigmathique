@@ -2,6 +2,28 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(10, 6, 244, 0.1);
+    border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #0A06F4;
+    border-radius: 30px;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #07059d;
+}
+
 @layer components {
 
     /**
@@ -60,10 +82,10 @@
         @apply uppercase font-semibold bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-[11px] text-transparent bg-clip-text;
     }
     .small-text {
-        @apply text-sm leading-none ;
+        @apply text-sm leading-4 ;
     }
     .info-container {
-        @apply bg-white mt-2 w-[48%] h-full rounded-[30px] shadow-md overflow-hidden flex flex-col;
+        @apply bg-white mt-2 w-[48%] min-w-[280px] h-full rounded-[30px] shadow-md overflow-hidden flex flex-col;
     }
     .elem-dashboard {
         @apply p-1 ml-3 mr-3
@@ -126,7 +148,7 @@
    * NavBar
    */
     .nav-container {
-        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-[#E6EFF5];
+        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 box-border border-[#E6EFF5];
     }
 
     .nav-content {
