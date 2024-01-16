@@ -1,6 +1,9 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+/* Fonctions mathématiques */
+@import "mafs/core.css";
+@import "mafs/font.css";
 
 /* width */
 ::-webkit-scrollbar {
