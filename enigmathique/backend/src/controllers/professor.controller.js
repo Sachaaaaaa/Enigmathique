@@ -19,7 +19,7 @@ const Op = db.Sequelize.Op;
 exports.findOne = (req, res) => {
 
 	// Récupère le professeur connecté
-	Professor.findOne({ where: { id: req.tokenId } })
+	Professor.findOne({ where: { id: req.tokenId }, attributes: { exclude: ['password', 'mail'] } })
 		.then(data => {
 			return res.status(200).json(data);
 		})
