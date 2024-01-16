@@ -11,10 +11,10 @@ const getAll = () => {
 			return response.data;
 		});
 }
-const getOne = (id) => {
+const getOne = (idGame) => {
 	const token = authHeader();
 	return axios
-		.get(API_URL+'game/'+id, {headers: token})
+		.get(API_URL+'game/'+idGame, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
