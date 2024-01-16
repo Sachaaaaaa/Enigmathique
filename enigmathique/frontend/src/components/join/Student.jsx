@@ -4,41 +4,32 @@ import {IoAddCircle, IoRemoveCircle} from 'react-icons/io5';
 
 import AvailableContext from './AvailableStudents.context';
 import SelectedContext from './SelectedStudents.context';
+import {useSocket} from "../../contexts/SocketContext";
+import {ClientToServer} from "../../data/socketMessages";
 
 const Student = (props) => {
 
-	const {available, setAvailable} = useContext(AvailableContext);
-	const {selected, setSelected} = useContext(SelectedContext);
-
-	const handleState = () => {
-		if (selected.length === props.teamSize && !props.isSelected) {
-			alert(`Vous avez atteint la taille maximale de l'équipe : ${props.teamSize}`);
-			return;
-		}
-		if (available.some(student =>
-			student.name === props.lastname && student.firstname === props.firstname)) {
-			setAvailable(available.filter(student =>
-				student.name !== props.lastname || student.firstname !== props.firstname));
-			setSelected([...selected, props]);
-		} else {
-			setSelected(selected.filter(student =>
-				student.name !== props.lastname || student.firstname !== props.firstname));
-			setAvailable([...available, props]);
-		}
-
+	const socket = useSocket();
+	const onAvailableStudentClick = (student) => {
+		// Demande via le socket de rejoindre l'équipe
+		socket.emit(ClientToServer.JoinTeam, student.id);
 	};
 
+	const onSelectedStudentClick = (student) => {
+		// Demande via le socket de quitter l'équipe
+		socket.emit(ClientToServer.LeaveTeam, student.id);
+	};
 
 	return (
 		<div className='flex flex-row items-center gap-10 justify-start p-4 bg-cyan-500 text-white rounded-xl'>
 			<p className='w-56'>{props.firstname}</p>
 			<p className='w-56'>{props.lastname}</p>
 			{props.isSelected ?
-				<button className='p-2 bg-red-500 rounded-xl' onClick={handleState}>
+				<button className='p-2 bg-red-500 rounded-xl' onClick={onSelectedStudentClick}>
 					<IoRemoveCircle size={25}/>
 				</button>
 				:
-				<button className='p-2 bg-green-500 rounded-xl' onClick={handleState}>
+				<button className='p-2 bg-green-500 rounded-xl' onClick={onAvailableStudentClick}>
 					<IoAddCircle size={25}/>
 				</button>
 			}
