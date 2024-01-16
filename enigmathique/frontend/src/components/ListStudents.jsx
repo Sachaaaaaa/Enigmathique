@@ -7,7 +7,6 @@ import {FaPlus} from "react-icons/fa6";
 import {Link} from 'react-router-dom';
 import {FaSearch} from "react-icons/fa";
 import Student from "../models/student.model";
-import studentModel from "../models/student.model";
 
 const ClassElement = ({student, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -20,7 +19,7 @@ const ClassElement = ({student, onChange}) => {
 	
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
-		await studentModel.delete(id);
+		await Student.delete(id);
 		onChange();
 		setDeleteModalOpen(false);
 		console.log('delete ' + id);
@@ -29,7 +28,7 @@ const ClassElement = ({student, onChange}) => {
 	
 	const handleClickEdit = async (event, firstname, lastname, idCourse, idStudent) => {
 		event.preventDefault();
-		await studentModel.edit(firstname, lastname, idCourse, idStudent);
+		await Student.edit(firstname, lastname, idCourse, idStudent);
 		onChange();
 		setEditModalOpen(false);
 		console.log('edit ' + id);
@@ -149,7 +148,7 @@ const ListStudents = (props) => {
 	
 	const handleClickCreate = async (event, firstname, lastname, idCourse) => {
 		event.preventDefault();
-		await studentModel.create(firstname, lastname, idCourse);
+		await Student.create(firstname, lastname, idCourse);
 		loadStudents();
 		setCreateModalOpen(false);
 		console.log('create ' + id);

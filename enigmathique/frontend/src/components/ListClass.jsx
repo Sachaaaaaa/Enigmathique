@@ -6,7 +6,6 @@ import {CiSquareMore} from 'react-icons/ci';
 import PropTypes from 'prop-types';
 import {FaPlus} from "react-icons/fa6";
 import Course from "../models/course.model";
-import courseModel from "../models/course.model";
 import {ImStatsDots} from "react-icons/im";
 
 const ClassElement = ({classe, onChange}) => {
@@ -16,7 +15,7 @@ const ClassElement = ({classe, onChange}) => {
 
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
-		await courseModel.delete(id);
+		await Course.delete(id);
 		onChange();
 		setDeleteModalOpen(false);
 		console.log('delete ' + id);
@@ -24,7 +23,7 @@ const ClassElement = ({classe, onChange}) => {
 
 	const handleClickEdit = async (event, id) => {
 		event.preventDefault();
-		const data = await courseModel.edit(name, id);
+		const data = await Course.edit(name, id);
 		onChange();
 		setEditModalOpen(false);
 		console.log('edit ' + id);
