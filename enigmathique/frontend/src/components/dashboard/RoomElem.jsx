@@ -11,7 +11,8 @@ const RoomElem = (props) => {
 		<article className='info-container'>
 			<figure className='relative h-40 bg-blue-500 rounded-t-[30px]'
 					style={{
-						backgroundImage: `url(${require('../../assets/img/room-img/'+room.name+'.png')})`,
+						/*TODO: obtenir la bonne image*/
+						backgroundImage: `url(${require('../../assets/img/room-img/Le-labo.png')})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center'
 					}}>

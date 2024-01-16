@@ -18,6 +18,8 @@ const Dashboard = () => {
 	const [courses, setCourses] = useState([]);
 	// Ajout d'un état pour avoir les parties
 	const [games, setGames] = useState([]);
+	// Ajout d'un état pour avoir les rooms
+	const [rooms, setRooms] = useState([]);
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
 	// Ajout d'un état pour suivre l'indice de la classe actuelle
@@ -45,40 +47,42 @@ const Dashboard = () => {
 		loadGames();
 	}, []);
 
-
-	const loadRooms = () => {
-		let rooms = [];
-		RoomService.getAllRooms().then((response) => {
-			rooms = response
-		}).catch((error) => {
-			console.log(error);
-		});
-		return rooms;
-	}
-
 	// Choix des salles à afficher
-	const roomSelection = (rooms) => {
-		if(rooms.length !== 0) {
+	const roomSelection = () => {
+		//TODO: régler le problème de chargement
+		loadRooms();
+		if(rooms.length > 2) {
 			let max = rooms.length - 1;
 			let roomSelect = [];
 			let selectedIndex = -1;
-			while (roomSelect.length < 2) {
+			for(let i = 0; i < 2; i++) {
 				let index = randInt(0, max);
 				if (index !== selectedIndex) {
 					roomSelect.push(rooms[index]);
 				}
 				selectedIndex = index;
 			}
-			return roomSelect;
+			return setSelectedRooms(roomSelect);
+		} else if(rooms.length !== 0){
+			setSelectedRooms(rooms);
 		} else {
-			return []
+			setSelectedRooms([]);
 		}
 	};
 
+	const loadRooms = () => {
+		RoomService.getAllRooms().then((response) => {
+			setRooms(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
 
 	useEffect(() => {
-		setSelectedRooms(roomSelection(loadRooms()));
+		roomSelection();
 	}, []); // s'éxécute seulement au montage
+
 
 	// Fonction pour aller à la classe précédente
 	const prevClass = () => {
@@ -104,7 +108,7 @@ const Dashboard = () => {
 								<Link to='' className='text-sm font-semibold hover:underline'>Voir tout</Link>
 							</div>
 							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
-								{games.map((game, index) => (
+								{games.slice(-2).map((game, index) => (
 									<GameElem key={index} game={game}/>
 								))}
 							</div>
@@ -134,7 +138,6 @@ const Dashboard = () => {
 							{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
 						</div>
 					</div>
-
 			</main>
 		</LayoutProf>
 	);
