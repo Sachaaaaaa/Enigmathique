@@ -72,7 +72,7 @@ module.exports = (sequelize, Sequelize) => {
 		// Date de mise à jour de l'objet
 		updatedAt: {
 			type: Sequelize.DATE,
-			allowNull: false,
+			allowNull: false, 
 			defaultValue: Sequelize.NOW,
 		},
 

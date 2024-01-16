@@ -392,11 +392,10 @@ exports.course = async (req, res) => {
 
 // Ajoute des salles à une partie
 exports.addRooms = async(req, res) => {
-
-	console.log(req.body)
+	
 	
 	// Valide la requête
-	if (!req.body.idGame ||!req.body.roomName) {
+	if (!req.body.idGame || !req.body.roomName) {
 		res.status(400).json({
 			message: "Il manque des informations pour ajouter des salles."
 		});
@@ -411,10 +410,10 @@ exports.addRooms = async(req, res) => {
 	});
 	}
 
-	// Récupère les nom des salles à ajouter
-	const roomNames = req.body.roomName
-	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, roomName: currentRoomName }));
-	console.log(roomsToAdd)
+	// Récupère les id des salles à ajouter
+	const roomNames = req.body.roomName;
+	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, name: currentRoomName }));
+
 
 	// Enregistrer les rooms dans la table GameRooms
 	GameRooms.bulkCreate(roomsToAdd)
