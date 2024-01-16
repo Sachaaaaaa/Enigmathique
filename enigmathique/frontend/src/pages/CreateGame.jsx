@@ -17,25 +17,25 @@ const CreateGame = () => {
 	const [step, setStep] = useState(1); //Étape de création
 
 	useEffect(() => {
-
-		AuthService.login("admin@admin.com", "admin").then((response) => {
-			CourseService.getAll().then((response) => {
-				setCourses(response);
-			}).catch((error) => {
-				console.log(error);
-			});
-			RoomService.getAllRooms().then((response) => {
-				setRooms(response);
-			}).catch((error) => {
-				console.log(error);
-			});
+		CourseService.getAll().then((response) => {
+			setCourses(response);
 		}).catch((error) => {
 			console.log(error);
 		});
+		RoomService.getAllRooms().then((response) => {
+			setRooms(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+
 		return () => {
-            setFormData(initialFormData); // Réinitialise les données du formulaire
-        };
+			setFormData(initialFormData); // Réinitialise les données du formulaire
+		};
 	}, []);
+
+
+
+
 
 	const stepComponent = {
 		1: <CreationGame1 setStep={setStep}/>,
