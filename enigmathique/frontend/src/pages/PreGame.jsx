@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import LayoutProf from "../layouts/LayoutProf";
-import {usePreGameContext} from "../components/contexts/PreGame.context";
 import TeamContainer from "../components/preGame/TeamContainer";
 import { socket } from 'contexts/SocketContext';
-import { useSearchParams } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import { ClientToServer,	ConnectionType, ServerToClient } from 'data/socketMessages';
+import AuthService from "../services/auth.service";
 
 
 const PreGame = () => {
@@ -12,8 +12,8 @@ const PreGame = () => {
 	const [confirmedTeams, setConfirmedTeams] = useState([]);
 	
 
-	const sessionId = 1;
-	const token = 'UGVB';
+	const {sessionId} = useParams();
+	const token = AuthService.getToken();
 
 	// Met à jour l'id de session dans le handshake du socket
 	socket.io.opts.query = {
