@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 
 const RoomElem = (props) => {
 	return (
-		<article className='bg-white mt-5 w-[48%] rounded-[30px] shadow-md overflow-hidden flex flex-col'>
-			<figure className='relative h-40 bg-blue-500 rounded-t-3xl'
+		<article className='info-container'>
+			<figure className='relative h-40 bg-blue-500 rounded-t-[30px]'
 					style={{
 						backgroundImage: `url(${props.room.image})`,
 						backgroundSize: 'cover',
@@ -15,17 +15,15 @@ const RoomElem = (props) => {
 				<figcaption className='absolute text-white font-bold bottom-2 left-4'>{props.room.name}</figcaption>
 			</figure>
 			<div className='flex-grow flex flex-col justify-between'>
-				<div className='p-6'>
-					<div className='flex justify-between items-center'>
-						<article className='elem-dashboard mr-2'>
-							<h3 className='txt-dashboard'>CHAPITRE</h3>
-							<p >{props.room.cat}</p>
-						</article>
-						<article className='elem-dashboard ml-2'>
-							<h3 className='txt-dashboard'>DIFFICULTE</h3>
-							<p>{props.room.difficulty}</p>
-						</article>
-					</div>
+				<div className='p-1 flex justify-around items-center'>
+					<article className='elem-dashboard'>
+						<h3 className='small-title'>Chapitre</h3>
+						<p className='small-text'>{props.room.cat}</p>
+					</article>
+					<article className='elem-dashboard '>
+						<h3 className='small-title'>Difficulté</h3>
+						<p className='small-text'>{props.room.difficulty}</p>
+					</article>
 				</div>
 				<Link to='' className='btn-show'>
 					Voir

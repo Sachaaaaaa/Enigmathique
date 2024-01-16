@@ -1,113 +1,69 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {initialFilterData, initialFormData, useCreationGameContext} from '../../contexts/CreationGame.context';
 import '../../../index.css';
-import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import RoomNav from "./RoomNav";
 import Room from "./Room";
+import GameService from "../../../services/game.service";
+import PropTypes from "prop-types";
+const CreationGame2 = (props) => {
 
-const CreationGame2 = () => {
+	const {formData, setFormData, rooms} = useCreationGameContext();
 
-	const {setStep, setFormData, filter, setFilter} = useCreationGameContext();
-
-	const rooms = [
-		{
-			id:1,
-			name: 'La chambre dorée',
-			difficulty: 'Facile',
-			cat: 'proba',
-			riddles: 5,
-			winrate: 99,
-		},
-		{
-			id:2,
-			name: 'La case de Pedro',
-			difficulty: 'Difficile',
-			cat: 'proba',
-			riddles: 5,
-			winrate: 45,
-		},
-		{
-			id:3,
-			name: 'La menuiserie Seguin',
-			difficulty: 'Moyen',
-			cat: 'proba',
-			riddles: 5,
-			winrate: 70,
-		},
-		{
-			id:4,
-			name: 'La chaumiere d\'Antoine',
-			difficulty: 'Facile',
-			cat: 'fonct',
-			riddles: 5,
-			winrate: 99,
-		},
-		{
-			id:5,
-			name: 'La maison du pere Andre',
-			difficulty: 'Facile',
-			cat: 'ens',
-			riddles: 5,
-			winrate: 99,
-		},
-		{
-			id:6,
-			name: 'Le garage de Gerard',
-			difficulty: 'Facile',
-			cat: 'suit',
-			riddles: 5,
-			winrate: 99,
-		},
-		{
-			id:7,
-			name: 'La chambre dorée',
-			difficulty: 'Facile',
-			cat: 'proba',
-			riddles: 5,
-			winrate: 99,
-		},
-		{
-			id:8,
-			name: 'La chambre dorée',
-			difficulty: 'Facile',
-			cat: 'proba',
-			riddles: 5,
-			winrate: 99,
-		},
-		{
-			id:9,
-			name: 'La chambre dorée',
-			difficulty: 'Facile',
-			cat: 'proba',
-			riddles: 5,
-			winrate: 99,
-		},
-		{
-			id:10,
-			name: 'La chambre dorée',
-			difficulty: 'Facile',
-			cat: 'proba',
-			riddles: 5,
-			winrate: 99,
-		},
+	const [filteredRooms, setFilteredRooms] = useState([]);
+	const [selectedRooms, setSelectedRooms] = useState([]);
+	const [filter, setFilter] = useState({chapter: 'suites', text: ''});
+	const navigate = useNavigate();
 
 
-	]
 
+	useEffect(() => {
+		const filtered = rooms.filter(
+			(room) => room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
+		);
+		setFilteredRooms([...filtered]);
+	}, [filter]);
 
 
 	const handlePrecedent = () => {
-		setStep(1);
+		props.setStep(1);
 	}
 
-	const handleSuivant = (event) => {
+	const handleSuivant = async (event) => {
+		if (selectedRooms.length === 0) {
+			alert('Veuillez sélectionner au moins une salle');
+			event.preventDefault();
+			return;
+		}
 		if (confirm("Les informations entrées sont exactes ?")) {
-			setFormData(initialFormData);
-			setFilter(initialFilterData);
+			const game = await createGame();
+			await addRooms(game.id, selectedRooms);
+			const code = await openGame(game.id);
+			console.log(code)
+			navigate(`/pregame/${code.code}`);
+
 			return;
 		}
 		event.preventDefault();
-		//TODO: Creation de la game et get de l'id
+	}
+
+	const createGame = async () => {
+		return await GameService.createGame(formData.course, formData.gameName, formData.teamSize);
+	}
+	const addRooms = async (gameId, roomsIds) => {
+		return await GameService.addRooms(gameId, roomsIds);
+	}
+	const openGame = async (gameId) => {
+		return await GameService.openGame(gameId);
+	}
+
+	const handleRoomSelection = (roomName) => {
+		if (selectedRooms.includes(roomName)) {
+			setSelectedRooms(selectedRooms.filter((name) => name !== roomName));
+
+		} else {
+			setSelectedRooms([...selectedRooms, roomName]);
+		}
 	}
 
 	return (
@@ -116,14 +72,25 @@ const CreationGame2 = () => {
 				<h1 className='text-2xl pl-4'>Sélection des salles</h1>
 			</section>
 
-			<RoomNav/>
+			<RoomNav
+				chapterChange={(e)=> (setFilter({...filter, chapter: e.target.value}))}
+				textChange={(e)=>(setFilter({...filter, text: e.target.value}))}
+				filter={filter}
+			/>
 			<section className='flex flex-col w-full h-[78%] overflow-y-scroll pr-4'>
-				{rooms.map((room, index) => {
+				{filteredRooms.map((room, index) => {
 					return(
-						room.cat === filter.cat && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
+						room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
 							<>
-								<Room key={room.id} name={room.name} difficulty={room.difficulty} riddles={room.riddles} winrate={room.winrate} id={room.id}/>
-								{index!==rooms.length-1 && <hr></hr>}
+								<Room
+									key={index}
+									name={room.name}
+									difficulty={room.difficulty}
+									riddles={999}
+									winrate={999}
+									handleRoomSelection={handleRoomSelection}
+								/>
+								{index!==filteredRooms.length-1 && <hr></hr>}
 							</>
 					);
 				})}
@@ -137,14 +104,19 @@ const CreationGame2 = () => {
 				>
 					Retour
 				</button>
-				<Link className='btn-validate' to='/pregame/AG874AJ' onClick={handleSuivant}>
+				{/*<Link className='btn-validate' to='/pregame/AG874AJ' onClick={handleSuivant}>*/}
+				{/*	Suivant*/}
+				{/*</Link>*/}
+				<button onClick={handleSuivant}>
 					Suivant
-				</Link>
+				</button>
 			</section>
 
 		</section>
 	)
 };
 
-
+CreationGame2.propTypes = {
+	setStep: PropTypes.func.isRequired,
+}
 export default CreationGame2;

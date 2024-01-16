@@ -5,32 +5,15 @@ import '../../../index.css';
 import '../createGame.css'
 import ClassList from "./ClassList";
 import {Link} from "react-router-dom";
-import Course from "../../../models/course.model";
-const GameCreationForm = () => {
+import PropTypes from "prop-types";
+const CreationGame1 = (props) => {
 
-	const {formData, setFormData, setStep, setCourses} = useCreationGameContext();
-	console.log(formData);
-
-	// AuthService.login('admin@admin.com', 'admin').then((response) => {
-	// 	console.log(response);
-	// }).catch((error) => {
-	// 	console.log(error);
-	// });
-
-	const loadClasses = async () => {
-		const data = await Course.getAll();
-		setCourses(data);
-		console.log(data);
-	}
-
-	useEffect(() => {
-		loadClasses();
-	}, []);
+	const {formData, setFormData} = useCreationGameContext();
 
 
 	const handleSuivant = () => {
 		if (formData.gameName !== '' && formData.course !== 0) {
-			setStep(2);
+			props.setStep(2);
 			return;
 		}
 		let messages = ['Veuillez remplir le(s) champ(s) suivant(s) :'];
