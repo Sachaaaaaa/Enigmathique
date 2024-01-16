@@ -84,5 +84,7 @@ const CreationGame1 = (props) => {
 	);
 
 };
-
-export default GameCreationForm;
+CreationGame1.propTypes = {
+	setStep: PropTypes.func.isRequired,
+}
+export default CreationGame1;
