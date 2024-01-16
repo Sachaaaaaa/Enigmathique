@@ -20,6 +20,7 @@ const AvailableStudents = (props) => {
 				student.lastname.toLowerCase().includes(search.toLowerCase()) || student.firstname.toLowerCase().includes(search.toLowerCase())));
 		}
 	}, [search, props.available]);
+	
 	return (
 		<section className='w-5/12 border-2 border-blue-800 rounded-xl'>
 			<section className='bg-blue-800/50 p-2 rounded-t-xl'>

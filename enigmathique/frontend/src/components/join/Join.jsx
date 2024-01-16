@@ -28,6 +28,8 @@ const Join = (props) => {
 	// Met à jour l'id de session dans le handshake du socket
 	socket.io.opts.query = { sessionId, connectionType: ConnectionType.TeamComposition };
 
+	console.log(available);
+	console.log(selected);
 
 	useEffect(() => {
 
@@ -69,8 +71,7 @@ const Join = (props) => {
 	}
 
 	return (
-		<AvailableContext.Provider value={{available, setAvailable}}>
-			<SelectedContext.Provider value={{selected, setSelected}}>
+		<>
 				<header className='flex flex-row items-center p-5'>
 					<img
 						className='h-24 w-24 rounded-full'
@@ -105,8 +106,7 @@ const Join = (props) => {
 						</button>
 					</section>
 				</main>
-			</SelectedContext.Provider>
-		</AvailableContext.Provider>
+				</>
 	);
 }
 Join.propTypes = {
