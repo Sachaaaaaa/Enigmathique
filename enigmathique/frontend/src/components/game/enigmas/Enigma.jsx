@@ -56,7 +56,7 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 
 	return (
 		<Html>
-			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
+			<div className="absolute translate-y-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
 
 				{enigmaDisplayTemplate(variables, enigmaState.hint, submitAnswer, askHint)}
 
