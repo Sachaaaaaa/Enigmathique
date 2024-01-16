@@ -3,7 +3,6 @@ import {Route, Routes} from 'react-router-dom';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-import Test from './pages/Test';
 import Dashboard from './pages/Dashboard';
 import Game from './pages/Game';
 import Class from './pages/Class';
@@ -27,7 +26,6 @@ const App = () => {
 			<Route path='/' element={<Home/>}/>
 			<Route path='/signup' element={<Signup/>}/>
 			<Route path='/login' element={<Login/>}/>
-			<Route path='/test' element={<Test/>}/>
 			<Route path='/dashboard' element={<Dashboard/>}/>
 			<Route path='/class' element={<Class/>}/>
 			<Route path='/class/:id' element={<Students/>}/>
