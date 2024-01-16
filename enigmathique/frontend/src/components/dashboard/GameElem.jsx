@@ -72,7 +72,7 @@ const GameElem = (props) => {
 			</article>
 			<article className='col-span-1 elem-dashboard'>
 				<h3 className='small-title'>Classe</h3>
-				<p className='small-text'>Seconde {course.name}</p>
+				<p className='small-text'>{course.name}</p>
 			</article>
 			<article className='col-span-1 elem-dashboard'>
 				<h3 className='small-title'>Date</h3>
