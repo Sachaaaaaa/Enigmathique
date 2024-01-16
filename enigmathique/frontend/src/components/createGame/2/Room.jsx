@@ -20,7 +20,7 @@ const Room = (props) => {
 				<div className='h-full w-[10%] overflow-hidden p-2'>
 					<img
 						className='rounded-xl'
-						src={require('../../../assets/img/room-img/room-fonction-1.png')}
+						src={require('../../../assets/img/room-img/Le labo.png')}
 						alt='room-img'
 					/>
 				</div>
