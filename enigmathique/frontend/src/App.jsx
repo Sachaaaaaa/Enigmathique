@@ -16,6 +16,7 @@ import TeamStats from './pages/TeamStats';
 import { RoomProvider } from './contexts/RoomContext';
 import Games from './pages/Games';
 import ProfFollowUp from './pages/ProfFollowUp';
+import Join from './pages/Join';
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
 				<Route path='/games' element={<Games/>}/>
 				<Route path='/create-game' element={<CreateGame/>}/>
 				<Route path='/pregame/:id' element={<PreGame/>}/>
+				<Route path='/join/:id' element={<Join/>}/>
 				<Route path='/teamstats' element={<TeamStats/>}/>
 				<Route path='/prof-folow-up' element={<ProfFollowUp/>}/>
 			</Routes>
