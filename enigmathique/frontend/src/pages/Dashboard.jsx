@@ -16,7 +16,7 @@ const Dashboard = () => {
 	// Ajout d'un état pour avoir les classes
 	const [courses, setCourses] = useState([]);
 	// Ajout d'un état pour avoir les parties
-	const [gameList, setGames] = useState([]);
+	const [games, setGames] = useState([]);
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
 	// Ajout d'un état pour suivre l'indice de la classe actuelle
@@ -43,22 +43,6 @@ const Dashboard = () => {
 		}
 	];
 
-	const games = [
-		{
-			name: 'Entrainement probabilités',
-			date: '17/11/23',
-			className: 'A',
-			winners: ['Julie Lustret', 'Monstre Gentil'],
-			winRate: 80
-		},
-		{
-			name: 'Entrainement fonct',
-			date: '11/12/23',
-			className: 'A',
-			winners: ['Lucas Crespin', 'Girafe Agréable'],
-			winRate: 75
-		}
-	];
 
 	const loadClasses = async () => {
 		const data = await Course.getAll();
