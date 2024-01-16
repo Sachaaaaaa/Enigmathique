@@ -93,17 +93,21 @@ const Dashboard = () => {
 
 	return (
 		<LayoutProf>
-			<main className='flex bg-[#F5F7FA] flex-wrap overflow-y-scroll'>
+			<main className='h-full flex bg-[#F5F7FA] flex-wrap overflow-y-scroll'>
 					<div className='w-[45svw] min-w-[280px] mr-2 flex-wrap'>
 						<div className='flex flex-col p-5'>
 							<div className='flex justify-between w-full min-w-[280px]'>
 								<h2 className='font-semibold'>Mes Parties</h2>
-								<Link to='' className='text-sm font-semibold hover:underline'>Voir tout</Link>
+								<Link to='/games' className='text-sm font-semibold hover:underline'>Voir tout</Link>
 							</div>
 							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
 								{games.slice(-2).map((game, index) => (
-									<GameElem key={index} game={game}/>
-								))}
+													<GameElem key={index} game={game}/>
+												))}
+								{games.length <= 1 ? <div className='h-[216px] info-container'> <Link to='' > </Link></div> : ''}
+								{games.length === 0 ? <div className='h-[216px] info-container'> </div> : ''}
+
+								
 							</div>
 						</div>
 						<div className='flex flex-col p-5 pt-2'>
