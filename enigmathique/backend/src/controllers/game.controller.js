@@ -244,11 +244,12 @@ exports.getScore = (req, res) => {
 
 // methode pour vérifier si une partie, à partir de son id, appartient au prof
 exports.gameBelongsToProf = async (req, res) => {
-
+	
 	try{
-		
+
 		// Vérifie que la partie appartient bien au professeur
 		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+
 		if (!isBelongsToProfessor) {
 			return res.status(200).json({
 				isBelongsTo: false 
@@ -412,7 +413,7 @@ exports.addRooms = async(req, res) => {
 
 	// Récupère les id des salles à ajouter
 	const roomNames = req.body.roomName;
-	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, name: currentRoomName }));
+	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, roomName: currentRoomName }));
 
 
 	// Enregistrer les rooms dans la table GameRooms
