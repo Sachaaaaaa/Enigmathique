@@ -81,7 +81,8 @@ const EndGame = (idGame) => {
 		.then((response) => {
 			return response.data;
 		});
-};
+}
+
 //socket
 const openGame = (idGame) => {
 	const token = authHeader();
