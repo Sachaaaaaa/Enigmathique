@@ -6,6 +6,7 @@ import RoomNav from "./RoomNav";
 import Room from "./Room";
 import GameService from "../../../services/game.service";
 import PropTypes from "prop-types";
+import Game from "../../../models/game.model";
 const CreationGame2 = (props) => {
 
 	const {formData, setFormData, rooms} = useCreationGameContext();
@@ -48,19 +49,21 @@ const CreationGame2 = (props) => {
 	}
 
 	const createGame = async () => {
-		return await GameService.createGame(formData.course, formData.gameName, formData.teamSize);
+		//return await GameService.createGame(formData.course, formData.gameName, formData.teamSize);
+		return await Game.create(formData.course, formData.gameName, formData.teamSize)
 	}
 	const addRooms = async (gameId, roomsIds) => {
-		return await GameService.addRooms(gameId, roomsIds);
+		//return await GameService.addRooms(gameId, roomsIds);
+		return await Game.addRooms(gameId, roomsIds);
 	}
 	const openGame = async (gameId) => {
-		return await GameService.openGame(gameId);
+		//return await GameService.openGame(gameId);
+		return await Game.openGame(gameId);
 	}
 
 	const handleRoomSelection = (roomName) => {
 		if (selectedRooms.includes(roomName)) {
 			setSelectedRooms(selectedRooms.filter((name) => name !== roomName));
-
 		} else {
 			setSelectedRooms([...selectedRooms, roomName]);
 		}
