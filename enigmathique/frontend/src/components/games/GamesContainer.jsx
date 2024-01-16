@@ -1,53 +1,18 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import GameItem from "./GameItem";
-import {useCreationGameContext} from "../contexts/CreationGame.context";
+import Game from "../../models/game.model";
+
+
 
 const GamesContainer = () => {
-
-	const games = [
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-	]
+	const [games, setGames] = useState([]);
+	const loadGames = async () => {
+		const data = await Game.getAll();
+		setGames(data);
+	}
+	useEffect(() => {
+		loadGames();
+	}, []);
 	// const {filter} = useCreationGameContext();
 	return(
 		<>
@@ -67,8 +32,8 @@ const GamesContainer = () => {
 						<>
 							<GameItem
 								name={game.name}
-								date={game.date}
-								course={game.course}
+								date={game.createdAt}
+								course={game.idCourse}
 								winrate={game.winrate}
 								numberRoom={game.numberRoom}
 							/>
