@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {IconContext} from 'react-icons';
 import { FaGear } from "react-icons/fa6";
 import {useLocation} from "react-router-dom";
-import ProfessorService from "../services/professor.course";
 import Course from "../models/course.model";
+import Professor from "../models/professor.model";
 
 
 const TopBar = () => {
@@ -20,24 +19,19 @@ const TopBar = () => {
 	/**
 	 * chargment de l'objet classe pour changer le nom en fonction de la classe
 	 */
+	const loadOneClass = async () => {
+		const data = await Course.get(classId);
+		setCourse(data);
+		console.log('L id de la classe est ' + data.id);
+	}
 
 	useEffect(() => {
-		const loadOneClass = async () => {
-			const data = await Course.get(classId);
-			setCourse(data);
-			console.log(data);
+		const loadProfessor = async () => {
+			const data = await Professor.getCurrent();
+			setProfessor(data);
+			console.log('Le nom du prof est' + data.lastname);
 		}
-		const loadProfessore = () => {
-			ProfessorService.getCurrentProfessor()
-				.then((response) => {
-					setProfessor(response);
-				}).catch((error) => {
-					console.log(error);
-			});
-		}
-
-		loadProfessore();
-
+		loadProfessor();
 		if (path[0] === "class" && classId){
 			loadOneClass();
 		}

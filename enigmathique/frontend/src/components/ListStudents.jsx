@@ -38,7 +38,7 @@ const ClassElement = ({student, onChange}) => {
 	
 	return (
 		<li key={student.id} value={student.firstname}
-				className='bg-gray-200 flex-col space-y-3 m-3  p-1 h-[250px] w-[250px] rounded-2xl'>
+				className='bg-gray-200 flex-col space-y-3 m-3  p-1 h-[250px] w-[250px] rounded-2xl drop-shadow-md'>
 			<section className='flex flex-col h-full space-y-1'>
 				<figure className="bg-amber-200 w-[100px] h-[100px] rounded-full mx-auto">
 				</figure>
@@ -46,18 +46,18 @@ const ClassElement = ({student, onChange}) => {
 					{`${student.firstname} ${student.lastname}`}
 				</h3>
 				<div className="flex-grow"></div>
-				<div className="flex justify-center space-x-2 mt-auto">
+				<div className="flex justify-center space-x-5 mt-auto">
 					<button
-						className='btn-utils-course-student'>
+						className='btn-utils btn-utils-course-student-stat'>
 						<ImStatsDots color='white' size='1.5em'/>
 					</button>
 					<button
-						className='btn-utils-course-student-edit'
+						className='btn-utils btn-utils-course-student-edit'
 						onClick={() => setEditModalOpen(true)}>
 						<MdOutlineModeEdit size='1.5em'/>
 					</button>
 					<button
-						className='btn-utils-course-student-delete'
+						className='btn-utils btn-utils-course-student-delete'
 						onClick={() => setDeleteModalOpen(true)}>
 						<MdDeleteForever size='1.5em'/>
 					</button>
@@ -175,7 +175,11 @@ const ListStudents = (props) => {
 		<>
 			<nav className='flex flex-row justify-end w-full p-5 gap-12'>
 				<Link to='/class' className='mr-auto'>
-					<button className="btn-back h-full"><MdArrowBackIos size='1.5em'/><p>Élèves</p></button>
+					<button
+						className="btn-back h-full">
+						<MdArrowBackIos size='1.5em'/>
+						<p>Élèves</p>
+					</button>
 				</Link>
 				<section className='flex flex-row items-center justify-center bg-white rounded-full p-4 gap-2 shadow'>
 					<FaSearch color="#0a06f4"/>
@@ -187,7 +191,7 @@ const ListStudents = (props) => {
 					/>
 				</section>
 				<button
-					className="btn-utils-course-student-icons"
+					className="btn-utils btn-utils-course-student-icons"
 					onClick={() => setCreateModalOpen(true)}><FaPlus size='1.5em'/>
 					<p>Ajouter un élève</p>
 				</button>
