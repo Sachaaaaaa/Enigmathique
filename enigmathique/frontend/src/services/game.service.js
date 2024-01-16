@@ -3,6 +3,23 @@ import authHeader from "./auth-header";
 
 const API_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
+const getAll = () => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+'game', {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+}
+const getOne = (id) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+'game/'+id, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+}
+
 const createGame = (idCourse, name, teamSize) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer un nouvel utilisateur
@@ -37,25 +54,18 @@ const openGame = (idGame) => {
 			return response.data;
 		});
 };
-const acceptTeam = (idTeam) => {
+const acceptTeam = (idGame, idTeam) => {
 	const token = authHeader();
 	return axios
 		.post(API_URL + 'game/team/accept/' + idTeam, {
-			idTeam
+			idGame
 		}, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
 };
 
-const getAll = () => {
-	const token = authHeader();
-	return axios
-		.get(API_URL+'game', {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-}
+
 
 /**
  * Permet d'avoir tous les scores liés à une partie
@@ -77,7 +87,8 @@ const GameService = {
 	addRooms,
 	openGame,
 	acceptTeam,
-	getAll
+	getAll,
+	getOne
 };
 
 export default GameService;
