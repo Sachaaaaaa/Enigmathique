@@ -61,7 +61,7 @@ const ClassElem = (props) => {
 		if(games.length !== 0) {
 			games.forEach((game) => {
 				GameService.getScores(game.id).then((response) => {
-					const scoreList = response.data;
+					const scoreList = response;
 					scoreList.forEach((score) => {
 						score.time < maxTime && winRate++;
 					});
@@ -76,6 +76,8 @@ const ClassElem = (props) => {
 		}
 	}
 
+
+	/*Données de génaration du graphique*/
 	const data = {
 		labels: [''],
 		datasets: [
