@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaGear } from "react-icons/fa6";
-import { useLocation } from "react-router-dom";
-import CourseService from "../services/course.service";
+import {useLocation} from "react-router-dom";
+import Course from "../models/course.model";
+import Professor from "../models/professor.model";
 
 
 const TopBar = () => {
@@ -11,44 +12,36 @@ const TopBar = () => {
 	path.shift();
 
 	const [course, setCourse] = useState();
+	const [professor, setProfessor] = useState('unknown');
 	const classId = parseInt(path[1]);
 
 
 	/**
 	 * chargment de l'objet classe pour changer le nom en fonction de la classe
 	 */
+	const loadOneClass = async () => {
+		const data = await Course.get(classId);
+		setCourse(data);
+		console.log('L id de la classe est ' + data.id);
+	}
 
-	//TODO à corriger
 	useEffect(() => {
-		const loadOneClass = () => {
-			console.log(classId)
-			CourseService.getOne(classId)
-				.then((response) => {
-					setCourse(response);
-					console.log(response);
-				}).catch((error) => {
-					console.log(error);
-				});
+		const loadProfessor = async () => {
+			const data = await Professor.getCurrent();
+			setProfessor(data);
+			console.log('Le nom du prof est' + data.lastname);
 		}
-		if (path[0] === "class" && classId) {
+		loadProfessor();
+		if (path[0] === "class" && classId){
 			loadOneClass();
 		}
 	}, [path[1], classId]);
-
-
-
-
-
-	const prof = {
-		firstname: "Philippe",
-		lastname: "Lacherez",
-	} // faire une requete
 
 	const textMap = {
 		"dashboard": "Tableau de bord",
 		"class": "Mes classes",
 		"games": "Mes parties",
-		"room": "Salles d'énigmes",
+		"rooms": "Salles d'énigmes",
 		"create-game": "Création de partie",
 		"pregame": "",
 	}
@@ -67,20 +60,20 @@ const TopBar = () => {
 	}
 
 
-	return (
-		<section className="topbar-container">
-			<div className="w-11/12">
-				<h1 className="text-3xl">{text}</h1>
+	return(
+		<section className="topbar-container pl-5 flex justify-between h-fit">
+			<div >
+				<h1 className="text-[#343C6A] text-2xl font-semibold py-5">{text}</h1>
 			</div>
 			<div className="flex flex-row items-center gap-2">
 				<div className="p-2 rounded-full bg-[#E6EFF5]">
-					<FaGear />
+						<FaGear color="#807FF7"/>
 				</div>
-				<div className="p-2 text-right">
-					<p>{prof.firstname}</p>
-					<p>{prof.lastname}</p>
+				<div className="text-[#343C6A] px-0 py-2 text-right text-xs">
+					<p>{professor.firstname}</p>
+					<p>{professor.lastname}</p>
 				</div>
-				<img src="https://placehold.co/40" alt="profile picture" className="rounded-full p-2" />
+				<img src="https://placehold.co/40" alt="profile picture" className="rounded-[100px] pl-1 pr-2 pt-2 pb-2"/>
 			</div>
 		</section>
 	);

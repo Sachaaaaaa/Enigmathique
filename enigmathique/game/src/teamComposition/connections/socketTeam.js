@@ -11,7 +11,9 @@ class SocketTeam {
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
 		this.socket.on(ClientToServer.AddStudent, this.onAddStudent);
 		this.socket.on(ClientToServer.RemoveStudent, this.onRemoveStudent);
+		this.socket.on(ClientToServer.LockTeam, this.onLockTeam);
 
+		this.name = 'undef';
 		this.composition = [];
 
 		this.locked = false;
@@ -25,9 +27,10 @@ class SocketTeam {
 	toData = () => {
 		return {
 			id: this.socket.id,
+			name: this.name,
 			locked: this.locked,
 			confirmed: this.confirmed,
-			composition: this.composition
+			students: this.composition
 		}
 	}
 
@@ -42,18 +45,27 @@ class SocketTeam {
 		this.session.onTeamLeave(this);
 	}
 
-	onAddStudent = (student) => {
-		console.log(clc.yellowBright('[Team] Ajout d\'un étudiant'));
+	onAddStudent = (studentId) => {
+		console.log(clc.cyan('[Team] Ajout d\'un étudiant'));
 
-		this.composition.push(student);
+		if (!this.session.isStudentAvailable(studentId)) {
+			return;
+		}
+
+		if (this.composition.length >= this.session.maxTeamSize) {
+			return;
+		}
+		this.composition.push(this.session.getStudentWithId(studentId));
+
+		console.log(this.composition);
 
 		this.session.onTeamCompositionChange(this);
 	}
 
-	onRemoveStudent = (student) => {
-		console.log(clc.yellowBright('[Team] Suppression d\'un étudiant'));
+	onRemoveStudent = (studentId) => {
+		console.log(clc.cyan('[Team] Suppression d\'un étudiant ' + studentId));
 
-		const index = this.composition.indexOf(student);
+		const index = this.composition.findIndex(student => student.id === studentId);
 		if (index > -1) {
 			this.composition.splice(index, 1);
 		}
@@ -61,9 +73,10 @@ class SocketTeam {
 		this.session.onTeamCompositionChange(this);
 	}
 
-	onLockTeam = () => {
-		console.log(clc.yellowBright('[Team] Verrouillage de l\'équipe'));
+	onLockTeam = ({name}) => {
+		console.log(clc.cyan('[Team] Verrouillage de l\'équipe ' + clc.bold(name)));
 
+		this.name = name;
 		this.locked = true;
 		this.session.onTeamCompositionChange(this);
 	}
@@ -85,6 +98,9 @@ class SocketTeam {
 
 		this.composition = [];
 		this.session.onTeamCompositionChange(this);
+
+		this.locked = false;
+		this.confirmed = false;
 	}
 }
 

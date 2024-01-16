@@ -1,34 +1,25 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {IoCheckmarkCircleOutline, IoChevronDown, IoChevronUp, IoRemoveCircle} from 'react-icons/io5';
 import {IconContext} from "react-icons";
-import {useCreationGameContext} from "../contexts/CreationGame.context";
+import {usePreGameContext} from "../contexts/PreGame.context";
+import gameService from "../../services/game.service";
+import {useSocket} from "../../contexts/SocketContext";
+import { ClientToServer } from 'data/socketMessages';
 
 const Team = (props) => {
-
+	const socket = useSocket();
 	const [isExpanded, setIsExpanded] = useState(false);
-
-	const {teams, setTeams} = useCreationGameContext();
 
 	const addingTeam = (event) => {
 		event.stopPropagation();
-		const updatedTeams = teams.filter(team =>
-			team.name !== props.name || team.students !== props.students);
-
-
-		updatedTeams.push({
-			name: props.name,
-			students: props.students,
-			isValidated: true,
-		});
-
-		setTeams(updatedTeams);
-	}
-	const removingTeam = (event) => {
+		console.log(props);
+		socket.emit(ClientToServer.ValidateTeam,  {id: props.id});
+	};
+	const removingTeam = () => {
 		event.stopPropagation();
-		setTeams(teams.filter(team =>
-			team.name !== props.name || team.students !== props.students));
-	}
+		socket.emit(ClientToServer.RefuseTeam, {id: props.id});
+	};
 
 	return (
 		<section
@@ -71,21 +62,22 @@ const Team = (props) => {
 					return (
 						<div
 							className='flex flex-row items-center w-full gap-4'
-							key={student.name + student.firstname}
+							key={student.lastname + student.firstname}
 						>
 							<div className='h-10 w-10 rounded-full bg-gray-500'></div>
-							<p>{student.name} {student.firstname}</p>
+							<p>{student.lastname} {student.firstname}</p>
 						</div>
 					);
 				})}
 			</div>
 		</section>
 	);
-}
+};
 
 Team.propTypes = {
+	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	students: PropTypes.array.isRequired,
 	isValidated: PropTypes.bool.isRequired,
-}
+};
 export default Team;

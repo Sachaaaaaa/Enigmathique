@@ -25,26 +25,31 @@ class CompositionSession {
 
 		// Pour l'instant, on simule des élèves
 		this.students = [
-			{ id: 1, name: 'Jean', surname: 'Dupont' },
-			{ id: 2, name: 'Marie', surname: 'Martin' },
-			{ id: 3, name: 'Pierre', surname: 'Durand' },
-			{ id: 4, name: 'Julie', surname: 'Dupuis' },
-			{ id: 5, name: 'Paul', surname: 'Dujardin' },
-			{ id: 6, name: 'Sophie', surname: 'Dumont' },
-			{ id: 7, name: 'Luc', surname: 'Dubois' },
-			{ id: 8, name: 'Cécile', surname: 'Lefebvre' },
-			{ id: 9, name: 'Thomas', surname: 'Leroy' },
-			{ id: 10, name: 'Laure', surname: 'Rousseau' },
-			{ id: 11, name: 'Antoine', surname: 'Vincent' },
-			{ id: 12, name: 'Catherine', surname: 'Lambert' },
-			{ id: 13, name: 'Jeanne', surname: 'Moreau' },
-			{ id: 14, name: 'Marc', surname: 'Fournier' },
-			{ id: 15, name: 'Marie', surname: 'Girard' },
-			{ id: 16, name: 'Christophe', surname: 'André' },
-			{ id: 17, name: 'Anne', surname: 'Mercier' },
-			{ id: 18, name: 'Philippe', surname: 'Dupuis' },
-			{ id: 19, name: 'Juliette', surname: 'Lefevre' },
-			{ id: 20, name: 'Jean', surname: 'Mercier' },
+			{ id: 1, firstname: 'Jean', lastname: 'Dupont' },
+			{ id: 2, firstname: 'Marie', lastname: 'Martin' },
+			{ id: 3, firstname: 'Pierre', lastname: 'Durand' },
+			{ id: 4, firstname: 'Julie', lastname: 'Dupuis' },
+			{ id: 5, firstname: 'Paul', lastname: 'Martin' },
+			{ id: 6, firstname: 'Jeanne', lastname: 'Durand' },
+			{ id: 7, firstname: 'Jacques', lastname: 'Dupont' },
+			{ id: 8, firstname: 'Sophie', lastname: 'Martin' },
+			{ id: 9, firstname: 'Luc', lastname: 'Durand' },
+			{ id: 10, firstname: 'Marie', lastname: 'Dupuis' },
+			{ id: 11, firstname: 'Pierre', lastname: 'Martin' },
+			{ id: 12, firstname: 'Julie', lastname: 'Durand' },
+			{ id: 13, firstname: 'Paul', lastname: 'Dupont' },
+			{ id: 14, firstname: 'Jeanne', lastname: 'Martin' },
+			{ id: 15, firstname: 'Jacques', lastname: 'Durand' },
+			{ id: 16, firstname: 'Sophie', lastname: 'Dupuis' },
+			{ id: 17, firstname: 'Luc', lastname: 'Martin' },
+			{ id: 18, firstname: 'Marie', lastname: 'Durand' },
+			{ id: 19, firstname: 'Pierre', lastname: 'Dupont' },
+			{ id: 20, firstname: 'Julie', lastname: 'Martin' },
+			{ id: 21, firstname: 'Paul', lastname: 'Durand' },
+			{ id: 22, firstname: 'Jeanne', lastname: 'Dupuis' },
+			{ id: 23, firstname: 'Jacques', lastname: 'Martin' },
+			{ id: 24, firstname: 'Sophie', lastname: 'Durand' },
+			{ id: 25, firstname: 'Luc', lastname: 'Dupont' },
 		];
 	};
 
@@ -113,12 +118,37 @@ class CompositionSession {
 	};
 
 	getLockedTeams = () => {
-		return this.teamSockets.filter((t) => t.locked);
+		return this.teamSockets.filter((t) => t.locked && !t.confirmed);
 	};
 
 	getConfirmedTeams = () => {
 		return this.teamSockets.filter((t) => t.confirmed);
 	};
+
+	getStudentWithId = (id) => {
+		return this.students.find((s) => s.id === id);
+	};
+
+	isStudentAvailable = (id) => {
+		return this.teamSockets.every((t) => !t.hasStudent(id));
+	}
+
+	confirmTeamComposition(teamId) {
+		const team = this.teamSockets.find((t) => t.socket.id === teamId);
+		if (team) {
+			team.confirmed = true;
+			this.sendCompositionToProfessor();
+		}
+	}
+
+	refuseTeamComposition(teamId) {
+		const team = this.teamSockets.find((t) => t.socket.id === teamId);
+		if (team) {
+			team.wipeComposition();
+
+			this.resyncAll();
+		}	
+	}
 
 	/**
 	 *

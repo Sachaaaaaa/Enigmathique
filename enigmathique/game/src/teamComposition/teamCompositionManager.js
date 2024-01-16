@@ -1,5 +1,7 @@
+const clc = require('cli-color');
 const SocketProfessor = require('./connections/socketProfessor');
 const SocketTeam = require('./connections/socketTeam');
+const CompositionSession = require('./compositionSession');
 
 class TeamCompositionManager {
 	constructor() {
@@ -17,7 +19,7 @@ class TeamCompositionManager {
 
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
-			this.sessions[sessionId] = new Session(this, sessionId);
+			this.sessions[sessionId] = new CompositionSession(this, sessionId);
 			console.log(clc.yellow('[Composition] Nouvelle session ' + sessionId + ' créée'));
 		}
 
