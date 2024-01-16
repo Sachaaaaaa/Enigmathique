@@ -16,8 +16,7 @@ const GameElem = (props) => {
 
 	const loadScores = async (idGame) => {
 		const data = await Game.getScores(idGame);
-		const score = data===1? setScores(data): console.log('pas de score disponible');
-		return score;
+		return data===1? setScores(data): console.log('pas de score disponible');
 	}
 
 	useEffect(() => {

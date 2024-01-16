@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {initialFilterData, initialFormData, useCreationGameContext} from '../../contexts/CreationGame.context';
+import {useCreationGameContext} from '../../contexts/CreationGame.context';
 import '../../../index.css';
 import { useNavigate } from 'react-router-dom';
 import RoomNav from "./RoomNav";
