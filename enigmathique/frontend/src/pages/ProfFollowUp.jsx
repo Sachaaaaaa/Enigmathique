@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+
+
+import React, { useEffect, useState, useContext } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
 import { SocketContext, socket } from 'contexts/SocketContext';
@@ -6,24 +8,26 @@ import { useSearchParams } from 'react-router-dom';
 import { ServerToClient, ConnectionType } from 'data/socketMessages';
 
 function ProfFollowUp() {
-	// Vérifie si le token est présent dans le localStorage
-	const token = JSON.parse(localStorage.getItem('user'))?.token;
-	if (!token) {
-		throw new Error('Token non trouvé');
-	}
-
-	// Recupère l'id de session dans l'url
-	// A changer, facilement modifiable par l'utilisateur
-	const [searchParams, setSearchParams] = useSearchParams();
+	
+	const [searchParams] = useSearchParams();
 	const sessionId = searchParams.get('sessionId');
+	const user = JSON.parse(localStorage.getItem('user'));
+	const token = user?.token;
+	
 
-	// Si l'id de session n'est pas défini, on quitte la page
-	if (!sessionId) {
-		throw new Error('Id de session non trouvé');
+	// Assurez-vous que le token et le sessionId sont présents
+	if (!token) {
+		console.error('Token non trouvé');
+		// Gérez l'absence de token ici, par exemple redirigez vers la page de connexion
 	}
 
+	if (!sessionId) {
+		console.error('Id de session non trouvé');
+		// Gérez l'absence de sessionId ici, par exemple affichez un message d'erreur
+	}
+
+	const [rankings, setRankings] = useState([]);
 	const [gameData, setGameData] = useState(null);
-	const rankings = [];
 
 	socket.io.opts.query = {
 		token: token,
@@ -33,36 +37,93 @@ function ProfFollowUp() {
 
 	// se connecter a la session avec un useEffect
 	useEffect(() => {
-		socket.on(ServerToClient.Connection, () => {
-			console.log('Connecté au serveur');
-		});
+		if (token && sessionId) {
+			socket.io.opts.query = {
+				token,
+				sessionId,
+			};
 
-		socket.on(ServerToClient.Disconnection, () => {
-			console.log('Déconnecté du serveur');
-		});
+			// Écouteur de connexion au serveur
+			socket.on(ServerToClient.Connection, () => {
+				console.log('Connecté au serveur');
+			});
 
-		socket.on(ServerToClient.AllTeamsProgress, (data) => {
-			console.log(data);
-		});
+			// Écouteur de déconnexion du serveur
+			socket.on(ServerToClient.Disconnection, () => {
+				console.log('Déconnecté du serveur');
+			});
 
-		socket.connect();
+			// Écouteur de progression de toutes les équipes
+			socket.on(ServerToClient.AllTeamsProgress, (data) => {
+				console.log(data); // Afficher les données reçues dans la console
+				data = data.data;
+				if (data && data.teams && typeof data.teams === 'object') {
+					const teamsData = Object.keys(data.teams).map((key) => {
+					// Assurez-vous qu'il y a des données pour cette équipe
+						if (data.teams[key] && data.teams[key].length > 0) {
+							const team = data.teams[key][0]; // Prendre le premier élément de chaque clé numérique
+							const roomName = team.name;
+							const roomIsSolved = team.isSolved;
+							const teamNumReSolved = team.numSolved;
+							const numBadAnswer = team.numBadAnswers;
+							const numHint = team.numHints;
 
-		return () => {
-			socket.off(ServerToClient.Connection);
-			socket.off(ServerToClient.Disconnection);
-		};
-	});
-	/*
-	const rankings = [
-		{ team: 'Julie Lustret & Jean-Marie Duc de Bourgogne', score: 12550, resolved: '16/20' },
-		{ team: 'Équipe Alpha', score: 11000, resolved: '15/20' },
-		{ team: 'Les Gagnants', score: 9800, resolved: '14/20' },
-		{ team: 'Les nuls', score: 9800, resolved: '14/20' },
-		{ team: 'Les nuls', score: 8000, resolved: '14/20' },
-		{ team: 'Les nuls', score: 8000, resolved: '14/20' },
-		// ... d'autres équipes
-	];
-	*/
+							// Calculez le score en tenant compte de si l'énigme est résolue
+							const score = calculateScore(teamNumReSolved, numBadAnswer, numHint, roomIsSolved);
+
+
+							return {
+								id: key, // Utiliser la clé numérique comme identifiant unique de l'équipe
+								teamName: roomName,
+								score: score,
+								resolved: `${teamNumReSolved}/20`,
+								roomName: roomName,
+								roomIsSolved: roomIsSolved,
+								numBadAnswer: numBadAnswer,
+								numHint: numHint
+							};
+						} else {
+							return null;
+						}
+					}).filter(team => team !== null); // Filtrer les équipes non définies
+
+					// Triez les données des équipes par score en ordre décroissant
+					teamsData.sort((a, b) => b.score - a.score);
+					setRankings(teamsData); // Mettre à jour l'état avec les données triées
+				} else {
+					console.error('Les données de progression des équipes sont indéfinies ou ne sont pas dans un format attendu.');
+					setRankings([]); // Réinitialiser les données de progression des équipes
+				}
+			});
+
+
+
+			socket.connect();
+
+			// Nettoyez les écouteurs socket lorsque le composant est démonté
+			return () => {
+				socket.off(ServerToClient.Connection);
+				socket.off(ServerToClient.Disconnection);
+				socket.off(ServerToClient.AllTeamsProgress);
+			};
+		}
+	}, [token, sessionId, socket]);
+
+
+
+	// Fonction de calcul du score (vous devrez définir cela en fonction de votre logique de notation)
+	// Fonction de calcul du score
+	const calculateScore = (numSolved, numBadAnswers, numHints, roomIsSolved) => {
+		// Points de base pour les énigmes résolues, les mauvaises réponses et les indices
+		let score = numSolved * 100 - numBadAnswers * 20 - numHints * 30;
+
+		// Ajouter 300 points si la salle d'énigme est résolue
+		if (roomIsSolved) {
+			score += 300;
+		}
+
+		return score;
+	};
 
 	// Fonction pour obtenir l'icône de la position en fonction du rang
 	const getPositionIcon = (index) => {
@@ -106,8 +167,8 @@ function ProfFollowUp() {
 								</tr>
 							</thead>
 							<tbody>
-								{rankings.map((item, index) => (
-									<tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
+								{rankings.map((team, index) => (
+									<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
 										<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center">
 											<div className={`relative ${getPositionStyle(index)}`}>
 												{getPositionIcon(index)}
@@ -116,11 +177,15 @@ function ProfFollowUp() {
 												</span>
 											</div>
 										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-											{item.team}
+										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+											{team.teamName}
 										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.score}</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.resolved}</td>
+										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+											{team.score}
+										</td>
+										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+											{team.resolved}
+										</td>
 										<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 											<a href="#" className="text-blue-600 hover:text-blue-800">Détails</a>
 										</td>
