@@ -6,6 +6,7 @@ import { Chart as ChartJS, registerables } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import GameService from '../../services/game.service';
 import Student from '../../models/student.model';
+import Game from "../../models/game.model";
 ChartJS.register(...registerables);
 
 const maxTime = 600;
@@ -26,17 +27,13 @@ const ClassElem = (props) => {
 		loadStudents();
 	}, []);
 
-	const loadGamesOf = () => {
-		GameService.getAll().then((response) => {
-			const games = response;
-			let listGames = [];
-			games.forEach((game) => {
-				classGroup.id === game.idCourse && listGames.put();
-			});
-			setGamesOf(listGames);
-		}).catch((error) => {
-			console.log(error);
+	const loadGamesOf = async() => {
+		const data = await Game.getAll();
+		let listGames = [];
+		data.forEach((game) => {
+			classGroup.id === game.idCourse && listGames.push();
 		});
+		setGamesOf(listGames);
 	}
 
 	useEffect(() => {

@@ -17,9 +17,9 @@ class Student {
 		this.createdAt = new Date(createdAt);
 		this.updatedAt = new Date(updatedAt);
 	}
-	static async getAll(id) {
+	static async getAll(idCourse) {
 		try {
-			const data = await StudentService.getAll(id);
+			const data = await StudentService.getAll(idCourse);
 			return data.map((student) => new Student(student.id, student.idCourse, student.firstname, student.lastname, student.createdAt, student.updatedAt));
 		}catch (error){
 			console.log(error);

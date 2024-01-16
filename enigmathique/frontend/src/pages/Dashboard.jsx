@@ -7,9 +7,9 @@ import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
-import GameService from '../services/game.service';
 import Course from '../models/course.model';
 import RoomService from "../services/room.service";
+import Game from "../models/game.model";
 
 
 const Dashboard = () => {
@@ -33,18 +33,15 @@ const Dashboard = () => {
 		loadClasses();
 	}, []);
 
-	const loadGames = () => {
-		GameService.getAll().then((response) => {
-			setGames(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	const loadGames = async () => {
+		const data = await Game.getAll();
+		setGames(data);
+		console.log(data);
 	}
 
 	useEffect(() => {
 		loadGames();
 	}, []);
-
 
 	const loadRooms = () => {
 		let rooms = [];
@@ -104,7 +101,7 @@ const Dashboard = () => {
 								<Link to='/games' className='text-sm font-semibold hover:underline'>Voir tout</Link>
 							</div>
 							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
-								{games.map((game, index) => (
+								{games.slice(-2).map((game, index) => (
 													<GameElem key={index} game={game}/>
 												))}
 								{games.length <= 1 ? <div className='h-[216px] info-container'> <Link to='' > </Link></div> : ''}
