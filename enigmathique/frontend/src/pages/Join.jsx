@@ -48,12 +48,15 @@ const Join = (props) => {
 		socket.connect();
 
 		return () => {
+			socket.disconnect();
+
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnection);
 			socket.off(ServerToClient.SyncAvailableStudents);
 			socket.off(ServerToClient.SyncTeamStudents);
+			
 		};
-	});
+	}, []);
 
 	const handleCreateTeam = () => {
 		if (document.getElementById('teamName').value === '') {

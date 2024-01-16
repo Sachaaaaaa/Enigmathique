@@ -43,6 +43,8 @@ const PreGame = () => {
 		socket.connect();
 
 		return () => {
+			socket.disconnect();
+
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnection);
 			socket.off(ServerToClient.SyncTeams);
