@@ -3,9 +3,6 @@ import Team from './Team';
 import PropTypes from 'prop-types';
 
 const TeamContainer = (props) => {
-	console.log(typeof props.teams);
-	console.log(props);
-
 	return (
 		<section className="w-5/12 flex h-full flex-col items-start gap-2">
 			<h2 className="text-center text-xl">
@@ -20,6 +17,7 @@ const TeamContainer = (props) => {
 								name={team.name}
 								students={team.students}
 								isValidated={team.isValidated}
+								id={team.id}
 							/>
 							<hr></hr>
 						</>

@@ -118,7 +118,7 @@ class CompositionSession {
 	};
 
 	getLockedTeams = () => {
-		return this.teamSockets.filter((t) => t.locked);
+		return this.teamSockets.filter((t) => t.locked && !t.confirmed);
 	};
 
 	getConfirmedTeams = () => {
@@ -131,6 +131,23 @@ class CompositionSession {
 
 	isStudentAvailable = (id) => {
 		return this.teamSockets.every((t) => !t.hasStudent(id));
+	}
+
+	confirmTeamComposition(teamId) {
+		const team = this.teamSockets.find((t) => t.socket.id === teamId);
+		if (team) {
+			team.confirmed = true;
+			this.sendCompositionToProfessor();
+		}
+	}
+
+	refuseTeamComposition(teamId) {
+		const team = this.teamSockets.find((t) => t.socket.id === teamId);
+		if (team) {
+			team.wipeComposition();
+
+			this.resyncAll();
+		}	
 	}
 
 	/**

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import TeamContainer from '../components/preGame/TeamContainer';
-import { socket } from 'contexts/SocketContext';
+import { SocketContext, socket } from 'contexts/SocketContext';
 import { useParams } from 'react-router-dom';
 import {
 	ClientToServer,
@@ -37,6 +37,7 @@ const PreGame = () => {
 			console.log(data);
 			setLockedTeams(data.lockedTeams);
 			setConfirmedTeams(data.confirmedTeams);
+			console.log(lockedTeams);
 		});
 
 		socket.connect();
@@ -52,24 +53,26 @@ const PreGame = () => {
 		alert('La partie va commencer');
 	};
 
-	if(!Array.isArray(lockedTeams) || !Array.isArray(confirmedTeams)) {
+	if (!Array.isArray(lockedTeams) || !Array.isArray(confirmedTeams)) {
 		throw new Error('lockedTeams and confirmedTeams must be arrays');
 	}
 
 	return (
-		<LayoutProf>
-			<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
-				<section className="h-[80%] flex flex-row justify-evenly items-center">
-					<TeamContainer teams={lockedTeams} accepted={false} />
-					<TeamContainer teams={confirmedTeams} accepted={true} />
-				</section>
-				<section className="flex flex-row justify-end items-center h-[10%] w-full">
-					<button className="btn-validate" onClick={handleStartGame}>
-						Commencer la partie
-					</button>
-				</section>
-			</main>
-		</LayoutProf>
+		<SocketContext.Provider value={socket}>
+			<LayoutProf>
+				<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
+					<section className="h-[80%] flex flex-row justify-evenly items-center">
+						<TeamContainer teams={lockedTeams} accepted={false} />
+						<TeamContainer teams={confirmedTeams} accepted={true} />
+					</section>
+					<section className="flex flex-row justify-end items-center h-[10%] w-full">
+						<button className="btn-validate" onClick={handleStartGame}>
+							Commencer la partie
+						</button>
+					</section>
+				</main>
+			</LayoutProf>
+		</SocketContext.Provider>
 	);
 };
 

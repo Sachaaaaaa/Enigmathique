@@ -30,7 +30,7 @@ class SocketTeam {
 			name: this.name,
 			locked: this.locked,
 			confirmed: this.confirmed,
-			composition: this.composition
+			students: this.composition
 		}
 	}
 
@@ -98,6 +98,9 @@ class SocketTeam {
 
 		this.composition = [];
 		this.session.onTeamCompositionChange(this);
+
+		this.locked = false;
+		this.confirmed = false;
 	}
 }
 

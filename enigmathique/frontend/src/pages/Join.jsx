@@ -42,7 +42,7 @@ const Join = (props) => {
 		});
 
 		socket.on(ServerToClient.SyncTeamStudents, (data) => {
-			setSelected(data.composition.composition);
+			setSelected(data.composition.students);
 		});
 
 		socket.connect();

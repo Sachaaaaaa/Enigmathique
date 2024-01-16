@@ -15,6 +15,8 @@ class SocketProfessor {
 		this.socket = socket;
 		this.manager = session;
 
+		this.socket.on(ClientToServer.ValidateTeam, this.onConfirmTeamComposition);
+		this.socket.on(ClientToServer.RefuseTeam, this.onRefuseTeamComposition);
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
 	}
 
@@ -23,16 +25,17 @@ class SocketProfessor {
 		this.socket.removeAllListeners();
 	}
 
-	onConfirmTeamComposition = (teamId) => {
-		console.log(clc.yellowBright('[Professor] Confirmation de la composition de l\'équipe ' + teamId));
+	onConfirmTeamComposition = (data) => {
+		console.log(data);
+		console.log(clc.yellowBright('[Professor] Confirmation de la composition de l\'équipe ' + data.id));
 
-		this.manager.confirmTeamComposition(teamId);
+		this.manager.confirmTeamComposition(data.id);
 	}
 
-	onCancelTeamComposition = (teamId) => {
-		console.log(clc.yellowBright('[Professor] Annulation de la composition de l\'équipe ' + teamId));
+	onRefuseTeamComposition = (data) => {
+		console.log(clc.yellowBright('[Professor] Annulation de la composition de l\'équipe ' + data.id));
 
-		this.manager.cancelTeamComposition(teamId);
+		this.manager.refuseTeamComposition(data.id);
 	}
 
 	sendComposition = (availableStudents, lockedTeams, confirmedTeams) => {
