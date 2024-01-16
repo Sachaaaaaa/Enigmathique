@@ -1,84 +1,56 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import LayoutProf from "../layouts/LayoutProf";
 import {useCreationGameContext} from "../components/contexts/CreationGame.context";
 import TeamContainer from "../components/preGame/TeamContainer";
+import { socket } from 'contexts/SocketContext';
+import { useSearchParams } from 'react-router-dom';
+import { ClientToServer,	ConnectionType, ServerToClient } from 'data/socketMessages';
 
 const PreGame = () => {
+	const [lockedTeams, setLockedTeams] = useState([]);
+	const [confirmedTeams, setConfirmedTeams] = useState([]);
+	
 
-	const waitingTeams = [
-		{
-			name: 'Team 1',
-			students: [
-				{
-					name: 'Tardy',
-					firstname: 'Mathéo',
+	const sessionId = 1;
+	const token = 'UGVB';
 
-				},
-				{
-					name: 'Dupuis',
-					firstname: 'Aboubacar aqualand népal',
-				},
-			],
-			isValidated: false,
-		},
-		{
-			name: 'Team 2',
-			students: [
-				{
-					name: 'Briand',
-					firstname: 'Damien',
-				},
-				{
-					name: 'Dalban',
-					firstname: 'Yvain',
-				},
-			],
-			isValidated: false,
-		},
-		{
-			name: 'Team 3',
-			students: [
-				{
-					name: 'Guillevic',
-					firstname: 'Mathéo',
-				},
-				{
-					name: 'Wos',
-					firstname: 'Sacha',
-				},
-			],
-			isValidated: false,
-		},
-		{
-			name: 'Team 4',
-			students: [
-				{
-					name: 'Pivot',
-					firstname: 'Raphaël',
-				},
-				{
-					name: 'Bergery',
-					firstname: 'Loic',
-				},
-			],
-			isValidated: false,
-		},
-
-	]
-	const {setTeams} = useCreationGameContext();
-
-
-	const loadTeams = () => {
-		setTeams(waitingTeams);
-	}
+	// Met à jour l'id de session dans le handshake du socket
+	socket.io.opts.query = {
+		token,
+		sessionId,
+		connectionType: ConnectionType.TeamComposition,
+	};
 
 	useEffect(() => {
-		loadTeams();
+		socket.on(ServerToClient.Connection, () => {
+			console.log('Connecté au serveur');
+		});
+
+		socket.on(ServerToClient.Disconnection, () => {
+			console.log('Déconnecté du serveur');
+		});
+
+		socket.on(ServerToClient.SyncTeams, (data) => {
+			setLockedTeams(data.lockedTeams);
+			setConfirmedTeams(data.confirmedTeams);
+		});
+
+		socket.connect();
+
+		return () => {
+			socket.off(ServerToClient.Connection);
+			socket.off(ServerToClient.Disconnection);
+			socket.off(ServerToClient.SyncTeams);
+		};
+
 	}, []);
 
 	const handleStartGame = () => {
 		alert('La partie va commencer');
-	}
+	};
+
+	console.log(lockedTeams);
+	console.log(confirmedTeams);
 
 	return (
 		<LayoutProf>
@@ -88,8 +60,8 @@ const PreGame = () => {
 						<h1 className='font-bold'>Code de connexion : UGVB</h1>
 					</section>
 					<section className="h-[80%] flex flex-row justify-evenly items-center">
-						<TeamContainer accepted={false}/>
-						<TeamContainer accepted={true}/>
+						<TeamContainer teams={lockedTeams} accepted={false}/>
+						<TeamContainer teams={confirmedTeams} accepted={true}/>
 					</section>
 					<section className='flex flex-row justify-end items-center h-[10%] w-full'>
 						<button className='btn-validate' onClick={handleStartGame}>Commencer la partie
