@@ -2,12 +2,17 @@
  * Définition des opérations CRUD pour les professeurs
 */
 
-const bcrypt = require('bcrypt');
+require('dotenv').config();
+const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const db = require("../models/db.js");
 const Professor = db.professor;
 const Op = db.Sequelize.Op;
-const secretKey = 'bloubiboulba';
+//const secretKey = 'bloubiboulba';
+
+// Génère une chaîne aléatoire de longueur length
+// Provient de https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+
 
 // Créer et enregistrer un nouveau professeur
 exports.register = async (req, res) => {
@@ -26,7 +31,7 @@ exports.register = async (req, res) => {
 		lastname: req.body.lastname,
 		firstname: req.body.firstname,
 		mail: req.body.mail,
-		password: bcrypt.hashSync(req.body.password, 10),
+		password: await argon2.hash(req.body.password + process.env.PEPPER_KEY),
 	};
 
 
@@ -35,7 +40,7 @@ exports.register = async (req, res) => {
 	Professor.create(professor)
 		.then(data => {
       // Génère le token de connexion
-      const token = jwt.sign( {id: data['dataValues']['id']}, secretKey, { expiresIn: '1h' });
+      const token = jwt.sign( {id: data['dataValues']['id']}, process.env.SECRET_KEY, { expiresIn: '1h' });
 			res.status(201).send({
 				token: token,
 			});
@@ -64,13 +69,14 @@ exports.login = async (req, res) => {
 	// Si ce prof existe
 	if(existingProfessor){
 
-		// On récupère le mdp du prof
+		// On récupère le mdp et le sel du prof
 		const password = existingProfessor['dataValues']['password']
+		const salt = existingProfessor['dataValues']['salt']
 
 		// On vérifie qu'il s'agissent du bon mdp
-		if(bcrypt.compareSync(req.body.password, password)) {
+		if(await argon2.verify(password, req.body.password + process.env.PEPPER_KEY)) {
       // On récupère l'id du prof pour le token
-      const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, secretKey, { expiresIn: '1h' });
+      const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, process.env.SECRET_KEY, { expiresIn: '1h' });
 			res.status(201).send({
 				token: token,
 			});
