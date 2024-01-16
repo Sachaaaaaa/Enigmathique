@@ -38,28 +38,28 @@ const ClassElement = ({classe, onChange}) => {
 			</h3>
 			<Link to={`/class/${classe.id}`}>
 				<button
-					className='btn-utils-course-student-icons'>
+					className='btn-utils btn-utils-course-student-icons'>
 					<CiSquareMore size='1.5em'/>
 					<p>Voir les élèves</p>
 				</button>
 			</Link>
 			<div className='ml-auto space-x-3'>
+				<Link to='/'>
+					<button
+						className='btn-utils btn-utils-course-student-stat'>
+						<ImStatsDots color='white' size='1.5em'/>
+					</button>
+				</Link>
 				<button
-					className='btn-utils-course-student-edit'
+					className='btn-utils btn-utils-course-student-edit'
 					onClick={() => setEditModalOpen(true)}>
 					<MdOutlineModeEdit size='1.5em'/>
 				</button>
 				<button
-					className='btn-utils-course-student-delete'
+					className='btn-utils btn-utils-course-student-delete'
 					onClick={() => setDeleteModalOpen(true)}>
 					<MdDeleteForever size='1.5em'/>
 				</button>
-				<Link to='/'>
-					<button
-						className='btn-utils-course-student'>
-						<ImStatsDots color='white' size='1.5em'/>
-					</button>
-				</Link>
 			</div>
 			{editModalOpen && (
 				<Modal setOpenModal={setEditModalOpen} height='400'>
@@ -151,7 +151,7 @@ const ListClass = () => {
 		<>
 			<div className='flex justify-end p-5'>
 				<button
-					className="btn-utils-course-student-icons"
+					className="btn-utils btn-utils-course-student-icons"
 					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer
 					une classe</p>
 				</button>

@@ -48,16 +48,16 @@ const ClassElement = ({student, onChange}) => {
 				<div className="flex-grow"></div>
 				<div className="flex justify-center space-x-5 mt-auto">
 					<button
-						className='btn-utils-course-student'>
+						className='btn-utils btn-utils-course-student-stat'>
 						<ImStatsDots color='white' size='1.5em'/>
 					</button>
 					<button
-						className='btn-utils-course-student-edit'
+						className='btn-utils btn-utils-course-student-edit'
 						onClick={() => setEditModalOpen(true)}>
 						<MdOutlineModeEdit size='1.5em'/>
 					</button>
 					<button
-						className='btn-utils-course-student-delete'
+						className='btn-utils btn-utils-course-student-delete'
 						onClick={() => setDeleteModalOpen(true)}>
 						<MdDeleteForever size='1.5em'/>
 					</button>
@@ -191,7 +191,7 @@ const ListStudents = (props) => {
 					/>
 				</section>
 				<button
-					className="btn-utils-course-student-icons"
+					className="btn-utils btn-utils-course-student-icons"
 					onClick={() => setCreateModalOpen(true)}><FaPlus size='1.5em'/>
 					<p>Ajouter un élève</p>
 				</button>

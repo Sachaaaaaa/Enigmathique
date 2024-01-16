@@ -75,6 +75,9 @@
     .btn-utils-course-student {
         @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
     }
+    .btn-utils{
+        @apply text-white font-bold rounded-full whitespace-normal p-3
+    }
 
     .btn-utils-course-student:hover {
         @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
@@ -82,8 +85,7 @@
 
 
     .btn-utils-course-student-icons {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
-        items-center
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] flex space-x-2 items-center
     }
 
     .btn-utils-course-student-icons:hover {
@@ -91,14 +93,14 @@
     }
 
     .btn-utils-course-student-edit {
-        @apply bg-[#FB7D5B] text-white font-bold rounded-full whitespace-normal p-3
+        @apply bg-[#FB7D5B]
     }
 
     .btn-utils-course-student-edit:hover {
         @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
     }
     .btn-utils-course-student-stat {
-        @apply bg-[#4C49ED] text-white font-bold rounded-full whitespace-normal p-3
+        @apply bg-[#4C49ED]
     }
 
     .btn-utils-course-student-stat:hover {
@@ -106,12 +108,13 @@
     }
 
     .btn-utils-course-student-delete {
-        @apply bg-[#EF4565] text-white font-bold rounded-full whitespace-normal p-3
+        @apply bg-[#EF4565]
     }
 
     .btn-utils-course-student-delete:hover {
         @apply bg-gradient-to-r from-[#F87A90] to-[#FF4565];
     }
+
     .btn-back {
         @apply bg-gradient-to-r from-[#DDDDDD] to-[#CCCCCC] text-black font-bold rounded-full whitespace-normal p-3 flex space-x-2
         items-center
