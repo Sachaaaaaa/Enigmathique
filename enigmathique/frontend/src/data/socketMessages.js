@@ -43,7 +43,7 @@ const ClientToServer = {
 	// Equipe
 	AddStudent: 'addStudent', // + {studentId: int}
 	RemoveStudent: 'removeStudent', // + {studentId: int}
-	ConfirmTeam: 'confirmTeam', // { }
+	LockTeam: 'confirmTeam', // { }
 
 	// Professeur
 	ValidateTeam: 'validateTeam', // + {teamId: int}

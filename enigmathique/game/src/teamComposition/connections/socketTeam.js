@@ -11,7 +11,9 @@ class SocketTeam {
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
 		this.socket.on(ClientToServer.AddStudent, this.onAddStudent);
 		this.socket.on(ClientToServer.RemoveStudent, this.onRemoveStudent);
+		this.socket.on(ClientToServer.LockTeam, this.onLockTeam);
 
+		this.name = 'undef';
 		this.composition = [];
 
 		this.locked = false;
@@ -70,9 +72,10 @@ class SocketTeam {
 		this.session.onTeamCompositionChange(this);
 	}
 
-	onLockTeam = () => {
-		console.log(clc.cyan('[Team] Verrouillage de l\'équipe'));
+	onLockTeam = ({name}) => {
+		console.log(clc.cyan('[Team] Verrouillage de l\'équipe ' + clc.bold(name)));
 
+		this.name = name;
 		this.locked = true;
 		this.session.onTeamCompositionChange(this);
 	}

@@ -50,23 +50,20 @@ const Join = (props) => {
 		return () => {
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnection);
+			socket.off(ServerToClient.SyncAvailableStudents);
+			socket.off(ServerToClient.SyncTeamStudents);
 		};
 	});
 
 	const handleCreateTeam = () => {
-		if (selected.length !== 4) {
-			alert('Vous devez sélectionner 4 élèves');
-			return;
-		}
 		if (document.getElementById('teamName').value === '') {
 			alert('Vous devez donner un nom à votre équipe');
 			return;
 		}
-		const team = {
-			name: document.getElementById('teamName').value,
-			students: selected,
-		};
-		console.log(team);
+
+		const name = document.getElementById('teamName').value;
+
+		socket.emit(ClientToServer.LockTeam, {name});
 	};
 
 	return (
