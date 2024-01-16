@@ -19,36 +19,12 @@ const getOne = (id) => {
 			return response.data;
 		});
 }
-
-const createGame = (idCourse, name, teamSize) => {
-	const token = authHeader();
-	// Envoie une requête au serveur pour créer un nouvel utilisateur
-	return axios
-		.post(API_URL + 'game', {
-			idCourse,
-			name,
-			teamSize
-		}, {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-};
 const addRooms = (idGame, roomName) => {
 	const token = authHeader();
 	return axios
 		.post(API_URL + 'game/rooms', {
 			idGame,
 			roomName
-		}, {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-};
-const openGame = (idGame) => {
-	const token = authHeader();
-	return axios
-		.post(API_URL + 'game/open/' + idGame, {
-			idGame
 		}, {headers: token})
 		.then((response) => {
 			return response.data;
@@ -64,6 +40,41 @@ const acceptTeam = (idGame, idTeam) => {
 			return response.data;
 		});
 };
+
+const createGame = (idCourse, name, teamSize) => {
+	const token = authHeader();
+	// Envoie une requête au serveur pour créer un nouvel utilisateur
+	return axios
+		.post(API_URL + 'game', {
+			idCourse,
+			name,
+			teamSize
+		}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+
+
+const openGame = (idGame) => {
+	const token = authHeader();
+	return axios
+		.post(API_URL + 'game/open/' + idGame, {
+			idGame
+		}, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+const getGameBelongsToProfessor = (idProfessor) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL + 'game/gameBelongsToProf/' + idProfessor, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+
 
 
 
