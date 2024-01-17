@@ -97,7 +97,7 @@ const Dashboard = () => {
 
 	// Fonction pour afficher les parties
 	const showGames = () => {
-		if(games != null) {
+		if(games.length !== 0) {
 			if (games.length >= 2) {
 			return games.slice(-2).map((game, index) => (
 				<GameElem key={index} game={game}/>
