@@ -26,6 +26,43 @@ export default function Room001(props) {
 
 	const mesh = useRef();
 
+	const PorteInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cube015"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cube015.geometry}
+				material={materials["Metal.001"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<InformationPopup
+						title="Vous ne pouvez pas sortir !"
+						information="Vous etes un alchimiste amateur, en voulant vous introduire dans le laboratoire d'un grand alchimiste, vous vous êtes enfermer !
+						Et il ne tardera pas à revenir... Vous remarquez un trou dans la porte, il y a surement moyen de faire une potion de souris pour vous rapetissir.
+						Regardez autour de vous, il doit bien y avoir une recette quelque part !"
+						closePopup={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
 	const FeuilleInt = () => {
 		const {
 			mesh,
@@ -139,10 +176,10 @@ export default function Room001(props) {
 						enigmaId={1}
 						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
+								handleSubmitAnswer={handleSubmitAnswer}
 								title="OOH un coffre !"
 								description="Vous vous en doutiez mais il faut un code."
 								image={data.image}
-								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
 							/>
 						)}
@@ -267,6 +304,7 @@ export default function Room001(props) {
 					rotation={[0, -1.571, 0]}
 					scale={[0.6, 1, 1]}
 				>
+					{/* Remplacer le mesh par le composant PorteInt
 					<mesh
 						name="Cube015"
 						castShadow
@@ -274,6 +312,8 @@ export default function Room001(props) {
 						geometry={nodes.Cube015.geometry}
 						material={materials["Metal.001"]}
 					/>
+					*/}
+					<PorteInt/>
 					<mesh
 						name="Cube015_1"
 						castShadow

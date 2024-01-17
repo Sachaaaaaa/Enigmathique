@@ -46,7 +46,7 @@ export default function Model(props) {
 				onPointerOut={handlePointerOut}
 				onClick={handleClick}
 			>
-				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{hovered && <meshBasicMaterial color={0xf0f0ff} />}
 				{clicked && (
 					<Enigma
 						enigmaId={0}

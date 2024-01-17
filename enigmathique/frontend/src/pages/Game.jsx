@@ -58,22 +58,12 @@ const Game = () => {
 					<h1 className="text-3xl">Enigmathique</h1>
 				</div>
 				<div className="flex flex-row items-center gap-2">
-					<img src={E} alt="logo" style={{height: '4em'}}/>
+					<img src={E} alt="logo" style={{ height: '4em' }} />
 				</div>
 			</section>
 
 			{/* Bouton pour ouvrir/fermer la fenêtre */}
-			<div
-				style={{
-					position: 'absolute',
-					bottom: 0,
-					right: 0,
-					margin: '10px',
-					width: '4em',
-					height: '4em',
-					zIndex: 999,
-				}}
-			>
+			<div className='absolute bottom-0 right-0 m-4 w-16 h-16 z-50'>
 				<button onClick={toggleWindow}><img src={help} alt="help" /></button>
 			</div>
 
@@ -92,13 +82,13 @@ const Game = () => {
 				>
 					{/* Contenu de la fenêtre */}
 					<h2> <strong>Aide</strong></h2>
-					<p>Vous pouvez tourner la salle en maintenant <strong>clic gauche</strong> et en déplaçant votre souris, 
+					<p>Vous pouvez tourner la salle en maintenant <strong>clic gauche</strong> et en déplaçant votre souris,
 						déplacer la salle avec <strong>clic droit</strong>
 						et zoomer avec la molette. Passer votre souris sur tous les éléments de la scène pour voir les quelques sont interactifs.
-            Les éléments avec lesquels vous pouvez interagir <strong>change de couleur.</strong>
-            Vous pouvez aussi cliquer sur les éléments interactifs pour afficher les énigmes et rentré votre réponse.
-            Certain éléments ne donnent pas d&apos;énigmes mais des informations sur des éléments de réponse.
-						Cliqué sur la <strong>porte</strong> du niveau pour afficher le contexte de la scène. 
+						Les éléments avec lesquels vous pouvez interagir <strong>change de couleur.</strong>
+						Vous pouvez aussi cliquer sur les éléments interactifs pour afficher les énigmes et rentré votre réponse.
+						Certain éléments ne donnent pas d&apos;énigmes mais des informations sur des éléments de réponse.
+						Cliqué sur la <strong>porte</strong> du niveau pour afficher le contexte de la scène.
 					</p>
 					<button onClick={toggleWindow} style={{
 						background: '#ff6666',
