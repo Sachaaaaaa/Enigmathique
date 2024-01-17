@@ -1,17 +1,20 @@
+// ProfFollowUp.jsx
+
 import React, { useEffect, useState, useContext } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
 import { SocketContext, socket } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from 'data/socketMessages';
+import TeamDetails from './TeamDetails';
 
 function ProfFollowUp() {
-	
 	const [searchParams] = useSearchParams();
 	const sessionId = searchParams.get('sessionId');
 	const user = JSON.parse(localStorage.getItem('user'));
 	const token = user?.token;
-	
+	const [rankings, setRankings] = useState([]);
+	const [selectedTeam, setSelectedTeam] = useState(null);
 
 	// Assurez-vous que le token et le sessionId sont présents
 	if (!token) {
@@ -24,7 +27,6 @@ function ProfFollowUp() {
 		// Gérez l'absence de sessionId ici, par exemple affichez un message d'erreur
 	}
 
-	const [rankings, setRankings] = useState([]);
 	const [gameData, setGameData] = useState(null);
 
 	useEffect(() => {
@@ -51,7 +53,7 @@ function ProfFollowUp() {
 				data = data.data;
 				if (data && data.teams && typeof data.teams === 'object') {
 					const teamsData = Object.keys(data.teams).map((key) => {
-					// Assurez-vous qu'il y a des données pour cette équipe
+						// Assurez-vous qu'il y a des données pour cette équipe
 						if (data.teams[key] && data.teams[key].length > 0) {
 							const team = data.teams[key][0]; // Prendre le premier élément de chaque clé numérique
 							const roomName = team.name;
@@ -62,7 +64,6 @@ function ProfFollowUp() {
 
 							// Calculez le score en tenant compte de si l'énigme est résolue
 							const score = calculateScore(teamNumReSolved, numBadAnswer, numHint, roomIsSolved);
-
 
 							return {
 								id: key, // Utiliser la clé numérique comme identifiant unique de l'équipe
@@ -88,8 +89,6 @@ function ProfFollowUp() {
 				}
 			});
 
-
-
 			socket.connect();
 
 			// Nettoyez les écouteurs socket lorsque le composant est démonté
@@ -101,15 +100,10 @@ function ProfFollowUp() {
 		}
 	}, [token, sessionId, socket]);
 
-
-
-	// Fonction de calcul du score (vous devrez définir cela en fonction de votre logique de notation)
 	// Fonction de calcul du score
 	const calculateScore = (numSolved, numBadAnswers, numHints, roomIsSolved) => {
-		// Points de base pour les énigmes résolues, les mauvaises réponses et les indices
 		let score = numSolved * 100 - numBadAnswers * 20 - numHints * 30;
 
-		// Ajouter 300 points si la salle d'énigme est résolue
 		if (roomIsSolved) {
 			score += 300;
 		}
@@ -117,7 +111,6 @@ function ProfFollowUp() {
 		return score;
 	};
 
-	// Fonction pour obtenir l'icône de la position en fonction du rang
 	const getPositionIcon = (index) => {
 		switch (index) {
 		case 0:
@@ -131,7 +124,6 @@ function ProfFollowUp() {
 		}
 	};
 
-	// Fonction pour obtenir le style de la position basé sur le rang
 	const getPositionStyle = (index) => {
 		const positionStyles = [
 			'text-white',
@@ -139,6 +131,10 @@ function ProfFollowUp() {
 			'text-white',
 		];
 		return index < 3 ? positionStyles[index] : 'text-blue-400';
+	};
+
+	const handleDetailsClick = (team) => {
+		setSelectedTeam(team);
 	};
 
 	return (
@@ -179,7 +175,12 @@ function ProfFollowUp() {
 											{team.resolved}
 										</td>
 										<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-											<a href="#" className="text-blue-600 hover:text-blue-800">Détails</a>
+											<button
+												onClick={() => handleDetailsClick(team)}
+												className="text-blue-600 hover:text-blue-800"
+											>
+												Détails
+											</button>
 										</td>
 									</tr>
 								))}
@@ -189,6 +190,12 @@ function ProfFollowUp() {
 					{/* Pagination ou autres contrôles ici */}
 				</div>
 			</main>
+			{selectedTeam && (
+				<TeamDetails
+					teamData={selectedTeam}
+					onClose={() => setSelectedTeam(null)}
+				/>
+			)}
 		</LayoutProf>
 	);
 }
