@@ -42,8 +42,7 @@ class Game{
 	}
 	static async openGame(idGame) {
 		try {
-			const data = await GameService.openGame(idGame);
-			return new Game(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt);
+			return await GameService.openGame(idGame);
 		}catch (e) {
 			console.log(e);
 		}
