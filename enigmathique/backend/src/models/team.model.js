@@ -4,24 +4,20 @@
 module.exports = (sequelize, Sequelize) => {
     // Définition du modèle
     const Team = sequelize.define("team", {
+    
+        // Lien vers le l'étudiant contenu dans l'équipe
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false, 
+        },
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            allowNull: false, 
-            unique: true,
-        },
-        // Lien vers le l'étudiant contenu dans l'équipe
-        idStudent: {
-            primaryKey: true,
-            type: Sequelize.INTEGER,
-            allowNull: false, 
-            references: {
-                model: 'student', 
-                key: 'id', 
-            },
+            autoIncrement: true,
+            allowNull: false,
             onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
-            onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
-        },
+			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL
+          },
 
     }, { // Options
         freezeTableName: true, // Ne pas mettre de 's' à la fin du nom de la table
