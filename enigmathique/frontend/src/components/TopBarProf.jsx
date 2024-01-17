@@ -8,7 +8,7 @@ import Professor from "../models/professor.model";
 import AuthService from '../services/auth.service';
 
 
-const TopBar = () => {
+const TopBarProf = () => {
 
 	const location = useLocation();
 	const path = location.pathname.split("/");
@@ -85,4 +85,4 @@ const TopBar = () => {
 	);
 }
 
-export default TopBar;
+export default TopBarProf;
