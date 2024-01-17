@@ -69,6 +69,8 @@ class SocketTeam {
 		this.sendAnswerFeedback(enigmaId, isSolved, endMessage);
 
 		if (isSolved) {
+			this.currentRoom.onRoomClosed();
+
 			this.gameSession.onTeamSolvedEnigma(this, enigmaId);
 			if (this.currentRoom.enigmasSolved.length == this.currentRoom.enigmas.length) {
 				this.gameSession.onTeamSolvedRoom(this);
@@ -98,6 +100,11 @@ class SocketTeam {
 	 * @param {RoomPlayable} room 
 	 */
 	sendRoom = (room) => {
+		// Si la salle précédente n'était pas finie, appeller onRoomClosed
+		if (this.currentRoom && !this.currentRoom.isRoomSolved()) {
+			this.currentRoom.onRoomClosed();
+		}
+
 		this.rooms.push(room);
 		this.currentRoom = room;
 
@@ -116,6 +123,8 @@ class SocketTeam {
 	sendStartRound = () => {
 		console.log(clc.yellowBright('[Team] Envoi début du round'));
 		this.socket.emit(ServerToClient.StartRound, {});
+
+		this.currentRoom.onRoomStart();
 	}
 
 	sendAnswerFeedback = (enigmaId, isSolved, endMessage) => {
