@@ -20,11 +20,11 @@ const RoomElem = (props) => {
 			</figure>
 			<div className='flex-grow flex flex-col justify-between'>
 				<div className='p-1 flex justify-around items-center'>
-					<article className='elem-dashboard'>
+					<article className='element-info-container'>
 						<h3 className='small-title'>Chapitre</h3>
 						<p className='small-text'>{room.chapter}</p>
 					</article>
-					<article className='elem-dashboard '>
+					<article className='element-info-container'>
 						<h3 className='small-title'>Difficulté</h3>
 						<p className='small-text'>{room.difficulty}</p>
 					</article>

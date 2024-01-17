@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 import {FaSearch} from 'react-icons/fa';
 import '../createGame.css'
 import {IconContext} from 'react-icons';
-import {useCreationGameContext} from '../../contexts/CreationGame.context';
 
 
 const Room = (props) => {
@@ -57,7 +56,7 @@ Room.propTypes = {
 	difficulty: PropTypes.string.isRequired,
 	riddles: PropTypes.number.isRequired,
 	winrate: PropTypes.number.isRequired,
-	handleRoomSelection: PropTypes.func.isRequired,
+	handleRoomSelection: PropTypes.func,
 }
 
 export default Room;

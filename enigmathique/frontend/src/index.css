@@ -7,7 +7,7 @@
 
 /* width */
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 10px;
 }
  
 /* Track */
@@ -30,10 +30,56 @@
 @layer components {
 
     /**
+    * Couleurs
+     */
+     .main-background-color {
+        @apply bg-[#F5F7FA] ;  
+     }
+     .primary-font-color {
+        @apply text-[#343C6A];
+     }
+
+     .secondary-font-color {
+        @apply text-[#B1B1B1];
+     }
+
+     .primary-gradient-color {
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
+     }
+
+     /** 
+        * Styles généraux des textes
+        */
+    .small-title {
+        @apply uppercase font-semibold primary-gradient-color inline-block text-[11px] text-transparent bg-clip-text;
+    }
+    .small-text {
+        @apply text-sm leading-4 primary-font-color;
+    }
+
+    .medium-title {
+        @apply primary-font-color font-semibold;
+    }
+    .show-all-text {
+        @apply primary-font-color text-sm font-semibold hover:underline;
+    }
+
+
+    .empty-info-container {
+        @apply self-stretch min-h-[200px] info-container flex grow justify-center items-center ;
+    }
+
+    .info-container {
+        @apply bg-white mt-2 w-[15svw] min-w-[280px] grow rounded-[30px] shadow-md overflow-hidden flex flex-col;
+    }
+    .element-info-container {
+        @apply p-1 ml-3 mr-3
+    }
+    /**
     * Bouton valider
      */
     .btn-validate{
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-semibold uppercase rounded-[8px] whitespace-normal p-4;
+        @apply primary-gradient-color text-white font-semibold uppercase rounded-[8px] whitespace-normal p-4;
     }
 
     .btn-validate:hover {
@@ -81,24 +127,12 @@
         @apply flex flex-row px-0 py-0 items-center border-b-2 border-[#E6EFF5] h-1/6;
     }
 
-    .small-title {
-        @apply uppercase font-semibold bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-[11px] text-transparent bg-clip-text;
-    }
-    .small-text {
-        @apply text-sm leading-4 ;
-    }
-    .info-container {
-        @apply bg-white mt-2 w-[48%] min-w-[280px] h-full rounded-[30px] shadow-md overflow-hidden flex flex-col;
-    }
-    .elem-dashboard {
-        @apply p-1 ml-3 mr-3
-    }
 
     /**
     * Bouton utilitaire élève
      */
     .btn-utils-course-student {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
+        @apply primary-gradient-color text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
     }
     .btn-utils{
         @apply text-white font-bold rounded-full whitespace-normal p-3
@@ -149,7 +183,7 @@
     }
 
     .btn-show {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white rounded-b-[30px] w-full h-10 text-center uppercase flex items-center
+        @apply primary-gradient-color text-white rounded-b-[30px] w-full h-10 mt-1 text-center uppercase flex items-center
         justify-center transition-colors duration-300;
     }
 
@@ -169,7 +203,7 @@
     }
 
     .nav-item {
-        @apply flex flex-row justify-start items-center gap-4 w-full text-[#B1B1B1];
+        @apply flex flex-row justify-start items-center gap-4 w-full secondary-font-color;
     }
 
     .nav-item:hover {
