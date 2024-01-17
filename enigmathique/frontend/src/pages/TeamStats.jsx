@@ -23,7 +23,7 @@ const TeamStats = () => {
 				nbMis: 4,
 			},
 		},
-	]
+	];
 
 	return (
 		<LayoutProf>
@@ -32,13 +32,13 @@ const TeamStats = () => {
 					<Link to=''>{'<'}</Link>
 					<h2>Equipe de Julie Lustret et Jean-Marie Duc de Bourgogne</h2>
 				</div>
-				<div>
+				<div className='flex'>
 					<GameTeam rooms={rooms}/>
 					<ScoreTeam rooms={rooms}/>
 				</div>
 			</main>
 		</LayoutProf>
-	)
-}
+	);
+};
 
 export default TeamStats;
