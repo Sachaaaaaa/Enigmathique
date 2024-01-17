@@ -38,7 +38,7 @@ module.exports = app => {
 	router.post("/student/", middleware.verifyGameToken, team.addStudents, middleware.verifyErrors);
 
 	// Ajouter les scores d'une équipe
-	router.post("/score/:id", middleware.verifyGameToken, team.addScores, middleware.verifyErrors);
+	router.post("/score/", middleware.verifyGameToken, team.addScores, middleware.verifyErrors);
 
 	app.use("/api/team", router);
 }
