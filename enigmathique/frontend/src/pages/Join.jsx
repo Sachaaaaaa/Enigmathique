@@ -45,6 +45,11 @@ const Join = (props) => {
 			setSelected(data.composition.students);
 		});
 
+		socket.on(ServerToClient.CompositionFinished, () => {
+			alert('La composition des équipes est terminée, faire quelque chose ici');
+			// TODO: Rediriger vers la page de jeu avec le bon CODE de session
+		});
+
 		socket.connect();
 
 		return () => {
@@ -54,7 +59,7 @@ const Join = (props) => {
 			socket.off(ServerToClient.Disconnection);
 			socket.off(ServerToClient.SyncAvailableStudents);
 			socket.off(ServerToClient.SyncTeamStudents);
-			
+			socket.off(ServerToClient.CompositionFinished);
 		};
 	}, []);
 
