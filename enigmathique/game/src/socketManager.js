@@ -63,7 +63,7 @@ class SocketManager {
 
 		// Redirige vers le bon gestionnaire
 		if (connectionType == ConnectionType.Game) {
-			this.gameManager.handleConnection(socket);
+			this.gameManager.handleConnection(socket, sessionId);
 		} else if (connectionType == ConnectionType.TeamComposition) {
 			this.teamCompositionManager.handleConnection(socket, sessionId);
 		} else {

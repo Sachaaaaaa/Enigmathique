@@ -22,7 +22,7 @@ class CompositionSession {
 
 	fetchStudents = async() => {
 		// Récupére les élèves disponibles depuis l'API
-		this.students = await ApiService.getTeamsFromId(this.sessionId);
+		this.students = await ApiService.getStudentsFromId(this.sessionId);
 		// Resync tout si quelqu'un se connecte avant que les élèves soient récupérés
 		this.resyncAll();
 	};

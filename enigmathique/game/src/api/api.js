@@ -40,19 +40,17 @@ class ApiService {
 			console.log(response);
 			return response;
 		} catch (error) {
-			console.log(error);
 			return null;
 		}
 	}
 
-	static async getTeamsFromId(id) {
+	static async getStudentsFromId(id) {
 		const endpoint = `/game/course/${id}`;
 		try {
 			const response = await this.sendRequest('GET', endpoint);
 			console.log(response);
 			return response;
 		} catch (error) {
-			console.log(error);
 			return null;
 		}
 	}
@@ -61,10 +59,8 @@ class ApiService {
 		if (id == null) return null;
 
 		const endpoint = `/game/gameState/${id}`;
-		console.log(endpoint);
 		try {
 			const response = await this.sendRequest('GET', endpoint);
-			console.log(response);
 			return response;
 		} catch (error) {
 			console.log(error);
@@ -72,9 +68,36 @@ class ApiService {
 		}
 	}
 
+
+	static async getRoomsFromId(id) {
+		if (id == null) return null;
+
+
+		// Cette route retourne []
+		const endpoint = `/game/rooms/${id}`;
+		try {
+			const response = await this.sendRequest('GET', endpoint);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+		
+	}
+
 	static async postTeamsComposition(sessionId, teams) {
-		// TODO: Envoyer la requête à l'API
+		// TODO: Envoyer la requête à l'API (lorsque route implémentée)
 		return null;
+	}
+
+	static async postTeamsScore(sessionId, scores) {
+		// TODO: Envoyer la requête à l'API (lorsque route implémentée)
+		return null;
+	}
+
+	static async postSessionEnd(sessionId) {
+		// TODO: Envoyer la requête à l'API (lorsque route implémentée)
+		return null;	
 	}
 }
 
