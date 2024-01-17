@@ -95,6 +95,23 @@ const Dashboard = () => {
 		);
 	};
 
+	// Fonction pour afficher les parties
+	const showGames = () => {
+		if(games != null) {
+			if (games.length >= 2) {
+			return games.slice(-2).map((game, index) => (
+				<GameElem key={index} game={game}/>
+			));
+			} else if (games.length === 1) {
+				return <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>;
+			}
+		} else {
+			return <> <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
+			<div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div> </>;
+		
+		}
+	}
+
 	return (
 		<LayoutProf>
 			<main className='main-background-color flex flex-wrap flex-grow justify-between overflow-y-scroll overflow-x-hidden'>
@@ -105,13 +122,7 @@ const Dashboard = () => {
 								<Link to='/games' className='show-all-text'>Voir tout</Link>
 							</div>
 							<div className='w-full h-full flex flex-wrap flex-grow justify-between items-center gap-2'>
-								{games.slice(-2).map((game, index) => (
-													<GameElem key={index} game={game}/>
-												))}
-								{games.length <= 1 && <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>}
-								{games.length === 0 && <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>}
-
-
+								{showGames()}
 							</div>
 						</div>
 						<div className='flex flex-col p-5 pt-2'>
