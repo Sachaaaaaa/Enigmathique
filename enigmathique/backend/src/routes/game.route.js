@@ -10,7 +10,7 @@ module.exports = app => {
 	// Quatre statues d'une partie : créée, ouverte, en cours, terminée
 
 	// Créer une partie
-	router.post("/", middleware.verifyToken, game.create);
+	router.post("/", middleware.verifyToken, game.create, middleware.verifyErrors);
 
 
 	// Accepte une équipe au sein de la partie
@@ -20,37 +20,43 @@ module.exports = app => {
 	router.post("/rooms/", middleware.verifyToken, game.addRooms);
 
 	// Récupérer toutes les parties du professeur connecté
-	router.get("/", middleware.verifyToken, game.findAll);
-
-	// Vérifie si une partie, à partir de son id, appartient au prof
-	router.post("/gameBelongsToProf/:id", middleware.verifyGameToken, game.gameBelongsToProf);
+	router.get("/", middleware.verifyToken, game.findAll, middleware.verifyErrors);
 
 	// Récupérer une partie à partir de son id
-	router.get("/:id", middleware.verifyToken, game.findById);
+	router.get("/:id", middleware.verifyToken, game.findOne, middleware.verifyErrors);
+
+	// Ouvre une partie (aux élèves)
+	router.post("/open/:id", middleware.verifyToken, game.open, middleware.verifyErrors);
+
+	// Ferme une partie (aux élèves)
+	router.post("/close/:id", middleware.verifyToken, game.close, middleware.verifyErrors)
+
+
+
+	// Méthode interne :
 	
+	// Termine une partie 
+	router.post("/end/:id", middleware.verifyGameToken, game.end)
+
+	// Récupère les score d'une partie 
+	router.post("/score/:id", middleware.verifyGameToken, game.getScore, middleware.verifyErrors)
+
+	// Récupérer les élèves en fonction du code de la partie (il faut ouvrir la game avant)
+	router.get("/course/:code", middleware.verifyGameToken, game.course, middleware.verifyErrors)
 
 	// Récupérer l'état d'une à partir de son id
 	router.get("/gameState/:id", middleware.verifyGameToken, game.getState);
 
 	// Récupérer les rooms d'une à partir de son id
 	router.get("/rooms/:id", middleware.verifyGameToken, game.getRooms);
+
+	// Vérifie si une partie, à partir de son id, appartient au prof
+	router.post("/gameBelongsToProf/:id", middleware.verifyGameToken, game.gameBelongsToProf, middleware.verifyErrors)
 	
-	//post
-	// Ouvre une partie (aux élèves)
-	router.post("/open/:id", middleware.verifyToken, game.open);
+	// Récupérer l'id de la game à partir du code
+	router.get("/getIdFromCode/:code", middleware.verifyGameToken, game.getIdFromCode, middleware.verifyErrors);
+	
 
-	// post
-	// Ferme une partie (aux élèves)
-	router.post("/close/:id", middleware.verifyToken, game.close)
-
-	// Termine une partie 
-	router.post("/end/:id", middleware.verifyGameToken, game.end)
-
-	// Récupère les score d'une partie 
-	router.post("/score/:id", middleware.verifyGameToken, game.getScore)
-
-	// Récupérer les élèves en fonction du code de la partie (il faut ouvrir la game avant)
-	router.get("/course/:code", middleware.verifyGameToken, game.course)
 
 	app.use("/api/game", router);
 }
