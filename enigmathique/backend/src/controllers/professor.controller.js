@@ -16,18 +16,18 @@ const Op = db.Sequelize.Op;
 // 									 READ                                      //
 /////////////////////////////////////////////////////////////////////////////////
 
-exports.findOne = (req, res) => {
-
-	// Récupère le professeur connecté
-	Professor.findOne({ where: { id: req.tokenId } })
-		.then(data => {
-			return res.status(200).json(data);
-		})
-		.catch(err => {
-			return res.status(404).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération des professeurs."
-			});
+exports.findOne = async (req, res) => {
+	try {
+		// Récupère le professeur connecté
+		const professor = await Professor.findOne({ where: { id: req.tokenId }, attributes: { exclude: ['password', 'mail'] } })
+		return res.status(200).json(professor);
+	
+	// Gère les erreurs
+	}catch(err) {
+		return res.status(404).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des professeurs."
 		});
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -58,30 +58,28 @@ exports.update = async(req, res) => {
 	}
 	
 
-	// Effectue la requête de mise à jour
-	await Professor.update(updateData, {where: { id: req.tokenId} })
+	try{
+		// Effectue la requête de mise à jour
+		const updatedRows = await Professor.update(updateData, {where: { id: req.tokenId} })
 
 		// Vérifie que la colonne à effectivement été mise à jour
-	  .then(num => {
-		if (num == 1) {
-			return res.status(201).send({
+		if (updatedRows == 1) {
+			return res.status(201).json({
 				message: "Le professeur à été mise a jour avec succès"
 			});
 
-		// Si aucunes colonnes traités on relève une erreur
 		} else {
-			return res.status(404).send({
+			return res.status(404).json({
 				message: "Impossible de mettre à jour le professeur"
 			});
 		}
-	  })
-
-	  // Gère les erreurs
-	  .catch(err => {
+	
+	// Gère les erreurs
+	} catch(err) {
 		return res.status(500).send({
 			message: err.message || "Une erreur s'est produite lors de la récupération du professeur."
 		});
-	  });
+	}
   };
 
   
@@ -91,32 +89,29 @@ exports.update = async(req, res) => {
 
 
 // methode pour supprimer un professeur en fonction de son id
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
 
-	// Effectue la requête de suppression du professeur connecté
-	Professor.destroy({ where: { id: req.tokenId} })
-	.then(num => {
-
+	try {
+		// Effectue la requête de suppression du professeur connecté
+		const destroyedRows = await Professor.destroy({ where: { id: req.tokenId} })
+		
 		// Vérifie si le professeur a bien été supprimé
-		if (num == 1) {
-		  	return res.status(200).json({
+		if (destroyedRows == 1) {
+			return res.status(200).json({
 				message: "La classe a été supprimée avec succès"
-		});
-
-		// Si aucunes colonnes traités on relève une erreur
+		})
+		// Si aucunes colonnes traités on relève une erreur	
 		} else {
 			return res.status(404).json({
 				message: "Impossible de supprimer la classe"
-		  });
-		}
-	  	})
+		})}
 
-		// Gère les erreurs
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-			});
-		});	
+	// Gère les erreurs
+	} catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+		});
+	}
 }
 
 

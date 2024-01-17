@@ -6,13 +6,13 @@ exports.verifyToken = (req, res, next) => {
     const token = req.headers['authorization']
 
     // Si il n'y a pas de token, indique à l'utilisateur qu'on est pas connecté
-    if(!token){
+    if (!token) {
         res.status(403).send({
-			message: "Vous n'êtes pas connecté"
-		});
-		return;
+            message: "Vous n'êtes pas connecté"
+        });
+        return;
     }
-    
+
 
     // Vérifie la validité du token, si il l'est on accède a la ressource demandé, sinon on retourne une erreur 403
     try {
@@ -21,10 +21,41 @@ exports.verifyToken = (req, res, next) => {
         next()
     } catch (error) {
         res.status(403).send({
-			message: "Token non valide"
-		});
-		return;
+            message: "Token non valide"
+        });
+        return;
     }
+}
+
+exports.verifyErrors = (err, req, res, next) => {
+    return res.status(err.statusCode || 500).json({
+        message: err.message || "Une erreur s'est produite lors de la récupération du professeur."
+    });
+}
+
+exports.verifyGameToken = (req, res, next) => {
+    const token = req.headers['authorization']
+    
+    if(req.body.tokenProf){
+        const token = req.body.tokenProf
+        const decodedToken = jwt.verify(token, secretKey)
+        req.tokenId = decodedToken.id;
+    }
+
+    if (!token) {
+        return res.status(403).json({
+            message: "Vous n'êtes pas connecté"
+        });
+    }
+
+    // Compare avec process.env.GAME_TOKEN
+    if (token !== process.env.GAME_TOKEN) {
+        return res.status(403).json({
+            message: "Token de jeu invalide"
+        });
+    }
+
+    next()
 }
 
 

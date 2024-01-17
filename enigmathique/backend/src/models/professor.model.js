@@ -25,7 +25,6 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 			unique: true,
 		},
-
 		// Mot de passe du professeur
 		password: {
 			type: Sequelize.STRING,
