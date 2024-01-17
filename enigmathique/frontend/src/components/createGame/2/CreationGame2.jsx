@@ -37,13 +37,11 @@ const CreationGame2 = (props) => {
 			return;
 		}
 		if (confirm('Les informations entrées sont exactes ?')) {
-			console.log(formData);
-
 			const game = await createGame();
 			await addRooms(game.id, selectedRooms);
-			const code = await openGame(game.id);
-			console.log(code);
-			navigate(`/pregame/${code.code}`);
+			const res = await openGame(game.id);
+			console.log(res.code);
+			navigate(`/pregame/${res.code}`);
 
 			return;
 		}
