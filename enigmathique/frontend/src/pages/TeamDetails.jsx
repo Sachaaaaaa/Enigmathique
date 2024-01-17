@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 function TeamDetails({ teamData, onClose }) {
 	return (
 		<div className="fixed inset-0 flex items-center justify-center z-50">
@@ -57,3 +56,5 @@ TeamDetails.propTypes = {
 };
 
 export default TeamDetails;
+
+
