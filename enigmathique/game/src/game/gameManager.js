@@ -43,10 +43,7 @@ class GameManager {
 
 		// Recupère l'id de session
 		const sessionId = socket.handshake.query.sessionId;
-
-		// TODO: Vérifier si la session est valide
-		// { ... }
-
+		
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
 			this.sessions[sessionId] = new Session(this, sessionId, [1], this.roomsData);

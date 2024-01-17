@@ -73,6 +73,7 @@ class ApiService {
 	}
 
 	static async postTeamsComposition(sessionId, teams) {
+		// TODO: Envoyer la requête à l'API
 		return null;
 	}
 }
