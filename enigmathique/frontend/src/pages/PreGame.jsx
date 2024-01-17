@@ -64,8 +64,8 @@ const PreGame = () => {
 			<LayoutProf>
 				<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
 					<section className="h-[80%] flex flex-row justify-evenly items-center">
-						<TeamContainer teams={lockedTeams} accepted={false} />
-						<TeamContainer teams={confirmedTeams} accepted={true} />
+						<TeamContainer teams={lockedTeams} isValidated={false} />
+						<TeamContainer teams={confirmedTeams} isValidated={true} />
 					</section>
 					<section className="flex flex-row justify-end items-center h-[10%] w-full">
 						<button className="btn-validate" onClick={handleStartGame}>
