@@ -98,11 +98,11 @@ function ProfFollowUp() {
 						<table className="min-w-full">
 							<thead>
 								<tr className="text-left">
-									<th className="pb-4 text-blue-500">Position</th>
-									<th className="pb-4 text-blue-500">Équipe</th>
-									<th className="pb-4 text-blue-500">Score</th>
-									<th className="pb-4 text-blue-500">Énigmes Résolues</th>
-									<th className="pb-4 text-blue-500">Action</th>
+									<th className="table-title">Position</th>
+									<th className="table-title">Équipe</th>
+									<th className="table-title">Score</th>
+									<th className="table-title">Énigmes Résolues</th>
+									<th className="table-title">Action</th>
 								</tr>
 							</thead>
 							<tbody>

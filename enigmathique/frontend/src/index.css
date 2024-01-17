@@ -47,11 +47,14 @@
         @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
      }
 
+     .gradient-font {
+        @apply primary-gradient-color text-transparent bg-clip-text;
+     }
      /** 
         * Styles généraux des textes
         */
     .small-title {
-        @apply uppercase font-semibold primary-gradient-color inline-block text-[11px] text-transparent bg-clip-text;
+        @apply uppercase font-semibold inline-block text-[11px] gradient-font;
     }
     .small-text {
         @apply text-sm leading-4 primary-font-color;
@@ -64,6 +67,9 @@
         @apply primary-font-color text-sm font-semibold hover:underline;
     }
 
+    .table-title {
+        @apply pb-4 uppercase text-xs gradient-font ;
+    }
 
     .empty-info-container {
         @apply self-stretch min-h-[200px] info-container flex grow justify-center items-center ;
