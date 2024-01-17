@@ -1,23 +1,48 @@
 const socketio = require('socket.io');
 const clc = require('cli-color');
-const { ServerToClient, ClientToServer } = require('./socketMessages');
-const SocketTeam = require('./team');
+const { ServerToClient, ClientToServer } = require('../socketMessages');
+const SocketTeam = require('./connections/socketTeam');
+const SocketProfessor = require('./connections/socketProfessor');
+const RoomPlayable = require('./rooms/roomPlayable');
 
-const TIME_PER_ROUND = 60 * 10; // 10 minutes
+//const TIME_PER_ROUND = 60 * 10; // 10 minutes
+const TIME_PER_ROUND = 5; // 5 secondes
 
-class Session {
+
+class GameSession {
+	/**
+	 * @param {Game} game
+	 * @param {int} sessionId
+	 * @param {int[]} expectedTeams
+	 * @param {RoomPlayable[]} rooms
+	 */
 	constructor(game, sessionId, expectedTeams, rooms) {
 		this.game = game;
 		this.sessionId = sessionId;
+		
+		// Connexions
 		this.teams = [];
 		this.professors = [];
+		
+		// Rooms de la session
 		this.rooms = rooms;
+
+		// Equipes attendues
 		this.expectedTeams = expectedTeams;
-
-		this.results = {};
+		
+		// Informations de la session
+		this.sessionStartTime = 0;
 		this.roundStartTime = 0;
+		this.numRounds = rooms.length;
 		this.round = -1;
+		
+		// Calcul le nombre total d'énigmes dans la session
+		this.totalEnigmas = 0;
+		this.rooms.forEach(room => {
+			this.totalEnigmas += room.enigmas.length;
+		});
 
+		// Etat de la session
 		this.isSessionRunning = false;
 		this.isPlaying = false;
 	}
@@ -37,8 +62,21 @@ class Session {
 			teamsProgress[team.teamId] = team.getRoomsData();
 		});
 
-
 		return teamsProgress;		
+	}
+
+	/**
+	 * 
+	 * @returns {Object} Informations de la session
+	 */
+	getMetadata = () => {
+		return {
+			sessionStartTime: this.sessionStartTime,
+			roundStartTime: this.roundStartTime,
+			currentRound: this.round,
+			totalEnigma: this.totalEnigmas,
+			rooms: this.rooms.map(room => room.name),
+		};
 	}
 
 	areAllTeamsReady = () => {
@@ -52,19 +90,13 @@ class Session {
 			return;
 		}
 
-		// Vérifier que l'équipe est valide
-		if (team.teamId == null || team.teamId == undefined) {
-			console.log(clc.redBright('[Session] L\'équipe n\'a pas d\'id'));
-			return;
-		}
-
 		// Vérifier que l'équipe n'est pas déjà dans la session
 		if (this.teams.some(t => t.teamId == team.teamId)) {
 			console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} est déjà dans la session`));
 			return;
 		}
 
-		// Vérifier que l'équipe est attendue (/!\  type string et number)
+		// Vérifier que l'équipe est attendue (/!\ type string et number)
 		if (!this.expectedTeams.some((t) => t == team.teamId)) {
 			console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} n'est pas attendue`));
 			return;
@@ -72,12 +104,17 @@ class Session {
 		
 		this.teams.push(team);
 
+		// Vérifier si toutes les équipes sont présentes
 		if (this.expectedTeams.length == this.teams.length) {
 			console.log(clc.greenBright('[Session] Toutes les équipes sont présentes'));
 			this.startSession();
 		}
 	}
 
+	/**
+	 * Supprime une équipe de la session
+	 * @param {SocketTeam} team
+	 */
 	removeTeam = (team) => {
 		const index = this.teams.indexOf(team);
 		if (index >= 0) {
@@ -85,6 +122,11 @@ class Session {
 		}
 	}
 
+	/**
+	 * Lorsqu'une équipe se déconnecte
+	 * Ferme la session si il n'y a plus d'équipes
+	 * @param {SocketTeam} team 
+	 */
 	onTeamLeave = (team) => {
 		this.removeTeam(team);
 
@@ -94,10 +136,18 @@ class Session {
 		}
 	}
 
+	/**
+	 * Ajoute un professeur à la session
+	 * @param {SocketProfessor} professor 
+	 */
 	addProfessor = (professor) => {
 		this.professors.push(professor);
 	}
 
+	/**
+	 * Supprime un professeur de la session
+	 * @param {SocketProfessor} professor 
+	 */
 	removeProfessor = (professor) => {
 		const index = this.professors.indexOf(professor);
 		if (index >= 0) {
@@ -105,6 +155,9 @@ class Session {
 		}
 	}
 
+	/**
+	 * Démarre la session
+	 */
 	startSession = () => {
 		console.log(clc.greenBright('[Session] Démarrage de la session'));
 		this.isSessionRunning = true;
@@ -112,27 +165,54 @@ class Session {
 		this.rotateRooms();
 	}
 
+	/**
+	 * Fin de la session
+	 * Vérifie si la session se termine normalement ou si elle est arrêtée
+	 */
 	stopSession = () => {
 		console.log(clc.yellow('[Session] Fin de la session'));
 		this.isSessionRunning = false;
 
+		// Vérifier si la session se termine normalement ou si elle a été arrêtée
+		if (this.round >= this.numRounds) { 
+			
+		}
+
+
 		this.game.onSessionEnd(this.sessionId);
 	}
 
+	/**
+	 * Rotation des salles
+	 * Envoie la nouvelle salle à chaque équipe
+	*/
 	rotateRooms = () => {
 		console.log(clc.greenBright('[Session] Rotation des salles'));
-		// TODO: Rotation des salles
+
 		this.isPlaying = false;
 		this.round += 1;
 
+		// Vérifier si la session est terminée
+		if (this.round >= this.numRounds) {
+			console.log(clc.greenBright('[Session] Fin de la session'));
+			this.stopSession();
+			return;
+		}
+
 		// Envoi la nouvelle salle à chaque équipe
+		let i = this.round;
 		this.teams.forEach(team => {
-			team.sendRoom(this.rooms[0].toRoom(this.round));
+			const roomIndex = (i++) % this.rooms.length;
+
+			team.sendRoom(this.rooms[roomIndex].toRoom(this.round));
 		});
 	}	
 
+	/**
+	 * Démarre le round
+	 */
 	broadcastStartRound = () => {
-		console.log(clc.greenBright('[Session] Début du round'));
+		console.log(clc.greenBright('[Session] Début du round', this.round));
 		this.teams.forEach(team => {
 			team.sendStartRound();
 		});
@@ -141,6 +221,26 @@ class Session {
 		this.isPlaying = true;
 	}
 
+	/**
+	 * Permet de récupérer les informations de progression de chaque équipe pour être envoyé aux professeurs
+	 * @returns {Object} Informations de progression de chaque équipe
+	 * cf: ./example/sessionData.json
+	*/
+	getSessionResult = () => {
+		const teamsResult = {};
+		this.teams.forEach(team => {
+			teamsResult[team.teamId] = team.getProgressionData();
+		});
+
+		return {
+			metadata: this.getMetadata(),
+			teams: teamsResult,
+		};
+	}
+
+	/**
+	 * Tick à interval régulier
+	 */
 	tick = () => {
 		if (this.isPlaying) {
 			const now = Date.now();
@@ -148,10 +248,11 @@ class Session {
 			const timeLeft = TIME_PER_ROUND - elapsed / 1000;
 			console.log(clc.greenBright(`[Session] Tick: ${timeLeft} secondes restantes`));
 
-			// Affiche les énigmes résolues
-			this.teams.forEach(team => {
-				console.log(clc.greenBright(`[Session] ${team.teamId}: ${team.currentRoom.enigmasSolved.length}/${team.currentRoom.enigmas.length}`));
-			});
+			// Vérifier si le temps est écoulé
+			if (timeLeft <= 0) {
+				this.rotateRooms();
+			}
+			
 		} else if (this.isSessionRunning) {
 			console.log(clc.greenBright(`[Session] Tick: En attente de chargements des joueurs ...`));
 		} else {
@@ -159,6 +260,10 @@ class Session {
 		}
 	}
 
+	/**
+	 * Lorqu'une équipe a chargé sa salle
+	 * @param {SocketTeam} team 
+	 */
 	onTeamLoadedRoom = (team) => {
 		console.log(clc.cyanBright('[Session] Une équipe a chargé sa salle'));
 
@@ -171,16 +276,24 @@ class Session {
 		}
 	}
 
+	/**
+	 * Lorqu'une équipe a résolu une énigme
+	 * @param {SocketTeam} team 
+	 * @param {int} enigmaId 
+	 */
 	onTeamSolvedEnigma = (team, enigmaId) => {
 		console.log(clc.cyanBright('[Session] Une équipe a résolu une énigme'));
 
 		// Pour l'instant, envoie toutes les informations de progression aux professeurs
-		const teamsProgress = this.getTeamsProgress();
 		this.professors.forEach(professor => {
-			professor.sendAllTeamsProgress(teamsProgress);
+			professor.sendAllTeamsProgress(this.getSessionResult());
 		});
 	}
 
+	/**
+	 * Lorqu'une équipe a résolu sa salle
+	 * @param {SocketTeam} team 
+	 */
 	onTeamSolvedRoom = (team) => {
 		console.log(clc.cyan('[Session] Une équipe a résolu sa salle'));
 
@@ -196,4 +309,4 @@ class Session {
 	
 }
 
-module.exports = Session;
+module.exports = GameSession;

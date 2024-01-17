@@ -57,6 +57,7 @@ const ItemList = (props) => {
 		class: {
 			name: 'Mes classes',
 			path: '/class',
+			subdomains: [''],
 			icon: <MdCollectionsBookmark/>,
 		},
 		games: {
@@ -70,7 +71,9 @@ const ItemList = (props) => {
 			icon: <MdDoorFront/>,
 		},
 	}
-	const selected = path === type[props.type].path;
+	//TODO: Surveiller si ca marche avec toutes les pages
+	const selected = path.includes(type[props.type].path);
+
 
 
 	return (

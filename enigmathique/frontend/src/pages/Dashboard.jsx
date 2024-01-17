@@ -18,6 +18,8 @@ const Dashboard = () => {
 	const [courses, setCourses] = useState([]);
 	// Ajout d'un état pour avoir les parties
 	const [games, setGames] = useState([]);
+	// Ajout d'un état pour avoir les rooms
+	const [rooms, setRooms] = useState([]);
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
 	// Ajout d'un état pour suivre l'indice de la classe actuelle
@@ -43,19 +45,11 @@ const Dashboard = () => {
 		loadGames();
 	}, []);
 
-	const loadRooms = () => {
-		let rooms = [];
-		RoomService.getAllRooms().then((response) => {
-			rooms = response
-		}).catch((error) => {
-			console.log(error);
-		});
-		return rooms;
-	}
-
 	// Choix des salles à afficher
-	const roomSelection = (rooms) => {
-		if(rooms.length !== 0) {
+	const roomSelection = () => {
+		//TODO: régler le problème de chargement
+		loadRooms();
+		if(rooms.length > 2) {
 			let max = rooms.length - 1;
 			let roomSelect = [];
 			let selectedIndex = -1;
@@ -66,15 +60,25 @@ const Dashboard = () => {
 				}
 				selectedIndex = index;
 			}
-			return roomSelect;
+			return setSelectedRooms(roomSelect);
+		} else if(rooms.length !== 0){
+			setSelectedRooms(rooms);
 		} else {
-			return []
+			setSelectedRooms([]);
 		}
 	};
 
+	const loadRooms = () => {
+		RoomService.getAllRooms().then((response) => {
+			setRooms(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
 
 	useEffect(() => {
-		setSelectedRooms(roomSelection(loadRooms()));
+		roomSelection();
 	}, []); // s'éxécute seulement au montage
 
 	// Fonction pour aller à la classe précédente
@@ -93,27 +97,27 @@ const Dashboard = () => {
 
 	return (
 		<LayoutProf>
-			<main className='h-full flex bg-[#F5F7FA] flex-wrap overflow-y-scroll'>
-					<div className='w-[45svw] min-w-[280px] mr-2 flex-wrap'>
+			<main className='main-background-color flex flex-wrap flex-grow justify-between overflow-y-scroll overflow-x-hidden'>
+					<div className='w-[40svw] min-w-[280px] mr-2 flex-wrap grow'>
 						<div className='flex flex-col p-5'>
-							<div className='flex justify-between w-full min-w-[280px]'>
-								<h2 className='font-semibold'>Mes Parties</h2>
-								<Link to='/games' className='text-sm font-semibold hover:underline'>Voir tout</Link>
+							<div className='primary-font-color flex justify-between w-full min-w-[280px]'>
+								<h2 className='medium-title'>Mes Parties</h2>
+								<Link to='/games' className='show-all-text'>Voir tout</Link>
 							</div>
-							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
+							<div className='w-full h-full flex flex-wrap flex-grow justify-between items-center gap-2'>
 								{games.slice(-2).map((game, index) => (
 													<GameElem key={index} game={game}/>
 												))}
-								{games.length <= 1 ? <div className='h-[216px] info-container'> <Link to='' > </Link></div> : ''}
-								{games.length === 0 ? <div className='h-[216px] info-container'> </div> : ''}
+								{games.length <= 1 && <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>}
+								{games.length === 0 && <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>}
 
-								
+
 							</div>
 						</div>
 						<div className='flex flex-col p-5 pt-2'>
-							<div className='flex justify-between  w-full min-w-[280px]'>
+							<div className='primary-font-color flex justify-between  w-full min-w-[280px]'>
 								<h2 className='font-semibold'>Proposition de salles</h2>
-								<Link to='' className='text-sm font-semibold hover:underline'>Voir tout</Link>
+								<Link to='/rooms' className='text-sm font-semibold hover:underline'>Voir tout</Link>
 							</div>
 							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
 								{selectedRooms.map((room, index) => (
@@ -122,20 +126,19 @@ const Dashboard = () => {
 							</div>
 						</div>
 					</div>
-					<div className='flex-warp p-5'>
-						<div className='flex justify-between items-center'>
-							<h2 className='block font-semibold'>Mes Classes</h2>
+					<div className='w-[40svw] min-w-[280px] h-full flex-warp p-5 grow'>
+						<div className='primary-font-color flex justify-between w-full min-w-[280px] grow'>
+							<h2 className='medium-title'>Mes Classes</h2>
 							<div>
 								<button onClick={prevClass}><FaAngleLeft /></button>
 								<button onClick={nextClass}><FaAngleRight /></button>
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						<div>
+						<div  className='w-full'>
 							{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
 						</div>
 					</div>
-
 			</main>
 		</LayoutProf>
 	);

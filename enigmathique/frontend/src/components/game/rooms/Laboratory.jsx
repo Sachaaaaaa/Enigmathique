@@ -11,6 +11,9 @@ import { SocketContext } from '../../../contexts/SocketContext';
 import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
+import EnigmaCoffreDisplay from '../enigmas/EnigmaCoffreDisplay';
+import EnigmaChaufDisplay from '../enigmas/EnigmaChaufDisplay';
+import recette_test from '../../../assets/img/recette_test.jpg';
 
 export default function Room001(props) {
 	const socket = useContext(SocketContext);
@@ -54,7 +57,7 @@ export default function Room001(props) {
 					<InformationPopup
 						title="Recette de potion de Nano"
 						information="Cette recette vous dit quelque chose... Ca a l'air d'être une recette alternative a la potion de souris !"
-						image="undef"
+						image={recette_test}
 						closePopup={forceExit}
 					/>
 				)}
@@ -90,12 +93,14 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
+						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="L'ingrédient mystère doit être ici !"
 								description="Encore faut-il trouver le bon tiroir..."
+								hint={hint}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -132,12 +137,13 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={1}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
-							<BasicDisplayTemplate
-								title="Ouvrir le coffre"
-								description="Quel est le code du coffre ?"
+						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
+							<EnigmaCoffreDisplay
+								title="OOH un coffre !"
+								description="Vous vous en doutiez mais il faut un code."
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -174,12 +180,13 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={2}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
+						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Une bonne mixture !"
 								description="Mais pendant combien de temps il faut melanger ?"
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -216,12 +223,13 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={3}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer) => (
-							<BasicDisplayTemplate
+						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
+							<EnigmaChaufDisplay
 								title="Chaud devant !"
-								description="La cuisson est presque terminée, mais combien de temps faut-il encore attendre ?"
+								description="La potion est presque terminée, mais il ne faut pas la faire bruler !"
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
 							/>
 						)}
 						closeEnigma={forceExit}

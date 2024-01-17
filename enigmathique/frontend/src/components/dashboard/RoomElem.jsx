@@ -11,7 +11,8 @@ const RoomElem = (props) => {
 		<article className='info-container'>
 			<figure className='relative h-40 bg-blue-500 rounded-t-[30px]'
 					style={{
-						backgroundImage: `url(${require('../../assets/img/room-img/'+room.name+'.png')})`,
+						/*TODO: obtenir la bonne image*/
+						backgroundImage: `url(${require('../../assets/img/room-img/Le-labo.png')})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center'
 					}}>
@@ -19,11 +20,11 @@ const RoomElem = (props) => {
 			</figure>
 			<div className='flex-grow flex flex-col justify-between'>
 				<div className='p-1 flex justify-around items-center'>
-					<article className='elem-dashboard'>
+					<article className='element-info-container'>
 						<h3 className='small-title'>Chapitre</h3>
 						<p className='small-text'>{room.chapter}</p>
 					</article>
-					<article className='elem-dashboard '>
+					<article className='element-info-container'>
 						<h3 className='small-title'>Difficulté</h3>
 						<p className='small-text'>{room.difficulty}</p>
 					</article>
