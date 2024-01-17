@@ -30,6 +30,28 @@ function makeid(length) {
     return result;
 }
 
+// Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
+async function isStudentBelongsProfessor (idStudent, req) {
+	try {
+
+		// Récupère toutes les classes du professeur courant
+		const student = await Student.findOne({ where: { id: idStudent} });
+		if(student){
+			// Récupère les id correspondant aux classes du professeur courant
+			const idCourse = student.idCourse;
+
+			// Vérifie que la classe appartient bien au professeur
+			return await isClassBelongsProfessor(idCourse, req);
+		} else {
+			throw new Error("L'élève n'existe pas.");
+		}
+
+	} catch (err) {
+		// Gère les erreurs
+		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+	}
+}
+
 // Fonction vérifiant si une équipe, à partir de son id, appartiant au professeur
 async function isTeamBelongsProfessor(idTeam, req) {
 	try {
@@ -91,10 +113,10 @@ async function isGameBelongsProfessor(idGame, req) {
 	try {
 
 		// Récupère la partie souhaité
-		const data = await Game.findOne({ where: { id: idGame} });
-		if(data){
-			// Récupère les id des classes des parties
-			const idGame = data.idCourse;
+		const game = await Game.findOne({ where: { id: idGame} });
+		if(game){
+			// Récupère l'id des classes de la partie
+			const idGame = game.idCourse;
 
 			// Vérifie que la classe appartiennent bien au professeur
 			return await isClassBelongsProfessor(idGame, req);
@@ -136,20 +158,20 @@ exports.create = async (req, res) => {
 		teamSize: req.body.teamSize,
 	};
 
-	// Enregistrer la partie dans la base de données
-	await Game.create(game)
+	try{
+		// Enregistrer la partie dans la base de données
+		const createdGame = await Game.create(game)
 
 		// Renvoie les données créées
-		.then(data => {
-			return res.status(201).json(data);
-		})
+		return res.status(201).json(createdGame);
+	
 
 		// Gère les erreurs
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la création de la partie."
-			});
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la création de la partie."
 		});
+	}
 }
 
 
@@ -162,19 +184,21 @@ exports.findAll = async (req, res) => {
 
 	let coursesId = [];
 
-	// Récupère toutes les classes du professeur connecté
-	await Course.findAll({ where: { idProfessor: req.tokenId } })
-	.then(data => {
+	try{
+
+		// Récupère toutes les classes du professeur connecté
+		const courses = await Course.findAll({ where: { idProfessor: req.tokenId } })
+
 		// Récupère les id correspondant aux classes du professeur connécté
-		coursesId = data.map(course => course.dataValues.id);
-	})
+		coursesId = courses.map(course => course.dataValues.id);
+	
 
 	// Gère les erreurs
-	.catch(err => {
+	}catch(err) {
 		return res.status(500).json({
 			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
 		});
-	});	
+	}
 
 	try {
 		// Récupère toutes les parties correspondantes aux classes du professeur connecté
@@ -205,18 +229,17 @@ exports.findById = async (req, res) => {
 			});
 		}
 
-		// Récupère la partie souhaité
-		await Game.findOne({ where: { id: req.params.id} })
-			.then(data => {
-				return res.status(200).json(data);
-			})
+		try{
+			// Récupère la partie souhaité
+			const game = await Game.findOne({ where: { id: req.params.id} })
+			return res.status(200).json(game);
 
-			// Gère les erreurs
-			.catch(err => {
-				return res.status(500).json({
-					message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-				});
-			});	
+		// Gère les erreurs
+		}catch(err) {
+			return res.status(500).json({
+				message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
+			});
+		}
 	// Gère les erreurs
 	} catch (err) {
 		return res.status(500).json({
@@ -229,17 +252,19 @@ exports.findById = async (req, res) => {
 // 									 OTHER                                     //
 /////////////////////////////////////////////////////////////////////////////////
 
-exports.getScore = (req, res) => {
+exports.getScore = async (req, res) => {
 
-	Score.findAll({ where: { idGame: req.params.id } })
-		.then(data => {
-			res.status(200).json(data);
-		})
-		.catch(err => {
-			res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération des scores."
-			});
-		});	
+	try{
+
+		// Récupère les scores de la partie souhaité
+		const scores = await Score.findAll({ where: { idGame: req.params.id } })
+		res.status(200).json(scores);
+		
+	}catch(err) {
+		res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des scores."
+		});
+	}
 }
 
 // methode pour vérifier si une partie, à partir de son id, appartient au prof
@@ -282,18 +307,18 @@ exports.open = async (req, res) => {
 
 	GameidCourse = null
 
-	// Récupère l'id de la classe de la partie
-	await Game.findOne({ where: { id: req.params.id} })
-	.then(data => {
-		GameidCourse = data.idCourse;
-	})
+	try {
+
+		// Récupère l'id de la classe de la partie
+		const game =  Game.findOne({ where: { id: req.params.id} })
+		GameidCourse = game.idCourse;
 
 	// Gère les erreurs
-	.catch(err => {
+	}catch(err) {
 		return res.status(500).json({
 			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
 		});
-	});	
+	}
 
 	// Créer un code de la partie correspondant aux élèves de la classe concerné par la partie
 	const gameCode = {
@@ -302,20 +327,19 @@ exports.open = async (req, res) => {
 		idCourse: GameidCourse,
 	};
 
-	// Enregistrer le code dans la base de données
-	await GameCode.create(gameCode)
+	try {
+		// Enregistrer le code dans la base de données
+		const createdGameCode = await GameCode.create(gameCode)
 
 		// Renvoie les données créées
-		.then(data => {
-			return res.status(201).json(data);
-		})
+		return res.status(201).json(createdGameCode);
 
 		// Gère les erreurs
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la création de la classe."
-			});
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la création de la classe."
 		});
+	}
 }
 
 // todo : le dete renvoie des données ?
@@ -330,21 +354,21 @@ exports.close = async (req, res) => {
 	});
 	}
 
-	// Enregistrer la classe dans la base de données
-	await GameCode.destroy({ where: { idGame: req.params.id}})
+	try{
+		// Enregistrer la classe dans la base de données
+		const destroyedGameCode = await GameCode.destroy({ where: { idGame: req.params.id}})
 
 		// Renvoie les données supprimées
-		.then(data => {
-			Game.update({state: 1},{where: { id: req.params.id }});
-			return res.status(200).json(data);
-		})
+		const updatedRows = await Game.update({state: 1},{where: { id: req.params.id }});
+		return res.status(200).json(updatedRows);
+		
 
 		// Gère les erreurs
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la création de la classe."
-			});
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la création de la classe."
 		});
+	}
 }
 
 // Termine la partie
@@ -358,37 +382,37 @@ exports.end = async (req, res) => {
 	});
 	}
 
-	// Enregistrer la classe dans la base de données
-	await Game.update({state: 2},{where: { id: req.params.id }})
-	// Renvoie les données supprimées
-	.then(data => {
-		return res.status(201).json(data);
-	})
+	try{
+
+		// Enregistrer la classe dans la base de données
+		const updatedRows = await Game.update({state: 2},{where: { id: req.params.id }})
+		
+		// Renvoie les données mise a jours
+		return res.status(201).json(updatedRows);
 
 	// Gère les erreurs
-	.catch(err => {
+	}catch(err) {
 		return res.status(500).json({
 			message: err.message || "Une erreur s'est produite lors de la création de la classe."
 		});
-	});
+	}
 }
 
 
 // methode pour récuperer une classe à partir du code de la partie
 exports.course = async (req, res) => {
 
-	// Récupère la classe courrespondant au code
-	await GameCode.findOne({ where: { code: req.params.code} })
-		.then(data => {
-			return res.status(200).json(data);
-		})
+	try{
+		// Récupère la classe courrespondant au code
+		const gameCode = await GameCode.findOne({ where: { code: req.params.code} })
+		return res.status(200).json(gameCode);
 
-		// Gère les erreurs
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-			});
-		});	
+	// Gère les erreurs
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
+		});
+	}	
 }
 
 // Ajoute des salles à une partie
@@ -397,10 +421,9 @@ exports.addRooms = async(req, res) => {
 	
 	// Valide la requête
 	if (!req.body.idGame || !req.body.roomName) {
-		res.status(400).json({
+		return res.status(400).json({
 			message: "Il manque des informations pour ajouter des salles."
 		});
-		return;
 	}
 
 	// Vérifie que la partie appartient bien au professeur
@@ -416,18 +439,18 @@ exports.addRooms = async(req, res) => {
 	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, roomName: currentRoomName }));
 
 
-	// Enregistrer les rooms dans la table GameRooms
-	GameRooms.bulkCreate(roomsToAdd)
-	.then(data => {
-		res.status(201).json(data);
-	})
+	try{
+
+		// Enregistrer les rooms dans la table GameRooms
+		const games = GameRooms.bulkCreate(roomsToAdd)
+		res.status(201).json(games);
 
 	// Gère les erreurs
-	.catch(err => {
+	}catch(err) {
 		res.status(500).json({
 			message: err.message || "Une erreur s'est produite lors de l'ajout de(s) élève(s)."
 		});
-	});
+	}
 	
 	
 }
@@ -465,43 +488,30 @@ exports.accept = async(req, res) => {
 	}
 
 
+	try{
+		const game = await Game.findOne({ where: { id: req.body.idGame} })
+		const team = await Team.findAll({ where: { id: req.params.id} })
 
-	const game = await Game.findOne({ where: { id: req.body.idGame} })
+		// Vérifie que la taille des équipes est respéctée
+		if(game.teamSize<team.length){
+			return res.status(400).json({
+				message: "La taille de l'équipe est trop grande."
+			});
+		}
+
+		// Récupère toutes les rooms dans gamerooms
+		const rooms = await GameRooms.findAll({ where: { idGame: req.body.idGame } })
+
+		// Ajouter une ligne score pour chaque team, pour chaque score
+		const scoreToAdd = rooms.map(gameroom => ({idTeam: req.params.id,idGame: req.body.idGame, roomName: gameroom.roomName, time: 0, nbGoodAnswers: 0, nbBadAnswers: 0, nbHints: 0})); 
+		const scores = await Score.bulkCreate(scoreToAdd)
+		res.status(201).json(scores);
+
 	// Gère les erreurs
-	.catch(err => {
+	}catch(err) {
 		return res.status(500).json({
 			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-		});
-	});	
-
-	const team = await Team.findAll({ where: { id: req.params.id} })
-	// Gère les erreurs
-	.catch(err => {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-		});
-	});	
-
-	// Vérifie que la taille des équipes est respéctée
-	if(game.teamSize<team.length){
-		return res.status(400).json({
-			message: "La taille de l'équipe est trop grande."
 		});
 	}
-
-	// Récupère toutes les rooms dans gamerooms
-	GameRooms.findAll({ where: { idGame: req.body.idGame } })
-		.then(data => { 
-			const scoreToAdd = data.map(gameroom => ({idTeam: req.params.id,idGame: req.body.idGame, idRoom: gameroom.idRoom, time: 0, nbGoodAnswers: 0, nbBadAnswers: 0, nbHints: 0})); 
-			Score.bulkCreate(scoreToAdd)
-			.then(data => {
-				res.status(201).json(data);
-			})
-			.catch(err => {
-				res.status(500).json({
-					message: err.message || "Une erreur s'est produite lors de l'ajout de(s) élève(s)."
-				});
-			});
-		})
 	
 }
