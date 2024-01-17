@@ -48,7 +48,7 @@ const SideBar = () => {
 const ItemList = (props) => {
 	const location = useLocation();
 	const path = location.pathname.toLowerCase();
-	console.log(path);
+	//console.log(path);
 	const type = {
 		dashboard: {
 			name: 'Tableau de bord',
