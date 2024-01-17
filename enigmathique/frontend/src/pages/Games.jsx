@@ -6,8 +6,8 @@ import GameNav from "../components/games/GameNav";
 const Games = () => {
 	return(
 		<LayoutProf>
-			<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
-				<section className='flex flex-col h-[96%] w-full gap-4'>
+			<main className="w-full bg-[#f5f7fa] p-4">
+				<section className='flex flex-col h-full w-full gap-4'>
 					<section className='h-[10%] flex flex-row justify-evenly items-center '>
 						<GameNav/>
 					</section>

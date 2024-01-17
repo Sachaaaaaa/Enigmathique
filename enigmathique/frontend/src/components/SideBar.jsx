@@ -9,9 +9,10 @@ import {useCreationGameContext, initialFormData} from "./contexts/CreationGame.c
 
 const SideBar = () => {
 
-	const location = useLocation();
-	const path = location.pathname;
+	// const location = useLocation();
+	// const path = location.pathname;
 	// const {setFormData} = useCreationGameContext();
+	const path='';
 
 	const handleNav = (event) => {
 		if (path === "/create-game") {
@@ -45,6 +46,9 @@ const SideBar = () => {
 };
 
 const ItemList = (props) => {
+	const location = useLocation();
+	const path = location.pathname.toLowerCase();
+	console.log(path);
 	const type = {
 		dashboard: {
 			name: 'Tableau de bord',
@@ -67,7 +71,7 @@ const ItemList = (props) => {
 			icon: <MdDoorFront/>,
 		},
 	}
-	const selected = props.currentPath === type[props.type].path;
+	const selected = path === type[props.type].path;
 
 
 	return (
@@ -100,7 +104,7 @@ const ItemList = (props) => {
 
 ItemList.propTypes = {
 	type: PropTypes.string.isRequired,
-	currentPath: PropTypes.string.isRequired,
+	currentPath: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
 };
 export default SideBar;
