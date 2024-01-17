@@ -190,7 +190,7 @@ exports.findAll = async (req, res) => {
 		const courses = await Course.findAll({ where: { idProfessor: req.tokenId } })
 
 		// Récupère les id correspondant aux classes du professeur connécté
-		coursesId = data.map(course => course.dataValues.id);
+		coursesId = courses.map(course => course.dataValues.id);
 	
 
 	// Gère les erreurs
