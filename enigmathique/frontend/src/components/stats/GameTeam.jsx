@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { Doughnut } from 'react-chartjs-2';
-import RoomService from "../../services/room.service";
 
 const GameTeam = (props) => {
 
