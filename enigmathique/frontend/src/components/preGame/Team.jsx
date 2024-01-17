@@ -13,10 +13,9 @@ const Team = (props) => {
 
 	const addingTeam = (event) => {
 		event.stopPropagation();
-		console.log(props);
 		socket.emit(ClientToServer.ValidateTeam,  {id: props.id});
 	};
-	const removingTeam = () => {
+	const removingTeam = (event) => {
 		event.stopPropagation();
 		socket.emit(ClientToServer.RefuseTeam, {id: props.id});
 	};

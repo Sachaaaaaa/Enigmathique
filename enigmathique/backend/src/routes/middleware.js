@@ -29,19 +29,24 @@ exports.verifyToken = (req, res, next) => {
 
 exports.verifyGameToken = (req, res, next) => {
     const token = req.headers['authorization']
+    
+    if(req.body.tokenProf){
+        const token = req.body.tokenProf
+        const decodedToken = jwt.verify(token, secretKey)
+        req.tokenId = decodedToken.id;
+    }
+
     if (!token) {
-        res.status(403).send({
+        return res.status(403).json({
             message: "Vous n'êtes pas connecté"
         });
-        return;
     }
 
     // Compare avec process.env.GAME_TOKEN
     if (token !== process.env.GAME_TOKEN) {
-        res.status(403).send({
+        return res.status(403).json({
             message: "Token de jeu invalide"
         });
-        return;
     }
 
     next()

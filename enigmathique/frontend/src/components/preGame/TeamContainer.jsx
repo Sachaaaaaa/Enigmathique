@@ -6,7 +6,7 @@ const TeamContainer = (props) => {
 	return (
 		<section className="w-5/12 flex h-full flex-col items-start gap-2">
 			<h2 className="text-center text-xl">
-				{props.accepted ? 'Équipes en acceptées :' : 'Équipes en attente :'}
+				{props.isValidated ? 'Équipes acceptées :' : 'Équipes en attente :'}
 			</h2>
 			<section className="border-2 shadow bg-white h-full w-full">
 				<section className="flex flex-col gap-2 h-full overflow-y-scroll">
@@ -16,7 +16,7 @@ const TeamContainer = (props) => {
 								key={9384928493284932}
 								name={team.name}
 								students={team.students}
-								isValidated={team.isValidated}
+								isValidated={props.isValidated}
 								id={team.id}
 							/>
 							<hr></hr>
@@ -29,7 +29,7 @@ const TeamContainer = (props) => {
 };
 TeamContainer.propTypes = {
 	teams: PropTypes.array.isRequired,
-	accepted: PropTypes.bool.isRequired,
+	isValidated: PropTypes.bool.isRequired,
 };
 
 export default TeamContainer;

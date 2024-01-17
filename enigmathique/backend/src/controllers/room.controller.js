@@ -11,11 +11,11 @@ const Op = db.Sequelize.Op;
 // 									 CREATE                                    //
 /////////////////////////////////////////////////////////////////////////////////
 
-// Créer et enregistrer une nouvelle salle au professeurs
+// Créer et enregistrer une nouvelle salle dans la base de données
 exports.create = async (req, res) => {
 
 	// Valider la requête
-	if (!req.body.name ||!req.body.chapter) {
+	if (!req.body.name ||!req.body.chapter || !req.body.difficulty) {
 		return res.status(400).json({
 			message: "Il manque des informations pour ajouter une salle."
 		});
@@ -28,20 +28,19 @@ exports.create = async (req, res) => {
 		difficulty: req.body.difficulty,
 	};
 
-	// Enregistrer la salle dans la base de données
-	await Room.create(room)
+	try{
+		// Enregistrer la salle dans la base de données
+		const createdRoom = await Room.create(room)
 
 		// Renvoie les données créées
-		.then(data => {
-			return res.status(201).json(data);
-		})
+		return res.status(201).json(createdRoom);
 
-		// Gère les erreurs
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la création de la salle."
-			});
+	// Gère les erreurs
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la création de la salle."
 		});
+	}
 }
 
 
@@ -49,15 +48,18 @@ exports.create = async (req, res) => {
 // 									 READ                                      //
 /////////////////////////////////////////////////////////////////////////////////
 
-// methode pour récuperer les salles de la DB
+// methode pour récuperer les salles de la base de données
 exports.findAll = async (req, res) => {
-	await Room.findAll()
-		.then(data => {
-			return res.status(200).json(data);
-		})
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération des salles."
-			});
-		});	
+
+	try{
+
+		// Récupère toutes les salles
+		const rooms = await Room.findAll()
+		return res.status(200).json(rooms);
+
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des salles."
+		});
+	}	
 }

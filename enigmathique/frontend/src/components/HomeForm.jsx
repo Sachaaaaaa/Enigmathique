@@ -3,11 +3,11 @@ import {useNavigate} from 'react-router-dom';
 
 const HomeForm = () => {
 	const [code, setCode] = useState('');
-	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
 
 	const handleValider = () => {
+		//TODO: vérifier que le code est valide
 		navigate(`/join/${code}`);
 	};
 
@@ -36,9 +36,6 @@ const HomeForm = () => {
 						type="submit"
 						onClick={handleValider}
 					>
-						{loading && (
-							<span className="spinner-border spinner-border-sm"></span>
-						)}
 						<span>Valider</span>
 					</button>
 				</div>
