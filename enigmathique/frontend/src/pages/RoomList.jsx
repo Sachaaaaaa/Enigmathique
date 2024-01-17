@@ -30,6 +30,10 @@ const RoomList = () => {
 		setFilteredRooms([...filtered]);
 	}, [filter, rooms]);
 
+	//TODO redirection à refaire
+	const handleRoomSelection = (room) => {
+		navigate(`/game/${room.name}`);
+	}
 
 	return (
 		<LayoutProf>
@@ -47,6 +51,7 @@ const RoomList = () => {
 								difficulty={room.difficulty}
 								riddles={999}
 								winrate={999}
+								handleRoomSelection={() => handleRoomSelection(room)}
 							/>
 							{index !== filteredRooms.length - 1 && <hr></hr>}
 						</>
