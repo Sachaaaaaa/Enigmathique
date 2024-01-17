@@ -30,7 +30,7 @@ const App = () => {
 			<Route path='/create-game' element={<CreateGameWrapper/>}/>
 			<Route path='/pregame/:sessionId' element={<PreGameWrapper/>}/>
 			<Route path='/join/:sessionId' element={<Join/>}/>
-			<Route path='/teamstats' element={<TeamStats/>}/>
+			<Route path='/teamstats/:idTeam' element={<TeamStats/>}/>
 			<Route path='/rooms' element={<RoomList/>}/>
 		</Routes>
 	);
