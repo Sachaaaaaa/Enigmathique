@@ -4,36 +4,16 @@ import {initialFormData, useCreationGameContext} from "../../contexts/CreationGa
 import '../../../index.css';
 import '../createGame.css'
 import ClassList from "./ClassList";
-import CourseService from "../../../services/course.service";
-import AuthService from "../../../services/auth.service";
 import {Link} from "react-router-dom";
-const GameCreationForm = () => {
+import PropTypes from "prop-types";
+const CreationGame1 = (props) => {
 
-	const {formData, setFormData, setStep, setCourses} = useCreationGameContext();
-	console.log(formData);
-
-	// AuthService.login('admin@admin.com', 'admin').then((response) => {
-	// 	console.log(response);
-	// }).catch((error) => {
-	// 	console.log(error);
-	// });
-
-	const loadClasses = () => {
-		CourseService.getAll().then((response) => {
-			setCourses(response);
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
-
-	useEffect(() => {
-		loadClasses();
-	}, []);
+	const {formData, setFormData} = useCreationGameContext();
 
 
 	const handleSuivant = () => {
 		if (formData.gameName !== '' && formData.course !== 0) {
-			setStep(2);
+			props.setStep(2);
 			return;
 		}
 		let messages = ['Veuillez remplir le(s) champ(s) suivant(s) :'];
@@ -55,40 +35,42 @@ const GameCreationForm = () => {
 
 	return (
 
-		<section className='flex flex-col items-center h-full w-full'>
-			<section className="w-full">
+		<section className='flex flex-col h-[96%] w-full gap-4'>
+			<section className="h-[5%]">
 				<h1 className='text-2xl pl-4'>Paramètres</h1>
 			</section>
-			<section className="w-1/3">
-				<div className='mb-4'>
-					<label
-						className='label-creation'
-						htmlFor='gameName'
-					>
-						Nom de la partie
-					</label>
-					<input
-						id='gameName'
-						value={formData.gameName}
-						onChange={(e) => setFormData({...formData, gameName: e.target.value})}
-						placeholder='Entrer le nom'
-						className='data-selection'
-					/>
-				</div>
-				<div className='mb-4'>
-					<ClassList/>
-				</div>
-				<div className='mb-4 w-full'>
-					<Counter/>
+			<section className=" h-[85%] flex flex-col justify-center items-center">
+				<div>
+					<div className='mb-4'>
+						<label
+							className='label-creation'
+							htmlFor='gameName'
+						>
+							Nom de la partie
+						</label>
+						<input
+							id='gameName'
+							value={formData.gameName}
+							onChange={(e) => setFormData({...formData, gameName: e.target.value})}
+							placeholder='Entrer le nom'
+							className='data-selection'
+						/>
+					</div>
+					<div className='mb-4'>
+						<ClassList/>
+					</div>
+					<div className='mb-4 w-full'>
+						<Counter/>
+					</div>
 				</div>
 			</section>
-			<section className="flex flex-row justify-evenly items-end h-1/2 w-5/6">
+			<section className="flex flex-row justify-evenly items-end h-[10%] w-full">
 				<Link
 					className='btn-cancel'
 					to={'/dashboard'}
 					onClick={handleAnnuler}
 				>
-					Annuler
+					Retour
 				</Link>
 				<button
 					className='btn-validate'
@@ -102,5 +84,7 @@ const GameCreationForm = () => {
 	);
 
 };
-
-export default GameCreationForm;
+CreationGame1.propTypes = {
+	setStep: PropTypes.func.isRequired,
+}
+export default CreationGame1;

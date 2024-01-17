@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import Modal, {ModalBody, ModalHeader} from './Modal';
 import PropTypes from 'prop-types';
-import StudentService from '../services/student.service';
 import {MdDeleteForever, MdOutlineModeEdit, MdArrowBackIos} from 'react-icons/md';
 import {ImStatsDots} from 'react-icons/im';
 import {FaPlus} from "react-icons/fa6";
 import {Link} from 'react-router-dom';
 import {FaSearch} from "react-icons/fa";
+import Student from "../models/student.model";
 
 const ClassElement = ({student, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -17,29 +17,27 @@ const ClassElement = ({student, onChange}) => {
 	const id = URL.substring(URL.lastIndexOf('/') + 1);
 	
 	
-	const handleClickDelete = (event, id) => {
-		console.log('Delete ' + id);
-		StudentService.deleteId(id).then((response) => {
-			console.log(response);
-			onChange();
-		});
+	const handleClickDelete = async (event, id) => {
+		event.preventDefault();
+		await Student.delete(id);
+		onChange();
 		setDeleteModalOpen(false);
+		console.log('delete ' + id);
 	}
 	
 	
-	const handleClickEdit = (event, firstname, lastname, idCourse, idStudent) => {
+	const handleClickEdit = async (event, firstname, lastname, idCourse, idStudent) => {
 		event.preventDefault();
-		StudentService.edit(firstname, lastname, idCourse, idStudent).then((response) => {
-			console.log(response);
-			onChange();
-		});
-		setEditModalOpen(false)
+		await Student.edit(firstname, lastname, idCourse, idStudent);
+		onChange();
+		setEditModalOpen(false);
+		console.log('edit ' + id);
 	}
 	
 	
 	return (
 		<li key={student.id} value={student.firstname}
-				className='bg-gray-200 flex-col space-y-3 m-3  p-1 h-[250px] w-[250px] rounded-2xl'>
+				className='bg-gray-200 flex-col space-y-3 m-3  p-1 h-[250px] w-[250px] rounded-2xl drop-shadow-md'>
 			<section className='flex flex-col h-full space-y-1'>
 				<figure className="bg-amber-200 w-[100px] h-[100px] rounded-full mx-auto">
 				</figure>
@@ -47,18 +45,18 @@ const ClassElement = ({student, onChange}) => {
 					{`${student.firstname} ${student.lastname}`}
 				</h3>
 				<div className="flex-grow"></div>
-				<div className="flex justify-center space-x-2 mt-auto">
+				<div className="flex justify-center space-x-5 mt-auto">
 					<button
-						className='btn-utils-course-student'>
+						className='btn-utils btn-utils-course-student-stat'>
 						<ImStatsDots color='white' size='1.5em'/>
 					</button>
 					<button
-						className='btn-utils-course-student-edit'
+						className='btn-utils btn-utils-course-student-edit'
 						onClick={() => setEditModalOpen(true)}>
 						<MdOutlineModeEdit size='1.5em'/>
 					</button>
 					<button
-						className='btn-utils-course-student-delete'
+						className='btn-utils btn-utils-course-student-delete'
 						onClick={() => setDeleteModalOpen(true)}>
 						<MdDeleteForever size='1.5em'/>
 					</button>
@@ -77,7 +75,7 @@ const ClassElement = ({student, onChange}) => {
 								type='text'
 								name='firstname'
 								id='firstname'
-								defaultValue={firstname}
+								defaultValue={student.firstname}
 								onChange={(e) => setFirstname(e.target.value)}
 								className='border-2 border-blue-900 rounded-md'/>
 							<label htmlFor='lastname'>Nom</label>
@@ -85,7 +83,7 @@ const ClassElement = ({student, onChange}) => {
 								type='text'
 								name='lastname'
 								id='lastname'
-								defaultValue={lastname}
+								defaultValue={student.lastname}
 								onChange={(e) => setLastname(e.target.value)}
 								className='border-2 border-blue-900 rounded-md'/>
 							<button
@@ -135,28 +133,29 @@ const ListStudents = (props) => {
 	// TODO : récupérer l'id de la classe
 	const URL = window.location.href;
 	const id = URL.substring(URL.lastIndexOf('/') + 1);
-	const loadClasses = () => {
-		StudentService.get(props.id).then((response) => {
-			console.log(response)
-			setStudents(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	/**
+	 * récupère la liste de tous les élèves de la classe
+	 */
+	const loadStudents = async () => {
+		const data = await Student.getAll(props.id);
+		setStudents(data);
+		console.log(data);
 	}
+	
 	useEffect(() => {
-		loadClasses();
+		loadStudents();
 	}, []);
 	
-	const handleClickCreate = (event, firstname, lastname, id) => {
+	const handleClickCreate = async (event, firstname, lastname, idCourse) => {
 		event.preventDefault();
-		StudentService.create(firstname, lastname, id).then((response) => {
-			console.log(response);
-			loadClasses();
-		});
+		await Student.create(firstname, lastname, idCourse);
+		loadStudents();
 		setCreateModalOpen(false);
+		console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
 	}
+	
 	const [filter, setFilter] = useState({text: ''});
 	const handleChangeText = (e) => {
 		console.log(filter);
@@ -175,7 +174,11 @@ const ListStudents = (props) => {
 		<>
 			<nav className='flex flex-row justify-end w-full p-5 gap-12'>
 				<Link to='/class' className='mr-auto'>
-					<button className="btn-back h-full"><MdArrowBackIos size='1.5em'/><p>Élèves</p></button>
+					<button
+						className="btn-back h-full">
+						<MdArrowBackIos size='1.5em'/>
+						<p>Élèves</p>
+					</button>
 				</Link>
 				<section className='flex flex-row items-center justify-center bg-white rounded-full p-4 gap-2 shadow'>
 					<FaSearch color="#0a06f4"/>
@@ -187,14 +190,14 @@ const ListStudents = (props) => {
 					/>
 				</section>
 				<button
-					className="btn-utils-course-student-icons"
+					className="btn-utils btn-utils-course-student-icons"
 					onClick={() => setCreateModalOpen(true)}><FaPlus size='1.5em'/>
 					<p>Ajouter un élève</p>
 				</button>
 			</nav>
 			<ul className='bg-blue-300 flex flex-wrap p-5'>
 				{filteredStudents.map((student) => (
-					<ClassElement key={student.id} student={student} onChange={() => loadClasses()}/>
+					<ClassElement key={student.id} student={student} onChange={() => loadStudents()}/>
 				))}
 			</ul>
 			{createModalOpen && (

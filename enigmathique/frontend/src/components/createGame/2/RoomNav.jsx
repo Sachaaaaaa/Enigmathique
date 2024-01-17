@@ -1,77 +1,55 @@
 import React from "react";
-import {useCreationGameContext} from "../../contexts/CreationGame.context";
-import {FaSearch} from 'react-icons/fa';
-import {IconContext} from 'react-icons';
 import '../createGame.css'
+import SearchInput from "../../SearchInput";
+import PropTypes from "prop-types";
 
 
-const RoomNav = () => {
-
-	const {filter, setFilter} = useCreationGameContext();
-
-	const handleChangeType = (e) => {
-		console.log(filter);
-		setFilter({...filter, type: e.target.value});
-	}
-	const handleChangeText = (e) => {
-		console.log(filter);
-		setFilter({...filter, text: e.target.value})
-	}
+const RoomNav = (props) => {
 	return(
-		<nav className='flex flex-row justify-end w-full pr-4 gap-12'>
-			<section className='flex flex-row items-center justify-center bg-white rounded-full p-4 gap-2 shadow'>
-				<IconContext.Provider value={{className: 'text-[#0a06f4]'}} >
-					<FaSearch/>
-				</IconContext.Provider>
-				<input
-					type='text'
-					placeholder='Rechercher'
-					onChange={handleChangeText}
-					className="focus:border-transparent"
-				/>
-			</section>
+		<nav className='flex flex-row justify-end w-full h-[7%] pr-4 gap-12'>
+			<SearchInput handleChangeText={props.textChange}/>
 			<section className="flex flex-row justify-center items-center">
-				<label className={filter.type === 'suit'?'label-filter-selected':'label-filter'}>
+				<label className={props.filter.chapter === 'suites'?'label-filter-selected':'label-filter'}>
 					<input
-						value='suit'
+						value='suites'
 						type='radio'
 						name='chapitre'
 						className='hidden'
-						checked={filter.type === 'suit'}
-						onChange={handleChangeType}
+						checked={props.filter.chapter === 'suites'}
+						onChange={props.chapterChange}
 					/>
 					Suites
 				</label>
-				<label className={filter.type === 'proba'?'label-filter-selected':'label-filter'}>
+				<label className={props.filter.chapter === 'probabilites'?'label-filter-selected':'label-filter'}>
 					<input
-						value='proba'
+						value='probabilites'
 						type='radio'
 						name='chapitre'
 						className='hidden'
-						checked={filter.type === 'proba'}
-						onChange={handleChangeType}
+						checked={props.filter.chapter === 'probabilites'}
+						onChange={props.chapterChange}
 					/>
 					Probabilités
 				</label>
-				<label className={filter.type === 'fonct'?'label-filter-selected':'label-filter'}>
+				<label className={props.filter.chapter === 'fonctions'?'label-filter-selected':'label-filter'}>
 					<input
-						value='fonct'
+						value='fonctions'
 						type='radio'
 						name='chapitre'
 						className='hidden'
-						checked={filter.type === 'fonct'}
-						onChange={handleChangeType}
+						checked={props.filter.chapter === 'fonctions'}
+						onChange={props.chapterChange}
 					/>
 					Fonctions
 				</label>
-				<label className={filter.type === 'ens'?'label-filter-selected':'label-filter'}>
+				<label className={props.filter.chapter === 'ensembles'?'label-filter-selected':'label-filter'}>
 					<input
-						value='ens'
+						value='ensembles'
 						type='radio'
 						name='chapitre'
 						className='hidden'
-						checked={filter.type === 'ens'}
-						onChange={handleChangeType}
+						checked={props.filter.chapter === 'ensembles'}
+						onChange={props.chapterChange}
 					/>
 					Ensembles
 				</label>
@@ -79,5 +57,9 @@ const RoomNav = () => {
 		</nav>
 	);
 }
-
+RoomNav.propTypes = {
+	chapterChange: PropTypes.func.isRequired,
+	textChange: PropTypes.func.isRequired,
+	filter: PropTypes.object.isRequired,
+}
 export default RoomNav;

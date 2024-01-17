@@ -7,148 +7,150 @@ import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
+import Course from '../models/course.model';
+import RoomService from "../services/room.service";
+import Game from "../models/game.model";
+import RoomModel from "../models/room.model";
 
 
 const Dashboard = () => {
 
-	const rooms = [
-		{
-			name: 'Room1',
-			difficulty: 'facile',
-			cat: 'Probabilités',
-			image: require('../assets/img/room-img/room-fonction-1.png')
-		},
-		{
-			name: 'Room2',
-			difficulty: 'moyen',
-			cat: 'Suites',
-			image: require('../assets/img/room-img/room-proba-1.png')
-		},
-		{
-			name: 'Room3',
-			difficulty: 'difficile',
-			cat: 'Fonctions',
-			image: require('../assets/img/room-img/room-fonction-1.png')
-		}
-	];
-
-	const games = [
-		{
-			name: 'Entrainement proba',
-			date: '17/11/23',
-			className: 'A',
-			winners: ['Julie Lustret', 'Monstre Gentil'],
-			winRate: 80
-		},
-		{
-			name: 'Entrainement fonct',
-			date: '11/12/23',
-			className: 'A',
-			winners: ['Lucas Crespin', 'Girafe Agréable'],
-			winRate: 75
-		}
-	];
-
-	const classGroups = [
-		{
-			name: 'A',
-			nbStudents: 32,
-			lastGame: '11/12/23',
-			nbGames: 4,
-			winRate: 80
-		},
-		{
-			name: 'B',
-			nbStudents: 31,
-			lastGame: '23/10/23',
-			nbGames: 3,
-			winRate: 75
-		}
-	];
-
-	// Choix des salles à afficher
-	const roomSelection = (rooms) => {
-		let max = rooms.length - 1;
-		let roomSelect = [];
-		let selectedIndex = -1;
-		while (roomSelect.length < 2) {
-			let index = randInt(0, max);
-			if (index !== selectedIndex) {
-				roomSelect.push(rooms[index]);
-			}
-			selectedIndex = index;
-		}
-		return roomSelect;
-	};
-
+	// Ajout d'un état pour avoir les classes
+	const [courses, setCourses] = useState([]);
+	// Ajout d'un état pour avoir les parties
+	const [games, setGames] = useState([]);
+	// Ajout d'un état pour avoir les rooms
+	const [rooms, setRooms] = useState([]);
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
-
-
-	useEffect(() => {
-		setSelectedRooms(roomSelection(rooms));
-	}, []); // s'éxécute seulement au montage
-
-
 	// Ajout d'un état pour suivre l'indice de la classe actuelle
 	const [currentClassIndex, setCurrentClassIndex] = useState(0);
+
+	const loadClasses = async () => {
+		const data = await Course.getAll();
+		setCourses(data);
+	}
+
+	const loadRooms = async() => {
+		const data = await RoomModel.getAll();
+		setRooms(data);
+	}
+	const loadGames = async () => {
+		const data = await Game.getAll();
+		setGames(data);
+	}
+	useEffect(() => {
+		loadClasses();
+		loadGames();
+		loadRooms();
+	}, []);
+
+	useEffect(() => {
+		roomSelection();
+	}, [rooms]);
+
+	// Choix des salles à afficher
+	const roomSelection = () => {
+		//TODO: régler le problème de chargement
+		console.log(rooms);
+		if(rooms.length > 2) {
+			let max = rooms.length - 1;
+			let roomSelect = [];
+			let selectedIndex = -1;
+			while (roomSelect.length < 2) {
+				let index = randInt(0, max);
+				if (index !== selectedIndex) {
+					roomSelect.push(rooms[index]);
+				}
+				selectedIndex = index;
+			}
+			return setSelectedRooms(roomSelect);
+		} else if(rooms.length !== 0){
+			setSelectedRooms(rooms);
+		} else {
+			setSelectedRooms([]);
+		}
+	};
+
+
 
 	// Fonction pour aller à la classe précédente
 	const prevClass = () => {
 		setCurrentClassIndex(prevIndex =>
-			prevIndex > 0 ? prevIndex - 1 : classGroups.length - 1
+			prevIndex > 0 ? prevIndex - 1 : courses.length - 1
 		);
 	};
 
 	// Fonction pour aller à la classe suivante
 	const nextClass = () => {
 		setCurrentClassIndex(prevIndex =>
-			prevIndex < classGroups.length - 1 ? prevIndex + 1 : 0
+			prevIndex < courses.length - 1 ? prevIndex + 1 : 0
 		);
 	};
 
+	// Fonction pour afficher les parties
+	const showGames = () => {
+		if(games.length !== 0) {
+			console.log(games);
+			if (games.length >= 2) {
+				return games.slice(-2).map((game, index) => (
+					<GameElem key={index} game={game}/>
+				));
+			} else if (games.length === 1) {
+				return (
+					<>
+						<GameElem key={0} game={games[0]}/>
+						<div className='empty-info-container'>
+							<Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link>
+						</div>
+					</>);
+			}
+		} else {
+			return <>
+				<div className='empty-info-container'><Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
+			<div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div> </>;
+		}
+	}
+
+
 	return (
 		<LayoutProf>
-			<main className='flex flex-grow bg-[#F5F7FA] border-2 flex-wrap overflow-y-scroll'>
-				<div className='flex'>
-					<div className='flex-grow mr-2 flex-wrap max-w-[1000px]'>
-						<div className='flex-grow p-5'>
-							<div className='flex justify-between'>
-								<h2 className='block font-semibold'>Mes Parties</h2>
-								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
+			<main className='main-background-color flex flex-wrap flex-grow justify-between overflow-y-scroll overflow-x-hidden'>
+					<div className='w-[40svw] min-w-[280px] mr-2 flex-wrap grow'>
+						<div className='flex flex-col p-5'>
+							<div className='primary-font-color flex justify-between w-full min-w-[280px]'>
+								<h2 className='medium-title'>Mes Parties</h2>
+								<Link to='/games' className='show-all-text'>Voir tout</Link>
 							</div>
-							<div className='flex justify-around '>
-								{games.map((game, index) => (
-									<GameElem key={index} game={game}/>
-								))}
+							<div className='w-full h-full flex flex-wrap flex-grow justify-between items-center gap-2'>
+								{showGames()}
 							</div>
 						</div>
-						<div className='flex-grow p-5'>
-							<div className='flex justify-between'>
-								<h2 className='block font-semibold'>Proposition de salles</h2>
-								<Link to='' className='block font-semibold hover:underline'>Voir tout</Link>
+						<div className='flex flex-col p-5 pt-2'>
+							<div className='primary-font-color flex justify-between  w-full min-w-[280px]'>
+								<h2 className='font-semibold'>Proposition de salles</h2>
+								<Link to='/rooms' className='text-sm font-semibold hover:underline'>Voir tout</Link>
 							</div>
-							<div className='flex justify-around'>
+							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
 								{selectedRooms.map((room, index) => (
 									<RoomElem key={index} room={room}></RoomElem>
 								))}
 							</div>
 						</div>
 					</div>
-					<div className='flex-warp p-5'>
-						<div className='flex justify-between items-center'>
-							<h2 className='block font-semibold'>Mes Classes</h2>
+					<div className='w-[40svw] min-w-[280px] h-full flex-warp p-5 grow'>
+						<div className='primary-font-color flex justify-between w-full min-w-[280px] grow'>
+							<h2 className='medium-title'>Mes Classes</h2>
 							<div>
 								<button onClick={prevClass}><FaAngleLeft /></button>
 								<button onClick={nextClass}><FaAngleRight /></button>
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						<div className='max-w-md xl:max-w-lg mx-auto p-5'>
-							<ClassElem key={currentClassIndex} classGroup={classGroups[currentClassIndex]}/>
+						<div  className='w-full'>
+							{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
 						</div>
 					</div>
-				</div>
 			</main>
 		</LayoutProf>
 	);

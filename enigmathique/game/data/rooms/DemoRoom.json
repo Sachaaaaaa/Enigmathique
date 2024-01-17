@@ -1,0 +1,14 @@
+{
+	"name": "DemoRoom",
+	"enigmas": [
+		{
+			"variables": { },
+			"answer": {
+				"type": "fixed",
+				"value": "1"
+			},
+			"hint": "Regardez bien la recette !",
+			"endMessage": "Vous ouvrez le tirroir et vous récupérez l'ingrédient, au fond du tirroir vous trouvez un papier avec écrit dessus : g(x) = 2x"
+		}
+	]
+}

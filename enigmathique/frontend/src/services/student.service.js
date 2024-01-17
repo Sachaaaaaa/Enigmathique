@@ -4,11 +4,20 @@ import authHeader from './auth-header';
 const API_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
 
-const get = (id) => {
+const getAll = (idCourse) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
 	return axios
-		.get(API_URL + 'course/' + id, {headers: token})
+		.get(API_URL + 'course/students/' + idCourse, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+}
+
+const getOne = (idStudent) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL+ 'student/' + idStudent, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
@@ -35,14 +44,16 @@ const create = (firstname, lastname, idCourse) => {
 const edit = (firstname, lastname, idCourse, idStudent) => {
 	const token = authHeader();
 	// Envoie une requête au serveur pour créer une nouvelle classe
+	console.log(firstname, lastname, idCourse, idStudent);
 	return axios
-		.put(API_URL + 'course/' + idCourse, {firstname: firstname, lastname:lastname, idStudent: idStudent }, {headers: token})
+		.put(API_URL + 'student/' + idStudent, {firstname: firstname, lastname:lastname, idCourse: idCourse }, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
 }
 const StudentService = {
-	get,
+	getAll,
+	getOne,
 	create,
 	deleteId,
 	edit,

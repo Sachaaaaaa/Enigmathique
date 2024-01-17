@@ -8,8 +8,12 @@ const GameTeam = (props) => {
 
 	const timeToInt = (time) => {
 		const splitTime = time.split(':');
-
 		return parseInt(splitTime[0]) * 60 + parseInt(splitTime[1]);
+	}
+
+	const secondsToTime = (seconds) => {
+		const minAndSec = [Math.floor(seconds/60), seconds%60];
+		return minAndSec[0].toString().concat(':',minAndSec[1].toString());
 	}
 
 	const data = {
@@ -34,7 +38,7 @@ const GameTeam = (props) => {
 						<li key={index}>{room.name}<span>{room.time}</span></li>
 					))}
 				</ul>
-				<Doughnut data={data}/>
+				<Doughnut data={data} title='salut'/>
 			</div>
 		</div>
 	)
