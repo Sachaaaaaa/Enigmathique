@@ -5,7 +5,7 @@ import Course from "../models/course.model";
 import Professor from "../models/professor.model";
 
 
-const TopBar = () => {
+const TopBarProf = () => {
 
 	const location = useLocation();
 	const path = location.pathname.split("/");
@@ -79,4 +79,4 @@ const TopBar = () => {
 	);
 }
 
-export default TopBar;
+export default TopBarProf;
