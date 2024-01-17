@@ -25,6 +25,7 @@ exports.create = async (req, res) => {
 	const room = {
 		name: req.body.name,
 		chapter: req.body.chapter,
+		difficulty: req.body.difficulty,
 	};
 
 	// Enregistrer la salle dans la base de données

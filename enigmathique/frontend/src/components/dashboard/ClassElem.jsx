@@ -6,6 +6,7 @@ import { Chart as ChartJS, registerables } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import GameService from '../../services/game.service';
 import Student from '../../models/student.model';
+import Game from "../../models/game.model";
 ChartJS.register(...registerables);
 
 const maxTime = 600;
@@ -26,17 +27,13 @@ const ClassElem = (props) => {
 		loadStudents();
 	}, []);
 
-	const loadGamesOf = () => {
-		GameService.getAll().then((response) => {
-			const games = response;
-			let listGames = [];
-			games.forEach((game) => {
-				classGroup.id === game.idCourse && listGames.put();
-			});
-			setGamesOf(listGames);
-		}).catch((error) => {
-			console.log(error);
+	const loadGamesOf = async() => {
+		const data = await Game.getAll();
+		let listGames = [];
+		data.forEach((game) => {
+			classGroup.id === game.idCourse && listGames.push();
 		});
+		setGamesOf(listGames);
 	}
 
 	useEffect(() => {
@@ -61,7 +58,7 @@ const ClassElem = (props) => {
 		if(games.length !== 0) {
 			games.forEach((game) => {
 				GameService.getScores(game.id).then((response) => {
-					const scoreList = response.data;
+					const scoreList = response;
 					scoreList.forEach((score) => {
 						score.time < maxTime && winRate++;
 					});
@@ -76,6 +73,8 @@ const ClassElem = (props) => {
 		}
 	}
 
+
+	/*Données de génaration du graphique*/
 	const data = {
 		labels: [''],
 		datasets: [
@@ -107,12 +106,12 @@ const ClassElem = (props) => {
 
 	return (
 		<article
-			className='info-container w-full md:max-w-md xl:max-w-lg '>
-			<article className='col-span-2 pt-2 flex-grow elem-dashboard'>
+			className='grid grid-cols-2 gap-1 info-container min-w-[450px]'>
+			<article className='col-span-1 elem-dashboard'>
 				<h3 className='small-title'>NOM</h3>
 				<p className='small-text'>Seconde {classGroup.name}</p>
 			</article>
-			<article className='col-span-2 pt-2 flex-grow elem-dashboard'>
+			<article className='col-span-2  elem-dashboard'>
 				<h3 className='small-title'>ÉLÈVES</h3>
 				<p className='small-text'>{students.length}</p>
 			</article>
