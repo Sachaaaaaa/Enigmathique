@@ -310,7 +310,7 @@ exports.open = async (req, res) => {
 	try {
 
 		// Récupère l'id de la classe de la partie
-		const game =  Game.findOne({ where: { id: req.params.id} })
+		const game =  await Game.findOne({ where: { id: req.params.id} })
 		GameidCourse = game.idCourse;
 
 	// Gère les erreurs
