@@ -9,12 +9,12 @@ import Class from './pages/Class';
 import Students from './pages/Students';
 import './index.css';
 import TeamStats from './pages/TeamStats';
-import Games from "./pages/Games";
-import Join from "./pages/Join";
-import PreGameWrapper from "./components/contexts/PreGame.wrapper";
-import CreateGameWrapper from "./components/contexts/CreationGame.wrapper";
+import Games from './pages/Games';
+import Join from './pages/Join';
+import PreGameWrapper from './components/contexts/PreGame.wrapper';
+import CreateGameWrapper from './components/contexts/CreationGame.wrapper';
 import RoomList from 'pages/RoomList';
-
+import ProfFollowUp from 'pages/ProfFollowUp';
 
 const App = () => {
 	return (
@@ -32,6 +32,7 @@ const App = () => {
 			<Route path='/join/:sessionId' element={<Join/>}/>
 			<Route path='/teamstats' element={<TeamStats/>}/>
 			<Route path='/rooms' element={<RoomList/>}/>
+			<Route path='/leaderboard' element={<ProfFollowUp/>}/>
 		</Routes>
 	);
 };
