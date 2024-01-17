@@ -4,9 +4,6 @@ import CreationGame1 from "../components/createGame/1/CreationGame1";
 import ProgressBar from "../components/createGame/ProgressBar";
 import {initialFormData, useCreationGameContext} from "../components/contexts/CreationGame.context";
 import CreationGame2 from "../components/createGame/2/CreationGame2";
-import CourseService from "../services/course.service";
-import RoomService from "../services/room.service";
-import AuthService from "../services/auth.service";
 import RoomModel from "../models/room.model";
 import Course from "../models/course.model";
 

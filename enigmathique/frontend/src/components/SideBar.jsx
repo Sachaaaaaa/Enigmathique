@@ -4,7 +4,6 @@ import logo from '../assets/img/logo-name-enigmathique.png';
 import PropTypes from 'prop-types';
 import {IconContext} from 'react-icons';
 import {MdCollectionsBookmark, MdDoorFront, MdGames, MdHome} from 'react-icons/md';
-import {useCreationGameContext, initialFormData} from "./contexts/CreationGame.context";
 
 
 const SideBar = () => {
