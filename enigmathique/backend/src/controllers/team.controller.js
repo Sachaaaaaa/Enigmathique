@@ -129,41 +129,44 @@ async function isGameBelongsProfessor(idGame, req) {
 
 
 // Ajouter des élèves à une équipe
-// Exemple de valeur pour teams [[{"name": "shesh"}, {"idStudents": [2, 3, 4]}]]
-exports.addStudents = async (req, res) => {	
+// Exemple de valeur pour teams [{"name": "shesh", "idStudents": [2, 3, 4]}]
+exports.addStudents = async (req, res, next) => {	
 
-
-	// Valider la requête
-	if (!req.body.teams) {
-		return res.status(400).json({
-			message: "Il manque des informations pour ajouter des élèves."
-		});
-	}
-
-	// Récupère les équipes dans un format adapté
-	const teams = JSON.parse(req.body.teams);
-
-	// Le nom des équipes à ajouter
-	const teamsName = [];
-
-	// Pour chaque équipe, vérifier que le nom et les élèves sont bien renseignés, puis l'ajoute dans teamsName
-	for (const team of teams) {
-		if (!team[0].name || !team[1].idStudents) {
-			return res.status(400).json({
-				message: "Il manque des informations pour ajouter des élèves."
-			});
+	try{
+		// Valider la requête
+		if (!req.body.teams) {
+			const error = new Error("Il manque des informations pour ajouter des élèves.");
+			error.statusCode = 400;  
+			throw error;
 		}
-		
-		// Ajoute toutes les équipes du tableau teamsName
-		const createdTeam = await Team.create({ name: team[0].name });	
 
-		const studentsData = team[1].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
+		// Récupère les équipes dans un format adapté
+		const teams = JSON.parse(req.body.teams);
 
-		// faire en sorte que les élèves soient ajoutés à la team avec le name de la team
-		const addedStudents = await PlayIn.bulkCreate(studentsData);	
+		// Le nom des équipes à ajouter
+		const teamsName = [];
 
-		return res.status(200).json(addedStudents);
+		// Pour chaque équipe, vérifier que le nom et les élèves sont bien renseignés, puis l'ajoute dans teamsName
+		for (const team of teams) {
+			if (!team.name || !team.idStudents) {
+				const error = new Error("Il manque des informations pour ajouter des élèves.");
+				error.statusCode = 400;  
+				throw error;
+			}
+			
+			// Ajoute toutes les équipes du tableau teamsName
+			const createdTeam = await Team.create({ name: team.name });	
 
+			const studentsData = team.idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
+
+			// faire en sorte que les élèves soient ajoutés à la team avec le name de la team
+			const addedStudents = await PlayIn.bulkCreate(studentsData);	
+
+			return res.status(200).json(addedStudents);
+
+		}
+	} catch(err){
+		next(err)
 	}
 
 }
