@@ -23,7 +23,7 @@ module.exports = app => {
 	router.get("/", middleware.verifyToken, game.findAll);
 
 	// Vérifie si une partie, à partir de son id, appartient au prof
-	router.get("/gameBelongsToProf/{id}", middleware.verifyGameToken, game.gameBelongsToProf);
+	router.post("/gameBelongsToProf/:id", middleware.verifyGameToken, game.gameBelongsToProf);
 
 	// Récupérer une partie à partir de son id
 	router.get("/:id", middleware.verifyToken, game.findById);

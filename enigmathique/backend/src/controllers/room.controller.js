@@ -15,7 +15,7 @@ const Op = db.Sequelize.Op;
 exports.create = async (req, res) => {
 
 	// Valider la requête
-	if (!req.body.name ||!req.body.chapter) {
+	if (!req.body.name ||!req.body.chapter || !req.body.difficulty) {
 		return res.status(400).json({
 			message: "Il manque des informations pour ajouter une salle."
 		});
