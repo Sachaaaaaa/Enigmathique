@@ -90,7 +90,7 @@ const Dashboard = () => {
 
 	// Fonction pour afficher les parties
 	const showGames = () => {
-		if(games != null) {
+		if(games.length !== 0) {
 			if (games.length >= 2) {
 			return games.slice(-2).map((game, index) => (
 				<GameElem key={index} game={game}/>
@@ -101,7 +101,6 @@ const Dashboard = () => {
 		} else {
 			return <> <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
 			<div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div> </>;
-		
 		}
 	}
 
