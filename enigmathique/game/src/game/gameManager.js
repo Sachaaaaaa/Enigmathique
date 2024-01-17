@@ -5,6 +5,7 @@ const SocketTeam = require('./connections/socketTeam');
 const SocketProfessor = require('./connections/socketProfessor');
 const Session = require('./gameSession');
 const RoomDefinition = require('./rooms/roomDefinition');
+const ApiService = require('../api/api');
 
 const TICKS_PER_SECOND = 1;
 
@@ -48,15 +49,13 @@ class GameManager {
 
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
-			this.sessions[sessionId] = new Session(this, sessionId, [1, 2, 3], this.roomsData);
+			this.sessions[sessionId] = new Session(this, sessionId, [1], this.roomsData);
 			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));
 		}
 
-		// Vérifier si la connexion a un token
+		// Vérifier si la connexion a un token, déjà vérifié dans SocketManager
 		const token = socket.handshake.query.token;
 		if (token) {
-			// Vérifier le token du professeur
-			// { ... }
 
 			const professor = new SocketProfessor(socket, this.sessions[sessionId]);
 			this.sessions[sessionId].addProfessor(professor);

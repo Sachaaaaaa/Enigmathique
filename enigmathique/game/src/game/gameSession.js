@@ -173,9 +173,17 @@ class GameSession {
 		console.log(clc.yellow('[Session] Fin de la session'));
 		this.isSessionRunning = false;
 
-		// Vérifier si la session se termine normalement ou si elle a été arrêtée
-		if (this.round >= this.numRounds) { 
-			
+		const endedNormally = this.round >= this.numRounds;
+
+		if (endedNormally) {
+			console.log(clc.greenBright('[Session] Fin de la session normale'));
+			// Envoie les résultats à l'API
+			// { ... }
+		} else {
+			console.log(clc.redBright('[Session] Fin de la session anormale'));
+			// Ne pas envoyer les résultats à l'API
+			// A la place, demande à l'API de supprimer la session
+			// { ... }
 		}
 
 
@@ -194,7 +202,6 @@ class GameSession {
 
 		// Vérifier si la session est terminée
 		if (this.round >= this.numRounds) {
-			console.log(clc.greenBright('[Session] Fin de la session'));
 			this.stopSession();
 			return;
 		}
