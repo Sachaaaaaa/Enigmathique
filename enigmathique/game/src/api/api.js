@@ -28,6 +28,7 @@ class ApiService {
 			const response = await this.sendRequest('POST', endpoint, data);
 			return response.isBelongsTo;
 		} catch (error) {
+			console.log(error);
 			return false;
 		}
 	}
@@ -69,6 +70,10 @@ class ApiService {
 			console.log(error);
 			return null;
 		}
+	}
+
+	static async postTeamsComposition(sessionId, teams) {
+		return null;
 	}
 }
 

@@ -21,14 +21,12 @@ class CompositionSession {
 	}
 
 	fetchStudents = async() => {
-		//Récupére les élèves disponibles depuis l'API
+		// Récupére les élèves disponibles depuis l'API
 		this.students = await ApiService.getTeamsFromId(this.sessionId);
-		this.onStudentsLoaded();
+		// Resync tout si quelqu'un se connecte avant que les élèves soient récupérés
+		this.resyncAll();
 	};
 
-	onStudentsLoaded = () => {
-		this.resyncAll();
-	}
 
 	/**
 	 * Ajoute un professeur à la session
@@ -68,6 +66,7 @@ class CompositionSession {
 	 * Vérifie si toutes les équipes sont formées et légales
 	 * @returns {boolean} true si toutes les équipes sont formées et légales
 	 */
+	// TODO: Modifier critères pour vérifier la légalité des équipes
 	areTeamsLegals = () => {
 		const studentsId = [];
 		for (const team of this.teamSockets) {
@@ -133,6 +132,7 @@ class CompositionSession {
 	 */
 	onTeamCompositionChange = (team) => {
 		// Met à jour la liste des élèves disponibles
+		// TODO: Envoyer uniquement ce qui est nécessaire
 		this.resyncAll();
 	};
 
@@ -164,6 +164,35 @@ class CompositionSession {
 			p.sendComposition(this.availableStudents, lockedTeams, confirmedTeams)
 		);
 	};
+
+	
+	/**
+	 * Envoie la composition à l'API et lance la session
+	 * (Redirige vers la page de jeu)
+	 * @returns {boolean} true si la session a été lancée
+	 */
+	finishComposition = () => {
+		// TODO: Faire la vérification
+		// if (!this.areTeamsLegals()) {
+		// 	return false;
+		// }
+
+		// Récupére les données des équipes
+		const teams = this.teamSockets.map((t) => t.toPostData());
+		
+		console.log(teams);
+
+		// Envoie la composition à l'API
+		const response = ApiService.postTeamsComposition(this.sessionId, teams);
+		// { .. }
+
+		// TODO: Faire autre chose si la requête a échouée
+		
+		// Pour l'instant on considère que ça a marché
+		// Informe les clients que la session a été lancée
+		this.teamSockets.forEach((t) => t.sendSessionStart());
+		this.professorSockets.forEach((p) => p.sendSessionStart());
+	}
 }
 
 module.exports = CompositionSession;

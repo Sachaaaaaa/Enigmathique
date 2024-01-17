@@ -48,7 +48,7 @@ class SocketManager {
 		const token = socket.handshake.query.token;
 		if (token) {
 			// Vérifier le token du professeur (si valide et si la partie lui appartient)
-			const isTokenValid = await ApiService.isTokenValid(token, sessionCode);
+			const isTokenValid = await ApiService.isTokenValid(token, sessionId);
 
 			// Si token invalide, déconnecte
 			if (!isTokenValid) {
