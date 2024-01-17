@@ -7,7 +7,7 @@ import { node } from "prop-types";
 
 import useInteractiveObject from "../../../hooks/useInteractiveObject";
 
-export function Model(props) {
+export default function Model(props) {
 	const { nodes, materials } = useGLTF("/models/test.glb");
 
 	const [gameState, setGameState] = useState({
@@ -16,6 +16,7 @@ export function Model(props) {
 	});
 	
 	const handleCickSuzanne = (e) => {
+		
 	};
 
 	// Initialiser d'un objet interactif avec le hook

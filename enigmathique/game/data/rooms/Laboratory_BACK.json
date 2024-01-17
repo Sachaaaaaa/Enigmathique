@@ -2,10 +2,20 @@
 	"name": "Laboratory",
 	"enigmas": [
 		{
-			"variables": {},
+			"variables": {
+				"x": {
+					"type": "fixed",
+					"value": 0
+				},
+				"y": {
+					"type": "generator",
+					"min": 0,
+					"max": 100
+				}
+			},
 			"answer": {
-				"type": "fixed",
-				"value": 4
+				"type": "dynamic",
+				"expression": "x + y"
 			},
 			"hint": "Regardez bien la recette !",
 			"endMessage": "Vous ouvrez le tirroir et vous récupérez l'ingrédient, au fond du tirroir vous trouvez un papier avec écrit dessus : g(x) = 2x"
@@ -14,7 +24,7 @@
 			"variables": {},
 			"answer": {
 				"type": "fixed",
-				"value": 43
+				"value": 1
 			},
 			"hint": "f(x) = g(x) <=> f(x) - g(x) = 0",
 			"endMessage": "Le coffre s'ouvre, un papier si trouve avec écrit dessus : Bien mélanger la potion pendant 1 minute."
@@ -23,16 +33,16 @@
 			"variables":{},
 			"answer": {
 				"type": "fixed",
-				"value": 60
+				"value": 2
 			},
 			"hint": "La réponse a été donnée dans le coffre.",
-			"endMessage": "Vous attendez 60 seconde et vous récupérez une potion de 0.35 Litre."
+			"endMessage": "Vous attendez 1 minute et vous récupérez une potion de 4 déciLitres."
 		},
 		{
 			"variables":{},
 			"answer": {
 				"type": "fixed",
-				"value": 300
+				"value": 3
 			},
 			"hint": "Lire l'antécédant.",
 			"endMessage": "Une fois la potion chauffée a 250 celsius, vous vous empressez de la boire."

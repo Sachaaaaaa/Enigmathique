@@ -4,6 +4,7 @@ import '../../../index.css';
 import { useNavigate } from 'react-router-dom';
 import RoomNav from "./RoomNav";
 import Room from "./Room";
+import GameService from "../../../services/game.service";
 import PropTypes from "prop-types";
 import Game from "../../../models/game.model";
 const CreationGame2 = (props) => {
@@ -27,7 +28,7 @@ const CreationGame2 = (props) => {
 
 	const handlePrecedent = () => {
 		props.setStep(1);
-	}
+	};
 
 	const handleSuivant = async (event) => {
 		if (selectedRooms.length === 0) {
@@ -35,17 +36,19 @@ const CreationGame2 = (props) => {
 			event.preventDefault();
 			return;
 		}
-		if (confirm("Les informations entrées sont exactes ?")) {
+		if (confirm('Les informations entrées sont exactes ?')) {
+			console.log(formData);
+
 			const game = await createGame();
 			await addRooms(game.id, selectedRooms);
 			const code = await openGame(game.id);
-			console.log(code)
+			console.log(code);
 			navigate(`/pregame/${code.code}`);
 
 			return;
 		}
 		event.preventDefault();
-	}
+	};
 
 	const createGame = async () => {
 		//return await GameService.createGame(formData.course, formData.gameName, formData.teamSize);
@@ -66,7 +69,7 @@ const CreationGame2 = (props) => {
 		} else {
 			setSelectedRooms([...selectedRooms, roomName]);
 		}
-	}
+	};
 
 	return (
 		<section className='flex flex-col h-[96%] w-full gap-4'>

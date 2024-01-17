@@ -1,20 +1,19 @@
 const socketio = require('socket.io');
 const clc = require('cli-color');
-const { ServerToClient, ClientToServer } = require('./socketMessages');
-const SocketTeam = require('./team');
-const Session = require('./session');
+const { ServerToClient, ClientToServer } = require('../socketMessages');
+const SocketTeam = require('./connections/socketTeam');
+const SocketProfessor = require('./connections/socketProfessor');
+const Session = require('./gameSession');
 const RoomDefinition = require('./rooms/roomDefinition');
 
 const TICKS_PER_SECOND = 1;
 
-class Game {
-	constructor(io) {
-		this.io = io;
+class GameManager {
+	constructor() {
 		this.sessions = {};
 		this.roomsData = {};
 
 		this.loadRoomsData();
-		this.io.on(ClientToServer.Connection, this.handleConnection);
 		this.run(TICKS_PER_SECOND);
 	}
 
@@ -25,7 +24,9 @@ class Game {
 		console.log(clc.yellow('[Game] Chargement des salles...'));
 		// Charger depuis JSON
 		this.roomsData = [
-			new RoomDefinition(require('../data/rooms/Laboratory.json'))
+			new RoomDefinition(require('../../data/rooms/Laboratory.json')),
+			new RoomDefinition(require('../../data/rooms/SwitchRoom.json')),
+			new RoomDefinition(require('../../data/rooms/DemoRoom.json')),
 		]
 
 		console.log(clc.green('[Game] Données des salles chargées'));
@@ -47,20 +48,18 @@ class Game {
 
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
-			this.sessions[sessionId] = new Session(this, sessionId, [1], this.roomsData);
+			this.sessions[sessionId] = new Session(this, sessionId, [1, 2, 3], this.roomsData);
 			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));
 		}
 
-		// Vérifier s'il s'agit d'une connexion type professeur ou équipe (superviseur ou joueur)
-		const isProfessor = socket.handshake.query.professor;
-		if (isProfessor) {
+		// Vérifier si la connexion a un token
+		const token = socket.handshake.query.token;
+		if (token) {
 			// Vérifier le token du professeur
-			const token = socket.handshake.query.token;
 			// { ... }
 
 			const professor = new SocketProfessor(socket, this.sessions[sessionId]);
 			this.sessions[sessionId].addProfessor(professor);
-
 		} else {
 			// Crée une nouvelle équipe et l'ajoute à la session, le reste sera géré dedans
 			const team = new SocketTeam(socket, this.sessions[sessionId]);
@@ -84,4 +83,4 @@ class Game {
 	};
 }
 
-module.exports = Game;
+module.exports = GameManager;

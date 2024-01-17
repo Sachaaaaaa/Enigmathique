@@ -4,7 +4,6 @@ import logo from '../assets/img/logo-name-enigmathique.png';
 import PropTypes from 'prop-types';
 import {IconContext} from 'react-icons';
 import {MdCollectionsBookmark, MdDoorFront, MdGames, MdHome} from 'react-icons/md';
-import {useCreationGameContext, initialFormData} from "./contexts/CreationGame.context";
 
 
 const SideBar = () => {
@@ -58,6 +57,7 @@ const ItemList = (props) => {
 		class: {
 			name: 'Mes classes',
 			path: '/class',
+			subdomains: [''],
 			icon: <MdCollectionsBookmark/>,
 		},
 		games: {
@@ -71,7 +71,9 @@ const ItemList = (props) => {
 			icon: <MdDoorFront/>,
 		},
 	}
-	const selected = path === type[props.type].path;
+	//TODO: Surveiller si ca marche avec toutes les pages
+	const selected = path.includes(type[props.type].path);
+
 
 
 	return (
