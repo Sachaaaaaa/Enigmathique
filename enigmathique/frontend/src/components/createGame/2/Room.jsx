@@ -57,7 +57,7 @@ Room.propTypes = {
 	difficulty: PropTypes.string.isRequired,
 	riddles: PropTypes.number.isRequired,
 	winrate: PropTypes.number.isRequired,
-	handleRoomSelection: PropTypes.func.isRequired,
+	handleRoomSelection: PropTypes.func,
 }
 
 export default Room;
