@@ -21,16 +21,18 @@ const Student = (props) => {
 	};
 
 	return (
-		<div className='flex flex-row items-center gap-10 justify-start p-4 bg-cyan-500 text-white rounded-xl'>
-			<p className='w-56'>{props.firstname}</p>
-			<p className='w-56'>{props.lastname}</p>
+		<div className='flex flex-row items-center gap-10 justify-between p-4 bg-white'>
+			<div className='flex flex-row items-center gap-2'>
+				<div className='h-10 w-10 rounded-full bg-gray-500'></div>
+				<p className=''>{props.firstname} {props.lastname}</p>
+			</div>
 			{props.isSelected ?
-				<button className='p-2 bg-red-500 rounded-xl' onClick={onSelectedStudentClick}>
-					<IoRemoveCircle size={25}/>
+				<button className='text-[#ef4565]' onClick={onSelectedStudentClick}>
+					<IoRemoveCircle size={40}/>
 				</button>
 				:
-				<button className='p-2 bg-green-500 rounded-xl' onClick={onAvailableStudentClick}>
-					<IoAddCircle size={25}/>
+				<button className='text-[#0a06f4]' onClick={onAvailableStudentClick}>
+					<IoAddCircle size={40}/>
 				</button>
 			}
 		</div>
