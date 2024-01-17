@@ -13,11 +13,8 @@ module.exports = app => {
 	router.post("/", middleware.verifyToken, game.create, middleware.verifyErrors);
 
 
-	// Accepte une équipe au sein de la partie
-	//router.post("/team/accept/:id", middleware.verifyToken, game.accept);
-
 	// Ajouter les salles
-	router.post("/rooms/", middleware.verifyToken, game.addRooms);
+	router.post("/rooms/", middleware.verifyToken, game.addRooms, middleware.verifyErrors);
 
 	// Récupérer toutes les parties du professeur connecté
 	router.get("/", middleware.verifyToken, game.findAll, middleware.verifyErrors);
@@ -35,6 +32,9 @@ module.exports = app => {
 
 	// Méthode interne :
 	
+	// Accepte une équipe au sein de la partie
+	//router.post("/team/accept/:id", middleware.verifyToken, game.accept);
+
 	// Termine une partie 
 	router.post("/end/:id", middleware.verifyGameToken, game.end)
 
@@ -48,7 +48,7 @@ module.exports = app => {
 	router.get("/gameState/:id", middleware.verifyGameToken, game.getState);
 
 	// Récupérer les rooms d'une à partir de son id
-	router.get("/rooms/:id", middleware.verifyGameToken, game.getRooms);
+	router.get("/rooms/:id", middleware.verifyGameToken, game.getRooms, middleware.verifyErrors);
 
 	// Vérifie si une partie, à partir de son id, appartient au prof
 	router.post("/gameBelongsToProf/:id", middleware.verifyGameToken, game.gameBelongsToProf, middleware.verifyErrors)
