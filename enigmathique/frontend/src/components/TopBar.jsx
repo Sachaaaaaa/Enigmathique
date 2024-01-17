@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { FaGear } from "react-icons/fa6";
 import {useLocation} from "react-router-dom";
 import Course from "../models/course.model";
@@ -10,12 +10,12 @@ const TopBar = () => {
 	const location = useLocation();
 	const path = location.pathname.split("/");
 	path.shift();
-	
+
 	const [course, setCourse] = useState();
 	const [professor, setProfessor] = useState('unknown');
 	const classId = parseInt(path[1]);
-	
-	
+
+
 	/**
 	 * chargment de l'objet classe pour changer le nom en fonction de la classe
 	 */
@@ -37,15 +37,13 @@ const TopBar = () => {
 		}
 	}, [path[1], classId]);
 
-
-
-	const textMap ={
+	const textMap = {
 		"dashboard": "Tableau de bord",
 		"class": "Mes classes",
 		"games": "Mes parties",
 		"rooms": "Salles d'énigmes",
 		"create-game": "Création de partie",
-		"pregame":"",
+		"pregame": "",
 	}
 
 	let text = textMap[path[0]];
@@ -57,7 +55,7 @@ const TopBar = () => {
 				//faire requete sur api;
 				break;
 			case "pregame":
-				text="Validation des équipes"
+				text = "Validation des équipes"
 		}
 	}
 

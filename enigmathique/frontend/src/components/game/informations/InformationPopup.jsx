@@ -9,12 +9,18 @@ extend({ Html });
 const InformationPopup = ({ title, information, image, closePopup }) => {
 	return (
 		<Html>
-			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
-				<h1>{title}</h1>
+			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center" style={{ width: '500px' }}>
+				<h1> <strong>{title}</strong> </h1>
 				<p>{information}</p>
 				{image && <img src={image} alt="information image" />}
-				<button onClick={closePopup} className="mt-3">
-					Go Back
+				<button onClick={closePopup} className="mt-3"
+					style={{
+						background: '#ff6666',
+						padding: '8px',
+						borderRadius: '8px',
+						width: '12vw'
+					}}>
+					Fermer
 				</button>
 			</div>
 		</Html>

@@ -8,13 +8,9 @@ import Game from './pages/Game';
 import Class from './pages/Class';
 import Students from './pages/Students';
 import './index.css';
-import CreateGame from "./pages/CreateGame";
-import {CreationGameDataProvider} from "./components/contexts/CreationGame.context";
-import PreGame from "./pages/PreGame";
-import TeamStats from "./pages/TeamStats";
-import { RoomProvider } from './contexts/RoomContext';
+import TeamStats from './pages/TeamStats';
 import Games from "./pages/Games";
-import {PreGameDataProvider} from "./components/contexts/PreGame.context";
+import Join from "./pages/Join";
 import PreGameWrapper from "./components/contexts/PreGame.wrapper";
 import CreateGameWrapper from "./components/contexts/CreationGame.wrapper";
 import RoomList from 'pages/RoomList';
@@ -32,7 +28,8 @@ const App = () => {
 			<Route path='/game' element={<Game/>}/>
 			<Route path='/games' element={<Games/>}/>
 			<Route path='/create-game' element={<CreateGameWrapper/>}/>
-			<Route path='/pregame/:code' element={<PreGameWrapper/>}/>
+			<Route path='/pregame/:sessionId' element={<PreGameWrapper/>}/>
+			<Route path='/join/:sessionId' element={<Join/>}/>
 			<Route path='/teamstats' element={<TeamStats/>}/>
 			<Route path='/rooms' element={<RoomList/>}/>
 		</Routes>

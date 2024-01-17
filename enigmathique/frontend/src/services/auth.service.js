@@ -45,7 +45,7 @@ const getCurrentUser = () => {
 };
 
 const getToken = () => {
-	// Retourne les tokens de l'utilisateur courant
+	// Retourne le token de l'utilisateur courant
 	const user = JSON.parse(localStorage.getItem('user'));
 	return user.token;
 };
