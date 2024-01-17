@@ -5,27 +5,26 @@ import AvailableStudents from '../components/join/AvailableStudents';
 import SelectedStudents from '../components/join/SelectedStudents';
 
 
-
-import { socket , SocketContext} from 'contexts/SocketContext';
-import { useParams } from 'react-router-dom';
-import { ClientToServer, ConnectionType, ServerToClient } from 'data/socketMessages';
+import {socket, SocketContext} from 'contexts/SocketContext';
+import {useParams} from 'react-router-dom';
+import {ClientToServer, ConnectionType, ServerToClient} from 'data/socketMessages';
+import LayoutStudent from "../layouts/LayoutStudent";
 
 const Join = (props) => {
 	const [available, setAvailable] = useState([]);
 	const [selected, setSelected] = useState([]);
 
-	console.log(selected);
 
 	// Recupère l'id de session dans l'url
-	// A changer, facilement modifiable par l'utilisateur
-	const { sessionId } = useParams();
+	// À changer, facilement modifiable par l'utilisateur
+	const {sessionId} = useParams();
 	// Si l'id de session n'est pas défini, on quitte la page
 	if (!sessionId) {
 		throw new Error('Il faut spécifier un id de session dans l\'url');
 	}
 
 	// Met à jour l'id de session dans le handshake du socket
-	socket.io.opts.query = { sessionId, connectionType: ConnectionType.TeamComposition };
+	socket.io.opts.query = {sessionId, connectionType: ConnectionType.TeamComposition};
 
 	useEffect(() => {
 
@@ -54,58 +53,35 @@ const Join = (props) => {
 			socket.off(ServerToClient.Disconnection);
 			socket.off(ServerToClient.SyncAvailableStudents);
 			socket.off(ServerToClient.SyncTeamStudents);
-			
+
 		};
 	}, []);
 
+	const [teamName, setTeamName] = useState('');
+	const handleTeamNameChange = (event) => {
+		setTeamName(event.target.value);
+	}
 	const handleCreateTeam = () => {
-		if (document.getElementById('teamName').value === '') {
-			alert('Vous devez donner un nom à votre équipe');
-			return;
-		}
-
-		const name = document.getElementById('teamName').value;
-
-		socket.emit(ClientToServer.LockTeam, {name});
+		socket.emit(ClientToServer.LockTeam, {name: teamName});
 	};
 
 	return (
-		<SocketContext.Provider value={socket}>
-			<header className='flex flex-row items-center p-5'>
-				<img
-					className='h-24 w-24 rounded-full'
-					src={logo}
-					alt='Logo Enigmatique'/>
-				<h1 className='text-3xl text-blue-800'>Rejoindre la partie de <span
-					className='text-red-600'>{props.professorName}</span></h1>
-			</header>
-			<main className='flex flex-col m-5'>
-				<section>
-					{/*Les divs progressions*/}
-				</section>
-				<h1 className='text-2xl'>Création de l&apos;équipe</h1>
-				<section className='flex flex-row justify-center'>
-					<div>
-						<label htmlFor='teamName'>Nom de l&apos;équipe</label>
-						<input
-							className='border-2 border-blue-800 rounded-xl w-full p-2'
-							type='text'
-							id='teamName'
-							placeholder='Nom de l&apos;équipe'
-						/>
-					</div>
-				</section>
-
-				<section className='flex flex-row justify-evenly gap-2 p-4 w-full'>
-					<AvailableStudents available={available} teamSize={4}/>
-					<SelectedStudents selected={selected} teamSize={4}/>
-				</section>
-				<section className='flex flex-row justify-end p-4 w-full'>
-					<button className='p-2 bg-blue-800 rounded-xl text-white' onClick={handleCreateTeam}>Créer mon équipe
-					</button>
-				</section>
-			</main>
-		</SocketContext.Provider>
+		<LayoutStudent>
+			<SocketContext.Provider value={socket}>
+				<main className='flex flex-col h-full w-full p-4 bg-[#f5f7fa]'>
+					<h1 className='text-2xl'>Création de l&apos;équipe</h1>
+					<section className='flex flex-row justify-evenly gap-2 p-4 h-[70%] w-full'>
+						<AvailableStudents available={available} teamSize={4}/>
+						<SelectedStudents selected={selected} handleChange={handleTeamNameChange} teamSize={4}/>
+					</section>
+					<section className='flex flex-row justify-end p-4 h-[10%] w-full'>
+						<button className='p-2 bg-blue-800 rounded-xl text-white' onClick={handleCreateTeam}>Créer mon
+							équipe
+						</button>
+					</section>
+				</main>
+			</SocketContext.Provider>
+		</LayoutStudent>
 	);
 };
 Join.propTypes = {
