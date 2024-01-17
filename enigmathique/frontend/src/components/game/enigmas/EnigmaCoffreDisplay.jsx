@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { BsQuestionDiamondFill } from 'react-icons/bs';
+import { FaCheck } from 'react-icons/fa';
 
 const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, hint, image }) => {
 	const [userAnswer, setUserAnswer] = useState('');
@@ -48,14 +50,14 @@ const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, descrip
 
 			{!hint && (
 				<button onClick={() => handleAskHint()} className="m-1.5" style={{ background: '#ffcc00', padding: '8px', borderRadius: '8px', width: '12vw' }}>
-					Indice
+					<BsQuestionDiamondFill/>
 				</button>
 			)}
 
 			{hint && <p className="m-1.5">{hint}</p>}
 
 			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5" style={{ background: '#00ff00', padding: '8px', borderRadius: '8px', width: '12vw' }}>
-				Essayer
+				<FaCheck/>
 			</button>
 		</>
 	);

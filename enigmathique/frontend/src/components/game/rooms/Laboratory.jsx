@@ -174,12 +174,13 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={1}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								title="OOH un coffre !"
 								description="Vous vous en doutiez mais il faut un code."
 								image={data.image}
+								hint={hint}
 								handleAskHint={handleAskHint}
 							/>
 						)}
@@ -217,10 +218,11 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={2}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Une bonne mixture !"
 								description="Mais pendant combien de temps il faut melanger ?"
+								hint={hint}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
@@ -260,10 +262,11 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={3}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
 								title="Chaud devant !"
 								description="La potion est presque terminée, mais il ne faut pas la faire bruler !"
+								hint={hint}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
