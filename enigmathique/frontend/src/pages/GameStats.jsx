@@ -65,6 +65,7 @@ const GameStats = () => {
 					<TimeGame teams={teams} game={game} scores={scores}/>
 					<RoomGame teams={teams} game={game} scores={scores}/>
 					<SuccesGame teams={teams} game={game} scores={scores}/>
+					<MistakeGame teams={teams} game={game} scores={scores}/>
 				</div>
 			</main>
 		</LayoutProf>
