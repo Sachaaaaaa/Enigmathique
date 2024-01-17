@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { BsQuestionDiamondFill } from 'react-icons/bs';
+import { FaCheck } from 'react-icons/fa';
 
 
 const BasicDisplayTemplate = ({ handleSubmitAnswer, handleAskHint, title, description, hint, image }) => {
@@ -29,18 +31,17 @@ const BasicDisplayTemplate = ({ handleSubmitAnswer, handleAskHint, title, descri
 					padding: '8px',
 					borderRadius: '8px',
 					width: '12vw'
-				}}>Indice</button>}
+				}}><BsQuestionDiamondFill/></button>}
 
 			{hint && <p className="m-1.5">{hint}</p>}
-			
 
 			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5"
 				style={{
 					background: '#00ff00',
 					padding: '8px',
 					borderRadius: '8px',
-					width: '12vw'
-				}}>Essayer</button>
+					width: '12vw',
+				}}><FaCheck/></button>
 		</>
 	);
 };
