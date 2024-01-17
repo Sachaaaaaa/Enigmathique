@@ -6,6 +6,8 @@ import { socket, SocketContext } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
+import E from '../assets/img/E.png';
+import help from '../assets/img/help.png';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -56,7 +58,7 @@ const Game = () => {
 					<h1 className="text-3xl">Enigmathique</h1>
 				</div>
 				<div className="flex flex-row items-center gap-2">
-					<img src="../assets/img/E.png" alt="logo" />
+					<img src={E} alt="logo" style={{height: '4em'}}/>
 				</div>
 			</section>
 
@@ -66,17 +68,16 @@ const Game = () => {
 					position: 'absolute',
 					bottom: 0,
 					right: 0,
-					margin: '16px',
-					borderRadius: '40%',
-					padding: '8px',
-					background: '#ffd11a',
+					margin: '10px',
+					width: '4em',
+					height: '4em',
 					zIndex: 999,
 				}}
 			>
-				<button onClick={toggleWindow}>Aide</button>
+				<button onClick={toggleWindow}><img src={help} alt="help" /></button>
 			</div>
 
-			{/* Fenêtre (à personnaliser en fonction de votre contenu) */}
+			{/* Fenêtre d'aide */}
 			{isWindowOpen && (
 				<div
 					style={{
@@ -90,12 +91,14 @@ const Game = () => {
 					}}
 				>
 					{/* Contenu de la fenêtre */}
-					<h2>Aide</h2>
-					<p>Vous pouvez vous déplacer dans la salle avec clic gauche, faire tourner la salle avec clic droit.
-            et zoomer avec la molette. Passer votre souris sur tous les éléments de la scène pour voir les quelques sont interactifs.
-            Les éléments avec lesquels vous pouvez interagir change de couleur.
+					<h2> <strong>Aide</strong></h2>
+					<p>Vous pouvez tourner la salle en maintenant <strong>clic gauche</strong> et en déplaçant votre souris, 
+						déplacer la salle avec <strong>clic droit</strong>
+						et zoomer avec la molette. Passer votre souris sur tous les éléments de la scène pour voir les quelques sont interactifs.
+            Les éléments avec lesquels vous pouvez interagir <strong>change de couleur.</strong>
             Vous pouvez aussi cliquer sur les éléments interactifs pour afficher les énigmes et rentré votre réponse.
             Certain éléments ne donnent pas d&apos;énigmes mais des informations sur des éléments de réponse.
+						Cliqué sur la <strong>porte</strong> du niveau pour afficher le contexte de la scène. 
 					</p>
 					<button onClick={toggleWindow} style={{
 						background: '#ff6666',
