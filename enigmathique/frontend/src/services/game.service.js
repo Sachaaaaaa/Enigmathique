@@ -19,12 +19,12 @@ const getOne = (idGame) => {
 			return response.data;
 		});
 }
-const addRooms = (idGame, rooms) => {
+const addRooms = (idGame, roomName) => {
 	const token = authHeader();
 	return axios
 		.post(API_URL + 'game/rooms', {
 			idGame,
-			rooms
+			roomName,
 		}, {headers: token})
 		.then((response) => {
 			return response.data;

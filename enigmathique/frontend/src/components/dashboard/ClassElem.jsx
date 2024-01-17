@@ -106,22 +106,22 @@ const ClassElem = (props) => {
 
 	return (
 		<article
-			className='grid grid-cols-2 gap-1 info-container min-w-[450px]'>
-			<article className='col-span-1 elem-dashboard'>
+			className='grid grid-cols-2 gap-1 info-container w-full h-full'>
+			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>NOM</h3>
 				<p className='small-text'>Seconde {classGroup.name}</p>
 			</article>
-			<article className='col-span-2  elem-dashboard'>
+			<article className='col-span-1  element-info-container'>
 				<h3 className='small-title'>ÉLÈVES</h3>
 				<p className='small-text'>{students.length}</p>
 			</article>
 
-			<article>
+			<article className='col-span-1  element-info-container'>
 				<h3 className='small-title'>NOMBRE DE PARTIES JOUÉES</h3>
 				<p className='small-text'>{gamesOf.length}</p>
 			</article>
 
-			<article>
+			<article className='col-span-1  element-info-container'>
 					<h3 className='small-title'>DERNIÈRE PARTIE</h3>
 					<p className='small-text'>{getLastGame(gamesOf)}</p>
 			</article>
@@ -135,7 +135,7 @@ const ClassElem = (props) => {
 			</div>
 
 			{/* Bouton 'Voir' */}
-			<Link to={'../class/'+classGroup.id} className='btn-show'>
+			<Link to={'../class/'+classGroup.id} className='col-span-2 btn-show'>
 				Voir
 			</Link>
 		</article>

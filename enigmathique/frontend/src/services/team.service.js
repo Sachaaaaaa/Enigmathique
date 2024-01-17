@@ -12,8 +12,18 @@ const getStudents = (idTeam) => {
 		});
 }
 
+const getScores = (idTeam) => {
+	const token = authHeader();
+	return axios
+		.get(API_URL + '/team/score' + idTeam, {headers: token})
+		.then((response) => {
+			return response.data;
+		});
+}
+
 const TeamService = {
-	getStudents
+	getStudents,
+	getScores
 }
 
 export default TeamService
