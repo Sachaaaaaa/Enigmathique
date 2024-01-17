@@ -44,11 +44,18 @@ const getCurrentUser = () => {
 	return JSON.parse(localStorage.getItem('user'));
 };
 
+const getToken = () => {
+	// Retourne le token de l'utilisateur courant
+	const user = JSON.parse(localStorage.getItem('user'));
+	return user.token;
+};
+
 const AuthService = {
 	register,
 	login,
 	logout,
-	getCurrentUser
+	getCurrentUser,
+	getToken
 };
 
 export default AuthService;

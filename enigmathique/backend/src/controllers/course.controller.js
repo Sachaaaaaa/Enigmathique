@@ -51,20 +51,19 @@ exports.create = async (req, res) => {
 		idProfessor: req.tokenId,
 	};
 
-	// Enregistrer la classe dans la base de données
-	await Course.create(course)
+	try{
+		// Enregistrer la classe dans la base de données
+		const response = await Course.create(course)
 
 		// Renvoie les données créées
-		.then(data => {
-			return res.status(201).json(data);
-		})
-
-		// Gère les erreurs
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la création de la classe."
-			});
+		return res.status(201).json(response);
+		
+	// Gère les erreurs
+	} catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la création de la classe."
 		});
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -73,18 +72,23 @@ exports.create = async (req, res) => {
 
 // methode pour récuperer les classes du professeur
 exports.findAll = async (req, res) => {
-	await Course.findAll({ where: { idProfessor: req.tokenId } })
-		.then(data => {
-			return res.status(200).json(data);
-		})
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-			});
-		});	
+	try{
+	
+	// Récupère toutes les classes du professeur connecté
+	const courses = await Course.findAll({ where: { idProfessor: req.tokenId } })
+
+	// Renvoie les données récupérées
+	return res.status(200).json(courses);
+
+	// Gère les erreurs
+	} catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+		});
+	}	
 }
 
-// methode pour récuperer une classe du professeur
+// methode pour récuperer une classe du professeur en fonction de son id
 exports.findOne = async (req, res) => {
 
 	// Vérifie que la classe appartient bien au professeur
@@ -94,16 +98,19 @@ exports.findOne = async (req, res) => {
 		})	
 	}
 
+	try {
+
 	// Récupèrer la classe
-	await Course.findOne({ where: { id: req.params.id, idProfessor: req.tokenId } })
-		.then(data => {
-			return res.status(200).json(data);
-		})
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-			});
-		});	
+	const course = await Course.findOne({ where: { id: req.params.id, idProfessor: req.tokenId } })
+	
+	// Renvoie les données récupérées
+	return res.status(200).json(course);
+
+	} catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+		});
+	}	
 }
 
 // methode pour récuperer les élèves d'une classe du professeur par son id
@@ -116,15 +123,19 @@ exports.findStudents = async (req, res) => {
 		})
 	}
 
-	await Student.findAll({ where: { idCourse: req.params.id} })
-		.then(data => {
-			return res.status(200).json(data);
-		})
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-			});
-		});	
+	try{
+		// Récupèrer les élèves de la classe
+		const students = await Student.findAll({ where: { idCourse: req.params.id} })
+
+		// Renvoie les données récupérées
+		return res.status(200).json(students);
+	
+	// Gère les erreurs
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+		});
+	};	
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -132,7 +143,7 @@ exports.findStudents = async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////
 
 // todo: verif qu'il y a au moins un truc à modifier 
-// methode pour mettre à jour le professeur connecté
+// methode pour mettre à jour une classe du professeur
 exports.update = async(req, res) => {
 	
 	// Valider la requête

@@ -18,6 +18,8 @@ const Dashboard = () => {
 	const [courses, setCourses] = useState([]);
 	// Ajout d'un état pour avoir les parties
 	const [games, setGames] = useState([]);
+	// Ajout d'un état pour avoir les rooms
+	const [rooms, setRooms] = useState([]);
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
 	// Ajout d'un état pour suivre l'indice de la classe actuelle
@@ -43,19 +45,11 @@ const Dashboard = () => {
 		loadGames();
 	}, []);
 
-	const loadRooms = () => {
-		let rooms = [];
-		RoomService.getAllRooms().then((response) => {
-			rooms = response
-		}).catch((error) => {
-			console.log(error);
-		});
-		return rooms;
-	}
-
 	// Choix des salles à afficher
-	const roomSelection = (rooms) => {
-		if(rooms.length !== 0) {
+	const roomSelection = () => {
+		//TODO: régler le problème de chargement
+		loadRooms();
+		if(rooms.length > 2) {
 			let max = rooms.length - 1;
 			let roomSelect = [];
 			let selectedIndex = -1;
@@ -66,15 +60,25 @@ const Dashboard = () => {
 				}
 				selectedIndex = index;
 			}
-			return roomSelect;
+			return setSelectedRooms(roomSelect);
+		} else if(rooms.length !== 0){
+			setSelectedRooms(rooms);
 		} else {
-			return []
+			setSelectedRooms([]);
 		}
 	};
 
+	const loadRooms = () => {
+		RoomService.getAllRooms().then((response) => {
+			setRooms(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
 
 	useEffect(() => {
-		setSelectedRooms(roomSelection(loadRooms()));
+		roomSelection();
 	}, []); // s'éxécute seulement au montage
 
 	// Fonction pour aller à la classe précédente
@@ -107,7 +111,7 @@ const Dashboard = () => {
 								{games.length <= 1 && <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>}
 								{games.length === 0 && <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>}
 
-								
+
 							</div>
 						</div>
 						<div className='flex flex-col p-5 pt-2'>
@@ -135,7 +139,6 @@ const Dashboard = () => {
 							{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
 						</div>
 					</div>
-
 			</main>
 		</LayoutProf>
 	);

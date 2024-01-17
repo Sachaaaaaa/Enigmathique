@@ -14,6 +14,9 @@ module.exports = app => {
 	// Ajoute un élève à une équipe
 	router.post("/student/", middleware.verifyToken, team.addStudents);
 
+	// Ajouter les scores d'une équipe
+	router.post("/score/:id", middleware.verifyToken, team.addScores);
+
 	// Supprime un élève de l'équipe
 	router.post("/student/:id", middleware.verifyToken, team.removeStudent);
 

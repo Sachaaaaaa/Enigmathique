@@ -14,7 +14,7 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	const { room } = useRoom();
 	const socket = useSocket();
 
-	const [enigmaState, setEnigmaState] = useMemoryState(room.name + enigmaId, { isSolved: false, endMessage: null});
+	const [enigmaState, setEnigmaState] = useMemoryState(room.name + enigmaId, { isSolved: false, endMessage: null, hint: null });
 
 	// Recupère les données dynamiques de l'énigme (envoyées par le serveur)
 	if (!room.variables[enigmaId]) {
@@ -24,33 +24,50 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 
 	const submitAnswer = (answer) => {
 		console.log('submit answer', answer);
-		socket.emit(ClientToServer.Submit, {enigmaId, answer});
+		socket.emit(ClientToServer.Submit, { enigmaId, answer });
+	};
+
+	const askHint = () => {
+		console.log('ask hint');
+		socket.emit(ClientToServer.AskHint, { enigmaId });
 	};
 
 	useEffect(() => {
-		const handleAnswerFeedback = ({isSolved, endMessage}) => {
+		const handleAnswerFeedback = ({ isSolved, endMessage }) => {
 			if (isSolved) {
-				setEnigmaState({isSolved: true, endMessage});
+				setEnigmaState({ isSolved: true, endMessage: endMessage, hint: null });
 			}
 		};
 
+		const handleHintFeedback = ({ hint }) => {
+			console.log('hint', hint);
+			setEnigmaState({ hint });
+		};
+
 		socket.on(ServerToClient.Feedback, handleAnswerFeedback);
+		socket.on(ServerToClient.Hint, handleHintFeedback);
 
 		return () => {
 			socket.off(ServerToClient.Feedback, handleAnswerFeedback);
+			socket.off(ServerToClient.Hint, handleHintFeedback);
 		};
 
 	}, []);
 
 	return (
 		<Html>
-			<div className="absolute translate-x-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
+			<div className="absolute translate-y-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
 
-				{enigmaDisplayTemplate(variables, submitAnswer)}
+				{enigmaDisplayTemplate(variables, enigmaState.hint, submitAnswer, askHint)}
 
 				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
-
-				<button onClick={closeEnigma} className="mt-3">
+				<button onClick={closeEnigma} className="mt-3"
+					style={{
+						background: '#ff6666',
+						padding: '8px',
+						borderRadius: '8px',
+						width: '12vw'
+					}}>
 					Fermer
 				</button>
 			</div>

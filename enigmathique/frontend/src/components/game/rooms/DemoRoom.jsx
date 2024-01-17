@@ -12,7 +12,7 @@ import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
 
-export function Model(props) {
+export default function Model(props) {
 	const socket = useContext(SocketContext);
 
 	useEffect(() => {
@@ -20,6 +20,51 @@ export function Model(props) {
 	});
 
 	const { nodes, materials } = useGLTF("models/Demo_Room-001.glb");
+
+	const SuzanneEvent = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cube001"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cube001.geometry}
+				material={materials["Wood.002"]}
+				position={[1, 1, -1.5]}
+				scale={[1, 0.03, 0.5]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={0}
+						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
+							<BasicDisplayTemplate
+								title="Salut Gnibo!"
+								description="Je suis un singe! La réponse est 1."
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
 
 	return (
 		<group {...props} dispose={null}>
@@ -33,7 +78,7 @@ export function Model(props) {
 					position={[0, 2, 0]}
 					scale={2}
 				/>
-				<mesh
+				{/*<mesh
 					name="Cube001"
 					castShadow
 					receiveShadow
@@ -41,7 +86,8 @@ export function Model(props) {
 					material={materials["Wood.002"]}
 					position={[1, 1, -1.5]}
 					scale={[1, 0.03, 0.5]}
-				/>
+				>*/}
+				<SuzanneEvent />
 				<mesh
 					name="Cube002"
 					castShadow

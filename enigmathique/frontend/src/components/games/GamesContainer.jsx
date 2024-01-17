@@ -1,62 +1,41 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import GameItem from "./GameItem";
-import {useCreationGameContext} from "../contexts/CreationGame.context";
+import Game from "../../models/game.model";
+import Course from "../../models/course.model";
+
 
 const GamesContainer = () => {
-
-	const games = [
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-		{
-			name:"Entrainement aux probas",
-			date:"17/11/23",
-			course:"Seconde A",
-			winrate:80,
-			numberRoom:4
-		},
-	]
+	const [games, setGames] = useState([]);
+	const loadGames = async () => {
+		//récupérer toutes les games
+		const data = await Game.getAll();
+		//créer une promesse pour chaque game de la map data
+		const updateGames = await Promise.all(
+			data.map(async (game) => {
+				//récupérer un objet Course à partir de l'idCourse de la game
+				const course = await Course.get(game.idCourse);
+				//retourner un objet game avec un idCourse qui est remplacé par le nom de la classe
+				return {
+					...game,
+					idCourse: course.name,
+				};
+			})
+		);
+		setGames(updateGames);
+	}
+	useEffect(() => {
+		loadGames();
+	},[]);
+	
 	// const {filter} = useCreationGameContext();
 	return(
 		<>
 			<section className='flex flex-row items-end h-[10%] w-full text-[#0A06F4] text-xl'>
 				<p className='w-[25%]'>Nom</p>
-				<p className='w-[15%]'>Date</p>
-				<p className='w-[25%]'>Classe</p>
-				<p className='w-[20%]'>Taux de réussite</p>
-				<p className='w-[10%]'>Nombre de salles</p>
+				<p className='w-[20%]'>Date</p>
+				<p className='w-[20%]'>Classe</p>
+				<p className='w-[15%]'>Taux de réussite</p>
+				<p className='w-[15%]'>Nombre de salles</p>
 				<p className='w-[15%]'>Action</p>
 			</section>
 			<hr></hr>
@@ -67,8 +46,8 @@ const GamesContainer = () => {
 						<>
 							<GameItem
 								name={game.name}
-								date={game.date}
-								course={game.course}
+								date={game.createdAt.toLocaleString()}
+								course={game.idCourse}
 								winrate={game.winrate}
 								numberRoom={game.numberRoom}
 							/>
