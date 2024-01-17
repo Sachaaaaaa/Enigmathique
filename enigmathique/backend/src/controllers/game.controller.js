@@ -10,6 +10,7 @@ const Course = db.course;
 const Team = db.team;
 const Score = db.score;
 const GameCode = db.gameCode;
+const Student = db.student;
 const GameRooms = db.gameRooms;
 const Op = db.Sequelize.Op;
 
@@ -374,18 +375,21 @@ exports.getIdFromCode = async (req, res, next) => {
 }
 
 // methode pour récuperer une classe à partir du code de la partie
-exports.course = async (req, res) => {
+exports.course = async (req, res, next) => {
 
 	try{
 		// Récupère la classe courrespondant au code
-		const gameCode = await GameCode.findOne({ where: { code: req.params.code} })
-		return res.status(200).json(gameCode);
+		const gameCode = await GameCode.findOne({ where: { idGame: req.params.id} })
+
+		// Récupèrer les élèves de la classe
+		const students = await Student.findAll({ where: { idCourse: gameCode.idCourse} })
+
+		// Renvoie les données récupérées
+		return res.status(200).json(students);
 
 	// Gère les erreurs
 	}catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-		});
+		next(err)
 	}	
 }
 

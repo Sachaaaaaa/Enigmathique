@@ -36,16 +36,16 @@ module.exports = app => {
 	//router.post("/team/accept/:id", middleware.verifyToken, game.accept);
 
 	// Termine une partie 
-	router.post("/end/:id", middleware.verifyGameToken, game.end)
+	router.post("/end/:id", middleware.verifyGameToken, game.end, middleware.verifyErrors)
 
 	// Récupère les score d'une partie 
 	router.post("/score/:id", middleware.verifyGameToken, game.getScore, middleware.verifyErrors)
 
 	// Récupérer les élèves en fonction du code de la partie (il faut ouvrir la game avant)
-	router.get("/course/:code", middleware.verifyGameToken, game.course, middleware.verifyErrors)
+	router.get("/course/:id", middleware.verifyGameToken, game.course, middleware.verifyErrors)
 
 	// Récupérer l'état d'une à partir de son id
-	router.get("/gameState/:id", middleware.verifyGameToken, game.getState);
+	router.get("/gameState/:id", middleware.verifyGameToken, game.getState, middleware.verifyErrors);
 
 	// Récupérer les rooms d'une à partir de son id
 	router.get("/rooms/:id", middleware.verifyGameToken, game.getRooms, middleware.verifyErrors);
