@@ -5,7 +5,9 @@ const SocketTeam = require('./connections/socketTeam');
 const SocketProfessor = require('./connections/socketProfessor');
 const RoomPlayable = require('./rooms/roomPlayable');
 
-const TIME_PER_ROUND = 60 * 10; // 10 minutes
+//const TIME_PER_ROUND = 60 * 10; // 10 minutes
+const TIME_PER_ROUND = 5; // 5 secondes
+
 
 class GameSession {
 	/**
@@ -171,8 +173,11 @@ class GameSession {
 		console.log(clc.yellow('[Session] Fin de la session'));
 		this.isSessionRunning = false;
 
-		// Vérifier si la session se termine normalement ou si elle est arrêtée
-		// { ... }
+		// Vérifier si la session se termine normalement ou si elle a été arrêtée
+		if (this.round >= this.numRounds) { 
+			
+		}
+
 
 		this.game.onSessionEnd(this.sessionId);
 	}
@@ -186,6 +191,13 @@ class GameSession {
 
 		this.isPlaying = false;
 		this.round += 1;
+
+		// Vérifier si la session est terminée
+		if (this.round >= this.numRounds) {
+			console.log(clc.greenBright('[Session] Fin de la session'));
+			this.stopSession();
+			return;
+		}
 
 		// Envoi la nouvelle salle à chaque équipe
 		let i = this.round;
@@ -236,11 +248,10 @@ class GameSession {
 			const timeLeft = TIME_PER_ROUND - elapsed / 1000;
 			console.log(clc.greenBright(`[Session] Tick: ${timeLeft} secondes restantes`));
 
-			// Test, envoie la progression de chaque équipe
-			const teamsProgress = this.getSessionResult();
-			this.professors.forEach(professor => {
-				professor.sendAllTeamsProgress(teamsProgress);
-			});
+			// Vérifier si le temps est écoulé
+			if (timeLeft <= 0) {
+				this.rotateRooms();
+			}
 			
 		} else if (this.isSessionRunning) {
 			console.log(clc.greenBright(`[Session] Tick: En attente de chargements des joueurs ...`));
