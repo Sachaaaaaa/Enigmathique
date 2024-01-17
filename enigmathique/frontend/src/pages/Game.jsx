@@ -8,6 +8,8 @@ import { ConnectionType, ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
 import E from '../assets/img/E.png';
 import help from '../assets/img/help.png';
+import { IoIosCloseCircle } from 'react-icons/io';
+
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -58,22 +60,12 @@ const Game = () => {
 					<h1 className="text-3xl">Enigmathique</h1>
 				</div>
 				<div className="flex flex-row items-center gap-2">
-					<img src={E} alt="logo" style={{height: '4em'}}/>
+					<img src={E} alt="logo" style={{ height: '4em' }} />
 				</div>
 			</section>
 
 			{/* Bouton pour ouvrir/fermer la fenêtre */}
-			<div
-				style={{
-					position: 'absolute',
-					bottom: 0,
-					right: 0,
-					margin: '10px',
-					width: '4em',
-					height: '4em',
-					zIndex: 999,
-				}}
-			>
+			<div className='absolute bottom-0 right-0 m-4 w-16 h-16 z-50'>
 				<button onClick={toggleWindow}><img src={help} alt="help" /></button>
 			</div>
 
@@ -92,27 +84,28 @@ const Game = () => {
 				>
 					{/* Contenu de la fenêtre */}
 					<h2> <strong>Aide</strong></h2>
-					<p>Vous pouvez tourner la salle en maintenant <strong>clic gauche</strong> et en déplaçant votre souris, 
+					<p>Vous pouvez tourner la salle en maintenant <strong>clic gauche</strong> et en déplaçant votre souris,
 						déplacer la salle avec <strong>clic droit</strong>
 						et zoomer avec la molette. Passer votre souris sur tous les éléments de la scène pour voir les quelques sont interactifs.
-            Les éléments avec lesquels vous pouvez interagir <strong>change de couleur.</strong>
-            Vous pouvez aussi cliquer sur les éléments interactifs pour afficher les énigmes et rentré votre réponse.
-            Certain éléments ne donnent pas d&apos;énigmes mais des informations sur des éléments de réponse.
-						Cliqué sur la <strong>porte</strong> du niveau pour afficher le contexte de la scène. 
+						Les éléments avec lesquels vous pouvez interagir <strong>change de couleur.</strong>
+						Vous pouvez aussi cliquer sur les éléments interactifs pour afficher les énigmes et rentré votre réponse.
+						Pour fermer une énigme ou une autre fenêtre vous pouvez appuis sur la <strong>croix</strong> en bas ou <strong>rappuyer</strong> sur l&apos;objet cliqué.
+						Certain éléments ne donnent pas d&apos;énigmes mais des informations sur des éléments de réponse.
+						Cliqué sur la <strong>porte</strong> du niveau pour afficher le contexte de la scène.
 					</p>
 					<button onClick={toggleWindow} style={{
 						background: '#ff6666',
 						padding: '8px',
 						borderRadius: '8px',
 						width: '12vw'
-					}}>Fermer la fenêtre</button>
+					}}><IoIosCloseCircle style={{ height: '2em', width: '2em'}}/></button>
 				</div>
 			)}
 
 			<RoomProvider>
 				<Canvas
 					shadows
-					camera={{ position: [8, 8, 8], fov: 35 }}
+					camera={{ position: [5, 5, 5], fov: 35 }}
 					style={{ height: '100vh', width: '100vw' }}
 				>
 					<color attach="background" args={['#9999e6']} />

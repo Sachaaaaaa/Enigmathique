@@ -18,6 +18,7 @@ class SocketProfessor {
 		this.socket.on(ClientToServer.ValidateTeam, this.onConfirmTeamComposition);
 		this.socket.on(ClientToServer.RefuseTeam, this.onRefuseTeamComposition);
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
+		this.socket.on(ClientToServer.FinishComposition, this.onFinishComposition);
 	}
 
 	onDisconnect = () => {
@@ -38,6 +39,12 @@ class SocketProfessor {
 		this.manager.refuseTeamComposition(data.id);
 	}
 
+	onFinishComposition = () => {
+		console.log(clc.yellowBright('[Professor] Fin de la composition'));
+
+		this.manager.finishComposition();
+	}
+
 	sendComposition = (availableStudents, lockedTeams, confirmedTeams) => {
 		console.log(clc.yellowBright('[Professor] Envoi de la composition'));
 		
@@ -45,7 +52,13 @@ class SocketProfessor {
 			availableStudents,
 			lockedTeams,
 			confirmedTeams
-		})
+		});
+	}
+
+	sendSessionStart = () => {
+		console.log(clc.yellowBright('[Professor] Envoi du début de la session'));
+
+		this.socket.emit(ServerToClient.CompositionFinished);
 	}
 }
 

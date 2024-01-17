@@ -1,0 +1,3 @@
+Créer .env avec:
+SECRET_KEY=<KEY>
+GAME_TOKEN=<TOKEN>
