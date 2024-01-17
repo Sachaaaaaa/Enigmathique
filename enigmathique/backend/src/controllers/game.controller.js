@@ -500,8 +500,10 @@ exports.getRooms = async (req, res, next) => {
 	try{
 
 		// Récupère la partie souhaité
-		const gameRooms = await GameRooms.findOne({ where: { idGame: req.params.id} })
-		return res.status(200).json(gameRooms);
+		const gameRooms = await GameRooms.findAll({ where: { idGame: req.params.id} })
+		// Met dans un tableau les noms des salles
+		const rooms = gameRooms.map(room => room.roomName);
+		return res.status(200).json(rooms);
 	// Gère les erreurs
 	} catch (err) {
 		next(err)
