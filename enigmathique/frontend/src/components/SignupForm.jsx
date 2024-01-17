@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import AuthService from '../services/auth.service';
 
 const SignupForm = () => {
@@ -36,14 +37,14 @@ const SignupForm = () => {
 		);
 	};
 	return (
-		<div className='flex justify-center items-center h-screen'>
+		<div className='form-container-style'>
 			<div className='w-full max-w-md'>
 				<form
 					onSubmit={handleRegister}
-					className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
-					<div className='mb-4'>
+					className='flex flex-col items-center justify-between bg-white primary-font-color shadow-md rounded p-8 pb-0 mb-4'>
+					<div className='mb-4 w-full'>
 						<label
-							className='block text-gray-700 text-sm font-bold mb-2'
+							className='form-label-style'
 							htmlFor='username'>
 							Prénom
 						</label>
@@ -53,13 +54,13 @@ const SignupForm = () => {
 							name='firstname'
 							value={firstname}
 							onChange={(e) => setFirstname(e.target.value)}
-							placeholder='Prénom'
-							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							placeholder='Votre prénom'
+							className='form-inputfield-style'
 							required/>
 					</div>
-					<div className='mb-4'>
+					<div className='mb-4  w-full'>
 						<label
-							className='block text-gray-700 text-sm font-bold mb-2'
+							className='form-label-style'
 							htmlFor='name'>
 							Nom
 						</label>
@@ -69,13 +70,13 @@ const SignupForm = () => {
 							name='secondname'
 							value={secondname}
 							onChange={(e) => setSecondname(e.target.value)}
-							placeholder='Nom'
-							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							placeholder='Votre nom'
+							className='form-inputfield-style'
 							required/>
 					</div>
-					<div className='mb-4'>
+					<div className='mb-4  w-full'>
 						<label
-							className='block text-gray-700 text-sm font-bold mb-2'
+							className='form-label-style'
 							htmlFor='name'>
 							Email
 						</label>
@@ -86,15 +87,15 @@ const SignupForm = () => {
 							value={mail}
 							onChange={(e) => setMail(e.target.value)}
 							placeholder='Jean@test.test'
-							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							className='form-inputfield-style'
 							required/>
 					</div>
 
-					<div className='mb-6'>
+					<div className='mb-6  w-full'>
 						<label
-							className='block text-gray-700 text-sm font-bold mb-2'
+							className='form-label-style'
 							htmlFor='password'>
-							Password
+							Mot de passe
 						</label>
 						<input
 							type='password'
@@ -102,25 +103,35 @@ const SignupForm = () => {
 							name='password'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
-							placeholder='******************'
-							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							placeholder='Votre mot de passe'
+							className='form-inputfield-style'
 							required/>
 					</div>
-					<div className='flex items-center justify-between'>
 						<button
-							className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+							className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none'
 							type='submit'
 							disabled={loading}>
 							{loading && (
 								<span className='spinner-border spinner-border-sm'></span>
 							)}
-							<span>Register</span>
+							<span>{"S'inscrire"}</span>
 						</button>
-					</div>
 					{message && (
 						<div className='text-red-500 text-xs mt-2'>{message}</div>
 					)}
+					<div className='pt-5 pb-2 w-fit text-sm primary-font-color'>
+						<span> Vous avez déjà un compte ?</span>
+						<Link to='/login' className='ml-1 font-medium gradient-font decoration-[#0A06F4]  hover:underline'>Se connecter </Link>
+					</div>
 				</form>
+				<div className='w-fit text-sm text-center primary-font-color'>
+					<span>En {"t'inscrivant"}, tu acceptes nos </span> 
+					<Link to='' className='font-medium underline'>Conditions générales</Link>
+					<span>. Merci de lire notre </span>
+					<Link to='' className='font-medium underline'>Politique de confidentialité</Link>
+					<span> et notre </span>
+					<Link to='' className='font-medium underline'>Politique de confidentialité des enfants</Link>
+				</div>
 			</div>
 		</div>
 	);

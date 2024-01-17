@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import AuthService from '../services/auth.service';
 
 
@@ -37,18 +38,17 @@ const Login = () => {
 
 
 	return (
-		<div className='flex justify-center items-center h-screen'>
+		<div className='form-container-style'>
 			<div className='w-full max-w-md'>
 				<form
 					onSubmit={handleLogin}
-					className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
+					className='flex flex-col items-center justify-between bg-white primary-font-color shadow-md rounded p-8 pb-0 mb-4'
 				>
-					<div className='mb-4'>
+					<div className='mb-4 w-full'>
 						<label
-							className='block text-gray-700 text-sm font-bold mb-2'
-							htmlFor='username'
-						>
-							Username
+							className='form-label-style'
+							htmlFor='username'>
+							Email
 						</label>
 						<input
 							type='text'
@@ -56,17 +56,17 @@ const Login = () => {
 							name='username'
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
-							placeholder='Username'
-							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							placeholder='Votre adresse mail'
+							className='form-inputfield-style'
 							required
 						/>
 					</div>
-					<div className='mb-6'>
+					<div className='mb-4  w-full'>
 						<label
-							className='block text-gray-700 text-sm font-bold mb-2'
+							className='form-label-style'
 							htmlFor='password'
 						>
-							Password
+							Mot de passe
 						</label>
 						<input
 							type='password'
@@ -74,14 +74,13 @@ const Login = () => {
 							name='password'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
-							placeholder='******************'
-							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							placeholder='Votre mot de passe'
+							className='form-inputfield-style'
 							required
 						/>
 					</div>
-					<div className='flex items-center justify-between'>
 						<button
-							className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+							className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none'
 							type='submit'
 							disabled={loading}
 						>
@@ -90,10 +89,13 @@ const Login = () => {
 							)}
 							<span>Login</span>
 						</button>
-					</div>
 					{message && (
 						<div className='text-red-500 text-xs mt-2'>{message}</div>
 					)}
+					<div className='pt-5 pb-2 w-fit text-sm primary-font-color'>
+						<span> Pas encore de compte ?</span>
+						<Link to='/signup' className='ml-1 font-medium gradient-font decoration-[#0A06F4]  hover:underline'>{"S'inscrire"} </Link>
+					</div>
 				</form>
 			</div>
 		</div>
