@@ -339,17 +339,11 @@ exports.close = async (req, res, next) => {
 }
 
 // Termine la partie
-exports.end = async (req, res) => {
-
-	// Vérifie que la partie appartient bien au professeur
-	const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-	if (!isBelongsToProfessor) {
-		return res.status(403).json({
-			message: "Vous n'avez pas accès à cette partie."
-	});
-	}
+exports.end = async (req, res, next) => {
 
 	try{
+
+
 
 		// Enregistrer la classe dans la base de données
 		const updatedRows = await Game.update({state: 2},{where: { id: req.params.id }})
@@ -359,9 +353,7 @@ exports.end = async (req, res) => {
 
 	// Gère les erreurs
 	}catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la création de la classe."
-		});
+		next(err)
 	}
 }
 
@@ -398,30 +390,29 @@ exports.course = async (req, res) => {
 }
 
 // Ajoute des salles à une partie
-exports.addRooms = async(req, res) => {
+exports.addRooms = async(req, res, next) => {
 	
-	
-	// Valide la requête
-	if (!req.body.idGame || !req.body.roomName) {
-		return res.status(400).json({
-			message: "Il manque des informations pour ajouter des salles."
-		});
-	}
-
-	// Vérifie que la partie appartient bien au professeur
-	const isBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
-	if (!isBelongsToProfessor) {
-		return res.status(403).json({
-			message: "Vous n'avez pas accès à cette partie."
-	});
-	}
-
-	// Récupère les id des salles à ajouter
-	const roomNames = req.body.roomName;
-	const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, roomName: currentRoomName }));
-
-
 	try{
+
+		// Valider la requête
+		if (!req.body.idGame || !req.body.roomName) {
+			const error = new Error("Il manque des informations pour ajouter des salles.");
+			error.statusCode = 400;  
+			throw error;
+		}
+
+
+		// Vérifie que la partie appartient bien au professeur
+		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+		if (!isBelongsToProfessor) {
+			const error = new Error("La partie n'appartient pas au professeur.");
+			error.statusCode = 403;  
+			throw error;
+		}
+
+		// Récupère les id des salles à ajouter
+		const roomNames = req.body.roomName;
+		const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, roomName: currentRoomName }));
 
 		// Enregistrer les rooms dans la table GameRooms
 		const games = GameRooms.bulkCreate(roomsToAdd)
@@ -429,56 +420,43 @@ exports.addRooms = async(req, res) => {
 
 	// Gère les erreurs
 	}catch(err) {
-		res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de l'ajout de(s) élève(s)."
-		});
+		next(err)
 	}
 	
 	
 }
 
-
+// todo :verifier team
 // Accepte une équipe à une partie
 exports.accept = async(req, res) => {
 	
-	if (!req.body.idGame) {
-		return res.status(400).json({
-			message: "Il manque des informations pour ajouter des salles."
-		});
-	}
-
-	try {
-		// Vérifie que la partie appartient bien au professeur
-		const isGameBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
-		if (!isGameBelongsToProfessor) {
-			return res.status(403).json({
-				message: "Vous n'avez pas accès à cette partie."
-		});
-		}
-
-		// Vérifie que l'équipe appartient bien au professeur
-		const isTeamBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-		if (!isTeamBelongsToProfessor) {
-			return res.status(403).json({
-				message: "Vous n'avez pas accès à cette partie."
-		});
-		}
-	} catch (err){
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-		});
-	}
-
-
 	try{
+
+		if (!req.body.idGame) {
+			const error = new Error("Il manque des informations pour ajouter des équipes.");
+			error.statusCode = 400;  
+			throw error;
+		}
+
+
+		// Vérifie que la partie appartient bien au professeur
+		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+		if (!isBelongsToProfessor) {
+			const error = new Error("La partie n'appartient pas au professeur.");
+			error.statusCode = 403;  
+			throw error;
+		}
+
+
+
 		const game = await Game.findOne({ where: { id: req.body.idGame} })
 		const team = await Team.findAll({ where: { id: req.params.id} })
 
 		// Vérifie que la taille des équipes est respéctée
 		if(game.teamSize<team.length){
-			return res.status(400).json({
-				message: "La taille de l'équipe est trop grande."
-			});
+			const error = new Error("La taille de l'équipe est trop grande.");
+			error.statusCode = 400;  
+			throw error;
 		}
 
 		// Récupère toutes les rooms dans gamerooms
@@ -487,13 +465,12 @@ exports.accept = async(req, res) => {
 		// Ajouter une ligne score pour chaque team, pour chaque score
 		const scoreToAdd = rooms.map(gameroom => ({idTeam: req.params.id,idGame: req.body.idGame, roomName: gameroom.roomName, time: 0, nbGoodAnswers: 0, nbBadAnswers: 0, nbHints: 0})); 
 		const scores = await Score.bulkCreate(scoreToAdd)
+		
 		res.status(201).json(scores);
 
 	// Gère les erreurs
 	}catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-		});
+		next(err)
 	}
 	
 }
@@ -501,62 +478,28 @@ exports.accept = async(req, res) => {
 
 
 // methode pour récuperer une partie en fonction de son id
-exports.getState = async (req, res) => {
+exports.getState = async (req, res, next) => {
 	
 	try{
-		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-		if (!isBelongsToProfessor) {
-			return res.status(403).json({
-				message: "Vous n'avez pas accès à cette partie."
-			});
-		}
+		// Récupère la partie souhaité
+		const game = await Game.findOne({ where: { id: req.params.id} })
+		return res.status(200).json(game.state);
 
-		try{
-			// Récupère la partie souhaité
-			const game = await Game.findOne({ where: { id: req.params.id} })
-			return res.status(200).json(game.state);
-
-		// Gère les erreurs
-		}catch(err) {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-			});
-		}
 	// Gère les erreurs
 	} catch (err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-		});
+		next(err)
 	}
 }
 
-exports.getRooms = async (req, res) => {
+exports.getRooms = async (req, res, next) => {
 	
 	try{
-		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-		if (!isBelongsToProfessor) {
-			return res.status(403).json({
-				message: "Vous n'avez pas accès à cette partie."
-			});
-		}
 
-		try{
-			// Récupère la partie souhaité
-			const gameRooms = await GameRooms.findOne({ where: { idGame: req.params.id} })
-			return res.status(200).json(gameRooms);
-
-		// Gère les erreurs
-		}catch(err) {
-			return res.status(500).json({
-				message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-			});
-		}
+		// Récupère la partie souhaité
+		const gameRooms = await GameRooms.findOne({ where: { idGame: req.params.id} })
+		return res.status(200).json(gameRooms);
 	// Gère les erreurs
 	} catch (err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération de la partie."
-		});
+		next(err)
 	}
 }
