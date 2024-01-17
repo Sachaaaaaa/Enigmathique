@@ -163,7 +163,7 @@ exports.create = async (req, res) => {
 		const createdGame = await Game.create(game)
 
 		// Renvoie les données créées
-		return res.status(201).json(data);
+		return res.status(201).json(createdGame);
 	
 
 		// Gère les erreurs
@@ -190,7 +190,7 @@ exports.findAll = async (req, res) => {
 		const courses = await Course.findAll({ where: { idProfessor: req.tokenId } })
 
 		// Récupère les id correspondant aux classes du professeur connécté
-		coursesId = data.map(course => course.dataValues.id);
+		coursesId = courses.map(course => course.dataValues.id);
 	
 
 	// Gère les erreurs
@@ -232,7 +232,7 @@ exports.findById = async (req, res) => {
 		try{
 			// Récupère la partie souhaité
 			const game = await Game.findOne({ where: { id: req.params.id} })
-			return res.status(200).json(data);
+			return res.status(200).json(game);
 
 		// Gère les erreurs
 		}catch(err) {
@@ -359,8 +359,8 @@ exports.close = async (req, res) => {
 		const destroyedGameCode = await GameCode.destroy({ where: { idGame: req.params.id}})
 
 		// Renvoie les données supprimées
-		await Game.update({state: 1},{where: { id: req.params.id }});
-		return res.status(200).json(data);
+		const updatedRows = await Game.update({state: 1},{where: { id: req.params.id }});
+		return res.status(200).json(updatedRows);
 		
 
 		// Gère les erreurs
