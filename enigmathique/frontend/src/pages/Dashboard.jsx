@@ -108,7 +108,6 @@ const Dashboard = () => {
 		} else {
 			return <> <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
 			<div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div> </>;
-		
 		}
 	}
 
