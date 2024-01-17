@@ -64,25 +64,25 @@ const GameElem = (props) => {
 	return (
 		<article className='grid grid-cols-2 gap-1 info-container'>
 			<p></p>
-			<article className='col-span-2 pt-2 flex-grow elem-dashboard'>
+			<article className='col-span-2 pt-2 flex-grow element-info-container'>
 				<h3 className='small-title'>Nom</h3>
 				<p className='small-text'>{game.name}</p>
 			</article>
-			<article className='col-span-1 elem-dashboard'>
+			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>Classe</h3>
 				<p className='small-text'>{course.name}</p>
 			</article>
-			<article className='col-span-1 elem-dashboard'>
+			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>Date</h3>
 				<p className='small-text'>{game.createdAt.toLocaleString()}</p>
 			</article>
-			<article className='col-span-1 elem-dashboard'>
+			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>Gagnants</h3>
 				<p className='small-text'>{game.state !== 2 ? 'Partie non terminée' : getWinners().map((stud) => {
 					`${stud.firstname} ${stud.lastname} `
 				})}</p>
 			</article>
-			<article className='col-span-1 elem-dashboard'>
+			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>Taux de réussite</h3>
 				<p className='small-text'>{getWinRate()} %</p>
 			</article>
