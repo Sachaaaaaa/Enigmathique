@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import LayoutProf from "../layouts/LayoutProf";
 import {Link, useParams} from "react-router-dom";
 import GameModel from "../models/game.model";
-import TeamModel from "../models/team.model";
+//import TeamModel from "../models/team.model";
 import TimeGame from "../components/stats/TimeGame";
 import RoomGame from "../components/stats/RoomGame";
 
@@ -39,14 +39,14 @@ const GameStats = () => {
 		loadScores();
 	}, []);
 
-	const loadTeams = async () => {
-		const data = await TeamModel.get(idGame);
-		setTeams(data);
-	}
-
-	useEffect(() => {
-		loadTeams()
-	}, []);
+	// const loadTeams = async () => {
+	// 	const data = await TeamModel.get(idGame);
+	// 	setTeams(data);
+	// }
+	//
+	// useEffect(() => {
+	// 	loadTeams()
+	// }, []);
 
 	return(
 		<LayoutProf>
