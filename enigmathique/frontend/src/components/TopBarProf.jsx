@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FaGear } from "react-icons/fa6";
+import {Link} from 'react-router-dom';
+import {IconContext} from 'react-icons';
+import { MdLogout } from "react-icons/md";
 import {useLocation} from "react-router-dom";
 import Course from "../models/course.model";
 import Professor from "../models/professor.model";
+import AuthService from '../services/auth.service';
 
 
 const TopBarProf = () => {
@@ -17,7 +20,7 @@ const TopBarProf = () => {
 
 
 	/**
-	 * chargment de l'objet classe pour changer le nom en fonction de la classe
+	 * chargement de l'objet classe pour changer le nom en fonction de la classe
 	 */
 	const loadOneClass = async () => {
 		const data = await Course.get(classId);
@@ -59,21 +62,24 @@ const TopBarProf = () => {
 		}
 	}
 
+	// Déconnexion
+	const handleLogout = () => {
+		AuthService.logout();
+	};
 
 	return(
 		<section className="topbar-container pl-5 flex justify-between h-fit">
 			<div >
-				<h1 className="text-[#343C6A] text-2xl font-semibold py-5">{text}</h1>
+				<h1 className="primary-font-color text-2xl font-semibold py-5">{text}</h1>
 			</div>
 			<div className="flex flex-row items-center gap-2">
-				<div className="p-2 rounded-full bg-[#E6EFF5]">
-						<FaGear color="#807FF7"/>
-				</div>
-				<div className="text-[#343C6A] px-0 py-2 text-right text-xs">
+				<Link to='/'onClick={handleLogout} className='p-2 rounded-full bg-[#E6EFF5]'>
+						<MdLogout color="#807FF7"/>
+				</Link>
+				<div className="primary-font-color p-5 text-right text-xs">
 					<p>{professor.firstname}</p>
 					<p>{professor.lastname}</p>
 				</div>
-				<img src="https://placehold.co/40" alt="profile picture" className="rounded-[100px] pl-1 pr-2 pt-2 pb-2"/>
 			</div>
 		</section>
 	);

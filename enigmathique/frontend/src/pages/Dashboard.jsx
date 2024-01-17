@@ -10,6 +10,7 @@ import { FaAngleRight } from 'react-icons/fa6';
 import Course from '../models/course.model';
 import RoomService from "../services/room.service";
 import Game from "../models/game.model";
+import RoomModel from "../models/room.model";
 
 
 const Dashboard = () => {
@@ -28,27 +29,30 @@ const Dashboard = () => {
 	const loadClasses = async () => {
 		const data = await Course.getAll();
 		setCourses(data);
-		console.log(data);
 	}
 
-	useEffect(() => {
-		loadClasses();
-	}, []);
-
+	const loadRooms = async() => {
+		const data = await RoomModel.getAll();
+		setRooms(data);
+	}
 	const loadGames = async () => {
 		const data = await Game.getAll();
 		setGames(data);
-		console.log(data);
 	}
+	useEffect(() => {
+		loadClasses();
+		loadGames();
+		loadRooms();
+	}, []);
 
 	useEffect(() => {
-		loadGames();
-	}, []);
+		roomSelection();
+	}, [rooms]);
 
 	// Choix des salles à afficher
 	const roomSelection = () => {
 		//TODO: régler le problème de chargement
-		loadRooms();
+		console.log(rooms);
 		if(rooms.length > 2) {
 			let max = rooms.length - 1;
 			let roomSelect = [];
@@ -68,18 +72,7 @@ const Dashboard = () => {
 		}
 	};
 
-	const loadRooms = () => {
-		RoomService.getAllRooms().then((response) => {
-			setRooms(response);
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
 
-
-	useEffect(() => {
-		roomSelection();
-	}, []); // s'éxécute seulement au montage
 
 	// Fonction pour aller à la classe précédente
 	const prevClass = () => {
@@ -95,6 +88,22 @@ const Dashboard = () => {
 		);
 	};
 
+	// Fonction pour afficher les parties
+	const showGames = () => {
+		if(games.length !== 0) {
+			if (games.length >= 2) {
+			return games.slice(-2).map((game, index) => (
+				<GameElem key={index} game={game}/>
+			));
+			} else if (games.length === 1) {
+				return <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>;
+			}
+		} else {
+			return <> <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
+			<div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div> </>;
+		}
+	}
+
 	return (
 		<LayoutProf>
 			<main className='main-background-color flex flex-wrap flex-grow justify-between overflow-y-scroll overflow-x-hidden'>
@@ -105,13 +114,7 @@ const Dashboard = () => {
 								<Link to='/games' className='show-all-text'>Voir tout</Link>
 							</div>
 							<div className='w-full h-full flex flex-wrap flex-grow justify-between items-center gap-2'>
-								{games.slice(-2).map((game, index) => (
-													<GameElem key={index} game={game}/>
-												))}
-								{games.length <= 1 && <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>}
-								{games.length === 0 && <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>}
-
-
+								{showGames()}
 							</div>
 						</div>
 						<div className='flex flex-col p-5 pt-2'>
