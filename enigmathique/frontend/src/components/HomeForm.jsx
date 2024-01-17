@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-
+import logo from '../assets/img/logo-name-nobg.png';
 const HomeForm = () => {
 	const [code, setCode] = useState('');
 
@@ -12,8 +12,12 @@ const HomeForm = () => {
 	};
 
 	return (
-		<div className="flex justify-center items-center h-screen">
-			<div className="w-full max-w-md">
+		<div className="flex justify-center items-center h-screen bg-gradient-to-r from-[#343C6A]
+						via-[#0A06F4] to-[#0599F5] animation">
+							{/* bg-gradient-to-r from-[#EE7752]
+						via-[#E73C7E] to-[#23A6D5] animation */}
+			<div className="w-full max-w-md flex flex-col justify-center">
+			<img src={logo} alt='logo'/>
 				<div className="mb-4">
 					<label
 						className="block text-gray-700 text-sm font-bold mb-2"
@@ -32,7 +36,8 @@ const HomeForm = () => {
 				</div>
 				<div className="flex items-center justify-between">
 					<button
-						className="bg-red-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+						className=" w-full 
+						 text-white font-semibold uppercase py-2 px-4 "
 						type="submit"
 						onClick={handleValider}
 					>
