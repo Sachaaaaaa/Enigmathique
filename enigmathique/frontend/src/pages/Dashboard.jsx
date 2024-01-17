@@ -10,6 +10,7 @@ import { FaAngleRight } from 'react-icons/fa6';
 import Course from '../models/course.model';
 import RoomService from "../services/room.service";
 import Game from "../models/game.model";
+import RoomModel from "../models/room.model";
 
 
 const Dashboard = () => {
@@ -28,27 +29,30 @@ const Dashboard = () => {
 	const loadClasses = async () => {
 		const data = await Course.getAll();
 		setCourses(data);
-		console.log(data);
 	}
 
-	useEffect(() => {
-		loadClasses();
-	}, []);
-
+	const loadRooms = async() => {
+		const data = await RoomModel.getAll();
+		setRooms(data);
+	}
 	const loadGames = async () => {
 		const data = await Game.getAll();
 		setGames(data);
-		console.log(data);
 	}
+	useEffect(() => {
+		loadClasses();
+		loadGames();
+		loadRooms();
+	}, []);
 
 	useEffect(() => {
-		loadGames();
-	}, []);
+		roomSelection();
+	}, [rooms]);
 
 	// Choix des salles à afficher
 	const roomSelection = () => {
 		//TODO: régler le problème de chargement
-		loadRooms();
+		console.log(rooms);
 		if(rooms.length > 2) {
 			let max = rooms.length - 1;
 			let roomSelect = [];
@@ -68,18 +72,7 @@ const Dashboard = () => {
 		}
 	};
 
-	const loadRooms = () => {
-		RoomService.getAllRooms().then((response) => {
-			setRooms(response);
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
 
-
-	useEffect(() => {
-		roomSelection();
-	}, []); // s'éxécute seulement au montage
 
 	// Fonction pour aller à la classe précédente
 	const prevClass = () => {
@@ -98,18 +91,27 @@ const Dashboard = () => {
 	// Fonction pour afficher les parties
 	const showGames = () => {
 		if(games.length !== 0) {
+			console.log(games);
 			if (games.length >= 2) {
-			return games.slice(-2).map((game, index) => (
-				<GameElem key={index} game={game}/>
-			));
+				return games.slice(-2).map((game, index) => (
+					<GameElem key={index} game={game}/>
+				));
 			} else if (games.length === 1) {
-				return <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>;
+				return (
+					<>
+						<GameElem key={0} game={games[0]}/>
+						<div className='empty-info-container'>
+							<Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link>
+						</div>
+					</>);
 			}
 		} else {
-			return <> <div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
+			return <>
+				<div className='empty-info-container'><Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
 			<div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div> </>;
 		}
 	}
+
 
 	return (
 		<LayoutProf>
