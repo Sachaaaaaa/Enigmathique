@@ -12,14 +12,14 @@ function NavBarHome() {
 		
 			<div className='flex justify-around mr-5 gap-5 p-5'>
 				<Link to={registerPath}>
-					<button className="bg-white text-[#343C6A] font-semibold px-3 py-1 w-[180px] border-2 border-white rounded-[30px]">
+					<button className=" shadow-md bg-white primary-font-color font-semibold px-3 py-1 w-[180px] border-2 border-white rounded-[30px]">
 					{`S'inscrire`}
 					</button>
 					{/* // hover:bg-white hover:primary-font-color */}
 				</Link>
 				<Link to={loginPath}>
 					<button
-						className='bg-transparent text-white font-semibold px-3 py-1 w-[180px] border-2 border-white rounded-[30px]'>
+						className='shadow-md bg-transparent text-white font-semibold px-3 py-1 w-[180px] border-2 border-white rounded-[30px]'>
 							Se connecter
 							</button>
 				</Link>
