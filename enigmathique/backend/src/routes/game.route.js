@@ -14,7 +14,7 @@ module.exports = app => {
 
 
 	// Accepte une équipe au sein de la partie
-	router.post("/team/accept/:id", middleware.verifyToken, game.accept);
+	//router.post("/team/accept/:id", middleware.verifyToken, game.accept);
 
 	// Ajouter les salles
 	router.post("/rooms/", middleware.verifyToken, game.addRooms);
@@ -29,6 +29,12 @@ module.exports = app => {
 	router.get("/:id", middleware.verifyToken, game.findById);
 	
 
+	// Récupérer l'état d'une à partir de son id
+	router.get("/gameState/:id", middleware.verifyGameToken, game.getState);
+
+	// Récupérer les rooms d'une à partir de son id
+	router.get("/rooms/:id", middleware.verifyGameToken, game.getRooms);
+	
 	//post
 	// Ouvre une partie (aux élèves)
 	router.post("/open/:id", middleware.verifyToken, game.open);
