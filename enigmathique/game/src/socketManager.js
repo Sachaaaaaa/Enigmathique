@@ -65,7 +65,7 @@ class SocketManager {
 		if (connectionType == ConnectionType.Game) {
 			this.gameManager.handleConnection(socket);
 		} else if (connectionType == ConnectionType.TeamComposition) {
-			this.teamCompositionManager.handleConnection(socket);
+			this.teamCompositionManager.handleConnection(socket, sessionId);
 		} else {
 			console.log(clc.red('[Socket] Type de connexion inconnu: ' + connectionType));
 		}

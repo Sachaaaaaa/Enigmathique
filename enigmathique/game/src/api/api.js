@@ -44,8 +44,16 @@ class ApiService {
 		}
 	}
 
-	static async getTeamsFromCode(code) {
-		const endpoint = `/game/getTeams/${code}`;
+	static async getTeamsFromId(id) {
+		const endpoint = `/game/course/${id}`;
+		try {
+			const response = await this.sendRequest('GET', endpoint);
+			console.log(response);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
 	}
 
 	static async getGameStateById(id) {

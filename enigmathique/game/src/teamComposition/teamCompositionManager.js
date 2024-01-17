@@ -8,11 +8,9 @@ class TeamCompositionManager {
 		this.sessions = {};
 	}
 
-	handleConnection = (socket) => {
+	handleConnection = (socket, sessionId) => {
 		console.log(clc.green('[Composition] Nouvelle connexion ' + socket.id));
 
-		// Recupère l'id de session
-		const sessionId = socket.handshake.query.sessionId;
 		
 		// TODO: Vérifier si la session est valide
 		// { ... }
