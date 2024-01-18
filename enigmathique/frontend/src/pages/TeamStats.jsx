@@ -6,6 +6,12 @@ import ScoreTeam from '../components/stats/ScoreTeam';
 
 const TeamStats = () => {
 
+	const [team, setTeam] = React.useState([]);
+	const loadTeamScore = () => {
+		// TODO loadTeam
+	}
+
+
 	const rooms = [
 		{
 			name: 'La menuiserie Seguin',
