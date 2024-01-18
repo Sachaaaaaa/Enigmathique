@@ -38,7 +38,7 @@ class SocketTeam {
 		// retourne sous la forme:  {name: "nom de l'équipe", students: [id1, id2, id3]}
 		return {
 			name: this.name,
-			students: this.composition.map((student) => student.id)
+			idStudents: this.composition.map((student) => student.id)
 		}
 	}
 
