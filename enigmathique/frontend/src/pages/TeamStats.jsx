@@ -37,7 +37,7 @@ const TeamStats = () => {
 
 	return (
 		<LayoutProf>
-			<main>
+			<main className='overflow-y-scroll'>
 				<div>
 					<Link to=''>{'<'}</Link>
 					<h2>Equipe de {students.map((student) => student+' ')}</h2>

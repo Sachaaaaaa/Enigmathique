@@ -22,7 +22,7 @@ class Course {
 			const data = await CourseService.getOne(id);
 			return new Course(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
 		}catch (error){
-			console.log(error);
+			console.log(`erreur dans le getter d'une classe dans le modèle d'une classe (front) ${error}`);
 		}
 	}
 	static async getAll() {
@@ -30,14 +30,14 @@ class Course {
 			const data = await CourseService.getAll();
 			return data.map((course) => new Course(course.id, course.name, course.idProfessor, course.createdAt, course.updatedAt));
 		}catch (error){
-			console.log(error);
+			console.log(`erreur dans le getter de toutes les classes dans le modèle d'une classe (front) ${error}`);
 		}
 	}
 	static async delete(id) {
 		try {
 			return await CourseService.deleteId(id);
 		}catch (error){
-			console.log(error);
+			console.log(`erreur dans le delete dans le modèle d'une classe (front) ${error}`);
 		}
 	}
 
@@ -46,7 +46,7 @@ class Course {
 			const data = await CourseService.create(name);
 			return new Course(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
 		}catch (error){
-			console.log(error);
+			console.log(`erreur dans le create dans le modèle d'une classe (front) ${error}`);
 		}
 	}
 	static async edit(name, id) {
@@ -54,7 +54,7 @@ class Course {
 			const data = await CourseService.edit(name, id);
 			return new Course(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
 		}catch (error){
-			console.log(error);
+			console.log(`erreur dans l'edit dans le modèle d'une classe (front) ${error}`);
 		}
 	}
 
