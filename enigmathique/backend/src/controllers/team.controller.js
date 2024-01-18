@@ -419,7 +419,7 @@ exports.addScores = async(req, res, next) => {
 
 	try{
 
-		if (!req.body.scores) {
+		if (!req.body.scores || !req.body.idGame) {
 			const error = new Error("Il manque des informations pour ajouter des scores.");
 			error.statusCode = 400;  
 			throw error;
@@ -427,11 +427,12 @@ exports.addScores = async(req, res, next) => {
 
 		// exemple de valeur pour req.body.scores [{"idTeam": 2, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}, {"idTeam": 3, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}]
 		const scores = JSON.parse(req.body.scores)
+		const idGame = req.body.idGame
 
 
 		for (let i = 0; i < scores.rooms.length; i++) {
 			
-			if (!scores.rooms[i].roomName || !scores.rooms[i].idGame||!scores.rooms[i].time ||!scores.rooms[i].nbGoodAnswers ||!scores.rooms[i].nbBadAnswers  ||!scores.rooms[i].nbHints ) {
+			if (!scores.rooms[i].roomName ||!scores.rooms[i].time ||!scores.rooms[i].nbGoodAnswers ||!scores.rooms[i].nbBadAnswers  ||!scores.rooms[i].nbHints ) {
 				const error = new Error("Il manque des informations pour ajouter des scores.");
 				error.statusCode = 400;  
 				throw error;
@@ -444,7 +445,7 @@ exports.addScores = async(req, res, next) => {
 			const scoresData = {
 				idTeam: scores.idTeam,
 				roomName: scores.rooms[i].roomName,
-				idGame: scores.rooms[i].idGame,
+				idGame: idGame,
 				time: scores.rooms[i].time,
 				nbGoodAnswers: scores.rooms[i].nbGoodAnswers,
 				nbBadAnswers: scores.rooms[i].nbBadAnswers,
