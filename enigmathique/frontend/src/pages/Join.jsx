@@ -68,7 +68,12 @@ const Join = (props) => {
 		setTeamName(event.target.value);
 	}
 	const handleCreateTeam = () => {
+		if (teamName === '') {
+			alert('Veuillez entrer un nom d\'équipe');
+			return;
+		}
 		socket.emit(ClientToServer.LockTeam, {name: teamName});
+		//TODO: Faut mettre un loader ici
 	};
 
 	return (
