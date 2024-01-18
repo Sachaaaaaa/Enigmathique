@@ -55,7 +55,7 @@ const Game = () => {
 
 	return (
 		<SocketContext.Provider value={socket}>
-			<section className="topbar-container">
+			<section className="absolute w-full h-20 border-y-0 top-0 topbar-container z-50">
 				<div className="w-11/12">
 					<h1 className="text-3xl">Enigmathique</h1>
 				</div>
@@ -71,13 +71,9 @@ const Game = () => {
 
 			{/* Fenêtre d'aide */}
 			{isWindowOpen && (
-				<div
+				<div className='absolute bottom-0 right-0 bg-white'
 					style={{
-						position: 'absolute',
-						bottom: 0,
-						right: 0,
 						padding: '16px',
-						background: 'white',
 						boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
 						zIndex: 999,
 					}}
