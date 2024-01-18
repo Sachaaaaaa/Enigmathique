@@ -1,13 +1,181 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+/* Fonctions mathématiques */
+@import "mafs/core.css";
+@import "mafs/font.css";
 
+/** Scrollbar **/
+
+body::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: rgba(10, 6, 244, 0.1);
+        border-radius: 5px;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #0A06F4;
+        border-radius: 30px;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #07059d;
+    }
+
+/** Animations **/
+    @keyframes HomeBackground {
+        0%,
+        100% {
+        background-position: 0% 50%;
+        }
+        50% {
+        background-position: 100% 50%;
+        }
+    }
+
+    @keyframes MovingArrow {
+        0%   {transform: translateY(0px)}
+        50%  {transform: translateY(-10px)}
+        100% {transform: translateY(0px)}
+      }
 @layer components {
+
+    .font-family {
+        font-family: Montserrat, "Noto Sans Arabic", "Helvetica Neue", Helvetica, Arial, sans-serif ;
+    }
+
+    /** Animations **/
+
+    .border-bottom-animation::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 2px;
+        background: #000;
+        transition: width .3s;
+    }
+    
+    .border-bottom-animation:hover::after {
+        width: 100%;
+    }
+        .background-animation {
+            background: linear-gradient(-45deg,#343C6A,#0A06F4,#4C49ED);
+            background-size: 400%;
+        
+            -webkit-animation: HomeBackground 7s ease infinite;
+            -moz-animation: HomeBackground 7s ease infinite;
+            animation: HomeBackground 7s ease infinite;
+        }
+
+        .moving-arrow {
+            -webkit-animation: MovingArrow 2s linear infinite;
+            -moz-animation: MovingArrow 2s linear infinite;
+            animation: MovingArrow 2s linear infinite;
+        }
+        .movin-arrow:hover {
+            animation-play-state: paused;
+        }
+
+    /**
+    * Couleurs
+     */
+    
+        .main-background-color {
+            @apply bg-[#F5F7FA] ;  
+        }
+        .bg-dark-blue-color {
+            @apply bg-[#343C6A];
+        }
+        .bg-main-blue-color {
+            @apply bg-[#0A06F4];
+        }
+        .primary-font-color {
+            @apply text-[#343C6A];
+        }
+        .blue-font-color {
+            @apply text-[#0A06F4];
+        }
+
+        .secondary-font-color {
+            @apply text-[#B1B1B1];
+        }
+
+        .primary-gradient-color {
+            @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
+        }
+
+        .gradient-font {
+            @apply primary-gradient-color text-transparent bg-clip-text;
+        }
+
+        .border-white-color {
+            @apply border-[#E6EFF5] ;
+        }
+     /** 
+    * Styles généraux des textes
+    */
+        .small-title {
+            @apply uppercase font-semibold inline-block text-[11px] gradient-font;
+        }
+        .small-text {
+            @apply text-sm leading-4 primary-font-color;
+        }
+
+        .medium-title {
+            @apply primary-font-color font-semibold;
+        }
+        .show-all-text {
+            @apply primary-font-color text-sm font-semibold hover:underline;
+        }
+
+        .table-title {
+            @apply pb-4 uppercase text-xs gradient-font ;
+        }
+
+    /** Formulaires **/
+    .form-container-style {
+        @apply p-5 flex justify-center h-[calc(100%-75px)] min-w-[500px] min-h-[600px] items-center main-background-color ;
+    }
+    .form-label-style {
+        @apply block text-sm font-bold mb-2 ;
+    }
+    .form-inputfield-style {
+        @apply shadow appearance-none border rounded w-full h-fit py-2 px-3 primary-font-color leading-snug focus:outline-none ;
+    }
+    .form-button-style {
+        @apply w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none ;
+    }
+
+    /**
+    * Dashboard
+    **/
+        .empty-info-container {
+            @apply self-stretch min-h-[200px] info-container flex grow justify-center items-center ;
+        }
+
+        .info-container {
+            @apply bg-white mt-2 w-[15svw] min-w-[280px] grow rounded-[30px] shadow-md overflow-hidden flex flex-col;
+        }
+        .element-info-container {
+            @apply p-1 ml-3 mr-3
+        }
     /**
     * Bouton valider
      */
     .btn-validate{
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white text-xl font-bold rounded whitespace-normal p-4;
+        @apply primary-gradient-color text-white font-semibold uppercase rounded-[8px] whitespace-normal p-4;
     }
 
     .btn-validate:hover {
@@ -49,33 +217,70 @@
 
 
     /**
-    * TopBar
+    * TopBarProf
     */
     .topbar-container {
-        @apply flex flex-row p-6 items-center border-b-2 border-[#E6EFF5];
-    }
-    .txt-dashboard {
-        @apply uppercase bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] inline-block text-transparent bg-clip-text font-semibold;
+        @apply flex flex-row px-0 py-0 items-center border-b-2 box-border border-white-color h-1/6;
     }
 
-    .elem-dashboard {
-        @apply p-1 ml-3 mr-3
-    }
 
     /**
     * Bouton utilitaire élève
      */
-    .btn-utils-student {
-        @apply bg-purple-800 rounded-full p-3
+    .btn-utils-course-student {
+        @apply primary-gradient-color text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
+    }
+    .btn-utils{
+        @apply text-white font-bold rounded-full whitespace-normal p-3
     }
 
-    .btn-utils-student:hover {
-        @apply bg-purple-600
+    .btn-utils-course-student:hover {
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
+    }
+
+
+    .btn-utils-course-student-icons {
+        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] flex space-x-2 items-center
+    }
+
+    .btn-utils-course-student-icons:hover {
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
+    }
+
+    .btn-utils-course-student-edit {
+        @apply bg-[#FB7D5B]
+    }
+
+    .btn-utils-course-student-edit:hover {
+        @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
+    }
+    .btn-utils-course-student-stat {
+        @apply bg-[#4C49ED]
+    }
+
+    .btn-utils-course-student-stat:hover {
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
+    }
+
+    .btn-utils-course-student-delete {
+        @apply bg-[#EF4565]
+    }
+
+    .btn-utils-course-student-delete:hover {
+        @apply bg-gradient-to-r from-[#F87A90] to-[#FF4565];
+    }
+
+    .btn-back {
+        @apply bg-gradient-to-r from-[#DDDDDD] to-[#CCCCCC] text-black font-bold rounded-full whitespace-normal p-3 flex space-x-2
+        items-center
+    }
+    .btn-back:hover {
+        @apply bg-gradient-to-r from-[#A6A6A6] to-[#999999];
     }
 
     .btn-show {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] text-white rounded-b-3xl w-full text-center uppercase flex items-center
-        justify-center h-12 transition-colors duration-300;
+        @apply primary-gradient-color text-white rounded-b-[30px] w-full h-10 mt-1 text-center uppercase flex items-center
+        justify-center transition-colors duration-300;
     }
 
     .btn-show:hover {
@@ -86,7 +291,7 @@
    * NavBar
    */
     .nav-container {
-        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-[#E6EFF5];
+        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 box-border border-white-color;
     }
 
     .nav-content {
@@ -94,7 +299,7 @@
     }
 
     .nav-item {
-        @apply flex flex-row justify-start items-center gap-4 w-full text-[#B1B1B1];
+        @apply flex flex-row justify-start items-center gap-4 w-full secondary-font-color;
     }
 
     .nav-item:hover {
@@ -102,7 +307,7 @@
     }
 
     .nav-item-indicator {
-        @apply w-2 h-16 bg-transparent border-r-2 border-transparent;
+        @apply w-2 h-[60px] bg-transparent border-r-2 border-transparent rounded-r-[30px];
     }
 
     .nav-item-selected {
@@ -110,6 +315,10 @@
     }
 
     .nav-item-indicator-selected {
-        @apply w-2 h-16 bg-[#4C49ED] border-r-2 border-[#4C49ED] rounded-r-xl;
+        @apply  bg-[#4C49ED]  border-[#4C49ED] ;
+    }
+
+    .nav-menu-link {
+        @apply h-[60px] w-full flex flex-row justify-start items-center gap-2 ;
     }
 }

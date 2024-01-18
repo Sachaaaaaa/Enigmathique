@@ -4,28 +4,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const RoomElem = (props) => {
+
+	const room = props.room;
+
 	return (
-		<article className='bg-white m-5 border-2 rounded-3xl shadow-md overflow-hidden w-1/3 flex flex-col'>
-			<figure className='relative h-40 bg-blue-500 rounded-t-3xl'
+		<article className='info-container'>
+			<figure className='relative h-40 bg-blue-500 rounded-t-[30px]'
 					style={{
-						backgroundImage: `url(${props.room.image})`,
+						/*TODO: obtenir la bonne image*/
+						backgroundImage: `url(${require('../../assets/img/room-img/Le-labo.png')})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center'
 					}}>
-				<figcaption className='absolute text-white font-bold bottom-2 left-4'>{props.room.name}</figcaption>
+				<figcaption className='absolute text-white font-bold bottom-2 left-4'>{room.name}</figcaption>
 			</figure>
 			<div className='flex-grow flex flex-col justify-between'>
-				<div className='p-6'>
-					<div className='flex justify-between items-center'>
-						<article className='elem-dashboard mr-2'>
-							<h3 className='txt-dashboard'>CHAPITRE</h3>
-							<p className='text-lg'>{props.room.cat}</p>
-						</article>
-						<article className='elem-dashboard ml-2'>
-							<h3 className='txt-dashboard'>DIFFICULTE</h3>
-							<p className='text-lg'>{props.room.difficulty}</p>
-						</article>
-					</div>
+				<div className='p-1 flex justify-around items-center'>
+					<article className='element-info-container'>
+						<h3 className='small-title'>Chapitre</h3>
+						<p className='small-text'>{room.chapter}</p>
+					</article>
+					<article className='element-info-container'>
+						<h3 className='small-title'>Difficulté</h3>
+						<p className='small-text'>{room.difficulty}</p>
+					</article>
 				</div>
 				<Link to='' className='btn-show'>
 					Voir

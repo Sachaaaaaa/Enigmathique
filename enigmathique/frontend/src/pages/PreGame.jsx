@@ -1,102 +1,87 @@
-import React, {useEffect} from "react";
-import WaitingTeams from "../components/preGame/WaitingTeams";
-import AcceptedTeams from "../components/preGame/AcceptedTeams";
-import LayoutProf from "../layouts/LayoutProf";
-import {useCreationGameContext} from "../components/contexts/CreationGame.context";
-import CourseService from "../services/course.service";
+import React, { useEffect, useState } from 'react';
+import LayoutProf from '../layouts/LayoutProf';
+import TeamContainer from '../components/preGame/TeamContainer';
+import { SocketContext, socket } from 'contexts/SocketContext';
+import { useParams } from 'react-router-dom';
+import {
+	ClientToServer,
+	ConnectionType,
+	ServerToClient,
+} from 'data/socketMessages';
+import AuthService from '../services/auth.service';
 
 const PreGame = () => {
+	const [lockedTeams, setLockedTeams] = useState([]);
+	const [confirmedTeams, setConfirmedTeams] = useState([]);
 
-	const waitingTeams = [
-		{
-			name: 'Team 1',
-			students: [
-				{
-					name: 'Tardy',
-					firstname: 'Mathéo',
+	const { sessionId } = useParams();
+	const token = AuthService.getToken();
 
-				},
-				{
-					name: 'Dupuis',
-					firstname: 'Aboubacar aqualand népal',
-				},
-			],
-			isValidated: false,
-		},
-		{
-			name: 'Team 2',
-			students: [
-				{
-					name: 'Briand',
-					firstname: 'Damien',
-				},
-				{
-					name: 'Dalban',
-					firstname: 'Yvain',
-				},
-			],
-			isValidated: false,
-		},
-		{
-			name: 'Team 3',
-			students: [
-				{
-					name: 'Guillevic',
-					firstname: 'Mathéo',
-				},
-				{
-					name: 'Wos',
-					firstname: 'Sacha',
-				},
-			],
-			isValidated: false,
-		},
-		{
-			name: 'Team 4',
-			students: [
-				{
-					name: 'Pivot',
-					firstname: 'Raphaël',
-				},
-				{
-					name: 'Bergery',
-					firstname: 'Loic',
-				},
-			],
-			isValidated: false,
-		},
-
-	]
-	const {setTeams} = useCreationGameContext();
-
-
-	const loadTeams = () => {
-		setTeams(waitingTeams);
-	}
+	// Met à jour l'id de session dans le handshake du socket
+	socket.io.opts.query = {
+		token,
+		sessionId,
+		connectionType: ConnectionType.TeamComposition,
+	};
 
 	useEffect(() => {
-		loadTeams();
+		socket.on(ServerToClient.Connection, () => {
+			console.log('Connecté au serveur');
+		});
+
+		socket.on(ServerToClient.Disconnection, () => {
+			console.log('Déconnecté du serveur');
+		});
+
+		socket.on(ServerToClient.SyncTeams, (data) => {
+			console.log(data);
+			setLockedTeams(data.lockedTeams);
+			setConfirmedTeams(data.confirmedTeams);
+			console.log(lockedTeams);
+		});
+
+		socket.on(ServerToClient.CompositionFinished, () => {
+			alert('La composition des équipes est terminée, faire quelque chose ici');
+			// TODO: Rediriger vers la page de jeu avec le bon CODE de session
+		});
+
+		socket.connect();
+
+		return () => {
+			socket.disconnect();
+
+			socket.off(ServerToClient.Connection);
+			socket.off(ServerToClient.Disconnection);
+			socket.off(ServerToClient.SyncTeams);
+			socket.off(ServerToClient.CompositionFinished);
+		};
 	}, []);
 
 	const handleStartGame = () => {
-		alert('La partie va commencer');
+		socket.emit(ClientToServer.FinishComposition);
+	};
+
+	if (!Array.isArray(lockedTeams) || !Array.isArray(confirmedTeams)) {
+		throw new Error('lockedTeams and confirmedTeams must be arrays');
 	}
 
 	return (
-		<LayoutProf>
-			<main className="flex flex-col gap-4 w-full h-full p-4">
-				<h1 className="text-3xl">Validation des équipes</h1>
-				<section className="flex flex-row justify-evenly w-full">
-					<WaitingTeams/>
-					<AcceptedTeams/>
-				</section>
-				<section className='flex flex-row justify-end p-4 w-full'>
-					<button className='p-2 bg-blue-800 rounded-xl text-white' onClick={handleStartGame}>Commencer la partie
-					</button>
-				</section>
-			</main>
-		</LayoutProf>
+		<SocketContext.Provider value={socket}>
+			<LayoutProf>
+				<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
+					<section className="h-[80%] flex flex-row justify-evenly items-center">
+						<TeamContainer teams={lockedTeams} isValidated={false} />
+						<TeamContainer teams={confirmedTeams} isValidated={true} />
+					</section>
+					<section className="flex flex-row justify-end items-center h-[10%] w-full">
+						<button className="btn-validate" onClick={handleStartGame}>
+							Commencer la partie
+						</button>
+					</section>
+				</main>
+			</LayoutProf>
+		</SocketContext.Provider>
 	);
-}
+};
 
 export default PreGame;

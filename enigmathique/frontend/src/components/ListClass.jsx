@@ -1,59 +1,94 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import CourseService from '../services/course.service';
 import Modal, {ModalBody, ModalHeader} from './Modal';
 import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
 import {CiSquareMore} from 'react-icons/ci';
 import PropTypes from 'prop-types';
+import {FaPlus} from "react-icons/fa6";
+import Course from "../models/course.model";
+import {ImStatsDots} from "react-icons/im";
 
 const ClassElement = ({classe, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [name, setName] = useState('');
 
-	const handleClickDelete = (event, id) => {
-		console.log('Delete ' + id);
-		CourseService.deleteId(id)
-			.then((response) => {
-				console.log(response);
-				onChange();
-			});
+	const handleClickDelete = async (event, id) => {
+		event.preventDefault();
+		await Course.delete(id);
+		onChange();
 		setDeleteModalOpen(false);
+		console.log('delete ' + id);
 	}
 
-	const handleClickEdit = (event, id) => {
+	const handleClickEdit = async (event, id) => {
 		event.preventDefault();
-		CourseService.edit(name, id)
-			.then((response) => {
-				console.log(response);
-				onChange();
-			});
-		setEditModalOpen(false)
+		const data = await Course.edit(name, id);
+		onChange();
+		setEditModalOpen(false);
+		console.log('edit ' + id);
 	}
 
 
 	return (
-		<li key={classe.id} value={classe.name} className='bg-blue-700 flex p-1'>
-			<h3 className='w-40 text-center'>{classe.name}</h3>
-			<button className='btn-utils-student' onClick={() => setEditModalOpen(true)}><MdOutlineModeEdit
-				color='white' size='1.5em'/></button>
+		<li key={classe.id} value={classe.name} className='bg-gray-300 flex p-1 rounded-2xl'>
+			<h3 className='w-40 text-center my-auto'>
+				{classe.name}
+			</h3>
 			<Link to={`/class/${classe.id}`}>
-				<button className='btn-utils-student'><CiSquareMore color='white' size='1.5em'/></button>
+				<button
+					className='btn-utils btn-utils-course-student-icons'>
+					<CiSquareMore size='1.5em'/>
+					<p>Voir les élèves</p>
+				</button>
 			</Link>
-			<button className='btn-utils-student' onClick={() => setDeleteModalOpen(true)}>
-				<MdDeleteForever color='white' size='1.5em'/></button>
+			<div className='ml-auto space-x-3'>
+				<Link to='/'>
+					<button
+						className='btn-utils btn-utils-course-student-stat'>
+						<ImStatsDots color='white' size='1.5em'/>
+					</button>
+				</Link>
+				<button
+					className='btn-utils btn-utils-course-student-edit'
+					onClick={() => setEditModalOpen(true)}>
+					<MdOutlineModeEdit size='1.5em'/>
+				</button>
+				<button
+					className='btn-utils btn-utils-course-student-delete'
+					onClick={() => setDeleteModalOpen(true)}>
+					<MdDeleteForever size='1.5em'/>
+				</button>
+			</div>
 			{editModalOpen && (
-				<Modal setOpenModal={setEditModalOpen}>
+				<Modal setOpenModal={setEditModalOpen} height='400'>
 					<ModalHeader>
-						<h1 className='text-3xl text-center'>Modifier la classe {classe.name}</h1>
+					<h1 className='text-3xl text-center'>
+							Modifier la classe {classe.name}
+						</h1>
 					</ModalHeader>
 					<ModalBody>
 						<form className='flex flex-col space-y-5'>
-							<label htmlFor='name'>Nom de la classe</label>
-							<input type='text' name='name' id='name' value={name} onChange={(e) => setName(e.target.value)} className='border-2 border-blue-900 rounded-md'/>
-							<button className='btn-delete' onClick={() => setEditModalOpen(false)}>Annuler</button>
-							<button type='submit' className='btn-validate' onClick={(event) => handleClickEdit(event, classe.id)}>Valider la
-								modification
+							<label htmlFor='name'>
+								Nom de la classe
+							</label>
+							<input
+								type='text'
+								name='name'
+								id='name'
+								defaultValue={classe.name}
+								onChange={(e) => setName(e.target.value)}
+								className='border-2 border-blue-900 rounded-md'/>
+							<button
+								className='btn-delete'
+								onClick={() => setEditModalOpen(false)}>
+								Annuler
+							</button>
+							<button
+								type='submit'
+								className='btn-validate'
+								onClick={(event) => handleClickEdit(event, classe.id)}>
+								Valider la modification
 							</button>
 						</form>
 					</ModalBody>
@@ -61,14 +96,22 @@ const ClassElement = ({classe, onChange}) => {
 			{deleteModalOpen && (
 				<Modal setOpenModal={setDeleteModalOpen} height='300'>
 					<ModalHeader>
-						<h1 className='text-3xl text-center'>Voulez vous vraiment surpprimer
-							la classe {classe.id}</h1>
+						<h1 className='text-3xl text-center'>
+							Voulez vous vraiment supprimer la classe {classe.id}
+						</h1>
 					</ModalHeader>
 					<ModalBody>
 						<div className='flex flex-col space-y-5'>
-							<button className='btn-delete' onClick={() => setDeleteModalOpen(false)}>Annuler</button>
-							<button type='submit' className='btn-validate' onClick={(event) => handleClickDelete(event, classe.id)}>Valider la
-								suppression
+							<button
+								className='btn-delete'
+								onClick={() => setDeleteModalOpen(false)}>
+								Annuler
+							</button>
+							<button
+								type='submit'
+								className='btn-validate'
+								onClick={(event) => handleClickDelete(event, classe.id)}>
+								Valider la suppression
 							</button>
 						</div>
 					</ModalBody>
@@ -83,12 +126,10 @@ const ListClass = () => {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [name, setName] = useState('');
 
-	const loadClasses = () => {
-		CourseService.getAll().then((response) => {
-			setCourses(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	const loadClasses = async () => {
+		const data = await Course.getAll();
+		setCourses(data);
+		console.log(data);
 	}
 
 	useEffect(() => {
@@ -96,36 +137,60 @@ const ListClass = () => {
 	}, []);
 
 
-	const handleClickCreate = (event) => {
+	const handleClickCreate = async (event) => {
 		event.preventDefault();
-		CourseService.create(name)
-			.then((response) => {
-				console.log(response);
-				loadClasses();
-			});
+		const data = await Course.create(name);
+		console.log(data);
+		loadClasses();
 		setCreateModalOpen(false);
+		setName('');
 	}
 
 	return (
 		<>
-			<ul className='bg-blue-300 space-y-10'>
+			<div className='flex justify-end p-5'>
+				<button
+					className="btn-utils btn-utils-course-student-icons"
+					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer
+					une classe</p>
+				</button>
+			</div>
+			<ul className='bg-blue-300 space-y-10 p-5'>
 				{courses.map((classe) => (
-					<ClassElement key={classe.id} classe={classe} onChange={() => loadClasses()} />
+					<ClassElement key={classe.id} classe={classe} onChange={() => loadClasses()}/>
 				))}
 			</ul>
-			<button className="btn-utils-student text-white" onClick={() => setCreateModalOpen(true)}>Créer une classe
-			</button>
 			{createModalOpen && (
-				<Modal setOpenModal={setCreateModalOpen} height='400'>
+				<Modal setOpenModal={setCreateModalOpen}>
 					<ModalHeader>
-						<h1 className='text-3xl text-center'>{`Création d'une classe`}</h1>
+						<h1 className='text-2xl font-semibold primary-font-color text-center pl-5'>{`Création d'une classe`}</h1>
 					</ModalHeader>
 					<ModalBody>
-						<form className='flex flex-col space-y-5'>
-							<label htmlFor='name'>Nom de la classe</label>
-							<input type='text' name='name' id='name' value={name} onChange={(e) => setName(e.target.value)} className='border-2 border-blue-900 rounded-md'/>
-							<button className='btn-delete' onClick={() => setCreateModalOpen(false)}>Annuler</button>
-							<button type='submit' className='btn-validate' onClick={handleClickCreate}>Valider la création</button>
+						<form className='flex flex-col justify-center items-start w-full gap-3 '>
+							<div className='w-full pb-3'>
+							<label htmlFor='name' className='form-label-style primary-font-color'>
+								Nom de la classe
+							</label>
+							<input
+								type='text'
+								name='name'
+								id='name'
+								value={name}
+								placeholder='Classe'
+								onChange={(e) => setName(e.target.value)}
+								className='form-inputfield-style  '/> 
+							</div>
+							<button
+								className='flex items-center justify-center form-button-style bg-transparent text-[#0A06F4] border-2 border-[#0A06F4] h-[40px] box-border hover:bg-transparent'
+								onClick={() => setCreateModalOpen(false)}>
+								Annuler
+							</button>
+							<button
+								type='submit'
+								className='form-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] h-[40px]'
+								onClick={(event) => handleClickCreate(event)}>
+								Créer
+							</button>
 						</form>
 					</ModalBody>
 				</Modal>)}
@@ -135,7 +200,7 @@ const ListClass = () => {
 
 ClassElement.propTypes = {
 	classe: PropTypes.object.isRequired,
-	onChange : PropTypes.func.isRequired,
+	onChange: PropTypes.func.isRequired,
 }
 
 export default ListClass;

@@ -1,41 +1,51 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import LayoutProf from '../layouts/LayoutProf';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import GameTeam from '../components/stats/GameTeam';
 import ScoreTeam from '../components/stats/ScoreTeam';
+import TeamService from "../services/team.service";
 
 const TeamStats = () => {
+	const idTeam = useParams();
 
-	const rooms = [
-		{
-			name: 'La menuiserie Seguin',
-			time: '3:45'
-		},
-		{
-			name: 'Le Labo',
-			time: '2:50'
-		}
-	]
+	const [students, setStudents] = useState([]);
+	const [scores, setScores] = useState([]);
 
-	const score = {
-		nbHints: 5,
-		nbMis: 3
+	const loadMembers = () => {
+		TeamService.getStudents(idTeam).then((response) => {
+			setStudents(response);
+		}).catch((error) => {
+			console.log(error);
+		});
 	}
+
+	const loadScores = () => {
+		TeamService.getScores(idTeam).then((response) => {
+			setScores(response);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
+	useEffect(() => {
+		loadMembers();
+		loadScores();
+	}, []);
 
 	return (
 		<LayoutProf>
-			<main>
+			<main className='overflow-y-scroll'>
 				<div>
 					<Link to=''>{'<'}</Link>
-					<h2>Equipe de Julie Lustret et Jean-Marie Duc de Bourgogne</h2>
+					<h2>Equipe de {students.map((student) => student+' ')}</h2>
 				</div>
 				<div>
-					<GameTeam rooms={rooms}/>
-					<ScoreTeam rooms={rooms} score={score}/>
+					<GameTeam scores={scores}/>
+					<ScoreTeam scores={scores}/>
 				</div>
 			</main>
 		</LayoutProf>
-	)
-}
+	);
+};
 
 export default TeamStats;

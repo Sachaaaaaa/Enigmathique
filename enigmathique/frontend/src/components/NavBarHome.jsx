@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/img/logo-enigmathique.png';
+import logo from '../assets/img/logo-name-enigmathique.png';
 import {Link} from 'react-router-dom';
 
 
@@ -7,25 +7,25 @@ function NavBarHome() {
 	const loginPath = './login';
 	const registerPath = './signup'
 
-	return (<nav className='bg-blue-950 flex space-x-20 items-center'>
-		<div className='flex space-x-5'>
-			<img src={logo} alt='logo' className='h-24'/>
-			<div className='flex items-center'>
-				<h1 className='text-3xl text-white'>Enigmathique</h1>
+	return (
+		<header className='z-10 absolute w-full h-fit top-0 m-0 p-0 topbar-container border-none flex justify-end align-middle'>
+		
+			<div className='flex justify-around mr-5 gap-5 p-5'>
+				<Link to={registerPath}>
+					<button className=" shadow-md bg-white primary-font-color font-semibold px-3 py-1 w-[180px] border-2 border-white rounded-[30px]">
+					{`S'inscrire`}
+					</button>
+					{/* // hover:bg-white hover:primary-font-color */}
+				</Link>
+				<Link to={loginPath}>
+					<button
+						className='shadow-md bg-transparent text-white font-semibold px-3 py-1 w-[180px] border-2 border-white rounded-[30px]'>
+							Se connecter
+							</button>
+				</Link>
 			</div>
-		</div>
-		<div className='flex space-x-10 justify-end mr-10'>
-			<Link to={loginPath}>
-				<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 w-32 rounded-lg'>Login</button>
-			</Link>
-			<Link to={registerPath}>
-				<button
-					className='bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-3 px-4 w-32 border-2 border-white hover:border-transparent rounded-lg'>Sign
-					up
-				</button>
-			</Link>
-		</div>
-	</nav>);
+		</header>
+);
 }
 
 export default NavBarHome;

@@ -1,8 +1,10 @@
 const io = require('socket.io')();
-const Game = require('./game');
-const { ClientToServer } = require('./socketMessages');
+const ApiService = require('./api/api');
+const SocketManager = require('./socketManager');
 
-const game = new Game(io);
+//ApiService.isTokenValid('123', 1);
+
+const socketManager = new SocketManager(io);
 
 io.listen(4000, {
 	cors: {
