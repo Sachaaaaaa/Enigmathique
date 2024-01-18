@@ -109,7 +109,7 @@ const ClassElem = (props) => {
 			className='grid grid-cols-2 gap-1 info-container w-full h-full'>
 			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>NOM</h3>
-				<p className='small-text'>Seconde {classGroup.name}</p>
+				<p className='small-text'>{classGroup.name}</p>
 			</article>
 			<article className='col-span-1  element-info-container'>
 				<h3 className='small-title'>ÉLÈVES</h3>

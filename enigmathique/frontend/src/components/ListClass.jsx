@@ -97,7 +97,7 @@ const ClassElement = ({classe, onChange}) => {
 				<Modal setOpenModal={setDeleteModalOpen} height='300'>
 					<ModalHeader>
 						<h1 className='text-3xl text-center'>
-							Voulez vous vraiment surpprimer la classe {classe.id}
+							Voulez vous vraiment supprimer la classe {classe.id}
 						</h1>
 					</ModalHeader>
 					<ModalBody>
@@ -161,13 +161,14 @@ const ListClass = () => {
 				))}
 			</ul>
 			{createModalOpen && (
-				<Modal setOpenModal={setCreateModalOpen} height='400'>
+				<Modal setOpenModal={setCreateModalOpen}>
 					<ModalHeader>
-						<h1 className='text-3xl text-center'>{`Création d'une classe`}</h1>
+						<h1 className='text-2xl font-semibold primary-font-color text-center pl-5'>{`Création d'une classe`}</h1>
 					</ModalHeader>
 					<ModalBody>
-						<form className='flex flex-col space-y-5'>
-							<label htmlFor='name'>
+						<form className='flex flex-col justify-center items-start w-full gap-3 '>
+							<div className='w-full pb-3'>
+							<label htmlFor='name' className='form-label-style primary-font-color'>
 								Nom de la classe
 							</label>
 							<input
@@ -175,18 +176,20 @@ const ListClass = () => {
 								name='name'
 								id='name'
 								value={name}
+								placeholder='Classe'
 								onChange={(e) => setName(e.target.value)}
-								className='border-2 border-blue-900 rounded-md'/>
+								className='form-inputfield-style  '/> 
+							</div>
 							<button
-								className='btn-delete'
+								className='flex items-center justify-center form-button-style bg-transparent text-[#0A06F4] border-2 border-[#0A06F4] h-[40px] box-border hover:bg-transparent'
 								onClick={() => setCreateModalOpen(false)}>
 								Annuler
 							</button>
 							<button
 								type='submit'
-								className='btn-validate'
+								className='form-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] h-[40px]'
 								onClick={(event) => handleClickCreate(event)}>
-								Valider la création
+								Créer
 							</button>
 						</form>
 					</ModalBody>
