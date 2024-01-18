@@ -104,6 +104,9 @@ body::-webkit-scrollbar {
         .primary-font-color {
             @apply text-[#343C6A];
         }
+        .blue-font-color {
+            @apply text-[#0A06F4];
+        }
 
         .secondary-font-color {
             @apply text-[#B1B1B1];
@@ -115,7 +118,11 @@ body::-webkit-scrollbar {
 
         .gradient-font {
             @apply primary-gradient-color text-transparent bg-clip-text;
-     }
+        }
+
+        .border-white-color {
+            @apply border-[#E6EFF5] ;
+        }
      /** 
     * Styles généraux des textes
     */
@@ -145,7 +152,7 @@ body::-webkit-scrollbar {
         @apply block text-sm font-bold mb-2 ;
     }
     .form-inputfield-style {
-        @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none ;
+        @apply shadow appearance-none border rounded w-full h-fit py-2 px-3 primary-font-color leading-snug focus:outline-none ;
     }
     .form-button-style {
         @apply w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none ;
@@ -213,7 +220,7 @@ body::-webkit-scrollbar {
     * TopBarProf
     */
     .topbar-container {
-        @apply flex flex-row px-0 py-0 items-center border-b-2 box-border border-[#E6EFF5] h-1/6;
+        @apply flex flex-row px-0 py-0 items-center border-b-2 box-border border-white-color h-1/6;
     }
 
 
@@ -284,7 +291,7 @@ body::-webkit-scrollbar {
    * NavBar
    */
     .nav-container {
-        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 box-border border-[#E6EFF5];
+        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 box-border border-white-color;
     }
 
     .nav-content {
