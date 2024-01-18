@@ -12,7 +12,7 @@ class Professor{
 			let data = await ProfessorService.getCurrentProfessor();
 			return new Professor(data.id, data.lastname, data.firstname, data.mail);
 		}catch (error){
-			console.log(error);
+			console.log(`erreur dans le getter du Professeur courant dans le modèle de professeur (front) ${error}`);
 		}
 	}
 }
