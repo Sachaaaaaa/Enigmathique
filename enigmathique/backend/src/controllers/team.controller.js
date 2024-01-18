@@ -163,11 +163,7 @@ exports.addStudents = async (req, res, next) => {
 			// faire en sorte que les élèves soient ajoutés à la team avec le name de la team
 			addedTeams.push(await PlayIn.bulkCreate(studentsData));	
 		}
-<<<<<<< HEAD
-		return res.status(201).json(addedStudents);
-=======
 		return res.status(201).json(addedTeams);
->>>>>>> 2af8587fb73f15d4a0896e7930b9dab9220b5b9e
 		
 	} catch(err){
 		next(err)
@@ -420,8 +416,7 @@ exports.addScores = async(req, res, next) => {
 
 
 		for (let i = 0; i < scores.rooms.length; i++) {
-			
-			if (!scores.rooms[i].roomName || !scores.rooms[i].idGame||!scores.rooms[i].time ||!scores.rooms[i].nbGoodAnswers ||!scores.rooms[i].nbBadAnswers  ||!scores.rooms[i].nbHints ) {
+			if (!scores.rooms[i].roomName || !scores.rooms[i].time ||!scores.rooms[i].nbGoodAnswers ||!scores.rooms[i].nbBadAnswers  ||!scores.rooms[i].nbHints ) {
 				const error = new Error("Il manque des informations pour ajouter des scores.");
 				error.statusCode = 400;  
 				throw error;
@@ -434,7 +429,7 @@ exports.addScores = async(req, res, next) => {
 			const scoresData = {
 				idTeam: scores.idTeam,
 				roomName: scores.rooms[i].roomName,
-				idGame: scores.rooms[i].idGame,
+				idGame: scores.idGame,
 				time: scores.rooms[i].time,
 				nbGoodAnswers: scores.rooms[i].nbGoodAnswers,
 				nbBadAnswers: scores.rooms[i].nbBadAnswers,
