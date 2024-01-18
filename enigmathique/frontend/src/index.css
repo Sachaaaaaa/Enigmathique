@@ -17,21 +17,16 @@ body::-webkit-scrollbar {
         width: 10px;
     }
     
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: rgba(10, 6, 244, 0.1);
-        border-radius: 5px;
-    }
     
     /* Handle */
     ::-webkit-scrollbar-thumb {
-        background: #0A06F4;
-        border-radius: 30px;
+        background: #343C6A;
+
     }
     
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-        background: #07059d;
+        background: #0A06F4;
     }
 
 /** Animations **/
@@ -162,7 +157,7 @@ body::-webkit-scrollbar {
     * Dashboard
     **/
         .empty-info-container {
-            @apply self-stretch min-h-[200px] info-container flex grow justify-center items-center ;
+            @apply self-stretch min-h-[200px] info-container grow justify-center items-center ;
         }
 
         .info-container {

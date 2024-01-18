@@ -73,8 +73,7 @@ const ClassElement = ({classe, onChange}) => {
 								type='text'
 								name='name'
 								id='name'
-								value={name}
-								placeholder='Classe'
+								placeholder={classe.name}
 								onChange={(e) => setName(e.target.value)}
 								className='form-inputfield-style  '/> 
 							</div>
@@ -169,7 +168,6 @@ const ListClass = () => {
 								type='text'
 								name='name'
 								id='name'
-								value={name}
 								placeholder='Classe'
 								onChange={(e) => setName(e.target.value)}
 								className='form-inputfield-style  '/> 
