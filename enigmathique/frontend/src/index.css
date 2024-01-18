@@ -7,6 +7,7 @@
 
 /** Scrollbar **/
 
+
 body::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
@@ -244,7 +245,7 @@ body::-webkit-scrollbar {
     }
 
     .btn-utils-see {
-        @apply  text-white primary-gradient-color flex space-x-2 items-center rounded-full px-4 py-2 font-normal;
+        @apply  text-white text-xs font-normal primary-gradient-color flex space-x-2 items-center rounded-full px-4 py-2 ;
     }
     
     .btn-utils-course-student:hover {
