@@ -3,9 +3,12 @@ import LayoutProf from "../layouts/LayoutProf";
 import 'index.css';
 import Game from "../models/game.model";
 import Course from "../models/course.model";
+import SearchInput from "../components/SearchInput";
 
 const Games = () => {
 	const [games, setGames] = useState([]);
+	const [filter, setFilter] = useState('');
+	const [filteredGames, setFilteredGames] = useState([]);
 	const loadGames = async () => {
 		//récupérer toutes les games
 		const data = await Game.getAll();
@@ -26,9 +29,21 @@ const Games = () => {
 	useEffect(() => {
 		loadGames().then(() => console.log());
 	}, []);
+	const handleTextChange = (e) => {
+		setFilter(e.target.value);
+	};
+	useEffect(() => {
+		const filtered = games.filter(
+			(game) => game.name.toLowerCase().includes(filter.toLowerCase())
+		);
+		setFilteredGames([...filtered]);
+	}, [filter, games]);
 	return (
 		<LayoutProf>
 			<main className="p-8 h-[90%]">
+				<nav className="flex flex-row justify-end w-full">
+					<SearchInput handleChangeText={handleTextChange}/>
+				</nav>
 				<table className="overflow-y-scroll h-full w-full block">
 					<thead className="w-full">
 					<tr className="sticky top-0 bg-white z-10">
@@ -41,7 +56,7 @@ const Games = () => {
 					</tr>
 					</thead>
 					<tbody className="w-full">
-					{games.map((game, index) => {
+					{filteredGames.map((game, index) => {
 						return (
 							<tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
 								<td className="px-6 py-4 whitespace-nowrap small-text">
