@@ -7,6 +7,8 @@ import { useGLTF } from '@react-three/drei';
 
 import Enigma from '../enigmas/Enigma';
 import useInteractiveObject from '../../../hooks/useInteractiveObject';
+import useDragObject from 'hooks/useDragObject';
+
 import { SocketContext } from '../../../contexts/SocketContext';
 import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
@@ -50,7 +52,7 @@ export default function Model(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Salut Gnibo!"
 								description="Je suis un singe! La réponse est 1."
@@ -67,6 +69,26 @@ export default function Model(props) {
 		);
 	};
 
+	const SuzanneDrag = () => {
+		const { mesh, isDragging, position, handlePointerDown, handlePointerMove, handlePointerUp } =
+			useDragObject();
+
+		return (
+			<mesh
+				ref={mesh}
+				name="Suzanne"
+				castShadow
+				receiveShadow
+				geometry={nodes.Suzanne.geometry}
+				material={materials.Monkey}
+				position={position}
+				rotation={[-0.72, -0.516, -0.408]}
+				onPointerDown={handlePointerDown}
+				onPointerMove={handlePointerMove}
+				onPointerUp={handlePointerUp}
+			/>
+		);
+	};
 
 	return (
 		<group {...props} dispose={null}>
@@ -89,6 +111,7 @@ export default function Model(props) {
 					rotation={[-0.72, -0.516, -0.408]}
 				/>*/}
 				<SuzanneEvent />
+				<SuzanneDrag />
 			</group>
 		</group>
 	);

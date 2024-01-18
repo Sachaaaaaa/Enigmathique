@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
 				key: 'id', 
 			},
 			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
-			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL
+			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL   
         },
 
         // Date de création de l'objet
