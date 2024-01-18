@@ -28,16 +28,17 @@ class SocketManager {
 		console.log(clc.green('[Socket] Nouvelle connexion ' + socket.id));
 
 		// Vérifier si il y a un id de session (évite reverifier dans chaque gestionnaire)
-		const sessionId = socket.handshake.query.sessionId;
-		if (!sessionId) {
+		const sessionCode = socket.handshake.query.sessionId;
+		if (!sessionCode) {
 			console.log(clc.red('[Socket] Aucun id de session, déconnexion'));
 			socket.disconnect();
 			return;
 		}
 
 		// Vérifier si la session est valide
-		const session = await ApiService.getGameById(sessionId);
-		if (session == null || session.state >= 2) {
+		const sessionId = await ApiService.getGameIdFromCode(sessionCode);
+		const sessionState = await ApiService.getGameStateById(sessionId);
+		if (sessionState == null || sessionState >= 2) {
 			console.log(clc.red('[Socket] Session invalide ou terminée, déconnexion'));
 			socket.disconnect();
 			return;
@@ -47,12 +48,10 @@ class SocketManager {
 		const token = socket.handshake.query.token;
 		if (token) {
 			// Vérifier le token du professeur (si valide et si la partie lui appartient)
-			// { ... }
-
-			const isValid = true; // TODO: Vérifier le token
+			const isTokenValid = await ApiService.isTokenValid(token, sessionId);
 
 			// Si token invalide, déconnecte
-			if (!isValid) {
+			if (!isTokenValid) {
 				console.log(clc.red('[Socket] Token invalide, déconnexion'));
 				socket.disconnect();
 				return;
@@ -64,9 +63,9 @@ class SocketManager {
 
 		// Redirige vers le bon gestionnaire
 		if (connectionType == ConnectionType.Game) {
-			this.gameManager.handleConnection(socket);
+			this.gameManager.handleConnection(socket, sessionId);
 		} else if (connectionType == ConnectionType.TeamComposition) {
-			this.teamCompositionManager.handleConnection(socket);
+			this.teamCompositionManager.handleConnection(socket, sessionId);
 		} else {
 			console.log(clc.red('[Socket] Type de connexion inconnu: ' + connectionType));
 		}

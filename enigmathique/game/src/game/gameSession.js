@@ -4,6 +4,7 @@ const { ServerToClient, ClientToServer } = require('../socketMessages');
 const SocketTeam = require('./connections/socketTeam');
 const SocketProfessor = require('./connections/socketProfessor');
 const RoomPlayable = require('./rooms/roomPlayable');
+const ApiService = require('../api/api');
 
 //const TIME_PER_ROUND = 60 * 10; // 10 minutes
 const TIME_PER_ROUND = 5; // 5 secondes
@@ -59,7 +60,7 @@ class GameSession {
 		const teamsProgress = {};
 
 		this.teams.forEach(team => {
-			teamsProgress[team.teamId] = team.getRoomsData();
+			teamsProgress[team.teamId] = team.getProgressionData();
 		});
 
 		return teamsProgress;		
@@ -142,6 +143,9 @@ class GameSession {
 	 */
 	addProfessor = (professor) => {
 		this.professors.push(professor);
+
+		// Envoie les informations de la session au professeur
+		professor.sendAllTeamsProgress(this.getSessionResult());
 	}
 
 	/**
@@ -173,11 +177,28 @@ class GameSession {
 		console.log(clc.yellow('[Session] Fin de la session'));
 		this.isSessionRunning = false;
 
-		// Vérifier si la session se termine normalement ou si elle a été arrêtée
-		if (this.round >= this.numRounds) { 
-			
-		}
+		const endedNormally = this.round >= this.numRounds;
 
+		if (!endedNormally) {
+			console.log(clc.redBright('[Session] Fin de la session anormale'));
+			// Ne pas envoyer les résultats à l'API
+			// A la place, demande à l'API de supprimer la session
+			// { ... }
+			// TODO: Supprimer la session
+			
+			return;
+		}
+		
+		console.log(clc.greenBright('[Session] Fin de la session normale'));
+
+		// Recupère les informations de progression de chaque équipe
+		const teamsProgress = this.getTeamsProgress();
+
+
+		console.log(teamsProgress);
+
+		// Envoie à l'API
+		ApiService.postTeamsScore(this.sessionId, teamsProgress);
 
 		this.game.onSessionEnd(this.sessionId);
 	}
@@ -194,7 +215,6 @@ class GameSession {
 
 		// Vérifier si la session est terminée
 		if (this.round >= this.numRounds) {
-			console.log(clc.greenBright('[Session] Fin de la session'));
 			this.stopSession();
 			return;
 		}
@@ -219,6 +239,10 @@ class GameSession {
 		console.log(clc.greenBright(`[Session] Lancement du timer (${TIME_PER_ROUND} secondes)`));
 		this.roundStartTime = Date.now();
 		this.isPlaying = true;
+
+
+		// Envoie les informations de la session au(x) professeur(s)
+		this.sendDataToProfessors();
 	}
 
 	/**
@@ -285,9 +309,7 @@ class GameSession {
 		console.log(clc.cyanBright('[Session] Une équipe a résolu une énigme'));
 
 		// Pour l'instant, envoie toutes les informations de progression aux professeurs
-		this.professors.forEach(professor => {
-			professor.sendAllTeamsProgress(this.getSessionResult());
-		});
+		this.sendDataToProfessors();
 	}
 
 	/**
@@ -296,14 +318,19 @@ class GameSession {
 	 */
 	onTeamSolvedRoom = (team) => {
 		console.log(clc.cyan('[Session] Une équipe a résolu sa salle'));
-
-		// Vérifier si toutes les équipes ont résolu leur salle
-		const isAllRoomsSolved = this.teams.every(team => team.leaved || team.currentRoom.enigmasSolved.length == team.currentRoom.enigmas.length);
+		
+		const doesEveryoneSolved = this.teams.every(team => team.leaved || team.currentRoom.enigmasSolved.length == team.currentRoom.enigmas.length);
 	
-		if (isAllRoomsSolved) {
+		if (doesEveryoneSolved) {
 			console.log(clc.green('[Session] Toutes les équipes ont résolu leur salle'));
 			this.rotateRooms();
 		}
+	}
+
+	sendDataToProfessors = () => {
+		this.professors.forEach(professor => {
+			professor.sendAllTeamsProgress(this.getSessionResult());
+		});
 	}
 
 	

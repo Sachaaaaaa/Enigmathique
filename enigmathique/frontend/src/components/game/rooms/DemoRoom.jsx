@@ -50,11 +50,12 @@ export default function Model(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Salut Gnibo!"
 								description="Je suis un singe! La réponse est 1."
 								image={data.image}
+								hint={hint}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
 							/>

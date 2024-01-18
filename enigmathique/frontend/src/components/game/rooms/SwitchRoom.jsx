@@ -46,15 +46,16 @@ export default function Model(props) {
 				onPointerOut={handlePointerOut}
 				onClick={handleClick}
 			>
-				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{hovered && <meshBasicMaterial color={0xf0f0ff} />}
 				{clicked && (
 					<Enigma
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Salut Gnibo!"
 								description="Je suis un singe! La réponse est 1."
 								image={data.image}
+								hint={hint}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
 							/>

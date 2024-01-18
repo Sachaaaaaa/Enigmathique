@@ -11,11 +11,6 @@ module.exports = app => {
 	// todo : remove un student from a team
 	// todo : tout mettre en cascade 
 
-	// Ajoute un élève à une équipe
-	router.post("/student/", middleware.verifyToken, team.addStudents);
-
-	// Ajouter les scores d'une équipe
-	router.post("/score/:id", middleware.verifyToken, team.addScores);
 
 	// Supprime un élève de l'équipe
 	router.post("/student/:id", middleware.verifyToken, team.removeStudent);
@@ -37,6 +32,13 @@ module.exports = app => {
 
 
 	
+	// interne : 
+	
+	// Ajoute un élève à une équipe
+	router.post("/student/", middleware.verifyGameToken, team.addStudents, middleware.verifyErrors);
+
+	// Ajouter les scores d'une équipe
+	router.post("/score/", middleware.verifyGameToken, team.addScores, middleware.verifyErrors);
 
 	app.use("/api/team", router);
 }

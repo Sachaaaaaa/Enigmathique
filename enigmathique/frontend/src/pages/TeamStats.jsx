@@ -48,7 +48,7 @@ const TeamStats = () => {
 				</div>
 			</main>
 		</LayoutProf>
-	)
-}
+	);
+};
 
 export default TeamStats;
