@@ -433,6 +433,10 @@ exports.addStudents = async (req, res) => {
 
 }
 
+
+//{{teamId: 1,rooms: [{name: 'Laboratory',numSolved: 2,numBadAnswers: 667,numHints: 1,isSolved: true,time: 125}]}}
+
+
 // [[{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}], [{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}]]
 // Accepte une équipe à une partie
 exports.addScores = async(req, res, next) => {
