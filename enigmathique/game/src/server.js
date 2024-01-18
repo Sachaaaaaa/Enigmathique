@@ -1,10 +1,12 @@
 const io = require('socket.io')();
-const ApiService = require('./api/api');
+const clc = require('cli-color');
 const SocketManager = require('./socketManager');
 
-//ApiService.isTokenValid('123', 1);
+require('dotenv').config();
 
 const socketManager = new SocketManager(io);
+
+console.log(clc.blue('Si le message Session Invalide apparait, vérifier les .env de enigmathique/game et enigmathique/api (TOKEN / URL)'))
 
 io.listen(4000, {
 	cors: {

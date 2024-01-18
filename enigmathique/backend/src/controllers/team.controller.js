@@ -129,40 +129,57 @@ async function isGameBelongsProfessor(idGame, req) {
 
 
 // Ajouter des élèves à une équipe
-// Exemple de valeur pour teams [{"name": "shesh", "idStudents": [2, 3, 4]}]
+// Ex contenu de req.body : 
+/*
+{
+  teams: [ { name: 'Ekip de beauvais', idStudents: [Array] } ],
+  gameId: 1
+}
+*/
 exports.addStudents = async (req, res, next) => {	
+
 
 	try{
 		// Valider la requête
-		if (!req.body.teams) {
+		if (!req.body.teams || !req.body.idGame) {
 			const error = new Error("Il manque des informations pour ajouter des élèves.");
 			error.statusCode = 400;  
 			throw error;
 		}
 
 		// Récupère les équipes dans un format adapté
-		const teams = JSON.parse(req.body.teams);
-		// Le nom des équipes à ajouter
+		const teams = req.body.teams;
+		const idGame = req.body.idGame
+
+		// Les équipes à ajouter
 		const addedTeams = [];
 
-		// Pour chaque équipe, vérifier que le nom et les élèves sont bien renseignés, puis l'ajoute dans teamsName
+		// Itère sur chaque équipe
 		for (let i = 0; i < teams.length; i++) {
-			if (!teams[i].name || !teams[i].idStudents) {
+			if (!teams[i].name || !teams[i].idStudents) {
 				const error = new Error("Il manque des informations pour ajouter des élèves.");
 				error.statusCode = 400;  
 				throw error;
 			}
 			
-			
-
 			// Ajoute toutes les équipes du tableau teamsName
-			const createdTeam = await Team.create({ name: teams[i].name });	
-
+			const createdTeam = await Team.create({ name: teams[i].name, idGame: idGame });
+			
 			const studentsData = teams[i].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
-
-			// faire en sorte que les élèves soient ajoutés à la team avec le name de la team
-			addedTeams.push(await PlayIn.bulkCreate(studentsData));	
+			
+			// Ajoute les élèves à la table PlayIn
+			await PlayIn.bulkCreate(studentsData);
+			
+			// Ajoute à createdTeam l'attribut idSocket qui est l'id de la socket de l'équipe (pour pouvoir l'identifier dans game)
+			const teamData = createdTeam.dataValues;
+			teamData.idSocket = teams[i].idSocket;
+			// Ajoute l'équipe à la liste des équipes ajoutées
+			addedTeams.push(teamData);	
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2a880fb8da98bfae3660343644da11446784c2bd
 		return res.status(201).json(addedTeams);
 		
 	} catch(err){
