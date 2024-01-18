@@ -155,7 +155,7 @@ body::-webkit-scrollbar {
         @apply shadow appearance-none border rounded w-full h-fit py-2 px-3 primary-font-color leading-snug focus:outline-none ;
     }
     .form-button-style {
-        @apply w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none ;
+        @apply w-full  hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none ;
     }
 
     /**
@@ -170,6 +170,17 @@ body::-webkit-scrollbar {
         }
         .element-info-container {
             @apply p-1 ml-3 mr-3
+        }
+
+    /** 
+    * Modal
+    **/
+        .modal-cancel-button-style {
+            @apply flex items-center justify-center form-button-style bg-transparent  text-[#0A06F4] border-2 border-[#0A06F4] h-[40px] box-border hover:bg-transparent ;
+        }
+
+        .modal-validate-button-style {
+            @apply form-button-style  h-[40px];
         }
     /**
     * Bouton valider

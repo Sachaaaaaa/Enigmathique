@@ -90,7 +90,7 @@ const Login = () => {
 								{loading && (
 									<span className='spinner-border spinner-border-sm'></span>
 								)}
-								<span>Login</span>
+								<span>Se connecter</span>
 							</button>
 						{message && (
 							<div className='text-red-500 text-xs mt-2'>{message}</div>

@@ -61,59 +61,55 @@ const ClassElement = ({classe, onChange}) => {
 				</button>
 			</div>
 			{editModalOpen && (
-				<Modal setOpenModal={setEditModalOpen} height='400'>
-					<ModalHeader>
-					<h1 className='text-3xl text-center'>
-							Modifier la classe {classe.name}
-						</h1>
-					</ModalHeader>
+				<Modal setOpenModal={setEditModalOpen}>
+					<ModalHeader title="Modifier la classe"/>
 					<ModalBody>
-						<form className='flex flex-col space-y-5'>
-							<label htmlFor='name'>
+					<form className='flex flex-col justify-center items-end w-full gap-3 '>
+							<div className='w-full pb-3'>
+							<label htmlFor='name' className='form-label-style primary-font-color'>
 								Nom de la classe
 							</label>
 							<input
 								type='text'
 								name='name'
 								id='name'
-								defaultValue={classe.name}
+								value={name}
+								placeholder='Classe'
 								onChange={(e) => setName(e.target.value)}
-								className='border-2 border-blue-900 rounded-md'/>
+								className='form-inputfield-style  '/> 
+							</div>
 							<button
-								className='btn-delete'
+								className='modal-cancel-button-style'
 								onClick={() => setEditModalOpen(false)}>
 								Annuler
 							</button>
 							<button
 								type='submit'
-								className='btn-validate'
+								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 								onClick={(event) => handleClickEdit(event, classe.id)}>
-								Valider la modification
+								Modifier
 							</button>
 						</form>
 					</ModalBody>
 				</Modal>)}
 			{deleteModalOpen && (
-				<Modal setOpenModal={setDeleteModalOpen} height='300'>
-					<ModalHeader>
-						<h1 className='text-3xl text-center'>
-							Voulez vous vraiment supprimer la classe {classe.id}
-						</h1>
-					</ModalHeader>
+				<Modal setOpenModal={setDeleteModalOpen}>
+					<ModalHeader title={`Supprimer une classe`}/>
 					<ModalBody>
-						<div className='flex flex-col space-y-5'>
+						<form className='flex flex-col justify-center w-full gap-3'>
+							<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la classe {classe.name} ?</p>
 							<button
-								className='btn-delete'
+								className='modal-cancel-button-style'
 								onClick={() => setDeleteModalOpen(false)}>
 								Annuler
 							</button>
 							<button
 								type='submit'
-								className='btn-validate'
+								className='modal-validate-button-style bg-[#ef4565] hover:bg-red-500'
 								onClick={(event) => handleClickDelete(event, classe.id)}>
-								Valider la suppression
+								Supprimer
 							</button>
-						</div>
+						</form>
 					</ModalBody>
 				</Modal>)}
 		</li>
@@ -162,11 +158,9 @@ const ListClass = () => {
 			</ul>
 			{createModalOpen && (
 				<Modal setOpenModal={setCreateModalOpen}>
-					<ModalHeader>
-						<h1 className='text-2xl font-semibold primary-font-color text-center pl-5'>{`Création d'une classe`}</h1>
-					</ModalHeader>
+					<ModalHeader title="Créer une classe" />
 					<ModalBody>
-						<form className='flex flex-col justify-center items-start w-full gap-3 '>
+						<form className='flex flex-col justify-center items-end w-full gap-3 '>
 							<div className='w-full pb-3'>
 							<label htmlFor='name' className='form-label-style primary-font-color'>
 								Nom de la classe
@@ -181,13 +175,13 @@ const ListClass = () => {
 								className='form-inputfield-style  '/> 
 							</div>
 							<button
-								className='flex items-center justify-center form-button-style bg-transparent text-[#0A06F4] border-2 border-[#0A06F4] h-[40px] box-border hover:bg-transparent'
+								className='modal-cancel-button-style'
 								onClick={() => setCreateModalOpen(false)}>
 								Annuler
 							</button>
 							<button
 								type='submit'
-								className='form-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] h-[40px]'
+								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 								onClick={(event) => handleClickCreate(event)}>
 								Créer
 							</button>
