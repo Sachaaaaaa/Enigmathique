@@ -392,7 +392,7 @@ exports.removeStudent = async (req, res) => {
 // 									 OTHER                                    //
 /////////////////////////////////////////////////////////////////////////////////
 
-exports.addStudenaaats = async (req, res) => {	
+exports.addStudents = async (req, res) => {	
 
 	console.log(req.body.teams)
 
