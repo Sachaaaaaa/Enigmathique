@@ -8,14 +8,14 @@ module.exports = (sequelize, Sequelize) => {
 		// Définition des attributs
 
 		idCourse:{
-	    type: Sequelize.INTEGER,
-	    allowNull: false,
-	    references: {
-	        model: 'course',
-	        key: 'id',
-	    },
-	    onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
-			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'course',
+                key: 'id',
+            },
+            onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
+			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL   
         },
 		name: {
 			type: Sequelize.STRING,

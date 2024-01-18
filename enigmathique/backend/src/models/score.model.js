@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
 				key: 'id', 
 			},
 			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
-			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
+			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL
         },
         roomName:{
             type: Sequelize.STRING,
@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
 				key: 'name', 
 			},
 			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
-			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
+			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL
         },
         idGame:{
             type: Sequelize.INTEGER,
@@ -36,7 +36,7 @@ module.exports = (sequelize, Sequelize) => {
 				key: 'id', 
 			},
 			onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
-			onDelete: 'SET NULL', // si suppression de la clé primaire référencée on mets à NULL
+			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL
         },
         // Temps 
         time: {

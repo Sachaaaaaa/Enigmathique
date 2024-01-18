@@ -19,10 +19,6 @@ const TeamStats = () => {
 		});
 	}
 
-	useEffect(() => {
-		loadMembers();
-	}, []);
-
 	const loadScores = () => {
 		TeamService.getScores(idTeam).then((response) => {
 			setScores(response);
@@ -32,6 +28,7 @@ const TeamStats = () => {
 	}
 
 	useEffect(() => {
+		loadMembers();
 		loadScores();
 	}, []);
 
