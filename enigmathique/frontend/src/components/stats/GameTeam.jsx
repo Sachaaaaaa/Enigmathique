@@ -38,7 +38,7 @@ const GameTeam = (props) => {
 						<li key={index}>{room.name}<span>{room.time}</span></li>
 					))}
 				</ul>
-				<Doughnut data={data}/>
+				<Doughnut data={data} title='salut'/>
 			</div>
 		</div>
 	)

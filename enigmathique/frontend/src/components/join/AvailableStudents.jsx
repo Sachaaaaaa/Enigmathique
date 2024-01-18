@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Student from './Student';
 import {FaSearch} from 'react-icons/fa';
 
-const AvailableStudents = (props) => {
+const 	AvailableStudents = (props) => {
 
 	const [searchResult, setSearchResult] = React.useState(props.available);
 	const [search, setSearch] = React.useState('');
@@ -22,33 +22,37 @@ const AvailableStudents = (props) => {
 	}, [search, props.available]);
 	
 	return (
-		<section className="w-5/12 border-2 border-blue-800 rounded-xl">
-			<section className="bg-blue-800/50 p-2 rounded-t-xl">
-				<nav className=" flex flex-row items-center justify-center bg-transparent border-2 border-blue-800 w-full rounded-xl p-2">
+		<section className="flex flex-col h-full w-1/3 gap-2">
+			<section>
+				<h1>Élèves</h1>
+			</section>
+			<section className="flex flex-col h-[90%] bg-white shadow p-2">
+				<nav className="flex flex-row justify-center items-center gap-2 p-2">
+					<FaSearch size={25} className='text-[#0a06f4]' />
 					<input
-						className="w-11/12 p-2 bg-transparent"
+						className="w-full p-2 bg-transparent"
 						type="text"
 						placeholder="Élève"
 						onChange={handleSearch}
 					/>
-					<button className="w-min p-2">
-						<FaSearch size={25} />
-					</button>
 				</nav>
-			</section>
-			<section className="p-2">
-				<div className="flex flex-col gap-2 p-4 h-[440px] overflow-y-scroll">
+				<hr></hr>
+				<section className="h-full overflow-y-scroll">
 					{searchResult.map((student, index) => (
-						<Student
-							key={student.id}
-							id={student.id}
-							lastname={student.lastname}
-							firstname={student.firstname}
-							isSelected={false}
-							teamSize={props.teamSize}
-						/>
+						<>
+							<Student
+								key={student.id}
+								id={student.id}
+								lastname={student.lastname}
+								firstname={student.firstname}
+								isSelected={false}
+								teamSize={props.teamSize}
+							/>
+							{index!==searchResult.length-1 && <hr></hr>}
+						</>
 					))}
-				</div>
+
+				</section>
 			</section>
 		</section>
 	);

@@ -27,13 +27,35 @@
     background: #07059d;
 }
 
+
+  @keyframes AnimationName {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
 @layer components {
+
+    .animation {
+        background-size: 400%;
+    
+        -webkit-animation: AnimationName 7s ease infinite;
+        -moz-animation: AnimationName 7s ease infinite;
+        animation: AnimationName 7s ease infinite;
+      }
 
     /**
     * Couleurs
      */
+    
      .main-background-color {
         @apply bg-[#F5F7FA] ;  
+     }
+     .bg-dark-blue-color {
+        @apply bg-[#343C6A];
      }
      .primary-font-color {
         @apply text-[#343C6A];
@@ -47,11 +69,14 @@
         @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
      }
 
+     .gradient-font {
+        @apply primary-gradient-color text-transparent bg-clip-text;
+     }
      /** 
         * Styles généraux des textes
         */
     .small-title {
-        @apply uppercase font-semibold primary-gradient-color inline-block text-[11px] text-transparent bg-clip-text;
+        @apply uppercase font-semibold inline-block text-[11px] gradient-font;
     }
     .small-text {
         @apply text-sm leading-4 primary-font-color;
@@ -64,6 +89,9 @@
         @apply primary-font-color text-sm font-semibold hover:underline;
     }
 
+    .table-title {
+        @apply pb-4 uppercase text-xs gradient-font ;
+    }
 
     .empty-info-container {
         @apply self-stretch min-h-[200px] info-container flex grow justify-center items-center ;
@@ -121,7 +149,7 @@
 
 
     /**
-    * TopBar
+    * TopBarProf
     */
     .topbar-container {
         @apply flex flex-row px-0 py-0 items-center border-b-2 border-[#E6EFF5] h-1/6;

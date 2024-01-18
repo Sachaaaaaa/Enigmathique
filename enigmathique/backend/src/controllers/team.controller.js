@@ -129,41 +129,44 @@ async function isGameBelongsProfessor(idGame, req) {
 
 
 // Ajouter des élèves à une équipe
-// Exemple de valeur pour teams [[{"name": "shesh"}, {"idStudents": [2, 3, 4]}]]
-exports.addStudents = async (req, res) => {	
+// Exemple de valeur pour teams [{"name": "shesh", "idStudents": [2, 3, 4]}]
+exports.addStudents = async (req, res, next) => {	
 
-
-	// Valider la requête
-	if (!req.body.teams) {
-		return res.status(400).json({
-			message: "Il manque des informations pour ajouter des élèves."
-		});
-	}
-
-	// Récupère les équipes dans un format adapté
-	const teams = JSON.parse(req.body.teams);
-
-	// Le nom des équipes à ajouter
-	const teamsName = [];
-
-	// Pour chaque équipe, vérifier que le nom et les élèves sont bien renseignés, puis l'ajoute dans teamsName
-	for (const team of teams) {
-		if (!team[0].name || !team[1].idStudents) {
-			return res.status(400).json({
-				message: "Il manque des informations pour ajouter des élèves."
-			});
+	try{
+		// Valider la requête
+		if (!req.body.teams) {
+			const error = new Error("Il manque des informations pour ajouter des élèves.");
+			error.statusCode = 400;  
+			throw error;
 		}
+
+		// Récupère les équipes dans un format adapté
+		const teams = JSON.parse(req.body.teams);
+		// Le nom des équipes à ajouter
+		const teamsName = [];
+
+		// Pour chaque équipe, vérifier que le nom et les élèves sont bien renseignés, puis l'ajoute dans teamsName
+		for (let i = 0; i < teams.length; i++) {
+			if (!teams[i].name || !teams[i].idStudents) {
+				const error = new Error("Il manque des informations pour ajouter des élèves.");
+				error.statusCode = 400;  
+				throw error;
+			}
+			
+			
+			console.log(",,")
+			// Ajoute toutes les équipes du tableau teamsName
+			const createdTeam = await Team.create({ name: teams[i].name });	
+
+			const studentsData = teams[i].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
+
+			// faire en sorte que les élèves soient ajoutés à la team avec le name de la team
+			const addedStudents = await PlayIn.bulkCreate(studentsData);	
+		}
+		return res.status(201).json("étudiants ajoutés avec succès");
 		
-		// Ajoute toutes les équipes du tableau teamsName
-		const createdTeam = await Team.create({ name: team[0].name });	
-
-		const studentsData = team[1].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
-
-		// faire en sorte que les élèves soient ajoutés à la team avec le name de la team
-		const addedStudents = await PlayIn.bulkCreate(studentsData);	
-
-		return res.status(200).json(addedStudents);
-
+	} catch(err){
+		next(err)
 	}
 
 }
@@ -432,62 +435,48 @@ exports.addStudenaaats = async (req, res) => {
 
 // [[{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}], [{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}]]
 // Accepte une équipe à une partie
-exports.addScores = async(req, res) => {
+exports.addScores = async(req, res, next) => {
 	
-
-
-	if (!req.body.scores) {
-		return res.status(400).json({
-			message: "Il manque des informations pour ajouter des salles."
-		});
-	}
-
-	// exemple de valeur pour req.body.scores [[{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}], [{"idTeam": 3}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}]]
-	const scores = JSON.parse(req.body.scores)
 
 	try{
 
-		for (let i = 0; i < scores.length; i++) {
-			
-			if (!scores[i][0].idTeam || !scores[i][1].roomName || !scores[i][2].idGame||!scores[i][3].time ||!scores[i][4].nbGoodAnswers ||!scores[i][5].nbBadAnswers  ||!scores[i][6].nbHints ) {
-				return res.status(400).json({
-					message: "Il manque des informations pour ajouter des salles."
-				});
-			}
-
-			// Vérifie que la partie appartient bien au professeur
-			const isGameBelongsToProfessor = await isGameBelongsProfessor(scores[i][2].idGame, req);
-			if (!isGameBelongsToProfessor) {
-				return res.status(403).json({
-					message: "Vous n'avez pas accès à cette partie."
-			});
-			}
-			// Vérifie que l'équipe appartient bien au professeur
-			const isTeamBelongsToProfessor = await isTeamBelongsProfessor(scores[i][0].idTeam, req);
-			if (!isTeamBelongsToProfessor) {
-				return res.status(403).json({
-					message: "Vous n'avez pas accès à cette équipe."
-			});
-			}
+		if (!req.body.scores) {
+			const error = new Error("Il manque des informations pour ajouter des scores.");
+			error.statusCode = 400;  
+			throw error;
 		}
 
-		const scoresData = scores.map(score => ({
-			idTeam: score[0].idTeam,
-			roomName: score[1].roomName,
-			idGame: score[2].idGame,
-			time: score[3].time,
-			nbGoodAnswers: score[4].nbGoodAnswers,
-			nbBadAnswers: score[5].nbBadAnswers,
-			nbHints: score[6].nbHints
-		}));
+		// exemple de valeur pour req.body.scores [{"idTeam": 2, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}, {"idTeam": 3, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}]
+		const scores = JSON.parse(req.body.scores)
+		
 
-		const scoreCreated = await Score.bulkCreate(scoresData)
-		res.status(201).json(scoreCreated);
+		for (let i = 0; i < scores.length; i++) {
+			if (!scores[i].idTeam || !scores[i].roomName || !scores[i].idGame||!scores[i].time ||!scores[i].nbGoodAnswers ||!scores[i].nbBadAnswers  ||!scores[i].nbHints ) {
+				const error = new Error("Il manque des informations pour ajouter des scores.");
+				error.statusCode = 400;  
+				throw error;
+			}
+
+
+
+
+			const scoresData = {
+				idTeam: scores[i].idTeam,
+				roomName: scores[i].roomName,
+				idGame: scores[i].idGame,
+				time: scores[i].time,
+				nbGoodAnswers: scores[i].nbGoodAnswers,
+				nbBadAnswers: scores[i].nbBadAnswers,
+				nbHints: scores[i].nbHints
+			}
+
+			const scoreCreated = await Score.create(scoresData)
+		}
+
+		res.status(201).json("les scores ont été ajoutés avec succès");
 
 	} catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur est intervenue durant l'ajout des scores."
-		});
+		next(err)
 	}
 	
 

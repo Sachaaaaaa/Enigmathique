@@ -27,7 +27,7 @@ const TeamStats = () => {
 
 	return (
 		<LayoutProf>
-			<main>
+			<main className='overflow-y-scroll'>
 				<div>
 					<Link to=''>{'<'}</Link>
 					<h2>Equipe de Julie Lustret et Jean-Marie Duc de Bourgogne</h2>
