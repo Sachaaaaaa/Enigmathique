@@ -163,11 +163,7 @@ exports.addStudents = async (req, res, next) => {
 			// faire en sorte que les élèves soient ajoutés à la team avec le name de la team
 			addedTeams.push(await PlayIn.bulkCreate(studentsData));	
 		}
-<<<<<<< HEAD
-		return res.status(201).json(addedStudents);
-=======
 		return res.status(201).json(addedTeams);
->>>>>>> 2af8587fb73f15d4a0896e7930b9dab9220b5b9e
 		
 	} catch(err){
 		next(err)
