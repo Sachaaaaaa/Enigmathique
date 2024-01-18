@@ -34,6 +34,14 @@ class SocketTeam {
 		}
 	}
 
+	toPostData = () => {
+		// retourne sous la forme:  {name: "nom de l'équipe", students: [id1, id2, id3]}
+		return {
+			name: this.name,
+			students: this.composition.map((student) => student.id)
+		}
+	}
+
 	hasStudent = (studentId) => {
 		return this.composition.find(student => student.id === studentId);
 	}
@@ -91,6 +99,12 @@ class SocketTeam {
 		console.log(clc.yellowBright('[Team] Envoi de la composition de l\'équipe'));
 
 		this.socket.emit(ServerToClient.SyncTeamStudents, { composition: this.toData() });
+	}
+
+	sendSessionStart = () => {
+		console.log(clc.yellowBright('[Team] Envoi du début de la session'));
+
+		this.socket.emit(ServerToClient.CompositionFinished);
 	}
 
 	wipeComposition = () => {

@@ -135,7 +135,7 @@ const ClassElem = (props) => {
 			</div>
 
 			{/* Bouton 'Voir' */}
-			<Link to={'../class/'+classGroup.id} className='col-span-2 btn-show'>
+			<Link to={'/class/'+classGroup.id} className='col-span-2 btn-show'>
 				Voir
 			</Link>
 		</article>

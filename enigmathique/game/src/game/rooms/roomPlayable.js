@@ -103,6 +103,7 @@ class RoomPlayable {
 			numBadAnswers: this.numBadAnswers,
 			numHints: this.enigmasHint.length,
 			isSolved: this.isRoomSolved(),
+			time: 0 // TODO: Ajouter le temps de résolution
 		};
 	}
 }

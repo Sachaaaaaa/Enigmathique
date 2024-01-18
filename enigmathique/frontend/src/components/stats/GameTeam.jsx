@@ -4,24 +4,20 @@ import { Doughnut } from 'react-chartjs-2';
 
 const GameTeam = (props) => {
 
-	const rooms = props.rooms;
+	const scores = props.scores;
 
-	const timeToInt = (time) => {
-		const splitTime = time.split(':');
-		return parseInt(splitTime[0]) * 60 + parseInt(splitTime[1]);
-	}
-
+	//Peut-être utile pour l'afichage
 	const secondsToTime = (seconds) => {
 		const minAndSec = [Math.floor(seconds/60), seconds%60];
 		return minAndSec[0].toString().concat(':',minAndSec[1].toString());
 	}
 
 	const data = {
-		labels: rooms.map((room) => (room.name)),
+		labels: scores.map((score) => (score.roomName)),
 		datasets: [
 			{
 			label: 'Temps par salle',
-			data: rooms.map((room) => (timeToInt(room.time)))
+			data: scores.map((score) => (score.time))
 		}
 		]
 	}
@@ -34,8 +30,8 @@ const GameTeam = (props) => {
 			</div>
 			<div>
 				<ul>
-					{rooms.map((room, index) => (
-						<li key={index}>{room.name}<span>{room.time}</span></li>
+					{scores.map((score, index) => (
+						<li key={index}>{score.roomName}<span>{score.time}</span></li>
 					))}
 				</ul>
 				<Doughnut data={data} title='salut'/>
@@ -45,7 +41,7 @@ const GameTeam = (props) => {
 }
 
 GameTeam.propTypes = {
-	rooms: PropTypes.array.isRequired
+	scores: PropTypes.array.isRequired
 }
 
 export default GameTeam;

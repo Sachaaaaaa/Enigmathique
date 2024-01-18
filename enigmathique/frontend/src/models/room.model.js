@@ -11,7 +11,7 @@ class RoomModel{
 			const data = await RoomService.getAllRooms();
 			return data.map(room => new RoomModel(room.name, room.difficulty, room.chapter));
 		} catch (e) {
-			console.log(e);
+			console.log(`erreur dans le getter de toutes les rooms du modèle de Room ${e}`);
 		}
 	}
 

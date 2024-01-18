@@ -14,7 +14,7 @@ class Game{
 			const data = await GameService.createGame(idCourse, name, teamSize);
 			return new Game(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt);
 		}catch (e) {
-			console.log(e);
+			console.log(`erreur dans le create dans le modèle d'une game ${e}`);
 		}
 	}
 	static async getAll() {
@@ -22,7 +22,7 @@ class Game{
 			const data = await GameService.getAll();
 			return data.map(game => new Game(game.id, game.idCourse, game.name, game.state, game.teamSize, game.createdAt));
 		}catch (e) {
-			console.log(e);
+			console.log(`erreur dans le getter de toutes les games dans le modèle de game (front) ${e}`);
 		}
 	}
 	static async getOne(idGame) {
@@ -30,14 +30,14 @@ class Game{
 			const data = await GameService.getOne(idGame);
 			return new Game(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt);
 		}catch (e) {
-			console.log(e);
+			console.log(`erreur dans le getter de d'une game dans le modèle de game (front) ${e}`);
 		}
 	}
 	static async addRooms(idGame, rooms) {
 		try {
 			return await GameService.addRooms(idGame, rooms);
 		}catch (e) {
-			console.log(e);
+			console.log(`erreur dans le addRooms dans le modèle de game (front) ${e}`);
 		}
 	}
 	static async openGame(idGame) {
@@ -54,7 +54,7 @@ class Game{
 			return await GameService.getScores(gameCode);
 
 		}catch (e) {
-			console.log(e);
+			console.log(`erreur dans le getter des scores dans le modèle de game (front) ${e}`);
 		}
 	}
 

@@ -1,70 +1,110 @@
-import React, { useEffect, useState } from 'react';
+// ProfFollowUp.jsx
+
+import React, { useEffect, useState, useContext } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
 import { SocketContext, socket } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
-import { ServerToClient, ConnectionType } from 'data/socketMessages';
+import { ConnectionType, ServerToClient } from 'data/socketMessages';
+import TeamDetails from './TeamDetails';
 
 function ProfFollowUp() {
-	// Vérifie si le token est présent dans le localStorage
-	const token = JSON.parse(localStorage.getItem('user'))?.token;
-	if (!token) {
-		throw new Error('Token non trouvé');
-	}
+	const [currentRound, setCurrentRound] = useState(null);
+	const [totalRounds, setTotalRounds] = useState(null);
 
-	// Recupère l'id de session dans l'url
-	// A changer, facilement modifiable par l'utilisateur
-	const [searchParams, setSearchParams] = useSearchParams();
+	// Assurez-vous que le token et le sessionId sont présents
+	const user = JSON.parse(localStorage.getItem('user'));
+	const token = user?.token;
+
+	const [searchParams] = useSearchParams();
 	const sessionId = searchParams.get('sessionId');
 
-	// Si l'id de session n'est pas défini, on quitte la page
-	if (!sessionId) {
-		throw new Error('Id de session non trouvé');
-	}
+	const [rankings, setRankings] = useState([]);
+	const [selectedTeam, setSelectedTeam] = useState(null);
 
-	const [gameData, setGameData] = useState(null);
-	const rankings = [];
-
-	socket.io.opts.query = {
-		token: token,
-		sessionId: sessionId,
-		connectionType: ConnectionType.Game,
-	}; // se connecter avec le prof avec son token
-
-	// se connecter a la session avec un useEffect
 	useEffect(() => {
-		socket.on(ServerToClient.Connection, () => {
-			console.log('Connecté au serveur');
-		});
+		if (token && sessionId) {
+			socket.io.opts.query = {
+				token,
+				sessionId,
+				connectionType: ConnectionType.Game
+			};
 
-		socket.on(ServerToClient.Disconnection, () => {
-			console.log('Déconnecté du serveur');
-		});
+			// Écouteur de connexion au serveur
+			socket.on(ServerToClient.Connection, () => {
+				console.log('Connecté au serveur');
+			});
 
-		socket.on(ServerToClient.AllTeamsProgress, (data) => {
-			console.log(data);
-		});
+			// Écouteur de déconnexion du serveur
+			socket.on(ServerToClient.Disconnection, () => {
+				console.log('Déconnecté du serveur');
+			});
 
-		socket.connect();
+			// Écouteur de progression de toutes les équipes
+			socket.on(ServerToClient.AllTeamsProgress, (data) => {
+				data = data.data;
+				console.log('Progression des équipes', data);
+				if (data && data.metadata) {
+					const { currentRound, totalRounds } = data.metadata;
+					setCurrentRound(currentRound);
+					setTotalRounds(data.metadata.rooms.length);
+				}
 
-		return () => {
-			socket.off(ServerToClient.Connection);
-			socket.off(ServerToClient.Disconnection);
-		};
-	});
-	/*
-	const rankings = [
-		{ team: 'Julie Lustret & Jean-Marie Duc de Bourgogne', score: 12550, resolved: '16/20' },
-		{ team: 'Équipe Alpha', score: 11000, resolved: '15/20' },
-		{ team: 'Les Gagnants', score: 9800, resolved: '14/20' },
-		{ team: 'Les nuls', score: 9800, resolved: '14/20' },
-		{ team: 'Les nuls', score: 8000, resolved: '14/20' },
-		{ team: 'Les nuls', score: 8000, resolved: '14/20' },
-		// ... d'autres équipes
-	];
-	*/
+				if (data && data.teams && typeof data.teams === 'object') {
+					const teamsData = Object.keys(data.teams).map((key) => {
+						if (data.teams[key] && data.teams[key].length > 0) {
+							const team = data.teams[key][0];
+							const roomName = team.name;
+							const roomIsSolved = team.isSolved;
+							const teamNumReSolved = team.numSolved;
+							const numBadAnswer = team.numBadAnswers;
+							const numHint = team.numHints;
 
-	// Fonction pour obtenir l'icône de la position en fonction du rang
+							const score = calculateScore(teamNumReSolved, numBadAnswer, numHint, roomIsSolved);
+
+							return {
+								id: key,
+								teamName: roomName,
+								score: score,
+								resolved: `${teamNumReSolved}/20`,
+								roomName: roomName,
+								roomIsSolved: roomIsSolved,
+								numBadAnswer: numBadAnswer,
+								numHint: numHint
+							};
+						} else {
+							return null;
+						}
+					}).filter(team => team !== null);
+
+					teamsData.sort((a, b) => b.score - a.score);
+					setRankings(teamsData);
+				} else {
+					console.error('Les données de progression des équipes sont indéfinies ou ne sont pas dans un format attendu.');
+					setRankings([]);
+				}
+			});
+
+			socket.connect();
+
+			return () => {
+				socket.off(ServerToClient.Connection);
+				socket.off(ServerToClient.Disconnection);
+				socket.off(ServerToClient.AllTeamsProgress);
+			};
+		}
+	}, [token, sessionId, socket]);
+
+	const calculateScore = (numSolved, numBadAnswers, numHints, roomIsSolved) => {
+		let score = numSolved * 100 - numBadAnswers * 20 - numHints * 30;
+
+		if (roomIsSolved) {
+			score += 300;
+		}
+
+		return score;
+	};
+
 	const getPositionIcon = (index) => {
 		switch (index) {
 		case 0:
@@ -78,7 +118,6 @@ function ProfFollowUp() {
 		}
 	};
 
-	// Fonction pour obtenir le style de la position basé sur le rang
 	const getPositionStyle = (index) => {
 		const positionStyles = [
 			'text-white',
@@ -88,50 +127,74 @@ function ProfFollowUp() {
 		return index < 3 ? positionStyles[index] : 'text-blue-400';
 	};
 
+	const handleDetailsClick = (team) => {
+		setSelectedTeam(team);
+	};
+
+	const handleCloseDetails = () => {
+		setSelectedTeam(null);
+	};
+
 	return (
 		<LayoutProf>
 			<main className="p-8">
 				<h1 className="text-2xl font-bold mb-4">Entraînement Probabilités</h1>
-				<div className="flex flex-col">
-					<h2 className="text-xl font-semibold mb-4 text-gray-500">Classement</h2>
-					<div className="overflow-x-auto mt-4">
-						<table className="min-w-full">
-							<thead>
-								<tr className="text-left">
-									<th className="table-title">Position</th>
-									<th className="table-title">Équipe</th>
-									<th className="table-title">Score</th>
-									<th className="table-title">Énigmes Résolues</th>
-									<th className="table-title">Action</th>
+				{currentRound !== null && totalRounds !== null && (
+					<div className="mb-4">Round actuel : {currentRound+1} / {totalRounds}</div>
+				)}
+				<h2 className="text-xl font-semibold mb-4 text-gray-500">Classement</h2>
+				<div className="overflow-x-auto mt-4">
+					<table className="min-w-full">
+						<thead>
+							<tr className="text-left">
+								<th className="pb-4 text-blue-500">Position</th>
+								<th className="pb-4 text-blue-500">Équipe</th>
+								<th className="pb-4 text-blue-500">Score</th>
+								<th className="pb-4 text-blue-500">Énigmes Résolues</th>
+								<th className="pb-4 text-blue-500">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{rankings.map((team, index) => (
+								<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
+									<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center">
+										<div className={`relative ${getPositionStyle(index)}`}>
+											{getPositionIcon(index)}
+											<span className="absolute inset-0 flex items-center justify-center">
+												{index + 1}
+											</span>
+										</div>
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+										{team.teamName}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+										{team.score}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+										{team.resolved}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+										<button
+											onClick={() => handleDetailsClick(team)}
+											className="text-blue-600 hover:text-blue-800"
+										>
+                      Détails
+										</button>
+									</td>
 								</tr>
-							</thead>
-							<tbody>
-								{rankings.map((item, index) => (
-									<tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-										<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center">
-											<div className={`relative ${getPositionStyle(index)}`}>
-												{getPositionIcon(index)}
-												<span className="absolute inset-0 flex items-center justify-center">
-													{index + 1}
-												</span>
-											</div>
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-											{item.team}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.score}</td>
-										<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.resolved}</td>
-										<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-											<a href="#" className="text-blue-600 hover:text-blue-800">Détails</a>
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-					{/* Pagination ou autres contrôles ici */}
+							))}
+						</tbody>
+					</table>
 				</div>
+				{/* Pagination ou autres contrôles ici */}
 			</main>
+			{selectedTeam && (
+				<TeamDetails
+					teamData={selectedTeam}
+					onClose={() => setSelectedTeam(null)}
+				/>
+			)}
 		</LayoutProf>
 	);
 }

@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
+const maxTime = 600;
+
 const ScoreTeam = (props) => {
 
-	const rooms = props.rooms;
+	const scores = props.scores;
 
 	const [option, setOption] = useState('global');
 
@@ -11,35 +13,28 @@ const ScoreTeam = (props) => {
 		setOption(e.target.value);
 	}
 
-	const getRoom = (roomName, rooms) => {
+	const getRoom = (roomName, scores) => {
 		if(roomName === 'global') {
 			return {
-				name: 'global',
-				time: secondsToTime(rooms.reduce((sum, room) => sum + timeToInt(room.time))),
-				score: {
-					nbHints: rooms.reduce((sum, room) => (sum + room.score.nbHints), 0),
-					nbMis: rooms.reduce((sum, room) => (sum + room.score.nbMis), 0)
-				}
+				idTeam: scores[0].idTeam,
+				roomName: 'global',
+				idGame: scores[0].idGame,
+				time: scores.reduce((sum, score) => {sum+score.time}),
+				nbGoodAnswers: scores.reduce((sum, score) => {sum+score.nbGoodAnswers}),
+				nbBadAnswers: scores.reduce((sum, score) => {sum+score.nbBadAnswers}),
+				nbHints: scores.reduce((sum, score) => {sum+score.nbHints}),
+				createdAt: scores[0].createdAt,
+				updatedAt: scores[0].updatedAt
 			}
 		} else {
 			let i = 0;
-			let theRoom = rooms[i];
-			while (theRoom.name !== roomName) {
+			let theScore = scores[i];
+			while (theScore.roomName !== roomName) {
 				i++;
-				theRoom = rooms[i];
+				theScore = scores[i];
 			}
-			return theRoom;
+			return theScore;
 		}
-	}
-
-	const timeToInt = (time) => {
-		const splitTime = time.split(':');
-		return parseInt(splitTime[0]) * 60 + parseInt(splitTime[1]);
-	}
-
-	const secondsToTime = (seconds) => {
-		const minAndSec = [Math.floor(seconds/60), seconds%60]
-		return minAndSec[0].toString().concat(':',minAndSec[1].toString())
 	}
 
 	return (
@@ -50,8 +45,8 @@ const ScoreTeam = (props) => {
 				<h3>Score</h3>
 					<select onChange={handleOption}>
 						<option value='global'>Global</option>
-						{rooms.map((room, index) => (
-							<option key={index} value={room.name}>{room.name}</option>
+						{scores.map((score, index) => (
+							<option key={index} value={score.roomName}>{score.roomName}</option>
 						))}
 					</select>
 				</div>
@@ -60,17 +55,17 @@ const ScoreTeam = (props) => {
 				<section>
 					<img src='' alt='logo'/>
 					<p>Indices utilisés</p>
-					<p>{getRoom(option, rooms).score.nbHints}</p>
+					<p>{getRoom(option, scores).nbHints}</p>
 				</section>
 				<section>
 					<img src='' alt='logo'/>
 					<p>Erreurs commises</p>
-					<p>{getRoom(option, rooms).score.nbMis}</p>
+					<p>{getRoom(option, scores).nbBadAnswers}</p>
 				</section>
 				<section>
 					<img src='' alt='logo'/>
 					<p>Salles réussies</p>
-					<p>-1 sur {rooms.length}</p>
+					<p>{scores.reduce((sum, score) => {score.time < maxTime && sum++} )} sur {scores.length}</p>
 				</section>
 			</div>
 		</div>
@@ -78,7 +73,7 @@ const ScoreTeam = (props) => {
 }
 
 ScoreTeam.propTypes = {
-	rooms: PropTypes.array.isRequired
+	scores: PropTypes.array.isRequired
 }
 
 export default ScoreTeam;

@@ -7,6 +7,7 @@ import { useRoom } from 'contexts/RoomContext';
 import { useSocket } from 'contexts/SocketContext';
 import useMemoryState from 'hooks/useMemoryState';
 import { ClientToServer, ServerToClient } from 'data/socketMessages';
+import { IoIosCloseCircle } from 'react-icons/io';
 
 extend({ Html });
 
@@ -66,9 +67,9 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 						background: '#ff6666',
 						padding: '8px',
 						borderRadius: '8px',
-						width: '12vw'
+						width: '12vw',
 					}}>
-					Fermer
+					<IoIosCloseCircle/>
 				</button>
 			</div>
 		</Html>

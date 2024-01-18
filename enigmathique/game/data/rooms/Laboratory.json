@@ -17,7 +17,7 @@
 				"value": 43
 			},
 			"hint": "f(x) = g(x) <=> f(x) - g(x) = 0",
-			"endMessage": "Le coffre s'ouvre, un papier si trouve avec écrit dessus : Bien mélanger la potion pendant 1 minute."
+			"endMessage": "Le coffre s'ouvre, un papier si trouve avec écrit dessus : Bien mélanger la potion pendant 60 seconde."
 		},
 		{
 			"variables":{},
@@ -35,7 +35,7 @@
 				"value": 300
 			},
 			"hint": "Lire l'antécédant.",
-			"endMessage": "Une fois la potion chauffée a 250 celsius, vous vous empressez de la boire."
+			"endMessage": "Une fois la potion chauffée a 300 celsius, vous vous empressez de la boire."
 		}
 	]
 }

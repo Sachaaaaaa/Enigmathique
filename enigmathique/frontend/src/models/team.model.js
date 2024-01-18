@@ -7,23 +7,19 @@ class TeamModel{
 		this.id = id;
 	}
 	static async getStudents(idTeam){
-		/**
-		const data = await TeamService.getStudents(idTeam);
-		return data.map((student) => new Student(student.name, student.id));
-		*/
 		try {
 			const data = await TeamService.getStudents(idTeam);
 			console.log(data);
 			return TeamService.getStudents(idTeam);
 		}catch (e){
-			console.error(e);
+			console.error(`erreur dans le getter des students d'une team dans le modèle de team (front) ${e}`);
 		}
 	}
 	static async getScores(idTeam){
 		try {
 			return await TeamService.getScores(idTeam);
 		}catch (e){
-			console.error(e);
+			console.error(`erreur dans le getter des score d'une team dans le modèle de team (front) ${e}`);
 		}
 	}
 	static async getTeam(idTeam){
@@ -31,7 +27,7 @@ class TeamModel{
 			const data = await TeamService.getTeam(idTeam);
 			return new TeamModel(data.name, data.id);
 		}catch (e){
-			console.error(e);
+			console.error(`erreur dans le getter d'une team dans le modèle de team (front) ${e}`);
 		}
 	}
 
