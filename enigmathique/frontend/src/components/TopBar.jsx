@@ -73,7 +73,7 @@ const TopBar = () => {
 				<h1 className="primary-font-color text-2xl font-semibold py-5">{text}</h1>
 			</div>
 			<div className="flex flex-row items-center gap-2">
-				<Link to='/' onClick={handleLogout()} className='p-2 rounded-full bg-[#E6EFF5]'>
+				<Link to='/' onClick={handleLogout} className='p-2 rounded-full bg-[#E6EFF5]'>
 						<MdLogout color="#807FF7"/>
 				</Link>
 				<div className="primary-font-color p-5 text-right text-xs">

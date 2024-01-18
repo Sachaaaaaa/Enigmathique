@@ -40,6 +40,11 @@ const PreGame = () => {
 			console.log(lockedTeams);
 		});
 
+		socket.on(ServerToClient.CompositionFinished, () => {
+			alert('La composition des équipes est terminée, faire quelque chose ici');
+			// TODO: Rediriger vers la page de jeu avec le bon CODE de session
+		});
+
 		socket.connect();
 
 		return () => {
@@ -48,11 +53,12 @@ const PreGame = () => {
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnection);
 			socket.off(ServerToClient.SyncTeams);
+			socket.off(ServerToClient.CompositionFinished);
 		};
 	}, []);
 
 	const handleStartGame = () => {
-		alert('La partie va commencer');
+		socket.emit(ClientToServer.FinishComposition);
 	};
 
 	if (!Array.isArray(lockedTeams) || !Array.isArray(confirmedTeams)) {

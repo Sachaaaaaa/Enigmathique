@@ -12,6 +12,9 @@ class RoomPlayable {
 		this.enigmasSolved = [];
 		this.enigmasHint = [];
 		this.numBadAnswers = 0;
+
+		this.startTime = 0;
+		this.endTime = 0;
 	}
 
 	/**
@@ -20,6 +23,17 @@ class RoomPlayable {
 	 */
 	getEnigmasVariables = () => {
 		return this.enigmas.map(enigma => enigma.variables);
+	}
+
+	/**
+	 * Retourne le temps écoulé depuis le début de la salle (en secondes)
+	 */
+	getElapsedTime = () => {
+		if (this.endTime == 0) {
+			return (Date.now() - this.startTime) / 1000;
+		}
+
+		return (this.endTime - this.startTime) / 1000;
 	}
 
 	/**
@@ -83,6 +97,14 @@ class RoomPlayable {
 		return enigma.endMessage;
 	}
 
+	onRoomStart = () => {
+		this.startTime = Date.now();
+	}
+
+	onRoomClosed = () => {
+		this.endTime = Date.now();
+	}
+
 	/**
 	 * 
 	 * @returns {boolean} true si la salle est résolue, false sinon
@@ -103,6 +125,7 @@ class RoomPlayable {
 			numBadAnswers: this.numBadAnswers,
 			numHints: this.enigmasHint.length,
 			isSolved: this.isRoomSolved(),
+			time: this.getElapsedTime()
 		};
 	}
 }

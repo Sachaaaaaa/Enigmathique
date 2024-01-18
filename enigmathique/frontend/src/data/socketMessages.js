@@ -20,11 +20,15 @@ const ServerToClient = {
 	AllTeamsProgress: 'allTeamsProgress', // + {teamsProgress: object}
 
 	/** TEAM COMPOSITION */
+	CompositionFinished: 'startGame', // { }
 	SyncAvailableStudents: 'syncAvailableStudents', // + {students: array[]}
 	// Equipe
 	SyncTeamStudents: 'syncTeamStudents', // + {students: array[]}
 	// Professeur
 	SyncTeams: 'syncTeams', // + {teams: array[{students: array[], confirmed: bool}]}
+	InvalidComposition: 'invalidComposition', // {message: string}
+
+	
 };
 
 // Messages que le client envoie au serveur
@@ -48,6 +52,7 @@ const ClientToServer = {
 	// Professeur
 	ValidateTeam: 'validateTeam', // + {teamId: int}
 	RefuseTeam: 'refuseTeam', // + {teamId: int}
+	FinishComposition: 'finishComposition', // { }
 };
 
 // Types de connexion
