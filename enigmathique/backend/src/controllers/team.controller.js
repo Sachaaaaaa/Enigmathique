@@ -163,14 +163,17 @@ exports.addStudents = async (req, res, next) => {
 			
 			// Ajoute toutes les équipes du tableau teamsName
 			const createdTeam = await Team.create({ name: teams[i].name });	
-
+			
 			const studentsData = teams[i].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
-
+			
 			// Ajoute les élèves à la table PlayIn
 			await PlayIn.bulkCreate(studentsData);
-
+			
+			// Ajoute à createdTeam l'attribut idSocket qui est l'id de la socket de l'équipe (pour pouvoir l'identifier dans game)
+			const teamData = createdTeam.dataValues;
+			teamData.idSocket = teams[i].idSocket;
 			// Ajoute l'équipe à la liste des équipes ajoutées
-			addedTeams.push(createdTeam);	
+			addedTeams.push(teamData);	
 		}
 
 		return res.status(201).json(addedTeams);
