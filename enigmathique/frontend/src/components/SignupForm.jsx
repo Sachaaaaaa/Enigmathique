@@ -41,7 +41,7 @@ const SignupForm = () => {
 			<div className='w-full max-w-md'>
 				<form
 					onSubmit={handleRegister}
-					className='flex flex-col items-center justify-between bg-white primary-font-color shadow-md rounded p-8 pb-0 mb-4'>
+					className='flex flex-col items-center justify-between bg-white primary-font-color shadow-md rounded p-8 pb-0'>
 					<div className='mb-4 w-full'>
 						<label
 							className='form-label-style'
@@ -108,7 +108,7 @@ const SignupForm = () => {
 							required/>
 					</div>
 						<button
-							className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none'
+							className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold mt-2 py-2 rounded focus:outline-none'
 							type='submit'
 							disabled={loading}>
 							{loading && (
@@ -124,7 +124,7 @@ const SignupForm = () => {
 						<Link to='/login' className='ml-1 font-medium gradient-font decoration-[#0A06F4]  hover:underline'>Se connecter </Link>
 					</div>
 				</form>
-				<div className='w-fit text-sm text-center primary-font-color'>
+				<div className='w-fit text-[13px] p-1 text-center primary-font-color'>
 					<span>En {"t'inscrivant"}, tu acceptes nos </span> 
 					<Link to='' className='font-medium underline'>Conditions générales</Link>
 					<span>. Merci de lire notre </span>

@@ -139,7 +139,7 @@ body::-webkit-scrollbar {
 
     /** Formulaires **/
     .form-container-style {
-        @apply p-5 flex justify-center items-center h-fit min-h-screen main-background-color ;
+        @apply p-5 flex justify-center h-[calc(100%-75px)] items-center main-background-color ;
     }
     .form-label-style {
         @apply block text-sm font-bold mb-2 ;
@@ -213,7 +213,7 @@ body::-webkit-scrollbar {
     * TopBarProf
     */
     .topbar-container {
-        @apply flex flex-row px-0 py-0 items-center border-b-2 border-[#E6EFF5] h-1/6;
+        @apply flex flex-row px-0 py-0 items-center border-b-2 box-border border-[#E6EFF5] h-1/6;
     }
 
 
