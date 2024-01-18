@@ -1,10 +1,14 @@
 import React from 'react';
 import SignupForm from '../components/SignupForm';
 import '../index.css';
+import AuthHeader from 'components/AuthHeader';
 
 
 function Signup() {
-	return <SignupForm/>;
+	return <div className='h-screen w-screen'>
+	<AuthHeader title="Inscription"/>
+	<SignupForm/>
+	</div>;
 }
 
 

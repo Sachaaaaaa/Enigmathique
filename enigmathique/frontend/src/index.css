@@ -5,82 +5,165 @@
 @import "mafs/core.css";
 @import "mafs/font.css";
 
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-}
- 
-/* Track */
-::-webkit-scrollbar-track {
-    background: rgba(10, 6, 244, 0.1);
-    border-radius: 5px;
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #0A06F4;
-    border-radius: 30px;
-}
- 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #07059d;
+/** Scrollbar **/
+
+body::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
 }
 
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: rgba(10, 6, 244, 0.1);
+        border-radius: 5px;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #0A06F4;
+        border-radius: 30px;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #07059d;
+    }
+
+/** Animations **/
+    @keyframes HomeBackground {
+        0%,
+        100% {
+        background-position: 0% 50%;
+        }
+        50% {
+        background-position: 100% 50%;
+        }
+    }
+
+    @keyframes MovingArrow {
+        0%   {transform: translateY(0px)}
+        50%  {transform: translateY(-10px)}
+        100% {transform: translateY(0px)}
+      }
 @layer components {
+
+    .font-family {
+        font-family: Montserrat, "Noto Sans Arabic", "Helvetica Neue", Helvetica, Arial, sans-serif ;
+    }
+
+    /** Animations **/
+
+    .border-bottom-animation::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 2px;
+        background: #000;
+        transition: width .3s;
+    }
+    
+    .border-bottom-animation:hover::after {
+        width: 100%;
+    }
+        .background-animation {
+            background: linear-gradient(-45deg,#343C6A,#0A06F4,#4C49ED);
+            background-size: 400%;
+        
+            -webkit-animation: HomeBackground 7s ease infinite;
+            -moz-animation: HomeBackground 7s ease infinite;
+            animation: HomeBackground 7s ease infinite;
+        }
+
+        .moving-arrow {
+            -webkit-animation: MovingArrow 2s linear infinite;
+            -moz-animation: MovingArrow 2s linear infinite;
+            animation: MovingArrow 2s linear infinite;
+        }
+        .movin-arrow:hover {
+            animation-play-state: paused;
+        }
 
     /**
     * Couleurs
      */
-     .main-background-color {
-        @apply bg-[#F5F7FA] ;  
-     }
-     .primary-font-color {
-        @apply text-[#343C6A];
-     }
+    
+        .main-background-color {
+            @apply bg-[#F5F7FA] ;  
+        }
+        .bg-dark-blue-color {
+            @apply bg-[#343C6A];
+        }
+        .bg-main-blue-color {
+            @apply bg-[#0A06F4];
+        }
+        .primary-font-color {
+            @apply text-[#343C6A];
+        }
 
-     .secondary-font-color {
-        @apply text-[#B1B1B1];
-     }
+        .secondary-font-color {
+            @apply text-[#B1B1B1];
+        }
 
-     .primary-gradient-color {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
-     }
+        .primary-gradient-color {
+            @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
+        }
 
-     .gradient-font {
-        @apply primary-gradient-color text-transparent bg-clip-text;
+        .gradient-font {
+            @apply primary-gradient-color text-transparent bg-clip-text;
      }
      /** 
-        * Styles généraux des textes
-        */
-    .small-title {
-        @apply uppercase font-semibold inline-block text-[11px] gradient-font;
+    * Styles généraux des textes
+    */
+        .small-title {
+            @apply uppercase font-semibold inline-block text-[11px] gradient-font;
+        }
+        .small-text {
+            @apply text-sm leading-4 primary-font-color;
+        }
+
+        .medium-title {
+            @apply primary-font-color font-semibold;
+        }
+        .show-all-text {
+            @apply primary-font-color text-sm font-semibold hover:underline;
+        }
+
+        .table-title {
+            @apply pb-4 uppercase text-xs gradient-font ;
+        }
+
+    /** Formulaires **/
+    .form-container-style {
+        @apply p-5 flex justify-center h-[calc(100%-75px)] min-w-[500px] min-h-[600px] items-center main-background-color ;
     }
-    .small-text {
-        @apply text-sm leading-4 primary-font-color;
+    .form-label-style {
+        @apply block text-sm font-bold mb-2 ;
+    }
+    .form-inputfield-style {
+        @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none ;
+    }
+    .form-button-style {
+        @apply w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none ;
     }
 
-    .medium-title {
-        @apply primary-font-color font-semibold;
-    }
-    .show-all-text {
-        @apply primary-font-color text-sm font-semibold hover:underline;
-    }
+    /**
+    * Dashboard
+    **/
+        .empty-info-container {
+            @apply self-stretch min-h-[200px] info-container flex grow justify-center items-center ;
+        }
 
-    .table-title {
-        @apply pb-4 uppercase text-xs gradient-font ;
-    }
-
-    .empty-info-container {
-        @apply self-stretch min-h-[200px] info-container flex grow justify-center items-center ;
-    }
-
-    .info-container {
-        @apply bg-white mt-2 w-[15svw] min-w-[280px] grow rounded-[30px] shadow-md overflow-hidden flex flex-col;
-    }
-    .element-info-container {
-        @apply p-1 ml-3 mr-3
-    }
+        .info-container {
+            @apply bg-white mt-2 w-[15svw] min-w-[280px] grow rounded-[30px] shadow-md overflow-hidden flex flex-col;
+        }
+        .element-info-container {
+            @apply p-1 ml-3 mr-3
+        }
     /**
     * Bouton valider
      */
@@ -130,7 +213,7 @@
     * TopBarProf
     */
     .topbar-container {
-        @apply flex flex-row px-0 py-0 items-center border-b-2 border-[#E6EFF5] h-1/6;
+        @apply flex flex-row px-0 py-0 items-center border-b-2 box-border border-[#E6EFF5] h-1/6;
     }
 
 
