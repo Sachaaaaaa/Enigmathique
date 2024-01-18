@@ -37,7 +37,7 @@ const SignupForm = () => {
 		);
 	};
 	return (
-		<div className='form-container-style'>
+		<div className='form-container-style '>
 			<div className='w-full max-w-md'>
 				<form
 					onSubmit={handleRegister}

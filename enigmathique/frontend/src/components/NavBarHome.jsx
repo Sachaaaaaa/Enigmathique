@@ -8,7 +8,7 @@ function NavBarHome() {
 	const registerPath = './signup'
 
 	return (
-		<header className='absolute w-full h-fit top-0 m-0 p-0 topbar-container border-none flex justify-end align-middle'>
+		<header className='z-10 absolute w-full h-fit top-0 m-0 p-0 topbar-container border-none flex justify-end align-middle'>
 		
 			<div className='flex justify-around mr-5 gap-5 p-5'>
 				<Link to={registerPath}>

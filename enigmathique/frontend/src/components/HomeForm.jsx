@@ -20,7 +20,7 @@ const HomeForm = () => {
 							{/* bg-gradient-to-r from-[#EE7752]
 						via-[#E73C7E] to-[#23A6D5] animation */}
 			<div className="relative w-full h-full max-w-md flex flex-col justify-center items-center">
-			<img src={logo} alt='logo' className='pb-10'/>
+			<img src={logo} alt='logo' className='pb-10 z-0'/>
 				<div className="mb-4 w-fit h-fit">
 					{/* <label
 						className="block text-gray-700 text-sm font-bold mb-2"
