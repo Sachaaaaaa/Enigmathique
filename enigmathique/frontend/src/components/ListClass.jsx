@@ -6,7 +6,7 @@ import { IoPerson } from "react-icons/io5";
 import PropTypes from 'prop-types';
 import {FaPlus} from "react-icons/fa6";
 import Course from "../models/course.model";
-import {ImStatsDots} from "react-icons/im";
+import { IoIosStats } from "react-icons/io";
 import Game from "../models/game.model";
 
 const ClassElement = ({classe, onChange}) => {
@@ -80,20 +80,23 @@ const ClassElement = ({classe, onChange}) => {
 			</td>
 
 			<td className="td-style text-right pr-5">
-			<div className='ml-auto space-x-3'>
+			<div className='space-x-3'>
 				<Link to='/'>
 					<button
-						className='btn-utils btn-utils-course-student-stat '>
-						<ImStatsDots color='white' size='1.25em'/>
+						title='Statistiques'
+						className='btn-utils btn-utils-course-student-stat p-2 '>
+						<IoIosStats size='1.25em'/>
 					</button>
 				</Link>
 				<button
-					className='btn-utils btn-utils-course-student-edit'
+					title='Modifier'
+					className='btn-utils btn-utils-course-student-edit p-2'
 					onClick={() => setEditModalOpen(true)}>
 					<MdOutlineModeEdit size='1.25em'/>
 				</button>
 				<button
-					className='btn-utils btn-utils-course-student-delete'
+					title='Supprimer'
+					className='btn-utils btn-utils-course-student-delete p-2'
 					onClick={() => setDeleteModalOpen(true)}>
 					<MdDeleteForever size='1.25em'/>
 				</button>
@@ -101,7 +104,7 @@ const ClassElement = ({classe, onChange}) => {
 			</td>
 			{editModalOpen && (
 				<Modal setOpenModal={setEditModalOpen}>
-					<ModalHeader title="Modifier la classe"/>
+					<ModalHeader title="Modifier une classe"/>
 					<ModalBody>
 					<form className='flex flex-col justify-center items-end w-full gap-3 '>
 							<div className='w-full pb-3'>
@@ -112,7 +115,7 @@ const ClassElement = ({classe, onChange}) => {
 								type='text'
 								name='name'
 								id='name'
-								placeholder={classe.name}
+								defaultValue={classe.name}
 								onChange={(e) => setName(e.target.value)}
 								className='form-inputfield-style  '/> 
 							</div>
@@ -188,7 +191,7 @@ const ListClass = () => {
 					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer une classe</p>
 				</button>
 			</div>
-			<table className="w-full primary-font-color ">
+			<table className="w-full min-w-[550px] primary-font-color ">
 				<thead className='w-full '>
 					<tr className=" w-full text-left">
 						<th className="pl-5 table-title ">Nom</th>
