@@ -139,6 +139,10 @@ body::-webkit-scrollbar {
             @apply pb-4 uppercase text-xs gradient-font ;
         }
 
+        .td-style {
+            @apply py-4 whitespace-nowrap text-sm font-medium;
+        }
+
     /** Formulaires **/
     .form-container-style {
         @apply p-5 flex justify-center h-[calc(100%-75px)] min-w-[500px] min-h-[600px] items-center main-background-color ;
@@ -230,24 +234,25 @@ body::-webkit-scrollbar {
     }
 
 
-    /**
-    * Bouton utilitaire élève
-     */
-    .btn-utils-course-student {
-        @apply primary-gradient-color text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
-    }
+    /** Boutons utilitaires des pages **/
     .btn-utils{
-        @apply text-white font-bold rounded-full whitespace-normal p-3
+        @apply text-white font-semibold rounded-full p-3
     }
 
+    .btn-utils-create {
+        @apply primary-gradient-color flex space-x-2 items-center ;
+    }
+
+    .btn-utils-see {
+        @apply  text-white primary-gradient-color flex space-x-2 items-center rounded-full px-4 py-2 font-normal;
+    }
+    
     .btn-utils-course-student:hover {
         @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
     }
 
 
-    .btn-utils-course-student-icons {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] flex space-x-2 items-center
-    }
+
 
     .btn-utils-course-student-icons:hover {
         @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];

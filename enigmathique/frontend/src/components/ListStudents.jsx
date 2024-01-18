@@ -175,11 +175,11 @@ const ListStudents = (props) => {
 			<nav className='flex flex-row justify-end w-full p-5 gap-12'>
 				<Link to='/class' className='mr-auto'>
 					<button
-						className="btn-back h-full">
-						<MdArrowBackIos size='1.5em'/>
-						<p>Élèves</p>
+						className="h-full p-1">
+						<MdArrowBackIos size='1em'/>
 					</button>
 				</Link>
+				<p>Élèves</p>
 				<section className='flex flex-row items-center justify-center bg-white rounded-full p-4 gap-2 shadow'>
 					<FaSearch color="#0a06f4"/>
 					<input
@@ -190,8 +190,8 @@ const ListStudents = (props) => {
 					/>
 				</section>
 				<button
-					className="btn-utils btn-utils-course-student-icons"
-					onClick={() => setCreateModalOpen(true)}><FaPlus size='1.5em'/>
+					className="btn-utils primary-gradient-color"
+					onClick={() => setCreateModalOpen(true)}><FaPlus/>
 					<p>Ajouter un élève</p>
 				</button>
 			</nav>

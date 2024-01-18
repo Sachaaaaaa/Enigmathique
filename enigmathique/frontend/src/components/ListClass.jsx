@@ -2,17 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Modal, {ModalBody, ModalHeader} from './Modal';
 import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
-import {CiSquareMore} from 'react-icons/ci';
+import { IoPerson } from "react-icons/io5";
 import PropTypes from 'prop-types';
 import {FaPlus} from "react-icons/fa6";
 import Course from "../models/course.model";
 import {ImStatsDots} from "react-icons/im";
+import Game from "../models/game.model";
 
 const ClassElement = ({classe, onChange}) => {
+
+	const [gamesOf, setGamesOf] = useState([]);
+
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [name, setName] = useState('');
 
+	
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
 		await Course.delete(id);
@@ -29,37 +34,71 @@ const ClassElement = ({classe, onChange}) => {
 		console.log('edit ' + id);
 	}
 
+	const loadGamesOf = async() => {
+		const data = await Game.getAll();
+		let listGames = [];
+		data.forEach((game) => {
+			classe.id === game.idCourse && listGames.push();
+		});
+		setGamesOf(listGames);
+	}
+
+	useEffect(() => {
+		loadGamesOf();
+	}, []);
+
+	const getLastGame = (games) => {
+		if(games.length !== 0) {
+			let maxDate = games[0].createdAt;
+			games.forEach((game) => {
+				(game.createdAt.localeCompare(maxDate) > 0) && (maxDate = game.createdAt);
+			});
+			return maxDate;
+		} else {
+			return 'Jamais joué'
+		}
+	}
+
 
 	return (
-		<li key={classe.id} value={classe.name} className='bg-gray-300 flex p-1 rounded-2xl'>
-			<h3 className='w-40 text-center my-auto'>
+		// className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}
+		<tr key={classe.id} value={classe.name} className='border-t-[1px] border-[rgba(10, 6, 244, 0.2)]'>
+			<td className="pl-5 td-style">
 				{classe.name}
-			</h3>
-			<Link to={`/class/${classe.id}`}>
-				<button
-					className='btn-utils btn-utils-course-student-icons'>
-					<CiSquareMore size='1.5em'/>
-					<p>Voir les élèves</p>
-				</button>
-			</Link>
+			</td>
+			<td className="td-style">
+				<Link to={`/class/${classe.id}`}>
+					<button
+						className='btn-utils-see'>
+						<IoPerson size='1em'/>
+						<p>Voir les élèves</p>
+					</button>
+				</Link>
+			</td>
+			<td className="td-style">
+				{getLastGame(gamesOf)}
+			</td>
+
+			<td className="td-style text-right pr-5">
 			<div className='ml-auto space-x-3'>
 				<Link to='/'>
 					<button
-						className='btn-utils btn-utils-course-student-stat'>
-						<ImStatsDots color='white' size='1.5em'/>
+						className='btn-utils btn-utils-course-student-stat '>
+						<ImStatsDots color='white' size='1.25em'/>
 					</button>
 				</Link>
 				<button
 					className='btn-utils btn-utils-course-student-edit'
 					onClick={() => setEditModalOpen(true)}>
-					<MdOutlineModeEdit size='1.5em'/>
+					<MdOutlineModeEdit size='1.25em'/>
 				</button>
 				<button
 					className='btn-utils btn-utils-course-student-delete'
 					onClick={() => setDeleteModalOpen(true)}>
-					<MdDeleteForever size='1.5em'/>
+					<MdDeleteForever size='1.25em'/>
 				</button>
 			</div>
+			</td>
 			{editModalOpen && (
 				<Modal setOpenModal={setEditModalOpen}>
 					<ModalHeader title="Modifier la classe"/>
@@ -111,7 +150,7 @@ const ClassElement = ({classe, onChange}) => {
 						</form>
 					</ModalBody>
 				</Modal>)}
-		</li>
+		</tr>
 	)
 }
 
@@ -145,16 +184,26 @@ const ListClass = () => {
 		<>
 			<div className='flex justify-end p-5'>
 				<button
-					className="btn-utils btn-utils-course-student-icons"
-					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer
-					une classe</p>
+					className="btn-utils btn-utils-create"
+					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer une classe</p>
 				</button>
 			</div>
-			<ul className='bg-blue-300 space-y-10 p-5'>
+			<table className="w-full primary-font-color ">
+				<thead className='w-full '>
+					<tr className=" w-full text-left">
+						<th className="pl-5 table-title ">Nom</th>
+						<th className="table-title">élèves</th>
+						<th className="table-title">Dernière partie</th>
+						<th className="table-title text-right pr-5">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
 				{courses.map((classe) => (
 					<ClassElement key={classe.id} classe={classe} onChange={() => loadClasses()}/>
 				))}
-			</ul>
+			</table>
+
 			{createModalOpen && (
 				<Modal setOpenModal={setCreateModalOpen}>
 					<ModalHeader title="Créer une classe" />
