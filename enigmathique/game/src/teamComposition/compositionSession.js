@@ -183,9 +183,8 @@ class CompositionSession {
 		console.log(teams);
 
 		// Envoie la composition à l'API
-		const response = ApiService.postTeamsComposition(this.sessionId, teams);
-		console.log(response);
-		// { .. }
+		const response = await ApiService.postTeamsComposition(this.sessionId, teams);
+		
 
 		// TODO: Faire autre chose si la requête a échouée
 		
