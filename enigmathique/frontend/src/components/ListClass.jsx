@@ -2,17 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Modal, {ModalBody, ModalHeader} from './Modal';
 import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
-import {CiSquareMore} from 'react-icons/ci';
+import { IoPerson } from "react-icons/io5";
 import PropTypes from 'prop-types';
 import {FaPlus} from "react-icons/fa6";
 import Course from "../models/course.model";
-import {ImStatsDots} from "react-icons/im";
+import { IoIosStats } from "react-icons/io";
+import Game from "../models/game.model";
 
 const ClassElement = ({classe, onChange}) => {
+
+	const [gamesOf, setGamesOf] = useState([]);
+
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [name, setName] = useState('');
 
+	
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
 		await Course.delete(id);
@@ -29,47 +34,81 @@ const ClassElement = ({classe, onChange}) => {
 		console.log('edit ' + id);
 	}
 
+	const loadGamesOf = async() => {
+		const data = await Game.getAll();
+		let listGames = [];
+		data.forEach((game) => {
+			classe.id === game.idCourse && listGames.push();
+		});
+		setGamesOf(listGames);
+	}
+
+	useEffect(() => {
+		loadGamesOf();
+	}, []);
+
+	const getLastGame = (games) => {
+		if(games.length !== 0) {
+			let maxDate = games[0].createdAt;
+			games.forEach((game) => {
+				(game.createdAt.localeCompare(maxDate) > 0) && (maxDate = game.createdAt);
+			});
+			return maxDate;
+		} else {
+			return 'Jamais joué'
+		}
+	}
+
 
 	return (
-		<li key={classe.id} value={classe.name} className='bg-gray-300 flex p-1 rounded-2xl'>
-			<h3 className='w-40 text-center my-auto'>
+		// className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}
+		<tr key={classe.id} value={classe.name} className='border-t-[1px] border-[rgba(10, 6, 244, 0.2)]'>
+			<td className="pl-5 td-style">
 				{classe.name}
-			</h3>
-			<Link to={`/class/${classe.id}`}>
-				<button
-					className='btn-utils btn-utils-course-student-icons'>
-					<CiSquareMore size='1.5em'/>
-					<p>Voir les élèves</p>
-				</button>
-			</Link>
-			<div className='ml-auto space-x-3'>
+			</td>
+			<td className="td-style">
+				<Link to={`/class/${classe.id}`}>
+					<button
+						className='btn-utils-see'>
+						<IoPerson size='1em'/>
+						<p>Voir les élèves</p>
+					</button>
+				</Link>
+			</td>
+			<td className="td-style">
+				{getLastGame(gamesOf)}
+			</td>
+
+			<td className="td-style text-right pr-5">
+			<div className='space-x-3'>
 				<Link to='/'>
 					<button
-						className='btn-utils btn-utils-course-student-stat'>
-						<ImStatsDots color='white' size='1.5em'/>
+						title='Statistiques'
+						className='btn-utils btn-utils-course-student-stat p-2 '>
+						<IoIosStats size='1.25em'/>
 					</button>
 				</Link>
 				<button
-					className='btn-utils btn-utils-course-student-edit'
+					title='Modifier'
+					className='btn-utils btn-utils-course-student-edit p-2'
 					onClick={() => setEditModalOpen(true)}>
-					<MdOutlineModeEdit size='1.5em'/>
+					<MdOutlineModeEdit size='1.25em'/>
 				</button>
 				<button
-					className='btn-utils btn-utils-course-student-delete'
+					title='Supprimer'
+					className='btn-utils btn-utils-course-student-delete p-2'
 					onClick={() => setDeleteModalOpen(true)}>
-					<MdDeleteForever size='1.5em'/>
+					<MdDeleteForever size='1.25em'/>
 				</button>
 			</div>
+			</td>
 			{editModalOpen && (
-				<Modal setOpenModal={setEditModalOpen} height='400'>
-					<ModalHeader>
-					<h1 className='text-3xl text-center'>
-							Modifier la classe {classe.name}
-						</h1>
-					</ModalHeader>
+				<Modal setOpenModal={setEditModalOpen}>
+					<ModalHeader title="Modifier une classe"/>
 					<ModalBody>
-						<form className='flex flex-col space-y-5'>
-							<label htmlFor='name'>
+					<form className='flex flex-col justify-center items-end w-full gap-3 '>
+							<div className='w-full pb-3'>
+							<label htmlFor='name' className='form-label-style primary-font-color'>
 								Nom de la classe
 							</label>
 							<input
@@ -78,45 +117,43 @@ const ClassElement = ({classe, onChange}) => {
 								id='name'
 								defaultValue={classe.name}
 								onChange={(e) => setName(e.target.value)}
-								className='border-2 border-blue-900 rounded-md'/>
+								className='form-inputfield-style  '/> 
+							</div>
 							<button
-								className='btn-delete'
+								className='modal-cancel-button-style'
 								onClick={() => setEditModalOpen(false)}>
 								Annuler
 							</button>
 							<button
 								type='submit'
-								className='btn-validate'
+								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 								onClick={(event) => handleClickEdit(event, classe.id)}>
-								Valider la modification
+								Modifier
 							</button>
 						</form>
 					</ModalBody>
 				</Modal>)}
 			{deleteModalOpen && (
-				<Modal setOpenModal={setDeleteModalOpen} height='300'>
-					<ModalHeader>
-						<h1 className='text-3xl text-center'>
-							Voulez vous vraiment surpprimer la classe {classe.id}
-						</h1>
-					</ModalHeader>
+				<Modal setOpenModal={setDeleteModalOpen}>
+					<ModalHeader title={`Supprimer une classe`}/>
 					<ModalBody>
-						<div className='flex flex-col space-y-5'>
+						<form className='flex flex-col justify-center w-full gap-3'>
+							<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la classe {classe.name} ?</p>
 							<button
-								className='btn-delete'
+								className='modal-cancel-button-style'
 								onClick={() => setDeleteModalOpen(false)}>
 								Annuler
 							</button>
 							<button
 								type='submit'
-								className='btn-validate'
+								className='modal-validate-button-style bg-[#ef4565] hover:bg-red-500'
 								onClick={(event) => handleClickDelete(event, classe.id)}>
-								Valider la suppression
+								Supprimer
 							</button>
-						</div>
+						</form>
 					</ModalBody>
 				</Modal>)}
-		</li>
+		</tr>
 	)
 }
 
@@ -150,43 +187,53 @@ const ListClass = () => {
 		<>
 			<div className='flex justify-end p-5'>
 				<button
-					className="btn-utils btn-utils-course-student-icons"
-					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer
-					une classe</p>
+					className="btn-utils btn-utils-create"
+					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer une classe</p>
 				</button>
 			</div>
-			<ul className='bg-blue-300 space-y-10 p-5'>
+			<table className="w-full min-w-[550px] primary-font-color ">
+				<thead className='w-full '>
+					<tr className=" w-full text-left">
+						<th className="pl-5 table-title ">Nom</th>
+						<th className="table-title">élèves</th>
+						<th className="table-title">Dernière partie</th>
+						<th className="table-title text-right pr-5">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
 				{courses.map((classe) => (
 					<ClassElement key={classe.id} classe={classe} onChange={() => loadClasses()}/>
 				))}
-			</ul>
+			</table>
+
 			{createModalOpen && (
-				<Modal setOpenModal={setCreateModalOpen} height='400'>
-					<ModalHeader>
-						<h1 className='text-3xl text-center'>{`Création d'une classe`}</h1>
-					</ModalHeader>
+				<Modal setOpenModal={setCreateModalOpen}>
+					<ModalHeader title="Créer une classe" />
 					<ModalBody>
-						<form className='flex flex-col space-y-5'>
-							<label htmlFor='name'>
+						<form className='flex flex-col justify-center items-end w-full gap-3 '>
+							<div className='w-full pb-3'>
+							<label htmlFor='name' className='form-label-style primary-font-color'>
 								Nom de la classe
 							</label>
 							<input
 								type='text'
 								name='name'
 								id='name'
-								value={name}
+								placeholder='Classe'
 								onChange={(e) => setName(e.target.value)}
-								className='border-2 border-blue-900 rounded-md'/>
+								className='form-inputfield-style  '/> 
+							</div>
 							<button
-								className='btn-delete'
+								className='modal-cancel-button-style'
 								onClick={() => setCreateModalOpen(false)}>
 								Annuler
 							</button>
 							<button
 								type='submit'
-								className='btn-validate'
+								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 								onClick={(event) => handleClickCreate(event)}>
-								Valider la création
+								Créer
 							</button>
 						</form>
 					</ModalBody>

@@ -2,29 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../index.css';
 
-function ModalHeader({children}) {
+function ModalHeader({title}) {
 	return (
-		<div className='w-full h-20 bg-blue-500 rounded-t-lg'>
-			{children}
+		<div className='w-full bg-white rounded-t-lg flex flex-col justify-center items-start border-b-2 box-border border-white-color'>
+			<h1 className='text-xl font-semibold primary-font-color text-center p-5'>{title}</h1>
 		</div>
 	);
 }
 
 function ModalBody({children}) {
 	return (
-		<div className='w-full h-full p-10'>
+		<div className='w-full h-full p-5'>
 			{children}
 		</div>
 	);
 }
 
-function Modal({setOpenModal, children, width = 500, height = 500}) {
+function Modal({setOpenModal, children, width = 400, height = 300}) {
 	// setOpenModal sert a fermer le modal quand on clique en dehors du modal
 	// Faire en sorte que le modal se ferme lorsqu'on clique en dehors
 	return (
 		<div className='mt-0 absolute top-0 left-0 '>
 			<div className='w-full h-full fixed backdrop-blur-sm flex items-center'>
-				<div className={`p-auto bg-gray-200 relative rounded-lg shadow-2xl mx-auto `} style={{width: `${width}px`, height: `${height}px`}}>
+				<div className={`p-auto main-background-color relative rounded-lg shadow-2xl mx-auto h-fit `} style={{width: `${width}px`}}>
 					{children}
 				</div>
 			</div>
@@ -33,7 +33,7 @@ function Modal({setOpenModal, children, width = 500, height = 500}) {
 }
 
 ModalHeader.propTypes = {
-	children: PropTypes.node,
+	title: PropTypes.node,
 };
 
 ModalBody.propTypes = {

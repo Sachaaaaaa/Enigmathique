@@ -7,6 +7,7 @@
 
 /** Scrollbar **/
 
+
 body::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
@@ -17,21 +18,16 @@ body::-webkit-scrollbar {
         width: 10px;
     }
     
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: rgba(10, 6, 244, 0.1);
-        border-radius: 5px;
-    }
     
     /* Handle */
     ::-webkit-scrollbar-thumb {
-        background: #0A06F4;
-        border-radius: 30px;
+        background: #343C6A;
+
     }
     
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-        background: #07059d;
+        background: #0A06F4;
     }
 
 /** Animations **/
@@ -104,6 +100,9 @@ body::-webkit-scrollbar {
         .primary-font-color {
             @apply text-[#343C6A];
         }
+        .blue-font-color {
+            @apply text-[#0A06F4];
+        }
 
         .secondary-font-color {
             @apply text-[#B1B1B1];
@@ -115,7 +114,11 @@ body::-webkit-scrollbar {
 
         .gradient-font {
             @apply primary-gradient-color text-transparent bg-clip-text;
-     }
+        }
+
+        .border-white-color {
+            @apply border-[#E6EFF5] ;
+        }
      /** 
     * Styles généraux des textes
     */
@@ -137,6 +140,10 @@ body::-webkit-scrollbar {
             @apply pb-4 uppercase text-xs gradient-font ;
         }
 
+        .td-style {
+            @apply py-4 whitespace-nowrap text-sm font-medium;
+        }
+
     /** Formulaires **/
     .form-container-style {
         @apply p-5 flex justify-center h-[calc(100%-75px)] min-w-[500px] min-h-[600px] items-center main-background-color ;
@@ -145,17 +152,17 @@ body::-webkit-scrollbar {
         @apply block text-sm font-bold mb-2 ;
     }
     .form-inputfield-style {
-        @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none ;
+        @apply shadow appearance-none border rounded w-full h-fit py-2 px-3 primary-font-color leading-snug focus:outline-none ;
     }
     .form-button-style {
-        @apply w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none ;
+        @apply w-full  hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none ;
     }
 
     /**
     * Dashboard
     **/
         .empty-info-container {
-            @apply self-stretch min-h-[200px] info-container flex grow justify-center items-center ;
+            @apply self-stretch min-h-[200px] info-container grow justify-center items-center ;
         }
 
         .info-container {
@@ -163,6 +170,17 @@ body::-webkit-scrollbar {
         }
         .element-info-container {
             @apply p-1 ml-3 mr-3
+        }
+
+    /** 
+    * Modal
+    **/
+        .modal-cancel-button-style {
+            @apply flex items-center justify-center form-button-style bg-transparent  text-[#0A06F4] border-2 border-[#0A06F4] h-[40px] box-border hover:bg-transparent ;
+        }
+
+        .modal-validate-button-style {
+            @apply form-button-style  h-[40px];
         }
     /**
     * Bouton valider
@@ -213,28 +231,29 @@ body::-webkit-scrollbar {
     * TopBarProf
     */
     .topbar-container {
-        @apply flex flex-row px-0 py-0 items-center border-b-2 box-border border-[#E6EFF5] h-1/6;
+        @apply flex flex-row px-0 py-0 items-center border-b-2 box-border border-white-color h-1/6;
     }
 
 
-    /**
-    * Bouton utilitaire élève
-     */
-    .btn-utils-course-student {
-        @apply primary-gradient-color text-white font-bold rounded-full whitespace-normal p-3 flex space-x-2
-    }
+    /** Boutons utilitaires des pages **/
     .btn-utils{
-        @apply text-white font-bold rounded-full whitespace-normal p-3
+        @apply text-white font-semibold rounded-full p-3
     }
 
+    .btn-utils-create {
+        @apply primary-gradient-color flex space-x-2 items-center ;
+    }
+
+    .btn-utils-see {
+        @apply  text-white text-xs font-normal primary-gradient-color flex space-x-2 items-center rounded-full px-4 py-2 ;
+    }
+    
     .btn-utils-course-student:hover {
         @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
     }
 
 
-    .btn-utils-course-student-icons {
-        @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] flex space-x-2 items-center
-    }
+
 
     .btn-utils-course-student-icons:hover {
         @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
@@ -284,7 +303,7 @@ body::-webkit-scrollbar {
    * NavBar
    */
     .nav-container {
-        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 box-border border-[#E6EFF5];
+        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 box-border border-white-color;
     }
 
     .nav-content {
