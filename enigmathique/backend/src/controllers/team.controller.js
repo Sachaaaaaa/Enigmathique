@@ -419,14 +419,12 @@ exports.addScores = async(req, res, next) => {
 	let result = []
 
 	try{
-
 		if (!req.body.scores || !req.body.idGame) {
-			const error = new Error("Il manque des informations pour ajouter des scores d1.");
+			const error = new Error("Il manque des informations pour ajouter des scores (scores/idGame)");
 			error.statusCode = 400;  
 			throw error;
 		}
 
-		// exemple de valeur pour req.body.scores [{"idTeam": 2, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}, {"idTeam": 3, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}]
 		const scores = req.body.scores
 		const idGame = req.body.idGame
 
@@ -453,7 +451,7 @@ exports.addScores = async(req, res, next) => {
 
 				// Vérifie que toutes les infos sont présentes
 				if (teamId == null || roomName == null || time == null || nbGoodAnswers == null || nbBadAnswers == null || nbHints == null || isSolved == null) {
-					const error = new Error("Il manque des informations pour ajouter des scores d2.");
+					const error = new Error("Il manque des informations pour ajouter des scores (données Room).");
 					error.statusCode = 400;  
 					throw error;
 				}
