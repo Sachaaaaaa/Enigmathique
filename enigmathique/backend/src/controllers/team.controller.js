@@ -141,14 +141,15 @@ exports.addStudents = async (req, res, next) => {
 
 	try{
 		// Valider la requête
-		if (!req.body.teams) {
+		if (!req.body.teams || !req.body.idGame) {
 			const error = new Error("Il manque des informations pour ajouter des élèves.");
 			error.statusCode = 400;  
 			throw error;
 		}
 
 		// Récupère les équipes dans un format adapté
-		const teams = req.body.teams;		
+		const teams = req.body.teams;
+		const idGame = req.body.idGame
 
 		// Les équipes à ajouter
 		const addedTeams = [];
@@ -162,7 +163,7 @@ exports.addStudents = async (req, res, next) => {
 			}
 			
 			// Ajoute toutes les équipes du tableau teamsName
-			const createdTeam = await Team.create({ name: teams[i].name });	
+			const createdTeam = await Team.create({ name: teams[i].name, idGame: idGame });
 			
 			const studentsData = teams[i].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
 			
