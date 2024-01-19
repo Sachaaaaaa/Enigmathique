@@ -30,6 +30,14 @@ class TeamModel{
 			console.error(`erreur dans le getter d'une team dans le modèle de team (front) ${e}`);
 		}
 	}
+	static async getTeamFromGame(idGame){
+		try {
+			const data = await TeamService.getTeamFromGame(idGame);
+			return data.map((team) =>new TeamModel(team.name, team.id));
+		}catch (e){
+			console.error(`erreur dans le getter des team pour une partie dans le modèle de team (front) ${e}`);
+		}
+	}
 
 }
 export default TeamModel;
