@@ -16,7 +16,7 @@ module.exports = app => {
 	router.post("/student/:id", middleware.verifyToken, team.removeStudent);
 
 	// Récupère toutes les teams d'une partie
-	router.get("/:id", middleware.verifyToken, team.findAll);
+	router.get("/:id", middleware.verifyToken, team.findAll, middleware.verifyErrors);
 
 	// Supprime une équipe
 	router.delete("/:id", middleware.verifyToken, team.delete);

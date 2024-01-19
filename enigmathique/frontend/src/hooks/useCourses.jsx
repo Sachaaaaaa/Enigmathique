@@ -1,6 +1,4 @@
-import React from 'react';
 import {useState, useEffect} from 'react';
-
 import Course from 'models/course.model';
 
 /**
@@ -18,7 +16,7 @@ const useCourses = (autoload = true) => {
 
 	useEffect(() => {
 		if (autoload) {
-			loadClasses();
+			loadClasses().then(r => console.log('classes loaded'));
 		}
 	}, []);
 

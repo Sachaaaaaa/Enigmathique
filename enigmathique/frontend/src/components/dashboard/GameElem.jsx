@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import TeamService from "../../services/team.service";
 import Game from "../../models/game.model";
 import Course from "../../models/course.model";
+import useCourses from "../../hooks/useCourses";
 
 const maxTime = 600;
 
@@ -12,21 +13,16 @@ const GameElem = (props) => {
 	const game = props.game;
 
 	const [scores, setScores] = useState([]);
-	const [course, setCourse] = useState({});
+	const [course] = useCourses();
 
 	const loadScores = async (idGame) => {
 		const data = await Game.getScores(idGame);
 		return data===1? setScores(data): console.log('pas de score disponible');
 	}
 
-	const loadCourse = async (game) => {
-		const data = await Course.get(game.idCourse);
-		setCourse(data);
-	}
 
 	useEffect(() => {
 		loadScores(game.id);
-		loadCourse(game);
 	}, []);
 
 	const getWinners = () => {
