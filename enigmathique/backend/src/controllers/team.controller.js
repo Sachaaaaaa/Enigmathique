@@ -196,7 +196,7 @@ exports.findAll = async (req, res, next) => {
 		// Récupère toutes les équipe d'une partie
 		const teams = await Team.findAll({ where: { idGame: req.params.id } })
 
-		// Renvoie les données récupérées
+		// Renvoie les données récupéréesf
 		return res.status(200).json(teams);
 
 	// Gère les erreurs
@@ -222,7 +222,11 @@ exports.findOne = async(req, res) => {
 
 	try {
 		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
-		res.status(200).json(students);
+		var studentArray= []
+		for(i=0;i<students.length; i++){
+			studentArray.push(await Student.findAll({ where: { id: students[i].idStudent } }))
+		}
+		res.status(200).json(studentArray);
 	
 	}catch(err) {
 		res.status(500).json({

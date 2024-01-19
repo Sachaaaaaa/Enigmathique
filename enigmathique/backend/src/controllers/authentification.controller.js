@@ -1,96 +1,103 @@
-/**
- * Définition des opérations CRUD pour les professeurs
-*/
 
 require('dotenv').config();
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const db = require("../models/db.js");
 const Professor = db.professor;
+const Joi = require('joi');
 const Op = db.Sequelize.Op;
-//const secretKey = 'bloubiboulba';
-
-// Génère une chaîne aléatoire de longueur length
-// Provient de https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 
 
 // Créer et enregistrer un nouveau professeur
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
 
-	// TODO: Vérifier que le mail est bien un mail
-	// TODO: Vérifier que le mot de passe est assez fort
-	if (!req.body.lastname || !req.body.firstname || !req.body.mail || !req.body.password) {
-		res.status(400).send({
-			message: "Il manque des informations pour créer le professeur."
+	try{
+		// Vérification des informations fournis
+		const professorSchema = Joi.object({
+			lastname: Joi.string().required(),
+			firstname: Joi.string().required(),
+			mail: Joi.string().email().required(),
+			password: Joi.string().min(8).required(), 
 		});
-		return;
+		
+		const { error } = professorSchema.validate(req.body);
+
+		if (error) {
+		const validationError = new Error(error.details[0].message);
+		validationError.statusCode = 500;  
+		throw validationError;
+		}
+
+		// Créer un professeur
+		const professor = {
+			lastname: req.body.lastname,
+			firstname: req.body.firstname,
+			mail: req.body.mail,
+			password: await argon2.hash(req.body.password + process.env.PEPPER_KEY),
+		};
+
+		// Enregistrer le professeur dans la base de données
+		const createdProfessor  = await Professor.create(professor)
+		
+		// Génère le token de connexion
+		const token = jwt.sign( {id: createdProfessor['dataValues']['id']}, process.env.SECRET_KEY, { expiresIn: '1h' });
+		return res.status(201).json({
+			token: token,
+		});
+	} catch(err) {
+		next(err)
 	}
-
-	// Créer un professeur
-	const professor = {
-		lastname: req.body.lastname,
-		firstname: req.body.firstname,
-		mail: req.body.mail,
-		password: await argon2.hash(req.body.password + process.env.PEPPER_KEY),
-	};
-
-
-
-	// Enregistrer le professeur dans la base de données
-	Professor.create(professor)
-		.then(data => {
-      // Génère le token de connexion
-      const token = jwt.sign( {id: data['dataValues']['id']}, process.env.SECRET_KEY, { expiresIn: '1h' });
-			res.status(201).send({
-				token: token,
-			});
-		})
-		.catch(err => {
-			res.status(500).send({
-				message: err.message || "Une erreur s'est produite lors de la création du professeur."
-			});
-		});
 }
 
 // Gère la connexion d'un professeur
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
 
-	// Verifie que le mail et le password ont été indiqués
-	if(!req.body.mail || !req.body.password){
-		res.status(400).send({
-			message: "Il manque des informations pour créer se connecter."
-		});
-		return;
-	}
-
-	// Essaye de récuperer le professeur dans la DB à partir du mail
-	const existingProfessor = await Professor.findOne({ where: { mail: req.body.mail } });
-
-	// Si ce prof existe
-	if(existingProfessor){
-
-		// On récupère le mdp et le sel du prof
-		const password = existingProfessor['dataValues']['password']
-		const salt = existingProfessor['dataValues']['salt']
-
-		// On vérifie qu'il s'agissent du bon mdp
-		if(await argon2.verify(password, req.body.password + process.env.PEPPER_KEY)) {
-      // On récupère l'id du prof pour le token
-      const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, process.env.SECRET_KEY, { expiresIn: '1h' });
-			res.status(201).send({
-				token: token,
-			});
-			return;
+	try{
+		// Vérification des informations fournis
+		const loginSchema = Joi.object({
+			mail: Joi.string().email().required(),
+			password: Joi.string().required(),
+		});	
+		
+		const {error} = loginSchema.validate(req.body);
+		
+		if (error) {
+			const validationError = new Error(error.details[0].message);
+			validationError.statusCode = 400;  
+			throw validationError;
 		}
-		res.status(400).send({
-			message: "Mauvais mdp"
-		});
-		return;
+
+		// Essaye de récuperer le professeur dans la DB à partir du mail
+		const existingProfessor = await Professor.findOne({ where: { mail: req.body.mail } });
+
+		// Si ce prof existe
+		if(existingProfessor){
+
+			// On récupère le mdp et le sel du prof
+			const password = existingProfessor['dataValues']['password']
+
+
+			// On vérifie qu'il s'agissent du bon mdp
+			if(await argon2.verify(password, req.body.password + process.env.PEPPER_KEY)) {
+				// On récupère l'id du prof pour le token
+				const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, process.env.SECRET_KEY, { expiresIn: '1h' });
+				return res.status(201).json({
+					token: token,
+				});
+			}
+			const error = new Error("Mauvais mdp.");
+			error.statusCode = 400;  
+			throw error;
+		} else {
+			// Si le prof n'existe pas on renvoie une erreur
+			const error = new Error("Aucun compte ne correspond au mail indiqué.");
+			error.statusCode = 400;  
+			throw error;
+		}
+
+
+	} catch(err) {
+		next(err)
 	}
-	// Si le prof n'existe pas on renvoie une erreur
-	res.status(400).send({
-		message: "Aucun compte ne correspond au mail indiqué."
-	});
-	return;
 }
 
