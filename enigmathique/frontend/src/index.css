@@ -146,7 +146,7 @@ body::-webkit-scrollbar {
 
     /** Formulaires **/
     .form-container-style {
-        @apply p-5 flex justify-center h-[calc(100%-75px)] min-w-[500px] min-h-[600px] items-center main-background-color ;
+        @apply p-5 flex flex-col justify-center items-center h-[calc(100%-75px)] min-h-[600px] w-screen;
     }
     .form-label-style {
         @apply block text-sm font-bold mb-2 ;
