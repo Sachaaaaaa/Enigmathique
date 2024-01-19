@@ -141,7 +141,7 @@ body::-webkit-scrollbar {
         }
 
         .td-style {
-            @apply py-4 whitespace-nowrap text-sm font-medium;
+            @apply py-4 whitespace-nowrap font-medium;
         }
 
     /** Formulaires **/
@@ -230,7 +230,7 @@ body::-webkit-scrollbar {
     }
 
     .btn-utils-see {
-        @apply  text-white text-xs font-normal primary-gradient-color flex space-x-2 items-center rounded-full px-4 py-2 ;
+        @apply  text-white text-xs font-medium primary-gradient-color flex space-x-2 items-center rounded-full px-4 py-2 ;
     }
     
     .btn-utils-course-student:hover {

@@ -1,13 +1,12 @@
 import React from 'react';
 import LayoutProf from "../layouts/LayoutProf";
-import {Link} from 'react-router-dom';
-import {MdArrowBackIos} from 'react-icons/md';
 import Modal, {ModalBody, ModalHeader} from '../components/Modal';
-import {FaPlus} from "react-icons/fa6";
+
 import Course from "../models/course.model";
 import ClassElement from '../components/class/ClassElement';
 import {useState, useEffect} from 'react';
-
+import CreateButton from 'components/dashboard/CreateButton';
+import ContentHeader from 'components/dashboard/ContentHeader';
 
 const Class = () => {
 
@@ -38,19 +37,9 @@ const Class = () => {
 	return (
 		<LayoutProf>
 			<main className=' h-screen main-background-color overflow-x-hidden'>
-				<nav className='flex flex-row flex-grow justify-between w-full p-5 primary-font-color'>
-					<div className='flex items-center font-semibold text-lg'>
-						<Link to='/dashboard' className='m-auto p-1'>
-							<MdArrowBackIos size='1em'/>
-						</Link>
-					</div>
-					<div className='flex justify-end gap-3 p-5 pr-0'>
-						<button
-							className="btn-utils btn-utils-create"
-							onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer une classe</p>
-						</button>
-					</div>
-				</nav>
+				<ContentHeader title="" link='/dashboard'>
+						<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
+				</ContentHeader>
 				<table className="w-full min-w-[550px] primary-font-color ">
 					<thead className='w-full '>
 						<tr className=" w-full text-left">

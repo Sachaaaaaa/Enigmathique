@@ -4,6 +4,10 @@ import 'index.css';
 import Game from "../models/game.model";
 import Course from "../models/course.model";
 import SearchInput from "../components/SearchInput";
+import CreateButton from "components/dashboard/CreateButton";
+import ContentHeader from "components/dashboard/ContentHeader";
+import TableContainer from "components/dashboard/TableContainer";
+import {Link} from "react-router-dom";
 
 const Games = () => {
 	const [games, setGames] = useState([]);
@@ -41,22 +45,12 @@ const Games = () => {
 	return (
 		<LayoutProf>
 			<main className=" h-screen main-background-color overflow-x-hidden">
-				<nav className="flex flex-row justify-end w-full">
+				<ContentHeader title="" link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
-				</nav>
-				<table className="w-full min-w-[550px] primary-font-color ">
-				<thead className='w-full '>
-					<tr className=" w-full text-left">
-						<th className="pl-5 table-title ">Nom</th>
-						<th className="table-title">Date</th>
-						<th className="table-title">Score</th>
-						<th className="table-title">Taux de réussite</th>
-						<th className="table-title">Nombre de salles</th>
-						<th className="table-title text-right pr-5">Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{filteredGames.map((game, index) => {
+					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>
+				</ContentHeader>
+				<TableContainer headers={['Nom', 'Date', 'Score', 'Taux de réussite', 'Nombre de salles', 'Action']}>
+				{filteredGames.map((game, index) => {
 						return (
 							<tr key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
 								<td className="pl-5 td-style">
@@ -84,8 +78,7 @@ const Games = () => {
 							</tr>
 						);
 					})}
-					</tbody>
-				</table>
+				</TableContainer>
 				{/* Pagination ou autres contrôles ici */}
 			</main>
 		</LayoutProf>
