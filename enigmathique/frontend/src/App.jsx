@@ -15,6 +15,7 @@ import PreGameWrapper from './components/contexts/PreGame.wrapper';
 import CreateGameWrapper from './components/contexts/CreationGame.wrapper';
 import RoomList from 'pages/RoomList';
 import ProfFollowUp from 'pages/ProfFollowUp';
+import Ranking from 'pages/Ranking';
 
 const App = () => {
 	return (
