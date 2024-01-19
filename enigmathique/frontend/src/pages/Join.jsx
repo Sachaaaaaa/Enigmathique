@@ -12,6 +12,8 @@ import LayoutStudent from "../layouts/LayoutStudent";
 const Join = (props) => {
 	const [available, setAvailable] = useState([]);
 	const [selected, setSelected] = useState([]);
+	const [isLocked, setIsLocked] = useState(false);
+	const [isConfirmed, setIsConfirmed] = useState(false);
 	const navigate = useNavigate();
 
 
@@ -41,6 +43,8 @@ const Join = (props) => {
 		});
 
 		socket.on(ServerToClient.SyncTeamStudents, (data) => {
+			setIsLocked(data.locked);
+			setIsConfirmed(data.confirmed);
 			setSelected(data.composition.students);
 		});
 
@@ -48,6 +52,7 @@ const Join = (props) => {
 			// TODO: Modifier façon de mettre session et teamId dans l'url
 			const teamId = data.teamId;
 			navigate(`/game?sessionId=${sessionId}&teamId=${teamId}`);
+			
 		});
 
 		socket.connect();
@@ -66,7 +71,8 @@ const Join = (props) => {
 	const [teamName, setTeamName] = useState('');
 	const handleTeamNameChange = (event) => {
 		setTeamName(event.target.value);
-	}
+	};
+
 	const handleCreateTeam = () => {
 		if (teamName === '') {
 			alert('Veuillez entrer un nom d\'équipe');
