@@ -39,6 +39,7 @@ const GameElem = (props) => {
 
 
 	const getWinners = () => {
+
 		let maxScore= scores[0];
 		let winners=  [];
 		scores.forEach((score) => {
@@ -54,7 +55,7 @@ const GameElem = (props) => {
 		return winners;
 	}
 
-	const getWinRate = () => {
+	const getWinRate = () => {if (scores == null) return 0;
 		let winRate = 0;
 		const nbScore = scores.length;
 		if(scores.length !== 0) {
@@ -66,6 +67,7 @@ const GameElem = (props) => {
 			return 0;
 		}
 	}
+	if (course == null) return <p>Loading</p>
 
 	return (
 		<article className='grid grid-cols-2 gap-1 info-container'>
