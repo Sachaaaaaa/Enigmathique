@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import Course from 'models/course.model';
 
 /**
- * Récupère les classes du professeur connecté
+ * Récupère une classe du professeur connecté
  * @param {boolean} autoload 
  * @returns 
  */
