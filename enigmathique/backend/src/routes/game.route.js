@@ -22,6 +22,9 @@ module.exports = app => {
 	// Récupérer une partie à partir de son id
 	router.get("/:id", middleware.verifyToken, game.findOne, middleware.verifyErrors);
 
+	// Récupère tout les scores d'une partie
+	router.get("/score/:id", middleware.verifyToken, game.getScore, middleware.verifyErrors);
+
 	// Ouvre une partie (aux élèves)
 	router.post("/open/:id", middleware.verifyToken, game.open, middleware.verifyErrors);
 
