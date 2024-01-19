@@ -37,26 +37,32 @@ const ClassElement = ({student, onChange}) => {
 	
 	return (
 		<li key={student.id} value={student.firstname}
-				className='bg-gray-200 flex-col p-1 h-[250px] w-[250px] rounded-2xl drop-shadow-md'>
-			<section className='flex flex-col h-full space-y-1'>
-				<figure className="bg-amber-200 w-[100px] h-[100px] rounded-full mx-auto">
+				className='bg-gray-200 flex-col p-1 h-[200px] w-[200px] rounded-lg drop-shadow-md'>
+			<section className='flex flex-col justify-around items-center h-full space-y-1 primary-font-color'>
+				<div>
+				<figure className="bg-[#CECDFD] w-[80px] h-[80px] rounded-full mx-auto">
 				</figure>
-				<h3 className='w-40 mx-auto text-center'>
+				<h3 className='px-2 mx-auto text-center'>
 					{`${student.firstname} ${student.lastname}`}
 				</h3>
-				<div className="flex-grow"></div>
-				<div className="flex justify-center space-x-5 mt-auto">
+				</div>
+				<div className='space-x-3'>
+					<Link to='/'>
+						<button
+							title='Statistiques'
+							className='btn-utils btn-utils-course-student-stat p-2 '>
+							<IoIosStats size='1.25em'/>
+						</button>
+					</Link>
 					<button
-						className='btn-utils btn-utils-course-student-stat'>
-						<IoIosStats color='white' size='1.25em'/>
-					</button>
-					<button
-						className='btn-utils btn-utils-course-student-edit'
+						title='Modifier'
+						className='btn-utils btn-utils-course-student-edit p-2'
 						onClick={() => setEditModalOpen(true)}>
 						<MdOutlineModeEdit size='1.25em'/>
 					</button>
 					<button
-						className='btn-utils btn-utils-course-student-delete'
+						title='Supprimer'
+						className='btn-utils btn-utils-course-student-delete p-2'
 						onClick={() => setDeleteModalOpen(true)}>
 						<MdDeleteForever size='1.25em'/>
 					</button>
@@ -88,15 +94,15 @@ const ClassElement = ({student, onChange}) => {
 							className='form-inputfield-style  '/> 
 						</div>
 						<button
-							className='modal-cancel-button-style'
-							onClick={() => setEditModalOpen(false)}>
-							Annuler
-						</button>
-						<button
 							type='submit'
 							className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 							onClick={(event) => handleClickEdit(event, firstname, lastname, id, student.id)}>
 							Modifier
+						</button>
+						<button
+							className='modal-cancel-button-style'
+							onClick={() => setEditModalOpen(false)}>
+							Annuler
 						</button>
 					</form>
 				</ModalBody>
@@ -104,22 +110,22 @@ const ClassElement = ({student, onChange}) => {
 			{deleteModalOpen && (
 				<Modal setOpenModal={setDeleteModalOpen} width='250' height='250'>
 							<div className='w-full bg-white rounded-t-lg flex flex-col justify-center items-start border-b-2 box-border border-white-color'>
-								<h1 className='text-lg font-semibold primary-font-color text-center py-2 px-5'>Supprimer un élève</h1>
+								<h1 className='text-lg font-semibold primary-font-color py-2 px-5'>Supprimer un élève</h1>
 							</div>
 
 					<ModalBody>
 						<form className='flex flex-col space-y-2'>
-							<p className=' block text-sm text-justify font-medium mb-2 primary-font-color'>Êtes-vous sûr de vouloir supprimer {"l'élève"} {student.firstname} {student.lastname} ?</p>
-							<button
-								className='modal-cancel-button-style'
-								onClick={() => setDeleteModalOpen(false)}>
-								Annuler
-							</button>
+							<p className=' block text-sm text-center font-medium mb-2 primary-font-color'>Êtes-vous sûr de vouloir supprimer {"l'élève"} {student.firstname} {student.lastname} ?</p>
 							<button
 								type='submit'
 								className='modal-validate-button-style bg-[#ef4565] hover:bg-red-500'
 								onClick={(event) => handleClickDelete(event, student.id)}>
 								Supprimer
+							</button>
+							<button
+								className='modal-cancel-button-style'
+								onClick={() => setDeleteModalOpen(false)}>
+								Annuler
 							</button>
 						</form>
 					</ModalBody>
@@ -226,15 +232,15 @@ const ListStudents = (props) => {
 								className='form-inputfield-style  '/> 
 							</div>
 							<button
-								className='modal-cancel-button-style'
-								onClick={() => setCreateModalOpen(false)}>
-								Annuler
-							</button>
-							<button
 								type='submit'
 								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 								onClick={(event) => handleClickCreate(event, firstname, lastname, id)}>
 								Créer
+							</button>
+							<button
+								className='modal-cancel-button-style'
+								onClick={() => setCreateModalOpen(false)}>
+								Annuler
 							</button>
 						</form>
 					</ModalBody>
