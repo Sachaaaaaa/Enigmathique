@@ -5,10 +5,37 @@
 			"variables": {},
 			"answer": {
 				"type": "fixed",
-				"value": 1
+				"value": 4
 			},
 			"hint": "Regardez bien la recette !",
 			"endMessage": "Vous ouvrez le tirroir et vous récupérez l'ingrédient, au fond du tirroir vous trouvez un papier avec écrit dessus : g(x) = 2x"
+		},
+		{
+			"variables": {},
+			"answer": {
+				"type": "fixed",
+				"value": 43
+			},
+			"hint": "f(x) = g(x) <=> f(x) - g(x) = 0",
+			"endMessage": "Le coffre s'ouvre, un papier si trouve avec écrit dessus : Bien mélanger la potion pendant 60 seconde."
+		},
+		{
+			"variables":{},
+			"answer": {
+				"type": "fixed",
+				"value": 60
+			},
+			"hint": "La réponse a été donnée dans le coffre.",
+			"endMessage": "Vous attendez 60 seconde et vous récupérez une potion de 0.35 Litre."
+		},
+		{
+			"variables":{},
+			"answer": {
+				"type": "fixed",
+				"value": 300
+			},
+			"hint": "Lire l'antécédant.",
+			"endMessage": "Une fois la potion chauffée a 300 celsius, vous vous empressez de la boire."
 		}
 	]
 }
