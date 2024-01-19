@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import Modal, {ModalBody, ModalHeader} from '../Modal';
 import PropTypes from 'prop-types';
-import {MdArrowBackIos} from 'react-icons/md';
-import {FaPlus} from "react-icons/fa6";
-import {Link} from 'react-router-dom';
 import SearchInput from "../SearchInput";
 import Student from "../../models/student.model";
 import StudentElement from "./StudentElement";
 import ContentHeader from 'components/dashboard/ContentHeader';
+import CreateButton from 'components/dashboard/CreateButton';
 
 const ListStudents = (props) => {
 	
@@ -57,13 +55,8 @@ const ListStudents = (props) => {
 	return (
 		<>
 			<ContentHeader title="Liste des élèves" link='/class'>
-				<div className='flex justify-end gap-3 p-5 pr-0'>
 					<SearchInput handleChangeText={handleChangeText}/>
-					<button
-						className="btn-utils btn-utils-create"
-						onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Ajouter un élève</p>
-					</button>
-				</div>
+					<CreateButton title="Ajouter un élève" onClick={() => setCreateModalOpen(true)}/>
 			</ContentHeader> 
 
 			<ul className='flex flex-wrap gap-5 p-5 pb-5'>
