@@ -15,29 +15,18 @@ const TopBarProf = () => {
 	path.shift();
 
 	const [course, setCourse] = useState();
-	const [professor, setProfessor] = useState('unknown');
+	const [professor, setProfessor] = useState();
 	const classId = parseInt(path[1]);
 
 
-	/**
-	 * chargement de l'objet classe pour changer le nom en fonction de la classe
-	 */
-	const loadOneClass = async () => {
-		const data = await Course.get(classId);
-		setCourse(data);
-		console.log('L id de la classe est ' + data.id);
-	}
-
 	useEffect(() => {
-		const loadProfessor = async () => {
-			const data = await Professor.getCurrent();
-			setProfessor(data);
-			console.log('Le nom du prof est' + data.lastname);
+		const load = async () => {
+			setProfessor(await Professor.getCurrent());
+			if (path[0] === "class" && classId) {
+				setCourse(await Course.get(classId));
+			}
 		}
-		loadProfessor();
-		if (path[0] === "class" && classId){
-			loadOneClass();
-		}
+		load().then(r => console.log('Top bar data loaded'));
 	}, [path[1], classId]);
 
 	const textMap = {
@@ -54,8 +43,7 @@ const TopBarProf = () => {
 	if (path.length === 2) {
 		switch (path[0]) {
 			case "class":
-				text = course ? course.name : "Chargement...";
-				//faire requete sur api;
+				text = course ? course.id : "Chargement...";
 				break;
 			case "pregame":
 				text = "Validation des équipes"
@@ -73,12 +61,12 @@ const TopBarProf = () => {
 				<h1 className="primary-font-color text-2xl font-semibold py-5">{text}</h1>
 			</div>
 			<div className="flex flex-row items-center gap-2">
-				<Link to='/'onClick={handleLogout} className='p-2 rounded-full bg-[#E6EFF5]'>
+				<Link to='/' onClick={handleLogout} className='p-2 rounded-full bg-[#E6EFF5]'>
 						<MdLogout color="#807FF7"/>
 				</Link>
 				<div className="primary-font-color p-5 text-right text-xs">
-					<p>{professor.firstname}</p>
-					<p>{professor.lastname}</p>
+					<p>{professor ? professor.firstname : 'Loading...'}</p>
+					<p>{professor ? professor.lastname : 'Loading...'}</p>
 				</div>
 			</div>
 		</section>
