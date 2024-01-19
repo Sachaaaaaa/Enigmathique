@@ -3,7 +3,7 @@ import React from 'react';
 import ListStudents from '../components/student/ListStudents';
 import {useParams} from 'react-router-dom';
 
-function Class() {
+function Students() {
 	const {id} = useParams()
 	return (
 		<LayoutProf>
@@ -14,4 +14,4 @@ function Class() {
 	);
 }
 
-export default Class;
+export default Students;

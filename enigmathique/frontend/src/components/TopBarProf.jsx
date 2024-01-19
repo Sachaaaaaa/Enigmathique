@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {Link} from 'react-router-dom';
-import {IconContext} from 'react-icons';
 import { MdLogout } from "react-icons/md";
 import {useLocation} from "react-router-dom";
 import Course from "../models/course.model";

@@ -155,7 +155,7 @@ body::-webkit-scrollbar {
         @apply shadow appearance-none border rounded w-full h-fit py-2 px-3 primary-font-color leading-snug focus:outline-none ;
     }
     .form-button-style {
-        @apply w-full  hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none ;
+        @apply w-full  hover:bg-blue-700 text-white font-bold mt-2 py-2 rounded focus:outline-none ;
     }
 
     /**
@@ -244,26 +244,26 @@ body::-webkit-scrollbar {
         @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
     }
 
-    .btn-utils-course-student-edit {
+    .btn-utils-course-student-Modifier {
         @apply bg-[#FB7D5B]
     }
 
-    .btn-utils-course-student-edit:hover {
+    .btn-utils-course-student-Modifier:hover {
         @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
     }
-    .btn-utils-course-student-stat {
+    .btn-utils-course-student-Statistiques {
         @apply bg-[#4C49ED]
     }
 
-    .btn-utils-course-student-stat:hover {
+    .btn-utils-course-student-Statistiques:hover {
         @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
     }
 
-    .btn-utils-course-student-delete {
+    .btn-utils-course-student-Supprimer {
         @apply bg-[#EF4565]
     }
 
-    .btn-utils-course-student-delete:hover {
+    .btn-utils-course-student-Supprimer:hover {
         @apply bg-gradient-to-r from-[#F87A90] to-[#FF4565];
     }
 

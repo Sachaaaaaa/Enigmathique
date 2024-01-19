@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {MdArrowBackIos} from 'react-icons/md';
-import SearchInput from 'components/SearchInput';
 
 const ContentHeader = (props) => {
 

@@ -6,6 +6,8 @@ import Student from "../../models/student.model";
 import StudentElement from "./StudentElement";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import CreateButton from 'components/dashboard/CreateButton';
+import Textfield from 'components/authform/Textfield';
+import SubmitButton from 'components/authform/SubmitButton';
 
 const ListStudents = (props) => {
 	
@@ -68,45 +70,36 @@ const ListStudents = (props) => {
 				<Modal setOpenModal={setCreateModalOpen}>
 					<ModalHeader title="Ajouter un élève"/>
 					<ModalBody>
-					<form className='flex flex-col justify-center items-end w-full gap-3 '>
-						<div className='w-full pb-3'>
-							<label htmlFor='firstname' className='form-label-style primary-font-color'>
-								{"Prénom de l'élève"}
-							</label>
-							<input
-								type='text'
-								name='firstname'
-								id='firstname'
-								placeholder='Prénom'
-								onChange={(e) => setFirstname(e.target.value)}
-								className='form-inputfield-style  '/> 
-						</div>
-						<div className='w-full pb-3'>
-							<label htmlFor='lastname' className='form-label-style primary-font-color'>
-								{"Nom de l'élève"}
-							</label>
-							<input
-								type='text'
-								name='lastname'
-								id='lastname'
-								placeholder='Nom'
-								onChange={(e) => setLastname(e.target.value)}
-								className='form-inputfield-style  '/> 
-							</div>
-							<button
-								type='submit'
-								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
-								onClick={(event) => handleClickCreate(event, firstname, lastname, id)}>
-								Créer
-							</button>
-							<button
-								className='modal-cancel-button-style'
-								onClick={() => setCreateModalOpen(false)}>
-								Annuler
-							</button>
-						</form>
-					</ModalBody>
-				</Modal>)}
+
+					<form className='flex flex-col justify-center items-end w-full gap-1 '>
+						<Textfield
+							label="Prénom de l'élève"
+							placeholder="Prénom"
+							name="firstname"
+							value={firstname}
+							onChange={(e) => setFirstname(e.target.value)}
+						/>
+						<Textfield
+							label="Nom de l'élève"
+							placeholder="Nom"
+							name="lastname"
+							value={lastname}
+							onChange={(e) => setLastname(e.target.value)}
+						/>
+						<button
+							type='submit'
+							className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
+							onClick={(event) => handleClickCreate(event, firstname, lastname, id)}>
+							Créer
+						</button>
+						<button
+							className='modal-cancel-button-style'
+							onClick={() => setCreateModalOpen(false)}>
+							Annuler
+						</button>
+					</form>
+				</ModalBody>
+			</Modal>)}
 		</>
 	);
 }
