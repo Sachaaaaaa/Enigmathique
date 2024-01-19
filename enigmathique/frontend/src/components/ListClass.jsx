@@ -60,19 +60,18 @@ const ClassElement = ({classe, onChange}) => {
 	}
 
 
+
 	return (
 		// className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}
-		<tr key={classe.id} value={classe.name} className='border-t-[1px] border-[rgba(10, 6, 244, 0.2)]'>
+		<tr key={classe.id} value={classe.name} className='border-t-[1px] border-[#CECDFD]'>
 			<td className="pl-5 td-style">
 				{classe.name}
 			</td>
 			<td className="td-style">
-				<Link to={`/class/${classe.id}`}>
-					<button
-						className='btn-utils-see'>
+				<Link to={`/class/${classe.id}`} className='w-fit btn-utils-see'>
 						<IoPerson size='1em'/>
 						<p>Voir les élèves</p>
-					</button>
+
 				</Link>
 			</td>
 			<td className="td-style">
@@ -81,7 +80,7 @@ const ClassElement = ({classe, onChange}) => {
 
 			<td className="td-style text-right pr-5">
 			<div className='space-x-3'>
-				<Link to='/'>
+				<Link to='/' >
 					<button
 						title='Statistiques'
 						className='btn-utils btn-utils-course-student-stat p-2 '>
@@ -120,15 +119,15 @@ const ClassElement = ({classe, onChange}) => {
 								className='form-inputfield-style  '/> 
 							</div>
 							<button
-								className='modal-cancel-button-style'
-								onClick={() => setEditModalOpen(false)}>
-								Annuler
-							</button>
-							<button
 								type='submit'
 								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 								onClick={(event) => handleClickEdit(event, classe.id)}>
 								Modifier
+							</button>
+							<button
+								className='modal-cancel-button-style'
+								onClick={() => setEditModalOpen(false)}>
+								Annuler
 							</button>
 						</form>
 					</ModalBody>
@@ -137,18 +136,18 @@ const ClassElement = ({classe, onChange}) => {
 				<Modal setOpenModal={setDeleteModalOpen}>
 					<ModalHeader title={`Supprimer une classe`}/>
 					<ModalBody>
-						<form className='flex flex-col justify-center w-full gap-3'>
+						<form className='flex flex-col text-center w-full gap-3'>
 							<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la classe {classe.name} ?</p>
-							<button
-								className='modal-cancel-button-style'
-								onClick={() => setDeleteModalOpen(false)}>
-								Annuler
-							</button>
 							<button
 								type='submit'
 								className='modal-validate-button-style bg-[#ef4565] hover:bg-red-500'
 								onClick={(event) => handleClickDelete(event, classe.id)}>
 								Supprimer
+							</button>
+							<button
+								className='modal-cancel-button-style'
+								onClick={() => setDeleteModalOpen(false)}>
+								Annuler
 							</button>
 						</form>
 					</ModalBody>
@@ -225,15 +224,15 @@ const ListClass = () => {
 								className='form-inputfield-style  '/> 
 							</div>
 							<button
-								className='modal-cancel-button-style'
-								onClick={() => setCreateModalOpen(false)}>
-								Annuler
-							</button>
-							<button
 								type='submit'
 								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 								onClick={(event) => handleClickCreate(event)}>
 								Créer
+							</button>
+							<button
+								className='modal-cancel-button-style'
+								onClick={() => setCreateModalOpen(false)}>
+								Annuler
 							</button>
 						</form>
 					</ModalBody>
