@@ -184,13 +184,22 @@ class CompositionSession {
 
 		// Envoie la composition à l'API
 		const response = await ApiService.postTeamsComposition(this.sessionId, teams);
-		
+		// [ { id: 4, name: 'AA', idGame: 8, idSocket: 'gK0IZqZQXy0QCKdsAAAF' } ]
+
+		// Envoyer début de partie aux élèves avec leur teamId
+		// Itère les équipes dans la réponse
+		for (const team of response) {
+			const teamSocket = this.teamSockets.find((t) => t.socket.id === team.idSocket);
+			if (teamSocket) {
+				teamSocket.sendSessionStart(team.id);
+			}
+		}
 
 		// TODO: Faire autre chose si la requête a échouée
 		
+
 		// Pour l'instant on considère que ça a marché
 		// Informe les clients que la session a été lancée
-		this.teamSockets.forEach((t) => t.sendSessionStart());
 		this.professorSockets.forEach((p) => p.sendSessionStart());
 	}
 }

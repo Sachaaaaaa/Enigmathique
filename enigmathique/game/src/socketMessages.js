@@ -50,7 +50,7 @@ const ClientToServer = {
 	// Professeur
 	ValidateTeam: 'validateTeam', // + {teamId: int}
 	RefuseTeam: 'refuseTeam', // + {teamId: int}
-	FinishComposition: 'finishComposition', // { }
+	FinishComposition: 'finishComposition', // { teamId: int }
 };
 
 // Types de connexion
