@@ -93,9 +93,10 @@ const GameElem = (props) => {
 				<h3 className='small-title'>Taux de réussite</h3>
 				<p className='small-text'>{getWinRate()} %</p>
 			</article>
-			<Link to='' className='col-span-2 btn-show'>
-				Voir
-			</Link>
+			{game.state === 2 ?
+				<Link to={'./Ranking/'+game.id} className="text-blue-600 hover:text-blue-800">Voir</Link> :
+				<span className="text-blue-600 hover:text-blue-800">Partie non terminée</span>
+			}
 		</article>
 	)
 }
