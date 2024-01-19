@@ -57,20 +57,26 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 
 	return (
 		<Html>
-			<div className="absolute translate-y-[-50%] top-1/2 left-1/2 p-4 bg-white rounded-md flex flex-col items-center">
+			<div className="absolute translate-y-[-50%] top-1/2 left-1/2 p-4 w-72 bg-white rounded-md flex flex-col">
+
+				<button onClick={closeEnigma}
+					style={{
+						display: 'flex',
+						justifyContent: 'space-around',
+						alignItems: 'center',
+						background: '#ff6666',
+						padding: '8px',
+						borderRadius: '8px',
+						width: '9vw',
+						marginBottom: '10px',
+					}}>
+					<IoIosCloseCircle /> Fermer
+				</button>
 
 				{enigmaDisplayTemplate(variables, enigmaState.hint, submitAnswer, askHint)}
 
 				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
-				<button onClick={closeEnigma} className="mt-3"
-					style={{
-						background: '#ff6666',
-						padding: '8px',
-						borderRadius: '8px',
-						width: '12vw',
-					}}>
-					<IoIosCloseCircle/>
-				</button>
+
 			</div>
 		</Html>
 	);
