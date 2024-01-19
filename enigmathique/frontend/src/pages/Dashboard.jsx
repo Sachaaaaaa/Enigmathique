@@ -11,39 +11,22 @@ import Course from '../models/course.model';
 import RoomService from "../services/room.service";
 import Game from "../models/game.model";
 import RoomModel from "../models/room.model";
+import useCourses from "../hooks/useCourses";
+import useGames from "../hooks/useGames";
 
 
 const Dashboard = () => {
 
-	// Ajout d'un état pour avoir les classes
-	const [courses, setCourses] = useState([]);
-	// Ajout d'un état pour avoir les parties
-	const [games, setGames] = useState([]);
-	// Ajout d'un état pour avoir les rooms
-	const [rooms, setRooms] = useState([]);
+	const [courses] = useCourses();
+	const [games] = useGames();
+	const [rooms] = useGames();
+
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
 	// Ajout d'un état pour suivre l'indice de la classe actuelle
 	const [currentClassIndex, setCurrentClassIndex] = useState(0);
 
-	const loadClasses = async () => {
-		const data = await Course.getAll();
-		setCourses(data);
-	}
 
-	const loadRooms = async() => {
-		const data = await RoomModel.getAll();
-		setRooms(data);
-	}
-	const loadGames = async () => {
-		const data = await Game.getAll();
-		setGames(data);
-	}
-	useEffect(() => {
-		loadClasses();
-		loadGames();
-		loadRooms();
-	}, []);
 
 	useEffect(() => {
 		roomSelection();
@@ -51,8 +34,6 @@ const Dashboard = () => {
 
 	// Choix des salles à afficher
 	const roomSelection = () => {
-		//TODO: régler le problème de chargement
-		console.log(rooms);
 		if(rooms.length > 2) {
 			let max = rooms.length - 1;
 			let roomSelect = [];

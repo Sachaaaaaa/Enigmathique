@@ -40,33 +40,33 @@ const Games = () => {
 	}, [filter, games]);
 	return (
 		<LayoutProf>
-			<main className="p-8 h-[90%]">
+			<main className=" h-screen main-background-color overflow-x-hidden">
 				<nav className="flex flex-row justify-end w-full">
 					<SearchInput handleChangeText={handleTextChange}/>
 				</nav>
-				<table className="overflow-y-scroll h-full w-full block">
-					<thead className="w-full">
-					<tr className="sticky top-0 bg-white z-10">
-						<th className="px-6 py-4 text-left">Nom</th>
-						<th className="px-6 py-4 text-left">Date</th>
-						<th className="px-6 py-4 text-left">Score</th>
-						<th className="px-6 py-4 text-left">Taux de réussite</th>
-						<th className="px-6 py-4 text-left">Nombre de salles</th>
-						<th className="px-6 py-4 text-center">Action</th>
+				<table className="w-full min-w-[550px] primary-font-color ">
+				<thead className='w-full '>
+					<tr className=" w-full text-left">
+						<th className="pl-5 table-title ">Nom</th>
+						<th className="table-title">Date</th>
+						<th className="table-title">Score</th>
+						<th className="table-title">Taux de réussite</th>
+						<th className="table-title">Nombre de salles</th>
+						<th className="table-title text-right pr-5">Action</th>
 					</tr>
-					</thead>
-					<tbody className="w-full">
+				</thead>
+				<tbody>
 					{filteredGames.map((game, index) => {
 						return (
-							<tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-								<td className="px-6 py-4 whitespace-nowrap small-text">
+							<tr key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
+								<td className="pl-5 td-style">
 									{game.name}
 								</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">{game.createdAt.toLocaleString()}</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">--</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">--%</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">--</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">
+								<td className="td-style">{game.createdAt.toLocaleString()}</td>
+								<td className="td-style">--</td>
+								<td className="td-style">--%</td>
+								<td className="td-style">--</td>
+								<td className="td-style">
 									<div className="flex flex-row justify-evenly">
 										<button
 											className={`${game.state !== 3 ? 'bg-[#e0aa00]' : 'bg-[#fcc43e]'} w-10 h-10 rounded-full`}
