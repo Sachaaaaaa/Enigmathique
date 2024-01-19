@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import Modal, {ModalBody, ModalHeader} from '../Modal';
 import PropTypes from 'prop-types';
-import {MdArrowBackIos} from 'react-icons/md';
-import {FaPlus} from "react-icons/fa6";
-import {Link} from 'react-router-dom';
 import SearchInput from "../SearchInput";
 import Student from "../../models/student.model";
 import StudentElement from "./StudentElement";
+import ContentHeader from 'components/dashboard/ContentHeader';
+import CreateButton from 'components/dashboard/CreateButton';
 
 const ListStudents = (props) => {
 	
@@ -55,22 +54,11 @@ const ListStudents = (props) => {
 	
 	return (
 		<>
-
-			<nav className='flex flex-row flex-grow justify-between w-full p-5 primary-font-color'>
-				<div className='flex items-center font-semibold text-lg'>
-					<Link to='/class' className='m-auto p-1'>
-						<MdArrowBackIos size='1em'/>
-					</Link>
-					<p className='my-auto'>Liste des élèves</p>
-				</div>
-				<div className='flex justify-end gap-3 p-5 pr-0'>
+			<ContentHeader title="Liste des élèves" link='/class'>
 					<SearchInput handleChangeText={handleChangeText}/>
-					<button
-						className="btn-utils btn-utils-create"
-						onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Ajouter un élève</p>
-					</button>
-				</div>
-			</nav>
+					<CreateButton title="Ajouter un élève" onClick={() => setCreateModalOpen(true)}/>
+			</ContentHeader> 
+
 			<ul className='flex flex-wrap gap-5 p-5 pb-5'>
 				{filteredStudents.map((student) => (
 					<StudentElement key={student.id} student={student} onChange={() => loadStudents()}/>

@@ -146,7 +146,7 @@ body::-webkit-scrollbar {
 
     /** Formulaires **/
     .form-container-style {
-        @apply p-5 flex justify-center h-[calc(100%-75px)] min-w-[500px] min-h-[600px] items-center main-background-color ;
+        @apply p-5 flex flex-col justify-center items-center h-[calc(100%-75px)] min-h-[600px] w-screen;
     }
     .form-label-style {
         @apply block text-sm font-bold mb-2 ;
@@ -189,49 +189,6 @@ body::-webkit-scrollbar {
         .modal-student-input-style {
             @apply  h-[30px] text-sm ;
         }
-    /**
-    * Bouton valider
-     */
-    .btn-validate{
-        @apply primary-gradient-color text-white font-semibold uppercase rounded-[8px] whitespace-normal p-4;
-    }
-
-    .btn-validate:hover {
-        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
-    }
-
-    /**
-    * Bouton annuler
-     */
-    .btn-cancel {
-        @apply bg-[#ef4565] text-white text-xl font-bold p-4 rounded whitespace-normal;
-    }
-
-    .btn-cancel:hover {
-        @apply bg-red-500;
-    }
-
-    /**
-    * Bouton Supprimer
-     */
-    .btn-delete {
-        @apply bg-red-800 text-white font-bold py-2 px-4 rounded;
-    }
-
-    .btn-delete:hover {
-        @apply bg-red-600;
-    }
-
-    /**
-    * Bouton modifier
-     */
-    .btn-edit {
-        @apply bg-amber-500 text-white font-bold py-2 px-4 rounded;
-    }
-
-    .btn-delete:hover {
-        @apply bg-amber-300;
-    }
 
 
     /**

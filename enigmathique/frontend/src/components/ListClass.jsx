@@ -9,7 +9,7 @@ import Course from "../models/course.model";
 import { IoIosStats } from "react-icons/io";
 import Game from "../models/game.model";
 
-const ClassElement = ({classe, onChange}) => {
+const ClassElement = ({classe, onChange,index}) => {
 
 	const [gamesOf, setGamesOf] = useState([]);
 
@@ -63,7 +63,7 @@ const ClassElement = ({classe, onChange}) => {
 
 	return (
 		// className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}
-		<tr key={classe.id} value={classe.name} className='border-t-[1px] border-[#CECDFD]'>
+		<tr value={classe.name} key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
 			<td className="pl-5 td-style">
 				{classe.name}
 			</td>
@@ -207,10 +207,10 @@ const ListClass = () => {
 					</tr>
 				</thead>
 				<tbody>
-				</tbody>
-				{courses.map((classe) => (
-					<ClassElement key={classe.id} classe={classe} onChange={() => loadClasses()}/>
+				{courses.map((classe,index) => (
+					<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadClasses()}/>
 				))}
+				</tbody>
 			</table>
 
 			{createModalOpen && (
@@ -251,6 +251,7 @@ const ListClass = () => {
 ClassElement.propTypes = {
 	classe: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
+	index: PropTypes.number.isRequired,
 }
 
 export default ListClass;

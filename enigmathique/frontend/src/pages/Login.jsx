@@ -3,6 +3,9 @@ import {Link} from 'react-router-dom';
 import AuthService from '../services/auth.service';
 import AuthHeader from 'components/AuthHeader';
 
+import Textfield from 'components/authform/Textfield';
+import Passwordfield from 'components/authform/Passwordfield'; 
+import SubmitButton from 'components/authform/SubmitButton';
 
 const Login = () => {
 	const [username, setUsername] = useState('');
@@ -40,68 +43,31 @@ const Login = () => {
 
 
 	return (
-		<div className='h-screen w-screen'>
+		<div className='h-screen w-screen main-background-color '>
 			<AuthHeader title="Connexion"/>
 			<div className='form-container-style'>
 				<div className='w-full max-w-md'>
 					<form
 						onSubmit={handleLogin}
-						className='flex flex-col items-center justify-between bg-white primary-font-color shadow-md rounded p-8 pb-0 mb-4'
+						className='min-w-[450px] flex flex-col items-center justify-between bg-white primary-font-color shadow-md rounded p-8 pb-0'
 					>
-						<div className='mb-4 w-full'>
-							<label
-								className='form-label-style'
-								htmlFor='username'>
-								Email
-							</label>
-							<input
-								type='text'
-								id='username'
-								name='username'
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
-								placeholder='Votre adresse mail'
-								className='form-inputfield-style'
-								required
-							/>
-						</div>
-						<div className='mb-4  w-full'>
-							<label
-								className='form-label-style'
-								htmlFor='password'
-							>
-								Mot de passe
-							</label>
-							<div className='relative'>
-								<input
-									type={showPassword ? 'text' : 'password'}
-									id='password'
-									name='password'
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-									placeholder='Votre mot de passe'
-									className='form-inputfield-style'
-									required/>
-								<button
-									className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
-									onMouseDown={() => setShowPassword(true)}
-									onMouseUp={() => setShowPassword(false)}
-									type="button"
-								>
-									{showPassword ? 'Hide' : 'Show'} Password
-								</button>
-							</div>
-						</div>
-						<button
-							className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold mt-2 py-2 rounded focus:outline-none'
-							type='submit'
-							disabled={loading}
-						>
-							{loading && (
-								<span className='spinner-border spinner-border-sm'></span>
-							)}
-							<span>Se connecter</span>
-						</button>
+						<Textfield 
+							label='Email'
+							placeholder='Votre adresse mail'
+							name='username'
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
+						/>
+						<Passwordfield 
+							label='Mot de passe'
+							name='password'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+						<SubmitButton 
+							text='Se connecter'
+							loading={loading}
+						/>
 						{message && (
 							<div className='text-red-500 text-xs mt-2'>{message}</div>
 						)}

@@ -190,43 +190,18 @@ exports.addStudents = async (req, res, next) => {
 /////////////////////////////////////////////////////////////////////////////////
 
 // Récupère les équipes d'une partie
-exports.findAll = async (req, res) => {
-
-	// Vérifie que la partie appartient bien au professeur
-	const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-	if (!isBelongsToProfessor) {
-		return res.status(403).json({
-			message: "Vous n'avez pas accès à cette partie."
-		});
-	}
-		
-	let coursesId = [];
-
+exports.findAll = async (req, res, next) => {
 	try{
 
-		// Récupérer toutes les équipe de la partie grâce à la table score
-		const scores = await Score.findAll({ where: { idGame: req.params.id } })
-		gamesId = scores.map(game => game.dataValues.idTeam);
-			
+		// Récupère toutes les équipe d'une partie
+		const teams = await Team.findAll({ where: { idGame: req.params.id } })
+
+		// Renvoie les données récupérées
+		return res.status(200).json(teams);
 
 	// Gère les erreurs
-	}catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-		});
-	}	
-
-	try {
-		// Pour chaque id de team, la récupérer dans la table team
-		const teamsData = await Team.findAll({ where: { id: { [Op.in]: gamesId } } });
-
-		return res.status(200).json(teamsData);
-
-	// Gère les erreurs
-	} catch (err) {
-		return res.status(500).json({
-		message: err.message || "Une erreur s'est produite lors de la récupération des jeux."
-		});
+	} catch(err) {
+		next(err)
 	}
 		  
 	
@@ -415,7 +390,7 @@ exports.removeStudent = async (req, res) => {
 // [[{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}], [{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}]]
 // Accepte une équipe à une partie
 exports.addScores = async(req, res, next) => {
-	console.log(req.body)
+	
 	let result = []
 
 	try{
@@ -452,7 +427,7 @@ exports.addScores = async(req, res, next) => {
 				// Vérifie que toutes les infos sont présentes
 				if (teamId == null || roomName == null || time == null || nbGoodAnswers == null || nbBadAnswers == null || nbHints == null || isSolved == null) {
 					const error = new Error("Il manque des informations pour ajouter des scores (données Room).");
-					error.statusCode = 400;  
+					error.statusCode = 400;
 					throw error;
 				}
 
@@ -464,12 +439,13 @@ exports.addScores = async(req, res, next) => {
 					nbGoodAnswers: nbGoodAnswers,
 					nbBadAnswers: nbBadAnswers,
 					nbHints: nbHints,
-					//isSolved: isSolved 
+					//isSolved: isSolved
 				}
 
 				result.push(await Score.create(scoresData))
 			}
 		}
+
 		res.status(201).json(result);
 
 	} catch(err) {

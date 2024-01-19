@@ -43,7 +43,7 @@ const TopBarProf = () => {
 	if (path.length === 2) {
 		switch (path[0]) {
 			case "class":
-				text = course ? course.id : "Chargement...";
+				text = course ? course.name : "Chargement...";
 				break;
 			case "pregame":
 				text = "Validation des équipes"
