@@ -66,6 +66,18 @@ class GameSession {
 		return teamsProgress;		
 	}
 
+	// Car il faut un truc spécial pour l'api spéciale de Sasha :)
+	getSessionDataForSasha = () => {
+		const sessionData = {idGame: this.sessionId, scores: []};
+
+		this.teams.forEach(team => {
+			const teamData = {idTeam: team.teamId, rooms: team.getProgressionData()};
+			
+			sessionData.scores.push(teamData);
+		});
+
+		return sessionData;
+	}
 	/**
 	 * 
 	 * @returns {Object} Informations de la session
@@ -173,7 +185,7 @@ class GameSession {
 	 * Fin de la session
 	 * Vérifie si la session se termine normalement ou si elle est arrêtée
 	 */
-	stopSession = () => {
+	stopSession = async() => {
 		console.log(clc.yellow('[Session] Fin de la session'));
 		this.isSessionRunning = false;
 
@@ -192,13 +204,14 @@ class GameSession {
 		console.log(clc.greenBright('[Session] Fin de la session normale'));
 
 		// Recupère les informations de progression de chaque équipe
-		const teamsProgress = this.getTeamsProgress();
+		const teamsProgress = this.getSessionDataForSasha();
 
 
 		console.log(teamsProgress);
 
 		// Envoie à l'API
-		ApiService.postTeamsScore(this.sessionId, teamsProgress);
+		const response = await ApiService.postTeamsScore(teamsProgress);
+		console.log(response);
 
 		this.game.onSessionEnd(this.sessionId);
 	}

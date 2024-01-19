@@ -18,6 +18,15 @@ module.exports = (sequelize, Sequelize) => {
             onUpdate: 'CASCADE', // si mise à jour de la clé primaire référencée on fait en cascade
 			onDelete: 'CASCADE', // si suppression de la clé primaire référencée on mets à NULL
           },
+				idGame: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					references: {
+						model: 'game',
+						key: 'id'
+					}
+				},
+				
 
     }, { // Options
         freezeTableName: true, // Ne pas mettre de 's' à la fin du nom de la table

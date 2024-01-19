@@ -22,7 +22,7 @@ class CompositionSession {
 
 	fetchStudents = async() => {
 		// Récupére les élèves disponibles depuis l'API
-		this.students = await ApiService.getStudentsFromId(this.sessionId);
+		this.students = await ApiService.getStudentsFromGameId(this.sessionId);
 		// Resync tout si quelqu'un se connecte avant que les élèves soient récupérés
 		this.resyncAll();
 	};
@@ -171,7 +171,7 @@ class CompositionSession {
 	 * (Redirige vers la page de jeu)
 	 * @returns {boolean} true si la session a été lancée
 	 */
-	finishComposition = () => {
+	finishComposition = async() => {
 		// TODO: Faire la vérification
 		// if (!this.areTeamsLegals()) {
 		// 	return false;
@@ -183,8 +183,8 @@ class CompositionSession {
 		console.log(teams);
 
 		// Envoie la composition à l'API
-		const response = ApiService.postTeamsComposition(this.sessionId, teams);
-		// { .. }
+		const response = await ApiService.postTeamsComposition(this.sessionId, teams);
+		
 
 		// TODO: Faire autre chose si la requête a échouée
 		
