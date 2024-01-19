@@ -180,24 +180,23 @@ const ListStudents = (props) => {
 	
 	return (
 		<>
-			<div className='flex justify-end gap-3 p-5'>
-				<SearchInput handleChangeText={handleChangeText}/>
-				<button
-					className="btn-utils btn-utils-create"
-					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Ajouter un élève</p>
-				</button>
-			</div>
-			<nav className='flex flex-row justify-end w-full p-5 gap-12'>
-				<Link to='/class' className='mr-auto'>
-					<button
-						className="h-full p-1">
-						<MdArrowBackIos size='1em'/>
-					</button>
-				</Link>
-				<p>Élèves</p>
 
+			<nav className='flex flex-row flex-grow justify-between w-full p-5 primary-font-color'>
+				<div className='flex items-center font-semibold text-lg'>
+					<Link to='/class' className='m-auto p-1'>
+						<MdArrowBackIos size='1em'/>
+					</Link>
+					<p className='my-auto'>Liste des élèves</p>
+				</div>
+				<div className='flex justify-end gap-3 p-5 pr-0'>
+					<SearchInput handleChangeText={handleChangeText}/>
+					<button
+						className="btn-utils btn-utils-create"
+						onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Ajouter un élève</p>
+					</button>
+				</div>
 			</nav>
-			<ul className='flex flex-wrap gap-6 p-5'>
+			<ul className='flex flex-wrap gap-5 p-5 pb-5'>
 				{filteredStudents.map((student) => (
 					<StudentElement key={student.id} student={student} onChange={() => loadStudents()}/>
 				))}
