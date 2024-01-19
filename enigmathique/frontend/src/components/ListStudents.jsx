@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import Modal, {ModalBody, ModalHeader} from './Modal';
 import PropTypes from 'prop-types';
 import {MdDeleteForever, MdOutlineModeEdit, MdArrowBackIos} from 'react-icons/md';
-import {ImStatsDots} from 'react-icons/im';
+import { IoIosStats } from "react-icons/io";
 import {FaPlus} from "react-icons/fa6";
 import {Link} from 'react-router-dom';
-import {FaSearch} from "react-icons/fa";
+import SearchInput from "./SearchInput";
 import Student from "../models/student.model";
 
-const ClassElement = ({student, onChange}) => {
+const StudentElement = ({student, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [firstname, setFirstname] = useState('');
@@ -37,87 +37,95 @@ const ClassElement = ({student, onChange}) => {
 	
 	return (
 		<li key={student.id} value={student.firstname}
-				className='bg-gray-200 flex-col space-y-3 m-3  p-1 h-[250px] w-[250px] rounded-2xl drop-shadow-md'>
-			<section className='flex flex-col h-full space-y-1'>
-				<figure className="bg-amber-200 w-[100px] h-[100px] rounded-full mx-auto">
+				className='bg-white flex-col p-2 h-[220px] w-[220px] rounded-lg drop-shadow-md'>
+			<section className='flex flex-col justify-around items-center h-full space-y-1 primary-font-color'>
+				<div>
+				<figure className="bg-[#CECDFD] w-[80px] h-[80px] rounded-full mx-auto">
 				</figure>
-				<h3 className='w-40 mx-auto text-center'>
+				<h3 className='px-2 mx-auto text-center'>
 					{`${student.firstname} ${student.lastname}`}
 				</h3>
-				<div className="flex-grow"></div>
-				<div className="flex justify-center space-x-5 mt-auto">
+				</div>
+				<div className='space-x-3'>
+					<Link to='/'>
+						<button
+							title='Statistiques'
+							className='btn-utils btn-utils-course-student-stat p-2 '>
+							<IoIosStats size='1.25em'/>
+						</button>
+					</Link>
 					<button
-						className='btn-utils btn-utils-course-student-stat'>
-						<ImStatsDots color='white' size='1.5em'/>
-					</button>
-					<button
-						className='btn-utils btn-utils-course-student-edit'
+						title='Modifier'
+						className='btn-utils btn-utils-course-student-edit p-2'
 						onClick={() => setEditModalOpen(true)}>
-						<MdOutlineModeEdit size='1.5em'/>
+						<MdOutlineModeEdit size='1.25em'/>
 					</button>
 					<button
-						className='btn-utils btn-utils-course-student-delete'
+						title='Supprimer'
+						className='btn-utils btn-utils-course-student-delete p-2'
 						onClick={() => setDeleteModalOpen(true)}>
-						<MdDeleteForever size='1.5em'/>
+						<MdDeleteForever size='1.25em'/>
 					</button>
 				</div>
 			</section>
 			{editModalOpen && (
 				<Modal setOpenModal={setEditModalOpen}>
-					<ModalHeader>
-						<h1 className='text-3xl text-center'>{`Modifier l'élève ${student.firstname} ${student.lastname}`}
-						</h1>
-					</ModalHeader>
-					<ModalBody>
-						<form className='flex flex-col space-y-5'>
-							<label htmlFor='firstname'>Prénom</label>
-							<input
-								type='text'
-								name='firstname'
-								id='firstname'
-								defaultValue={student.firstname}
+					<div className='w-full bg-white rounded-t-lg flex flex-col justify-center items-start border-b-2 box-border border-white-color'>
+						<h1 className='text-normal font-semibold primary-font-color text-center py-2 px-5'>Modifier un élève</h1>
+					</div>
+				<ModalBody>
+				<form className='flex flex-col justify-between w-full gap-2'>
+						<div className='w-full pb-[2px]'>
+						<input
+							type='text'
+							name='firstname'
+							id='firstname'
+							defaultValue={student.firstname}
 								onChange={(e) => setFirstname(e.target.value)}
-								className='border-2 border-blue-900 rounded-md'/>
-							<label htmlFor='lastname'>Nom</label>
-							<input
-								type='text'
-								name='lastname'
-								id='lastname'
-								defaultValue={student.lastname}
-								onChange={(e) => setLastname(e.target.value)}
-								className='border-2 border-blue-900 rounded-md'/>
-							<button
-								className='btn-delete'
-								onClick={() => setEditModalOpen(false)}>
-								Annuler
-							</button>
+							className='form-inputfield-style modal-student-input-style '/> 
+						</div>
+						<div className='w-full pb-[2px]'>
+						<input
+							type='text'
+							name='lastname'
+							id='lastname'
+							defaultValue={student.lastname}
+							onChange={(e) => setLastname(e.target.value)}
+							className='form-inputfield-style modal-student-input-style '/> 
+						</div>
+						<button
+							type='submit'
+							className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-student-button-style'
+							onClick={(event) => handleClickEdit(event, firstname, lastname, id, student.id)}>
+							Modifier
+						</button>
+						<button
+							className='modal-cancel-button-style modal-student-button-style'
+							onClick={() => setEditModalOpen(false)}>
+							Annuler
+						</button>
+					</form>
+				</ModalBody>
+			</Modal>)}
+			{deleteModalOpen && (
+				<Modal setOpenModal={setDeleteModalOpen} width='250' height='250'>
+					<div className='w-full bg-white rounded-t-lg flex flex-col justify-center items-start border-b-2 box-border border-white-color'>
+						<h1 className='text-normal font-semibold primary-font-color text-center py-2 px-5'>Supprimer un élève</h1>
+					</div>
+
+					<ModalBody>
+						<form className='flex flex-col space-y-2'>
+							<p className=' block text-sm text-center font-medium mb-2 primary-font-color'>Êtes-vous sûr de vouloir supprimer {"l'élève"} {student.firstname} {student.lastname} ?</p>
 							<button
 								type='submit'
-								className='btn-validate'
-								onClick={(event) => handleClickEdit(event, firstname, lastname, id, student.id)}>
-								Valider la modification
+								className='modal-validate-button-style bg-[#ef4565] hover:bg-red-500 modal-student-button-style'
+								onClick={(event) => handleClickDelete(event, student.id)}>
+								Supprimer
 							</button>
-						</form>
-					</ModalBody>
-				</Modal>)}
-			{deleteModalOpen && (
-				<Modal setOpenModal={setDeleteModalOpen} height='300'>
-					<ModalHeader>
-						<h1 className='text-3xl text-center'>{`Voulez vous vraiment surpprimer
-										l'élève ${student.firstname} ${student.lastname}`}</h1>
-					</ModalHeader>
-					<ModalBody>
-						<form className='flex flex-col space-y-5'>
 							<button
-								className='btn-delete'
+								className='modal-cancel-button-style modal-student-button-style'
 								onClick={() => setDeleteModalOpen(false)}>
 								Annuler
-							</button>
-							<button
-								type='submit'
-								className='btn-validate'
-								onClick={(event) => handleClickDelete(event, student.id)}>
-								Valider la suppression
 							</button>
 						</form>
 					</ModalBody>
@@ -172,61 +180,67 @@ const ListStudents = (props) => {
 	
 	return (
 		<>
+			<div className='flex justify-end gap-3 p-5'>
+				<SearchInput handleChangeText={handleChangeText}/>
+				<button
+					className="btn-utils btn-utils-create"
+					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Ajouter un élève</p>
+				</button>
+			</div>
 			<nav className='flex flex-row justify-end w-full p-5 gap-12'>
 				<Link to='/class' className='mr-auto'>
 					<button
-						className="btn-back h-full">
-						<MdArrowBackIos size='1.5em'/>
-						<p>Élèves</p>
+						className="h-full p-1">
+						<MdArrowBackIos size='1em'/>
 					</button>
 				</Link>
-				<section className='flex flex-row items-center justify-center bg-white rounded-full p-4 gap-2 shadow'>
-					<FaSearch color="#0a06f4"/>
-					<input
-						type='text'
-						placeholder='Rechercher'
-						onChange={handleChangeText}
-						className="focus:border-transparent"
-					/>
-				</section>
-				<button
-					className="btn-utils btn-utils-course-student-icons"
-					onClick={() => setCreateModalOpen(true)}><FaPlus size='1.5em'/>
-					<p>Ajouter un élève</p>
-				</button>
+				<p>Élèves</p>
+
 			</nav>
-			<ul className='bg-blue-300 flex flex-wrap p-5'>
+			<ul className='flex flex-wrap gap-6 p-5'>
 				{filteredStudents.map((student) => (
-					<ClassElement key={student.id} student={student} onChange={() => loadStudents()}/>
+					<StudentElement key={student.id} student={student} onChange={() => loadStudents()}/>
 				))}
 			</ul>
 			{createModalOpen && (
 				<Modal setOpenModal={setCreateModalOpen}>
-					<ModalHeader>
-						<h1 className='text-3xl text-center'>Ajouter un élève {id}</h1>
-					</ModalHeader>
+					<ModalHeader title="Ajouter un élève"/>
 					<ModalBody>
-						<form className=' flex flex-col space-y-5'>
-							<label htmlFor='firstname'>Prénom</label>
+					<form className='flex flex-col justify-center items-end w-full gap-3 '>
+						<div className='w-full pb-3'>
+							<label htmlFor='firstname' className='form-label-style primary-font-color'>
+								{"Prénom de l'élève"}
+							</label>
 							<input
 								type='text'
 								name='firstname'
 								id='firstname'
-								value={firstname} onChange={(e) => setFirstname(e.target.value)}
-								className='border-2 border-blue-900 rounded-md'/>
-							<label htmlFor='lastname'>Nom</label>
+								placeholder='Prénom'
+								onChange={(e) => setFirstname(e.target.value)}
+								className='form-inputfield-style  '/> 
+						</div>
+						<div className='w-full pb-3'>
+							<label htmlFor='lastname' className='form-label-style primary-font-color'>
+								{"Nom de l'élève"}
+							</label>
 							<input
 								type='text'
 								name='lastname'
 								id='lastname'
-								value={lastname} onChange={(e) => setLastname(e.target.value)}
-								className='border-2 border-blue-900 rounded-md'/>
-							<button className='btn-delete' onClick={() => setCreateModalOpen(false)}>Annuler</button>
+								placeholder='Nom'
+								onChange={(e) => setLastname(e.target.value)}
+								className='form-inputfield-style  '/> 
+							</div>
 							<button
 								type='submit'
-								className='btn-validate'
+								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
 								onClick={(event) => handleClickCreate(event, firstname, lastname, id)}>
-								Valider la modification
+								Créer
+							</button>
+							<button
+								className='modal-cancel-button-style'
+								onClick={() => setCreateModalOpen(false)}>
+								Annuler
 							</button>
 						</form>
 					</ModalBody>
@@ -238,7 +252,7 @@ ListStudents.propTypes = {
 	id: PropTypes.number.isRequired,
 }
 
-ClassElement.propTypes = {
+StudentElement.propTypes = {
 	student: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 }

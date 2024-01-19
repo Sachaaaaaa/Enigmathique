@@ -52,9 +52,12 @@ class GameManager {
 					sessionRooms.push(roomData);
 				}
 			});
+			// Recupère les équipes de la session
+			const sessionTeams = await ApiService.getTeamsFromId(sessionId);
+			// Recupère l'id des équipes attendues
+			const expectedTeams = sessionTeams.map(team => team.id);
 
-
-			this.sessions[sessionId] = new Session(this, sessionId, [1], sessionRooms);
+			this.sessions[sessionId] = new Session(this, sessionId, expectedTeams, sessionRooms);
 			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));
 		}
 

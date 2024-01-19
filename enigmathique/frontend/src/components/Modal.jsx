@@ -12,7 +12,7 @@ function ModalHeader({title}) {
 
 function ModalBody({children}) {
 	return (
-		<div className='w-full h-full p-5'>
+		<div className='w-full h-full px-5 py-4'>
 			{children}
 		</div>
 	);

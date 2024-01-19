@@ -50,6 +50,9 @@ module.exports = app => {
 	// Récupérer les rooms d'une à partir de son id
 	router.get("/rooms/:id", middleware.verifyGameToken, game.getRooms, middleware.verifyErrors);
 
+	// Récupérer les équipes d'une partie à partir de son id
+	router.get("/teams/:id", middleware.verifyGameToken, game.getTeams, middleware.verifyErrors)
+
 	// Vérifie si une partie, à partir de son id, appartient au prof
 	router.post("/gameBelongsToProf/:id", middleware.verifyGameToken, game.gameBelongsToProf, middleware.verifyErrors)
 	

@@ -74,7 +74,7 @@ const ClassElem = (props) => {
 	}
 
 
-	/*Données de génaration du graphique*/
+	/*Données de génération du graphique*/
 	const data = {
 		labels: [''],
 		datasets: [
@@ -91,7 +91,7 @@ const ClassElem = (props) => {
 		scales: {
 			x: {
 				display: false,
-				suggestedMax: 100
+				// suggestedMax: 100
 			}
 		},
 		legend: {
@@ -105,8 +105,8 @@ const ClassElem = (props) => {
 
 
 	return (
-		<article
-			className='grid grid-cols-2 gap-1 info-container w-full h-full'>
+		<div
+			className='grid grid-cols-2 gap-1 info-container w-full'>
 			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>NOM</h3>
 				<p className='small-text'>{classGroup.name}</p>
@@ -128,9 +128,9 @@ const ClassElem = (props) => {
 
 
 			{/* Div pour les statistiques */}
-			<Bar data={data} options={options}/>
-			<div className='px-5 mt-auto'>
-				<p className='text-lg font-semibold mb-4'>Taux de
+			<Bar className='col-span-2 row-span-2' data={data} options={options}/>
+			<div className='col-span-2'>
+				<p className='text-sm font-semibold'>Taux de
 					réussite moyen : {getWinRate(gamesOf)}%</p>
 			</div>
 
@@ -138,7 +138,7 @@ const ClassElem = (props) => {
 			<Link to={'/class/'+classGroup.id} className='col-span-2 btn-show'>
 				Voir
 			</Link>
-		</article>
+		</div>
 	)
 }
 

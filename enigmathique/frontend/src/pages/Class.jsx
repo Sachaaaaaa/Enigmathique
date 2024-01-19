@@ -6,7 +6,7 @@ import LayoutProf from "../layouts/LayoutProf";
 function Class() {
 	return (
 		<LayoutProf>
-			<main>
+			<main className='min-w-fit h-screen main-background-color overflow-auto'>
 				<ListClass />
 			</main>
 		</LayoutProf>
