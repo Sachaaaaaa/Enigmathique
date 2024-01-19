@@ -23,7 +23,7 @@ const ListStudents = (props) => {
 	const loadStudents = async () => {
 		const data = await Student.getAll(props.id);
 		setStudents(data);
-		console.log(data);
+		//console.log(data);
 	}
 	
 	useEffect(() => {
@@ -35,14 +35,14 @@ const ListStudents = (props) => {
 		await Student.create(firstname, lastname, idCourse);
 		loadStudents();
 		setCreateModalOpen(false);
-		console.log('create ' + id);
+		//console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
 	}
 	
 	const [filter, setFilter] = useState({text: ''});
 	const handleChangeText = (e) => {
-		console.log(filter);
+		//console.log(filter);
 		setFilter({...filter, text: e.target.value})
 	}
 	//filtre les élèves en fonction du texte entré

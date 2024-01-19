@@ -21,7 +21,7 @@ const StudentElement = ({student, onChange}) => {
 		await Student.delete(id);
 		onChange();
 		setDeleteModalOpen(false);
-		console.log('delete ' + id);
+		//console.log('delete ' + id);
 	}
 	
 	
@@ -30,7 +30,7 @@ const StudentElement = ({student, onChange}) => {
 		await Student.edit(firstname, lastname, idCourse, idStudent);
 		onChange();
 		setEditModalOpen(false);
-		console.log('edit ' + id);
+		//console.log('edit ' + id);
 	}
 	
 	

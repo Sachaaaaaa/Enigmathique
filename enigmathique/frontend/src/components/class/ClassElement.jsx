@@ -23,7 +23,7 @@ const ClassElement = ({classe, onChange,index}) => {
 		await Course.delete(id);
 		onChange();
 		setDeleteModalOpen(false);
-		console.log('delete ' + id);
+		//console.log('delete ' + id);
 	}
 
 	const handleClickEdit = async (event, id) => {
@@ -31,7 +31,7 @@ const ClassElement = ({classe, onChange,index}) => {
 		const data = await Course.edit(name, id);
 		onChange();
 		setEditModalOpen(false);
-		console.log('edit ' + id);
+		//console.log('edit ' + id);
 	}
 
 	const loadGamesOf = async() => {

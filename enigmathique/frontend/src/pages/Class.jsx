@@ -17,7 +17,7 @@ const Class = () => {
 	const loadClasses = async () => {
 		const data = await Course.getAll();
 		setCourses(data);
-		console.log(data);
+		//console.log(data);
 	}
 
 	useEffect(() => {
@@ -28,7 +28,7 @@ const Class = () => {
 	const handleClickCreate = async (event) => {
 		event.preventDefault();
 		const data = await Course.create(name);
-		console.log(data);
+		//console.log(data);
 		loadClasses();
 		setCreateModalOpen(false);
 		setName('');

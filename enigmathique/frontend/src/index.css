@@ -273,7 +273,6 @@
         .btn-action-Modifier {
             @apply btn-action bg-[#FB7D5B]
         }
-
         .btn-action-Modifier:hover {
             @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
         }
