@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 import SearchInput from "../SearchInput";
 import Student from "../../models/student.model";
 import StudentElement from "./StudentElement";
+import ContentHeader from 'components/dashboard/ContentHeader';
 
 const ListStudents = (props) => {
 	
@@ -55,14 +56,7 @@ const ListStudents = (props) => {
 	
 	return (
 		<>
-
-			<nav className='flex flex-row flex-grow justify-between w-full p-5 primary-font-color'>
-				<div className='flex items-center font-semibold text-lg'>
-					<Link to='/class' className='m-auto p-1'>
-						<MdArrowBackIos size='1em'/>
-					</Link>
-					<p className='my-auto'>Liste des élèves</p>
-				</div>
+			<ContentHeader title="Liste des élèves" link='/class'>
 				<div className='flex justify-end gap-3 p-5 pr-0'>
 					<SearchInput handleChangeText={handleChangeText}/>
 					<button
@@ -70,7 +64,8 @@ const ListStudents = (props) => {
 						onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Ajouter un élève</p>
 					</button>
 				</div>
-			</nav>
+			</ContentHeader> 
+
 			<ul className='flex flex-wrap gap-5 p-5 pb-5'>
 				{filteredStudents.map((student) => (
 					<StudentElement key={student.id} student={student} onChange={() => loadStudents()}/>
