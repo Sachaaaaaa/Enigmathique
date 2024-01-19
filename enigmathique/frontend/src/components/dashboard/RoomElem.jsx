@@ -12,7 +12,7 @@ const RoomElem = (props) => {
 			<figure className='col-span-2 relative h-[120px] rounded-t-[30px]'
 					style={{
 						/*TODO: obtenir la bonne image*/
-						backgroundImage: `url(${require('../../assets/img/room-img/Le-labo.png')})`,
+						backgroundImage: `url(${require('../../assets/img/room-img/'+room.name+'.png')})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center'
 					}}>
