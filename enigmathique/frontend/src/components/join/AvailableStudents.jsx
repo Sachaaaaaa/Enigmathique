@@ -46,7 +46,6 @@ const 	AvailableStudents = (props) => {
 								lastname={student.lastname}
 								firstname={student.firstname}
 								isSelected={false}
-								teamSize={props.teamSize}
 							/>
 							{index!==searchResult.length-1 && <hr></hr>}
 						</>
