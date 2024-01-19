@@ -210,6 +210,20 @@ exports.findAll = async (req, res, next) => {
 }
 
 
+exports.getScore = async(req, res) => {
+	
+	try{
+			
+		const scores = await Score.findAll({ where: { idGame: req.params.id } })
+		res.status(200).json(scores);
+		
+	}catch(err) {
+		res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des scores."
+		});
+	}
+}
+
 // methode pour récuperer une partie en fonction de son id
 exports.findOne = async (req, res, next) => {
 	

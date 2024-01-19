@@ -6,7 +6,7 @@ const API_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PR
 const getStudents = (idTeam) => {
 	const token = authHeader();
 	return axios
-		.get(API_URL + 'team/students' + idTeam, {headers: token})
+		.get(API_URL + 'team/students/' + idTeam, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
@@ -15,7 +15,7 @@ const getStudents = (idTeam) => {
 const getScores = (idTeam) => {
 	const token = authHeader();
 	return axios
-		.get(API_URL + 'team/score' + idTeam, {headers: token})
+		.get(API_URL + 'team/score/' + idTeam, {headers: token})
 		.then((response) => {
 			return response.data;
 		});
