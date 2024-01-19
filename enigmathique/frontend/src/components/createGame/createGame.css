@@ -1,8 +1,50 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import '../../index.css';
 
 @layer components{
+    /*********************** Couleurs ***********************/
+    
+            /** Couleurs de fond **/
+
+            .bg-main-color {
+                @apply bg-[#F5F7FA] ;  
+            }
+
+            .bg-blue-color {
+                @apply bg-[#0A06F4];
+            }            
+            
+            .bg-blue-gradient-color {
+                @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
+            }
+        
+        /** Couleurs de texte **/
+
+            .primary-font-color {
+                @apply text-[#343C6A];
+            }
+            .blue-font-color {
+                @apply text-[#0A06F4];
+            }
+            .nav-font-color {
+                @apply text-[#B1B1B1];
+            }
+
+            .blue-gradient-font-color {
+                @apply bg-blue-gradient-color text-transparent bg-clip-text;
+            }
+        
+        /** Couleurs de bordure **/
+
+            .border-blue-color {
+                @apply border-[#0A06F4];
+            }
+            .border-white-color {
+                @apply border-[#E6EFF5] ;
+            }
+
     .progress-bar-on{
         @apply w-1/3 bg-[#0A06F4] rounded-xl;
     }
@@ -19,7 +61,7 @@
     }
 
     .label-filter-selected {
-        @apply border-b-2 border-[#0A06F4] text-[#0A06F4] w-1/4 p-4 text-center min-w-fit
+        @apply border-b-2 border-blue-color blue-font-color w-1/4 p-4 text-center min-w-fit
     }
     .label-filter {
         @apply border-b-2 border-gray-400 text-gray-400 w-1/4 p-4 text-center min-w-fit;

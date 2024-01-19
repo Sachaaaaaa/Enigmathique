@@ -13,7 +13,7 @@ const Room = (props) => {
 		setSelected(!selected);
 	}
 	return(
-		<IconContext.Provider value={{className: 'h-1/4 w-1/4 text-[#0A06F4]'}}>
+		<IconContext.Provider value={{className: 'h-1/4 w-1/4 blue-font-color'}}>
 		<label className='room-container'>
 			<div className='flex flex-row h-full w-11/12 gap-4'>
 				<div className='h-full w-[10%] overflow-hidden p-2'>
@@ -32,19 +32,19 @@ const Room = (props) => {
 				<section className='flex flex-row gap-4 justify-start items-center w-[20%]'>
 					<FaSearch/>
 					<div className='flex flex-col justify-evenly items-start'>
-						<span className='text-[#0A06F4] font-bold'>{props.riddles}</span>
+						<span className='blue-font-color font-bold'>{props.riddles}</span>
 						<span className='text-gray-400'>Énigmes</span>
 					</div>
 				</section>
 				<section className='flex flex-row gap-4 justify-start items-center w-[20%]'>
 					<FaSearch/>
 					<div className='flex flex-col justify-evenly items-start'>
-						<span className='text-[#0A06F4] font-bold'>{props.winrate}%</span>
+						<span className='blue-font-color font-bold'>{props.winrate}%</span>
 						<span className='text-gray-400'>Taux de réussite</span>
 					</div>
 				</section>
 			</div>
-			<section className={`flex flex-col justify-center items-center h-full pr-4 border-r-4 ${selected ? ' border-[#0A06F4]':'border-transparent'}`}>
+			<section className={`flex flex-col justify-center items-center h-full pr-4 border-r-4 ${selected ? ' border-blue-color':'border-transparent'}`}>
 				<input type='checkbox' onChange={handleChange}/>
 			</section>
 		</label>

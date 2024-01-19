@@ -36,7 +36,7 @@ const Class = () => {
 
 	return (
 		<LayoutProf>
-			<main className=' h-screen main-background-color overflow-x-hidden'>
+			<main className=' h-screen bg-main-color overflow-x-hidden'>
 				<ContentHeader title="" link='/dashboard'>
 						<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
 				</ContentHeader>

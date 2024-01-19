@@ -47,15 +47,15 @@ const StudentElement = ({student, onChange}) => {
 				</div>
 				<div className='space-x-3'>
 					<ActionButton 
-						title='Statistiques'
+						title="Statistiques"
 						link='/'
 					/>
 					<ActionButton
-						title='Modifier'
+						title="Modifier"
 						onClick={() => setEditModalOpen(true)}
 					/>
 					<ActionButton
-						title='Supprimer'
+						title="Supprimer"
 						onClick={() => setDeleteModalOpen(true)}
 					/>
 				</div>
@@ -85,6 +85,7 @@ const StudentElement = ({student, onChange}) => {
 							onChange={(e) => setLastname(e.target.value)}
 							className='form-inputfield-style modal-student-input-style '/> 
 						</div>
+						<div className="w-full">
 						<button
 							type='submit'
 							className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-student-button-style'
@@ -96,6 +97,7 @@ const StudentElement = ({student, onChange}) => {
 							onClick={() => setEditModalOpen(false)}>
 							Annuler
 						</button>
+						</div>
 					</form>
 				</ModalBody>
 			</Modal>)}

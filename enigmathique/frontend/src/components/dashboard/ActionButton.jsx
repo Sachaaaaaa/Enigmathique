@@ -19,7 +19,7 @@ const ActionButton = ({title,link = '', onClick= ''}) => {
             <button
                 title={title}
                 onClick={onClick}
-                className={`btn-utils btn-utils-course-student-${title} p-2`}>
+                className={"btn-action-"+title +" p-2"}>
                 {icon}
             </button>
         </Link>

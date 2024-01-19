@@ -5,7 +5,7 @@ import {FaPlus} from 'react-icons/fa';
 const CreateButton = ({title, onClick}) => {
     return (
         <button
-        className="btn-utils btn-utils-create"
+        className="btn-action btn-action-create"
         onClick={onClick}><FaPlus/><p>{title}</p>
     </button>
     ) 

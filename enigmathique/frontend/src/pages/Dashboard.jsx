@@ -96,7 +96,7 @@ const Dashboard = () => {
 
 	return (
 		<LayoutProf>
-			<main className='main-background-color flex flex-wrap flex-grow gap-2 justify-between overflow-y-scroll overflow-x-hidden'>
+			<main className='bg-main-color flex flex-wrap flex-grow gap-2 justify-between overflow-y-scroll overflow-x-hidden'>
 					<div className='w-[45svw] min-w-[280px] grow p-5'>
 						<div className='flex flex-col '>
 							<div className='primary-font-color flex justify-between w-full min-w-[280px]'>

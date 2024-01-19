@@ -47,7 +47,7 @@ function Signup() {
 	};
 
 	return (
-		<div className='h-screen w-screen  main-background-color '>
+		<div className='h-screen w-screen  bg-main-color '>
 			<AuthHeader title="Inscription"/>
 			<div className='form-container-style'>
 
@@ -90,7 +90,7 @@ function Signup() {
 						)}
 						<div className='pt-5 pb-2 w-fit text-sm primary-font-color'>
 							<span> Vous avez déjà un compte ?</span>
-							<Link to='/login' className='ml-1 font-medium gradient-font decoration-[#0A06F4]  hover:underline'>Se connecter </Link>
+							<Link to='/login' className='ml-1 font-medium blue-gradient-font-color decoration-[#0A06F4]  hover:underline'>Se connecter </Link>
 						</div>
 					</form>
 					<div className='w-[450px] text-[13px] p-1 text-center primary-font-color'>
