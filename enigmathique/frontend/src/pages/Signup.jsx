@@ -5,10 +5,11 @@ import AuthHeader from 'components/AuthHeader';
 
 
 function Signup() {
-	return <div className='h-screen w-screen'>
-	<AuthHeader title="Inscription"/>
-	<SignupForm/>
-	</div>;
+	return (
+		<div className='h-screen w-screen'>
+			<AuthHeader title="Inscription"/>
+			<SignupForm/>
+		</div>);
 }
 
 
