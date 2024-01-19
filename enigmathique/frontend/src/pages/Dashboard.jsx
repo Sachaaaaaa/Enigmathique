@@ -131,7 +131,7 @@ const Dashboard = () => {
 								<h2 className='font-semibold'>Proposition de salles</h2>
 								<Link to='/rooms' className='text-sm font-semibold hover:underline'>Voir tout</Link>
 							</div>
-							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
+							<div className='w-full h-full flex flex-wrap flex-grow justify-between items-center gap-2'>
 								{selectedRooms.map((room, index) => (
 									<RoomElem key={index} room={room}></RoomElem>
 								))}
