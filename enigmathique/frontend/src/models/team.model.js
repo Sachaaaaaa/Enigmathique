@@ -1,5 +1,6 @@
 import TeamService from "../services/team.service";
 import Student from "./student.model";
+import ScoreModel from "./score.model";
 
 class TeamModel{
 	constructor(name, id, idGame) {
@@ -11,14 +12,16 @@ class TeamModel{
 		try {
 			const data = await TeamService.getStudents(idTeam);
 			console.log(data);
-			return TeamService.getStudents(idTeam);
+			return data.map((student) =>  new Student(student.id, student.idCourse, student.firstname, student.lastname, student.createdAt, student.updatedAt));
 		}catch (e){
 			console.error(`erreur dans le getter des students d'une team dans le modèle de team (front) ${e}`);
 		}
 	}
 	static async getScores(idTeam){
 		try {
-			return await TeamService.getScores(idTeam);
+			const data = await TeamService.getScores(idTeam);
+			return new ScoreModel(data.idTeam, data.roomName, data.idGame, data.time,
+				data.nbGoodAnswers, data.nbBadAnswers, data.nbHints, data.createdAt, data.updatedAt);
 		}catch (e){
 			console.error(`erreur dans le getter des score d'une team dans le modèle de team (front) ${e}`);
 		}

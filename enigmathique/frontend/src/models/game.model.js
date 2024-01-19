@@ -1,4 +1,5 @@
 import GameService from "../services/game.service";
+import ScoreModel from "./score.model";
 
 class Game{
 	constructor(id, idCourse, name, state, teamSize, createdAt) {
@@ -47,12 +48,11 @@ class Game{
 			console.log(e);
 		}
 	}
-	static async getScores(gameCode) {
+	static async getScores(idGame) {
 		try {
-			const data = await GameService.getScores(gameCode);
-			console.log('testttttttttttttttttttttttttttttt'+data);
-			return await GameService.getScores(gameCode);
-
+			const data = await GameService.getScores(idGame);
+			return data.map((score) => new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time,
+				score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.createdAt, score.updatedAt));
 		}catch (e) {
 			console.log(`erreur dans le getter des scores dans le modèle de game (front) ${e}`);
 		}
