@@ -407,7 +407,7 @@ exports.addRooms = async(req, res, next) => {
 
 
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+		const isBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
 		if (!isBelongsToProfessor) {
 			const error = new Error("La partie n'appartient pas au professeur.");
 			error.statusCode = 403;  
@@ -505,6 +505,17 @@ exports.getRooms = async (req, res, next) => {
 		const rooms = gameRooms.map(room => room.roomName);
 		return res.status(200).json(rooms);
 	// Gère les erreurs
+	} catch (err) {
+		next(err)
+	}
+}
+
+exports.getTeams = async (req, res, next) => {
+	try{
+		// Récupère la partie souhaité
+		const teams = await Team.findAll({ where: { idGame: req.params.id} })
+		return res.status(200).json(teams);
+		// Gère les erreurs
 	} catch (err) {
 		next(err)
 	}
