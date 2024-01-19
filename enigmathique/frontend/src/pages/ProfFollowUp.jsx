@@ -1,5 +1,3 @@
-// ProfFollowUp.jsx
-
 import React, { useEffect, useState, useContext } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
@@ -11,6 +9,8 @@ import TeamDetails from './TeamDetails';
 function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
 	const [totalRounds, setTotalRounds] = useState(null);
+	const [allData, setAllData] = useState(null);
+
 
 	// Assurez-vous que le token et le sessionId sont présents
 	const user = JSON.parse(localStorage.getItem('user'));
@@ -42,7 +42,9 @@ function ProfFollowUp() {
 
 			// Écouteur de progression de toutes les équipes
 			socket.on(ServerToClient.AllTeamsProgress, (data) => {
+				console.log(data);
 				data = data.data;
+				setAllData(data);
 				console.log('Progression des équipes', data);
 				if (data && data.metadata) {
 					const { currentRound, totalRounds } = data.metadata;
@@ -193,6 +195,8 @@ function ProfFollowUp() {
 				<TeamDetails
 					teamData={selectedTeam}
 					onClose={() => setSelectedTeam(null)}
+					// envoie des données
+					data={allData}
 				/>
 			)}
 		</LayoutProf>
