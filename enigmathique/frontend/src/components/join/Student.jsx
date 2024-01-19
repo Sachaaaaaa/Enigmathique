@@ -43,6 +43,5 @@ Student.propTypes = {
 	lastname: PropTypes.string.isRequired,
 	firstname: PropTypes.string.isRequired,
 	isSelected: PropTypes.bool.isRequired,
-	teamSize: PropTypes.number,
 };
 export default Student;

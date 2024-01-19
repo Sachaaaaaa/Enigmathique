@@ -32,7 +32,6 @@ const SelectedStudents = (props) => {
 								lastname={student.lastname}
 								firstname={student.firstname}
 								isSelected={true}
-								teamSize={props.teamSize}
 							/>
 							{index!==props.selected.length-1 && <hr></hr>}
 						</>
