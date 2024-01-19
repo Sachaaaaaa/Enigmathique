@@ -1,10 +1,13 @@
 import {Link} from 'react-router-dom';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useTransition} from 'react';
 import PropTypes from 'prop-types';
 import TeamService from "../../services/team.service";
 import Game from "../../models/game.model";
 import Course from "../../models/course.model";
 import useCourses from "../../hooks/useCourses";
+import useTeams from "../../hooks/useTeams";
+import TeamModel from "../../models/team.model";
+import useCourse from "../../hooks/useCourse";
 
 const maxTime = 600;
 
@@ -13,17 +16,27 @@ const GameElem = (props) => {
 	const game = props.game;
 
 	const [scores, setScores] = useState([]);
-	const [course] = useCourses();
+	const [course, loadCourse] = useCourse(game.idCourse);
 
-	const loadScores = async (idGame) => {
-		const data = await Game.getScores(idGame);
-		return data===1? setScores(data): console.log('pas de score disponible');
+
+
+	const loadScores = async () => {
+		const data = await Game.getScores(game.id);
+		console.log(data);
+		setScores(data);
 	}
+
+	/**
+	const loadScores = async () => {
+		const data = await Game.getScores(game.id);
+		data===1? setScores(data): console.log('pas de score disponible');
+	}*/
 
 
 	useEffect(() => {
-		loadScores(game.id);
+		loadScores();
 	}, []);
+
 
 	const getWinners = () => {
 		let maxScore= scores[0];
@@ -70,9 +83,9 @@ const GameElem = (props) => {
 			</article>
 			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>Gagnants</h3>
-				<p className='small-text'>{game.state !== 2 ? 'Partie non terminée' : getWinners().map((stud) => {
-					`${stud.firstname} ${stud.lastname} `
-				})}</p>
+				<p className='small-text'>{game.state !== 2 ? 'Partie non terminée' : console.log("non")
+					//getWinners().map((stud) => {`${stud.firstname} ${stud.lastname} `})
+					}</p>
 			</article>
 			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>Taux de réussite</h3>
