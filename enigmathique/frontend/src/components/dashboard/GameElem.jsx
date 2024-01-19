@@ -94,8 +94,8 @@ const GameElem = (props) => {
 				<p className='small-text'>{getWinRate()} %</p>
 			</article>
 			{game.state === 2 ?
-				<Link to={'./Ranking/'+game.id} className="text-blue-600 hover:text-blue-800">Voir</Link> :
-				<span className="text-blue-600 hover:text-blue-800">Partie non terminée</span>
+				<Link to={'./ranking/'+game.id} className="btn-show col-span-2">Voir</Link> :
+				<span className="btn-show col-span-2">Partie en cours</span>
 			}
 		</article>
 	)
