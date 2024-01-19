@@ -2,17 +2,20 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 
 import Course from 'models/course.model';
+import TeamModel from 'models/team.model';
+import Game from 'models/game.model';
 
 /**
- * Récupère les teams du professeur connecté
+ * Récupère les teams d'une game données
+ * @param {number} idGame
  * @param {boolean} autoload 
  * @returns 
  */
-const useTeams = (autoload = true) => {
+const useTeams = (idGame, autoload = true) => {
 	const [teams, setCourses] = useState([]);
 
 	const loadTeams = async () => {
-		const data = await Course.getAll();
+		const data = await TeamModel.getTeamFromGame(idGame);
 		setCourses(data);
 	};
 
