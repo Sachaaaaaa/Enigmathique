@@ -6,7 +6,7 @@ import LayoutProf from "../layouts/LayoutProf";
 function Class() {
 	return (
 		<LayoutProf>
-			<main>
+			<main className=' h-screen main-background-color overflow-x-hidden'>
 				<ListClass />
 			</main>
 		</LayoutProf>

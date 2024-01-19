@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import logo from '../assets/img/logo-name-enigmathique.png';
 import AvailableStudents from '../components/join/AvailableStudents';
 import SelectedStudents from '../components/join/SelectedStudents';
-
+import {useNavigate} from "react-router-dom";
 
 import {socket, SocketContext} from 'contexts/SocketContext';
 import {useParams} from 'react-router-dom';
@@ -13,6 +12,7 @@ import LayoutStudent from "../layouts/LayoutStudent";
 const Join = (props) => {
 	const [available, setAvailable] = useState([]);
 	const [selected, setSelected] = useState([]);
+	const navigate = useNavigate();
 
 
 	// Recupère l'id de session dans l'url
@@ -44,9 +44,10 @@ const Join = (props) => {
 			setSelected(data.composition.students);
 		});
 
-		socket.on(ServerToClient.CompositionFinished, () => {
-			alert('La composition des équipes est terminée, faire quelque chose ici');
-			// TODO: Rediriger vers la page de jeu avec le bon CODE de session
+		socket.on(ServerToClient.CompositionFinished, (data) => {
+			// TODO: Modifier façon de mettre session et teamId dans l'url
+			const teamId = data.teamId;
+			navigate(`/game?sessionId=${sessionId}&teamId=${teamId}`);
 		});
 
 		socket.connect();
@@ -67,7 +68,12 @@ const Join = (props) => {
 		setTeamName(event.target.value);
 	}
 	const handleCreateTeam = () => {
+		if (teamName === '') {
+			alert('Veuillez entrer un nom d\'équipe');
+			return;
+		}
 		socket.emit(ClientToServer.LockTeam, {name: teamName});
+		//TODO: Faut mettre un loader ici
 	};
 
 	return (

@@ -115,9 +115,9 @@ const Dashboard = () => {
 
 	return (
 		<LayoutProf>
-			<main className='main-background-color flex flex-wrap flex-grow justify-between overflow-y-scroll overflow-x-hidden'>
-					<div className='w-[40svw] min-w-[280px] mr-2 flex-wrap grow'>
-						<div className='flex flex-col p-5'>
+			<main className='main-background-color flex flex-wrap flex-grow gap-2 justify-between overflow-y-scroll overflow-x-hidden'>
+					<div className='w-[45svw] min-w-[280px] grow p-5'>
+						<div className='flex flex-col '>
 							<div className='primary-font-color flex justify-between w-full min-w-[280px]'>
 								<h2 className='medium-title'>Mes Parties</h2>
 								<Link to='/games' className='show-all-text'>Voir tout</Link>
@@ -126,20 +126,20 @@ const Dashboard = () => {
 								{showGames()}
 							</div>
 						</div>
-						<div className='flex flex-col p-5 pt-2'>
+						<div className='flex flex-col pt-7'>
 							<div className='primary-font-color flex justify-between  w-full min-w-[280px]'>
 								<h2 className='font-semibold'>Proposition de salles</h2>
 								<Link to='/rooms' className='text-sm font-semibold hover:underline'>Voir tout</Link>
 							</div>
-							<div className='w-full flex flex-wrap justify-between items-center gap-1'>
+							<div className='w-full h-full flex flex-wrap flex-grow justify-between items-center gap-2'>
 								{selectedRooms.map((room, index) => (
 									<RoomElem key={index} room={room}></RoomElem>
 								))}
 							</div>
 						</div>
 					</div>
-					<div className='w-[40svw] min-w-[280px] h-full flex-warp p-5 grow'>
-						<div className='primary-font-color flex justify-between w-full min-w-[280px] grow'>
+					<div className='w-[35svw] min-w-[280px] grow p-5'>
+						<div className='primary-font-color flex justify-between w-full min-w-[280px]'>
 							<h2 className='medium-title'>Mes Classes</h2>
 							<div>
 								<button onClick={prevClass}><FaAngleLeft /></button>
@@ -147,9 +147,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						<div  className='w-full'>
-							{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
-						</div>
+						{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
 					</div>
 			</main>
 		</LayoutProf>

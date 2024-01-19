@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import AuthService from '../services/auth.service';
 
 const SignupForm = () => {
@@ -9,6 +9,9 @@ const SignupForm = () => {
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState('');
+	const [showPassword, setShowPassword] = useState(false);
+
+	const navigate = useNavigate();
 
 	const handleRegister = (e) => {
 		// Empêcher le rechargement de la page
@@ -21,7 +24,7 @@ const SignupForm = () => {
 		AuthService.register(firstname, secondname, mail, password).then(
 			() => {
 				// Redirection vers la page d'accueil
-				window.location.href = '/';
+				navigate('/dashboard');
 			},
 			(error) => {
 				// Gestion des erreurs
@@ -91,29 +94,40 @@ const SignupForm = () => {
 							required/>
 					</div>
 
-					<div className='mb-6  w-full'>
+					<div className='mb-6 w-full'>
 						<label
 							className='form-label-style'
 							htmlFor='password'>
 							Mot de passe
 						</label>
-						<input
-							type='password'
-							id='password'
-							name='password'
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							placeholder='Votre mot de passe'
-							className='form-inputfield-style'
-							required/>
+						<div className='relative'>
+							<input
+								type={showPassword ? 'text' : 'password'}
+								id='password'
+								name='password'
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								placeholder='Votre mot de passe'
+								className='form-inputfield-style'
+								required/>
+							<button
+								className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
+								onMouseDown={() => setShowPassword(true)}
+								onMouseUp={() => setShowPassword(false)}
+								type="button"
+							>
+								{showPassword ? 'Hide' : 'Show'} Password
+							</button>
+						</div>
+
 					</div>
-						<button
-							className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold mt-2 py-2 rounded focus:outline-none'
-							type='submit'
-							disabled={loading}>
-							{loading && (
-								<span className='spinner-border spinner-border-sm'></span>
-							)}
+					<button
+						className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold mt-2 py-2 rounded focus:outline-none'
+						type='submit'
+						disabled={loading}>
+						{loading && (
+							<span className='spinner-border spinner-border-sm'></span>
+						)}
 							<span>{"S'inscrire"}</span>
 						</button>
 					{message && (

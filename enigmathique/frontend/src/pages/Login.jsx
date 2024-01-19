@@ -9,6 +9,7 @@ const Login = () => {
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState('');
+	const [showPassword, setShowPassword] = useState(false);
 
 	const handleLogin = (e) => {
 		// Empêcher le rechargement de la page
@@ -71,27 +72,36 @@ const Login = () => {
 							>
 								Mot de passe
 							</label>
-							<input
-								type='password'
-								id='password'
-								name='password'
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								placeholder='Votre mot de passe'
-								className='form-inputfield-style'
-								required
-							/>
+							<div className='relative'>
+								<input
+									type={showPassword ? 'text' : 'password'}
+									id='password'
+									name='password'
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									placeholder='Votre mot de passe'
+									className='form-inputfield-style'
+									required/>
+								<button
+									className='absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5'
+									onMouseDown={() => setShowPassword(true)}
+									onMouseUp={() => setShowPassword(false)}
+									type="button"
+								>
+									{showPassword ? 'Hide' : 'Show'} Password
+								</button>
+							</div>
 						</div>
-							<button
-								className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold mt-2 py-2 rounded focus:outline-none'
-								type='submit'
-								disabled={loading}
-							>
-								{loading && (
-									<span className='spinner-border spinner-border-sm'></span>
-								)}
-								<span>Login</span>
-							</button>
+						<button
+							className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold mt-2 py-2 rounded focus:outline-none'
+							type='submit'
+							disabled={loading}
+						>
+							{loading && (
+								<span className='spinner-border spinner-border-sm'></span>
+							)}
+							<span>Se connecter</span>
+						</button>
 						{message && (
 							<div className='text-red-500 text-xs mt-2'>{message}</div>
 						)}
