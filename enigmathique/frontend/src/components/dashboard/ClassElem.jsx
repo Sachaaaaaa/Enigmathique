@@ -106,7 +106,7 @@ const ClassElem = (props) => {
 
 	return (
 		<div
-			className='grid grid-cols-2 gap-1 info-container w-full'>
+			className='grid grid-cols-2 gap-1 info-container w-full h-[calc(100%-50px)]'>
 			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>NOM</h3>
 				<p className='small-text'>{classGroup.name}</p>

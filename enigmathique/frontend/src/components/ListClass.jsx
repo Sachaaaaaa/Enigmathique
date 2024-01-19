@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Modal, {ModalBody, ModalHeader} from './Modal';
-import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
+import {MdDeleteForever, MdOutlineModeEdit, MdArrowBackIos} from 'react-icons/md';
 import { IoPerson } from "react-icons/io5";
 import PropTypes from 'prop-types';
 import {FaPlus} from "react-icons/fa6";
@@ -184,12 +184,19 @@ const ListClass = () => {
 
 	return (
 		<>
-			<div className='flex justify-end p-5'>
-				<button
-					className="btn-utils btn-utils-create"
-					onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer une classe</p>
-				</button>
-			</div>
+			<nav className='flex flex-row flex-grow justify-between w-full p-5 primary-font-color'>
+				<div className='flex items-center font-semibold text-lg'>
+					<Link to='/dashboard' className='m-auto p-1'>
+						<MdArrowBackIos size='1em'/>
+					</Link>
+				</div>
+				<div className='flex justify-end gap-3 p-5 pr-0'>
+					<button
+						className="btn-utils btn-utils-create"
+						onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer une classe</p>
+					</button>
+				</div>
+			</nav>
 			<table className="w-full min-w-[550px] primary-font-color ">
 				<thead className='w-full '>
 					<tr className=" w-full text-left">
