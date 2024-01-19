@@ -37,8 +37,9 @@ class SocketTeam {
 	toPostData = () => {
 		// retourne sous la forme:  {name: "nom de l'équipe", students: [id1, id2, id3]}
 		return {
+			idSocket: this.socket.id, // Rajoute l'id de la socket pour pouvoir l'identifier plus tard (retour de l'id de l'équipe depuis API)
 			name: this.name,
-			students: this.composition.map((student) => student.id)
+			idStudents: this.composition.map((student) => student.id)
 		}
 	}
 
