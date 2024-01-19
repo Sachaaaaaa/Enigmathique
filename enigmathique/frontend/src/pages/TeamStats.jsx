@@ -4,6 +4,7 @@ import {Link, useParams} from 'react-router-dom';
 import GameTeam from '../components/stats/GameTeam';
 import ScoreTeam from '../components/stats/ScoreTeam';
 import TeamService from "../services/team.service";
+import TeamModel from "../models/team.model";
 
 const TeamStats = () => {
 	const idTeam = useParams();
@@ -11,20 +12,14 @@ const TeamStats = () => {
 	const [students, setStudents] = useState([]);
 	const [scores, setScores] = useState([]);
 
-	const loadMembers = () => {
-		TeamService.getStudents(idTeam).then((response) => {
-			setStudents(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	const loadMembers = async () => {
+		const data = await TeamModel.getStudents(idTeam);
+		setStudents(data);
 	}
 
-	const loadScores = () => {
-		TeamService.getScores(idTeam).then((response) => {
-			setScores(response);
-		}).catch((error) => {
-			console.log(error);
-		});
+	const loadScores = async () => {
+		const data = await TeamModel.getScores(idTeam);
+		setScores(data);
 	}
 
 	useEffect(() => {

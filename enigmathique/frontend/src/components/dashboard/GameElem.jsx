@@ -19,17 +19,14 @@ const GameElem = (props) => {
 		return data===1? setScores(data): console.log('pas de score disponible');
 	}
 
-	useEffect(() => {
-		loadScores(game.id);
-	}, []);
-
 	const loadCourse = async (game) => {
 		const data = await Course.get(game.idCourse);
 		setCourse(data);
 	}
 
 	useEffect(() => {
-		loadCourse(game)
+		loadScores(game.id);
+		loadCourse(game);
 	}, []);
 
 	const getWinners = () => {
