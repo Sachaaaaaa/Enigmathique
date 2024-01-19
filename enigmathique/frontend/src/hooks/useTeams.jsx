@@ -4,25 +4,25 @@ import {useState, useEffect} from 'react';
 import Course from 'models/course.model';
 
 /**
- * Récupère une classe du professeur connecté
+ * Récupère les teams du professeur connecté
  * @param {boolean} autoload 
  * @returns 
  */
-const useCourses = (autoload = true) => {
-	const [courses, setCourses] = useState([]);
+const useTeams = (autoload = true) => {
+	const [teams, setCourses] = useState([]);
 
-	const loadClasses = async () => {
+	const loadTeams = async () => {
 		const data = await Course.getAll();
 		setCourses(data);
 	};
 
 	useEffect(() => {
 		if (autoload) {
-			loadClasses();
+			loadTeams();
 		}
 	}, []);
 
-	return [courses, loadClasses];
+	return [teams, loadTeams];
 };
 
-export default useCourses;
+export default useTeams;

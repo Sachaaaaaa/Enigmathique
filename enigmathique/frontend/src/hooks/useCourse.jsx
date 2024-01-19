@@ -13,18 +13,18 @@ import Course from 'models/course.model';
 const useCourses = (id, autoload = true) => {
 	const [course, setCourse] = useState(null);
 
-	const loadClasse = async (id) => {
+	const useCourse = async (id) => {
 		const data = await Course.get(id);
 		setCourse(data);
 	};
 
 	useEffect(() => {
 		if (autoload) {
-			loadClasse(id);
+			useCourse(id);
 		}
 	}, []);
 
-	return [course, loadClasse];
+	return [course, useCourse];
 };
 
 export default useCourses;
