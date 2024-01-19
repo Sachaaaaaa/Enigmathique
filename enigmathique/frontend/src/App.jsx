@@ -33,6 +33,7 @@ const App = () => {
 			<Route path='/teamstats/:idTeam' element={<TeamStats/>}/>
 			<Route path='/rooms' element={<RoomList/>}/>
 			<Route path='/leaderboard' element={<ProfFollowUp/>}/>
+			<Route path='/ranking/:id' element={<Ranking/>}/>
 		</Routes>
 	);
 };
