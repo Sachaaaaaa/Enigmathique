@@ -21,7 +21,7 @@ const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, descript
 		<>
 			<h1>{title}</h1>
 			<p>{description}</p>
-			{image != null && <img src={image} alt='enigma image' />}
+			{/*image != null && <img src={image} alt='enigma image' />*/}
 			<input
 				type="text"
 				placeholder="Votre réponse"
@@ -34,7 +34,7 @@ const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, descript
 			{/* Bouton tournant */}
 			<div style={{ position: 'relative', height: '8vh' }}>
 				<div style={{ position: 'absolute', top: '50%', left: '50%', transform: `translate(-40%, -50%) rotate(${rotationAngle}deg)` }}>
-					<button onClick={handleRotateRight} style={{ background: '#3498db', padding: '8px', borderRadius: '50%', cursor: 'pointer', width: '3em', height: '3em' }}>
+					<button onClick={handleRotateRight} style={{ background: '#00e600', padding: '8px', borderRadius: '50%', cursor: 'pointer', width: '4em', height: '4em' }}>
 						<img src={termos} alt="img Termos"/>
 					</button>
 				</div>

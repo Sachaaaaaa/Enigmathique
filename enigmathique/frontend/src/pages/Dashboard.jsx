@@ -13,13 +13,14 @@ import Game from "../models/game.model";
 import RoomModel from "../models/room.model";
 import useCourses from "../hooks/useCourses";
 import useGames from "../hooks/useGames";
+import useRooms from "../hooks/useRooms";
 
 
 const Dashboard = () => {
 
 	const [courses] = useCourses();
 	const [games] = useGames();
-	const [rooms] = useGames();
+	const [rooms] = useRooms();
 
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
