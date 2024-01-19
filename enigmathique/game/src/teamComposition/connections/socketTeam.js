@@ -102,10 +102,10 @@ class SocketTeam {
 		this.socket.emit(ServerToClient.SyncTeamStudents, { composition: this.toData() });
 	}
 
-	sendSessionStart = () => {
+	sendSessionStart = (teamId) => {
 		console.log(clc.yellowBright('[Team] Envoi du début de la session'));
 
-		this.socket.emit(ServerToClient.CompositionFinished);
+		this.socket.emit(ServerToClient.CompositionFinished, { teamId });
 	}
 
 	wipeComposition = () => {
