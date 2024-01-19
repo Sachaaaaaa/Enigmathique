@@ -27,8 +27,6 @@ const ServerToClient = {
 	// Professeur
 	SyncTeams: 'syncTeams', // + {teams: array[{students: array[], confirmed: bool}]}
 	InvalidComposition: 'invalidComposition', // {message: string}
-
-	
 };
 
 // Messages que le client envoie au serveur
@@ -52,7 +50,7 @@ const ClientToServer = {
 	// Professeur
 	ValidateTeam: 'validateTeam', // + {teamId: int}
 	RefuseTeam: 'refuseTeam', // + {teamId: int}
-	FinishComposition: 'finishComposition', // { }
+	FinishComposition: 'finishComposition', // { teamId: int }
 };
 
 // Types de connexion

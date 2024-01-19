@@ -104,8 +104,6 @@ class ApiService {
 			idGame: sessionId
 		};
 
-		console.log(data);
-
 		try {
 			const response = await this.sendRequest('POST', endpoint, data);
 			console.log(response);
@@ -121,7 +119,6 @@ class ApiService {
 
 		try {
 			const response = await this.sendRequest('POST', endpoint, sessionData);
-			console.log(response);
 			return response;
 		} catch (error) {
 			console.log(error);

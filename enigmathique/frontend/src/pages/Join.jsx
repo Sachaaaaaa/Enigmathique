@@ -44,10 +44,10 @@ const Join = (props) => {
 			setSelected(data.composition.students);
 		});
 
-		socket.on(ServerToClient.CompositionFinished, () => {
-			alert('La composition des équipes est terminée, faire quelque chose ici');
-			// TODO: Rediriger vers la page de jeu avec le bon CODE de session
-			navigate(`/game/${sessionId}`);
+		socket.on(ServerToClient.CompositionFinished, (data) => {
+			// TODO: Modifier façon de mettre session et teamId dans l'url
+			const teamId = data.teamId;
+			navigate(`/game?sessionId=${sessionId}&teamId=${teamId}`);
 		});
 
 		socket.connect();
