@@ -407,7 +407,7 @@ exports.addRooms = async(req, res, next) => {
 
 
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+		const isBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
 		if (!isBelongsToProfessor) {
 			const error = new Error("La partie n'appartient pas au professeur.");
 			error.statusCode = 403;  
