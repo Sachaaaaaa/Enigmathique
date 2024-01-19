@@ -200,6 +200,27 @@ body::-webkit-scrollbar {
 
 
     /** Boutons utilitaires des pages **/
+
+    .btn-validate{
+        @apply primary-gradient-color text-white font-semibold uppercase rounded-[8px] whitespace-normal p-4;
+    }
+
+    .btn-validate:hover {
+        @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
+    }
+
+    /**
+    * Bouton annuler
+     */
+     .btn-cancel {
+        @apply bg-[#ef4565] text-white text-xl font-bold p-4 rounded whitespace-normal;
+    }
+
+    .btn-cancel:hover {
+        @apply bg-red-500;
+    }
+
+
     .btn-utils{
         @apply text-white font-semibold rounded-full p-3
     }
