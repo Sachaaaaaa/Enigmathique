@@ -2,11 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import GameModel from "../models/game.model";
 import TeamModel from "../models/team.model";
-import TeamService from "../services/team.service";
-import TeamDetails from "./TeamDetails";
 import LayoutProf from "../layouts/LayoutProf";
 import {FaRegCircle, FaStar} from "react-icons/fa";
-import gameTeam from "../components/stats/GameTeam";
 
 const maxTime = 600;
 

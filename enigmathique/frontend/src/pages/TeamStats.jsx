@@ -3,7 +3,6 @@ import LayoutProf from '../layouts/LayoutProf';
 import {Link, useParams} from 'react-router-dom';
 import GameTeam from '../components/stats/GameTeam';
 import ScoreTeam from '../components/stats/ScoreTeam';
-import TeamService from "../services/team.service";
 import TeamModel from "../models/team.model";
 
 const TeamStats = () => {
