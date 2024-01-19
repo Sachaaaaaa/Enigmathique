@@ -1,5 +1,4 @@
 import React from 'react';
-import SignupForm from '../components/SignupForm';
 import '../index.css';
 import AuthHeader from 'components/AuthHeader';
 import Textfield from 'components/authform/Textfield';
