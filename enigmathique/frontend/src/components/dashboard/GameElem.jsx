@@ -60,7 +60,6 @@ const GameElem = (props) => {
 
 	return (
 		<article className='grid grid-cols-2 gap-1 info-container'>
-			<p></p>
 			<article className='col-span-2 pt-2 element-info-container'>
 				<h3 className='small-title'>Nom</h3>
 				<p className='small-text'>{game.name}</p>
