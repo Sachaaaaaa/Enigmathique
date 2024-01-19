@@ -83,19 +83,19 @@ const ClassElement = ({classe, onChange,index}) => {
 				<Link to='/' >
 					<button
 						title='Statistiques'
-						className='btn-utils btn-utils-course-student-stat p-2 '>
+						className='btn-utils btn-utils-course-student-Statistiques p-2 '>
 						<IoIosStats size='1.25em'/>
 					</button>
 				</Link>
 				<button
 					title='Modifier'
-					className='btn-utils btn-utils-course-student-edit p-2'
+					className='btn-utils btn-utils-course-student-Modifier p-2'
 					onClick={() => setEditModalOpen(true)}>
 					<MdOutlineModeEdit size='1.25em'/>
 				</button>
 				<button
 					title='Supprimer'
-					className='btn-utils btn-utils-course-student-delete p-2'
+					className='btn-utils btn-utils-course-student-Supprimer p-2'
 					onClick={() => setDeleteModalOpen(true)}>
 					<MdDeleteForever size='1.25em'/>
 				</button>
