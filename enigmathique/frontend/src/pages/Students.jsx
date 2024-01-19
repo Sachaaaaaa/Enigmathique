@@ -1,6 +1,6 @@
 import LayoutProf from '../layouts/LayoutProf';
 import React from 'react';
-import ListStudents from '../components/ListStudents';
+import ListStudents from '../components/student/ListStudents';
 import {useParams} from 'react-router-dom';
 
 function Class() {
