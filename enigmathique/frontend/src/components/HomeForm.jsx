@@ -19,8 +19,9 @@ const HomeForm = () => {
 							{/* from-[#343C6A] via-[#0A06F4] to-[#0599F5] */}
 							{/* bg-gradient-to-r from-[#EE7752]
 						via-[#E73C7E] to-[#23A6D5] animation */}
-			<div className="relative w-full h-full max-w-md flex flex-col justify-center items-center">
-			<img src={logo} alt='logo' className='pb-10 z-0'/>
+
+			<form className="relative w-full h-full max-w-md flex flex-col justify-center items-center">
+				<img src={logo} alt='logo' className='pb-10 z-0'/>
 				<div className="mb-4 w-fit h-fit">
 					{/* <label
 						className="block text-gray-700 text-sm font-bold mb-2"
@@ -44,7 +45,7 @@ const HomeForm = () => {
 						type="submit"
 						onClick={handleValider}
 					>
-						<span>Valider</span>
+						<span>Rejoindre</span>
 					</button>
 				</div>
 				<Link
@@ -54,11 +55,9 @@ const HomeForm = () => {
 				spy={true}
 				smooth={true}
 				offset={0}
-				duration={500}
-			> <IoIosArrowDown size={50} className='text-white hover:text-[#8293ff]' /></Link>
-			</div>
-
-
+				duration={500}> 
+				<IoIosArrowDown size={50} className='text-white hover:text-[#8293ff]' /></Link>
+			</form>
 		</div>
 
 		<div className='relative h-screen bg-white flex justify-center items-center'> 
