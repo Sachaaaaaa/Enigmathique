@@ -176,10 +176,6 @@ exports.addStudents = async (req, res, next) => {
 			// Ajoute l'équipe à la liste des équipes ajoutées
 			addedTeams.push(teamData);	
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> 2a880fb8da98bfae3660343644da11446784c2bd
 		return res.status(201).json(addedTeams);
 		
 	} catch(err){
@@ -193,44 +189,19 @@ exports.addStudents = async (req, res, next) => {
 /////////////////////////////////////////////////////////////////////////////////
 
 // Récupère les équipes d'une partie
-exports.findAll = async (req, res) => {
-
-	// Vérifie que la partie appartient bien au professeur
-	const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-	if (!isBelongsToProfessor) {
-		return res.status(403).json({
-			message: "Vous n'avez pas accès à cette partie."
-		});
-	}
-		
-	let coursesId = [];
-
+exports.findAll = async (req, res, next) => {
 	try{
+	
+		// Récupère toutes les équipe d'une partie
+		const teams = await Team.findAll({ where: { idGame: req.params.id } })
 
-		// Récupérer toutes les équipe de la partie grâce à la table score
-		const scores = await Score.findAll({ where: { idGame: req.params.id } })
-		gamesId = scores.map(game => game.dataValues.idTeam);
-			
+		// Renvoie les données récupérées
+		return res.status(200).json(teams);
 
 	// Gère les erreurs
-	}catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-		});
+	} catch(err) {
+		next(err)
 	}	
-
-	try {
-		// Pour chaque id de team, la récupérer dans la table team
-		const teamsData = await Team.findAll({ where: { id: { [Op.in]: gamesId } } });
-
-		return res.status(200).json(teamsData);
-
-	// Gère les erreurs
-	} catch (err) {
-		return res.status(500).json({
-		message: err.message || "Une erreur s'est produite lors de la récupération des jeux."
-		});
-	}
 		  
 	
 
