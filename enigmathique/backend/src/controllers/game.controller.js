@@ -509,3 +509,14 @@ exports.getRooms = async (req, res, next) => {
 		next(err)
 	}
 }
+
+exports.getTeams = async (req, res, next) => {
+	try{
+		// Récupère la partie souhaité
+		const teams = await Team.findAll({ where: { idGame: req.params.id} })
+		return res.status(200).json(teams);
+		// Gère les erreurs
+	} catch (err) {
+		next(err)
+	}
+}
