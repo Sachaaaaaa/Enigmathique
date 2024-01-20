@@ -85,15 +85,15 @@ const Dashboard = () => {
 						<EmptyInfoBlock 
 							title="Nouvelle partie ?"
 							link="/create-game"
-							minHeight="200px"
+							sizeClasses="min-h-[200px]"
 						/>
 					</>);
 			}
 		// Si il n'y a pas de parties, on place deux blocs vides
 		} else {
 			return <>
-				<EmptyInfoBlock title="Nouvelle partie ?" link="/create-game" minHeight="200px"/>
-				<EmptyInfoBlock title="Nouvelle partie ?" link="/create-game" minHeight="200px"/> 
+				<EmptyInfoBlock title="Nouvelle partie ?" link="/create-game" sizeClasses="min-h-[200px]"/>
+				<EmptyInfoBlock title="Nouvelle partie ?" link="/create-game" sizeClasses="min-h-[200px]"/> 
 				</>;
 		}
 	}
@@ -150,7 +150,8 @@ const Dashboard = () => {
 						</div>
 
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
+						{courses.length !== 0 ? <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>
+							: <EmptyInfoBlock title="Créer une classe ?" link="/class" sizeClasses="w-full h-[calc(100%-50px)]"/>}
 					</section>
 			</main>
 		</LayoutProf>
