@@ -7,7 +7,7 @@ function Students() {
 	const {id} = useParams()
 	return (
 		<LayoutProf>
-			<main className='h-screen bg-main-color overflow-auto'>
+			<main>
 				<ListStudents id={parseInt(id)}/>
 			</main>
 		</LayoutProf>

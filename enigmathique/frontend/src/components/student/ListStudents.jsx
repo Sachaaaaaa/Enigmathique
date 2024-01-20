@@ -61,7 +61,7 @@ const ListStudents = (props) => {
 					<CreateButton title="Ajouter un élève" onClick={() => setCreateModalOpen(true)}/>
 			</ContentHeader> 
 
-			<ul className='flex flex-wrap gap-5 p-5 pb-5'>
+			<ul className='flex flex-wrap gap-5 p-5 mt-10'>
 				{filteredStudents.map((student) => (
 					<StudentElement key={student.id} student={student} onChange={() => loadStudents()}/>
 				))}

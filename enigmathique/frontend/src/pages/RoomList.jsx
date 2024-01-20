@@ -38,7 +38,7 @@ const RoomList = () => {
 
 	return (
 		<LayoutProf>
-			<main className='h-screen bg-main-color overflow-auto'>
+			<main>
 				<ContentHeader title="" link='/dashboard'>
 						<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>
 						<RoomNav

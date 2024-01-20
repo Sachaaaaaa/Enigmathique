@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const SearchInput = (props) => {
 	return(
-		<section className='flex flex-row items-center justify-center bg-white rounded-full p-3 py-0 gap-2 shadow'>
+		<section className='min-h-max flex flex-row items-center justify-center self-stretch bg-white rounded-full p-3 py-0 gap-2 shadow'>
 			<IconContext.Provider value={{className: 'blue-font-color'}} >
 				<FaSearch/>
 			</IconContext.Provider>
