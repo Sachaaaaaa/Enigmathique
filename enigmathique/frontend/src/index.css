@@ -101,8 +101,27 @@
             .border-white-color {
                 @apply border-[#E6EFF5] ;
             }
+            .border-purple-color {
+                @apply border-[#5705F5] ;
+            }
 
-    /**************** Page d'accueil ***************/
+    /******************* page d'accueil *****************/
+
+        /** Header **/
+            
+            /* Boutons d'authentification */
+            .home-auth-button {
+                @apply w-[180px] px-3 py-1 font-semibold border-2 border-white shadow-md rounded-[30px] ;
+            }
+        /** Sections (deux sections fullscreen) **/
+            .home-section {
+                @apply relative flex justify-center items-center h-screen min-h-[450px] ;
+            }
+        
+        /** Formulaire de partie **/
+            .home-form-content {
+                @apply w-[280px] py-2 px-3 mb-4 font-semibold text-center border-2 border-gray-300 shadow-md rounded  ;
+            }
 
         /** Animations **/
 
@@ -136,14 +155,11 @@
                     @apply top-0 blue-font-color
                 }
         
-        /** Formulaire de partie **/
-        .home-form-content {
-            @apply w-[280px] font-semibold text-center shadow-md border-2 border-gray-300 rounded  ;
-        }
 
-    /*********************** TopBar du professeur ***********************/
+
+    /******************* TopBar du professeur *****************/
     .topbar-container {
-        @apply flex flex-row items-center h-1/6 px-0 py-0  border-b-2 border-white-color box-border  ;
+        @apply flex flex-row items-center h-1/6 px-0 py-0 border-b-2 border-white-color box-border  ;
     }
 
    /*********************** Formulaire ***********************/
@@ -168,6 +184,44 @@
         .form-button-style {
             @apply w-full mt-2 py-2 text-white font-bold rounded focus:outline-none ;
         }
+
+    /*********************** Navigation Sidebar ***********************/
+
+        /* Conteneur de la sidebar */
+        .nav-container {
+            @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-white-color box-border ;
+        }
+
+        /* Conteneur du menu */
+        .nav-content {
+            @apply flex flex-col justify-between items-center h-full w-full py-6 pr-2 whitespace-nowrap;
+        }
+
+        .nav-item {
+            @apply flex flex-row justify-start items-center w-full gap-4 nav-font-color;
+        }
+
+        .nav-item:hover {
+            @apply text-[#7C79FF];
+        }
+
+        .nav-item-indicator {
+            @apply w-2 h-[60px] bg-transparent border-r-2 border-transparent rounded-r-[30px];
+        }
+
+        .nav-item-selected {
+            @apply flex flex-row justify-start items-center gap-4 w-full text-[#4C49ED];
+        }
+
+        .nav-item-indicator-selected {
+            @apply  bg-[#4C49ED]  border-[#4C49ED] ;
+        }
+
+        .nav-menu-link {
+            @apply h-[60px] w-full flex flex-row justify-start items-center gap-2 ;
+        }
+        }
+
 
     /*********************** Dashboard ***********************/
 
@@ -325,38 +379,3 @@
 
 
 
-    /**
-   * NavBar
-   */
-    .nav-container {
-        @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 box-border border-white-color;
-    }
-
-    .nav-content {
-        @apply flex flex-col justify-between items-center h-full w-full py-6 pr-2 whitespace-nowrap;
-    }
-
-    .nav-item {
-        @apply flex flex-row justify-start items-center gap-4 w-full nav-font-color;
-    }
-
-    .nav-item:hover {
-        @apply text-[#7C79FF];
-    }
-
-    .nav-item-indicator {
-        @apply w-2 h-[60px] bg-transparent border-r-2 border-transparent rounded-r-[30px];
-    }
-
-    .nav-item-selected {
-        @apply flex flex-row justify-start items-center gap-4 w-full text-[#4C49ED];
-    }
-
-    .nav-item-indicator-selected {
-        @apply  bg-[#4C49ED]  border-[#4C49ED] ;
-    }
-
-    .nav-menu-link {
-        @apply h-[60px] w-full flex flex-row justify-start items-center gap-2 ;
-    }
-}
