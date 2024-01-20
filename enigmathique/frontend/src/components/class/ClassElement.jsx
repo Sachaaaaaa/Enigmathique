@@ -7,6 +7,7 @@ import Course from "../../models/course.model";
 import { IoIosStats } from "react-icons/io";
 import Game from "../../models/game.model";
 import PropTypes from 'prop-types';
+import ActionButton from "components/dashboard/ActionButton";
 
 const ClassElement = ({classe, onChange,index}) => {
 
@@ -22,7 +23,7 @@ const ClassElement = ({classe, onChange,index}) => {
 		await Course.delete(id);
 		onChange();
 		setDeleteModalOpen(false);
-		console.log('delete ' + id);
+		//console.log('delete ' + id);
 	}
 
 	const handleClickEdit = async (event, id) => {
@@ -30,7 +31,7 @@ const ClassElement = ({classe, onChange,index}) => {
 		const data = await Course.edit(name, id);
 		onChange();
 		setEditModalOpen(false);
-		console.log('edit ' + id);
+		//console.log('edit ' + id);
 	}
 
 	const loadGamesOf = async() => {
@@ -65,7 +66,7 @@ const ClassElement = ({classe, onChange,index}) => {
 				{classe.name}
 			</td>
 			<td className="td-style">
-				<Link to={`/class/${classe.id}`} className='w-fit btn-utils-see'>
+				<Link to={`/class/${classe.id}`} className='w-fit btn-action-see'>
 						<IoPerson size='1em'/>
 						<p>Voir les élèves</p>
 
@@ -77,25 +78,18 @@ const ClassElement = ({classe, onChange,index}) => {
 
 			<td className="td-style text-right pr-5">
 			<div className='space-x-3'>
-				<Link to='/' >
-					<button
-						title='Statistiques'
-						className='btn-utils btn-utils-course-student-Statistiques p-2 '>
-						<IoIosStats size='1.25em'/>
-					</button>
-				</Link>
-				<button
-					title='Modifier'
-					className='btn-utils btn-utils-course-student-Modifier p-2'
-					onClick={() => setEditModalOpen(true)}>
-					<MdOutlineModeEdit size='1.25em'/>
-				</button>
-				<button
-					title='Supprimer'
-					className='btn-utils btn-utils-course-student-Supprimer p-2'
-					onClick={() => setDeleteModalOpen(true)}>
-					<MdDeleteForever size='1.25em'/>
-				</button>
+			<ActionButton 
+				title="Statistiques"
+				link='/'
+			/>
+			<ActionButton
+				title="Modifier"
+				onClick={() => setEditModalOpen(true)}
+			/>
+			<ActionButton
+				title="Supprimer"
+				onClick={() => setDeleteModalOpen(true)}
+			/>
 			</div>
 			</td>
 			{editModalOpen && (

@@ -47,13 +47,15 @@ function Signup() {
 	};
 
 	return (
-		<div className='h-screen w-screen  main-background-color '>
+		// Ecran entier
+		<div className='h-screen w-screen bg-main-color overflow-x-hidden'>
+			
 			<AuthHeader title="Inscription"/>
-			<div className='form-container-style'>
+			
+			{/* Conteneur du formulaire (full width et centre le formulaire) */}
+			<div className='form-container-style min-h-[550px]'>
 
-					<form
-						onSubmit={handleRegister}
-						className='min-w-[450px] flex flex-col items-center justify-between bg-white primary-font-color shadow-md rounded p-8 pb-0'>
+					<form onSubmit={handleRegister} className='form-style'>
 						<Textfield
 							label='Prénom'
 							placeholder='Votre prénom'
@@ -85,14 +87,18 @@ function Signup() {
 							text='S’inscrire'
 							loading={loading}
 						/>
+
 						{message && (
-							<div className='text-red-500 text-xs mt-2'>{message}</div>
+							<div className='text-error-style'>{message}</div>
 						)}
-						<div className='pt-5 pb-2 w-fit text-sm primary-font-color'>
+						
+						<div className='text-auth-container-style'>
 							<span> Vous avez déjà un compte ?</span>
-							<Link to='/login' className='ml-1 font-medium gradient-font decoration-[#0A06F4]  hover:underline'>Se connecter </Link>
+							<Link to='/login' className='text-auth-style'>Se connecter </Link>
 						</div>
 					</form>
+
+					{/* Conditions d'inscription */}
 					<div className='w-[450px] text-[13px] p-1 text-center primary-font-color'>
 						<span>En {"t'inscrivant"}, tu acceptes nos </span> 
 						<Link to='' className='font-medium underline'>Conditions générales</Link>

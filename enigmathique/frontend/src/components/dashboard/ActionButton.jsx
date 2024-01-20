@@ -1,6 +1,8 @@
 import React from 'react' ;
 import { Link } from 'react-router-dom';
 import {IoIosStats} from 'react-icons/io';
+import {FaRankingStar} from "react-icons/fa6";
+import { FiInfo } from "react-icons/fi";
 import {MdOutlineModeEdit, MdDeleteForever} from 'react-icons/md';
 import PropTypes from 'prop-types';
 
@@ -10,8 +12,8 @@ const ActionButton = ({title,link = '', onClick= ''}) => {
         'Statistiques': <IoIosStats size='1.25em'/>,
         'Modifier': <MdOutlineModeEdit size='1.25em'/>,
         'Supprimer': <MdDeleteForever size='1.25em'/>,
-        'Classement': <MdDeleteForever size='1.25em'/>,
-        'Détails': <MdDeleteForever size='1.25em'/>,
+        'Classement': <FaRankingStar size='1.25em'/>,
+        'Détails': <FiInfo size='1.25em'/>,
     }
     const icon = actionMap[title];
     return (
@@ -19,7 +21,7 @@ const ActionButton = ({title,link = '', onClick= ''}) => {
             <button
                 title={title}
                 onClick={onClick}
-                className={`btn-utils btn-utils-course-student-${title} p-2`}>
+                className={"btn-action-"+title+" p-2"}>
                 {icon}
             </button>
         </Link>

@@ -23,7 +23,7 @@ const ListStudents = (props) => {
 	const loadStudents = async () => {
 		const data = await Student.getAll(props.id);
 		setStudents(data);
-		console.log(data);
+		//console.log(data);
 	}
 	
 	useEffect(() => {
@@ -35,14 +35,14 @@ const ListStudents = (props) => {
 		await Student.create(firstname, lastname, idCourse);
 		loadStudents();
 		setCreateModalOpen(false);
-		console.log('create ' + id);
+		//console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
 	}
 	
 	const [filter, setFilter] = useState({text: ''});
 	const handleChangeText = (e) => {
-		console.log(filter);
+		//console.log(filter);
 		setFilter({...filter, text: e.target.value})
 	}
 	//filtre les élèves en fonction du texte entré
@@ -61,7 +61,7 @@ const ListStudents = (props) => {
 					<CreateButton title="Ajouter un élève" onClick={() => setCreateModalOpen(true)}/>
 			</ContentHeader> 
 
-			<ul className='flex flex-wrap gap-5 p-5 pb-5'>
+			<ul className='flex flex-wrap gap-5 p-5 mt-10'>
 				{filteredStudents.map((student) => (
 					<StudentElement key={student.id} student={student} onChange={() => loadStudents()}/>
 				))}
