@@ -7,6 +7,7 @@ import Course from "../../models/course.model";
 import { IoIosStats } from "react-icons/io";
 import Game from "../../models/game.model";
 import PropTypes from 'prop-types';
+import toast from "react-hot-toast";
 import ActionButton from "components/dashboard/ActionButton";
 
 const ClassElement = ({classe, onChange,index}) => {
@@ -20,7 +21,14 @@ const ClassElement = ({classe, onChange,index}) => {
 	
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
-		await Course.delete(id);
+		await toast.promise(
+			Course.delete(id),
+			{
+				loading: 'Deleting...',
+				success: <b>La classe à bien été supprimée</b>,
+				error: <b>Une erreur s&apos;est produite</b>,
+			}
+		);
 		onChange();
 		setDeleteModalOpen(false);
 		//console.log('delete ' + id);
@@ -28,7 +36,14 @@ const ClassElement = ({classe, onChange,index}) => {
 
 	const handleClickEdit = async (event, id) => {
 		event.preventDefault();
-		const data = await Course.edit(name, id);
+		await toast.promise(
+			Course.edit(name, id),
+			{
+				loading: 'Saving...',
+				success: <b>La classe à bien été modifiée</b>,
+				error: <b>Une erreur s&apos;est produite</b>,
+			}
+		);
 		onChange();
 		setEditModalOpen(false);
 		//console.log('edit ' + id);
@@ -78,7 +93,7 @@ const ClassElement = ({classe, onChange,index}) => {
 
 			<td className="td-style text-right pr-5">
 			<div className='space-x-3'>
-			<ActionButton 
+			<ActionButton
 				title="Statistiques"
 				link='/'
 			/>
