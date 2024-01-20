@@ -43,14 +43,15 @@ const Login = () => {
 
 
 	return (
-		<div className='h-screen w-screen bg-main-color '>
+		// Ecran entier
+		<div className='h-screen w-screen bg-main-color overflow-x-hidden'>
+
 			<AuthHeader title="Connexion"/>
-			<div className='form-container-style'>
-				<div className='w-full max-w-md'>
-					<form
-						onSubmit={handleLogin}
-						className='min-w-[450px] flex flex-col items-center justify-between bg-white primary-font-color shadow-md rounded p-8 pb-0'
-					>
+
+			{/* Conteneur du formulaire (full width et centre le formulaire) */}
+			<div className='form-container-style min-h-[350px]'>
+
+					<form onSubmit={handleLogin} className='form-style' >
 						<Textfield 
 							label='Email'
 							placeholder='Votre adresse mail'
@@ -68,16 +69,18 @@ const Login = () => {
 							text='Se connecter'
 							loading={loading}
 						/>
+						
 						{message && (
-							<div className='text-red-500 text-xs mt-2'>{message}</div>
+							<div className='text-error-style'>{message}</div>
 						)}
-						<div className='pt-5 pb-2 w-fit text-sm primary-font-color'>
+
+						<div className='text-auth-container-style '>
 							<span> Pas encore de compte ?</span>
-							<Link to='/signup' className='ml-1 font-medium blue-gradient-font-color decoration-[#0A06F4]  hover:underline'>{"S'inscrire"} </Link>
+							<Link to='/signup' className='text-auth-style'>{"S'inscrire"} </Link>
 						</div>
+
 					</form>
 				</div>
-			</div>
 		</div>
 	)
 };

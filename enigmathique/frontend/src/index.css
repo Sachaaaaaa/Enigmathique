@@ -113,6 +113,7 @@
             .home-auth-button {
                 @apply w-[180px] px-3 py-1 font-semibold border-2 border-white shadow-md rounded-[30px] ;
             }
+
         /** Sections (deux sections fullscreen) **/
             .home-section {
                 @apply relative flex justify-center items-center h-screen min-h-[450px] ;
@@ -155,19 +156,16 @@
                     @apply top-0 blue-font-color
                 }
         
+       /*********************** Formulaire ***********************/
+       /* Les formulaires sont ceux d'inscription et de connexion */
+       /* Le style des input et des labels sont réutilisés pour les Modals */
 
-
-    /******************* TopBar du professeur *****************/
-    .topbar-container {
-        @apply flex flex-row items-center h-1/6 px-0 py-0 border-b-2 border-white-color box-border  ;
-    }
-
-   /*********************** Formulaire ***********************/
-
-        /* Conteneur */
+        /* Conteneur global */
         .form-container-style {
-            @apply  flex flex-col justify-center items-center 
-                    w-screen h-[calc(100%-75px)] min-h-[600px] p-5 ;
+            @apply  flex flex-col justify-center items-center w-screen h-[calc(100%-75px)] p-5 ;
+        }
+        .form-style {
+            @apply flex flex-col justify-between items-center min-w-[450px] p-8 pb-0 bg-white primary-font-color shadow-md rounded
         }
         /* Titre des input */
         .form-label-style {
@@ -184,6 +182,24 @@
         .form-button-style {
             @apply w-full mt-2 py-2 text-white font-bold rounded focus:outline-none ;
         }
+
+        /* Message d'erreur */
+        .text-error-style {
+            @apply text-red-500 text-xs mt-2 ;
+        }
+        
+        /* Texte d'authentification */
+        .text-auth-container-style {
+            @apply w-fit pt-5 pb-2 primary-font-color text-sm ;
+        }
+        .text-auth-style {
+            @apply ml-1 blue-gradient-font-color font-medium decoration-[#0A06F4] hover:underline ;
+        }
+
+    /******************* TopBar du professeur *****************/
+    .topbar-container {
+        @apply flex flex-row items-center h-1/6 px-0 py-0 border-b-2 border-white-color box-border  ;
+    }
 
     /*********************** Navigation Sidebar ***********************/
 
