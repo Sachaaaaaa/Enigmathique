@@ -1,11 +1,10 @@
 import React, {useState} from "react";
 import Student from "../../models/student.model";
-import {Link} from "react-router-dom";
-import {IoIosStats} from "react-icons/io";
-import {MdDeleteForever, MdOutlineModeEdit} from "react-icons/md";
+
 import Modal, {ModalBody} from "../Modal";
 import PropTypes from "prop-types";
 import ActionButton from "components/dashboard/ActionButton";
+import toast from "react-hot-toast";
 
 const StudentElement = ({student, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -18,7 +17,15 @@ const StudentElement = ({student, onChange}) => {
 	
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
-		await Student.delete(id);
+		await toast.promise(
+			Student.delete(id),
+			{
+				loading: 'Suppression...',
+				success: "L'élève a bien été supprimé",
+				error: "Une erreur s'est produite",
+			}
+		);
+		
 		onChange();
 		setDeleteModalOpen(false);
 		//console.log('delete ' + id);
@@ -27,7 +34,14 @@ const StudentElement = ({student, onChange}) => {
 	
 	const handleClickEdit = async (event, firstname, lastname, idCourse, idStudent) => {
 		event.preventDefault();
-		await Student.edit(firstname, lastname, idCourse, idStudent);
+		await toast.promise(
+			Student.edit(firstname, lastname, idCourse, idStudent),
+			{
+				loading: 'Enregistrement...',
+				success: "L'élève a bien été modifiée",
+				error: "Une erreur s'est produite",
+			}
+		);
 		onChange();
 		setEditModalOpen(false);
 		//console.log('edit ' + id);

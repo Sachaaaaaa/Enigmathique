@@ -25,8 +25,8 @@ const ClassElement = ({classe, onChange,index}) => {
 			Course.delete(id),
 			{
 				loading: 'Suppression...',
-				success: <b>La classe a bien été supprimée</b>,
-				error: <b>{"Une erreur s'est produite"}</b>,
+				success: "La classe a bien été supprimée",
+				error: "Une erreur s'est produite",
 			}
 		);
 		onChange();
@@ -40,8 +40,8 @@ const ClassElement = ({classe, onChange,index}) => {
 			Course.edit(name, id),
 			{
 				loading: 'Enregistrement...',
-				success: <b>La classe a bien été modifiée</b>,
-				error: <b>{"Une erreur s'est produite"}</b>,
+				success: "La classe a bien été modifiée",
+				error: "Une erreur s'est produite",
 			}
 		);
 		onChange();

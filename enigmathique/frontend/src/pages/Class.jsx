@@ -31,9 +31,9 @@ const Class = () => {
 	const handleClickCreate = async (event) => {
 		event.preventDefault();
 		await toast.promise(Course.create(name), {
-			loading: 'Création de la classe...',
-			success: 'Classe créée !',
-			error: 'Erreur lors de la création de la classe'
+			loading: 'Ajout...',
+			success: 'Classe ajoutée !',
+			error: "Une erreur s'est produite"
 		});
 		loadClasses();
 		setCreateModalOpen(false);

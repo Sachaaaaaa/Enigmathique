@@ -7,7 +7,7 @@ import StudentElement from "./StudentElement";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import CreateButton from 'components/dashboard/CreateButton';
 import Textfield from 'components/authform/Textfield';
-import SubmitButton from 'components/authform/SubmitButton';
+import toast from "react-hot-toast";
 
 const ListStudents = (props) => {
 	
@@ -32,7 +32,11 @@ const ListStudents = (props) => {
 	
 	const handleClickCreate = async (event, firstname, lastname, idCourse) => {
 		event.preventDefault();
-		await Student.create(firstname, lastname, idCourse);
+		await toast.promise(Student.create(firstname, lastname, idCourse), {
+			loading: "Ajout...",
+			success: 'Elève ajouté !',
+			error: "Une erreur s'est produite"
+		});
 		loadStudents();
 		setCreateModalOpen(false);
 		//console.log('create ' + id);
