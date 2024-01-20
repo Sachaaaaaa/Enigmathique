@@ -55,15 +55,21 @@ const TopBarProf = () => {
 	};
 
 	return(
-		<section className="topbar-container pl-5 flex justify-between h-fit">
+		<section className="topbar-container p-5 flex justify-between h-fit">
+
 			<div >
-				<h1 className="primary-font-color text-2xl font-semibold py-5">{text}</h1>
+				<h1 className="primary-font-color text-2xl font-semibold ">{text}</h1>
 			</div>
-			<div className="flex flex-row items-center gap-2">
+			
+			<div className="flex flex-row items-center gap-5">
+
+				{/* Logo déconnexion */}
 				<Link to='/' onClick={handleLogout} className='p-2 rounded-full bg-[#E6EFF5]'>
-						<MdLogout color="#807FF7"/>
+						<MdLogout color="#4C49ED"/>
 				</Link>
-				<div className="primary-font-color p-5 text-right text-xs">
+				
+				{/* Nom du professeur */}
+				<div className="primary-font-color text-right text-xs">
 					<p>{professor ? professor.firstname : 'Loading...'}</p>
 					<p>{professor ? professor.lastname : 'Loading...'}</p>
 				</div>

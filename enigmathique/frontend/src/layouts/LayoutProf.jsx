@@ -5,9 +5,14 @@ import TopBarProf from "../components/TopBarProf";
 
 const LayoutProf = (props) => {
 	return(
-		<div className="flex h-screen w-screen overflow-y-hidden overflow-x-hidden">
+		// Ecran entier
+		<div className="flex h-screen w-screen">
+
+			{/* Menu latéral (width 1/6) */}
 			<SideBar/>
-			<div className="flex flex-col flex-grow w-5/6 min-h-screen  overflow-x-auto">
+
+			{/* TopBar et contenu (width 5/6) */}
+			<div className="flex flex-col flex-grow w-5/6 min-h-screen overflow-x-auto">
 				<TopBarProf/>
 				{props.children}
 			</div>

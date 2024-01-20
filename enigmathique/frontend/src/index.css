@@ -156,87 +156,89 @@
                     @apply top-0 blue-font-color
                 }
         
-       /*********************** Formulaire ***********************/
+    /*********************** Formulaire ***********************/
        /* Les formulaires sont ceux d'inscription et de connexion */
        /* Le style des input et des labels sont réutilisés pour les Modals */
 
         /* Conteneur global */
-        .form-container-style {
-            @apply  flex flex-col justify-center items-center w-screen h-[calc(100%-75px)] p-5 ;
-        }
-        .form-style {
-            @apply flex flex-col justify-between items-center min-w-[450px] p-8 pb-0 bg-white primary-font-color shadow-md rounded
-        }
+            .form-container-style {
+                @apply  flex flex-col justify-center items-center w-screen h-[calc(100%-75px)] p-5 ;
+            }
+            .form-style {
+                @apply flex flex-col justify-between items-center min-w-[450px] p-8 pb-0 bg-white primary-font-color shadow-md rounded
+            }
+
         /* Titre des input */
-        .form-label-style {
-            @apply block mb-2 text-sm font-bold  ;
-        }
+            .form-label-style {
+                @apply block mb-2 text-sm font-bold  ;
+            }
 
         /* Inputs */
-        .form-inputfield-style {
-            @apply  w-full h-fit py-2 px-3 primary-font-color leading-snug 
-                    border rounded shadow appearance-none focus:outline-none ;
-        }
+            .form-inputfield-style {
+                @apply  w-full h-fit py-2 px-3 primary-font-color leading-snug 
+                        border rounded shadow appearance-none focus:outline-none ;
+            }
 
         /* Boutons de validation*/
-        .form-button-style {
-            @apply w-full mt-2 py-2 text-white font-bold rounded focus:outline-none ;
-        }
+            .form-button-style {
+                @apply w-full mt-2 py-2 text-white font-bold rounded focus:outline-none ;
+            }
 
         /* Message d'erreur */
-        .text-error-style {
-            @apply text-red-500 text-xs mt-2 ;
-        }
+            .text-error-style {
+                @apply text-red-500 text-xs mt-2 ;
+            }
         
         /* Texte d'authentification */
-        .text-auth-container-style {
-            @apply w-fit pt-5 pb-2 primary-font-color text-sm ;
-        }
-        .text-auth-style {
-            @apply ml-1 blue-gradient-font-color font-medium decoration-[#0A06F4] hover:underline ;
-        }
+            .text-auth-container-style {
+                @apply w-fit pt-5 pb-2 primary-font-color text-sm ;
+            }
+            .text-auth-style {
+                @apply ml-1 blue-gradient-font-color font-medium decoration-[#0A06F4] hover:underline ;
+            }
 
     /******************* TopBar du professeur *****************/
-    .topbar-container {
-        @apply flex flex-row items-center h-1/6 px-0 py-0 border-b-2 border-white-color box-border  ;
-    }
+        .topbar-container {
+            @apply flex flex-row items-center h-1/6 px-0 py-0 border-b-2 border-white-color box-border  ;
+        }
 
     /*********************** Navigation Sidebar ***********************/
 
         /* Conteneur de la sidebar */
-        .nav-container {
-            @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-white-color box-border ;
-        }
+            .nav-container {
+                @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-white-color box-border ;
+            }
 
         /* Conteneur du menu */
-        .nav-content {
-            @apply flex flex-col justify-between items-center h-full w-full py-6 pr-2 whitespace-nowrap;
-        }
+            .nav-content {
+                @apply flex flex-col justify-between items-center w-full h-full  py-6 pr-2 whitespace-nowrap;
+            }
+            
+        /* Element du menu */
+            .nav-item {
+                @apply flex justify-start items-center w-full gap-4 nav-font-color;
+            }
+            .nav-item:hover {
+                @apply text-[#7C79FF];
+            }
+            /* Si l'élément est sélectionné */
+            .nav-item-selected {
+                @apply nav-item text-[#4C49ED];
+            }
 
-        .nav-item {
-            @apply flex flex-row justify-start items-center w-full gap-4 nav-font-color;
-        }
+        /* Indicateur de sélection */
+            .nav-item-indicator {
+                @apply w-2 h-[60px] bg-transparent border-r-2 border-transparent rounded-r-[30px];
+            }
+            .nav-item-indicator-selected {
+                @apply nav-item-indicator bg-[#4C49ED] border-[#4C49ED] ;
+            }
 
-        .nav-item:hover {
-            @apply text-[#7C79FF];
-        }
+        /* Titre de l'élément */    
+            .nav-menu-link {
+                @apply flex flex-row justify-start items-center gap-2 h-[60px] w-full ;
+            }
 
-        .nav-item-indicator {
-            @apply w-2 h-[60px] bg-transparent border-r-2 border-transparent rounded-r-[30px];
-        }
-
-        .nav-item-selected {
-            @apply flex flex-row justify-start items-center gap-4 w-full text-[#4C49ED];
-        }
-
-        .nav-item-indicator-selected {
-            @apply  bg-[#4C49ED]  border-[#4C49ED] ;
-        }
-
-        .nav-menu-link {
-            @apply h-[60px] w-full flex flex-row justify-start items-center gap-2 ;
-        }
-        }
 
 
     /*********************** Dashboard ***********************/
@@ -277,25 +279,25 @@
             }
 
         /* Bouton voir */
-        .btn-show {
-            @apply flex items-center justify-center w-full h-10 mt-1 bg-blue-gradient-color text-white text-center uppercase rounded-b-[30px] transition-colors duration-300;
-        }
-        .btn-show:hover {
-            @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
-        }
+            .btn-show {
+                @apply flex items-center justify-center w-full h-10 mt-1 bg-blue-gradient-color text-white text-center uppercase rounded-b-[30px] transition-colors duration-300;
+            }
+            .btn-show:hover {
+                @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
+            }
 
 
     /*********************** Affichage de liste ***********************/
         
         /* Titre des colonnes */
-        .table-title {
-            @apply pb-4 px-4 whitespace-nowrap blue-gradient-font-color text-xs uppercase   ;
-        }
+            .table-title {
+                @apply pb-4 px-4 whitespace-nowrap blue-gradient-font-color text-xs uppercase   ;
+            }
 
         /* Style des élements des listes */
-        .td-style {
-            @apply p-4 font-medium whitespace-nowrap ;
-        }
+            .td-style {
+                @apply p-4 font-medium whitespace-nowrap ;
+            }
 
 
     /*********************** Composants Modal ***********************/
@@ -303,24 +305,24 @@
     /* Similaires à des formulaires, ils réutilisent donc les mêmes classes */
 
         /* Bouton annuler */        
-        .modal-cancel-button-style {
-            @apply  text-[#0A06F4] form-button-style flex items-center justify-center h-[40px]
-                    bg-transparent border-2 border-blue-color box-border ;
-        }
+            .modal-cancel-button-style {
+                @apply  text-[#0A06F4] form-button-style flex items-center justify-center h-[40px]
+                        bg-transparent border-2 border-blue-color box-border ;
+            }
 
         /* Bouton supprimer */
-        .modal-validate-button-style {
-            @apply form-button-style  h-[40px];
-        }
+            .modal-validate-button-style {
+                @apply form-button-style  h-[40px];
+            }
 
         /* Bouton spécifique pour la page de liste d'élèves */
-        .modal-student-button-style {
-            @apply h-[30px] text-sm p-0 ;
-        }
+            .modal-student-button-style {
+                @apply h-[30px] text-sm p-0 ;
+            }
         /* Input spécifique pour la page de liste d'élèves */
-        .modal-student-input-style {
-            @apply  h-[30px] text-sm ;
-        }
+            .modal-student-input-style {
+                @apply  h-[30px] text-sm ;
+            }
 
 
     /*********************** Boutons utilitaires ***********************/
@@ -354,44 +356,42 @@
             }
 
         /* Bouton statistiques */
-        .btn-action-Statistiques {
-            @apply btn-action bg-[#4C49ED]
-        }
-        .btn-action-Statistiques:hover {
-            @apply bg-gradient-to-r from-[#6462e6] to-[#4C49ED];
-        }    
+            .btn-action-Statistiques {
+                @apply btn-action bg-[#4C49ED]
+            }
+            .btn-action-Statistiques:hover {
+                @apply bg-gradient-to-r from-[#6462e6] to-[#4C49ED];
+            }    
 
         /* Bouton modifier */    
-        .btn-action-Modifier {
-            @apply btn-action bg-[#FB7D5B]
-        }
-        .btn-action-Modifier:hover {
-            @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
-        }
+            .btn-action-Modifier {
+                @apply btn-action bg-[#FB7D5B]
+            }
+            .btn-action-Modifier:hover {
+                @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
+            }
 
         /* Bouton supprimer */
-        .btn-action-Supprimer {
-            @apply btn-action bg-[#EF4565]
-        }
-        .btn-action-Supprimer:hover {
-            @apply bg-gradient-to-r from-[#F87A90] to-[#EF4565];
-        }
+            .btn-action-Supprimer {
+                @apply btn-action bg-[#EF4565]
+            }
+            .btn-action-Supprimer:hover {
+                @apply bg-gradient-to-r from-[#F87A90] to-[#EF4565];
+            }
 
         /* Bouton classement */
-        .btn-action-Classement {
-            @apply btn-action bg-[#fabe32]
-        }
-        .btn-action-Classement:hover {
-            @apply bg-gradient-to-r from-[#f3ca6a] to-[#fabe32];
-        }
+            .btn-action-Classement {
+                @apply btn-action bg-[#fabe32]
+            }
+            .btn-action-Classement:hover {
+                @apply bg-gradient-to-r from-[#f3ca6a] to-[#fabe32];
+            }
 
         /* Boutons infos */
-        .btn-action-Détails {
-            @apply btn-action bg-[#0704c3]
-        }
-        .btn-action-Détails:hover {
-            @apply bg-gradient-to-r from-[#3a38d1] to-[#0704c3];
-        }
-
-
-
+            .btn-action-Détails {
+                @apply btn-action bg-[#0704c3]
+            }
+            .btn-action-Détails:hover {
+                @apply bg-gradient-to-r from-[#3a38d1] to-[#0704c3];
+            }
+}

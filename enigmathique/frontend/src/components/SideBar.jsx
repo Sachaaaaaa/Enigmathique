@@ -77,32 +77,23 @@ const ItemList = (props) => {
 
 	return (
 		<>
-			{selected ? (
-				<li className='nav-item-selected'>
-					<div className='nav-item-indicator nav-item-indicator-selected'></div>
-					<Link to={type[props.type].path} onClick={props.onClick} className='nav-menu-link'>
-						<IconContext.Provider value={{className: 'text-inherit w-[25px] h-[25px] '}}>
-							{type[props.type].icon}
-						</IconContext.Provider>
-						<button className='text-inherit h-20'>{type[props.type].name}</button>
-					</Link>
-				</li>
-			) : (
-				<li className='nav-item'>
-					<div className='nav-item-indicator'></div>
-					<Link to={type[props.type].path} onClick={props.onClick} className='h-[60px] w-full flex flex-row justify-start items-center gap-2'>
-						<IconContext.Provider value={{className: 'text-inherit w-[25px] h-[25px]'}}>
-							{type[props.type].icon}
-						</IconContext.Provider>
-						<button className='text-inherit h-20'>{type[props.type].name}</button>
-					</Link>
-				</li>
-			)}
+		{/* Si l'élément est sélectionné, on ajoute -selected à la classe des balises <li> et <div> pour changer le style */}
+		<li className={`nav-item${selected ? '-selected' : ''}`}> 
+		
+			{/* Indicateur de sélection */}
+			<div className={`nav-item-indicator${selected ? '-selected' : ''}`}></div>
+
+			{/* Lien vers la page correspondante */}
+			<Link to={type[props.type].path} onClick={props.onClick} className='nav-menu-link'>
+				<IconContext.Provider value={{className: 'text-inherit w-[25px] h-[25px] '}}>
+					{type[props.type].icon}
+				</IconContext.Provider>
+				<button className='text-inherit h-20'>{type[props.type].name}</button>
+			</Link>
+		</li>
 		</>
 	);
 };
-
-
 ItemList.propTypes = {
 	type: PropTypes.string.isRequired,
 	currentPath: PropTypes.string,
