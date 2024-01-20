@@ -3,8 +3,14 @@ import PropTypes from "prop-types";
 import SideBar from "../components/SideBar";
 import TopBarProf from "../components/TopBarProf";
 import {Toaster} from "react-hot-toast";
+import toast from "react-hot-toast";
+import {useEffect} from "react";
+import {useLocation} from "react-router-dom";
+
+
 
 const LayoutProf = (props) => {
+
 	return(
 		// Ecran entier
 		<div className="flex fullscreen-container">
@@ -16,14 +22,6 @@ const LayoutProf = (props) => {
 			<div className="flex flex-col flex-grow w-5/6 min-h-screen overflow-x-auto">
 				<TopBarProf/>
 				{props.children}
-				<Toaster
-					containerStyle={{
-						top: 100,
-						left: 20,
-						bottom: 20,
-						right: 20,
-					}}
-				/>
 			</div>
 		</div>
 	);

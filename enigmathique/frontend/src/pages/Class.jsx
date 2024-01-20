@@ -5,11 +5,14 @@ import Modal, {ModalBody, ModalHeader} from '../components/Modal';
 import Course from "../models/course.model";
 import ClassElement from '../components/class/ClassElement';
 import {useState, useEffect} from 'react';
-import toast from 'react-hot-toast';
 
 import CreateButton from 'components/dashboard/CreateButton';
 import ContentHeader from 'components/dashboard/ContentHeader';
 import TableContainer from 'components/dashboard/TableContainer';
+import Notification from 'components/Notification';
+import toast from 'react-hot-toast';
+import {useLocation} from 'react-router-dom';
+
 
 const Class = () => {
 
@@ -34,7 +37,8 @@ const Class = () => {
 			loading: 'Ajout...',
 			success: 'Classe ajoutée !',
 			error: "Une erreur s'est produite"
-		});
+			}
+		);
 		loadClasses();
 		setCreateModalOpen(false);
 		setName('');
@@ -43,6 +47,8 @@ const Class = () => {
 	return (
 		<LayoutProf>
 			<main>
+				{/* Notification feedback */}
+				<Notification/>
 				<ContentHeader title="" link='/dashboard'>
 						<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
 				</ContentHeader>

@@ -1,6 +1,7 @@
 import LayoutProf from '../layouts/LayoutProf';
 import React from 'react';
 import ListStudents from '../components/student/ListStudents';
+import Notification from '../components/Notification';
 import {useParams} from 'react-router-dom';
 
 function Students() {
@@ -8,6 +9,7 @@ function Students() {
 	return (
 		<LayoutProf>
 			<main>
+				<Notification/>
 				<ListStudents id={parseInt(id)}/>
 			</main>
 		</LayoutProf>
