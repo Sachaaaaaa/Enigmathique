@@ -45,7 +45,7 @@ const Games = () => {
 	}, [filter, games]);
 	return (
 		<LayoutProf>
-			<main className=" h-screen bg-main-color overflow-x-hidden">
+			<main>
 				<ContentHeader title="" link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
 					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>

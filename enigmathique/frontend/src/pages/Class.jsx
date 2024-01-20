@@ -37,7 +37,7 @@ const Class = () => {
 
 	return (
 		<LayoutProf>
-			<main className='h-screen bg-main-color overflow-x-scroll'>
+			<main>
 				<ContentHeader title="" link='/dashboard'>
 						<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
 				</ContentHeader>

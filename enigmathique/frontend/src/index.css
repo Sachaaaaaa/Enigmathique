@@ -6,6 +6,12 @@
 @import "mafs/font.css";
 
 
+@layer base {
+
+    main {
+        @apply h-screen bg-main-color overflow-auto ;
+    }
+}
 
 /**************** Barre de défilement ***************/
 
@@ -15,9 +21,9 @@
         background: transparent;  
     }
 
-    /* Personnalisation de la barre de défilement */
+   /* Personnalisation de la barre de défilement*/
 
-        ::-webkit-scrollbar {
+        ::-webkit-scrollbar, ::-webkit-scrollbar:vertical {
             width: 10px;
         }
     
