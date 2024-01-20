@@ -5,6 +5,8 @@ import Modal, {ModalBody, ModalHeader} from '../components/Modal';
 import Course from "../models/course.model";
 import ClassElement from '../components/class/ClassElement';
 import {useState, useEffect} from 'react';
+import toast from 'react-hot-toast';
+
 import CreateButton from 'components/dashboard/CreateButton';
 import ContentHeader from 'components/dashboard/ContentHeader';
 import TableContainer from 'components/dashboard/TableContainer';
@@ -28,8 +30,11 @@ const Class = () => {
 
 	const handleClickCreate = async (event) => {
 		event.preventDefault();
-		const data = await Course.create(name);
-		//console.log(data);
+		await toast.promise(Course.create(name), {
+			loading: 'Création de la classe...',
+			success: 'Classe créée !',
+			error: 'Erreur lors de la création de la classe'
+		});
 		loadClasses();
 		setCreateModalOpen(false);
 		setName('');
