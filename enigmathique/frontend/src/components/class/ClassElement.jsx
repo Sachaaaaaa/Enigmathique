@@ -24,9 +24,9 @@ const ClassElement = ({classe, onChange,index}) => {
 		await toast.promise(
 			Course.delete(id),
 			{
-				loading: 'Deleting...',
-				success: <b>La classe à bien été supprimée</b>,
-				error: <b>Une erreur s&apos;est produite</b>,
+				loading: 'Suppression...',
+				success: <b>La classe a bien été supprimée</b>,
+				error: <b>{"Une erreur s'est produite"}</b>,
 			}
 		);
 		onChange();
@@ -39,9 +39,9 @@ const ClassElement = ({classe, onChange,index}) => {
 		await toast.promise(
 			Course.edit(name, id),
 			{
-				loading: 'Saving...',
-				success: <b>La classe à bien été modifiée</b>,
-				error: <b>Une erreur s&apos;est produite</b>,
+				loading: 'Enregistrement...',
+				success: <b>La classe a bien été modifiée</b>,
+				error: <b>{"Une erreur s'est produite"}</b>,
 			}
 		);
 		onChange();
