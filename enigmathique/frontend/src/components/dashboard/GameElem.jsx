@@ -3,11 +3,9 @@ import React, {useEffect, useState, useTransition} from 'react';
 import PropTypes from 'prop-types';
 import TeamService from "../../services/team.service";
 import Game from "../../models/game.model";
-import Course from "../../models/course.model";
-import useCourses from "../../hooks/useCourses";
-import useTeams from "../../hooks/useTeams";
-import TeamModel from "../../models/team.model";
 import useCourse from "../../hooks/useCourse";
+
+import InfoBlockElem from './InfoBlockElem';
 
 const maxTime = 600;
 
@@ -72,34 +70,20 @@ const GameElem = (props) => {
 	return (
 		// Affichage des informations de la partie
 		// Grid pour afficher les informations sur 2 colonnes fixes
-		<article className='info-block grid grid-cols-2 gap-1 '>
+		<article className='info-block grid-block'>
 
-			<article className='element-info-block col-span-2 pt-2'>
-				<h3 className='small-title'>Nom</h3>
-				<p className='small-text'>{game.name}</p>
-			</article>
+			<InfoBlockElem title='Nom' text={game.name} additionalClasses='col-span-2 pt-2' />
 
-			<article className='element-info-block col-span-1'>
-				<h3 className='small-title'>Classe</h3>
-				<p className='small-text'>{course.name}</p>
-			</article>
+			<InfoBlockElem title='Classe' text={course.name}/>
 
-			<article className='element-info-block col-span-1'>
-				<h3 className='small-title'>Date</h3>
-				<p className='small-text'>{game.createdAt.toLocaleString()}</p>
-			</article>
 
-			<article className='element-info-block col-span-1'>
-				<h3 className='small-title'>Gagnants</h3>
-				<p className='small-text'>{game.state !== 2 ? 'Partie non terminée' : console.log("non")
+			<InfoBlockElem title='Date' text={game.createdAt.toLocaleString()} />
+
+			<InfoBlockElem title='Gagnants' text={game.state !== 2 ? 'Partie non terminée' : console.log("non")
 					//getWinners().map((stud) => {`${stud.firstname} ${stud.lastname} `})
-					}</p>
-			</article>
-
-			<article className='element-info-block col-span-1'>
-				<h3 className='small-title'>Taux de réussite</h3>
-				<p className='small-text'>{getWinRate()} %</p>
-			</article>
+					} />
+					
+			<InfoBlockElem title='Taux de réussite' text={getWinRate()+' %'} />
 			
 			{game.state === 2 ?
 				<Link to={'./ranking/'+game.id} className="btn-show col-span-2">Voir</Link> :

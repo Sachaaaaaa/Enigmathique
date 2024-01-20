@@ -280,10 +280,13 @@
             .info-block {
                 @apply bg-white mt-2 w-[15svw] min-w-[280px] grow rounded-[30px] shadow-md overflow-hidden flex flex-col;
             }
+            .grid-block {
+                @apply grid grid-cols-2 gap-1 ;
+            }
 
         /* Bloc vide si aucune information n'est disponible */
             .empty-info-block {
-                @apply info-block self-stretch min-h-[200px]  grow justify-center items-center ;
+                @apply info-block self-stretch min-h-[200px] justify-center items-center ;
             }
 
         /* Elements du bloc */

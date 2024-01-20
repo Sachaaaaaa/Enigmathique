@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import ClassElem from '../components/dashboard/ClassElem';
 import RoomElem from '../components/dashboard/RoomElem';
 import GameElem from '../components/dashboard/GameElem';
-import EmptyInfoBloc from 'components/dashboard/EmptyInfoBloc';
+import EmptyInfoBlock from 'components/dashboard/EmptyInfoBlock';
 
 import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
@@ -82,7 +82,7 @@ const Dashboard = () => {
 				return (
 					<>
 						<GameElem key={0} game={games[0]}/>
-						<EmptyInfoBloc 
+						<EmptyInfoBlock 
 							title="Nouvelle partie ?"
 							link="/create-game"
 							minHeight="200px"
@@ -92,8 +92,8 @@ const Dashboard = () => {
 		// Si il n'y a pas de parties, on place deux blocs vides
 		} else {
 			return <>
-				<EmptyInfoBloc title="Nouvelle partie ?" link="/create-game" minHeight="200px"/>
-				<EmptyInfoBloc title="Nouvelle partie ?" link="/create-game" minHeight="200px"/> 
+				<EmptyInfoBlock title="Nouvelle partie ?" link="/create-game" minHeight="200px"/>
+				<EmptyInfoBlock title="Nouvelle partie ?" link="/create-game" minHeight="200px"/> 
 				</>;
 		}
 	}
