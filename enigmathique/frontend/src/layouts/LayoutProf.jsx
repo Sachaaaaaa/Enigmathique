@@ -6,7 +6,7 @@ import TopBarProf from "../components/TopBarProf";
 const LayoutProf = (props) => {
 	return(
 		// Ecran entier
-		<div className="flex h-screen w-screen">
+		<div className="flex fullscreen-container">
 
 			{/* Menu latéral (width 1/6) */}
 			<SideBar/>

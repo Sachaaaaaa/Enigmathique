@@ -8,7 +8,7 @@ const RoomElem = (props) => {
 	const room = props.room;
 
 	return (
-		<article className='grid grid-cols-2 gap-1 info-container'>
+		<article className='grid grid-cols-2 gap-1 info-block'>
 			<figure className='col-span-2 relative h-[120px] rounded-t-[30px]'
 					style={{
 						backgroundImage: `url(${require('../../assets/img/room-img/'+room.name+'.png')})`,
@@ -17,11 +17,11 @@ const RoomElem = (props) => {
 					}}>
 				<figcaption className='absolute text-white font-bold bottom-2 left-4'>{room.name}</figcaption>
 			</figure>
-			<article className='col-span-1 element-info-container'>
+			<article className='col-span-1 element-info-block'>
 				<h3 className='small-title'>Chapitre</h3>
 				<p className='small-text'>{room.chapter}</p>
 			</article>
-			<article className='col-span-1 element-info-container'>
+			<article className='col-span-1 element-info-block'>
 				<h3 className='small-title'>Difficulté</h3>
 				<p className='small-text'>{room.difficulty}</p>
 			</article>

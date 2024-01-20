@@ -73,15 +73,16 @@ const ItemList = (props) => {
 	//TODO: Surveiller si ca marche avec toutes les pages
 	const selected = path.includes(type[props.type].path);
 
-
+	const liClassName = selected ? 'nav-item-selected' : 'nav-item' ;
+	const divClassName = selected ? 'nav-item-indicator-selected' : 'nav-item-indicator';
 
 	return (
 		<>
 		{/* Si l'élément est sélectionné, on ajoute -selected à la classe des balises <li> et <div> pour changer le style */}
-		<li className={`nav-item${selected ? '-selected' : ''}`}> 
+		<li className={liClassName}> 
 		
 			{/* Indicateur de sélection */}
-			<div className={`nav-item-indicator${selected ? '-selected' : ''}`}></div>
+			<div className={divClassName}></div>
 
 			{/* Lien vers la page correspondante */}
 			<Link to={type[props.type].path} onClick={props.onClick} className='nav-menu-link'>

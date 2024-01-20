@@ -61,22 +61,28 @@
 /***************** Classes ***************/
 @layer components {
 
-        /*********************** Couleurs ***********************/
-    
+    /************* Plein écran du conteneur global *************/
+
+        .fullscreen-container {
+            @apply h-screen w-screen overflow-hidden ;
+        }
+
+    /*********************** Couleurs ***********************/
+
         /** Couleurs de fond **/
 
-        .bg-main-color {
-            @apply bg-[#F5F7FA] ;  
-        }
+            .bg-main-color {
+                @apply bg-[#F5F7FA] ;  
+            }
 
-        .bg-blue-color {
-            @apply bg-[#0A06F4];
-        }            
-        
-        .bg-blue-gradient-color {
-            @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
-        }
-    
+            .bg-blue-color {
+                @apply bg-[#0A06F4];
+            }            
+            
+            .bg-blue-gradient-color {
+                @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
+            }
+
         /** Couleurs de texte **/
 
             .primary-font-color {
@@ -243,28 +249,45 @@
 
     /*********************** Dashboard ***********************/
 
-        /* Titres des sections dans le dashboard*/
-            .medium-title {
-                @apply primary-font-color font-semibold;
+        /* Section du dashboard */
+            .section {
+                @apply grow min-w-[280px] p-5 ;
             }
+        
+        /* Titre des articles dans le dashboard*/
 
-        /* Label "Voir tout" du dashboard*/
-            .show-all-text {
-                @apply medium-title text-sm hover:underline;
-            }
+            /* Conteneur du titre */
+                .title-container {
+                    @apply flex justify-between w-full min-w-[280px] ;
+                }
 
-        /* Conteneur des sections du dashboard*/
+            /* Titre principal */
+                .medium-title {
+                    @apply primary-font-color font-semibold;
+                }
+
+            /* Label "Voir tout" du dashboard*/
+                .show-all-text {
+                    @apply medium-title text-sm hover:underline;
+                }
+            
+        /* Conteneur des blocs d'informations du dashboard */
             .info-container {
+                @apply flex flex-wrap flex-grow justify-between items-center gap-2 w-full h-full ;
+            }
+
+        /* Bloc des informations du dashboard*/
+            .info-block {
                 @apply bg-white mt-2 w-[15svw] min-w-[280px] grow rounded-[30px] shadow-md overflow-hidden flex flex-col;
             }
 
-        /* Conteneur vide si aucune information n'est disponible */
-            .empty-info-container {
-                @apply info-container self-stretch min-h-[200px]  grow justify-center items-center ;
+        /* Bloc vide si aucune information n'est disponible */
+            .empty-info-block {
+                @apply info-block self-stretch min-h-[200px]  grow justify-center items-center ;
             }
 
-        /* Conteneur des informations */
-            .element-info-container {
+        /* Elements du bloc */
+            .element-info-block {
                 @apply p-1 ml-3 mr-3
             }
 
