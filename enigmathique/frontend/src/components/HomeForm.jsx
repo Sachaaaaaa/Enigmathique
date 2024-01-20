@@ -19,7 +19,8 @@ const HomeForm = () => {
 		<div id="home" className="flex justify-center items-center min-h-[450px] h-screen background-animation">
 
 			{/* Formulaire pour rejoindre une partie */}
-			<form className="relative w-full h-full max-w-md flex flex-col justify-center items-center">
+			<form className="relative w-full h-full max-w-md flex flex-col justify-center items-center"
+			onSubmit={handleValider}>
 				{/* Logo enigmathique */}
 				<img src={logo} alt='logo' className='pb-10 z-0'/>
 				{/* Textfield pour le code */}
@@ -38,7 +39,6 @@ const HomeForm = () => {
 					<button
 						className="home-form-content py-2 px-4 text-white uppercase tracking-wide  hover:bg-[#5705F5] hover:border-[#5705F5] transition duration-300 "
 						type="submit"
-						onClick={handleValider}
 					>
 						<span>Rejoindre</span>
 					</button>

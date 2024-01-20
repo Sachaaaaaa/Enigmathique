@@ -50,7 +50,7 @@ const Games = () => {
 					<SearchInput handleChangeText={handleTextChange}/>
 					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>
 				</ContentHeader>
-				<TableContainer headers={['Nom', 'Date', 'Score', 'Taux de réussite', 'Nombre de salles', 'Action']}>
+				<TableContainer minWidth={800} headers={['Nom', 'Date', 'Score', 'Taux de réussite', 'Nombre de salles', 'Action']}>
 					{filteredGames.map((game, index) => {
 							return (
 								<tr key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>

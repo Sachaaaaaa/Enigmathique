@@ -61,10 +61,10 @@
     }
 
     .label-filter-selected {
-        @apply border-b-2 border-blue-color blue-font-color w-1/4 p-4 text-center min-w-fit
+        @apply border-b-2 border-blue-color blue-font-color p-3 text-center w-fit
     }
     .label-filter {
-        @apply border-b-2 border-gray-400 text-gray-400 w-1/4 p-4 text-center min-w-fit;
+        @apply border-b-2 border-white-color nav-font-color p-3 text-center w-fit;
     }
     .label-filter:hover {
         @apply text-[#7c79ff] border-[#7c79ff];

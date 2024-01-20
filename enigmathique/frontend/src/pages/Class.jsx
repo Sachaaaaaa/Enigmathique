@@ -37,11 +37,11 @@ const Class = () => {
 
 	return (
 		<LayoutProf>
-			<main className=' h-screen bg-main-color overflow-x-hidden'>
+			<main className=' w-full h-screen bg-main-color overflow-x-scroll'>
 				<ContentHeader title="" link='/dashboard'>
 						<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
 				</ContentHeader>
-				<TableContainer headers={['Nom','élèves', 'Dernière partie', 'Action']}>
+				<TableContainer minWidth={550} headers={['Nom','élèves', 'Dernière partie', 'Action']}>
 					{courses.map((classe,index) => (
 							<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadClasses()}/>
 						))}

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const TableContainer = (props) => {
-    const {headers, children} = props;
+    const {minWidth, headers, children} = props;
 
     const length = headers.length;
     return (
-        <table className="w-full min-w-[550px] mt-5 primary-font-color ">
+        <table className={`relative w-full min-w-[${minWidth}px] mt-5 primary-font-color`}>
 				<thead className='w-full '>
 					<tr className=" w-full text-left">
                         {headers.map((title, index) => (
@@ -23,6 +23,7 @@ const TableContainer = (props) => {
 
 TableContainer.propTypes = {
     headers: PropTypes.array.isRequired,
+    minWidth: PropTypes.number.isRequired,
     children: PropTypes.node,
 }
 
