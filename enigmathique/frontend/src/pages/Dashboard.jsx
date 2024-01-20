@@ -3,14 +3,13 @@ import {Link} from 'react-router-dom';
 import ClassElem from '../components/dashboard/ClassElem';
 import RoomElem from '../components/dashboard/RoomElem';
 import GameElem from '../components/dashboard/GameElem';
+import EmptyInfoContainer from 'components/dashboard/EmptyInfoContainer';
+
 import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
-import Course from '../models/course.model';
-import RoomService from "../services/room.service";
-import Game from "../models/game.model";
-import RoomModel from "../models/room.model";
+
 import useCourses from "../hooks/useCourses";
 import useGames from "../hooks/useGames";
 import useRooms from "../hooks/useRooms";
@@ -81,22 +80,24 @@ const Dashboard = () => {
 				return (
 					<>
 						<GameElem key={0} game={games[0]}/>
-						<div className='empty-info-container'>
-							<Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link>
-						</div>
+						<EmptyInfoContainer 
+							title="Nouvelle partie ?"
+							link="/create-game"
+							minHeight="200px"
+						/>
 					</>);
 			}
 		} else {
 			return <>
-				<div className='empty-info-container'><Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
-			<div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div> </>;
+				<EmptyInfoContainer title="Nouvelle partie ?" link="/create-game" minHeight="200px"/>
+				<EmptyInfoContainer title="Nouvelle partie ?" link="/create-game" minHeight="200px"/> 
+				</>;
 		}
 	}
 
-
 	return (
 		<LayoutProf>
-			<main className='bg-main-color flex flex-wrap flex-grow gap-2 justify-between overflow-y-scroll overflow-x-hidden'>
+			<main className='flex justify-between flex-wrap flex-grow gap-2 overflow-x-hidden'>
 					<div className='w-[45svw] min-w-[280px] grow p-5'>
 						<div className='flex flex-col '>
 							<div className='primary-font-color flex justify-between w-full min-w-[280px]'>
