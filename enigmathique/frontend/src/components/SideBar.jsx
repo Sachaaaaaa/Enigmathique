@@ -26,7 +26,7 @@ const SideBar = () => {
 
 	return (
 		<nav className='nav-container'>
-			<Link to='/' className='w-[172px]'>
+			<Link to='/dashboard' className='w-[172px]'>
 				<img src={logo} alt='logo'/>
 			</Link>
 			<section className='nav-content'>
