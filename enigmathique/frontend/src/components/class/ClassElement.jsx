@@ -79,17 +79,17 @@ const ClassElement = ({classe, onChange,index}) => {
 			<td className="td-style text-right pr-5">
 			<div className='space-x-3'>
 			<ActionButton 
-						title="Statistiques"
-						link='/'
-					/>
-					<ActionButton
-						title="Modifier"
-						onClick={() => setEditModalOpen(true)}
-					/>
-					<ActionButton
-						title="Supprimer"
-						onClick={() => setDeleteModalOpen(true)}
-					/>
+				title="Statistiques"
+				link='/'
+			/>
+			<ActionButton
+				title="Modifier"
+				onClick={() => setEditModalOpen(true)}
+			/>
+			<ActionButton
+				title="Supprimer"
+				onClick={() => setDeleteModalOpen(true)}
+			/>
 			</div>
 			</td>
 			{editModalOpen && (

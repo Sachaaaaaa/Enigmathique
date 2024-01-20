@@ -7,6 +7,7 @@ import SearchInput from "../components/SearchInput";
 import CreateButton from "components/dashboard/CreateButton";
 import ContentHeader from "components/dashboard/ContentHeader";
 import TableContainer from "components/dashboard/TableContainer";
+import ActionButton from "components/dashboard/ActionButton";
 import {Link} from "react-router-dom";
 
 const Games = () => {
@@ -60,19 +61,16 @@ const Games = () => {
 									<td className="td-style">--</td>
 									<td className="td-style">--%</td>
 									<td className="td-style">--</td>
-									<td className="td-style">
-										<div className="flex flex-row justify-evenly">
-											<button
-												className={`${game.state !== 3 ? 'bg-[#e0aa00]' : 'bg-[#fcc43e]'} w-10 h-10 rounded-full`}
-												disabled={game.state !== 3}
-											>
-											</button>
-											<button
-												className={`${game.state !== 3 ? 'bg-[#0704c3]' : 'bg-[#0a06f4]'} w-10 h-10 rounded-full`}
-												disabled={game.state !== 3}
-											>
-
-											</button>
+									<td className="td-style text-right pr-5">
+										<div className="space-x-3">
+										<ActionButton 
+											title="Classement"
+											link='/'
+										/>
+										<ActionButton
+											title="Détails"
+											link={`/game/${game.id}`}
+										/>
 										</div>
 									</td>
 								</tr>

@@ -6,7 +6,7 @@ const TableContainer = (props) => {
 
     const length = headers.length;
     return (
-        <table className="w-full min-w-[550px] primary-font-color ">
+        <table className="w-full min-w-[550px] mt-5 primary-font-color ">
 				<thead className='w-full '>
 					<tr className=" w-full text-left">
                         {headers.map((title, index) => (

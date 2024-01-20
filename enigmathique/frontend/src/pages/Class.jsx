@@ -7,6 +7,7 @@ import ClassElement from '../components/class/ClassElement';
 import {useState, useEffect} from 'react';
 import CreateButton from 'components/dashboard/CreateButton';
 import ContentHeader from 'components/dashboard/ContentHeader';
+import TableContainer from 'components/dashboard/TableContainer';
 
 const Class = () => {
 
@@ -40,21 +41,12 @@ const Class = () => {
 				<ContentHeader title="" link='/dashboard'>
 						<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
 				</ContentHeader>
-				<table className="w-full min-w-[550px] primary-font-color ">
-					<thead className='w-full '>
-						<tr className=" w-full text-left">
-							<th className="pl-5 table-title ">Nom</th>
-							<th className="table-title">élèves</th>
-							<th className="table-title">Dernière partie</th>
-							<th className="table-title text-right pr-5">Action</th>
-						</tr>
-					</thead>
-					<tbody>
+				<TableContainer headers={['Nom','élèves', 'Dernière partie', 'Action']}>
 					{courses.map((classe,index) => (
-						<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadClasses()}/>
-					))}
-					</tbody>
-				</table>
+							<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadClasses()}/>
+						))}
+				</TableContainer>
+
 
 				{createModalOpen && (
 				<Modal setOpenModal={setCreateModalOpen}>
