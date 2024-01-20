@@ -213,12 +213,12 @@
         
         /* Titre des colonnes */
         .table-title {
-            @apply pb-4 blue-gradient-font-color text-xs uppercase   ;
+            @apply pb-4 px-4 whitespace-nowrap blue-gradient-font-color text-xs uppercase   ;
         }
 
         /* Style des élements des listes */
         .td-style {
-            @apply py-4 font-medium whitespace-nowrap ;
+            @apply p-4 font-medium whitespace-nowrap ;
         }
 
 

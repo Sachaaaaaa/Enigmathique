@@ -7,7 +7,7 @@ const LayoutProf = (props) => {
 	return(
 		<div className="flex h-screen w-screen overflow-y-hidden overflow-x-hidden">
 			<SideBar/>
-			<div className="flex flex-col w-5/6 h-full box-border">
+			<div className="flex flex-col w-5/6 min-w-fit h-full box-border">
 				<TopBarProf/>
 				{props.children}
 			</div>
