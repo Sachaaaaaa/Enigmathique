@@ -49,15 +49,31 @@ const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, descrip
 			</div>
 
 			{!hint && (
-				<button onClick={() => handleAskHint()} className="m-1.5" style={{ background: '#ffcc00', padding: '8px', borderRadius: '8px', width: '12vw' }}>
-					<BsQuestionDiamondFill/>
+				<button onClick={() => handleAskHint()} className="m-1.5"
+					style={{
+						background: '#ffcc00',
+						display: 'flex',
+						justifyContent: 'space-around',
+						alignItems: 'center',
+						padding: '8px',
+						borderRadius: '8px',
+					}}>
+					<BsQuestionDiamondFill /> Indice
 				</button>
 			)}
 
 			{hint && <p className="m-1.5">{hint}</p>}
 
-			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5" style={{ background: '#00ff00', padding: '8px', borderRadius: '8px', width: '12vw' }}>
-				<FaCheck/>
+			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5"
+				style={{
+					background: '#00ff00',
+					display: 'flex',
+					justifyContent: 'space-around',
+					alignItems: 'center',
+					padding: '8px',
+					borderRadius: '8px',
+				}}>
+				<FaCheck /> Valider
 			</button>
 		</>
 	);

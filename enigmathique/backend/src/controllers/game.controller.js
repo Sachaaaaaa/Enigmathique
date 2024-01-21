@@ -533,6 +533,19 @@ exports.getState = async (req, res, next) => {
 	}
 }
 
+exports.getMaxTeamSize = async(req, res, next) => {
+	
+	try{
+		// Récupère la partie souhaité
+		const game = await Game.findOne({ where: { id: req.params.id} })
+		return res.status(200).json(game.teamSize);
+
+	// Gère les erreurs
+	} catch (err) {
+		next(err)
+	}
+}
+
 exports.getRooms = async (req, res, next) => {
 	
 	try{
