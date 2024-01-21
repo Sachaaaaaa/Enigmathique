@@ -46,6 +46,7 @@ const Join = (props) => {
 		});
 
 		socket.on(ServerToClient.SyncAvailableStudents, (data) => {
+			console.log(data);
 			setAvailable(data.students);
 		});
 
@@ -94,7 +95,7 @@ const Join = (props) => {
 				<main className='flex flex-col h-full w-full p-4 bg-[#f5f7fa]'>
 					<h1 className='text-2xl'>Création de l&apos;équipe</h1>
 					<section className='flex flex-row justify-evenly gap-2 p-4 h-[70%] w-full'>
-						<AvailableStudents available={available} teamSize={4}/>
+						<AvailableStudents available={available} teamSize={maxTeamSize}/>
 						<SelectedStudents selected={selected} handleChange={handleTeamNameChange} teamSize={maxTeamSize}/>
 					</section>
 					<section className='flex flex-row justify-end p-4 h-[10%] w-full'>
