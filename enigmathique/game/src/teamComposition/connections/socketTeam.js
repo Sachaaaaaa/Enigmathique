@@ -57,6 +57,12 @@ class SocketTeam {
 	onAddStudent = (studentId) => {
 		console.log(clc.cyan('[Team] Ajout d\'un étudiant'));
 
+		// Vérifie si l'équipe est verrouillée ou confirmée
+		if (this.locked || this.confirmed) {
+			console.log(clc.redBright('[Team] Tentative d\'ajout d\'un étudiant dans une équipe verrouillée ou confirmée'));
+			return;
+		}
+
 		if (!this.session.isStudentAvailable(studentId)) {
 			return;
 		}
@@ -74,6 +80,12 @@ class SocketTeam {
 	onRemoveStudent = (studentId) => {
 		console.log(clc.cyan('[Team] Suppression d\'un étudiant ' + studentId));
 
+		// Vérifie si l'équipe est verrouillée ou confirmée
+		if (this.locked || this.confirmed) {
+			console.log(clc.redBright('[Team] Tentative de suppresion d\'un étudiant dans une équipe verrouillée ou confirmée'));
+			return;
+		}
+
 		const index = this.composition.findIndex(student => student.id === studentId);
 		if (index > -1) {
 			this.composition.splice(index, 1);
@@ -84,6 +96,12 @@ class SocketTeam {
 
 	onLockTeam = ({name}) => {
 		console.log(clc.cyan('[Team] Verrouillage de l\'équipe ' + clc.bold(name)));
+
+		// Vérifie si l'équipe est verrouillée ou confirmée
+		if (this.locked || this.confirmed) {
+			console.log(clc.redBright('[Team] Tentative de verrouillage d\'une équipe déjà verrouillée ou confirmée'));
+			return;
+		}
 
 		this.name = name;
 		this.locked = true;
