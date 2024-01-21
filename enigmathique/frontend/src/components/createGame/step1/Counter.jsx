@@ -13,7 +13,7 @@ const Counter = () => {
 		formData.teamSize > 1 ? setFormData({...formData, teamSize: formData.teamSize - 1}) : setFormData({...formData, teamSize: 1});
 	}
 
-	const btnClassname = 'grow text-xl text-white leading-9 shadow-md';
+	const btnClassname = 'grow text-xl text-white leading-10 shadow-md';
 	return (
 		<>
 			<label className='form-label-style ' htmlFor="courses">
@@ -26,7 +26,7 @@ const Counter = () => {
 						disabled={formData.teamSize < 2}>
 						-
 				</button>
-				<span className='grow-[2] self-stretch flex justify-center items-center bg-white text-xl border-y'>{formData.teamSize}</span>
+				<span className='grow-[2] self-stretch flex justify-center items-center bg-white text-lg border-y'>{formData.teamSize}</span>
 				<button className={`${btnClassname} bg-blue-color rounded-r`}
 						onClick={handleOnClickplus}>+
 				</button>

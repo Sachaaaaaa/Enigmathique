@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import Textfield from 'components/authform/Textfield';
+import FooterButtons from '../FooterButtons';
 
 
 const CreationGame1 = (props) => {
@@ -65,21 +66,7 @@ const CreationGame1 = (props) => {
 			</article>
 
 			{/* Boutons*/}
-			<article className="flex flex-row justify-between items-center w-full h-fit mb-5 px-5">
-				<Link
-					className='modal-cancel-button-style w-fit px-8 py-6'
-					to={'/dashboard'}
-					onClick={handleAnnuler}
-				>
-					Retour
-				</Link>
-				<button
-					className='bg-blue-gradient-color modal-validate-button-style w-fit px-8 py-6 border-2 border-blue-color box-border '
-					onClick={handleSuivant}
-				>
-					Suivant
-				</button>
-			</article>
+			<FooterButtons handleRetour={handleAnnuler} handleSuivant={handleSuivant}/>
 		</section>
 	);
 

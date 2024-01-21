@@ -6,9 +6,8 @@ import RoomNav from "./RoomNav";
 import Room from "./Room";
 import PropTypes from "prop-types";
 import Game from "../../../models/game.model";
-import { Link } from 'react-router-dom';
-import { MdArrowBackIos } from 'react-icons/md';
 import ContentHeader from 'components/dashboard/ContentHeader';
+import FooterButtons from '../FooterButtons';
 
 const CreationGame2 = (props) => {
 
@@ -73,7 +72,7 @@ const CreationGame2 = (props) => {
 	};
 
 	return (
-		<section className='flex flex-col h-[96%] w-full gap-4'>
+		<section className='flex flex-col flex-grow w-full h-[calc(100%-26px)] overflow-y-hidden'>
 			<ContentHeader title='Sélection des salles' onClick={handlePrecedent}>
 				<RoomNav
 					chapterChange={(e)=> (setFilter({...filter, chapter: e.target.value}))}
@@ -82,8 +81,7 @@ const CreationGame2 = (props) => {
 				/>
 			</ContentHeader>
 
-
-			<section className='flex flex-col w-full h-[78%] overflow-y-scroll pr-4'>
+			<article className=' grow flex flex-col w-full mt-10 pr-2 overflow-x-hidden overflow-y-auto'>
 				{filteredRooms.map((room, index) => {
 					return(
 						room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
@@ -100,23 +98,9 @@ const CreationGame2 = (props) => {
 							</>
 					);
 				})}
-			</section>
+			</article>
 
-			<section className="flex flex-row justify-evenly items-end className='h-[10%]' w-full">
-				<button
-					className='btn-cancel'
-					type='submit'
-					onClick={handlePrecedent}
-				>
-					Retour
-				</button>
-				{/*<Link className='btn-validate' to='/pregame/AG874AJ' onClick={handleSuivant}>*/}
-				{/*	Suivant*/}
-				{/*</Link>*/}
-				<button onClick={handleSuivant}>
-					Suivant
-				</button>
-			</section>
+			<FooterButtons precedent={handlePrecedent} suivant={handleSuivant}/>
 
 		</section>
 	)
