@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import Modal, {ModalBody, ModalHeader} from './Modal';
-import {MdDeleteForever, MdOutlineModeEdit, MdArrowBackIos} from 'react-icons/md';
+import Modal, {ModalBody, ModalHeader} from '../Modal';
+import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
 import { IoPerson } from "react-icons/io5";
-import PropTypes from 'prop-types';
-import {FaPlus} from "react-icons/fa6";
-import Course from "../models/course.model";
+import Course from "../../models/course.model";
 import { IoIosStats } from "react-icons/io";
-import Game from "../models/game.model";
+import Game from "../../models/game.model";
+import PropTypes from 'prop-types';
+import ActionButton from "components/dashboard/ActionButton";
 
 const ClassElement = ({classe, onChange,index}) => {
 
@@ -23,7 +23,7 @@ const ClassElement = ({classe, onChange,index}) => {
 		await Course.delete(id);
 		onChange();
 		setDeleteModalOpen(false);
-		console.log('delete ' + id);
+		//console.log('delete ' + id);
 	}
 
 	const handleClickEdit = async (event, id) => {
@@ -31,7 +31,7 @@ const ClassElement = ({classe, onChange,index}) => {
 		const data = await Course.edit(name, id);
 		onChange();
 		setEditModalOpen(false);
-		console.log('edit ' + id);
+		//console.log('edit ' + id);
 	}
 
 	const loadGamesOf = async() => {
@@ -59,8 +59,6 @@ const ClassElement = ({classe, onChange,index}) => {
 		}
 	}
 
-
-
 	return (
 		// className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}
 		<tr value={classe.name} key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
@@ -68,7 +66,7 @@ const ClassElement = ({classe, onChange,index}) => {
 				{classe.name}
 			</td>
 			<td className="td-style">
-				<Link to={`/class/${classe.id}`} className='w-fit btn-utils-see'>
+				<Link to={`/class/${classe.id}`} className='w-fit btn-action-see'>
 						<IoPerson size='1em'/>
 						<p>Voir les élèves</p>
 
@@ -80,25 +78,18 @@ const ClassElement = ({classe, onChange,index}) => {
 
 			<td className="td-style text-right pr-5">
 			<div className='space-x-3'>
-				<Link to='/' >
-					<button
-						title='Statistiques'
-						className='btn-utils btn-utils-course-student-stat p-2 '>
-						<IoIosStats size='1.25em'/>
-					</button>
-				</Link>
-				<button
-					title='Modifier'
-					className='btn-utils btn-utils-course-student-edit p-2'
-					onClick={() => setEditModalOpen(true)}>
-					<MdOutlineModeEdit size='1.25em'/>
-				</button>
-				<button
-					title='Supprimer'
-					className='btn-utils btn-utils-course-student-delete p-2'
-					onClick={() => setDeleteModalOpen(true)}>
-					<MdDeleteForever size='1.25em'/>
-				</button>
+			<ActionButton 
+				title="Statistiques"
+				link='/'
+			/>
+			<ActionButton
+				title="Modifier"
+				onClick={() => setEditModalOpen(true)}
+			/>
+			<ActionButton
+				title="Supprimer"
+				onClick={() => setDeleteModalOpen(true)}
+			/>
 			</div>
 			</td>
 			{editModalOpen && (
@@ -156,102 +147,10 @@ const ClassElement = ({classe, onChange,index}) => {
 	)
 }
 
-const ListClass = () => {
-
-	const [courses, setCourses] = useState([]);
-	const [createModalOpen, setCreateModalOpen] = useState(false);
-	const [name, setName] = useState('');
-
-	const loadClasses = async () => {
-		const data = await Course.getAll();
-		setCourses(data);
-		console.log(data);
-	}
-
-	useEffect(() => {
-		loadClasses();
-	}, []);
-
-
-	const handleClickCreate = async (event) => {
-		event.preventDefault();
-		const data = await Course.create(name);
-		console.log(data);
-		loadClasses();
-		setCreateModalOpen(false);
-		setName('');
-	}
-
-	return (
-		<>
-			<nav className='flex flex-row flex-grow justify-between w-full p-5 primary-font-color'>
-				<div className='flex items-center font-semibold text-lg'>
-					<Link to='/dashboard' className='m-auto p-1'>
-						<MdArrowBackIos size='1em'/>
-					</Link>
-				</div>
-				<div className='flex justify-end gap-3 p-5 pr-0'>
-					<button
-						className="btn-utils btn-utils-create"
-						onClick={() => setCreateModalOpen(true)}><FaPlus/><p>Créer une classe</p>
-					</button>
-				</div>
-			</nav>
-			<table className="w-full min-w-[550px] primary-font-color ">
-				<thead className='w-full '>
-					<tr className=" w-full text-left">
-						<th className="pl-5 table-title ">Nom</th>
-						<th className="table-title">élèves</th>
-						<th className="table-title">Dernière partie</th>
-						<th className="table-title text-right pr-5">Action</th>
-					</tr>
-				</thead>
-				<tbody>
-				{courses.map((classe,index) => (
-					<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadClasses()}/>
-				))}
-				</tbody>
-			</table>
-
-			{createModalOpen && (
-				<Modal setOpenModal={setCreateModalOpen}>
-					<ModalHeader title="Créer une classe" />
-					<ModalBody>
-						<form className='flex flex-col justify-center items-end w-full gap-3 '>
-							<div className='w-full pb-3'>
-							<label htmlFor='name' className='form-label-style primary-font-color'>
-								Nom de la classe
-							</label>
-							<input
-								type='text'
-								name='name'
-								id='name'
-								placeholder='Classe'
-								onChange={(e) => setName(e.target.value)}
-								className='form-inputfield-style  '/> 
-							</div>
-							<button
-								type='submit'
-								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
-								onClick={(event) => handleClickCreate(event)}>
-								Créer
-							</button>
-							<button
-								className='modal-cancel-button-style'
-								onClick={() => setCreateModalOpen(false)}>
-								Annuler
-							</button>
-						</form>
-					</ModalBody>
-				</Modal>)}
-		</>
-	);
-};
-
 ClassElement.propTypes = {
 	classe: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 	index: PropTypes.number.isRequired,
 }
 
-export default ListClass;
+export default ClassElement;

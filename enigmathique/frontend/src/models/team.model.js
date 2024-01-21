@@ -2,9 +2,10 @@ import TeamService from "../services/team.service";
 import Student from "./student.model";
 
 class TeamModel{
-	constructor(name, id) {
+	constructor(name, id, idGame) {
 		this.name = name;
 		this.id = id;
+		this.idGame= idGame;
 	}
 	static async getStudents(idTeam){
 		try {
@@ -25,7 +26,7 @@ class TeamModel{
 	static async getTeam(idTeam){
 		try {
 			const data = await TeamService.getTeam(idTeam);
-			return new TeamModel(data.name, data.id);
+			return new TeamModel(data.name, data.id, data.idGame);
 		}catch (e){
 			console.error(`erreur dans le getter d'une team dans le modèle de team (front) ${e}`);
 		}
@@ -33,7 +34,7 @@ class TeamModel{
 	static async getTeamFromGame(idGame){
 		try {
 			const data = await TeamService.getTeamFromGame(idGame);
-			return data.map((team) =>new TeamModel(team.name, team.id));
+			return data.map((team) =>new TeamModel(team.name, team.id, team.idGame));
 		}catch (e){
 			console.error(`erreur dans le getter des team pour une partie dans le modèle de team (front) ${e}`);
 		}

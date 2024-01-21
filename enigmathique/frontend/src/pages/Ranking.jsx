@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useParams, Link} from "react-router-dom";
 import GameModel from "../models/game.model";
 import TeamModel from "../models/team.model";
 import LayoutProf from "../layouts/LayoutProf";

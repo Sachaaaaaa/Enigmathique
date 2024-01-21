@@ -43,7 +43,7 @@ const Login = () => {
 
 
 	return (
-		<div className='h-screen w-screen main-background-color '>
+		<div className='h-screen w-screen bg-main-color '>
 			<AuthHeader title="Connexion"/>
 			<div className='form-container-style'>
 				<div className='w-full max-w-md'>
@@ -73,7 +73,7 @@ const Login = () => {
 						)}
 						<div className='pt-5 pb-2 w-fit text-sm primary-font-color'>
 							<span> Pas encore de compte ?</span>
-							<Link to='/signup' className='ml-1 font-medium gradient-font decoration-[#0A06F4]  hover:underline'>{"S'inscrire"} </Link>
+							<Link to='/signup' className='ml-1 font-medium blue-gradient-font-color decoration-[#0A06F4]  hover:underline'>{"S'inscrire"} </Link>
 						</div>
 					</form>
 				</div>

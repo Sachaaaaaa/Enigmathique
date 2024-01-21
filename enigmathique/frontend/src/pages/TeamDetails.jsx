@@ -1,74 +1,123 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { FaTimes, FaLightbulb, FaExclamationCircle, FaCheckCircle, FaPuzzlePiece, FaDoorOpen } from 'react-icons/fa';
 
-function TeamDetails({ teamData, onClose, data }) {
-	const [selectedRoom, setSelectedRoom] = useState('');
+function TeamDetails({ teamData, onClose }) {
+	const [selectedRoom, setSelectedRoom] = useState('Global');
 
-	const handleRoomChange = (e) => {
-		setSelectedRoom(e.target.value);
-	};
-
-	const roomDetails = selectedRoom && data.teams[teamData.id] ? data.teams[teamData.id].find(room => room.name === selectedRoom) : null;
+	const details = selectedRoom === 'Global'
+		? {
+			indicesUtilises: teamData.rooms.reduce((acc, room) => acc + room.numHints, 0),
+			erreursCommises: teamData.rooms.reduce((acc, room) => acc + room.numBadAnswers, 0),
+			sallesReussies: teamData.rooms.filter(room => room.isSolved).length,
+			enigmesResolues: teamData.rooms.reduce((acc, room) => acc + room.numSolved, 0),
+		}
+		: teamData.rooms.find(room => room.name === selectedRoom);
 
 	return (
-		<div className="fixed inset-0 flex items-center justify-center z-50">
-			<div className="modal-overlay absolute inset-0 bg-black opacity-50"></div>
-			<div className="modal-container bg-white w-full md:max-w-3xl mx-auto rounded shadow-lg z-50 overflow-y-auto">
-				<div className="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50" onClick={onClose}>
-					<svg className="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-						<path d="M6.293 6.293a1 1 0 011.414 0L9 7.586l1.293-1.293a1 1 0 111.414 1.414L10.414 9l1.293 1.293a1 1 0 11-1.414 1.414L9 10.414l-1.293 1.293a1 1 0 01-1.414-1.414L7.586 9 6.293 7.707a1 1 0 010-1.414z"></path>
-					</svg>
-                    Fermer
+		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+			<div className="bg-white w-full max-w-2xl mx-auto rounded-lg shadow-xl overflow-hidden">
+				<div className="flex justify-between items-center border-b p-5">
+					<h2 className="text-2xl font-bold">{teamData.teamName}</h2>
+					<button onClick={onClose} className="text-black text-2xl">
+						<FaTimes />
+					</button>
 				</div>
-
-				<div className="modal-content py-4 text-left px-6">
-					<h2 className="text-xl font-semibold">{teamData.teamName}</h2>
-					<div className="mb-4">Indices utilisés : {teamData.numHint}</div>
-					<div className="mb-4">Erreurs commises : {teamData.numBadAnswer}</div>
-					<div className="mb-4">
-						<h3 className="font-semibold">Temps de jeu</h3>
-						<p>{teamData.playTime}</p>
-					</div>
-					<div className="mb-4">
-						<h3 className="font-semibold">Score</h3>
-						<p>{teamData.score}</p>
-					</div>
-					<div className="mb-4">
-						<h3 className="font-semibold">Salles réussies</h3>
-						<p>{teamData.resolved}</p>
-					</div>
-
-					<div className="mb-4">
-						<label htmlFor="room-select" className="font-semibold">Choisir une Salle :</label>
-						<select id="room-select" value={selectedRoom} onChange={handleRoomChange} className="ml-2">
-							<option value="">Sélectionnez une salle</option>
-							{data.metadata.rooms.map(room => (
-								<option key={room} value={room}>{room}</option>
-							))}
-						</select>
-					</div>
-
-					{selectedRoom && roomDetails && (
-						<div>
-							<h3 className="font-semibold">Détails de la Salle {selectedRoom}</h3>
-							<p>Erreurs commises : {roomDetails.numBadAnswers}</p>
-							<p>Indices utilisés : {roomDetails.numHints}</p>
-							{/* ... Autres détails de la salle ... */}
+				<div className="p-5">
+					<div className="mb-4 flex items-center justify-between">
+						<label htmlFor="room-select" className="font-semibold text-gray-500">Détails :</label>
+						<div className="relative">
+							<select id="room-select" value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)} 
+								className="appearance-none bg-white border border-blue-500 text-blue-600 py-1 px-4 rounded-full shadow-sm focus:outline-none">
+								<option value="Global">Global</option>
+								{teamData.rooms.map((room) => (
+									<option key={room.name} value={room.name}>{room.name}</option>
+								))}
+							</select>
+							<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-blue-500">
+								<svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+									<path d="M5.5 7l5 5 5-5H5.5z" />
+								</svg>
+							</div>
 						</div>
-					)}
-
-					<div className="mb-4">
-						<button onClick={() => setSelectedRoom('global')} className="text-blue-600 hover:text-blue-800">
-                            Voir les Détails Globaux
-						</button>
 					</div>
+					<div className="space-y-2">
+						{selectedRoom === 'Global' ? (
+							<>
+								<div className="flex items-center">
+									<div className="p-4 rounded-full bg-yellow-100">
+										<FaLightbulb className="text-yellow-500 text-3xl" />
+									</div>
+									<div className="ml-3">
+										<p className="text-sm text-gray-500">Indices utilisés</p>
+										<p className="text-lg">{details.indicesUtilises}</p>
+									</div>
+								</div>
 
-					{selectedRoom === 'global' && (
-						<div>
-							<h3 className="font-semibold">Détails Globaux</h3>
-							{/* Afficher les détails globaux ici */}
-						</div>
-					)}
+								<div className="flex items-center">
+									<div className="p-4 rounded-full bg-red-100">
+										<FaExclamationCircle className="text-red-500 text-3xl" />
+									</div>
+									<div className="ml-3">
+										<p className="text-sm text-gray-500">Erreurs commises</p>
+										<p className="text-lg">{details.erreursCommises}</p>
+									</div>
+								</div>
+
+								<div className="flex items-center">
+									<div className="p-4 rounded-full bg-blue-100">
+										<FaDoorOpen className="text-blue-500 text-3xl" />
+									</div>
+									<div className="ml-3">
+										<p className="text-sm text-gray-500">Salles réussies</p>
+										<p className="text-lg">{details.sallesReussies}</p>
+									</div>
+								</div>
+							</>
+						): (
+							<>
+								<div className="flex items-center">
+									<div className="p-4 rounded-full bg-yellow-100">
+										<FaLightbulb className="text-yellow-500 text-3xl" />
+									</div>
+									<div className="ml-3">
+										<p className="text-sm text-gray-500">Indices utilisés</p>
+										<p className="text-lg">{details.numHints}</p>
+									</div>
+								</div>
+
+								<div className="flex items-center">
+									<div className="p-4 rounded-full bg-red-100">
+										<FaExclamationCircle className="text-red-500 text-3xl" />
+									</div>
+									<div className="ml-3">
+										<p className="text-sm text-gray-500">Erreurs commises</p>
+										<p className="text-lg">{details.numBadAnswers}</p>
+									</div>
+								</div>
+						
+								<div className="flex items-center">
+									<div className="p-4 rounded-full bg-blue-100">
+										<FaDoorOpen className="text-blue-500 text-3xl" />
+									</div>
+									<div className="ml-3">
+										<p className="text-sm text-gray-500">Salles réussies</p>
+										<p className="text-lg">{details.isSolved}</p>
+									</div>
+								</div>
+								<div className="flex items-center">
+									<div className="p-4 rounded-full bg-green-100">
+										<FaPuzzlePiece className="text-green-500 text-3xl" />
+									</div>
+									<div className="ml-3">
+										<p className="text-sm text-gray-500">Énigmes résolues</p>
+										<p className="text-lg">{details.numSolved}</p>
+									</div>
+								</div>
+							</>
+							
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -77,16 +126,21 @@ function TeamDetails({ teamData, onClose, data }) {
 
 TeamDetails.propTypes = {
 	teamData: PropTypes.shape({
-		id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-		teamName: PropTypes.string,
-		numHint: PropTypes.number,
-		numBadAnswer: PropTypes.number,
-		playTime: PropTypes.string,
-		score: PropTypes.number,
-		resolved: PropTypes.string,
+		teamName: PropTypes.string.isRequired,
+		rooms: PropTypes.arrayOf(
+			PropTypes.shape({
+				name: PropTypes.string.isRequired,
+				numHints: PropTypes.number.isRequired,
+				numBadAnswers: PropTypes.number.isRequired,
+				numSolved: PropTypes.number.isRequired,
+				isSolved: PropTypes.bool.isRequired
+			})
+		).isRequired
 	}).isRequired,
-	onClose: PropTypes.func.isRequired,
-	data: PropTypes.object, // Ajout de la nouvelle prop 'data'
+	onClose: PropTypes.func.isRequired
 };
 
 export default TeamDetails;
+
+
+

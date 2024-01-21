@@ -5,9 +5,7 @@ import PropTypes from "prop-types";
 
 
 const RoomNav = (props) => {
-	return(
-		<nav className='flex flex-row justify-end w-full h-[7%] pr-4 gap-12'>
-			<SearchInput handleChangeText={props.textChange}/>
+	return(			
 			<section className="flex flex-row justify-center items-center">
 				<label className={props.filter.chapter === 'suites'?'label-filter-selected':'label-filter'}>
 					<input
@@ -54,12 +52,10 @@ const RoomNav = (props) => {
 					Ensembles
 				</label>
 			</section>
-		</nav>
 	);
 }
 RoomNav.propTypes = {
 	chapterChange: PropTypes.func.isRequired,
-	textChange: PropTypes.func.isRequired,
 	filter: PropTypes.object.isRequired,
 }
 export default RoomNav;

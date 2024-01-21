@@ -5,6 +5,7 @@ import {IoIosStats} from "react-icons/io";
 import {MdDeleteForever, MdOutlineModeEdit} from "react-icons/md";
 import Modal, {ModalBody} from "../Modal";
 import PropTypes from "prop-types";
+import ActionButton from "components/dashboard/ActionButton";
 
 const StudentElement = ({student, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -20,7 +21,7 @@ const StudentElement = ({student, onChange}) => {
 		await Student.delete(id);
 		onChange();
 		setDeleteModalOpen(false);
-		console.log('delete ' + id);
+		//console.log('delete ' + id);
 	}
 	
 	
@@ -29,7 +30,7 @@ const StudentElement = ({student, onChange}) => {
 		await Student.edit(firstname, lastname, idCourse, idStudent);
 		onChange();
 		setEditModalOpen(false);
-		console.log('edit ' + id);
+		//console.log('edit ' + id);
 	}
 	
 	
@@ -45,25 +46,18 @@ const StudentElement = ({student, onChange}) => {
 				</h3>
 				</div>
 				<div className='space-x-3'>
-					<Link to='/'>
-						<button
-							title='Statistiques'
-							className='btn-utils btn-utils-course-student-stat p-2 '>
-							<IoIosStats size='1.25em'/>
-						</button>
-					</Link>
-					<button
-						title='Modifier'
-						className='btn-utils btn-utils-course-student-edit p-2'
-						onClick={() => setEditModalOpen(true)}>
-						<MdOutlineModeEdit size='1.25em'/>
-					</button>
-					<button
-						title='Supprimer'
-						className='btn-utils btn-utils-course-student-delete p-2'
-						onClick={() => setDeleteModalOpen(true)}>
-						<MdDeleteForever size='1.25em'/>
-					</button>
+					<ActionButton 
+						title="Statistiques"
+						link='/'
+					/>
+					<ActionButton
+						title="Modifier"
+						onClick={() => setEditModalOpen(true)}
+					/>
+					<ActionButton
+						title="Supprimer"
+						onClick={() => setDeleteModalOpen(true)}
+					/>
 				</div>
 			</section>
 			{editModalOpen && (
@@ -91,6 +85,7 @@ const StudentElement = ({student, onChange}) => {
 							onChange={(e) => setLastname(e.target.value)}
 							className='form-inputfield-style modal-student-input-style '/> 
 						</div>
+						<div className="w-full">
 						<button
 							type='submit'
 							className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-student-button-style'
@@ -102,6 +97,7 @@ const StudentElement = ({student, onChange}) => {
 							onClick={() => setEditModalOpen(false)}>
 							Annuler
 						</button>
+						</div>
 					</form>
 				</ModalBody>
 			</Modal>)}

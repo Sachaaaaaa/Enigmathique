@@ -5,9 +5,9 @@ import TopBarProf from "../components/TopBarProf";
 
 const LayoutProf = (props) => {
 	return(
-		<div className="flex flex-row h-screen w-screen overflow-y-hidden overflow-x-hidden">
+		<div className="flex h-screen w-screen overflow-y-hidden overflow-x-hidden">
 			<SideBar/>
-			<div className="flex flex-col w-full h-full box-border">
+			<div className="flex flex-col flex-grow w-5/6 min-h-screen  overflow-x-auto">
 				<TopBarProf/>
 				{props.children}
 			</div>

@@ -13,13 +13,14 @@ import Game from "../models/game.model";
 import RoomModel from "../models/room.model";
 import useCourses from "../hooks/useCourses";
 import useGames from "../hooks/useGames";
+import useRooms from "../hooks/useRooms";
 
 
 const Dashboard = () => {
 
 	const [courses] = useCourses();
 	const [games] = useGames();
-	const [rooms] = useGames();
+	const [rooms] = useRooms();
 
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
@@ -72,7 +73,6 @@ const Dashboard = () => {
 	// Fonction pour afficher les parties
 	const showGames = () => {
 		if(games.length !== 0) {
-			console.log(games);
 			if (games.length >= 2) {
 				return games.slice(-2).map((game, index) => (
 					<GameElem key={index} game={game}/>
@@ -96,7 +96,7 @@ const Dashboard = () => {
 
 	return (
 		<LayoutProf>
-			<main className='main-background-color flex flex-wrap flex-grow gap-2 justify-between overflow-y-scroll overflow-x-hidden'>
+			<main className='bg-main-color flex flex-wrap flex-grow gap-2 justify-between overflow-y-scroll overflow-x-hidden'>
 					<div className='w-[45svw] min-w-[280px] grow p-5'>
 						<div className='flex flex-col '>
 							<div className='primary-font-color flex justify-between w-full min-w-[280px]'>
