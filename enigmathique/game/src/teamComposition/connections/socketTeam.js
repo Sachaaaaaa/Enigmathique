@@ -108,6 +108,12 @@ class SocketTeam {
 		this.session.onTeamCompositionChange(this);
 	}
 
+	sendGameInfo = (maxTeamSize) => {
+		console.log(clc.yellowBright('[Team] Envoi des informations de la session'));
+
+		this.socket.emit(ServerToClient.GameInfo, { maxTeamSize: maxTeamSize });
+	}
+
 	sendAvailableStudents = (students) => {
 		console.log(clc.yellowBright('[Team] Envoi des étudiants disponibles'));
 
@@ -117,6 +123,7 @@ class SocketTeam {
 	sendTeamComposition = () => {
 		console.log(clc.yellowBright('[Team] Envoi de la composition de l\'équipe'));
 
+		// TODO: Modifier { composition: this.toData() } => Côté client donne : data.composition.{...}, pas pratique
 		this.socket.emit(ServerToClient.SyncTeamStudents, { composition: this.toData() });
 	}
 
