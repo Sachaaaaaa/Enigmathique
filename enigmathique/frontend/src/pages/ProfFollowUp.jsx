@@ -1,5 +1,3 @@
-// ProfFollowUp.jsx
-
 import React, { useEffect, useState, useContext } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
@@ -11,6 +9,8 @@ import TeamDetails from './TeamDetails';
 function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
 	const [totalRounds, setTotalRounds] = useState(null);
+	const [allData, setAllData] = useState(null);
+
 
 	// Assurez-vous que le token et le sessionId sont présents
 	const user = JSON.parse(localStorage.getItem('user'));
@@ -21,6 +21,33 @@ function ProfFollowUp() {
 
 	const [rankings, setRankings] = useState([]);
 	const [selectedTeam, setSelectedTeam] = useState(null);
+
+	const sumRoomData = (rooms) => {
+		let totalSolved = 0;
+		let totalGoodAnswer = 0;
+		let totalBadAnswer = 0;
+		let totalHint = 0;
+		let totalScore = 0;
+
+		for (let i = 0; i < rooms.length; i++) {
+			const roomData = rooms[i];
+			const roomName = roomData.name;
+			const roomIsSolved = roomData.isSolved;
+			const numResolved = roomData.numSolved;
+			const numBadAnswer = roomData.numBadAnswers;
+			const numHint = roomData.numHints;
+
+			const score = calculateScore(numResolved, numBadAnswer, numHint, roomIsSolved);
+			
+			totalSolved += roomIsSolved ? 1 : 0;
+			totalGoodAnswer += numResolved;
+			totalBadAnswer += numBadAnswer;
+			totalHint = numHint;
+			totalScore += score;
+		}
+
+		return { totalSolved, totalGoodAnswer, totalBadAnswer, totalHint, totalScore };
+	};
 
 	useEffect(() => {
 		if (token && sessionId) {
@@ -43,7 +70,9 @@ function ProfFollowUp() {
 			// Écouteur de progression de toutes les équipes
 			socket.on(ServerToClient.AllTeamsProgress, (data) => {
 				data = data.data;
+				setAllData(data);
 				console.log('Progression des équipes', data);
+				
 				if (data && data.metadata) {
 					const { currentRound, totalRounds } = data.metadata;
 					setCurrentRound(currentRound);
@@ -53,24 +82,17 @@ function ProfFollowUp() {
 				if (data && data.teams && typeof data.teams === 'object') {
 					const teamsData = Object.keys(data.teams).map((key) => {
 						if (data.teams[key] && data.teams[key].length > 0) {
-							const team = data.teams[key][0];
-							const roomName = team.name;
-							const roomIsSolved = team.isSolved;
-							const teamNumReSolved = team.numSolved;
-							const numBadAnswer = team.numBadAnswers;
-							const numHint = team.numHints;
-
-							const score = calculateScore(teamNumReSolved, numBadAnswer, numHint, roomIsSolved);
-
+							const teamData = data.teams[key];
+							const { totalSolved, totalGoodAnswer, totalBadAnswer, totalHint, totalScore } = sumRoomData(teamData);
 							return {
 								id: key,
-								teamName: roomName,
-								score: score,
-								resolved: `${teamNumReSolved}/20`,
-								roomName: roomName,
-								roomIsSolved: roomIsSolved,
-								numBadAnswer: numBadAnswer,
-								numHint: numHint
+								teamName: teamData[0].teamName,
+								score: totalScore,
+								resolved: totalSolved,
+								goodAnswer: totalGoodAnswer,
+								badAnswer: totalBadAnswer,
+								hint: totalHint,
+								rooms: teamData
 							};
 						} else {
 							return null;
@@ -193,6 +215,8 @@ function ProfFollowUp() {
 				<TeamDetails
 					teamData={selectedTeam}
 					onClose={() => setSelectedTeam(null)}
+					// envoie des données
+					data={allData}
 				/>
 			)}
 		</LayoutProf>

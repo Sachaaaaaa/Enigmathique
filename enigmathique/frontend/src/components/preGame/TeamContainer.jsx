@@ -8,7 +8,7 @@ const TeamContainer = (props) => {
 			<h2 className="text-center text-xl">
 				{props.isValidated ? 'Équipes acceptées :' : 'Équipes en attente :'}
 			</h2>
-			<section className="border-2 shadow bg-white h-full w-full">
+			<section className="border-2 shadow-md bg-white h-full w-full">
 				<section className="flex flex-col gap-2 h-full overflow-y-scroll">
 					{props.teams.map((team) => (
 						<>

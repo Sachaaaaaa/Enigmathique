@@ -1,9 +1,15 @@
 import {Link} from 'react-router-dom';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useTransition} from 'react';
 import PropTypes from 'prop-types';
 import TeamService from "../../services/team.service";
 import Game from "../../models/game.model";
 import Course from "../../models/course.model";
+import useCourses from "../../hooks/useCourses";
+import useTeams from "../../hooks/useTeams";
+import TeamModel from "../../models/team.model";
+import useCourse from "../../hooks/useCourse";
+import InfoBlockElem from "./InfoBlockElem";
+import ScoreTeam from "../stats/ScoreTeam";
 
 const maxTime = 600;
 
@@ -12,43 +18,82 @@ const GameElem = (props) => {
 	const game = props.game;
 
 	const [scores, setScores] = useState([]);
-	const [course, setCourse] = useState({});
+	const [course, loadCourse] = useCourse(game.idCourse);
+	const [winners, setWinners] = useState([]);
 
-	const loadScores = async (idGame) => {
-		const data = await Game.getScores(idGame);
-		return data===1? setScores(data): console.log('pas de score disponible');
+
+	
+	
+	const fetchData = async () => {
+		try {
+			const scoresData = await Game.getScores(game.id);
+			setScores(scoresData);
+			getWinners(scoresData)
+		}catch (e) {
+			console.log('erreur fetchData',e);
+		}
 	}
-
+	
 	useEffect(() => {
-		loadScores(game.id);
+		fetchData();
 	}, []);
-
-	const loadCourse = async (game) => {
-		const data = await Course.get(game.idCourse);
-		setCourse(data);
+	
+	
+	/**
+	 * Retourne la team gagnante de la partie
+	 * @param scoresData
+	 * @returns {*}
+	 */
+	const getWinners = async (scoresData) => {
+		try {
+			let maxScore = scoresData==null ?scores[0] : scoresData[0];
+			
+			const scoreTeam = new Map();
+			
+			
+			scores.forEach((score) => {
+				const firstScore = (maxScore.time < maxTime ? 500 : 0) +
+					(maxScore.nbGoodAnswers * 100) -
+					(maxScore.nbHints * 20) -
+					(maxScore.nbBadAnswers * 10);
+				const calculatedScore = (score.time < maxTime ? 500 : 0) +
+					(score.nbGoodAnswers * 100) -
+					(score.nbHints * 20) -
+					(score.nbBadAnswers * 10);
+				addOrUpdateScore(ScoreTeam, score.idTeam, calculatedScore);
+			});
+			getTeamWithMaxScore(scoreTeam, maxScore);
+			const data = await TeamModel.getStudents(maxScore.idTeam);
+			setWinners([data[0]]);
+		}catch (e) {
+			console.log('erreur getWinners',e);
+		}
 	}
-
-	useEffect(() => {
-		loadCourse(game)
-	}, []);
-
-	const getWinners = () => {
-		let maxScore= scores[0];
-		let winners=  [];
-		scores.forEach((score) => {
-			if((score.time < maxTime ? 500 : 0)+(score.nbGoodAnswers*100)-(score.nbHints*20)-(score.nbBadAnswers*10)>maxScore) {
-				maxScore = score;
+	const addOrUpdateScore = (scoreTeam, idTeam, score) => {
+		if (scoreTeam.has(idTeam)) {
+			const currentScore = scoreTeam.get(idTeam);
+			scoreTeam.set(idTeam, currentScore + score);
+		} else {
+			scoreTeam.set(idTeam, score);
+		}
+	};
+	const getTeamWithMaxScore = (scoreTeam, firstKey) => {
+		let result = firstKey.idTeam;
+		let firstValue = scoreTeam.get(firstKey.idTeam)
+		//recherche du score max dans la map
+		scoreTeam.forEach((value, key) => {
+			if (value > firstValue) {
+				firstValue = value;
+				result= key;
 			}
 		});
-		TeamService.getStudents(maxScore.id).then((response) => {
-			winners=response;
-		}).catch((error) => {
-			console.log(error);
-		});
-		return winners;
+		return result;
 	}
-
+	
+	
+	
 	const getWinRate = () => {
+		if (scores == null) return 0;
 		let winRate = 0;
 		const nbScore = scores.length;
 		if(scores.length !== 0) {
@@ -60,35 +105,31 @@ const GameElem = (props) => {
 			return 0;
 		}
 	}
+	if (course == null) return <p>Loading</p>
+	if (winners == null) return <p>Loading</p>
 
 	return (
-		<article className='grid grid-cols-2 gap-1 info-container'>
-			<p></p>
-			<article className='col-span-2 pt-2 flex-grow element-info-container'>
-				<h3 className='small-title'>Nom</h3>
-				<p className='small-text'>{game.name}</p>
-			</article>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>Classe</h3>
-				<p className='small-text'>{course.name}</p>
-			</article>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>Date</h3>
-				<p className='small-text'>{game.createdAt.toLocaleString()}</p>
-			</article>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>Gagnants</h3>
-				<p className='small-text'>{game.state !== 2 ? 'Partie non terminée' : getWinners().map((stud) => {
-					`${stud.firstname} ${stud.lastname} `
-				})}</p>
-			</article>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>Taux de réussite</h3>
-				<p className='small-text'>{getWinRate()} %</p>
-			</article>
-			<Link to='' className='col-span-2 btn-show'>
-				Voir
-			</Link>
+		// Affichage des informations de la partie
+		// Grid pour afficher les informations sur 2 colonnes fixes
+		<article className='info-block grid-block'>
+
+			<InfoBlockElem title='Nom' text={game.name} additionalClasses='col-span-2 pt-2' />
+
+			<InfoBlockElem title='Classe' text={course.name}/>
+
+
+			<InfoBlockElem title='Date' text={game.createdAt.toLocaleString()} />
+
+			<InfoBlockElem title='Gagnants' text={game.state !== 2 ? 'Partie non terminée' : //console.log(getWinners().idTeam)}
+				winners.map((stud) => stud.firstname + ' ' + stud.lastname)}
+			/>
+
+			<InfoBlockElem title='Taux de réussite' text={`${getWinRate()===0 ? 'Partie non terminée': getWinRate()+'%'}`} />
+
+			{game.state === 2 ?
+				<Link to={'./ranking/'+game.id} className="btn-show col-span-2">Voir</Link> :
+				<span className="btn-show col-span-2">Partie en cours</span>
+			}
 		</article>
 	)
 }

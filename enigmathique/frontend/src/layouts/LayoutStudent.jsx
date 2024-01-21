@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import TopBarStudent from "../components/TopBarStudent";
 const LayoutStudent = (props) => {
 	return (
-		<div className="flex flex-col h-screen w-screen overflow-y-hidden overflow-x-hidden">
+		<div className="flex flex-col fullscreen-container">
 			<TopBarStudent/>
 			{props.children}
 		</div>

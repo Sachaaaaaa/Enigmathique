@@ -370,10 +370,272 @@ exports.addStudents = async (req, res, next) => {
 			// Ajoute l'équipe à la liste des équipes ajoutées
 			addedTeams.push(teamData);	
 		}
+
 		return res.status(201).json(addedTeams);
 		
 	} catch(err){
 		next(err)
 	}
 
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 READ                                      //
+/////////////////////////////////////////////////////////////////////////////////
+
+// Récupère les équipes d'une partie
+exports.findAll = async (req, res, next) => {
+	try{
+	
+		// Récupère toutes les équipe d'une partie
+		const teams = await Team.findAll({ where: { idGame: req.params.id } })
+
+		// Renvoie les données récupéréesf
+		return res.status(200).json(teams);
+
+	// Gère les erreurs
+	} catch(err) {
+		next(err)
+	}	
+		  
+	
+
+}
+
+
+exports.findOne = async(req, res) => {
+
+	
+	// Vérifie que la partie appartient bien au professeur
+	const isBelongsToProfessor = await isTeamBelongsProfessor(req.params.id, req);
+	if (!isBelongsToProfessor) {
+		return res.status(403).json({
+			message: "Vous n'avez pas accès à cette partie."
+		});
+	}
+
+	try {
+		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
+		var studentArray= []
+		for(i=0;i<students.length; i++){
+			studentArray.push(await Student.findAll({ where: { id: students[i].idStudent } }))
+		}
+		res.status(200).json(studentArray);
+	
+	}catch(err) {
+		res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+		});
+	}	
+}
+
+exports.getScore = async(req, res) => {
+
+	
+	try{
+			
+		const scores = await Score.findAll({ where: { idTeam: req.params.id } })
+		res.status(200).json(scores);
+		
+	}catch(err) {
+		res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+		});
+	}
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 UPDATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+// todo : vérifications i.e verif score pas négatif etc.. + si la team appartient bien a la game + si il y a bien des paramètres dans le body
+// methode pour mettre à jour un professeur en fonction de son id
+exports.updateScore = async(req, res) => {
+
+	
+	// Stock les changements apportés à l'élève
+    const updateData = {};
+
+	// Si le professeur souhaite changer le prénom de l'élève
+    if (req.body.nbGoodAnswers) {
+    	updateData.firstname = req.body.nbGoodAnswers;
+    }
+
+	// Si le professeur souhaite changer le nom de l'élève
+    if (req.body.nbBadAnswers) {
+    	updateData.nbBadAnswers = req.body.nbBadAnswers;
+    }
+
+    if (req.body.nbHints) {
+    	updateData.nbHints = req.body.nbHints;
+    }
+
+	if (req.body.time) {
+    	updateData.time = req.body.time;
+    }
+
+	try{
+		
+		// Effectue la requête de mise à jour
+		const updatedRows = await Score.update(updateData, {where: { idTeam: req.params.id} })
+		
+		// Vérifie que la colonne à effectivement été mise à jour
+		if (updatedRows == 1) {
+			return res.status(201).json({
+				message: "La classe à été mise a jour avec succès"
+				});
+
+			// Si aucunes colonnes traités on relève une erreur
+		} else {
+			return res.status(404).json({
+				message: "Impossible de mettre à jour la classe"
+			});
+		}
+
+	  // Gère les erreurs
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
+		});
+	}
+  };
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 DELETE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// To do : verif si la classe appartient bien au prof
+// supprime une team en fonction de son id
+exports.delete = async (req, res) => {
+
+
+	try{
+	
+		// Effectue la requête de delete
+		const destoyedRows = await Team.destroy({ where: { id: req.params.id} })
+
+			// Vérifie si la classe a bien été supprimé
+			if (destoyedRows == 1) {
+				return res.status(201).json({
+					message: "L'équipe a été supprimée avec succès"
+			});
+
+			// Si aucunes colonnes traités on relève une erreur
+			} else {
+				return res.status(404).json({
+					message: "Aucune équipe n'a été supprimée"
+			});
+			}
+
+			// Gère les erreurs
+			}catch(err) {
+				return res.status(500).json({
+					message: err.message || "Une erreur est intervenue durant la suppression de l'équipe."
+				});
+			}
+}
+
+// Supprime un élève d'une équipe
+exports.removeStudent = async (req, res) => {
+
+	if (!req.body.idTeam) {
+		res.status(400).json({
+			message: "Il manque des informations pour supprimer un élève d'une équipe."
+		});
+		return;
+	}
+
+	try{
+	// Effectue la requête de delete
+	const destroyedRows = await PlayIn.destroy({ where: { idStudent: req.params.id, idTeam:req.body.idTeam } })
+
+	// Vérifie si l'élève a bien été supprimé
+	if (destroyedRows == 1) {
+		return res.status(201).json({
+			message: "L'élève a été supprimée avec succès"
+		});
+
+	// Si aucunes colonnes traités on relève une erreur
+	} else {
+		return res.status(404).json({
+			message: "Aucuns élève n'a été supprimée"
+		});
+	}
+
+		// Gère les erreurs
+	}catch(err) {
+		return res.status(500).json({
+			message: err.message || "Une erreur est intervenue durant la suppression de l'élève."
+		});
+	}
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 OTHER                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
+//const t = {"idTeam": 1,"rooms": [{"roomName": "Laboratory", "idGame": 1,"nbSolved": 2,"nbBadAnswers": 667, "nbGoodAnswers": 1,"nbHints": 1,"isSolved": true,"time": 125}]}
+
+
+// [[{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}], [{"idTeam": 2}, {"roomName": "test"}, {"idGame": 1}, {"time": 1}, {"nbGoodAnswers": 1}, {"nbBadAnswers": 2}, {"nbHints": 3}]]
+// Accepte une équipe à une partie
+exports.addScores = async(req, res, next) => {
+	
+	let result = []
+
+	try{
+
+		if (!req.body.scores) {
+			const error = new Error("Il manque des informations pour ajouter des scores.");
+			error.statusCode = 400;  
+			throw error;
+		}
+
+		// exemple de valeur pour req.body.scores [{"idTeam": 2, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}, {"idTeam": 3, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}]
+		const scores = JSON.parse(req.body.scores)
+
+
+		for (let i = 0; i < scores.rooms.length; i++) {
+			if (!scores.rooms[i].roomName || !scores.rooms[i].time ||!scores.rooms[i].nbGoodAnswers ||!scores.rooms[i].nbBadAnswers  ||!scores.rooms[i].nbHints ) {
+				const error = new Error("Il manque des informations pour ajouter des scores.");
+				error.statusCode = 400;  
+				throw error;
+			}
+
+
+
+			
+
+			const scoresData = {
+				idTeam: scores.idTeam,
+				roomName: scores.rooms[i].roomName,
+				idGame: scores.idGame,
+				time: scores.rooms[i].time,
+				nbGoodAnswers: scores.rooms[i].nbGoodAnswers,
+				nbBadAnswers: scores.rooms[i].nbBadAnswers,
+				nbHints: scores.rooms[i].nbHints
+			}
+
+			console.log(scoresData)
+
+			result.push(await Score.create(scoresData))
+
+		}
+
+		res.status(201).json(result);
+
+	} catch(err) {
+		next(err)
+	}
+	
+
+
+	
 }

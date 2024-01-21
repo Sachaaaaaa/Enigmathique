@@ -38,9 +38,10 @@ class GameManager {
 		socket.removeAllListeners();
 	};
 
+
 	handleConnection = async(socket, sessionId) => {
 		console.log(clc.green('[Game] Nouvelle connexion ' + socket.id));
-		
+
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
 			// Recupère les salles de la session
@@ -56,6 +57,7 @@ class GameManager {
 			const sessionTeams = await ApiService.getTeamsFromId(sessionId);
 			// Recupère l'id des équipes attendues
 			const expectedTeams = sessionTeams.map(team => team.id);
+			console.log(sessionTeams);
 
 			this.sessions[sessionId] = new Session(this, sessionId, expectedTeams, sessionRooms);
 			console.log(clc.yellow('[Game] Nouvelle session ' + sessionId + ' créée'));

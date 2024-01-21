@@ -9,7 +9,7 @@ class ApiService {
 		const response = await axios({
 			method,
 			url: API_URL + endpoint,
-			data,
+			data: data,
 			headers: {
 				'Authorization': `${token}`
 			}
@@ -69,6 +69,19 @@ class ApiService {
 		}
 	}
 
+	static async getMaxTeamSizeFromId(id) {
+		if (id == null) return null;
+
+		const endpoint = `/game/maxTeamSize/${id}`;
+		try {
+			const response = await this.sendRequest('GET', endpoint);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	}
+
 
 	static async getRoomsFromId(id) {
 		if (id == null) return null;
@@ -104,8 +117,6 @@ class ApiService {
 			idGame: sessionId
 		};
 
-		console.log(data);
-
 		try {
 			const response = await this.sendRequest('POST', endpoint, data);
 			console.log(response);
@@ -116,9 +127,16 @@ class ApiService {
 		}
 	}
 
-	static async postTeamsScore(sessionId, scores) {
-		// TODO: Envoyer la requête à l'API (lorsque route implémentée)
-		return null;
+	static async postTeamsScore(sessionData) {
+		const endpoint = '/team/score';
+
+		try {
+			const response = await this.sendRequest('POST', endpoint, sessionData);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
 	}
 
 	static async postSessionEnd(sessionId) {

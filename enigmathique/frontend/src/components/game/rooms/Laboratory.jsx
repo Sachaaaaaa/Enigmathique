@@ -13,7 +13,7 @@ import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
 import EnigmaCoffreDisplay from '../enigmas/EnigmaCoffreDisplay';
 import EnigmaChaufDisplay from '../enigmas/EnigmaChaufDisplay';
-import recette_test from '../../../assets/img/recette_test.jpg';
+import recette_test from '../../../assets/img/recette_test.png';
 
 export default function Room001(props) {
 	const socket = useContext(SocketContext);
@@ -132,7 +132,7 @@ export default function Room001(props) {
 						enigmaId={0}
 						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
-								title="L'ingrédient mystère doit être ici !"
+								title="L'ingrédient que vous cherchez doit être ici !"
 								description="Encore faut-il trouver le bon tiroir..."
 								hint={hint}
 								image={data.image}

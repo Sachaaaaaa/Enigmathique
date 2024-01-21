@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import LayoutProf from "../layouts/LayoutProf";
-import CreationGame1 from "../components/createGame/1/CreationGame1";
+import CreationGame1 from "../components/createGame/step1/CreationGame1";
 import ProgressBar from "../components/createGame/ProgressBar";
 import {initialFormData, useCreationGameContext} from "../components/contexts/CreationGame.context";
-import CreationGame2 from "../components/createGame/2/CreationGame2";
+import CreationGame2 from "../components/createGame/step2/CreationGame2";
 import RoomModel from "../models/room.model";
 import Course from "../models/course.model";
 
@@ -43,8 +43,10 @@ const CreateGame = () => {
 
 	return (
 		<LayoutProf>
-			<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
+			<main>
+				{/* Barre de progression indiquant les étapes de création */}
 				<ProgressBar step={step}/>
+				{/* Affiche le composant correspondant à l'étape de création */}
 				{stepComponent[step]}
 			</main>
 		</LayoutProf>

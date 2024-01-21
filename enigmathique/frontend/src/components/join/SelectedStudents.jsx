@@ -10,9 +10,9 @@ const SelectedStudents = (props) => {
 			<section>
 				<h1>Membres de l&apos;équipe</h1>
 			</section>
-			<section className="flex flex-col h-[90%] bg-white shadow p-2">
+			<section className="flex flex-col h-[90%] bg-white shadow-md p-2">
 				<nav className="flex flex-row justify-center items-center gap-2 p-2">
-					<AiOutlineTeam size={25} className='text-[#0a06f4]' />
+					<AiOutlineTeam size={25} className='blue-font-color' />
 					<input
 						className="w-full p-2 bg-transparent"
 						type="text"
@@ -32,7 +32,6 @@ const SelectedStudents = (props) => {
 								lastname={student.lastname}
 								firstname={student.firstname}
 								isSelected={true}
-								teamSize={props.teamSize}
 							/>
 							{index!==props.selected.length-1 && <hr></hr>}
 						</>

@@ -458,7 +458,7 @@ exports.addRooms = async(req, res, next) => {
 
 
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+		const isBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
 		if (!isBelongsToProfessor) {
 			const error = new Error("La partie n'appartient pas au professeur.");
 			error.statusCode = 403;  
@@ -539,6 +539,19 @@ exports.getState = async (req, res, next) => {
 		// Récupère la partie souhaité
 		const game = await Game.findOne({ where: { id: req.params.id} })
 		return res.status(200).json(game.state);
+
+	// Gère les erreurs
+	} catch (err) {
+		next(err)
+	}
+}
+
+exports.getMaxTeamSize = async(req, res, next) => {
+	
+	try{
+		// Récupère la partie souhaité
+		const game = await Game.findOne({ where: { id: req.params.id} })
+		return res.status(200).json(game.teamSize);
 
 	// Gère les erreurs
 	} catch (err) {

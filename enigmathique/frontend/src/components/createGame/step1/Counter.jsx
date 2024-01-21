@@ -12,20 +12,22 @@ const Counter = () => {
 	const handleOnClickminus = () => {
 		formData.teamSize > 1 ? setFormData({...formData, teamSize: formData.teamSize - 1}) : setFormData({...formData, teamSize: 1});
 	}
+
+	const btnClassname = 'grow text-xl text-white leading-10 shadow-md';
 	return (
 		<>
-			<p className='label-creation'>
-				Taille de l&apos;équipe
-			</p>
-			<div className='flex w-full'>
-				<button className={`w-1/3 ${formData.teamSize<2?'bg-[#4c49ed]':'bg-[#0a06f4]'} text-2xl text-white rounded-l-lg`}
+			<label className='form-label-style ' htmlFor="courses">
+				{"Taille des équipes"}
+			</label>
+			<div className='flex flex-grow w-full h-fit shadow-md'>
+				{/* Bouton pour diminuer la taille des équipes */}
+				<button className={`${btnClassname} ${formData.teamSize<2?'bg-[#4c49ed]':'bg-blue-color'} rounded-l`}
 						onClick={handleOnClickminus}
-						disabled={formData.teamSize < 2}
-
-				>-
+						disabled={formData.teamSize < 2}>
+						-
 				</button>
-				<span className='bg-white border-y text-2xl w-1/3 flex justify-center'>{formData.teamSize}</span>
-				<button className='w-1/3 bg-[#0a06f4] text-2xl text-white rounded-r-lg'
+				<span className='grow-[2] self-stretch flex justify-center items-center bg-white text-lg border-y'>{formData.teamSize}</span>
+				<button className={`${btnClassname} bg-blue-color rounded-r`}
 						onClick={handleOnClickplus}>+
 				</button>
 			</div>
