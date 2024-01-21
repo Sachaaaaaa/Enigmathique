@@ -3,9 +3,12 @@ import React, {useEffect, useState, useTransition} from 'react';
 import PropTypes from 'prop-types';
 import TeamService from "../../services/team.service";
 import Game from "../../models/game.model";
+import Course from "../../models/course.model";
+import useCourses from "../../hooks/useCourses";
+import useTeams from "../../hooks/useTeams";
+import TeamModel from "../../models/team.model";
 import useCourse from "../../hooks/useCourse";
-
-import InfoBlockElem from './InfoBlockElem';
+import InfoBlockElem from "./InfoBlockElem";
 
 const maxTime = 600;
 
@@ -46,14 +49,18 @@ const GameElem = (props) => {
 			}
 		});
 		TeamService.getStudents(maxScore.id).then((response) => {
-			winners=response;
+			console.log("response");
+			console.log(response[0]);
+			winners=response[0];
+			console.log(winners[0]);
 		}).catch((error) => {
 			console.log(error);
 		});
 		return winners;
 	}
 
-	const getWinRate = () => {if (scores == null) return 0;
+	const getWinRate = () => {
+		if (scores == null) return 0;
 		let winRate = 0;
 		const nbScore = scores.length;
 		if(scores.length !== 0) {
@@ -82,9 +89,9 @@ const GameElem = (props) => {
 			<InfoBlockElem title='Gagnants' text={game.state !== 2 ? 'Partie non terminée' : console.log("non")
 					//getWinners().map((stud) => {`${stud.firstname} ${stud.lastname} `})
 					} />
-					
+
 			<InfoBlockElem title='Taux de réussite' text={getWinRate()+' %'} />
-			
+
 			{game.state === 2 ?
 				<Link to={'./ranking/'+game.id} className="btn-show col-span-2">Voir</Link> :
 				<span className="btn-show col-span-2">Partie en cours</span>
