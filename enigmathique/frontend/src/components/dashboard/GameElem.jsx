@@ -9,6 +9,7 @@ import useTeams from "../../hooks/useTeams";
 import TeamModel from "../../models/team.model";
 import useCourse from "../../hooks/useCourse";
 import InfoBlockElem from "./InfoBlockElem";
+import ScoreTeam from "../stats/ScoreTeam";
 
 const maxTime = 600;
 
@@ -18,47 +19,79 @@ const GameElem = (props) => {
 
 	const [scores, setScores] = useState([]);
 	const [course, loadCourse] = useCourse(game.idCourse);
+	const [winners, setWinners] = useState([]);
 
 
-
-	const loadScores = async () => {
-		const data = await Game.getScores(game.id);
-		console.log(data);
-		setScores(data);
+	
+	
+	const fetchData = async () => {
+		try {
+			const scoresData = await Game.getScores(game.id);
+			setScores(scoresData);
+			getWinners(scoresData)
+		}catch (e) {
+			console.log('erreur fetchData',e);
+		}
 	}
-
-	/**
-	const loadScores = async () => {
-		const data = await Game.getScores(game.id);
-		data===1? setScores(data): console.log('pas de score disponible');
-	}*/
-
-
+	
 	useEffect(() => {
-		loadScores();
+		fetchData();
 	}, []);
-
-
-	const getWinners = () => {
-
-		let maxScore= scores[0];
-		let winners=  [];
-		scores.forEach((score) => {
-			if((score.time < maxTime ? 500 : 0)+(score.nbGoodAnswers*100)-(score.nbHints*20)-(score.nbBadAnswers*10)>maxScore) {
-				maxScore = score;
+	
+	
+	/**
+	 * Retourne la team gagnante de la partie
+	 * @param scoresData
+	 * @returns {*}
+	 */
+	const getWinners = async (scoresData) => {
+		try {
+			let maxScore = scoresData==null ?scores[0] : scoresData[0];
+			
+			const scoreTeam = new Map();
+			
+			
+			scores.forEach((score) => {
+				const firstScore = (maxScore.time < maxTime ? 500 : 0) +
+					(maxScore.nbGoodAnswers * 100) -
+					(maxScore.nbHints * 20) -
+					(maxScore.nbBadAnswers * 10);
+				const calculatedScore = (score.time < maxTime ? 500 : 0) +
+					(score.nbGoodAnswers * 100) -
+					(score.nbHints * 20) -
+					(score.nbBadAnswers * 10);
+				addOrUpdateScore(ScoreTeam, score.idTeam, calculatedScore);
+			});
+			getTeamWithMaxScore(scoreTeam, maxScore);
+			const data = await TeamModel.getStudents(maxScore.idTeam);
+			setWinners([data[0]]);
+		}catch (e) {
+			console.log('erreur getWinners',e);
+		}
+	}
+	const addOrUpdateScore = (scoreTeam, idTeam, score) => {
+		if (scoreTeam.has(idTeam)) {
+			const currentScore = scoreTeam.get(idTeam);
+			scoreTeam.set(idTeam, currentScore + score);
+		} else {
+			scoreTeam.set(idTeam, score);
+		}
+	};
+	const getTeamWithMaxScore = (scoreTeam, firstKey) => {
+		let result = firstKey.idTeam;
+		let firstValue = scoreTeam.get(firstKey.idTeam)
+		//recherche du score max dans la map
+		scoreTeam.forEach((value, key) => {
+			if (value > firstValue) {
+				firstValue = value;
+				result= key;
 			}
 		});
-		TeamService.getStudents(maxScore.id).then((response) => {
-			console.log("response");
-			console.log(response[0]);
-			winners=response[0];
-			console.log(winners[0]);
-		}).catch((error) => {
-			console.log(error);
-		});
-		return winners;
+		return result;
 	}
-
+	
+	
+	
 	const getWinRate = () => {
 		if (scores == null) return 0;
 		let winRate = 0;
@@ -73,6 +106,7 @@ const GameElem = (props) => {
 		}
 	}
 	if (course == null) return <p>Loading</p>
+	if (winners == null) return <p>Loading</p>
 
 	return (
 		// Affichage des informations de la partie
@@ -86,11 +120,11 @@ const GameElem = (props) => {
 
 			<InfoBlockElem title='Date' text={game.createdAt.toLocaleString()} />
 
-			<InfoBlockElem title='Gagnants' text={game.state !== 2 ? 'Partie non terminée' : console.log("non")
-					//getWinners().map((stud) => {`${stud.firstname} ${stud.lastname} `})
-					} />
+			<InfoBlockElem title='Gagnants' text={game.state !== 2 ? 'Partie non terminée' : //console.log(getWinners().idTeam)}
+				winners.map((stud) => stud.firstname + ' ' + stud.lastname)}
+			/>
 
-			<InfoBlockElem title='Taux de réussite' text={getWinRate()+' %'} />
+			<InfoBlockElem title='Taux de réussite' text={`${getWinRate()===0 ? 'Partie non terminée': getWinRate()+'%'}`} />
 
 			{game.state === 2 ?
 				<Link to={'./ranking/'+game.id} className="btn-show col-span-2">Voir</Link> :

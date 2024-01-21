@@ -13,7 +13,7 @@ const InfoBlockElem = ({ title, text, additionalClasses = "" }) => {
 
 InfoBlockElem.propTypes = {
     title: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.any,
     additionalClasses: PropTypes.string,
 };
 

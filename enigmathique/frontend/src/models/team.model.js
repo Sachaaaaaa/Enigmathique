@@ -8,11 +8,12 @@ class TeamModel{
 		this.id = id;
 		this.idGame= idGame;
 	}
+	//TODO corriger le format de retour de l'API pour les students
+
 	static async getStudents(idTeam){
 		try {
 			const data = await TeamService.getStudents(idTeam);
-			console.log(data);
-			return data.map((student) =>  new Student(student.id, student.idCourse, student.firstname, student.lastname, student.createdAt, student.updatedAt));
+			return data[0].map((student) =>  new Student(student.id, student.idCourse, student.firstname, student.lastname, student.createdAt, student.updatedAt));
 		}catch (e){
 			console.error(`erreur dans le getter des students d'une team dans le modèle de team (front) ${e}`);
 		}
@@ -26,6 +27,7 @@ class TeamModel{
 			console.error(`erreur dans le getter des score d'une team dans le modèle de team (front) ${e}`);
 		}
 	}
+	//TODO ajouter le getter pour récupérer les infos d'une team dans l'API
 	static async getTeam(idTeam){
 		try {
 			const data = await TeamService.getTeam(idTeam);
