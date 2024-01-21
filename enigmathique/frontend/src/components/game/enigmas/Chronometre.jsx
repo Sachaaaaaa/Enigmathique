@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const Chronometer = ({ initialTime }) => {
+const Chronometer = ({ initialTime, resetChronometer }) => {
 	const [timeRemaining, setTimeRemaining] = useState(initialTime);
 
 	useEffect(() => {
@@ -12,6 +12,7 @@ const Chronometer = ({ initialTime }) => {
 				} else {
 					clearInterval(timerId);
 					// Mettez ici toute logique à effectuer lorsque le temps est écoulé
+					if (resetChronometer) setTimeRemaining(initialTime);
 					return 0;
 				}
 			});
@@ -40,4 +41,5 @@ export default Chronometer;
 
 Chronometer.propTypes = {
 	initialTime: PropTypes.number.isRequired,
+	resetChronometer: PropTypes.bool,
 };

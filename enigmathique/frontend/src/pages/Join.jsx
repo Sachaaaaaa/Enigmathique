@@ -10,10 +10,12 @@ import {ClientToServer, ConnectionType, ServerToClient} from 'data/socketMessage
 import LayoutStudent from "../layouts/LayoutStudent";
 
 const Join = (props) => {
+	//? Faire un hook pour ça ? vu le nombre de useStates
 	const [available, setAvailable] = useState([]);
 	const [selected, setSelected] = useState([]);
 	const [isLocked, setIsLocked] = useState(false);
 	const [isConfirmed, setIsConfirmed] = useState(false);
+	const [maxTeamSize, setMaxTeamSize] = useState(4);
 	const navigate = useNavigate();
 
 
@@ -38,13 +40,19 @@ const Join = (props) => {
 			console.log('Déconnecté du serveur');
 		});
 
+		socket.on(ServerToClient.GameInfo, (data) => {
+			console.log(data);
+			setMaxTeamSize(data.maxTeamSize);
+		});
+
 		socket.on(ServerToClient.SyncAvailableStudents, (data) => {
+			console.log(data);
 			setAvailable(data.students);
 		});
 
 		socket.on(ServerToClient.SyncTeamStudents, (data) => {
-			setIsLocked(data.locked);
-			setIsConfirmed(data.confirmed);
+			setIsLocked(data.composition.locked);
+			setIsConfirmed(data.composition.confirmed);
 			setSelected(data.composition.students);
 		});
 
@@ -52,7 +60,6 @@ const Join = (props) => {
 			// TODO: Modifier façon de mettre session et teamId dans l'url
 			const teamId = data.teamId;
 			navigate(`/game?sessionId=${sessionId}&teamId=${teamId}`);
-			
 		});
 
 		socket.connect();
@@ -88,8 +95,8 @@ const Join = (props) => {
 				<main className='flex flex-col h-full w-full p-4 bg-[#f5f7fa]'>
 					<h1 className='text-2xl'>Création de l&apos;équipe</h1>
 					<section className='flex flex-row justify-evenly gap-2 p-4 h-[70%] w-full'>
-						<AvailableStudents available={available} teamSize={4}/>
-						<SelectedStudents selected={selected} handleChange={handleTeamNameChange} teamSize={4}/>
+						<AvailableStudents available={available} teamSize={maxTeamSize}/>
+						<SelectedStudents selected={selected} handleChange={handleTeamNameChange} teamSize={maxTeamSize}/>
 					</section>
 					<section className='flex flex-row justify-end p-4 h-[10%] w-full'>
 						<button className='p-2 bg-blue-800 rounded-xl text-white' onClick={handleCreateTeam}>Créer mon

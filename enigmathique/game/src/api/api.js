@@ -69,6 +69,19 @@ class ApiService {
 		}
 	}
 
+	static async getMaxTeamSizeFromId(id) {
+		if (id == null) return null;
+
+		const endpoint = `/game/maxTeamSize/${id}`;
+		try {
+			const response = await this.sendRequest('GET', endpoint);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	}
+
 
 	static async getRoomsFromId(id) {
 		if (id == null) return null;

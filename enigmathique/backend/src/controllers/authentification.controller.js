@@ -23,9 +23,9 @@ exports.register = async (req, res, next) => {
 		const { error } = professorSchema.validate(req.body);
 
 		if (error) {
-		const validationError = new Error(error.details[0].message);
-		validationError.statusCode = 500;  
-		throw validationError;
+			const validationError = new Error(error.details[0].message);
+			validationError.statusCode = 500;  
+			throw validationError;
 		}
 
 		// Créer un professeur

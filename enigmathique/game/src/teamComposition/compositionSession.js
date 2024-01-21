@@ -2,10 +2,10 @@ const ApiService = require('../api/api');
 const SocketTeam = require('./connections/socketTeam');
 
 class CompositionSession {
-	constructor(manager, sessionId) {
+	constructor(manager, sessionId, maxTeamSize = 4) {
 		this.manager = manager;
 		this.sessionId = sessionId;
-		this.maxTeamSize = 4;
+		this.maxTeamSize = maxTeamSize;
 
 		// Elèves
 		this.students = [];
@@ -52,6 +52,9 @@ class CompositionSession {
 	addTeam = (team) => {
 		this.teamSockets.push(team);
 
+		// Pas besoin de le mettre dans resync car ne peut pas changer
+		team.sendGameInfo(this.maxTeamSize);
+
 		this.resyncAll();
 	};
 
@@ -66,7 +69,6 @@ class CompositionSession {
 	 * Vérifie si toutes les équipes sont formées et légales
 	 * @returns {boolean} true si toutes les équipes sont formées et légales
 	 */
-	// TODO: Modifier critères pour vérifier la légalité des équipes
 	areTeamsLegals = () => {
 		const studentsId = [];
 		for (const team of this.teamSockets) {
@@ -80,6 +82,7 @@ class CompositionSession {
 				if (studentsId.some((id) => id === student.id)) {
 					return false;
 				}
+				studentsId.push(student.id);
 			}
 		}
 

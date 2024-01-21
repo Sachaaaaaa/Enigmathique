@@ -31,9 +31,13 @@ module.exports = app => {
 	// Ferme une partie (aux élèves)
 	router.post("/close/:id", middleware.verifyToken, game.close, middleware.verifyErrors)
 
-
+	// Supprime une partie
+	router.post("/delete/:id", middleware.verifyToken, game.delete, middleware.verifyErrors)
 
 	// Méthode interne :
+
+	// Y'a moyen de rassembler plusieurs méthodes en une seule
+	// teams + rooms | 
 	
 	// Accepte une équipe au sein de la partie
 	//router.post("/team/accept/:id", middleware.verifyToken, game.accept);
@@ -49,6 +53,9 @@ module.exports = app => {
 
 	// Récupérer l'état d'une à partir de son id
 	router.get("/gameState/:id", middleware.verifyGameToken, game.getState, middleware.verifyErrors);
+
+	// Récupérer la taille max des équipes d'une partie à partir de son id
+	router.get("/maxTeamSize/:id", middleware.verifyGameToken, game.getMaxTeamSize, middleware.verifyErrors);
 
 	// Récupérer les rooms d'une à partir de son id
 	router.get("/rooms/:id", middleware.verifyGameToken, game.getRooms, middleware.verifyErrors);
