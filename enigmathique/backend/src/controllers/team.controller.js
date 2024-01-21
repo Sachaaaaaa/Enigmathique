@@ -176,6 +176,7 @@ exports.addStudents = async (req, res, next) => {
 			// Ajoute l'équipe à la liste des équipes ajoutées
 			addedTeams.push(teamData);	
 		}
+
 		return res.status(201).json(addedTeams);
 		
 	} catch(err){
@@ -191,7 +192,7 @@ exports.addStudents = async (req, res, next) => {
 // Récupère les équipes d'une partie
 exports.findAll = async (req, res, next) => {
 	try{
-	
+
 		// Récupère toutes les équipe d'une partie
 		const teams = await Team.findAll({ where: { idGame: req.params.id } })
 
@@ -201,7 +202,7 @@ exports.findAll = async (req, res, next) => {
 	// Gère les erreurs
 	} catch(err) {
 		next(err)
-	}	
+	}
 		  
 	
 
@@ -386,6 +387,7 @@ exports.removeStudent = async (req, res) => {
 
 
 
+// Mais supprime tes commentaires s'ils servent à rien
 //const t = {"idTeam": 1,"rooms": [{"roomName": "Laboratory", "idGame": 1,"nbSolved": 2,"nbBadAnswers": 667, "nbGoodAnswers": 1,"nbHints": 1,"isSolved": true,"time": 125}]}
 
 
@@ -396,42 +398,56 @@ exports.addScores = async(req, res, next) => {
 	let result = []
 
 	try{
-
-		if (!req.body.scores) {
-			const error = new Error("Il manque des informations pour ajouter des scores.");
+		if (!req.body.scores || !req.body.idGame) {
+			const error = new Error("Il manque des informations pour ajouter des scores (scores/idGame)");
 			error.statusCode = 400;  
 			throw error;
 		}
 
-		// exemple de valeur pour req.body.scores [{"idTeam": 2, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}, {"idTeam": 3, "roomName": "test", "idGame": 1, "time": 1, "nbGoodAnswers": 1, "nbBadAnswers": 2, "nbHints": 3}]
-		const scores = JSON.parse(req.body.scores)
+		const scores = req.body.scores
+		const idGame = req.body.idGame
 
+		// Itère sur chaque équipe
+		for (let i = 0; i < scores.length; i++) {
+			const teamData = scores[i];
 
-		for (let i = 0; i < scores.rooms.length; i++) {
-			if (!scores.rooms[i].roomName || !scores.rooms[i].time ||!scores.rooms[i].nbGoodAnswers ||!scores.rooms[i].nbBadAnswers  ||!scores.rooms[i].nbHints ) {
-				const error = new Error("Il manque des informations pour ajouter des scores.");
-				error.statusCode = 400;  
-				throw error;
+			// Récupère les infos de l'équipe
+			const teamId = teamData.idTeam;
+			const teamRooms = teamData.rooms;
+
+			// Itère sur chaque salle de l'équipe
+			for (let j = 0; j < teamRooms.length; j++) {
+				const roomData = teamRooms[j];
+
+				// Récupère les infos de la salle
+				// Les noms des variables change (pour les modifier, modif: front, socket)
+				const roomName = roomData.name;
+				const time = parseInt(roomData.time);
+				const nbGoodAnswers = roomData.numSolved;
+				const nbBadAnswers = roomData.numBadAnswers;
+				const nbHints = roomData.numHints;
+				const isSolved = roomData.isSolved;
+
+				// Vérifie que toutes les infos sont présentes
+				if (teamId == null || roomName == null || time == null || nbGoodAnswers == null || nbBadAnswers == null || nbHints == null || isSolved == null) {
+					const error = new Error("Il manque des informations pour ajouter des scores (données Room).");
+					error.statusCode = 400;
+					throw error;
+				}
+
+				const scoresData = {
+					idTeam: teamId,
+					roomName: roomName,
+					idGame: idGame,
+					time: time,
+					nbGoodAnswers: nbGoodAnswers,
+					nbBadAnswers: nbBadAnswers,
+					nbHints: nbHints,
+					//isSolved: isSolved
+				}
+
+				result.push(await Score.create(scoresData))
 			}
-
-
-
-			
-
-			const scoresData = {
-				idTeam: scores.idTeam,
-				roomName: scores.rooms[i].roomName,
-				idGame: scores.idGame,
-				time: scores.rooms[i].time,
-				nbGoodAnswers: scores.rooms[i].nbGoodAnswers,
-				nbBadAnswers: scores.rooms[i].nbBadAnswers,
-				nbHints: scores.rooms[i].nbHints
-			}
-
-			console.log(scoresData)
-
-			result.push(await Score.create(scoresData))
-
 		}
 
 		res.status(201).json(result);

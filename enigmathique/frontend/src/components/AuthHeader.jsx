@@ -5,8 +5,8 @@ import {Link} from 'react-router-dom';
 
 const AuthHeader = ({ title }) => {
     return (
-        <header className='topbar-container flex justify-start h-[75px]'>
-            <Link to='/' className='w-[172px] border-r-2 box-border border-[#E6EFF5]'>
+        <header className='topbar-container flex justify-start h-[75px] bg-white'>
+            <Link to='/' className='w-[172px] border-r-2 box-border .border-white-color'>
 				<img src={logo} alt='logo' height={75}/>
 			</Link>
             <h1 className='pl-5 primary-font-color text-2xl font-semibold'>{title}</h1>

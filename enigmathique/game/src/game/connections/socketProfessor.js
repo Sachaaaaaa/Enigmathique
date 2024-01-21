@@ -28,6 +28,12 @@ class SocketProfessor {
 	
 	sendAllTeamsProgress = (data) => {
 		console.log(clc.yellowBright('[Professor] Envoi de la progression des équipes'));
+		console.log(data);
+		// Itère toutes les teams dans data
+		// data : {metadata: {}, teams: []}
+		if (data.teams) {
+			console.log(data.teams);
+		}
 
 		this.socket.emit(ServerToClient.AllTeamsProgress, {
 			data

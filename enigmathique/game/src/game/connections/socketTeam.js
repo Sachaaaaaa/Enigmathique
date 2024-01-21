@@ -75,6 +75,8 @@ class SocketTeam {
 			if (this.currentRoom.enigmasSolved.length == this.currentRoom.enigmas.length) {
 				this.gameSession.onTeamSolvedRoom(this);
 			}
+		} else {
+			this.gameSession.onTeamAnswerWrong(this, enigmaId);
 		}
 	}
 
@@ -88,6 +90,8 @@ class SocketTeam {
 		} else {
 			console.log(clc.redBright('[Team] Indice non disponible'));
 		}
+
+		this.gameSession.onTeamAskHint(this, enigmaId);
 	}
 
 	sendMessage = (message) => {

@@ -31,7 +31,7 @@ const Student = (props) => {
 					<IoRemoveCircle size={40}/>
 				</button>
 				:
-				<button className='text-[#0a06f4]' onClick={onAvailableStudentClick}>
+				<button className='blue-font-color' onClick={onAvailableStudentClick}>
 					<IoAddCircle size={40}/>
 				</button>
 			}
@@ -43,6 +43,5 @@ Student.propTypes = {
 	lastname: PropTypes.string.isRequired,
 	firstname: PropTypes.string.isRequired,
 	isSelected: PropTypes.bool.isRequired,
-	teamSize: PropTypes.number,
 };
 export default Student;

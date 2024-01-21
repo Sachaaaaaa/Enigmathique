@@ -8,18 +8,19 @@ function NavBarHome() {
 	const registerPath = './signup'
 
 	return (
-		<header className='z-10 absolute w-full h-fit top-0 m-0 p-0 topbar-container border-none flex justify-end align-middle'>
-		
-			<div className='flex justify-around mr-5 gap-5 p-5'>
+		// En-tête de la page d'accueil
+		<header className='topbar-container absolute top-0 z-10 justify-end align-middle w-full h-fit m-0 p-0 border-none '>
+			{/* Boutons d'authentification*/}
+			<div className='flex gap-5 p-5'>
 				<Link to={registerPath}>
-					<button className=" shadow-md bg-white primary-font-color font-semibold px-3 py-1 w-[180px] border-2 border-white rounded-[30px]">
+					<button className="home-auth-button bg-white primary-font-color">
 					{`S'inscrire`}
 					</button>
 					{/* // hover:bg-white hover:primary-font-color */}
 				</Link>
 				<Link to={loginPath}>
 					<button
-						className='shadow-md bg-transparent text-white font-semibold px-3 py-1 w-[180px] border-2 border-white rounded-[30px]'>
+						className='home-auth-button bg-transparent text-white'>
 							Se connecter
 							</button>
 				</Link>

@@ -4,6 +4,11 @@ import 'index.css';
 import Game from "../models/game.model";
 import Course from "../models/course.model";
 import SearchInput from "../components/SearchInput";
+import CreateButton from "components/dashboard/CreateButton";
+import ContentHeader from "components/dashboard/ContentHeader";
+import TableContainer from "components/dashboard/TableContainer";
+import ActionButton from "components/dashboard/ActionButton";
+import {Link} from "react-router-dom";
 
 const Games = () => {
 	const [games, setGames] = useState([]);
@@ -40,53 +45,38 @@ const Games = () => {
 	}, [filter, games]);
 	return (
 		<LayoutProf>
-			<main className="p-8 h-[90%]">
-				<nav className="flex flex-row justify-end w-full">
+			<main>
+				<ContentHeader title="" link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
-				</nav>
-				<table className="overflow-y-scroll h-full w-full block">
-					<thead className="w-full">
-					<tr className="sticky top-0 bg-white z-10">
-						<th className="px-6 py-4 text-left">Nom</th>
-						<th className="px-6 py-4 text-left">Date</th>
-						<th className="px-6 py-4 text-left">Score</th>
-						<th className="px-6 py-4 text-left">Taux de réussite</th>
-						<th className="px-6 py-4 text-left">Nombre de salles</th>
-						<th className="px-6 py-4 text-center">Action</th>
-					</tr>
-					</thead>
-					<tbody className="w-full">
+					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>
+				</ContentHeader>
+				<TableContainer headers={['Nom', 'Date', 'Score', 'Taux de réussite', 'Nombre de salles', 'Action']}>
 					{filteredGames.map((game, index) => {
-						return (
-							<tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-								<td className="px-6 py-4 whitespace-nowrap small-text">
-									{game.name}
-								</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">{game.createdAt.toLocaleString()}</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">--</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">--%</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">--</td>
-								<td className="px-6 py-4 whitespace-nowrap small-text">
-									<div className="flex flex-row justify-evenly">
-										<button
-											className={`${game.state !== 3 ? 'bg-[#e0aa00]' : 'bg-[#fcc43e]'} w-10 h-10 rounded-full`}
-											disabled={game.state !== 3}
-										>
-										</button>
-										<button
-											className={`${game.state !== 3 ? 'bg-[#0704c3]' : 'bg-[#0a06f4]'} w-10 h-10 rounded-full`}
-											disabled={game.state !== 3}
-										>
-
-										</button>
-									</div>
-								</td>
-							</tr>
-						);
-					})}
-					</tbody>
-				</table>
-				{/* Pagination ou autres contrôles ici */}
+							return (
+								<tr key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
+									<td className="pl-5 td-style">
+										{game.name}
+									</td>
+									<td className="td-style">{game.createdAt.toLocaleString()}</td>
+									<td className="td-style">--</td>
+									<td className="td-style">--%</td>
+									<td className="td-style">--</td>
+									<td className="td-style text-right pr-5">
+										<div className="space-x-3">
+										<ActionButton 
+											title="Classement"
+											link='/'
+										/>
+										<ActionButton
+											title="Détails"
+											link={`/game/${game.id}`}
+										/>
+										</div>
+									</td>
+								</tr>
+							);
+						})}
+				</TableContainer>
 			</main>
 		</LayoutProf>
 	);

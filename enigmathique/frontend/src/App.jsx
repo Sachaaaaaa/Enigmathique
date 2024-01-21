@@ -15,6 +15,7 @@ import PreGameWrapper from './components/contexts/PreGame.wrapper';
 import CreateGameWrapper from './components/contexts/CreationGame.wrapper';
 import RoomList from 'pages/RoomList';
 import ProfFollowUp from 'pages/ProfFollowUp';
+import Ranking from 'pages/Ranking';
 
 const App = () => {
 	return (
@@ -33,6 +34,7 @@ const App = () => {
 			<Route path='/teamstats/:idTeam' element={<TeamStats/>}/>
 			<Route path='/rooms' element={<RoomList/>}/>
 			<Route path='/leaderboard' element={<ProfFollowUp/>}/>
+			<Route path='/ranking/:id' element={<Ranking/>}/>
 		</Routes>
 	);
 };
