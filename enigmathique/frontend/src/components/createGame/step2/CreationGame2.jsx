@@ -4,9 +4,12 @@ import '../../../index.css';
 import { useNavigate } from 'react-router-dom';
 import RoomNav from "./RoomNav";
 import Room from "./Room";
-import GameService from "../../../services/game.service";
 import PropTypes from "prop-types";
 import Game from "../../../models/game.model";
+import { Link } from 'react-router-dom';
+import { MdArrowBackIos } from 'react-icons/md';
+import ContentHeader from 'components/dashboard/ContentHeader';
+
 const CreationGame2 = (props) => {
 
 	const {formData, setFormData, rooms} = useCreationGameContext();
@@ -71,15 +74,15 @@ const CreationGame2 = (props) => {
 
 	return (
 		<section className='flex flex-col h-[96%] w-full gap-4'>
-			<section className='h-[5%]'>
-				<h1 className='text-2xl pl-4'>Sélection des salles</h1>
-			</section>
+			<ContentHeader title='Sélection des salles' onClick={handlePrecedent}>
+				<RoomNav
+					chapterChange={(e)=> (setFilter({...filter, chapter: e.target.value}))}
+					textChange={(e)=>(setFilter({...filter, text: e.target.value}))}
+					filter={filter}
+				/>
+			</ContentHeader>
 
-			<RoomNav
-				chapterChange={(e)=> (setFilter({...filter, chapter: e.target.value}))}
-				textChange={(e)=>(setFilter({...filter, text: e.target.value}))}
-				filter={filter}
-			/>
+
 			<section className='flex flex-col w-full h-[78%] overflow-y-scroll pr-4'>
 				{filteredRooms.map((room, index) => {
 					return(

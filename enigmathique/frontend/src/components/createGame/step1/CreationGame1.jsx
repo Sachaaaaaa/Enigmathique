@@ -22,7 +22,7 @@ const CreationGame1 = (props) => {
 		}
 		let messages = ['Veuillez remplir le(s) champ(s) suivant(s) :'];
 		if (formData.gameName === '') {
-			messages.push('-Nom de la partie');
+			messages.push('- Nom de la partie');
 		}
 		if (formData.course === 0) {
 			messages.push('-Classe');
@@ -40,7 +40,7 @@ const CreationGame1 = (props) => {
 	return (
 
 		<section className='flex flex-col justify-center items-center w-full h-[calc(100%-26px)] min-h-[400px] '>
-			<ContentHeader title='Paramètres' link='/dashboard'/>
+			<ContentHeader title='Paramètres' link='/dashboard' onClick={handleAnnuler}/>
 
 			{/* Formulaire des paramètres de la partie */}
 			<article className="flex flex-col justify-center items-center w-[25%] min-w-[300px] h-full px-5">
