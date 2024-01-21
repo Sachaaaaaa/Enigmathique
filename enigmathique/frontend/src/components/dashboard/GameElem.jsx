@@ -48,14 +48,18 @@ const GameElem = (props) => {
 			}
 		});
 		TeamService.getStudents(maxScore.id).then((response) => {
-			winners=response;
+			console.log("response");
+			console.log(response[0]);
+			winners=response[0];
+			console.log(winners[0]);
 		}).catch((error) => {
 			console.log(error);
 		});
 		return winners;
 	}
 
-	const getWinRate = () => {if (scores == null) return 0;
+	const getWinRate = () => {
+		if (scores == null) return 0;
 		let winRate = 0;
 		const nbScore = scores.length;
 		if(scores.length !== 0) {
@@ -85,9 +89,9 @@ const GameElem = (props) => {
 			</article>
 			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>Gagnants</h3>
-				<p className='small-text'>{game.state !== 2 ? 'Partie non terminée' : console.log("non")
-					//getWinners().map((stud) => {`${stud.firstname} ${stud.lastname} `})
-					}</p>
+				<p className='small-text'>{game.state !== 2 ? 'Partie non terminée' :
+					getWinners().map((stud) => {`${stud.firstname} ${stud.lastname} `})}
+				</p>
 			</article>
 			<article className='col-span-1 element-info-container'>
 				<h3 className='small-title'>Taux de réussite</h3>
