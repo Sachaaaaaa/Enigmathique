@@ -241,16 +241,6 @@
         }
 
     /*********************** Navigation Sidebar ***********************/
-
-        /* Conteneur de la sidebar */
-            .nav-container {
-                @apply flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-white-color box-border ;
-            }
-
-        /* Conteneur du menu */
-            .nav-content {
-                @apply flex flex-col justify-between items-center w-full h-full  py-6 pr-2 whitespace-nowrap;
-            }
             
         /* Element du menu */
             .nav-item {
@@ -276,8 +266,6 @@
             .nav-menu-link {
                 @apply flex flex-row justify-start items-center gap-2 h-[60px] w-full ;
             }
-
-
 
     /*********************** Dashboard ***********************/
 
@@ -394,11 +382,6 @@
         /* Boutons de validation */
             .btn-validate{
                 @apply btn-action bg-blue-gradient-color whitespace-normal rounded-[8px] ;
-            }
-
-        /* Bouton annuler */
-            .btn-cancel {
-                @apply btn-action bg-btn-red-color rounded-[8px];
             }
 
         /* Bouton créer */
