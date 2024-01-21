@@ -8,6 +8,7 @@ const db = require("../models/db.js");
 const Course = db.course;
 const Student = db.student;
 const Op = db.Sequelize.Op;
+const Joi = require('joi');
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 FONCTIONS                                 //
@@ -41,25 +42,30 @@ async function isClassBelongsProfessor(idCourse, req) {
 exports.create = async (req, res, next) => {
 
 	try{
+			// Vérification des informations fournis
+			const courseSchema = Joi.object({
+				name: Joi.string().required(),
+			});
+			
+			// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+			const { error } = courseSchema.validate(req.body);
+			if (error) {
+				const validationError = new Error(error.details[0].message);
+				validationError.statusCode = 500;  
+				throw validationError;
+			}
 
-		// Valider la requête
-		if (!req.body.name) {
-			const error = new Error("Il manque des informations pour créer une classe.");
-			error.statusCode = 400;  
-			throw error;
-		}
+			// Créer une classe
+			const course = {
+				name: req.body.name,
+				idProfessor: req.tokenId,
+			};
 
-		// Créer une classe
-		const course = {
-			name: req.body.name,
-			idProfessor: req.tokenId,
-		};
+			// Enregistrer la classe dans la base de données
+			const response = await Course.create(course)
 
-		// Enregistrer la classe dans la base de données
-		const response = await Course.create(course)
-
-		// Renvoie les données créées
-		return res.status(201).json(response);
+			// Renvoie les données créées
+			return res.status(201).json(response);
 		
 	// Gère les erreurs
 	} catch(err) {
@@ -75,7 +81,6 @@ exports.create = async (req, res, next) => {
 // methode pour récuperer les classes du professeur
 exports.findAll = async (req, res, next) => {
 	try{
-	
 		// Récupère toutes les classes du professeur connecté
 		const courses = await Course.findAll({ where: { idProfessor: req.tokenId } })
 
@@ -147,11 +152,17 @@ exports.update = async(req, res, next) => {
 	
 	try{
 
-		// Valider la requête
-		if (!req.body.name) {
-			const error = new Error("Il manque des informations pour mettre à jour la classe.");
-			error.statusCode = 400;  
-			throw error;
+		// Vérification des informations fournis
+		const courseSchema = Joi.object({
+			name: Joi.string().required(),
+		});
+		
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		const { error } = courseSchema.validate(req.body);
+		if (error) {
+			const validationError = new Error(error.details[0].message);
+			validationError.statusCode = 500;  
+			throw validationError;
 		}
 
 		// Vérifie que la classe appartient bien au professeur
@@ -164,7 +175,7 @@ exports.update = async(req, res, next) => {
 		// Effectue la requête de mise à jour
 		const updatedRows = await Course.update({name: req.body.name}, {where: { id: req.params.id} })
 
-			// Vérifie que la colonne à effectivement été mise à jour
+		// Vérifie que la colonne à effectivement été mise à jour
 		if (updatedRows == 1) {
 			return res.status(201).json({
 				message: "La classe à été mise a jour avec succès"

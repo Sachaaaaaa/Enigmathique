@@ -6,6 +6,21 @@ const db = require("../models/db.js");
 const roomRoute = require("../routes/room.route.js");
 const Room= db.room;
 const Op = db.Sequelize.Op;
+const Joi = require('joi');
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 FONCTIONS                                 //
+/////////////////////////////////////////////////////////////////////////////////
+
+// Fonction vérifiant si la requête est conforme aux attentes
+function isRequestCorrect(schema, req) {
+	const { error } = schema.validate(req.body);
+	if (error) {
+		const validationError = new Error(error.details[0].message);
+		validationError.statusCode = 500;  
+		throw validationError;
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 CREATE                                    //
@@ -14,21 +29,26 @@ const Op = db.Sequelize.Op;
 // Créer et enregistrer une nouvelle salle dans la base de données
 exports.create = async (req, res) => {
 
-	// Valider la requête
-	if (!req.body.name ||!req.body.chapter || !req.body.difficulty) {
-		return res.status(400).json({
-			message: "Il manque des informations pour ajouter une salle."
-		});
-	}
-
-	// Créer une salle
-	const room = {
-		name: req.body.name,
-		chapter: req.body.chapter,
-		difficulty: req.body.difficulty,
-	};
-
 	try{
+		
+		// Vérification des informations fournis
+		const roomSchema = Joi.object({
+			name: Joi.string().required(),
+			chapter: Joi.string().required(),
+			difficulty: Joi.string().required(),
+		});
+
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(roomSchema, req)
+
+		// Créer une salle
+		const room = {
+			name: req.body.name,
+			chapter: req.body.chapter,
+			difficulty: req.body.difficulty,
+		};
+
+
 		// Enregistrer la salle dans la base de données
 		const createdRoom = await Room.create(room)
 
