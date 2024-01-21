@@ -126,7 +126,7 @@ const ClassElement = ({classe, onChange,index}) => {
 							</div>
 							<button
 								type='submit'
-								className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
+								className='bg-blue-gradient-color modal-validate-button-style'
 								onClick={(event) => handleClickEdit(event, classe.id)}>
 								Modifier
 							</button>

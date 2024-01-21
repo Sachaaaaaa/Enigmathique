@@ -6,6 +6,10 @@ import '../createGame.css'
 import ClassList from "./ClassList";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
+import ContentHeader from 'components/dashboard/ContentHeader';
+import Textfield from 'components/authform/Textfield';
+
+
 const CreationGame1 = (props) => {
 
 	const {formData, setFormData} = useCreationGameContext();
@@ -35,51 +39,47 @@ const CreationGame1 = (props) => {
 
 	return (
 
-		<section className='flex flex-col h-[96%] w-full gap-4'>
-			<section className="h-[5%]">
-				<h1 className='text-2xl pl-4'>Paramètres</h1>
-			</section>
-			<section className=" h-[85%] flex flex-col justify-center items-center">
-				<div>
-					<div className='mb-4'>
-						<label
-							className='label-creation'
-							htmlFor='gameName'
-						>
-							Nom de la partie
-						</label>
-						<input
-							id='gameName'
-							value={formData.gameName}
-							onChange={(e) => setFormData({...formData, gameName: e.target.value})}
-							placeholder='Entrer le nom'
-							className='data-selection'
-						/>
-					</div>
-					<div className='mb-4'>
+		<section className='flex flex-col justify-center items-center w-full h-[calc(100%-26px)] min-h-[400px] '>
+			<ContentHeader title='Paramètres' link='/dashboard'/>
+
+			{/* Formulaire des paramètres de la partie */}
+			<article className="flex flex-col justify-center items-center w-[25%] min-w-[300px] h-full px-5">
+
+					<Textfield
+						label='Nom de la partie'
+						name='gameName'
+						type='text'
+						value={formData.gameName}
+						onChange={(e) => setFormData({...formData, gameName: e.target.value})}
+						placeholder='Entrer le nom'/>
+
+					{/* Selection de la classe*/}
+					<div className='w-full mb-4 primary-font-color'>
 						<ClassList/>
 					</div>
-					<div className='mb-4 w-full'>
+
+					{/* Selection de la taille des équipes - compteur*/}
+					<div className='w-full mb-4 primary-font-color'>
 						<Counter/>
 					</div>
-				</div>
-			</section>
-			<section className="flex flex-row justify-evenly items-end h-[10%] w-full">
+			</article>
+
+			{/* Boutons*/}
+			<article className="flex flex-row justify-between items-center w-full h-fit mb-5 px-5">
 				<Link
-					className='btn-cancel'
+					className='modal-cancel-button-style w-fit px-8 py-6'
 					to={'/dashboard'}
 					onClick={handleAnnuler}
 				>
 					Retour
 				</Link>
 				<button
-					className='btn-validate'
+					className='bg-blue-gradient-color modal-validate-button-style w-fit px-8 py-6 border-2 border-blue-color box-border '
 					onClick={handleSuivant}
 				>
 					Suivant
 				</button>
-			</section>
-
+			</article>
 		</section>
 	);
 

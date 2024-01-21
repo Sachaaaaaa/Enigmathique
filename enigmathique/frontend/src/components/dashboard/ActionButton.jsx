@@ -8,20 +8,45 @@ import PropTypes from 'prop-types';
 
 const ActionButton = ({title,link = '', onClick= ''}) => {
 
-    const actionMap = {
-        'Statistiques': <IoIosStats size='1.25em'/>,
-        'Modifier': <MdOutlineModeEdit size='1.25em'/>,
-        'Supprimer': <MdDeleteForever size='1.25em'/>,
-        'Classement': <FaRankingStar size='1.25em'/>,
-        'Détails': <FiInfo size='1.25em'/>,
+    // const actionMap = {
+    //     'Statistiques': <IoIosStats size='1.25em'/>,
+    //     'Modifier': <MdOutlineModeEdit size='1.25em'/>,
+    //     'Supprimer': <MdDeleteForever size='1.25em'/>,
+    //     'Classement': <FaRankingStar size='1.25em'/>,
+    //     'Détails': <FiInfo size='1.25em'/>,
+    // }
+    const actionButtons = {
+        Statistiques: {
+            icon: <IoIosStats size='1.25em'/>,
+            className: "btn-action-Statistiques p-2",
+        },
+        Modifier: {
+            icon: <MdOutlineModeEdit size='1.25em'/>,
+            className: "btn-action-Modifier p-2",
+        },
+        Supprimer: {
+            icon: <MdDeleteForever size='1.25em'/>,
+            className: "btn-action-Supprimer p-2",
+        },
+        Classement: {
+            icon: <FaRankingStar size='1.25em'/>,
+            className: "btn-action-Classement p-2",
+        },
+        Détails: {
+            icon: <FiInfo size='1.25em'/>,
+            className: "btn-action-Détails p-2",
+        },
     }
-    const icon = actionMap[title];
+
+
+    const icon = actionButtons[title].icon;
+    const className = actionButtons[title].className;
     return (
         <Link to={link}>
             <button
                 title={title}
                 onClick={onClick}
-                className={"btn-action-"+title+" p-2"}>
+                className={className}>
                 {icon}
             </button>
         </Link>
