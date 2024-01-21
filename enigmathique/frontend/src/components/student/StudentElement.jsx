@@ -102,7 +102,7 @@ const StudentElement = ({student, onChange}) => {
 						<div className="w-full">
 						<button
 							type='submit'
-							className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-student-button-style'
+							className='bg-blue-gradient-color modal-validate-button-style modal-student-button-style'
 							onClick={(event) => handleClickEdit(event, firstname, lastname, id, student.id)}>
 							Modifier
 						</button>
