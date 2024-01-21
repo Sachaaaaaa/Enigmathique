@@ -66,17 +66,18 @@
     .label-filter:hover {
         @apply text-[#7c79ff] border-[#7c79ff];
     }
+
+    .chip {
+        @apply rounded-full px-4 py-1 text-xs text-white text-center;
+    }
     .chip-facile {
-        @apply w-1/3 rounded-full bg-[#4cbc9a] px-4 py-2 text-center text-white;
+        @apply bg-[#4cbc9a] chip;
     }
     .chip-moyen {
-        @apply w-1/3 rounded-full bg-[#fb7d5bX] px-4 py-2 text-center text-white;
+        @apply bg-[#fb7d5b] chip;
     }
     .chip-difficile {
-        @apply w-1/3 rounded-full bg-[#ff4550] px-4 py-2 text-center text-white;
-    }
-    .room-container {
-        @apply flex flex-row items-center justify-between w-full;
+        @apply bg-[#ff4550] chip;
     }
 
 }

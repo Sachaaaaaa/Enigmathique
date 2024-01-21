@@ -38,7 +38,7 @@ const RoomList = () => {
 
 	return (
 		<LayoutProf>
-			<main>
+			<main className="flex flex-col overflow-y-hidden">
 				<ContentHeader title="" link='/dashboard'>
 						<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>
 						<RoomNav
@@ -47,18 +47,17 @@ const RoomList = () => {
 						/>
 				</ContentHeader> 
 
-				<section className='flex flex-col w-full h-[78%] overflow-y-scroll pr-4'>
+				<section className='room-list-container'>
 					{filteredRooms.map((room, index) => (
 							<>
 								<Room
-									key={index}
+									index={index}
 									name={room.name}
 									difficulty={room.difficulty}
 									riddles={999}
 									winrate={999}
 									handleRoomSelection={() => handleRoomSelection(room)}
 								/>
-								{index !== filteredRooms.length - 1 && <hr></hr>}
 							</>
 						))
 					}

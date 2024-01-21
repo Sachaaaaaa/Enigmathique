@@ -53,7 +53,7 @@ const Games = () => {
 				<TableContainer headers={['Nom', 'Date', 'Score', 'Taux de réussite', 'Nombre de salles', 'Action']}>
 					{filteredGames.map((game, index) => {
 							return (
-								<tr key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
+								<tr key={index} className={`border-t border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
 									<td className="pl-5 td-style">
 										{game.name}
 									</td>
