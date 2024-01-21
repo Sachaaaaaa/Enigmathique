@@ -43,8 +43,8 @@ const Join = (props) => {
 		});
 
 		socket.on(ServerToClient.SyncTeamStudents, (data) => {
-			setIsLocked(data.locked);
-			setIsConfirmed(data.confirmed);
+			setIsLocked(data.composition.locked);
+			setIsConfirmed(data.composition.confirmed);
 			setSelected(data.composition.students);
 		});
 
