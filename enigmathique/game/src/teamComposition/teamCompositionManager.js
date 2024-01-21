@@ -2,22 +2,20 @@ const clc = require('cli-color');
 const SocketProfessor = require('./connections/socketProfessor');
 const SocketTeam = require('./connections/socketTeam');
 const CompositionSession = require('./compositionSession');
+const ApiService = require('../api/api');
 
 class TeamCompositionManager {
 	constructor() {
 		this.sessions = {};
 	}
 
-	handleConnection = (socket, sessionId) => {
+	handleConnection = async(socket, sessionId) => {
 		console.log(clc.green('[Composition] Nouvelle connexion ' + socket.id));
-
-		
-		// TODO: Vérifier si la session est valide
-		// { ... }
 
 		// Crée une nouvelle session si elle n'existe pas
 		if (!this.sessions[sessionId]) {
-			this.sessions[sessionId] = new CompositionSession(this, sessionId);
+			const maxTeamSize = await ApiService.getMaxTeamSizeFromId(sessionId);
+			this.sessions[sessionId] = new CompositionSession(this, sessionId, maxTeamSize);
 			console.log(clc.yellow('[Composition] Nouvelle session ' + sessionId + ' créée'));
 		}
 
