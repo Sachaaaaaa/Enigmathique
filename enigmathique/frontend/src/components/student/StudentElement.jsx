@@ -1,11 +1,10 @@
 import React, {useState} from "react";
 import Student from "../../models/student.model";
-import {Link} from "react-router-dom";
-import {IoIosStats} from "react-icons/io";
-import {MdDeleteForever, MdOutlineModeEdit} from "react-icons/md";
+
 import Modal, {ModalBody} from "../Modal";
 import PropTypes from "prop-types";
 import ActionButton from "components/dashboard/ActionButton";
+import toast from "react-hot-toast";
 
 const StudentElement = ({student, onChange}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
@@ -18,19 +17,34 @@ const StudentElement = ({student, onChange}) => {
 	
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
-		await Student.delete(id);
+		await toast.promise(
+			Student.delete(id),
+			{
+				loading: 'Suppression...',
+				success: "L'élève a bien été supprimé",
+				error: "Une erreur s'est produite",
+			}
+		);
+		
 		onChange();
 		setDeleteModalOpen(false);
-		console.log('delete ' + id);
+		//console.log('delete ' + id);
 	}
 	
 	
 	const handleClickEdit = async (event, firstname, lastname, idCourse, idStudent) => {
 		event.preventDefault();
-		await Student.edit(firstname, lastname, idCourse, idStudent);
+		await toast.promise(
+			Student.edit(firstname, lastname, idCourse, idStudent),
+			{
+				loading: 'Enregistrement...',
+				success: "L'élève a bien été modifiée",
+				error: "Une erreur s'est produite",
+			}
+		);
 		onChange();
 		setEditModalOpen(false);
-		console.log('edit ' + id);
+		//console.log('edit ' + id);
 	}
 	
 	
@@ -47,15 +61,15 @@ const StudentElement = ({student, onChange}) => {
 				</div>
 				<div className='space-x-3'>
 					<ActionButton 
-						title='Statistiques'
+						title="Statistiques"
 						link='/'
 					/>
 					<ActionButton
-						title='Modifier'
+						title="Modifier"
 						onClick={() => setEditModalOpen(true)}
 					/>
 					<ActionButton
-						title='Supprimer'
+						title="Supprimer"
 						onClick={() => setDeleteModalOpen(true)}
 					/>
 				</div>
@@ -85,6 +99,7 @@ const StudentElement = ({student, onChange}) => {
 							onChange={(e) => setLastname(e.target.value)}
 							className='form-inputfield-style modal-student-input-style '/> 
 						</div>
+						<div className="w-full">
 						<button
 							type='submit'
 							className='modal-validate-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-student-button-style'
@@ -96,6 +111,7 @@ const StudentElement = ({student, onChange}) => {
 							onClick={() => setEditModalOpen(false)}>
 							Annuler
 						</button>
+						</div>
 					</form>
 				</ModalBody>
 			</Modal>)}

@@ -74,32 +74,26 @@ const GameElem = (props) => {
 	if (course == null) return <p>Loading</p>
 
 	return (
-		<article className='grid grid-cols-2 gap-1 info-container'>
-			<article className='col-span-2 pt-2 element-info-container'>
-				<h3 className='small-title'>Nom</h3>
-				<p className='small-text'>{game.name}</p>
-			</article>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>Classe</h3>
-				<p className='small-text'>{course.name}</p>
-			</article>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>Date</h3>
-				<p className='small-text'>{game.createdAt.toLocaleString()}</p>
-			</article>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>Gagnants</h3>
-				<p className='small-text'>{game.state !== 2 ? 'Partie non terminée' :
-					getWinners().map((stud) => {`${stud.firstname} ${stud.lastname} `})}
-				</p>
-			</article>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>Taux de réussite</h3>
-				<p className='small-text'>{getWinRate()} %</p>
-			</article>
+		// Affichage des informations de la partie
+		// Grid pour afficher les informations sur 2 colonnes fixes
+		<article className='info-block grid-block'>
+
+			<InfoBlockElem title='Nom' text={game.name} additionalClasses='col-span-2 pt-2' />
+
+			<InfoBlockElem title='Classe' text={course.name}/>
+
+
+			<InfoBlockElem title='Date' text={game.createdAt.toLocaleString()} />
+
+			<InfoBlockElem title='Gagnants' text={game.state !== 2 ? 'Partie non terminée' : console.log("non")
+					//getWinners().map((stud) => {`${stud.firstname} ${stud.lastname} `})
+					} />
+
+			<InfoBlockElem title='Taux de réussite' text={getWinRate()+' %'} />
+
 			{game.state === 2 ?
-				<Link to={'./Ranking/'+game.id} className="text-blue-600 hover:text-blue-800">Voir</Link> :
-				<span className="text-blue-600 hover:text-blue-800">Partie non terminée</span>
+				<Link to={'./ranking/'+game.id} className="btn-show col-span-2">Voir</Link> :
+				<span className="btn-show col-span-2">Partie en cours</span>
 			}
 		</article>
 	)
