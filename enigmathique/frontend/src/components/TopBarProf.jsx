@@ -33,7 +33,7 @@ const TopBarProf = () => {
 		"class": "Mes classes",
 		"games": "Mes parties",
 		"rooms": "Salles d'énigmes",
-		"create-game": "Création de partie",
+		"create-game": "Nouvelle partie",
 		"pregame": "",
 	}
 

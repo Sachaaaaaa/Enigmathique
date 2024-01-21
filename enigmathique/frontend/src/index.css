@@ -77,11 +77,43 @@
 
             .bg-blue-color {
                 @apply bg-[#0A06F4];
-            }            
+            }        
+            
+            .bg-btn-red-color {
+                @apply bg-[#EF4565];
+            }
+            .bg-btn-red-color:hover {
+                @apply bg-gradient-to-r from-[#F87A90] to-[#EF4565];
+            }
+
+            .bg-btn-yellow-color {
+                @apply bg-[#FABE32];
+            }
+            .bg-btn-yellow-color:hover {
+                @apply bg-gradient-to-r from-[#F3CA6A] to-[#FABE32];
+            }
+
+            .bg-btn-orange-color {
+                @apply bg-[#FB7D5B];
+            }
+            .bg-btn-orange-color:hover {
+                @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
+            }
+
+            .bg-btn-blue-color {
+                @apply bg-[#0704c3];
+            }
+            .bg-btn-blue-color:hover {
+                @apply bg-gradient-to-r from-[#3a38d1] to-[#0704c3];
+            }
             
             .bg-blue-gradient-color {
                 @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
             }
+            .bg-blue-gradient-color:hover {
+                @apply bg-gradient-to-r from-[#615eec] to-[#0A06F4];
+            }
+
 
         /** Couleurs de texte **/
 
@@ -182,7 +214,7 @@
         /* Inputs */
             .form-inputfield-style {
                 @apply  w-full h-fit py-2 px-3 primary-font-color leading-snug 
-                        border rounded shadow appearance-none focus:outline-none ;
+                        border rounded shadow-md appearance-none focus:outline-none ;
             }
 
         /* Boutons de validation*/
@@ -308,9 +340,6 @@
             .btn-show {
                 @apply flex items-center justify-center w-full h-10 mt-1 bg-blue-gradient-color text-white text-center uppercase rounded-b-[30px] transition-colors duration-300;
             }
-            .btn-show:hover {
-                @apply bg-gradient-to-r from-[#362FBC] to-[#0804CA];
-            }
 
 
     /*********************** Affichage de liste ***********************/
@@ -336,9 +365,9 @@
                         bg-transparent border-2 border-blue-color box-border ;
             }
 
-        /* Bouton supprimer */
+        /* Bouton valider */
             .modal-validate-button-style {
-                @apply form-button-style  h-[40px];
+                @apply form-button-style flex items-center justify-center h-[40px];
             }
 
         /* Bouton spécifique pour la page de liste d'élèves */
@@ -365,10 +394,7 @@
 
         /* Bouton annuler */
             .btn-cancel {
-                @apply btn-action bg-[#ef4565] whitespace-normal rounded-[8px];
-            }
-            .btn-cancel:hover {
-                @apply bg-red-500;
+                @apply btn-action bg-btn-red-color rounded-[8px];
             }
 
         /* Bouton créer */
@@ -399,10 +425,7 @@
 
         /* Bouton supprimer */
             .btn-action-Supprimer {
-                @apply btn-action bg-[#EF4565]
-            }
-            .btn-action-Supprimer:hover {
-                @apply bg-gradient-to-r from-[#F87A90] to-[#EF4565];
+                @apply btn-action bg-btn-red-color
             }
 
         /* Bouton classement */
@@ -415,9 +438,6 @@
 
         /* Boutons infos */
             .btn-action-Détails {
-                @apply btn-action bg-[#0704c3]
-            }
-            .btn-action-Détails:hover {
-                @apply bg-gradient-to-r from-[#3a38d1] to-[#0704c3];
+                @apply btn-action bg-btn-blue-color
             }
 }

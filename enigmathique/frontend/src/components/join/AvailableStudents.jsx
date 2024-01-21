@@ -26,7 +26,7 @@ const 	AvailableStudents = (props) => {
 			<section>
 				<h1>Élèves</h1>
 			</section>
-			<section className="flex flex-col h-[90%] bg-white shadow p-2">
+			<section className="flex flex-col h-[90%] bg-whiteshadow-md p-2">
 				<nav className="flex flex-row justify-center items-center gap-2 p-2">
 					<FaSearch size={25} className='blue-font-color' />
 					<input
