@@ -8,6 +8,7 @@ import useCourses from "../../hooks/useCourses";
 import useTeams from "../../hooks/useTeams";
 import TeamModel from "../../models/team.model";
 import useCourse from "../../hooks/useCourse";
+import InfoBlockElem from "./InfoBlockElem";
 
 const maxTime = 600;
 
