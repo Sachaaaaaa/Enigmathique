@@ -57,7 +57,7 @@ const Games = () => {
 									<td className="pl-5 td-style">
 										{game.name}
 									</td>
-									<td className="td-style">{game.createdAt.toLocaleString()}</td>
+									<td className="td-style">{game.createdAt.toLocaleDateString('fr-FR')}</td>
 									<td className="td-style">--</td>
 									<td className="td-style">--%</td>
 									<td className="td-style">--</td>
@@ -65,11 +65,12 @@ const Games = () => {
 										<div className="space-x-3">
 										<ActionButton 
 											title="Classement"
-											link={game.state === 2 ? `/ranking/${game.id}` : ''}
+											link={game.state === 2 ? `/ranking/${game.id}` : ``}
 										/>
 										<ActionButton
 											title="Détails"
-											link={game.state === 2 ? `/game/${game.id}` : ''}
+											link={`/game/${game.id}`}
+											disabled={game.state !== 2}
 										/>
 										</div>
 									</td>

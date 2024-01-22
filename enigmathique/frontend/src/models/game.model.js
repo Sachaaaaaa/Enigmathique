@@ -57,6 +57,13 @@ class Game{
 			console.log(`erreur dans le getter des scores dans le modèle de game (front) ${e}`);
 		}
 	}
+	static async delete(idGame) {
+		try {
+			return await GameService.deleteGame(idGame);
+		}catch (e) {
+			console.log(`erreur dans le delete dans le modèle de game (front) ${e}`);
+		}
+	}
 
 }
 export default Game;

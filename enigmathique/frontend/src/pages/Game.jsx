@@ -23,8 +23,6 @@ const Game = () => {
 	const sessionId = searchParams.get('sessionId');
 	const teamId = searchParams.get('teamId');
 
-	const [timeRemaining, setTimeRemaining] = useState(600); // 10 minutes en secondes
-
 	// Si l'id de session n'est pas défini, on quitte la page
 	if (!sessionId || !teamId) {
 		window.location.href = '/';
@@ -65,7 +63,7 @@ const Game = () => {
 		<SocketContext.Provider value={socket}>
 			<section className="absolute w-full h-20 border-y-0 top-0 topbar-container z-50">
 				<div className="w-11/12">
-					<img src={logoNameNobg} alt="logo" style={{ height: '4em' }} />
+					<img src={logoNameNobg} alt="logo" style={{ height: '4em' , marginLeft: '2em'}} />
 				</div>
 				<div className="flex flex-row items-center gap-2">
 					<img src={E} alt="logo" style={{ height: '4em' }} />

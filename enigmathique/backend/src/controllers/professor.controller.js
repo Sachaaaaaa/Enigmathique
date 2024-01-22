@@ -5,6 +5,23 @@
 const db = require("../models/db.js");
 const Professor = db.professor;
 const Op = db.Sequelize.Op;
+const Joi = require('joi');
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 FONCTIONS                                 //
+/////////////////////////////////////////////////////////////////////////////////
+
+// Fonction vérifiant si la requête est conforme aux attentes
+function isRequestCorrect(schema, req) {
+	const { error } = schema.validate(req.body);
+	if (error) {
+		const validationError = new Error(error.details[0].message);
+		validationError.statusCode = 500;  
+		throw validationError;
+	}
+}
+
+
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 CREATE                                    //
@@ -16,7 +33,7 @@ const Op = db.Sequelize.Op;
 // 									 READ                                      //
 /////////////////////////////////////////////////////////////////////////////////
 
-exports.findOne = async (req, res) => {
+exports.findOne = async (req, res, next) => {
 	try {
 		// Récupère le professeur connecté
 		const professor = await Professor.findOne({ where: { id: req.tokenId }, attributes: { exclude: ['password', 'mail'] } })
@@ -24,9 +41,7 @@ exports.findOne = async (req, res) => {
 	
 	// Gère les erreurs
 	}catch(err) {
-		return res.status(404).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération des professeurs."
-		});
+		next(err)
 	}
 }
 
@@ -36,49 +51,55 @@ exports.findOne = async (req, res) => {
 
 // to do : hash le password
 // methode pour mettre à jour le professeur connecté
-exports.update = async(req, res) => {
+exports.update = async(req, res, next) => {
 	
-	// Stock les changements apportés au professeur	
-    const updateData = {};
-
-	// Si le professeur souhaite changer le prénom de l'élève
-    if (req.body.firstname) {
-    	updateData.firstname = req.body.firstname;
-    }
-
-	// Si le professeur souhaite changer le nom de l'élève
-    if (req.body.lastname) {
-    	updateData.lastname = req.body.lastname;
-    }
-
-	// todo : pas deux fois le même mail dans la BD ?
-	// Si le professeur souhaite changer le nom de l'élève
-	if (req.body.mail) {
-		updateData.lastname = req.body.mail;
-	}
-	
-
 	try{
+
+		// Vérification des informations fournis
+		const studentSchema = Joi.object({
+			lastname: Joi.string(),
+			firstname: Joi.string(),
+			mail: Joi.string().email(),
+		});
+
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(studentSchema, req)
+
+		// Stock les changements apportés au professeur	
+		const updateData = {};
+
+		// Si le professeur souhaite changer le prénom de l'élève
+		if (req.body.firstname) {
+			updateData.firstname = req.body.firstname;
+		}
+
+		// Si le professeur souhaite changer le nom de l'élève
+		if (req.body.lastname) {
+			updateData.lastname = req.body.lastname;
+		}
+
+		// todo : pas deux fois le même mail dans la BD ?
+		// Si le professeur souhaite changer le nom de l'élève
+		if (req.body.mail) {
+			updateData.lastname = req.body.mail;
+		}
+
 		// Effectue la requête de mise à jour
 		const updatedRows = await Professor.update(updateData, {where: { id: req.tokenId} })
 
 		// Vérifie que la colonne à effectivement été mise à jour
-		if (updatedRows == 1) {
-			return res.status(201).json({
-				message: "Le professeur à été mise a jour avec succès"
-			});
-
-		} else {
-			return res.status(404).json({
-				message: "Impossible de mettre à jour le professeur"
-			});
-		}
+		if (updatedRows == 0) {
+			const error = new Error("Impossible de mettre à jour le professeur");
+			error.statusCode = 404;  
+			throw error;
+		} 
+	
+		return res.status(201).json({message: "Le professeur à été mise a jour avec succès"});
 	
 	// Gère les erreurs
 	} catch(err) {
-		return res.status(500).send({
-			message: err.message || "Une erreur s'est produite lors de la récupération du professeur."
-		});
+		console.log(err)
+		next(err)
 	}
   };
 
@@ -89,28 +110,24 @@ exports.update = async(req, res) => {
 
 
 // methode pour supprimer un professeur en fonction de son id
-exports.delete = async (req, res) => {
+exports.delete = async (req, res, next) => {
 
 	try {
 		// Effectue la requête de suppression du professeur connecté
 		const destroyedRows = await Professor.destroy({ where: { id: req.tokenId} })
 		
 		// Vérifie si le professeur a bien été supprimé
-		if (destroyedRows == 1) {
-			return res.status(200).json({
-				message: "La classe a été supprimée avec succès"
-		})
-		// Si aucunes colonnes traités on relève une erreur	
-		} else {
-			return res.status(404).json({
-				message: "Impossible de supprimer la classe"
-		})}
+		if (deletedRows == 0) {
+			const error = new Error("Impossible de mettre à jour le professeur");
+			error.statusCode = 404;  
+			throw error;
+		} 
+			
+		return res.status(200).json({message: "La classe a été supprimée avec succès"})
 
 	// Gère les erreurs
 	} catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération des classes."
-		});
+		next(err)
 	}
 }
 

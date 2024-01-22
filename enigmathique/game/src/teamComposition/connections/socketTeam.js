@@ -103,6 +103,12 @@ class SocketTeam {
 			return;
 		}
 
+		// Vérifie que l'équipe n'est pas vide
+		if (this.composition.length === 0) {
+			console.log(clc.redBright('[Team] Tentative de verrouillage d\'une équipe vide'));
+			return;
+		}
+
 		this.name = name;
 		this.locked = true;
 		this.session.onTeamCompositionChange(this);

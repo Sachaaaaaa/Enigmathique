@@ -9,14 +9,14 @@ module.exports = app => {
 	var router = require("express").Router();
 
 	// Récupérer un professeur par son id
-	router.get("/", middleware.verifyToken,professors.findOne);
+	router.get("/", middleware.verifyToken,professors.findOne, middleware.verifyErrors);
 
 	// to do : revok le token ?
 	// Supprimer le professeur
-	router.delete("/", middleware.verifyToken, professors.delete);
+	router.delete("/", middleware.verifyToken, professors.delete, middleware.verifyErrors);
 
 	// Mettre à jour une le professeur
-	router.put("/", middleware.verifyToken, professors.update);
+	router.put("/", middleware.verifyToken, professors.update, middleware.verifyErrors);
 
 	app.use("/api/professor", router);
 }

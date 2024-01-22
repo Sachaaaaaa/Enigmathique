@@ -104,6 +104,10 @@
                 @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
             }
 
+            .bg-btn-gray-color {
+                @apply bg-gray-400;
+            }
+
             .bg-btn-blue-color {
                 @apply bg-[#0704c3];
             }
@@ -444,4 +448,9 @@
             .btn-action-refuser {
                 @apply btn-action bg-btn-red-color
             }
-    }
+    
+        /* Boutons désactivé*/
+            .btn-disabled {
+                @apply btn-action bg-btn-gray-color
+            }
+}
