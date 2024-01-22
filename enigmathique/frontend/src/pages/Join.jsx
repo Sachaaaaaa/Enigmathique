@@ -11,6 +11,7 @@ import LayoutStudent from "../layouts/LayoutStudent";
 import Notification from "../components/Notification";
 import toast from "react-hot-toast";
 import {SyncLoader} from "react-spinners";
+import AuthHeader from "../components/AuthHeader";
 
 const Join = (props) => {
 	//? Faire un hook pour ça ? vu le nombre de useStates
@@ -102,9 +103,9 @@ const Join = (props) => {
 	};
 
 	return (
-		<LayoutStudent>
 			<SocketContext.Provider value={socket}>
-				<main className='flex flex-col justify-center items-center h-full w-full p-4 bg-[#f5f7fa]'>
+				<AuthHeader title = {`Session : ${sessionId}`}/>
+				<main className='flex flex-col justify-center items-center w-full'>
 					{isLocked ?
 						(	<>
 								<SyncLoader color='#4c49ed'/>
@@ -115,6 +116,7 @@ const Join = (props) => {
 						(
 							<>
 								<Notification/>
+								
 								<h1 className='text-2xl'>Création de l&apos;équipe</h1>
 								<section className='flex flex-row justify-evenly gap-2 p-4 h-[70%] w-full'>
 									<AvailableStudents available={available} teamSize={maxTeamSize}/>
@@ -131,7 +133,6 @@ const Join = (props) => {
 						)}
 				</main>
 			</SocketContext.Provider>
-		</LayoutStudent>
 	);
 };
 Join.propTypes = {
