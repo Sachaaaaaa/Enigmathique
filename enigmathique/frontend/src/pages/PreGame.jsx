@@ -70,11 +70,10 @@ const PreGame = () => {
 		<SocketContext.Provider value={socket}>
 			<LayoutProf>
 				<main className='flex flex-col flex-grow gap-3 p-5'>
-				<section className="flex justify-end w-full">
-						<button className="bg-blue-gradient-color modal-validate-button-style w-fit p-8" onClick={handleStartGame}>
-							Commencer la partie
-						</button>
-					</section>
+				<div className='w-full min-w-[250px] py-2 bg-white primary-font-color text-center text-lg font-semibold shadow-md rounded-full'> Code de connexion : <span className='blue-font-color'>{sessionId}</span> </div>
+				<button className="bg-blue-gradient-color modal-validate-button-style w-full min-w-[250px] p-8 font-medium uppercase" onClick={handleStartGame}>
+					Commencer la partie
+				</button>
 					<section className="grow flex flex-wrap justify-between items-center gap-5 w-full">
 						<TeamContainer teams={lockedTeams} isValidated={false} />
 						<TeamContainer teams={confirmedTeams} isValidated={true} />
