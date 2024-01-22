@@ -5,6 +5,9 @@
 module.exports = app => {
 	const professors = require("../controllers/professor.controller.js");
 	const middleware = require("./middleware.js");
+	const bodyParser = require('body-parser');
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: true }));
 
 	var router = require("express").Router();
 
