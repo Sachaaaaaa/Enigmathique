@@ -16,6 +16,7 @@ const maxTime = 600;
 const GameElem = (props) => {
 
 	const game = props.game;
+	console.log(game);
 
 	const [scores, setScores] = useState([]);
 	const [course, loadCourse] = useCourse(game.idCourse);
@@ -128,7 +129,7 @@ const GameElem = (props) => {
 
 			{game.state === 2 ?
 				<Link to={'./ranking/'+game.id} className="btn-show col-span-2">Voir</Link> :
-				<span className="btn-show col-span-2">Partie en cours</span>
+				<Link to={'/pregame/'+game.gameCode} className="btn-show col-span-2">Partie en cours</Link>
 			}
 		</article>
 	)
