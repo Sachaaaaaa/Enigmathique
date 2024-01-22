@@ -405,9 +405,8 @@ exports.getIdFromCode = async (req, res, next) => {
 exports.course = async (req, res, next) => {
 
 	try{
-		// Récupère la classe courrespondant au code
-		const gameCode = await GameCode.findOne({ where: { idGame: req.params.id} })
-
+		// Récupère la classe correspondant au code
+		const gameCode = await Game.findOne({ where: { id: req.params.id} })
 		// Récupèrer les élèves de la classe
 		const students = await Student.findAll({ where: { idCourse: gameCode.idCourse} })
 
@@ -416,6 +415,7 @@ exports.course = async (req, res, next) => {
 
 	// Gère les erreurs
 	}catch(err) {
+		console.log(err)
 		next(err)
 	}	
 }
