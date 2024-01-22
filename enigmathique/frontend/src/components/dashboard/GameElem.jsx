@@ -16,7 +16,6 @@ const maxTime = 600;
 const GameElem = (props) => {
 
 	const game = props.game;
-
 	const [scores, setScores] = useState([]);
 	const [course, loadCourse] = useCourse(game.idCourse);
 	const [winners, setWinners] = useState([]);
@@ -91,7 +90,6 @@ const GameElem = (props) => {
 	}
 	
 	
-	
 	const getWinRate = () => {
 		if (scores == null) return 0;
 		let winRate = 0;
@@ -108,6 +106,29 @@ const GameElem = (props) => {
 	if (course == null) return <p>Loading</p>
 	if (winners == null) return <p>Loading</p>
 
+	console.log(game);
+
+	let winnerLabel ;
+	let successRateLabel ;
+	let link ;
+	switch (game.state) {
+		case 0:
+			winnerLabel = "Partie non lancée" ;
+			successRateLabel = "Partie non lancée" ;
+			link =  <Link to={'/pregame/'+game.id} className="btn-show col-span-2">Voir</Link>;
+			break ;
+		case 1:
+			winnerLabel = "Partie en cours" ;
+			successRateLabel = "Partie en cours" ;
+			link =  <Link to={'/leaderboard/'+game.id} className="btn-show col-span-2">Voir</Link>;
+			break ;
+		case 2:
+			winnerLabel = winners.map((stud) => stud.firstname + ' ' + stud.lastname)
+			successRateLabel = getWinRate()+'%' ;
+			link =  <Link to={'/ranking/'+game.id} className="btn-show col-span-2">Voir</Link>;
+			break ;
+	}
+
 	return (
 		// Affichage des informations de la partie
 		// Grid pour afficher les informations sur 2 colonnes fixes
@@ -118,18 +139,12 @@ const GameElem = (props) => {
 			<InfoBlockElem title='Classe' text={course.name}/>
 
 
-			<InfoBlockElem title='Date' text={game.createdAt.toLocaleString()} />
+			<InfoBlockElem title='Date' text={game.createdAt.toLocaleDateString('fr-Fr')} />
 
-			<InfoBlockElem title='Gagnants' text={game.state !== 2 ? 'Partie non terminée' : //console.log(getWinners().idTeam)}
-				winners.map((stud) => stud.firstname + ' ' + stud.lastname)}
-			/>
+			<InfoBlockElem title='Gagnants' text={winnerLabel} />
 
-			<InfoBlockElem title='Taux de réussite' text={`${getWinRate()===0 ? 'Partie non terminée': getWinRate()+'%'}`} />
-
-			{game.state === 2 ?
-				<Link to={'./ranking/'+game.id} className="btn-show col-span-2">Voir</Link> :
-				<span className="btn-show col-span-2">Partie en cours</span>
-			}
+			<InfoBlockElem title='Taux de réussite' text={successRateLabel} />
+			{link}
 		</article>
 	)
 }

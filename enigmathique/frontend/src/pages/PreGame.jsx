@@ -9,6 +9,7 @@ import {
 	ServerToClient,
 } from 'data/socketMessages';
 import AuthService from '../services/auth.service';
+import {useNavigate} from 'react-router-dom';
 
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
@@ -16,6 +17,7 @@ const PreGame = () => {
 
 	const { sessionId } = useParams();
 	const token = AuthService.getToken();
+	const navigate = useNavigate();
 
 	// Met à jour l'id de session dans le handshake du socket
 	socket.io.opts.query = {
@@ -41,8 +43,7 @@ const PreGame = () => {
 		});
 
 		socket.on(ServerToClient.CompositionFinished, () => {
-			alert('La composition des équipes est terminée, faire quelque chose ici');
-			// TODO: Rediriger vers la page de jeu avec le bon CODE de session
+			navigate(`/leaderboard?sessionId=${sessionId}`);
 		});
 
 		socket.connect();
@@ -68,15 +69,15 @@ const PreGame = () => {
 	return (
 		<SocketContext.Provider value={socket}>
 			<LayoutProf>
-				<main className='flex flex-col flex-grow gap-10 h-full p-5'>
-					<section className="grow flex flex-wrap justify-evenly items-center gap-5 w-full">
-						<TeamContainer teams={lockedTeams} isValidated={false} />
-						<TeamContainer teams={confirmedTeams} isValidated={true} />
-					</section>
-					<section className="flex justify-end items-center w-full">
+				<main className='flex flex-col flex-grow gap-3 p-5'>
+				<section className="flex justify-end w-full">
 						<button className="bg-blue-gradient-color modal-validate-button-style w-fit p-8" onClick={handleStartGame}>
 							Commencer la partie
 						</button>
+					</section>
+					<section className="grow flex flex-wrap justify-between items-center gap-5 w-full">
+						<TeamContainer teams={lockedTeams} isValidated={false} />
+						<TeamContainer teams={confirmedTeams} isValidated={true} />
 					</section>
 				</main>
 			</LayoutProf>
