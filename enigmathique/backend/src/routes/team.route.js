@@ -8,27 +8,27 @@ module.exports = app => {
 
 	var router = require("express").Router();
 
+	const bodyParser = require('body-parser');
+	app.use(bodyParser.json());
+
 	// todo : remove un student from a team
 	// todo : tout mettre en cascade 
 
 
 	// Supprime un élève de l'équipe
-	router.post("/student/:id", middleware.verifyToken, team.removeStudent);
+	router.post("/student/:id", middleware.verifyToken, team.removeStudent, middleware.verifyErrors);
 
 	// Récupère toutes les teams d'une partie
 	router.get("/:id", middleware.verifyToken, team.findAll, middleware.verifyErrors);
 
 	// Supprime une équipe
-	router.delete("/:id", middleware.verifyToken, team.delete);
+	router.delete("/:id", middleware.verifyToken, team.delete, middleware.verifyErrors);
 
 	// Récupère le score de l'équipe
-	router.get("/score/:id", middleware.verifyToken, team.getScore);
-
-	// Modifie le score de l'équipe
-	router.put("/score/:id", middleware.verifyToken, team.updateScore);
+	router.get("/score/:id", middleware.verifyToken, team.getScore, middleware.verifyErrors);
 
 	// Retourne les élèves d'une team
-	router.get("/students/:id", middleware.verifyToken, team.findOne);
+	router.get("/students/:id", middleware.verifyToken, team.findOne, middleware.verifyErrors);
 
 
 	
