@@ -2,10 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import SideBar from "../components/SideBar";
 import TopBarProf from "../components/TopBarProf";
-import {Toaster} from "react-hot-toast";
-import toast from "react-hot-toast";
-import {useEffect} from "react";
-import {useLocation} from "react-router-dom";
 
 
 

@@ -41,7 +41,7 @@ const Room = (props) => {
 
 	return(
 		<label htmlFor={"roomselect"+props.index}  className={`flex items-center justify-between h-fit w-full min-w-max gap-10 pl-5
-							border-t border-[#CECDFD] ${props.index % 2 == 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
+							border-t border-[#CECDFD] ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
 			
 			<article className={roomElemClass}>
 				<img

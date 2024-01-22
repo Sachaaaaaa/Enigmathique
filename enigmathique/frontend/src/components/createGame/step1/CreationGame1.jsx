@@ -69,7 +69,7 @@ const CreationGame1 = (props) => {
 			</article>
 
 			{/* Boutons*/}
-			<FooterButtons handleRetour={handleAnnuler} handleSuivant={handleSuivant}/>
+			<FooterButtons link='/dashboard' handleRetour={handleAnnuler} handleSuivant={handleSuivant}/>
 		</section>
 	);
 
