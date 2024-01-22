@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const FooterButtons = ({ handleRetour, handleSuivant }) => {
     return (
-        <article className="flex flex-row justify-between items-center w-full h-fit mb-5 px-5">
+        <article className="grow flex flex-row justify-between items-end w-full h-fit mb-5 px-5">
         <Link
             className='modal-cancel-button-style w-fit px-8 py-6'
             to={'/dashboard'}
