@@ -413,6 +413,7 @@ exports.end = async (req, res, next) => {
 
 	// Gère les erreurs
 	}catch(err) {
+		console.log(err);
 		next(err)
 	}
 }

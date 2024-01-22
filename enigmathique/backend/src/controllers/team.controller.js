@@ -347,7 +347,8 @@ exports.addStudents = async (req, res, next) => {
 			teams: Joi.array().items(
 				Joi.object({
 				  name: Joi.string().required(),
-				  idStudents: Joi.array().items(Joi.number().integer()).required() 
+				  idStudents: Joi.array().items(Joi.number().integer()).required(),
+					idSocket: Joi.string().required()
 				})).required(),
 			idGame: Joi.number().integer().required(),
 		});
