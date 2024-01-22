@@ -57,7 +57,7 @@ const Games = () => {
 									<td className="pl-5 td-style">
 										{game.name}
 									</td>
-									<td className="td-style">{game.createdAt.toLocaleString()}</td>
+									<td className="td-style">{game.createdAt.toLocaleDateString('fr-FR')}</td>
 									<td className="td-style">--</td>
 									<td className="td-style">--%</td>
 									<td className="td-style">--</td>

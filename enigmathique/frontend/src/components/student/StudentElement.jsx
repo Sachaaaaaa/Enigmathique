@@ -34,6 +34,8 @@ const StudentElement = ({student, onChange}) => {
 	
 	const handleClickEdit = async (event, firstname, lastname, idCourse, idStudent) => {
 		event.preventDefault();
+		firstname ==="" ? firstname = student.firstname : firstname;
+		lastname ==="" ? lastname = student.lastname : lastname;
 		await toast.promise(
 			Student.edit(firstname, lastname, idCourse, idStudent),
 			{

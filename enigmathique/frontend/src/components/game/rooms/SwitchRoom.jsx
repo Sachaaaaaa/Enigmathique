@@ -13,6 +13,7 @@ import { SocketContext } from '../../../contexts/SocketContext';
 import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
+import  EnigmaSliderDisplay from '../enigmas/EnigmaSliderDisplay';
 
 export default function Model(props) {
 	const socket = useContext(SocketContext);
@@ -42,7 +43,7 @@ export default function Model(props) {
 				receiveShadow
 				geometry={nodes.Suzanne.geometry}
 				material={materials.Monkey}
-				position={[0, 0.55, 0]}
+				position={[-2, 0.55, -2]}
 				rotation={[-0.72, -0.516, -0.408]}
 				onPointerOver={handlePointerOver}
 				onPointerOut={handlePointerOut}
@@ -54,6 +55,52 @@ export default function Model(props) {
 						enigmaId={0}
 						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
+								title="Salut Gnibo!"
+								description="Je suis un singe! La réponse est 1."
+								image={data.image}
+								hint={hint}
+								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const SuzanneTestEnigma = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Suzanne"
+				castShadow
+				receiveShadow
+				geometry={nodes.Suzanne.geometry}
+				material={materials.Monkey}
+				position={[2, 0.55, 2]}
+				rotation={[-0.72, -0.516, -0.408]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xf0f0ff} />}
+				{clicked && (
+					<Enigma
+						enigmaId={0}
+						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+							<EnigmaSliderDisplay
 								title="Salut Gnibo!"
 								description="Je suis un singe! La réponse est 1."
 								image={data.image}
@@ -112,6 +159,7 @@ export default function Model(props) {
 				/>*/}
 				<SuzanneEvent />
 				<SuzanneDrag />
+				<SuzanneTestEnigma />
 			</group>
 		</group>
 	);

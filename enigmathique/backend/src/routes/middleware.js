@@ -28,8 +28,13 @@ exports.verifyToken = (req, res, next) => {
 }
 
 exports.verifyErrors = (err, req, res, next) => {
-    return res.status(err.statusCode || 500).json({
-        message: err.message || "Une erreur s'est produite lors de la récupération du professeur."
+    if(!err.statusCode){
+        return res.status(500).json({
+            message: "Une erreur s'est produite"
+        }); 
+    }
+    return res.status(err.statusCode).json({
+        message: err.message
     });
 }
 
