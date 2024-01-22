@@ -351,7 +351,7 @@
             }
 
             .room-list-container {
-                @apply flex flex-col w-full min-w-max mt-10  overflow-auto ;
+                @apply flex flex-col w-full min-w-max mt-10 overflow-auto ;
             }
 
 

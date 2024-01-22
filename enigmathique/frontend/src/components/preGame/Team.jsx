@@ -24,7 +24,7 @@ const Team = (props) => {
 
 	return (
 		<section
-			className={`p-4 primary-font-color cursor-pointer
+			className={`h-fit p-4 primary-font-color cursor-pointer
 					border-t border-[#CECDFD]  ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}
 			onClick={() => setIsExpanded(!isExpanded)}
 		>
@@ -33,12 +33,11 @@ const Team = (props) => {
 				<div className='col-span-1 flex justify-center items-center'>{isExpanded ? <IoChevronUp /> : <IoChevronDown/>}</div>
 				{props.isValidated ?
 						
-					<div className='col-span-1 flex flex-col justify-center'>
-						<button onClick={removingTeam}>
-							<IconContext.Provider value={{className: 'text-[#ef4565]'}}>
-								<IoRemoveCircle size={25}/>
-							</IconContext.Provider>
-						</button>
+					<div className='col-span-1 flex justify-end'>
+						<ActionButton
+							title='Refuser'
+							onClick={removingTeam}
+						/>
 					</div>
 					:
 					<div className='col-span-1 flex justify-end gap-4'>

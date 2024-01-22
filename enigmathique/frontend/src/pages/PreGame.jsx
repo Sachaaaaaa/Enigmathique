@@ -68,8 +68,8 @@ const PreGame = () => {
 	return (
 		<SocketContext.Provider value={socket}>
 			<LayoutProf>
-				<main className='flex flex-col flex-grow gap-10 p-5'>
-					<section className="flex justify-end w-full">
+				<main className='flex flex-col flex-grow gap-3 p-5'>
+				<section className="flex justify-end w-full">
 						<button className="bg-blue-gradient-color modal-validate-button-style w-fit p-8" onClick={handleStartGame}>
 							Commencer la partie
 						</button>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const TeamContainer = (props) => {
 	return (
-		<section className="flex flex-col gap-2 w-[48%] min-w-[500px] h-full">
+		<section className="flex flex-col gap-2 w-[48%] min-w-[500px] h-full pb-5">
 			<h2 className="medium-title uppercase">
 				{props.isValidated ? 'Équipes acceptées' : 'Équipes en attente'}
 			</h2>
