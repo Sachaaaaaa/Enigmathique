@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import Game from "../../../models/game.model";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import FooterButtons from '../FooterButtons';
+import SearchInput from "../../SearchInput";
 
 const CreationGame2 = (props) => {
 
@@ -72,35 +73,32 @@ const CreationGame2 = (props) => {
 	};
 
 	return (
-		<section className='flex flex-col flex-grow w-full h-[calc(100%-26px)] overflow-y-hidden'>
+		<section className='flex flex-col w-full h-[calc(100%-26px)] overflow-y-hidden'>
 			<ContentHeader title='Sélection des salles' onClick={handlePrecedent}>
+				<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>
 				<RoomNav
 					chapterChange={(e)=> (setFilter({...filter, chapter: e.target.value}))}
-					textChange={(e)=>(setFilter({...filter, text: e.target.value}))}
 					filter={filter}
 				/>
 			</ContentHeader>
 
-			<article className=' grow flex flex-col w-full mt-10 pr-2 overflow-x-hidden overflow-y-auto'>
+			<article className='room-list-container'>
 				{filteredRooms.map((room, index) => {
 					return(
 						room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
-							<>
-								<Room
-									key={index}
-									name={room.name}
-									difficulty={room.difficulty}
-									riddles={999}
-									winrate={999}
-									handleRoomSelection={handleRoomSelection}
-								/>
-								{index!==filteredRooms.length-1 && <hr></hr>}
-							</>
+							<Room
+								index={index}
+								name={room.name}
+								difficulty={room.difficulty}
+								riddles={999}
+								winrate={999}
+								handleRoomSelection={handleRoomSelection}
+							/>
 					);
 				})}
 			</article>
 
-			<FooterButtons precedent={handlePrecedent} suivant={handleSuivant}/>
+			<FooterButtons handleRetour={handlePrecedent} handleSuivant={handleSuivant}/>
 
 		</section>
 	)

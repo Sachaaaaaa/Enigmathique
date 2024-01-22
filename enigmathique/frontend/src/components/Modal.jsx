@@ -18,7 +18,7 @@ function ModalBody({children}) {
 	);
 }
 
-function Modal({setOpenModal, children, width = 400, height = 300}) {
+function Modal({children, width = 400, height = 300}) {
 	// setOpenModal sert a fermer le modal quand on clique en dehors du modal
 	// Faire en sorte que le modal se ferme lorsqu'on clique en dehors
 	return (

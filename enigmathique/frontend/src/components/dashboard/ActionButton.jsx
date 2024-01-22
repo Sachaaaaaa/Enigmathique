@@ -16,31 +16,33 @@ const ActionButton = ({title,link = '', onClick= ''}) => {
     //     'Détails': <FiInfo size='1.25em'/>,
     // }
     const actionButtons = {
-        Statistiques: {
+        statistiques: {
             icon: <IoIosStats size='1.25em'/>,
             className: "btn-action-Statistiques p-2",
         },
-        Modifier: {
+        modifier: {
             icon: <MdOutlineModeEdit size='1.25em'/>,
             className: "btn-action-Modifier p-2",
         },
-        Supprimer: {
+        supprimer: {
             icon: <MdDeleteForever size='1.25em'/>,
             className: "btn-action-Supprimer p-2",
         },
-        Classement: {
+        classement: {
             icon: <FaRankingStar size='1.25em'/>,
             className: "btn-action-Classement p-2",
         },
-        Détails: {
+        détails: {
             icon: <FiInfo size='1.25em'/>,
             className: "btn-action-Détails p-2",
         },
     }
 
+    const buttonTitle = title.toLowerCase();
 
-    const icon = actionButtons[title].icon;
-    const className = actionButtons[title].className;
+
+    const icon = actionButtons[buttonTitle].icon;
+    const className = actionButtons[buttonTitle].className;
     return (
         <Link to={link}>
             <button

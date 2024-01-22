@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FaTimes, FaLightbulb, FaExclamationCircle, FaCheckCircle, FaPuzzlePiece, FaDoorOpen } from 'react-icons/fa';
+import { FaTimes, FaLightbulb, FaExclamationCircle, FaPuzzlePiece, FaDoorOpen } from 'react-icons/fa';
 
 function TeamDetails({ teamData, onClose }) {
 	const [selectedRoom, setSelectedRoom] = useState('Global');

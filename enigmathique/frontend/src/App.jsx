@@ -13,7 +13,7 @@ import Games from './pages/Games';
 import Join from './pages/Join';
 import PreGameWrapper from './components/contexts/PreGame.wrapper';
 import CreateGameWrapper from './components/contexts/CreationGame.wrapper';
-import RoomList from 'pages/RoomList';
+import RoomList from 'pages/RoomPage';
 import ProfFollowUp from 'pages/ProfFollowUp';
 import Ranking from 'pages/Ranking';
 
