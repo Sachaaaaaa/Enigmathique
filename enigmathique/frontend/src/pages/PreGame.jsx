@@ -9,6 +9,7 @@ import {
 	ServerToClient,
 } from 'data/socketMessages';
 import AuthService from '../services/auth.service';
+import {useNavigate} from 'react-router-dom';
 
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
@@ -16,6 +17,7 @@ const PreGame = () => {
 
 	const { sessionId } = useParams();
 	const token = AuthService.getToken();
+	const navigate = useNavigate();
 
 	// Met à jour l'id de session dans le handshake du socket
 	socket.io.opts.query = {
@@ -41,8 +43,7 @@ const PreGame = () => {
 		});
 
 		socket.on(ServerToClient.CompositionFinished, () => {
-			alert('La composition des équipes est terminée, faire quelque chose ici');
-			// TODO: Rediriger vers la page de jeu avec le bon CODE de session
+			navigate(`/leaderboard?sessionId=${sessionId}`);
 		});
 
 		socket.connect();
