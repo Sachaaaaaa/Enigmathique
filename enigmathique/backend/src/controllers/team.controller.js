@@ -126,28 +126,44 @@ function isRequestCorrect(schema, req) {
 /////////////////////////////////////////////////////////////////////////////////
 
 // Récupère les équipes d'une partie
-exports.findAll = async (req, res, next) => {
+exports.findOne = async (req, res, next) => {
 	try{
 	
 		// Vérifie que l'équipe appartienne bien au professeur
 		await isTeamBelongsProfessor(req.params.id, req)
 
 		// Récupère toutes les équipe d'une partie
-		const teams = await Team.findAll({ where: { idGame: req.params.id } })
+		const team = await Team.findOne({ where: { id: req.params.id } })
 
 		// Renvoie les données récupéréesf
-		return res.status(200).json(teams);
+		return res.status(200).json(team);
 
 	// Gère les erreurs
 	} catch(err) {
 		next(err)
 	}	
-		  
-	
-
 }
+
+exports.findByGame = async (req, res, next) => {
+	try{
+	
+		// Vérifie que l'équipe appartienne bien au professeur
+		await isGameBelongsProfessor(req.params.id, req)
+
+		// Récupère toutes les équipe d'une partie
+		const team = await Team.findAll({ where: { idGame: req.params.id } })
+
+		// Renvoie les données récupéréesf
+		return res.status(200).json(team);
+
+	// Gère les erreurs
+	} catch(err) {
+		next(err)
+	}	
+}
+
 // Retourne les élèves d'une team
-exports.findOne = async(req, res, next) => {
+exports.findStudents = async(req, res, next) => {
 	
 	try {
 
@@ -156,12 +172,7 @@ exports.findOne = async(req, res, next) => {
 
 		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
 
-		var studentArray= []
-		for(i=0;i<students.length; i++){
-			studentArray.push(await Student.findAll({ where: { id: students[i].idStudent } }))
-		}
-
-		return res.status(200).json(studentArray);
+		return res.status(200).json(students);
 	
 	}catch(err) {
 		next(err)
