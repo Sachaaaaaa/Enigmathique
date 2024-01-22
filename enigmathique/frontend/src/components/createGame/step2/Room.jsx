@@ -37,12 +37,14 @@ const Room = (props) => {
 
 	const difficulty = props.difficulty.toLowerCase();
 
-	const roomElemClass = 'flex items-center gap-3 py-4 ' ;
+	const roomElemClass = 'grow flex items-center gap-3 py-4 ' ;
 
 	return(
-		<label htmlFor={"roomselect"+props.index}  className={`flex items-center justify-between h-fit w-full min-w-max gap-10 pl-5 cursor-pointer
-							border-t border-[#CECDFD] ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
-			
+		<label htmlFor={"roomselect"+props.index}  className={`flex items-center justify-left h-fit w-full min-w-max gap-6 cursor-pointer
+							 ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}
+							`}>
+			<div className={`w-[5px] h-full ${selected ? ' bg-[#0A06F4]':'bg-transparent'}`}></div>
+
 			<article className={roomElemClass}>
 				<img
 					className='rounded-xl'
@@ -50,7 +52,6 @@ const Room = (props) => {
 					src={require('../../../assets/img/room-img/'+props.name+'.png')}
 					alt='room-img'
 				/>
-
 				<div className='flex flex-col justify-evenly items-start'>
 					<div className={difficultyChip[difficulty]}>
 						{props.difficulty}
@@ -74,8 +75,8 @@ const Room = (props) => {
 					<span className='nav-font-color'>Taux de réussite</span>
 				</div>
 			</article>
-			<article className={`flex justify-end items-center h-full pr-4 border-r-[5px] ${selected ? ' border-blue-color':'border-transparent'}`}>
-				<input  id={"roomselect"+props.index} size={100} checked={props.selected} type='checkbox' onChange={handleChange}/>
+			<article className={`grow flex justify-end items-center h-full pr-4`}>
+				<input  id={"roomselect"+props.index}  style={{width:"20px",height:"20px"}}  checked={props.selected} type='checkbox' onChange={handleChange}/>
 			</article>
 		</label>
 	);
@@ -87,7 +88,7 @@ Room.propTypes = {
 	riddles: PropTypes.number.isRequired,
 	winrate: PropTypes.number.isRequired,
 	handleRoomSelection: PropTypes.func,
-	selected: PropTypes.bool.isRequired,
+	selected: PropTypes.bool,
 }
 
 export default Room;

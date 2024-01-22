@@ -52,7 +52,6 @@ const CreationGame1 = (props) => {
 					<Textfield
 						label='Nom de la partie'
 						name='gameName'
-						type='text'
 						value={formData.gameName}
 						onChange={(e) => setFormData({...formData, gameName: e.target.value})}
 						placeholder='Entrer le nom'/>
@@ -69,7 +68,7 @@ const CreationGame1 = (props) => {
 			</article>
 
 			{/* Boutons*/}
-			<FooterButtons link='/dashboard' handleRetour={handleAnnuler} handleSuivant={handleSuivant}/>
+			<FooterButtons linkRetour='/dashboard' handleRetour={handleAnnuler} handleSuivant={handleSuivant}/>
 		</section>
 	);
 

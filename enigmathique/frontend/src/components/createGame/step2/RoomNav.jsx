@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 const RoomNav = (props) => {
 	return(			
-			<section className="flex flex-row justify-center items-center">
+			<section className="flex flex-row justify-center items-center p-0">
 				<label className={props.filter.chapter === 'suites'?'label-filter-selected':'label-filter'}>
 					<input
 						value='suites'
@@ -50,6 +50,17 @@ const RoomNav = (props) => {
 						onChange={props.chapterChange}
 					/>
 					Ensembles
+				</label>
+				<label className={props.filter.chapter === 'géométrie'?'label-filter-selected':'label-filter'}>
+					<input
+						value='géométrie'
+						type='radio'
+						name='chapitre'
+						className='hidden'
+						checked={props.filter.chapter === 'géométrie'}
+						onChange={props.chapterChange}
+					/>
+					Géométrie
 				</label>
 			</section>
 	);

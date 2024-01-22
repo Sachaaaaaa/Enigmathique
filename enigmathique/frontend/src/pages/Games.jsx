@@ -53,7 +53,7 @@ const Games = () => {
 	}
 
 	useEffect(() => {
-		loadGames().then(() => console.log());
+		loadGames();
 	}, []);
 	const handleTextChange = (e) => {
 		setFilter(e.target.value);

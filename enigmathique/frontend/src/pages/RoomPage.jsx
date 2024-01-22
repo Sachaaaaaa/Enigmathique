@@ -8,7 +8,7 @@ import ContentHeader from "../components/dashboard/ContentHeader";
 import SearchInput from "../components/SearchInput";
 import PropTypes from "prop-types";
 
-const RoomList = () => {
+const RoomPage = () => {
 	const [rooms, setRooms] = useState([]);
 	const loadRooms = async () => {
 		const data = await RoomModel.getAll();
@@ -24,14 +24,12 @@ const RoomList = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log(rooms);
 		const filtered = rooms.filter(
 			(room) => room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
 		);
 		setFilteredRooms([...filtered]);
 	}, [filter, rooms]);
 
-	//TODO redirection à refaire
 	const handleRoomSelection = (room) => {
 		navigate(`/game/${room.name}`);
 	}
@@ -73,8 +71,4 @@ const RoomList = () => {
  *         </Mafs>
  */
 
-
-RoomList.propTypes = {
-	setStep: PropTypes.func.isRequired,
-}
-export default RoomList;
+export default RoomPage;

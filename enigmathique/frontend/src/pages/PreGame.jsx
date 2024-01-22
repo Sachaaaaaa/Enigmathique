@@ -36,10 +36,8 @@ const PreGame = () => {
 		});
 
 		socket.on(ServerToClient.SyncTeams, (data) => {
-			console.log(data);
 			setLockedTeams(data.lockedTeams);
 			setConfirmedTeams(data.confirmedTeams);
-			console.log(lockedTeams);
 		});
 
 		socket.on(ServerToClient.CompositionFinished, () => {

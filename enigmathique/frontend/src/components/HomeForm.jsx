@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import { Link, animateScroll as scroll } from "react-scroll";
 import logo from '../assets/img/logo-name-nobg.png';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import Game from '../models/game.model';
 const HomeForm = () => {
 	const [code, setCode] = useState('');
 
@@ -10,6 +11,9 @@ const HomeForm = () => {
 
 	const handleValider = () => {
 		//TODO: vérifier que le code est valide
+		const rep = Game.getAll() ;
+		console.log("hehe");
+		console.log(rep);
 		navigate(`/join/${code}`);
 	};
 
