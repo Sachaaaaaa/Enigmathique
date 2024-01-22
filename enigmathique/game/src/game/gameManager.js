@@ -70,8 +70,8 @@ class GameManager {
 			this.sessions[sessionId].addProfessor(professor);
 		} else {
 			// Crée une nouvelle équipe et l'ajoute à la session, le reste sera géré dedans
-			const team = new SocketTeam(socket, this.sessions[sessionId]);
-			this.sessions[sessionId].addTeam(team);
+			//const team = new SocketTeam(socket, this.sessions[sessionId]);
+			this.sessions[sessionId].addTeam(socket);
 		}
 	};
 
