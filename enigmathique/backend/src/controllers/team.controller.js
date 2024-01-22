@@ -172,9 +172,15 @@ exports.findStudents = async(req, res, next) => {
 
 		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
 
-		return res.status(200).json(students);
+		var findedStudents = []
+		
+		for (let i = 0; i < students.length; i++) {
+			findedStudents.push(await Student.findOne({ where: { id: students[i].idStudent } }))
+		}
+		return res.status(200).json(findedStudents);
 	
 	}catch(err) {
+
 		next(err)
 	}	
 }
@@ -186,6 +192,8 @@ exports.getScore = async(req, res, next) => {
 		await isTeamBelongsProfessor(req.params.id, req)
 
 		const scores = await Score.findAll({ where: { idTeam: req.params.id } })
+
+		
 		return res.status(200).json(scores);
 
 	}catch(err) {
