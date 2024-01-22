@@ -24,7 +24,7 @@ const Room = (props) => {
 
 	const difficulty = props.difficulty.toLowerCase();
 
-	const roomElemClass = 'flex items-center gap-3 py-5 ' ;
+	const roomElemClass = 'flex items-center gap-3 py-4 ' ;
 
 	return(
 		<label htmlFor={"roomselect"+props.index}  className={`flex items-center justify-between h-fit w-full min-w-max gap-10 pl-5

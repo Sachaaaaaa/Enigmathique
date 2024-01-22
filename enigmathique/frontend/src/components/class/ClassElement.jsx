@@ -82,7 +82,7 @@ const ClassElement = ({classe, onChange,index}) => {
 			<td className="td-style">
 				<Link to={`/class/${classe.id}`} className='w-fit btn-action-see'>
 						<IoPerson size='1em'/>
-						<p>Voir les élèves</p>
+						<p>Elèves</p>
 
 				</Link>
 			</td>
