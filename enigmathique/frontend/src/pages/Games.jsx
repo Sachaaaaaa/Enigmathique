@@ -10,6 +10,7 @@ import TableContainer from "components/dashboard/TableContainer";
 import ActionButton from "components/dashboard/ActionButton";
 import Modal, {ModalBody, ModalHeader} from "../components/Modal";
 import toast from "react-hot-toast";
+import Notification from "components/Notification";
 
 import {Link} from "react-router-dom";
 
@@ -43,7 +44,7 @@ const Games = () => {
 			Game.delete(id),
 			{
 				loading: 'Suppression...',
-				success: "L'élève a bien été supprimé",
+				success: "La partie a bien été supprimée",
 				error: "Une erreur s'est produite",
 			}
 		);
@@ -66,6 +67,7 @@ const Games = () => {
 	return (
 		<LayoutProf>
 			<main>
+				<Notification></Notification>
 				<ContentHeader title="" link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
 					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>
@@ -94,7 +96,7 @@ const Games = () => {
 										/>
 										<ActionButton
 											title="Supprimer"
-											onClick={handleClickDelete}
+											onClick={() => setDeleteModalOpen(true)}
 										/>
 										</div>
 									</td>
