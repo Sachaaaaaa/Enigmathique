@@ -104,7 +104,7 @@ const CreationGame2 = (props) => {
 				})}
 			</article>
 
-			<FooterButtons handleRetour={handlePrecedent} handleSuivant={handleSuivant}/>
+			<FooterButtons linkRetour='' handleRetour={handlePrecedent} handleSuivant={handleSuivant}/>
 
 		</section>
 	)
