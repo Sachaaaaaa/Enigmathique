@@ -73,8 +73,8 @@ class SocketTeam {
 
 			this.gameSession.onTeamSolvedEnigma(this, enigmaId);
 			if (this.currentRoom.enigmasSolved.length == this.currentRoom.enigmas.length) {
-				this.gameSession.onTeamSolvedRoom(this);
 				this.sendRoomSolved();
+				this.gameSession.onTeamSolvedRoom(this);
 			}
 		} else {
 			this.gameSession.onTeamAnswerWrong(this, enigmaId);

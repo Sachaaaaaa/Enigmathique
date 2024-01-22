@@ -57,7 +57,7 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 
 	return (
 		<Html>
-			<div className={`absolute translate-y-[-50%] top-1/2 left-1/2 p-4 w-72 bg-white rounded-md flex flex-col ${!enigmaState.isSolved ? 'border-4 border-red-600' : 'border-4 border-green-600'}`}>
+			<div className={`z-0 absolute translate-y-[-50%] top-1/2 left-1/2 p-4 w-72 bg-white rounded-md flex flex-col ${!enigmaState.isSolved ? 'border-4 border-red-600' : 'border-4 border-green-600'}`}>
 				<button onClick={closeEnigma}
 					style={{
 						display: 'flex',

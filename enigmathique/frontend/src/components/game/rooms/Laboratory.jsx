@@ -54,8 +54,8 @@ export default function Room001(props) {
 					<InformationPopup
 						title="Vous ne pouvez pas sortir !"
 						information="Vous etes un alchimiste amateur, en voulant vous introduire dans le laboratoire d'un grand alchimiste, vous vous êtes enfermer !
-						Et il ne tardera pas à revenir... Vous remarquez un trou dans la porte, il y a surement moyen de faire une potion de souris pour vous rapetissir.
-						Regardez autour de vous, il doit bien y avoir une recette qui peut vous aidez sur ce bureau !"
+						Et il ne tardera pas à revenir... Vous remarquez un trou dans la porte, il y a surement moyen de faire une potion de souris pour que vous rapetissiez.
+						Regardez autour de vous, il doit bien y avoir une recette qui peut vous aidez sur le bureau !"
 						closePopup={forceExit}
 					/>
 				)}
