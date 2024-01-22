@@ -394,14 +394,22 @@ exports.delete = async (req, res, next) => {
 exports.end = async (req, res, next) => {
 
 	try{
+		// La partie s'est terminée normalement ?
+		const endedNormally = req.body.endedNormally;
+		const gameId = req.params.id;
 
+		if (endedNormally == true) {
+			// Enregistrer la classe dans la base de données
+			const updatedRows = await Game.update({state: 2},{where: { id: gameId }});
+			// Renvoie les données mise a jour
+			return res.status(201).json(updatedRows);
+		} else {
+			// Supprimer la partie
+			const destroyedRows = await Game.destroy({ where: { id: gameId }});
+			// Renvoie les données supprimées
+			return res.status(201).json(destroyedRows);
+		}
 
-
-		// Enregistrer la classe dans la base de données
-		const updatedRows = await Game.update({state: 2},{where: { id: req.params.id }})
-		
-		// Renvoie les données mise a jours
-		return res.status(201).json(updatedRows);
 
 	// Gère les erreurs
 	}catch(err) {
