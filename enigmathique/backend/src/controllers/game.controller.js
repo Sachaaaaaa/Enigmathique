@@ -550,6 +550,7 @@ exports.getTeams = async (req, res, next) => {
 		return res.status(200).json(teams);
 		// Gère les erreurs
 	} catch (err) {
+		console.log(err);
 		next(err)
 	}
 }

@@ -110,18 +110,28 @@ class GameSession {
       return;
     }
 
+    const teamId = socket.handshake.query.teamId;
+    if (!teamId) {
+      console.log(clc.redBright("[Session] Equipe refusée, pas d'id d'équipe"));
+      return;
+    }
+
     // Vérifier que l'équipe n'est pas déjà dans la session
-    if (this.teams.some((t) => t.teamId == team.teamId)) {
+    if (this.teams.some((t) => t.teamId == teamId)) {
       console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} est déjà dans la session`));
       return;
     }
 
+    console.log(this.expectedTeams);
+    console.log(teamId);
+    // [ { name: 'erzoijyb', id: 1, idGame: 8 } ]
     // Vérifier que l'équipe est attendue (/!\ type string et number)
-    if (!this.expectedTeams.some((t) => t == team.teamId)) {
-      console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} n'est pas attendue`));
+    if (!this.expectedTeams.some((t) => t.id == teamId)) {
+      console.log(clc.redBright(`[Session] L\'équipe ${teamId} n'est pas attendue`));
       return;
     }
 
+    const team = new SocketTeam(socket, this);
     this.teams.push(team);
 
     // Vérifier si toutes les équipes sont présentes
