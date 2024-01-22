@@ -12,11 +12,11 @@ import Game from 'models/game.model';
  * @returns 
  */
 const useTeams = (idGame, autoload = true) => {
-	const [teams, setCourses] = useState([]);
+	const [teams, setTeams] = useState([]);
 
 	const loadTeams = async () => {
 		const data = await TeamModel.getTeamFromGame(idGame);
-		setCourses(data);
+		setTeams(data);
 	};
 
 	useEffect(() => {

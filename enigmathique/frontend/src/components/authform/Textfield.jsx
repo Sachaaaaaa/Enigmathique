@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Textfield = ({ label, name, type, value,placeholder, onChange }) => {
     return (
-        <div className='mb-4 w-full'>
+        <div className='w-full mb-4 primary-font-color'>
             <label className='form-label-style' htmlFor={name}>
                 {label}
             </label>

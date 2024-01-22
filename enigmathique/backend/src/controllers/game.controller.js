@@ -102,6 +102,7 @@ async function isClassBelongsProfessor(idCourse, req) {
 		const ids = data.map(item => item.id);
 		idCourse = parseInt(idCourse)
 
+
 		// Vérifie que la classe appartient bien au professeur
 		return ids.includes(idCourse);
 
@@ -209,6 +210,20 @@ exports.findAll = async (req, res, next) => {
 
 }
 
+
+exports.getScore = async(req, res) => {
+	
+	try{
+			
+		const scores = await Score.findAll({ where: { idGame: req.params.id } })
+		res.status(200).json(scores);
+		
+	}catch(err) {
+		res.status(500).json({
+			message: err.message || "Une erreur s'est produite lors de la récupération des scores."
+		});
+	}
+}
 
 // methode pour récuperer une partie en fonction de son id
 exports.findOne = async (req, res, next) => {
@@ -331,6 +346,29 @@ exports.close = async (req, res, next) => {
 		// Renvoie les données supprimées
 		const updatedRows = await Game.update({state: 1},{where: { id: req.params.id }});
 		return res.status(200).json(updatedRows);
+		
+
+	// Gère les erreurs
+	}catch(err) {
+		next(err)
+	}
+}
+
+// Ferme la partie aux élèves
+exports.delete = async (req, res, next) => {
+
+	try{
+		// Vérifie que la partie appartient bien au professeur
+		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+		if (!isBelongsToProfessor) {
+			const error = new Error("La partie n'appartient pas au professeur.");
+			error.statusCode = 403;  
+			throw error;
+		}
+
+		// Enregistrer la classe dans la base de données
+		const destroyedRows = await Game.destroy({ where: { id: req.params.id}})
+		return res.status(200).json(destroyedRows);
 		
 
 	// Gère les erreurs
@@ -488,6 +526,19 @@ exports.getState = async (req, res, next) => {
 		// Récupère la partie souhaité
 		const game = await Game.findOne({ where: { id: req.params.id} })
 		return res.status(200).json(game.state);
+
+	// Gère les erreurs
+	} catch (err) {
+		next(err)
+	}
+}
+
+exports.getMaxTeamSize = async(req, res, next) => {
+	
+	try{
+		// Récupère la partie souhaité
+		const game = await Game.findOne({ where: { id: req.params.id} })
+		return res.status(200).json(game.teamSize);
 
 	// Gère les erreurs
 	} catch (err) {

@@ -30,7 +30,7 @@ const GamesContainer = () => {
 	// const {filter} = useCreationGameContext();
 	return(
 		<>
-			<section className='flex flex-row items-end h-[10%] w-full text-[#0A06F4] text-xl'>
+			<section className='flex flex-row items-end h-[10%] w-full blue-font-color text-xl'>
 				<p className='w-[25%]'>Nom</p>
 				<p className='w-[20%]'>Date</p>
 				<p className='w-[20%]'>Classe</p>

@@ -3,23 +3,23 @@ import {Link} from 'react-router-dom';
 import ClassElem from '../components/dashboard/ClassElem';
 import RoomElem from '../components/dashboard/RoomElem';
 import GameElem from '../components/dashboard/GameElem';
+import EmptyInfoBlock from 'components/dashboard/EmptyInfoBlock';
+
 import {randInt} from 'three/src/math/MathUtils';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
-import Course from '../models/course.model';
-import RoomService from "../services/room.service";
-import Game from "../models/game.model";
-import RoomModel from "../models/room.model";
+
 import useCourses from "../hooks/useCourses";
 import useGames from "../hooks/useGames";
+import useRooms from "../hooks/useRooms";
 
 
 const Dashboard = () => {
 
 	const [courses] = useCourses();
 	const [games] = useGames();
-	const [rooms] = useGames();
+	const [rooms] = useRooms();
 
 	// Ajout d'un état pour les salles sélectionnées
 	const [selectedRooms, setSelectedRooms] = useState([]);
@@ -69,67 +69,90 @@ const Dashboard = () => {
 		);
 	};
 
-	// Fonction pour afficher les parties
+	// Fonction pour afficher les parties récentes
 	const showGames = () => {
 		if(games.length !== 0) {
-			console.log(games);
+			// Si il y a plus de 2 parties, on affiche les 2 dernières
 			if (games.length >= 2) {
 				return games.slice(-2).map((game, index) => (
 					<GameElem key={index} game={game}/>
 				));
+			// Si il y a une seule partie, on l'affiche et on propose d'en créer une nouvelle
 			} else if (games.length === 1) {
 				return (
 					<>
 						<GameElem key={0} game={games[0]}/>
-						<div className='empty-info-container'>
-							<Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link>
-						</div>
+						<EmptyInfoBlock 
+							title="Nouvelle partie ?"
+							link="/create-game"
+							sizeClasses="min-h-[200px]"
+						/>
 					</>);
 			}
+		// Si il n'y a pas de parties, on place deux blocs vides
 		} else {
 			return <>
-				<div className='empty-info-container'><Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div>
-			<div className='empty-info-container'> <Link to='/create-game' className='primary-font-color w-fit text-sm hover:underline'>Nouvelle partie ? </Link></div> </>;
+				<EmptyInfoBlock title="Nouvelle partie ?" link="/create-game" sizeClasses="min-h-[200px]"/>
+				<EmptyInfoBlock title="Nouvelle partie ?" link="/create-game" sizeClasses="min-h-[200px]"/> 
+				</>;
 		}
 	}
 
-
 	return (
 		<LayoutProf>
-			<main className='main-background-color flex flex-wrap flex-grow gap-2 justify-between overflow-y-scroll overflow-x-hidden'>
-					<div className='w-[45svw] min-w-[280px] grow p-5'>
-						<div className='flex flex-col '>
-							<div className='primary-font-color flex justify-between w-full min-w-[280px]'>
-								<h2 className='medium-title'>Mes Parties</h2>
+			{/* Conteneur principal du tableau de bord */}
+			<main className='flex flex-wrap flex-grow gap-2 justify-between overflow-x-hidden'>
+					{/* Section de gauche (Parties récentes et salles) */}
+					<section className='section w-[45svw]'>
+
+						{/* Parties récentes */}
+						<article className='flex flex-col'>
+
+							<div className='title-container'>
+								<h2 className='medium-title'>Mes parties récentes</h2>
 								<Link to='/games' className='show-all-text'>Voir tout</Link>
 							</div>
-							<div className='w-full h-full flex flex-wrap flex-grow justify-between items-center gap-2'>
+
+							<div className='info-container'>
+								{/* Affichage dynamique des parties récentes */}
 								{showGames()}
 							</div>
-						</div>
-						<div className='flex flex-col pt-7'>
-							<div className='primary-font-color flex justify-between  w-full min-w-[280px]'>
-								<h2 className='font-semibold'>Proposition de salles</h2>
-								<Link to='/rooms' className='text-sm font-semibold hover:underline'>Voir tout</Link>
+						</article>
+
+						{/* Proposition de salles */}
+						<article className='flex flex-col pt-7'>
+
+							<div className='title-container'>
+								<h2 className='medium-title'>Proposition de salles</h2>
+								<Link to='/rooms' className='show-all-text'>Voir tout</Link>
 							</div>
-							<div className='w-full h-full flex flex-wrap flex-grow justify-between items-center gap-2'>
+
+							<div className='info-container'>
+								{/* Affichage dynamique des salles */}
 								{selectedRooms.map((room, index) => (
 									<RoomElem key={index} room={room}></RoomElem>
 								))}
 							</div>
-						</div>
-					</div>
-					<div className='w-[35svw] min-w-[280px] grow p-5'>
-						<div className='primary-font-color flex justify-between w-full min-w-[280px]'>
-							<h2 className='medium-title'>Mes Classes</h2>
+						</article>
+					</section>
+
+					{/* Section de droite (Classes) */}
+					<section className='section w-[35svw]'>
+
+						{/* Titre de la section */}
+						<div className='title-container primary-font-color'>
+							<h2 className='medium-title'>Mes classes</h2>
 							<div>
+								{/* Flèches de navigation entre les classes */}
 								<button onClick={prevClass}><FaAngleLeft /></button>
 								<button onClick={nextClass}><FaAngleRight /></button>
 							</div>
 						</div>
+
 						{/* Afficher seulement la classe actuellement sélectionnée */}
-						{courses.length !== 0 && <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>}
-					</div>
+						{courses.length !== 0 ? <ClassElem key={currentClassIndex} classGroup={courses[currentClassIndex]}/>
+							: <EmptyInfoBlock title="Créer une classe ?" link="/class" sizeClasses="w-full h-[calc(100%-50px)]"/>}
+					</section>
 			</main>
 		</LayoutProf>
 	);

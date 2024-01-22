@@ -7,6 +7,8 @@ const ServerToClient = {
 	Connection: 'connect',
 	Disconnection: 'disconnect',
 	
+	GameInfo: 'gameInfo', // + {maxTeamSize: int} // INFO: Si besoin d'ajouter le nom de la session, mettre içi
+
 	/** GAME */
 	// Equipe
 	SwitchRoom: 'room', // + {roomTag: string}
@@ -23,7 +25,7 @@ const ServerToClient = {
 	CompositionFinished: 'startGame', // { }
 	SyncAvailableStudents: 'syncAvailableStudents', // + {students: array[]}
 	// Equipe
-	SyncTeamStudents: 'syncTeamStudents', // + {students: array[]}
+	SyncTeamStudents: 'syncTeamStudents', // + {...}
 	// Professeur
 	SyncTeams: 'syncTeams', // + {teams: array[{students: array[], confirmed: bool}]}
 	InvalidComposition: 'invalidComposition', // {message: string}

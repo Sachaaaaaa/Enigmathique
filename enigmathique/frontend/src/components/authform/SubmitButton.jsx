@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const SubmitButton = ({ text, loading }) => {
     return (
         <button
-            className='w-full bg-[#0A06F4] hover:bg-blue-700 text-white font-bold mt-2 py-2 rounded focus:outline-none'
+            className='form-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4]'
             type='submit'
             disabled={loading}
         >

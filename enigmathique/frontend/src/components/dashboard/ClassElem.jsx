@@ -7,6 +7,7 @@ import { Bar } from 'react-chartjs-2';
 import GameService from '../../services/game.service';
 import Student from '../../models/student.model';
 import Game from "../../models/game.model";
+import InfoBlockElem from './InfoBlockElem';
 ChartJS.register(...registerables);
 
 const maxTime = 600;
@@ -105,27 +106,17 @@ const ClassElem = (props) => {
 
 
 	return (
-		<div
-			className='grid grid-cols-2 gap-1 info-container w-full h-[calc(100%-50px)]'>
-			<article className='col-span-1 element-info-container'>
-				<h3 className='small-title'>NOM</h3>
-				<p className='small-text'>{classGroup.name}</p>
-			</article>
-			<article className='col-span-1  element-info-container'>
-				<h3 className='small-title'>ÉLÈVES</h3>
-				<p className='small-text'>{students.length}</p>
-			</article>
+		// Affichage des informations d'une classe
+		// Grid pour afficher les informations sur 2 colonnes fixes
+		<div className=' info-block grid-block w-full h-[calc(100%-50px)]'>
 
-			<article className='col-span-1  element-info-container'>
-				<h3 className='small-title'>NOMBRE DE PARTIES JOUÉES</h3>
-				<p className='small-text'>{gamesOf.length}</p>
-			</article>
+			<InfoBlockElem title='Nom' text={classGroup.name} />
 
-			<article className='col-span-1  element-info-container'>
-					<h3 className='small-title'>DERNIÈRE PARTIE</h3>
-					<p className='small-text'>{getLastGame(gamesOf)}</p>
-			</article>
+			<InfoBlockElem title='élèves' text={students.length}/>
 
+			<InfoBlockElem title='nombre de parties jouées' text={gamesOf.length}/>
+
+			<InfoBlockElem title='dernière partie' text={getLastGame(gamesOf)}/>
 
 			{/* Div pour les statistiques */}
 			<Bar className='col-span-2 row-span-2' data={data} options={options}/>
@@ -135,7 +126,7 @@ const ClassElem = (props) => {
 			</div>
 
 			{/* Bouton 'Voir' */}
-			<Link to={'/class/'+classGroup.id} className='col-span-2 btn-show'>
+			<Link to={'/class/'+classGroup.id} className='btn-show col-span-2'>
 				Voir
 			</Link>
 		</div>

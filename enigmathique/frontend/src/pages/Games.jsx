@@ -4,6 +4,11 @@ import 'index.css';
 import Game from "../models/game.model";
 import Course from "../models/course.model";
 import SearchInput from "../components/SearchInput";
+import CreateButton from "components/dashboard/CreateButton";
+import ContentHeader from "components/dashboard/ContentHeader";
+import TableContainer from "components/dashboard/TableContainer";
+import ActionButton from "components/dashboard/ActionButton";
+import {Link} from "react-router-dom";
 
 const Games = () => {
 	const [games, setGames] = useState([]);
@@ -40,53 +45,38 @@ const Games = () => {
 	}, [filter, games]);
 	return (
 		<LayoutProf>
-			<main className=" h-screen main-background-color overflow-x-hidden">
-				<nav className="flex flex-row justify-end w-full">
+			<main>
+				<ContentHeader title="" link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
-				</nav>
-				<table className="w-full min-w-[550px] primary-font-color ">
-				<thead className='w-full '>
-					<tr className=" w-full text-left">
-						<th className="pl-5 table-title ">Nom</th>
-						<th className="table-title">Date</th>
-						<th className="table-title">Score</th>
-						<th className="table-title">Taux de réussite</th>
-						<th className="table-title">Nombre de salles</th>
-						<th className="table-title text-right pr-5">Action</th>
-					</tr>
-				</thead>
-				<tbody>
+					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>
+				</ContentHeader>
+				<TableContainer headers={['Nom', 'Date', 'Score', 'Taux de réussite', 'Nombre de salles', 'Action']}>
 					{filteredGames.map((game, index) => {
-						return (
-							<tr key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
-								<td className="pl-5 td-style">
-									{game.name}
-								</td>
-								<td className="td-style">{game.createdAt.toLocaleString()}</td>
-								<td className="td-style">--</td>
-								<td className="td-style">--%</td>
-								<td className="td-style">--</td>
-								<td className="td-style">
-									<div className="flex flex-row justify-evenly">
-										<button
-											className={`${game.state !== 3 ? 'bg-[#e0aa00]' : 'bg-[#fcc43e]'} w-10 h-10 rounded-full`}
-											disabled={game.state !== 3}
-										>
-										</button>
-										<button
-											className={`${game.state !== 3 ? 'bg-[#0704c3]' : 'bg-[#0a06f4]'} w-10 h-10 rounded-full`}
-											disabled={game.state !== 3}
-										>
-
-										</button>
-									</div>
-								</td>
-							</tr>
-						);
-					})}
-					</tbody>
-				</table>
-				{/* Pagination ou autres contrôles ici */}
+							return (
+								<tr key={index} className={`border-t-[1px] border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
+									<td className="pl-5 td-style">
+										{game.name}
+									</td>
+									<td className="td-style">{game.createdAt.toLocaleString()}</td>
+									<td className="td-style">--</td>
+									<td className="td-style">--%</td>
+									<td className="td-style">--</td>
+									<td className="td-style text-right pr-5">
+										<div className="space-x-3">
+										<ActionButton 
+											title="Classement"
+											link='/'
+										/>
+										<ActionButton
+											title="Détails"
+											link={`/game/${game.id}`}
+										/>
+										</div>
+									</td>
+								</tr>
+							);
+						})}
+				</TableContainer>
 			</main>
 		</LayoutProf>
 	);
