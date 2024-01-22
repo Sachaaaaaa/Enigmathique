@@ -6,6 +6,7 @@
 
 const db = require("../models/db.js");
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 const Game = db.game;
 const Course = db.course;
 const Team = db.team;
@@ -144,7 +145,7 @@ exports.create = async (req, res, next) => {
 
 	try{
 		// Vérification des informations fournis
-		const gameSchema = Joi.object({
+		const gameSchema = baseSchema.keys({
 			idCourse: Joi.number().integer().required(),
 			teamSize: Joi.number().integer().required(),
 			name: Joi.string().required(),
@@ -294,9 +295,11 @@ exports.open = async (req, res, next) => {
 			throw validationError;
 		}
 
-		// Définit le gameCode de la partie avec une chaîne de caractère aléatoire
-		const updatedRows = await Game.update({gameCode: makeid(10)},{where: { id: req.params.id }});
+		const code = makeid(10);
 
+		// Définit le gameCode de la partie avec une chaîne de caractère aléatoire
+		const updatedRows = await Game.update({gameCode: code},{where: { id: req.params.id }});
+		
 		// Vérifie que la colonne à effectivement été mise à jour
 		if (updatedRows == 0) {
 			const error = new Error("Impossible de mettre à jour la classe.");
@@ -304,9 +307,7 @@ exports.open = async (req, res, next) => {
 			throw error;
 		}
 
-		return res.status(201).json({
-			message: "La classe à été mise a jour avec succès"
-		});
+		return res.status(201).json({gameCode: code});
 
 		// Gère les erreurs
 	}catch(err) {
@@ -426,7 +427,7 @@ exports.addRooms = async(req, res, next) => {
 	try{
 
 		// Vérification des informations fournis
-		const gameSchema = Joi.object({
+		const gameSchema = baseSchema.keys({
 			idGame: Joi.number().integer().required(),
 			roomName: Joi.array().items(
 				Joi.string().required()).required()

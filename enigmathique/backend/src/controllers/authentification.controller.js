@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const db = require("../models/db.js");
 const Professor = db.professor;
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 const Op = db.Sequelize.Op;
 
 
@@ -13,14 +14,14 @@ exports.register = async (req, res, next) => {
 
 	try{
 		// Vérification des informations fournis
-		const professorSchema = Joi.object({
+		const registerSchema = baseSchema.keys({
 			lastname: Joi.string().required(),
 			firstname: Joi.string().required(),
 			mail: Joi.string().email().required(),
 			password: Joi.string().min(8).required(), 
-		});
+		  });
 		
-		const { error } = professorSchema.validate(req.body);
+		const { error } = registerSchema.validate(req.body);
 
 		if (error) {
 			const validationError = new Error(error.details[0].message);
@@ -45,6 +46,7 @@ exports.register = async (req, res, next) => {
 			token: token,
 		});
 	} catch(err) {
+		console.log(err)
 		next(err)
 	}
 }
@@ -54,7 +56,7 @@ exports.login = async (req, res, next) => {
 
 	try{
 		// Vérification des informations fournis
-		const loginSchema = Joi.object({
+		const loginSchema  = baseSchema.keys({
 			mail: Joi.string().email().required(),
 			password: Joi.string().required(),
 		});	
