@@ -209,9 +209,8 @@ class GameSession {
 			console.log(clc.redBright('[Session] Fin de la session anormale'));
 			// Ne pas envoyer les résultats à l'API
 			// A la place, demande à l'API de supprimer la session
-			// { ... }
-			// TODO: Supprimer la session
-
+			const response = await ApiService.postSessionEnd(this.sessionId, endedNormally);
+			console.log(response);
 			return;
 		}
 

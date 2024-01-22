@@ -125,7 +125,9 @@ class RoomPlayable {
 			numBadAnswers: this.numBadAnswers,
 			numHints: this.enigmasHint.length,
 			isSolved: this.isRoomSolved(),
-			time: this.getElapsedTime()
+			time: this.getElapsedTime(),
+			startTime: this.startTime,
+			endTime: this.endTime,
 		};
 	}
 }

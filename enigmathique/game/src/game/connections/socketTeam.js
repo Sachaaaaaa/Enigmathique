@@ -74,6 +74,7 @@ class SocketTeam {
 			this.gameSession.onTeamSolvedEnigma(this, enigmaId);
 			if (this.currentRoom.enigmasSolved.length == this.currentRoom.enigmas.length) {
 				this.gameSession.onTeamSolvedRoom(this);
+				this.sendRoomSolved();
 			}
 		} else {
 			this.gameSession.onTeamAnswerWrong(this, enigmaId);
@@ -140,6 +141,12 @@ class SocketTeam {
 		console.log(clc.yellowBright('[Team] Envoi indice'));
 		this.socket.emit(ServerToClient.Hint, { hint });
 	}
+
+	sendRoomSolved = () => {
+		console.log(clc.yellowBright('[Team] Envoi de la résolution de la salle'));
+		this.socket.emit(ServerToClient.RoomSolved);
+	}
+
 }
 
 module.exports = SocketTeam;
