@@ -115,12 +115,12 @@ const GameElem = (props) => {
 		case 0:
 			winnerLabel = "Partie non lancée" ;
 			successRateLabel = "Partie non lancée" ;
-			link =  <Link to={'/pregame/'+game.id} className="btn-show col-span-2">Voir</Link>;
+			link =  <Link to={'/pregame/'+game.gameCode} className="btn-show col-span-2">Voir</Link>;
 			break ;
 		case 1:
 			winnerLabel = "Partie en cours" ;
 			successRateLabel = "Partie en cours" ;
-			link =  <Link to={'/leaderboard/'+game.id} className="btn-show col-span-2">Voir</Link>;
+			link =  <Link to={`/leaderboard?idSession=${game.gameCode}`} className="btn-show col-span-2">Voir</Link>;
 			break ;
 		case 2:
 			winnerLabel = winners.map((stud) => stud.firstname + ' ' + stud.lastname)
@@ -128,7 +128,7 @@ const GameElem = (props) => {
 			link =  <Link to={'/ranking/'+game.id} className="btn-show col-span-2">Voir</Link>;
 			break ;
 	}
-
+	console.log(game);
 	return (
 		// Affichage des informations de la partie
 		// Grid pour afficher les informations sur 2 colonnes fixes

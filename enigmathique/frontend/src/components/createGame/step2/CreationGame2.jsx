@@ -48,8 +48,8 @@ const CreationGame2 = (props) => {
 			const game = await createGame();
 			await addRooms(game.id, selectedRooms);
 			const res = await openGame(game.id);
-			console.log(res);
-			navigate(`/pregame/${res}`);
+			console.log(res.gameCode);
+			navigate(`/pregame/${res.gameCode}`);
 
 			return;
 		}
