@@ -18,6 +18,9 @@ module.exports = app => {
 
 	// Gère l'enregistrement
 	router.post("/register", authentification.register, middleware.verifyErrors);
+	
+	// Gère la deconnexion
+	router.post("/logout", authentification.logout, middleware.verifyErrors);
 
 	app.use("/api/auth", router);
 }
