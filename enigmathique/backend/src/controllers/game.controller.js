@@ -5,6 +5,7 @@
 */
 
 const db = require("../models/db.js");
+const Joi = require('joi');
 const Game = db.game;
 const Course = db.course;
 const Team = db.team;
@@ -134,6 +135,16 @@ async function isGameBelongsProfessor(idGame, req) {
 	}
 }
 
+
+// Fonction vérifiant si la requête est conforme aux attentes
+function isRequestCorrect(schema, req) {
+	const { error } = schema.validate(req.body);
+	if (error) {
+		const validationError = new Error(error.details[0].message);
+		validationError.statusCode = 500;  
+		throw validationError;
+	}
+}
 /////////////////////////////////////////////////////////////////////////////////
 // 									 CREATE                                    //
 /////////////////////////////////////////////////////////////////////////////////
@@ -143,13 +154,15 @@ async function isGameBelongsProfessor(idGame, req) {
 exports.create = async (req, res, next) => {
 
 	try{
+		// Vérification des informations fournis
+		const gameSchema = Joi.object({
+			idCourse: Joi.number().integer().required(),
+			teamSize: Joi.number().integer().required(),
+			name: Joi.string().required(),
+		});
 
-		// Valider la requête
-		if (!req.body.idCourse | !req.body.teamSize  | !req.body.name ) {
-			const error = new Error("Il manque des informations pour créer une partie.");
-			error.statusCode = 400;  
-			throw error;
-		}
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(gameSchema, req)
 
 		// Vérifie que la classe appartient bien au professeur
 		if(! await isClassBelongsProfessor(req.body.idCourse, req)){
@@ -381,17 +394,26 @@ exports.delete = async (req, res, next) => {
 exports.end = async (req, res, next) => {
 
 	try{
+		// La partie s'est terminée normalement ?
+		const endedNormally = req.body.endedNormally;
+		const gameId = req.params.id;
 
+		if (endedNormally == true) {
+			// Enregistrer la classe dans la base de données
+			const updatedRows = await Game.update({state: 2},{where: { id: gameId }});
+			// Renvoie les données mise a jour
+			return res.status(201).json(updatedRows);
+		} else {
+			// Supprimer la partie
+			const destroyedRows = await Game.destroy({ where: { id: gameId }});
+			// Renvoie les données supprimées
+			return res.status(201).json(destroyedRows);
+		}
 
-
-		// Enregistrer la classe dans la base de données
-		const updatedRows = await Game.update({state: 2},{where: { id: req.params.id }})
-		
-		// Renvoie les données mise a jours
-		return res.status(201).json(updatedRows);
 
 	// Gère les erreurs
 	}catch(err) {
+		console.log(err);
 		next(err)
 	}
 }

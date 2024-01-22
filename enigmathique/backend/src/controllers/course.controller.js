@@ -8,6 +8,7 @@ const db = require("../models/db.js");
 const Course = db.course;
 const Student = db.student;
 const Op = db.Sequelize.Op;
+const Joi = require('joi');
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 FONCTIONS                                 //
@@ -15,24 +16,32 @@ const Op = db.Sequelize.Op;
 
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
 async function isClassBelongsProfessor(idCourse, req) {
-	try {
 
-		// Récupère toutes les classes du professeur courant
-		const courses = await Course.findAll({ where: { idProfessor: req.tokenId } });
+	// Récupère toutes les classes du professeur courant
+	const courses = await Course.findAll({ where: { idProfessor: req.tokenId } });
 
-		// Récupère les id correspondant aux classes du professeur courant
-		const ids = courses.map(item => item.id);
-		idCourse = parseInt(idCourse)
+	// Récupère les id correspondant aux classes du professeur courant
+	const ids = courses.map(item => item.id);
 
-		// Vérifie que la classe appartient bien au professeur
-		return ids.includes(idCourse);
+	// Vérifie que la classe appartient bien au professeur
+	if(!ids.includes(parseInt(idCourse))){
+		const error = new Error("La classe n'appartient pas au professeur.");
+		error.statusCode = 403;  
+		throw error;
+	}
 
-	} catch (err) {
-		// Gère les erreurs
-		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+}
+
+// Fonction vérifiant si la requête est conforme aux attentes
+function isRequestCorrect(schema, req) {
+	const { error } = schema.validate(req.body);
+	if (error) {
+		const validationError = new Error(error.details[0].message);
+		validationError.statusCode = 500;  
+		throw validationError;
 	}
 }
-  
+
 /////////////////////////////////////////////////////////////////////////////////
 // 									 CREATE                                    //
 /////////////////////////////////////////////////////////////////////////////////
@@ -41,25 +50,25 @@ async function isClassBelongsProfessor(idCourse, req) {
 exports.create = async (req, res, next) => {
 
 	try{
+			// Vérification des informations fournis
+			const courseSchema = Joi.object({
+				name: Joi.string().required(),
+			});
+			
+			// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+			isRequestCorrect(courseSchema, req)
 
-		// Valider la requête
-		if (!req.body.name) {
-			const error = new Error("Il manque des informations pour créer une classe.");
-			error.statusCode = 400;  
-			throw error;
-		}
+			// Créer une classe
+			const course = {
+				name: req.body.name,
+				idProfessor: req.tokenId,
+			};
 
-		// Créer une classe
-		const course = {
-			name: req.body.name,
-			idProfessor: req.tokenId,
-		};
+			// Enregistrer la classe dans la base de données
+			const response = await Course.create(course)
 
-		// Enregistrer la classe dans la base de données
-		const response = await Course.create(course)
-
-		// Renvoie les données créées
-		return res.status(201).json(response);
+			// Renvoie les données créées
+			return res.status(201).json(response);
 		
 	// Gère les erreurs
 	} catch(err) {
@@ -75,7 +84,6 @@ exports.create = async (req, res, next) => {
 // methode pour récuperer les classes du professeur
 exports.findAll = async (req, res, next) => {
 	try{
-	
 		// Récupère toutes les classes du professeur connecté
 		const courses = await Course.findAll({ where: { idProfessor: req.tokenId } })
 
@@ -94,11 +102,7 @@ exports.findOne = async (req, res, next) => {
 	try {
 
 		// Vérifie que la classe appartient bien au professeur
-		if(! await isClassBelongsProfessor(req.params.id, req)){
-			const error = new Error("La classe n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isClassBelongsProfessor(req.params.id, req)
 
 
 		// Récupèrer la classe
@@ -119,12 +123,8 @@ exports.findStudents = async (req, res, next) => {
 	try{
 
 		// Vérifie que la classe appartient bien au professeur
-		if(! await isClassBelongsProfessor(req.params.id, req)){
-			const error = new Error("La classe n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
-
+		await isClassBelongsProfessor(req.params.id, req)
+		
 		// Récupèrer les élèves de la classe
 		const students = await Student.findAll({ where: { idCourse: req.params.id} })
 
@@ -147,35 +147,30 @@ exports.update = async(req, res, next) => {
 	
 	try{
 
-		// Valider la requête
-		if (!req.body.name) {
-			const error = new Error("Il manque des informations pour mettre à jour la classe.");
-			error.statusCode = 400;  
-			throw error;
-		}
+		// Vérification des informations fournis
+		const courseSchema = Joi.object({
+			name: Joi.string().required(),
+		});
+		
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(courseSchema, req)
 
 		// Vérifie que la classe appartient bien au professeur
-		if(! await isClassBelongsProfessor(req.params.id, req)){
-			const error = new Error("La classe n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isClassBelongsProfessor(req.params.id, req)
 
 		// Effectue la requête de mise à jour
 		const updatedRows = await Course.update({name: req.body.name}, {where: { id: req.params.id} })
 
-			// Vérifie que la colonne à effectivement été mise à jour
-		if (updatedRows == 1) {
-			return res.status(201).json({
-				message: "La classe à été mise a jour avec succès"
-			});
-
-		// Si aucunes colonnes traités on relève une erreur
-		} else {
+		// Vérifie que la colonne à effectivement été mise à jour
+		if (updatedRows == 0) {
 			const error = new Error("Impossible de mettre à jour la classe.");
 			error.statusCode = 404;  
 			throw error;
 		}
+
+		return res.status(201).json({
+			message: "La classe à été mise a jour avec succès"
+		});
 
 	// Gère les erreurs
 	}catch(err) {
@@ -197,27 +192,21 @@ exports.delete = async (req, res, next) => {
 
 	try{
 		// Vérifie que la classe appartient bien au professeur
-		if(! await isClassBelongsProfessor(req.params.id, req)){
-			const error = new Error("La classe n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isClassBelongsProfessor(req.params.id, req)
 
 		// Effectue la requête de delete
 		const destroyedRows = await Course.destroy({ where: { id: req.params.id, idProfessor: req.tokenId} })
 			
 		// Vérifie si la classe a bien été supprimé
-		if (destroyedRows == 1) {
-			return res.status(201).json({
-				message: "La classe a été supprimée avec succès"
-			});
-
-		// Si aucunes colonnes traités on relève une erreur
-		} else {
+		if (destroyedRows == 0) {
 			const error = new Error("Impossible de mettre à jour la classe.");
 			error.statusCode = 404;  
 			throw error;
-		}
+		} 
+
+		return res.status(201).json({
+			message: "La classe a été supprimée avec succès"
+		});
 
 	// Gère les erreurs
 	}catch(err) {

@@ -6,7 +6,10 @@ module.exports = app => {
 	const course = require("../controllers/course.controller.js");
 	const middleware = require("./middleware.js");
 
+
 	var router = require("express").Router();
+
+
 
 	// Créer une nouvelle classe pour le professeur
 	router.post("/", middleware.verifyToken, course.create);
