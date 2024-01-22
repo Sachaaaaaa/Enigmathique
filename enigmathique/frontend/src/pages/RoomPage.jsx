@@ -50,10 +50,8 @@ const RoomPage = () => {
 							<>
 								<Room
 									index={index}
-									name={room.name}
-									difficulty={room.difficulty}
-									riddles={999}
-									winrate={999}
+									room={room}
+
 									handleRoomSelection={() => handleRoomSelection(room)}
 								/>
 							</>
