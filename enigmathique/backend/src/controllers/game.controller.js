@@ -218,6 +218,13 @@ exports.findOne = async (req, res, next) => {
 
 		// Récupère la partie souhaité
 		const game = await Game.findOne({ where: { id: req.params.id} })
+
+		if(game && (game.state== 0 || game.state== 1)){
+			const gameCode = await GameCode.findOne({ where: { idGame: game.id} })
+			game.dataValues.gameCode = gameCode.code
+		}
+		console.log(game)
+
 		return res.status(200).json(game);
 
 	// Gère les erreurs
