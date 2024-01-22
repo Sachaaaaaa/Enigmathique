@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import Textfield from 'components/authform/Textfield';
 import FooterButtons from '../FooterButtons';
+import toast from "react-hot-toast";
 
 
 const CreationGame1 = (props) => {
@@ -23,12 +24,14 @@ const CreationGame1 = (props) => {
 		}
 		let messages = ['Veuillez remplir le(s) champ(s) suivant(s) :'];
 		if (formData.gameName === '') {
-			messages.push('- Nom de la partie');
+			messages.push('-Nom de la partie');
 		}
 		if (formData.course === 0) {
 			messages.push('-Classe');
 		}
-		alert(messages.join('\n'));
+		toast.error(
+			messages.join('\n'),
+		);
 	};
 	const handleAnnuler = (event) => {
 		if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {

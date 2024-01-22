@@ -9,6 +9,7 @@ import Game from "../../../models/game.model";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import FooterButtons from '../FooterButtons';
 import SearchInput from "../../SearchInput";
+import toast from "react-hot-toast";
 
 const CreationGame2 = (props) => {
 
@@ -37,7 +38,9 @@ const CreationGame2 = (props) => {
 
 	const handleSuivant = async (event) => {
 		if (selectedRooms.length === 0) {
-			alert('Veuillez sélectionner au moins une salle');
+			toast.error(
+				'Veuillez sélectionner au moins une salle',
+				);
 			event.preventDefault();
 			return;
 		}

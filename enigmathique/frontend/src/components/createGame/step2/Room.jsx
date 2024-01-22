@@ -4,14 +4,27 @@ import {FaSearch} from 'react-icons/fa';
 import '../createGame.css'
 import {IconContext} from 'react-icons';
 import { FaPuzzlePiece, FaMedal  } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 
-const 	Room = (props) => {
+const Room = (props) => {
 
 	const [selected, setSelected] = useState(props.selected);
 	const handleChange = () => {
 		props.handleRoomSelection(props.name);
 		setSelected(!selected);
+		if (selected) {
+			toast.error(
+				'La salle a été retirée de la partie',
+				{duration: 800}
+				);
+		} else {
+			toast.success(
+				'La salle a été ajoutée à la partie',
+				{duration: 800}
+				);
+
+		}
 	}
 
 	
