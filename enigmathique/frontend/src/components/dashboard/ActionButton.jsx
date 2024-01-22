@@ -6,7 +6,7 @@ import { FiInfo } from "react-icons/fi";
 import {MdOutlineModeEdit, MdDeleteForever} from 'react-icons/md';
 import PropTypes from 'prop-types';
 
-const ActionButton = ({title,link = '', onClick= () => {}}) => {
+const ActionButton = ({title,link = '', onClick= () => {}, disabled=false}) => {
 
     // const actionMap = {
     //     'Statistiques': <IoIosStats size='1.25em'/>,
@@ -42,16 +42,17 @@ const ActionButton = ({title,link = '', onClick= () => {}}) => {
 
 
     const icon = actionButtons[buttonTitle].icon;
-    const className = actionButtons[buttonTitle].className;
+    const className = disabled ? "btn-disabled p-2" : actionButtons[buttonTitle].className;
     return (
-        <Link to={link}>
-            <button
-                title={title}
-                onClick={onClick}
-                className={className}>
-                {icon}
-            </button>
-        </Link>
+            <Link to={link}>
+                <button
+                    title={title}
+                    onClick={onClick}
+                    className={className}
+                    disabled={disabled}>
+                    {icon}
+                </button>
+            </Link>
     ) 
 }
 
@@ -59,6 +60,7 @@ ActionButton.propTypes = {
     title: PropTypes.string.isRequired,
     link: PropTypes.string,
     onClick: PropTypes.func,
+    disabled: PropTypes.bool
 }
 
 export default ActionButton;
