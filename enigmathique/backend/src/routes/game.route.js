@@ -32,7 +32,7 @@ module.exports = app => {
 	router.post("/close/:id", middleware.verifyToken, game.close, middleware.verifyErrors)
 
 	// Supprime une partie
-	router.post("/delete/:id", middleware.verifyToken, game.delete, middleware.verifyErrors)
+	router.delete("/delete/:id", middleware.verifyToken, game.delete, middleware.verifyErrors)
 
 	// Méthode interne :
 
