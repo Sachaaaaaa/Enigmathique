@@ -54,18 +54,6 @@ function TeamDetails({ teamData, onClose}) {
 	}, [teamData.rooms]);
 
 	useEffect(() => {
-		const labels = teamData.rooms.map(room => room.name);
-		const data = labels.map(label => {
-			const timeInSeconds = convertTimeToSeconds(roomTimers[label]);
-			return timeInSeconds;
-		});
-
-		// Générer des couleurs aléatoires ou définies pour chaque salle
-		const backgroundColors = teamData.rooms.map((_, index) => {
-			// Exemple de génération de couleur aléatoire
-			const randomColor = `hsl(${360 * Math.random()}, 70%, 70%)`;
-			return randomColor;
-		});
 
 		const chartData = {
 			labels: teamData.rooms.map(room => room.name),
@@ -123,7 +111,7 @@ function TeamDetails({ teamData, onClose}) {
 				<div className="p-5 flex">
 					{/* Left side - Temps de jeu */}
 					<div className="w-1/2 pr-4">
-						<h3 className="text-xl font-semibold mb-4 text-gray-500">Temps de jeu</h3>
+						<h3 className="text-xl font-semibold mb-4 text-gray-500">Temps de jeu :</h3>
 						{teamData.rooms.map((room, index) => (
 							<div key={index} className="mb-2 flex items-center justify-between">
 								<span className="text-gray-500">{room.name}</span>
@@ -136,9 +124,9 @@ function TeamDetails({ teamData, onClose}) {
 
 
 					{/* Right side - Temps de jeu */}
-					<div className="w-1/2 pl-4">
+					<div className="w-1/2 pl-4 border-l">
 						<div className="mb-4 flex items-center justify-between">
-							<label htmlFor="room-select" className="font-semibold text-gray-500">Détails :</label>
+							<label htmlFor="room-select" className="text-xl font-semibold mb-4 text-gray-500">Détails :</label>
 							<div className="relative">
 								<select id="room-select" value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)} 
 									className="appearance-none bg-white border border-blue-500 text-blue-600 py-1 px-4 rounded-full shadow-md-sm focus:outline-none">
@@ -183,6 +171,7 @@ function TeamDetails({ teamData, onClose}) {
 										</div>
 										<div className="ml-3">
 											<p className="text-sm text-gray-500">Salles réussies</p>
+
 											<p className="text-lg">{details.sallesReussies}</p>
 										</div>
 									</div>
@@ -224,8 +213,9 @@ function TeamDetails({ teamData, onClose}) {
 											<FaDoorOpen className="text-blue-500 text-3xl" />
 										</div>
 										<div className="ml-3">
-											<p className="text-sm text-gray-500">Salles réussies</p>
-											<p className="text-lg">{details.isSolved}</p>
+											<p className="text-sm text-gray-500">Salle réussie</p>
+											{/* // affiché si la salle est résolue ou non */}
+											<p className="text-lg">{details.isSolved ? 'Oui' : 'Non'}</p>
 										</div>
 									</div>
 									<div className="flex items-center">
