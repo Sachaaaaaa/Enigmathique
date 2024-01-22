@@ -62,6 +62,15 @@ const openGame = (idGame) => {
 		});
 };
 
+const deleteGame = (idGame) => {
+	const token = authHeader();
+	return axios
+		.delete(API_URL + 'game/delete/' + idGame,{headers: token})
+		.then((response) => {
+			return response.data;
+		});
+};
+
 //socket
 const acceptTeam = (idGame, idTeam) => {
 	const token = authHeader();
@@ -128,6 +137,7 @@ const GameService = {
 	getOne,
 	getScores,
 	openGame,
+	deleteGame,
 };
 
 export default GameService;

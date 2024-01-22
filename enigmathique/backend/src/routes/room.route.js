@@ -9,10 +9,10 @@ module.exports = app => {
 	var router = require("express").Router();
 
 	// Récupère toutes les salles de la DB
-	router.get("/", middleware.verifyToken, course.findAll);
+	router.get("/", middleware.verifyToken, course.findAll, middleware.verifyErrors);
 
 	// Ajouter une salle à la DB
-	router.post("/", middleware.verifyToken, course.create);
+	router.post("/", middleware.verifyToken, course.create, middleware.verifyErrors);
 
 	app.use("/api/room", router);
 }
