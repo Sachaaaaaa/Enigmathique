@@ -6,6 +6,9 @@ module.exports = app => {
 	const game = require("../controllers/game.controller.js");
 	const middleware = require("./middleware.js");
 	var router = require("express").Router();
+	const bodyParser = require('body-parser');
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: true }));
 
 	// Quatre statues d'une partie : créée, ouverte, en cours, terminée
 
