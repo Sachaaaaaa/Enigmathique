@@ -20,6 +20,19 @@ const Op = db.Sequelize.Op;
 // 									 FONCTIONS                                 //
 /////////////////////////////////////////////////////////////////////////////////
 
+// Génère un string aléatoire de longueur length
+function makeid(length) {
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	let randomString = '';
+  
+	for (let i = 0; i < length; i++) {
+	  const randomIndex = Math.floor(Math.random() * characters.length);
+	  randomString += characters.charAt(randomIndex);
+	}
+  
+	return randomString;
+  }
+
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
 async function isClassBelongsProfessor(idCourse, req) {
 
