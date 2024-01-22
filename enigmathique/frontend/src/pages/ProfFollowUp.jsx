@@ -5,6 +5,7 @@ import { socket } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from 'data/socketMessages';
 import TeamDetails from './TeamDetails';
+import ActionButton from 'components/dashboard/ActionButton';
 
 function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
@@ -199,13 +200,11 @@ function ProfFollowUp() {
 										{team.resolved}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-										<button
+										<ActionButton
 											onClick={() => handleDetailsClick(team)}
-											className="text-blue-600 hover:text-blue-800"
-											data={allData}
+											title='Détails'
 										>
-                      Détails
-										</button>
+										</ActionButton>
 									</td>
 								</tr>
 							))}
