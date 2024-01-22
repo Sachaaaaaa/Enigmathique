@@ -69,15 +69,15 @@ const PreGame = () => {
 	return (
 		<SocketContext.Provider value={socket}>
 			<LayoutProf>
-				<main className='flex flex-col flex-grow gap-10 h-full p-5'>
-					<section className="grow flex flex-wrap justify-evenly items-center gap-5 w-full">
-						<TeamContainer teams={lockedTeams} isValidated={false} />
-						<TeamContainer teams={confirmedTeams} isValidated={true} />
-					</section>
-					<section className="flex justify-end items-center w-full">
+				<main className='flex flex-col flex-grow gap-10 p-5'>
+					<section className="flex justify-end w-full">
 						<button className="bg-blue-gradient-color modal-validate-button-style w-fit p-8" onClick={handleStartGame}>
 							Commencer la partie
 						</button>
+					</section>
+					<section className="grow flex flex-wrap justify-between items-center gap-5 w-full">
+						<TeamContainer teams={lockedTeams} isValidated={false} />
+						<TeamContainer teams={confirmedTeams} isValidated={true} />
 					</section>
 				</main>
 			</LayoutProf>

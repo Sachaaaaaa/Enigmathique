@@ -53,11 +53,11 @@ const Games = () => {
 				<TableContainer headers={['Nom', 'Date', 'Score', 'Taux de réussite', 'Nombre de salles', 'Action']}>
 					{filteredGames.map((game, index) => {
 							return (
-								<tr key={index} className={`border-t border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
+								<tr key={index} className={`border-t border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
 									<td className="pl-5 td-style">
 										{game.name}
 									</td>
-									<td className="td-style">{game.createdAt.toLocaleString()}</td>
+									<td className="td-style">{game.createdAt.toLocaleDateString('fr-FR')}</td>
 									<td className="td-style">--</td>
 									<td className="td-style">--%</td>
 									<td className="td-style">--</td>
@@ -65,11 +65,12 @@ const Games = () => {
 										<div className="space-x-3">
 										<ActionButton 
 											title="Classement"
-											link={game.state === 2 ? `/ranking/${game.id}` : ''}
+											link={game.state === 2 ? `/ranking/${game.id}` : ``}
 										/>
 										<ActionButton
 											title="Détails"
-											link={game.state === 2 ? `/game/${game.id}` : ''}
+											link={`/game/${game.id}`}
+											disabled={game.state !== 2}
 										/>
 										</div>
 									</td>

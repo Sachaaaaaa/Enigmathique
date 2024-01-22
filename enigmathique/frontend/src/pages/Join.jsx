@@ -8,6 +8,9 @@ import {socket, SocketContext} from 'contexts/SocketContext';
 import {useParams} from 'react-router-dom';
 import {ClientToServer, ConnectionType, ServerToClient} from 'data/socketMessages';
 import LayoutStudent from "../layouts/LayoutStudent";
+import Notification from "../components/Notification";
+import toast from "react-hot-toast";
+import {SyncLoader} from "react-spinners";
 
 const Join = (props) => {
 	//? Faire un hook pour ça ? vu le nombre de useStates
@@ -74,6 +77,14 @@ const Join = (props) => {
 			socket.off(ServerToClient.CompositionFinished);
 		};
 	}, []);
+	const [status, setStatus] = useState('');
+	useEffect(() => {
+		if (isConfirmed) {
+			setStatus('Votre équipe est prête, en attente des autres équipes');
+		} else if (isLocked) {
+			setStatus('Votre équipe est verrouillée, en attente de confirmation');
+		}
+	}, [isConfirmed, isLocked]);
 
 	const [teamName, setTeamName] = useState('');
 	const handleTeamNameChange = (event) => {
@@ -82,9 +93,10 @@ const Join = (props) => {
 
 	const handleCreateTeam = () => {
 		if (teamName === '') {
-			alert('Veuillez entrer un nom d\'équipe');
+			toast.error('Veuillez entrer un nom d\'équipe');
 			return;
 		}
+		setTeamName('');
 		socket.emit(ClientToServer.LockTeam, {name: teamName});
 		//TODO: Faut mettre un loader ici
 	};
@@ -92,17 +104,31 @@ const Join = (props) => {
 	return (
 		<LayoutStudent>
 			<SocketContext.Provider value={socket}>
-				<main className='flex flex-col h-full w-full p-4 bg-[#f5f7fa]'>
-					<h1 className='text-2xl'>Création de l&apos;équipe</h1>
-					<section className='flex flex-row justify-evenly gap-2 p-4 h-[70%] w-full'>
-						<AvailableStudents available={available} teamSize={maxTeamSize}/>
-						<SelectedStudents selected={selected} handleChange={handleTeamNameChange} teamSize={maxTeamSize}/>
-					</section>
-					<section className='flex flex-row justify-end p-4 h-[10%] w-full'>
-						<button className='p-2 bg-blue-800 rounded-xl text-white' onClick={handleCreateTeam}>Créer mon
-							équipe
-						</button>
-					</section>
+				<main className='flex flex-col justify-center items-center h-full w-full p-4 bg-[#f5f7fa]'>
+					{isLocked ?
+						(	<>
+								<SyncLoader color='#4c49ed'/>
+								<h1 className='text-2xl'>{status}</h1>
+							</>
+						)
+						:
+						(
+							<>
+								<Notification/>
+								<h1 className='text-2xl'>Création de l&apos;équipe</h1>
+								<section className='flex flex-row justify-evenly gap-2 p-4 h-[70%] w-full'>
+									<AvailableStudents available={available} teamSize={maxTeamSize}/>
+									<SelectedStudents selected={selected} handleChange={handleTeamNameChange} teamSize={maxTeamSize}/>
+								</section>
+								<section className='flex flex-row justify-end p-4 h-[10%] w-full'>
+									<button className='p-2 bg-blue-800 rounded-xl text-white'
+											onClick={handleCreateTeam}>Créer
+										mon
+										équipe
+									</button>
+								</section>
+							</>
+						)}
 				</main>
 			</SocketContext.Provider>
 		</LayoutStudent>
