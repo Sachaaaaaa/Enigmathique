@@ -18,8 +18,11 @@ module.exports = app => {
 	// Supprime un élève de l'équipe
 	router.post("/student/:id", middleware.verifyToken, team.removeStudent, middleware.verifyErrors);
 
+	// Récupère une team en fonction de son id
+	router.get("/:id", middleware.verifyToken, team.findOne, middleware.verifyErrors);
+
 	// Récupère toutes les teams d'une partie
-	router.get("/:id", middleware.verifyToken, team.findAll, middleware.verifyErrors);
+	router.get("/game/:id", middleware.verifyToken, team.findByGame, middleware.verifyErrors);
 
 	// Supprime une équipe
 	router.delete("/:id", middleware.verifyToken, team.delete, middleware.verifyErrors);
@@ -28,7 +31,7 @@ module.exports = app => {
 	router.get("/score/:id", middleware.verifyToken, team.getScore, middleware.verifyErrors);
 
 	// Retourne les élèves d'une team
-	router.get("/students/:id", middleware.verifyToken, team.findOne, middleware.verifyErrors);
+	router.get("/students/:id", middleware.verifyToken, team.findStudents, middleware.verifyErrors);
 
 
 	
