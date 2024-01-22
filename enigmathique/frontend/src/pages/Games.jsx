@@ -87,7 +87,7 @@ const Games = () => {
 										<div className="space-x-3">
 										<ActionButton 
 											title="Classement"
-											link={game.state === 2 ? `/ranking/${game.id}` : ``}
+											link={game.state === 2 ? `/ranking/${game.id}` : game.state === 0 ? `/pregame/${game.gameCode}` : `/leaderboard?idSession=${game.gameCode}`}
 										/>
 										<ActionButton
 											title="Détails"
