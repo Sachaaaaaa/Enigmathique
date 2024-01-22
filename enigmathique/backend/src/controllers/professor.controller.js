@@ -6,6 +6,7 @@ const db = require("../models/db.js");
 const Professor = db.professor;
 const Op = db.Sequelize.Op;
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 FONCTIONS                                 //
@@ -56,7 +57,7 @@ exports.update = async(req, res, next) => {
 	try{
 
 		// Vérification des informations fournis
-		const studentSchema = Joi.object({
+		const studentSchema = baseSchema.keys({
 			lastname: Joi.string(),
 			firstname: Joi.string(),
 			mail: Joi.string().email(),

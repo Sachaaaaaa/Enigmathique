@@ -8,6 +8,7 @@ const Student = db.student;
 const Course = db.course;
 const Op = db.Sequelize.Op;
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 FONCTIONS                                 //
@@ -77,7 +78,7 @@ exports.create = async(req, res, next) => {
 	try{
 
 		// Vérification des informations fournis
-		const studentSchema = Joi.object({
+		const studentSchema = baseSchema.keys({
 			lastname: Joi.string().required(),
 			firstname: Joi.string().required(),
 			idCourse: Joi.number().integer().required(),
@@ -145,7 +146,7 @@ exports.update = async(req, res, next) => {
 		await isStudentBelongsProfessor(req.params.id, req);
 
 		// Vérification des informations fournis
-		const studentSchema = Joi.object({
+		const studentSchema = baseSchema.keys({
 			lastname: Joi.string(),
 			firstname: Joi.string(),
 			idCourse: Joi.number(),

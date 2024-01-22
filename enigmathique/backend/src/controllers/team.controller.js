@@ -6,6 +6,7 @@
 
 const db = require("../models/db.js");
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 const Team = db.team;
 const PlayIn = db.playIn;
 const Course = db.course;
@@ -243,7 +244,7 @@ exports.removeStudent = async (req, res, next) => {
 
 try{
 	// Vérification des informations fournis
-	const teamSchema = Joi.object({
+	const teamSchema = baseSchema.keys({
 		idTeam: Joi.number().integer().required(),
 	});
 
@@ -292,7 +293,7 @@ exports.addScores = async(req, res, next) => {
 	try{
 
 		// Vérification des informations fournis
-		const scoreSchema = Joi.object({
+		const scoreSchema = baseSchema.keys({
 			rooms: Joi.array().items(
 				Joi.object({
 					roomName: Joi.string().required(),
@@ -353,7 +354,7 @@ exports.addStudents = async (req, res, next) => {
 	try{
 
 		// Vérification des informations fournis
-		const teamSchema = Joi.object({
+		const teamSchema = baseSchema.keys({
 			teams: Joi.array().items(
 				Joi.object({
 				  name: Joi.string().required(),

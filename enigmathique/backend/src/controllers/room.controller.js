@@ -7,6 +7,7 @@ const roomRoute = require("../routes/room.route.js");
 const Room= db.room;
 const Op = db.Sequelize.Op;
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 FONCTIONS                                 //
@@ -32,7 +33,7 @@ exports.create = async (req, res, next) => {
 	try{
 		
 		// Vérification des informations fournis
-		const roomSchema = Joi.object({
+		const roomSchema = baseSchema.keys({
 			name: Joi.string().required(),
 			chapter: Joi.string().required(),
 			difficulty: Joi.string().required(),
