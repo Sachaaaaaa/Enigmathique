@@ -46,7 +46,7 @@ const GamesContainer = () => {
 						<>
 							<GameItem
 								name={game.name}
-								date={game.createdAt.toLocaleString()}
+								date={game.createdAt.toLocaleDateString('fr-FR')}
 								course={game.idCourse}
 								winrate={game.winrate}
 								numberRoom={game.numberRoom}

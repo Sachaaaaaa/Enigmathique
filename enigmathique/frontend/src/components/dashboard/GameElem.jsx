@@ -118,7 +118,7 @@ const GameElem = (props) => {
 			<InfoBlockElem title='Classe' text={course.name}/>
 
 
-			<InfoBlockElem title='Date' text={game.createdAt.toLocaleString()} />
+			<InfoBlockElem title='Date' text={game.createdAt.toLocaleDateString('fr-Fr')} />
 
 			<InfoBlockElem title='Gagnants' text={game.state !== 2 ? 'Partie non terminée' : //console.log(getWinners().idTeam)}
 				winners.map((stud) => stud.firstname + ' ' + stud.lastname)}
