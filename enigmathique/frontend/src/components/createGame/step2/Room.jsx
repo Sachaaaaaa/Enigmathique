@@ -6,9 +6,9 @@ import {IconContext} from 'react-icons';
 import { FaPuzzlePiece, FaMedal  } from "react-icons/fa";
 
 
-const Room = (props) => {
+const 	Room = (props) => {
 
-	const [selected, setSelected] = useState(false);
+	const [selected, setSelected] = useState(props.selected);
 	const handleChange = () => {
 		props.handleRoomSelection(props.name);
 		setSelected(!selected);
@@ -62,7 +62,7 @@ const Room = (props) => {
 				</div>
 			</article>
 			<article className={`flex justify-end items-center h-full pr-4 border-r-[5px] ${selected ? ' border-blue-color':'border-transparent'}`}>
-				<input  id={"roomselect"+props.index} size={100} type='checkbox' onChange={handleChange}/>
+				<input  id={"roomselect"+props.index} size={100} checked={props.selected} type='checkbox' onChange={handleChange}/>
 			</article>
 		</label>
 	);
@@ -74,6 +74,7 @@ Room.propTypes = {
 	riddles: PropTypes.number.isRequired,
 	winrate: PropTypes.number.isRequired,
 	handleRoomSelection: PropTypes.func,
+	selected: PropTypes.bool.isRequired,
 }
 
 export default Room;

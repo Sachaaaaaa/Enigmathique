@@ -27,7 +27,9 @@ const CreationGame2 = (props) => {
 		);
 		setFilteredRooms([...filtered]);
 	}, [filter]);
-
+	useEffect(() => {
+		console.log(selectedRooms);
+	}, [selectedRooms]);
 
 	const handlePrecedent = () => {
 		props.setStep(1);
@@ -93,6 +95,7 @@ const CreationGame2 = (props) => {
 								riddles={999}
 								winrate={999}
 								handleRoomSelection={handleRoomSelection}
+								selected={selectedRooms.includes(room.name)}
 							/>
 					);
 				})}
