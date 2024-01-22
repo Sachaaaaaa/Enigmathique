@@ -6,6 +6,7 @@
 
 const db = require("../models/db.js");
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 const Game = db.game;
 const Course = db.course;
 const Team = db.team;
@@ -144,7 +145,7 @@ exports.create = async (req, res, next) => {
 
 	try{
 		// Vérification des informations fournis
-		const gameSchema = Joi.object({
+		const gameSchema = baseSchema.keys({
 			idCourse: Joi.number().integer().required(),
 			teamSize: Joi.number().integer().required(),
 			name: Joi.string().required(),
@@ -416,7 +417,7 @@ exports.addRooms = async(req, res, next) => {
 	try{
 
 		// Vérification des informations fournis
-		const gameSchema = Joi.object({
+		const gameSchema = baseSchema.keys({
 			idGame: Joi.number().integer().required(),
 			roomName: Joi.array().items(
 				Joi.string().required()).required()
