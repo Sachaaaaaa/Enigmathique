@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {IoCheckmarkCircleOutline, IoChevronDown, IoChevronUp, IoRemoveCircle} from 'react-icons/io5';
+import { FaCheckCircle } from "react-icons/fa";
 import {IconContext} from "react-icons";
 import {usePreGameContext} from "../contexts/PreGame.context";
 import gameService from "../../services/game.service";
 import {useSocket} from "../../contexts/SocketContext";
 import { ClientToServer } from 'data/socketMessages';
+import ActionButton from 'components/dashboard/ActionButton';
 
 const Team = (props) => {
 	const socket = useSocket();
@@ -22,48 +24,41 @@ const Team = (props) => {
 
 	return (
 		<section
-			className='flex flex-col items-start justify-center py-2 px-4 gap-2'
+			className={`h-fit p-4 primary-font-color cursor-pointer
+					border-t border-[#CECDFD]  ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}
 			onClick={() => setIsExpanded(!isExpanded)}
 		>
-			<div className='flex flex-row items-center justify-between w-full'>
-				<p className='w-4/12'>{props.name}</p>
+			<div className='grid grid-cols-3'>
+				<p className='leading-8'>{props.name}</p>
+				<div className='col-span-1 flex justify-center items-center'>{isExpanded ? <IoChevronUp /> : <IoChevronDown/>}</div>
 				{props.isValidated ?
-					<>
-						{isExpanded ? <IoChevronUp/> : <IoChevronDown/>}
-						<div>
-							<button onClick={removingTeam}>
-								<IconContext.Provider value={{className: 'text-[#ef4565]'}}>
-									<IoRemoveCircle size={25}/>
-								</IconContext.Provider>
-							</button>
-						</div>
-					</>
+						
+					<div className='col-span-1 flex justify-end'>
+						<ActionButton
+							title='Refuser'
+							onClick={removingTeam}
+						/>
+					</div>
 					:
-					<>
-						{isExpanded ? <IoChevronUp/> : <IoChevronDown/>}
-						<div className='flex flex-row gap-2'>
-							<button onClick={addingTeam}>
-								<IconContext.Provider value={{className: 'text-[#019799]'}}>
-									<IoCheckmarkCircleOutline size={25}/>
-								</IconContext.Provider>
-							</button>
-							<button onClick={removingTeam}>
-								<IconContext.Provider value={{className: 'text-[#ef4565]'}}>
-									<IoRemoveCircle size={25}/>
-								</IconContext.Provider>
-							</button>
-						</div>
-					</>
+					<div className='col-span-1 flex justify-end gap-4'>
+					<ActionButton
+						title='Valider'
+						onClick={addingTeam}
+						/>
+						<ActionButton
+						title='Refuser'
+						onClick={removingTeam}
+						/>
+					</div>
 				}
 			</div>
-			<div className='flex flex-col gap-2 items-start w-full'>
+			<div className='gap-3'>
 				{isExpanded && props.students.map((student) => {
 					return (
 						<div
-							className='flex flex-row items-center w-full gap-4'
-							key={student.lastname + student.firstname}
-						>
-							<div className='h-10 w-10 rounded-full bg-gray-500'></div>
+							className='flex items-center gap-4 mt-3'
+							key={student.lastname + student.firstname}>
+							<div className='w-10 h-10 rounded-full bg-purple-color'></div>
 							<p>{student.lastname} {student.firstname}</p>
 						</div>
 					);
@@ -74,6 +69,7 @@ const Team = (props) => {
 };
 
 Team.propTypes = {
+	index : PropTypes.number.isRequired,
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	students: PropTypes.array.isRequired,

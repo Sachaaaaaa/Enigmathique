@@ -55,9 +55,9 @@ const StudentElement = ({student, onChange}) => {
 				className='bg-white flex-col p-2 h-[220px] w-[220px] rounded-lg drop-shadow-md'>
 			<section className='flex flex-col justify-around items-center h-full space-y-1 primary-font-color'>
 				<div>
-				<figure className="bg-[#CECDFD] w-[80px] h-[80px] rounded-full mx-auto">
+				<figure className="bg-purple-color w-[80px] h-[80px] rounded-full mx-auto">
 				</figure>
-				<h3 className='px-2 mx-auto text-center'>
+				<h3 className='p-2 mx-auto text-center'>
 					{`${student.firstname} ${student.lastname}`}
 				</h3>
 				</div>
