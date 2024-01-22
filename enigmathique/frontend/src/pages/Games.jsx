@@ -65,11 +65,11 @@ const Games = () => {
 										<div className="space-x-3">
 										<ActionButton 
 											title="Classement"
-											link='/'
+											link={game.state === 2 ? `/ranking/${game.id}` : ''}
 										/>
 										<ActionButton
 											title="Détails"
-											link={`/game/${game.id}`}
+											link={game.state === 2 ? `/game/${game.id}` : ''}
 										/>
 										</div>
 									</td>

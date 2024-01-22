@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 const TeamContainer = (props) => {
 	return (
-		<section className="w-5/12 flex h-full flex-col items-start gap-2">
-			<h2 className="text-center text-xl">
-				{props.isValidated ? 'Équipes acceptées :' : 'Équipes en attente :'}
+		<section className="grow flex flex-col items-start gap-2 min-w-[300px] h-full">
+			<h2 className="medium-title uppercase">
+				{props.isValidated ? 'Équipes acceptées' : 'Équipes en attente'}
 			</h2>
 			<section className="border-2 shadow-md bg-white h-full w-full">
 				<section className="flex flex-col gap-2 h-full overflow-y-scroll">

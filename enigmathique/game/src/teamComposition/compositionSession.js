@@ -116,7 +116,7 @@ class CompositionSession {
 		const team = this.teamSockets.find((t) => t.socket.id === teamId);
 		if (team) {
 			team.confirmed = true;
-			this.sendCompositionToProfessor();
+			this.resyncAll();
 		}
 	}
 
@@ -124,7 +124,6 @@ class CompositionSession {
 		const team = this.teamSockets.find((t) => t.socket.id === teamId);
 		if (team) {
 			team.wipeComposition();
-
 			this.resyncAll();
 		}	
 	}

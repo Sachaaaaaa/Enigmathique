@@ -29,6 +29,7 @@ const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, descript
 				onChange={handleInputChange}
 				className="m-1.5"
 				style={{ border: '2px solid #b3b3b3' }}
+				readOnly
 			/>
 
 			{/* Bouton tournant */}

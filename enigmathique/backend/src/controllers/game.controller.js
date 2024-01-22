@@ -32,7 +32,7 @@ async function isClassBelongsProfessor(idCourse, req) {
 	// Vérifie que la classe appartient bien au professeur
 	if(!ids.includes(parseInt(idCourse))){
 		const error = new Error("La classe n'appartient pas au professeur.");
-		error.statusCode = 403;  
+		error.statusCode = 403;
 		throw error;
 	}
 
@@ -47,7 +47,7 @@ async function isStudentBelongsProfessor (idStudent, req) {
 	// Vérifie que l'élève existe bien
 	if(!student){
 		const error = new Error("L'élève n'existe pas.");
-		error.statusCode = 404;  
+		error.statusCode = 404;
 		throw error;
 	}
 
@@ -56,7 +56,7 @@ async function isStudentBelongsProfessor (idStudent, req) {
 		await isClassBelongsProfessor(student.idCourse, req);
 	} catch(err) {
 		const error = new Error("L'élève n'appartient pas au professeur.");
-		error.statusCode = 403;  
+		error.statusCode = 403;
 		throw error;
 	}
 
@@ -71,7 +71,7 @@ async function isGameBelongsProfessor (idGame, req) {
 	// Vérifie que l'élève existe bien
 	if(!game){
 		const error = new Error("La partie n'existe pas.");
-		error.statusCode = 404;  
+		error.statusCode = 404;
 		throw error;
 	}
 
@@ -80,7 +80,7 @@ async function isGameBelongsProfessor (idGame, req) {
 		await isClassBelongsProfessor(game.idCourse, req);
 	} catch(err) {
 		const error = new Error("L'élève n'appartient pas au professeur.");
-		error.statusCode = 403;  
+		error.statusCode = 403;
 		throw error;
 	}
 
@@ -95,7 +95,7 @@ async function isTeamBelongsProfessor (idTeam, req) {
 	// Vérifie que l'élève existe bien
 	if(!team){
 		const error = new Error("L'équipe n'existe pas.");
-		error.statusCode = 404;  
+		error.statusCode = 404;
 		throw error;
 	}
 
@@ -104,7 +104,7 @@ async function isTeamBelongsProfessor (idTeam, req) {
 		await isGameBelongsProfessor(team.idGame, req);
 	} catch(err) {
 		const error = new Error("L'équipe n'appartient pas au professeur.");
-		error.statusCode = 403;  
+		error.statusCode = 403;
 		throw error;
 	}
 
@@ -180,7 +180,7 @@ exports.findAll = async (req, res, next) => {
 
 		// Récupère les id correspondant aux classes du professeur connécté
 		coursesId = courses.map(course => course.dataValues.id);
-	
+
 		// Récupère toutes les parties correspondantes aux classes du professeur connecté
 		const gamesData = await Game.findAll({ where: { idCourse: { [Op.in]: coursesId } } });
 		return res.status(200).json(gamesData);
@@ -240,7 +240,7 @@ exports.getScore = async (req, res, next) => {
 		const scores = await Score.findAll({ where: { idGame: req.params.id } })
 
 		res.status(200).json(scores);
-	
+
 	}catch(err) {
 		next(err)
 	}
@@ -255,7 +255,7 @@ exports.gameBelongsToProf = async (req, res, next) => {
 		await isGameBelongsProfessor(req.params.id, req);
 
 		return res.status(200).json({
-			isBelongsTo: true 
+			isBelongsTo: true
 		});
 
 	// Gère les erreurs
@@ -264,7 +264,7 @@ exports.gameBelongsToProf = async (req, res, next) => {
 		// Si le code d'erreur est 403 cela signifie que la partie n'appartient pas au professeur
 		if(err.statusCode == 403){
 			return res.status(200).json({
-				isBelongsTo: false 
+				isBelongsTo: false
 			});
 		}
 
@@ -353,12 +353,22 @@ exports.delete = async (req, res, next) => {
 exports.end = async (req, res, next) => {
 
 	try{
+		// La partie s'est terminée normalement ?
+		const endedNormally = req.body.endedNormally;
+		const gameId = req.params.id;
 
-		// Enregistrer la classe dans la base de données
-		const updatedRows = await Game.update({state: 2},{where: { id: req.params.id }})
-		
-		// Renvoie les données mise a jours
-		return res.status(201).json(updatedRows);
+		if (endedNormally == true) {
+			// Enregistrer la classe dans la base de données
+			const updatedRows = await Game.update({state: 2},{where: { id: gameId }});
+			// Renvoie les données mise a jour
+			return res.status(201).json(updatedRows);
+		} else {
+			// Supprimer la partie
+			const destroyedRows = await Game.destroy({ where: { id: gameId }});
+			// Renvoie les données supprimées
+			return res.status(201).json(destroyedRows);
+		}
+
 
 	// Gère les erreurs
 	}catch(err) {
@@ -401,7 +411,7 @@ exports.course = async (req, res, next) => {
 	}	
 }
 
-// 
+//
 // Ajoute des salles à une partie
 exports.addRooms = async(req, res, next) => {
 	
