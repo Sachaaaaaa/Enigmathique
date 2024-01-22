@@ -40,6 +40,12 @@ class SocketTeam {
 		return roomsData;
 	}
 
+	getDataPlusPlus = () => {
+		const data = this.getProgressionData();
+		// Ajoute le nom de l'équipe
+		data.teamName = this.teamId;
+	}
+
 	onDisconnect = () => {
 		console.log(clc.redBright('[Team] Déconnexion'));
 		this.leaved = true;
