@@ -45,10 +45,15 @@ const Game = () => {
 			console.log('Déconnecté du serveur');
 		});
 
+		socket.on(ServerToClient.RoomSolved, () =>  {
+			// TODO: Faire quelque chose avec ca
+		});
+
 		return () => {
 			socket.off(ServerToClient.Message);
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnection);
+			socket.off(ServerToClient.RoomSolved);
 		};
 	});
 
