@@ -180,7 +180,7 @@ exports.findStudents = async(req, res, next) => {
 		return res.status(200).json(findedStudents);
 	
 	}catch(err) {
-		console.log(err)
+
 		next(err)
 	}	
 }
