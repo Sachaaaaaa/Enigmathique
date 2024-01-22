@@ -6,7 +6,7 @@ import { FiInfo } from "react-icons/fi";
 import {MdOutlineModeEdit, MdDeleteForever} from 'react-icons/md';
 import PropTypes from 'prop-types';
 
-const ActionButton = ({title,link = '', onClick= ''}) => {
+const ActionButton = ({title,link = '', onClick= () => {}}) => {
 
     // const actionMap = {
     //     'Statistiques': <IoIosStats size='1.25em'/>,
