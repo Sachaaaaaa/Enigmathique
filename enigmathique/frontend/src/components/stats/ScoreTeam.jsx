@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import ScoreModel from "../../models/score.model";
 
 const maxTime = 600;
 
@@ -7,22 +8,26 @@ const ScoreTeam = (props) => {
 
 	const scores = props.scores;
 
+
 	const [option, setOption] = useState('global');
 
 	const handleOption = (e) => {
 		setOption(e.target.value);
 	}
 
+
 	const getRoom = (roomName, scores) => {
+
+		if (scores.length === 0) return;
 		if(roomName === 'global') {
 			return {
 				idTeam: scores[0].idTeam,
 				roomName: 'global',
 				idGame: scores[0].idGame,
-				time: scores.reduce((sum, score) => {sum+score.time}),
-				nbGoodAnswers: scores.reduce((sum, score) => {sum+score.nbGoodAnswers}),
-				nbBadAnswers: scores.reduce((sum, score) => {sum+score.nbBadAnswers}),
-				nbHints: scores.reduce((sum, score) => {sum+score.nbHints}),
+				time: scores.reduce((sum, score) => sum+score.time, 0),
+				nbGoodAnswers: scores.reduce((sum, score) => sum+score.nbGoodAnswers, 0),
+				nbBadAnswers: scores.reduce((sum, score) => sum+score.nbBadAnswers, 0),
+				nbHints: scores.reduce((sum, score) => sum+score.nbHints, 0),
 				createdAt: scores[0].createdAt,
 				updatedAt: scores[0].updatedAt
 			}
@@ -37,6 +42,8 @@ const ScoreTeam = (props) => {
 		}
 	}
 
+	if (scores == null || scores.length === 0) return <div>Chargement...</div>
+	//console.log('getRoom', getRoom(option, scores))
 	return (
 		<div>
 			<div>
@@ -57,16 +64,7 @@ const ScoreTeam = (props) => {
 					<p>Indices utilisés</p>
 					<p>{getRoom(option, scores).nbHints}</p>
 				</section>
-				<section>
-					<img src='' alt='logo'/>
-					<p>Erreurs commises</p>
-					<p>{getRoom(option, scores).nbBadAnswers}</p>
-				</section>
-				<section>
-					<img src='' alt='logo'/>
-					<p>Salles réussies</p>
-					<p>{scores.reduce((sum, score) => {score.time < maxTime && sum++} )} sur {scores.length}</p>
-				</section>
+
 			</div>
 		</div>
 	)

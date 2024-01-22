@@ -9,6 +9,7 @@ import {
 	ServerToClient,
 } from 'data/socketMessages';
 import AuthService from '../services/auth.service';
+import {useNavigate} from 'react-router-dom';
 
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
@@ -16,6 +17,7 @@ const PreGame = () => {
 
 	const { sessionId } = useParams();
 	const token = AuthService.getToken();
+	const navigate = useNavigate();
 
 	// Met à jour l'id de session dans le handshake du socket
 	socket.io.opts.query = {
@@ -41,8 +43,7 @@ const PreGame = () => {
 		});
 
 		socket.on(ServerToClient.CompositionFinished, () => {
-			alert('La composition des équipes est terminée, faire quelque chose ici');
-			// TODO: Rediriger vers la page de jeu avec le bon CODE de session
+			navigate(`/leaderboard?sessionId=${sessionId}`);
 		});
 
 		socket.connect();
@@ -68,15 +69,14 @@ const PreGame = () => {
 	return (
 		<SocketContext.Provider value={socket}>
 			<LayoutProf>
-				<main className="h-5/6 w-full bg-[#f5f7fa] p-4">
-					<section className="h-[80%] flex flex-row justify-evenly items-center">
+				<main className='flex flex-col flex-grow gap-3 p-5'>
+				<div className='w-full min-w-[250px] py-2 bg-white primary-font-color text-center text-lg font-semibold shadow-md rounded-full'> Code de connexion : <span className='blue-font-color'>{sessionId}</span> </div>
+				<button className="bg-blue-gradient-color modal-validate-button-style w-full min-w-[250px] p-8 font-medium uppercase" onClick={handleStartGame}>
+					Commencer la partie
+				</button>
+					<section className="grow flex flex-wrap justify-between items-center gap-5 w-full">
 						<TeamContainer teams={lockedTeams} isValidated={false} />
 						<TeamContainer teams={confirmedTeams} isValidated={true} />
-					</section>
-					<section className="flex flex-row justify-end items-center h-[10%] w-full">
-						<button className="btn-validate" onClick={handleStartGame}>
-							Commencer la partie
-						</button>
 					</section>
 				</main>
 			</LayoutProf>

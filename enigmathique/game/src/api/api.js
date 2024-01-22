@@ -52,6 +52,7 @@ class ApiService {
 			// Retourne un tableau d'objets { id, firstname, lastname } => retire les autres informations non nécessaires
 			return response.map(student => { return { id: student.id, firstname: student.firstname, lastname: student.lastname } });
 		} catch (error) {
+			console.log(error);
 			return null;
 		}
 	}
@@ -139,9 +140,19 @@ class ApiService {
 		}
 	}
 
-	static async postSessionEnd(sessionId) {
-		// TODO: Envoyer la requête à l'API (lorsque route implémentée)
-		return null;	
+	static async postSessionEnd(sessionId, endedNormally) {
+		const endpoint = '/game/end/' + sessionId;
+		const data = {
+			endedNormally
+		};
+
+		try {
+			const response = await this.sendRequest('POST', endpoint, data);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
 	}
 }
 

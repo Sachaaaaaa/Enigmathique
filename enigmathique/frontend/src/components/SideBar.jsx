@@ -25,19 +25,19 @@ const SideBar = () => {
 	}
 
 	return (
-		<nav className='nav-container'>
+		<nav className='flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-white-color box-border'>
 			<Link to='/dashboard' className='w-[172px]'>
 				<img src={logo} alt='logo'/>
 			</Link>
-			<section className='nav-content'>
+			<section className='flex flex-col justify-between items-center w-full h-full py-5 pr-2 whitespace-nowrap;'>
 				<ul className='w-full text-base'>
 					<ItemList type='dashboard' onClick={handleNav} currentPath={path}/>
 					<ItemList type='class' onClick={handleNav} currentPath={path}/>
 					<ItemList type='games' onClick={handleNav} currentPath={path}/>
 					<ItemList type='room' onClick={handleNav} currentPath={path}/>
 				</ul>
-				<Link to='/create-game'>
-					<button className='btn-validate'>Nouvelle partie</button>
+				<Link to='/create-game' className='flex justify-center items-center w-full'>
+					<button className='bg-blue-gradient-color modal-validate-button-style w-[80%] whitespace-nowrap p-8'>Nouvelle partie</button>
 				</Link>
 			</section>
 		</nav>

@@ -5,7 +5,7 @@ import {MdArrowBackIos} from 'react-icons/md';
 
 const ContentHeader = (props) => {
 
-    const {title, link = '', onClick = {}, children} = props;
+    const {title, link = '', onClick = () => {}, children} = props;
 
     return (
         <nav className='w-full h-max  flex flex-wrap justify-between gap-8 p-5 pb-0 primary-font-color'>

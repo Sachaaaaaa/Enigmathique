@@ -301,7 +301,9 @@ exports.addScores = async(req, res, next) => {
 					nbGoodAnswers: Joi.number().integer().required(),
 					nbBadAnswers: Joi.number().integer().required(),
 					nbHints: Joi.number().integer().required(),
-					isSolved: Joi.boolean().required()
+					isSolved: Joi.boolean().required(),
+					startTime: Joi.number().integer(),
+					endTime: Joi.number().integer(),
 				})).required(),
 			idTeam: Joi.number().integer().required(),
 			idGame: Joi.number().integer().required(),
@@ -356,7 +358,8 @@ exports.addStudents = async (req, res, next) => {
 			teams: Joi.array().items(
 				Joi.object({
 				  name: Joi.string().required(),
-				  idStudents: Joi.array().items(Joi.number().integer()).required() 
+				  idStudents: Joi.array().items(Joi.number().integer()).required(),
+					idSocket: Joi.string().required()
 				})).required(),
 			idGame: Joi.number().integer().required(),
 		});
