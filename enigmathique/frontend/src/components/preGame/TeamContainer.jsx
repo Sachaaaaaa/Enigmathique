@@ -4,25 +4,22 @@ import PropTypes from 'prop-types';
 
 const TeamContainer = (props) => {
 	return (
-		<section className="grow flex flex-col items-start gap-2 min-w-[300px] h-full">
+		<section className="flex flex-col gap-2 w-[48%] min-w-[500px] h-full pb-5">
 			<h2 className="medium-title uppercase">
 				{props.isValidated ? 'Équipes acceptées' : 'Équipes en attente'}
 			</h2>
-			<section className="border-2 shadow-md bg-white h-full w-full">
-				<section className="flex flex-col gap-2 h-full overflow-y-scroll">
-					{props.teams.map((team) => (
+			<section className="w-full h-full p-0 m-0 bg-white border-l border-r shadow-md overflow-y-auto">
+					{props.teams.map((team, index) => (
 						<>
 							<Team
-								key={9384928493284932}
+								index={index}
 								name={team.name}
 								students={team.students}
 								isValidated={props.isValidated}
 								id={team.id}
 							/>
-							<hr></hr>
 						</>
 					))}
-				</section>
 			</section>
 		</section>
 	);

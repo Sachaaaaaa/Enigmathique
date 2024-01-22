@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
-import { SocketContext, socket } from 'contexts/SocketContext';
+import { socket } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from 'data/socketMessages';
 import TeamDetails from './TeamDetails';
@@ -157,6 +157,8 @@ function ProfFollowUp() {
 		setSelectedTeam(null);
 	};
 
+	
+
 	return (
 		<LayoutProf>
 			<main className="p-8">
@@ -200,6 +202,7 @@ function ProfFollowUp() {
 										<button
 											onClick={() => handleDetailsClick(team)}
 											className="text-blue-600 hover:text-blue-800"
+											data={allData}
 										>
                       Détails
 										</button>
@@ -215,8 +218,6 @@ function ProfFollowUp() {
 				<TeamDetails
 					teamData={selectedTeam}
 					onClose={() => setSelectedTeam(null)}
-					// envoie des données
-					data={allData}
 				/>
 			)}
 		</LayoutProf>
