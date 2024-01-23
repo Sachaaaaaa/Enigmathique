@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import LayoutProf from "../layouts/LayoutProf";
 import 'index.css';
-import Game from "../models/game.model";
-import Course from "../models/course.model";
+import GameModel from "../models/game.model";
+import CourseModel from "../models/course.model";
 import SearchInput from "../components/SearchInput";
 import CreateButton from "components/dashboard/CreateButton";
 import ContentHeader from "components/dashboard/ContentHeader";
@@ -21,12 +21,12 @@ const Games = () => {
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const loadGames = async () => {
 	//récupérer toutes les games
-	const data = await Game.getAll();
+	const data = await GameModel.getAll();
 	//créer une promesse pour chaque game de la map data
 	const updateGames = await Promise.all(
 		data.map(async (game) => {
 			//récupérer un objet Course à partir de l'idCourse de la game
-			const course = await Course.get(game.idCourse);
+			const course = await CourseModel.get(game.idCourse);
 			//retourner un objet game avec un idCourse qui est remplacé par le nom de la classe
 			return {
 				...game,
@@ -41,7 +41,7 @@ const Games = () => {
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
-			Game.delete(id),
+			GameModel.delete(id),
 			{
 				loading: 'Suppression...',
 				success: "La partie a bien été supprimée",

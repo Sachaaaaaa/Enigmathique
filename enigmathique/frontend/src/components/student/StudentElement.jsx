@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Student from "../../models/student.model";
+import StudentModel from "../../models/student.model";
 
 import Modal, {ModalBody} from "../Modal";
 import PropTypes from "prop-types";
@@ -18,7 +18,7 @@ const StudentElement = ({student, onChange}) => {
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
-			Student.delete(id),
+			StudentModel.delete(id),
 			{
 				loading: 'Suppression...',
 				success: "L'élève a bien été supprimé",
@@ -37,7 +37,7 @@ const StudentElement = ({student, onChange}) => {
 		firstname ==="" ? firstname = student.firstname : firstname;
 		lastname ==="" ? lastname = student.lastname : lastname;
 		await toast.promise(
-			Student.edit(firstname, lastname, idCourse, idStudent),
+			StudentModel.edit(firstname, lastname, idCourse, idStudent),
 			{
 				loading: 'Enregistrement...',
 				success: "L'élève a bien été modifiée",

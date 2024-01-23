@@ -1,7 +1,7 @@
 import GameService from "../services/game.service";
 import ScoreModel from "./score.model";
 
-class Game{
+class GameModel {
 	constructor(id, idCourse, name, state, teamSize, createdAt, gameCode) {
 		this.id = id;
 		this.idCourse = idCourse;
@@ -14,7 +14,7 @@ class Game{
 	static async create(idCourse, name, teamSize) {
 		try {
 			const data = await GameService.createGame(idCourse, name, teamSize);
-			return new Game(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt, data.gameCode);
+			return new GameModel(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt, data.gameCode);
 		}catch (e) {
 			console.log(`erreur dans le create dans le modèle d'une game ${e}`);
 		}
@@ -22,7 +22,7 @@ class Game{
 	static async getAll() {
 		try {
 			const data = await GameService.getAll();
-			return data.map(game => new Game(game.id, game.idCourse, game.name, game.state, game.teamSize, game.createdAt, game.gameCode));
+			return data.map(game => new GameModel(game.id, game.idCourse, game.name, game.state, game.teamSize, game.createdAt, game.gameCode));
 		}catch (e) {
 			console.log(`erreur dans le getter de toutes les games dans le modèle de game (front) ${e}`);
 		}
@@ -30,7 +30,7 @@ class Game{
 	static async getOne(idGame) {
 		try {
 			const data = await GameService.getOne(idGame);
-			return new Game(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt, data.gameCode);
+			return new GameModel(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt, data.gameCode);
 		}catch (e) {
 			console.log(`erreur dans le getter de d'une game dans le modèle de game (front) ${e}`);
 		}
@@ -67,4 +67,4 @@ class Game{
 	}
 
 }
-export default Game;
+export default GameModel;
