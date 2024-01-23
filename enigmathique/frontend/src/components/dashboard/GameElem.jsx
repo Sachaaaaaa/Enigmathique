@@ -1,11 +1,8 @@
 import {Link} from 'react-router-dom';
 import React, {useEffect, useState, useTransition} from 'react';
 import PropTypes from 'prop-types';
-import TeamService from "../../services/team.service";
+
 import GameModel from "../../models/game.model";
-import CourseModel from "../../models/course.model";
-import useCourses from "../../hooks/useCourses";
-import useTeams from "../../hooks/useTeams";
 import TeamModel from "../../models/team.model";
 import useCourse from "../../hooks/useCourse";
 import InfoBlockElem from "./InfoBlockElem";
@@ -104,6 +101,7 @@ const GameElem = (props) => {
 	let winnerLabel ;
 	let successRateLabel ;
 	let link ;
+	console.log(game.state);
 	switch (game.state) {
 		case 0:
 			winnerLabel = "Partie non lancée" ;
