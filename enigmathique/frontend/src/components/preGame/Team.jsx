@@ -27,7 +27,7 @@ const Team = (props) => {
 
 	return (
 		<section
-			className={`p-4 primary-font-color cursor-pointer
+			className={`w-full h-fit p-4 primary-font-color cursor-pointer
 					border-t border-[#CECDFD]  ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}
 			onClick={() => setIsExpanded(!isExpanded)}
 		>
