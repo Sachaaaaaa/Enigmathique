@@ -22,37 +22,33 @@ const 	AvailableStudents = (props) => {
 	}, [search, props.available]);
 	
 	return (
-		<section className="flex flex-col h-full w-1/3 gap-2">
-			<section>
-				<h1>Élèves</h1>
-			</section>
-			<section className="flex flex-col h-[90%] bg-white shadow-md p-2">
-				<nav className="flex flex-row justify-center items-center gap-2 p-2">
+		<section className="relative join-list-container">
+			<h2 className='medium-title uppercase'> Élèves</h2>
+			<div className='absolute join-list'>
+				<nav className="flex flex-row justify-center items-center gap-2 py-2 px-5 border-b border-white-color">
 					<FaSearch size={25} className='blue-font-color' />
 					<input
-						className="w-full p-2 bg-transparent"
+						className="w-full p-2 bg-transparent primary-font-color focus:border-transparent focus:outline-none "
 						type="text"
 						placeholder="Élève"
 						onChange={handleSearch}
 					/>
 				</nav>
-				<hr></hr>
-				<section className="h-full overflow-y-scroll">
-					{searchResult.map((student, index) => (
-						<>
-							<Student
-								key={student.id}
-								id={student.id}
-								lastname={student.lastname}
-								firstname={student.firstname}
-								isSelected={false}
-							/>
-							{index!==searchResult.length-1 && <hr></hr>}
-						</>
-					))}
-
-				</section>
-			</section>
+				<div className='overflow-y-auto'>
+						{searchResult.map((student, index) => (
+							<>
+								<Student
+									key={student.id}
+									id={student.id}
+									lastname={student.lastname}
+									firstname={student.firstname}
+									isSelected={false}
+								/>
+								{index!==searchResult.length-1 && <hr></hr>}
+							</>
+						))}
+				</div>
+			</div>
 		</section>
 	);
 }

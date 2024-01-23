@@ -10,6 +10,7 @@ import TableContainer from "components/dashboard/TableContainer";
 import ActionButton from "components/dashboard/ActionButton";
 import Modal, {ModalBody, ModalHeader} from "../components/Modal";
 import toast from "react-hot-toast";
+import Notification from "components/Notification";
 
 import {Link} from "react-router-dom";
 
@@ -43,7 +44,7 @@ const Games = () => {
 			Game.delete(id),
 			{
 				loading: 'Suppression...',
-				success: "L'élève a bien été supprimé",
+				success: "La partie a bien été supprimée",
 				error: "Une erreur s'est produite",
 			}
 		);
@@ -52,7 +53,7 @@ const Games = () => {
 	}
 
 	useEffect(() => {
-		loadGames().then(() => console.log());
+		loadGames();
 	}, []);
 	const handleTextChange = (e) => {
 		setFilter(e.target.value);
@@ -66,14 +67,14 @@ const Games = () => {
 	return (
 		<LayoutProf>
 			<main>
+				<Notification></Notification>
 				<ContentHeader title="" link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
 					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>
 				</ContentHeader>
 				<TableContainer headers={['Nom', 'Date', 'Score', 'Taux de réussite', 'Nombre de salles', 'Action']}>
-					{filteredGames.map((game, index) => {
-							return (
-								<tr key={index} className={`border-t border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+					{filteredGames.map((game, index) => {							return (
+								<tr key={index} className={`border-t border-[#CECDFD] ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
 									<td className="pl-5 td-style">
 										{game.name}
 									</td>
@@ -85,7 +86,7 @@ const Games = () => {
 										<div className="space-x-3">
 										<ActionButton 
 											title="Classement"
-											link={game.state === 2 ? `/ranking/${game.id}` : ``}
+											link={game.state === 2 ? `/ranking/${game.id}` : game.state === 0 ? `/pregame/${game.gameCode}` : `/leaderboard?idSession=${game.gameCode}`}
 										/>
 										<ActionButton
 											title="Détails"
@@ -94,7 +95,7 @@ const Games = () => {
 										/>
 										<ActionButton
 											title="Supprimer"
-											onClick={handleClickDelete}
+											onClick={() => setDeleteModalOpen(true)}
 										/>
 										</div>
 									</td>

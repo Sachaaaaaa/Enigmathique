@@ -75,7 +75,7 @@ const ClassElement = ({classe, onChange,index}) => {
 	}
 
 	return (
-		<tr value={classe.name} key={index} className={`border-t border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+		<tr value={classe.name} key={index} className={`border-t border-[#CECDFD] ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
 			<td className="pl-5 td-style">
 				{classe.name}
 			</td>

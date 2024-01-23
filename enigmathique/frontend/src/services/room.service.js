@@ -8,7 +8,6 @@ const getAllRooms = () => {
 	return axios
 		.get(API_URL + 'room', {headers: token})
 		.then((response) => {
-			console.log(response.data);
 			return response.data;
 		});
 };

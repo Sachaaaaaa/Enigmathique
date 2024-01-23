@@ -9,7 +9,7 @@ const LayoutProf = (props) => {
 
 	return(
 		// Ecran entier
-		<div className="flex fullscreen-container">
+		<div className="flex h-screen w-screen overflow-hidden">
 
 			{/* Menu latéral (width 1/6) */}
 			<SideBar/>

@@ -48,8 +48,8 @@ const CreationGame2 = (props) => {
 			const game = await createGame();
 			await addRooms(game.id, selectedRooms);
 			const res = await openGame(game.id);
-			console.log(res.code);
-			navigate(`/pregame/${res.code}`);
+			console.log(res.gameCode);
+			navigate(`/pregame/${res.gameCode}`);
 
 			return;
 		}
@@ -93,12 +93,10 @@ const CreationGame2 = (props) => {
 						room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
 							<Room
 								index={index}
-								name={room.name}
-								difficulty={room.difficulty}
-								riddles={999}
-								winrate={999}
+								room={room}
 								handleRoomSelection={handleRoomSelection}
 								selected={selectedRooms.includes(room.name)}
+
 							/>
 					);
 				})}

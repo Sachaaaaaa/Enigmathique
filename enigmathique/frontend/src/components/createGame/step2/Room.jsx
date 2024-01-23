@@ -9,11 +9,13 @@ import toast from "react-hot-toast";
 
 const Room = (props) => {
 
-	const [selected, setSelected] = useState(props.selected);
+	const { index, room, handleRoomSelection,	selected } = props;
+
+	const [roomSelected, setSelected] = useState(selected);
 	const handleChange = () => {
-		props.handleRoomSelection(props.name);
-		setSelected(!selected);
-		if (selected) {
+		handleRoomSelection(room.name);
+		setSelected(!roomSelected);
+		if (roomSelected) {
 			toast.error(
 				'La salle a été retirée de la partie',
 				{duration: 800}
@@ -35,34 +37,35 @@ const Room = (props) => {
 		difficile: 'chip-difficile',
 	}
 
-	const difficulty = props.difficulty.toLowerCase();
+	const difficulty = room.difficulty.toLowerCase();
 
-	const roomElemClass = 'flex items-center gap-3 py-4 ' ;
+	const roomElemClass = 'grow flex items-center gap-3 py-4 ' ;
 
 	return(
-		<label htmlFor={"roomselect"+props.index}  className={`flex items-center justify-between h-fit w-full min-w-max gap-10 pl-5 cursor-pointer
-							border-t border-[#CECDFD] ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
-			
+		<label htmlFor={"roomselect"+index}  className={`flex items-center justify-left h-fit w-full min-w-max gap-6 cursor-pointer
+							 ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}
+							`}>
+			<div className={`w-[5px] h-full ${roomSelected ? ' bg-blue-color':'bg-transparent'}`}></div>
+
 			<article className={roomElemClass}>
 				<img
 					className='rounded-xl'
 					width={150}
-					src={require('../../../assets/img/room-img/'+props.name+'.png')}
+					src={require('../../../assets/img/room-img/'+room.name+'.png')}
 					alt='room-img'
 				/>
-
 				<div className='flex flex-col justify-evenly items-start'>
 					<div className={difficultyChip[difficulty]}>
-						{props.difficulty}
+						{room.difficulty}
 					</div>
-					<h1 className='primary-font-color text-lg font-medium '>{props.name}</h1>
+					<h1 className='primary-font-color text-lg font-medium '>{room.name}</h1>
 				</div>
 			</article>
 
 			<article className={roomElemClass}>
 				<FaPuzzlePiece size={30} className="blue-font-color"/>
 				<div className='flex flex-col'>
-					<span className='primary-font-color font-bold'>{props.riddles}</span>
+					<span className='primary-font-color font-bold'>{999}</span>
 					<span className='nav-font-color'>Énigmes</span>
 				</div>
 			</article>
@@ -70,24 +73,21 @@ const Room = (props) => {
 			<article className={roomElemClass}>
 				<FaMedal size={30} className="blue-font-color"/>
 				<div className='flex flex-col'>
-					<span className='primary-font-color font-bold'>{props.winrate}%</span>
+					<span className='primary-font-color font-bold'>N/A</span>
 					<span className='nav-font-color'>Taux de réussite</span>
 				</div>
 			</article>
-			<article className={`flex justify-end items-center h-full pr-4 border-r-[5px] ${selected ? ' border-blue-color':'border-transparent'}`}>
-				<input  id={"roomselect"+props.index} size={100} checked={props.selected} type='checkbox' onChange={handleChange}/>
+			<article className={`grow flex justify-end items-center h-full pr-4`}>
+				<input  id={"roomselect"+index}  style={{width:"20px",height:"20px"}}  checked={selected} type='checkbox' onChange={handleChange}/>
 			</article>
 		</label>
 	);
 }
 Room.propTypes = {
 	index: PropTypes.number.isRequired,
-	name: PropTypes.string.isRequired,
-	difficulty: PropTypes.string.isRequired,
-	riddles: PropTypes.number.isRequired,
-	winrate: PropTypes.number.isRequired,
+	room : PropTypes.object.isRequired,
 	handleRoomSelection: PropTypes.func,
-	selected: PropTypes.bool.isRequired,
+	selected: PropTypes.bool,
 }
 
 export default Room;

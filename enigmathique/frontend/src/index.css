@@ -18,13 +18,14 @@
     /* Faire disparaître la barre de défilement de la page*/
     body::-webkit-scrollbar {
         width: 0;  
-        background: transparent;  
+        background: transparent;
     }
 
    /* Personnalisation de la barre de défilement*/
 
         ::-webkit-scrollbar, ::-webkit-scrollbar:vertical {
             width: 10px;
+            height: 10px;
         }
     
         ::-webkit-scrollbar-thumb {
@@ -64,7 +65,7 @@
     /************* Plein écran du conteneur global *************/
 
         .fullscreen-container {
-            @apply h-screen w-screen overflow-hidden ;
+            @apply flex flex-col h-screen w-screen ;
         }
 
     /*********************** Couleurs ***********************/
@@ -90,31 +91,9 @@
                 @apply bg-gradient-to-r from-[#F87A90] to-[#EF4565];
             }
 
-            .bg-btn-yellow-color {
-                @apply bg-[#FABE32];
-            }
-            .bg-btn-yellow-color:hover {
-                @apply bg-gradient-to-r from-[#F3CA6A] to-[#FABE32];
-            }
-
-            .bg-btn-orange-color {
-                @apply bg-[#FB7D5B];
-            }
-            .bg-btn-orange-color:hover {
-                @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
-            }
-
             .bg-btn-gray-color {
                 @apply bg-gray-400;
             }
-
-            .bg-btn-blue-color {
-                @apply bg-[#0704c3];
-            }
-            .bg-btn-blue-color:hover {
-                @apply bg-gradient-to-r from-[#3a38d1] to-[#0704c3];
-            }
-            
             .bg-blue-gradient-color {
                 @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
             }
@@ -208,7 +187,7 @@
 
         /* Conteneur global */
             .form-container-style {
-                @apply  flex flex-col justify-center items-center w-screen h-[calc(100%-75px)] p-5 ;
+                @apply  grow flex flex-col justify-center items-center w-screen h-auto p-5 ;
             }
             .form-style {
                 @apply flex flex-col justify-between items-center min-w-[450px] p-8 pb-0 bg-white primary-font-color shadow-md rounded
@@ -379,6 +358,37 @@
                 @apply  h-[30px] text-sm ;
             }
 
+    
+    /***************** Parties : Création et Participation **************/
+    /* Ces classes concernent les pages Pregame et Join et les composants 
+    associés. Elles sont utilisées pour l'affichage des élèves/équipes 
+    lors de la création et validation des équipes */
+
+
+    /* Bouton principal */
+        .pregame-join-button {
+            @apply  bg-blue-gradient-color modal-validate-button-style w-full min-w-[250px] p-8 font-medium uppercase;
+        }
+    /* Conteneur global */
+        .pregame-container {
+            @apply  grow flex flex-wrap justify-between gap-5 w-full;
+        }
+        .join-container {
+            @apply grow flex flex-wrap justify-between gap-10 w-full h-auto;
+        }
+    /* Conteneur des élèves/équipes */
+        .pregame-list-container {
+            @apply grow flex flex-col gap-2 w-[48%] min-w-[300px] min-h-[300px];
+        }
+        .join-list-container {
+            @apply grow flex flex-col gap-2 w-[45%] min-w-[300px] max-h-[100%] min-h-[200px];
+        }
+    /* Conteneur des listes dynamiques */
+        .pregame-list {
+            @apply flex flex-col h-[80%] bg-white border-l border-r shadow-md overflow-y-scroll ;
+        }
+        .join-list {
+            @apply flex flex-col w-full h-full bg-white border-l border-r shadow-md overflow-y-auto ;       }
 
     /*********************** Boutons utilitaires ***********************/
 
@@ -433,9 +443,12 @@
 
         /* Boutons infos */
             .btn-action-détails {
-                @apply btn-action bg-btn-blue-color
+                @apply btn-action bg-[#0704c3];
             }
-
+            .btn-action-détails:hover {
+                @apply bg-gradient-to-r from-[#3a38d1] to-[#0704c3];
+            }
+                
         /* Bouton valider */
             .btn-action-valider {
                 @apply btn-action bg-[#019799]
