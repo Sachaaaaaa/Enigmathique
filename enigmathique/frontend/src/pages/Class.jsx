@@ -49,7 +49,7 @@ const Class = () => {
 			<main>
 				{/* Notification feedback */}
 				<Notification/>
-				<ContentHeader title="" link='/dashboard'>
+				<ContentHeader link='/dashboard'>
 					<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
 				</ContentHeader>
 				<TableContainer headers={['Nom','élèves', 'Dernière partie', 'Action']}>

@@ -22,7 +22,7 @@ const ContentHeader = (props) => {
 }
 
 ContentHeader.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     link: PropTypes.string,
     onClick: PropTypes.func,
     children: PropTypes.node,

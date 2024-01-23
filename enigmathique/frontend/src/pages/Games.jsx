@@ -68,7 +68,7 @@ const Games = () => {
 		<LayoutProf>
 			<main>
 				<Notification></Notification>
-				<ContentHeader title="" link='/dashboard'>
+				<ContentHeader link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
 					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>
 				</ContentHeader>

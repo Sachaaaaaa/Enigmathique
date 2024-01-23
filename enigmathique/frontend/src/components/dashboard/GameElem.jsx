@@ -48,13 +48,8 @@ const GameElem = (props) => {
 			let maxScore = scoresData==null ?scores[0] : scoresData[0];
 			
 			const scoreTeam = new Map();
-			
-			
+
 			scores.forEach((score) => {
-				const firstScore = (maxScore.time < maxTime ? 500 : 0) +
-					(maxScore.nbGoodAnswers * 100) -
-					(maxScore.nbHints * 20) -
-					(maxScore.nbBadAnswers * 10);
 				const calculatedScore = (score.time < maxTime ? 500 : 0) +
 					(score.nbGoodAnswers * 100) -
 					(score.nbHints * 20) -
@@ -62,8 +57,8 @@ const GameElem = (props) => {
 				addOrUpdateScore(ScoreTeam, score.idTeam, calculatedScore);
 			});
 			getTeamWithMaxScore(scoreTeam, maxScore);
-			const data = await TeamModel.getStudents(maxScore.idTeam);
-			setWinners([data[0]]);
+			const data = await TeamModel.getTeam(maxScore.idTeam);
+			setWinners(data);
 		}catch (e) {
 			console.log('erreur getWinners',e);
 		}
@@ -106,8 +101,6 @@ const GameElem = (props) => {
 	if (course == null) return <p>Loading</p>
 	if (winners == null) return <p>Loading</p>
 
-	console.log(game);
-
 	let winnerLabel ;
 	let successRateLabel ;
 	let link ;
@@ -123,12 +116,11 @@ const GameElem = (props) => {
 			link =  <Link to={`/leaderboard?idSession=${game.gameCode}`} className="btn-show col-span-2">Voir</Link>;
 			break ;
 		case 2:
-			winnerLabel = winners.map((stud) => stud.firstname + ' ' + stud.lastname)
+			winnerLabel = winners.name ;
 			successRateLabel = getWinRate()+'%' ;
 			link =  <Link to={'/ranking/'+game.id} className="btn-show col-span-2">Voir</Link>;
 			break ;
 	}
-	console.log(game);
 	return (
 		// Affichage des informations de la partie
 		// Grid pour afficher les informations sur 2 colonnes fixes
