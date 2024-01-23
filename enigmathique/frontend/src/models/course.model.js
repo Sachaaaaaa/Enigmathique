@@ -20,7 +20,7 @@ class CourseModel {
 	/**
 	 * Getter de une classe à partir de son id
  	 * @param id identifiant de la classe
-	 * @returns classe correspondant à l'id
+	 * @returns la classe correspondant à l'id
 	 */
 	static async get(id) {
 		try {
@@ -34,7 +34,7 @@ class CourseModel {
 	}
 
 	/**
-	 * Getter de toutes les classes
+	 * Getter de toutes les classes appartenant au professeur
 	 * @returns liste de l'ensemble des classes
 	 */
 	static async getAll() {
@@ -45,20 +45,6 @@ class CourseModel {
 			return data.map((course) => new CourseModel(course.id, course.name, course.idProfessor, course.createdAt, course.updatedAt));
 		}catch (error){
 			console.log(`erreur dans le getter de toutes les classes dans le modèle d'une classe (front) ${error}`);
-		}
-	}
-
-	/**
-	 * Permet de supprimer une classe selon son identifiant
-	 * @param id identifiant de la classe à supprimer
-	 * @returns confirmation de la suppression de la classe
-	 */
-	static async delete(id) {
-		try {
-			//appel au service pour supprimer la classe correspondante
-			return await CourseService.deleteId(id);
-		}catch (error){
-			console.log(`erreur dans le delete dans le modèle d'une classe (front) ${error}`);
 		}
 	}
 
@@ -92,6 +78,20 @@ class CourseModel {
 			return new CourseModel(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
 		}catch (error){
 			console.log(`erreur dans l'edit dans le modèle d'une classe (front) ${error}`);
+		}
+	}
+
+	/**
+	 * Permet de supprimer une classe selon son identifiant
+	 * @param id identifiant de la classe à supprimer
+	 * @returns confirmation de la suppression de la classe
+	 */
+	static async delete(id) {
+		try {
+			//appel au service pour supprimer la classe correspondante
+			return await CourseService.deleteId(id);
+		}catch (error){
+			console.log(`erreur dans le delete dans le modèle d'une classe (front) ${error}`);
 		}
 	}
 
