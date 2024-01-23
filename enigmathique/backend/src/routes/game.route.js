@@ -46,7 +46,7 @@ module.exports = app => {
 	//router.post("/team/accept/:id", middleware.verifyToken, game.accept);
 
 	// Supprime une partie
-	router.delete("/backend/:id", middleware.verifyGameToken, game.backendDelete, middleware.verifyErrors)
+	router.delete("/:id", middleware.verifyGameToken, game.backendDelete, middleware.verifyErrors)
 
 	// Mets à jour une partie
 	router.put("/state/:id", middleware.verifyGameToken, game.setState, middleware.verifyErrors);
