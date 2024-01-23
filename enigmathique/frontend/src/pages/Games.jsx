@@ -7,7 +7,6 @@ import SearchInput from "../components/SearchInput";
 import CreateButton from "components/dashboard/CreateButton";
 import ContentHeader from "components/dashboard/ContentHeader";
 import TableContainer from "components/dashboard/TableContainer";
-import toast from "react-hot-toast";
 import Notification from "components/Notification";
 import GameElement from "../components/gameList/GameElement";
 

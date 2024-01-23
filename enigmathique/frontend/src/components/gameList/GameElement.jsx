@@ -25,7 +25,7 @@ const GameElement = ({game, onChange, index}) => {
 
 	return (
 		<>
-			<tr key={index} className={`border-t border-[#CECDFD] ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+			<tr key={index} className={`border-t border-[#CECDFD] ${index % 2 === 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
 				<td className="pl-5 td-style">
 					{game.name}
 				</td>
