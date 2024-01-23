@@ -14,9 +14,7 @@ class TeamModel{
 		this.id = id;
 		this.idGame= idGame;
 	}
-	//TODO corriger le format de retour de l'API pour les students
 
-	//TODO ajouter le getter pour récupérer les infos d'une team dans l'API
 	/**
 	 * Getter d'une équipe à partir de son identifiant
 	 * @param idTeam identifiant de l'équipe
