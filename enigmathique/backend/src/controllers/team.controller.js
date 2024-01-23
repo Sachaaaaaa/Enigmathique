@@ -121,22 +121,86 @@ function isRequestCorrect(schema, req) {
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+// 									CREATE                                     //
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// Ajoute les scores d'une équipe pour différentes salles
+exports.addScores = async(req, res, next) => {
+
+	// Array contenant tout les n-uplets ajoutés
+	let result = []
+
+	try{
+
+		// Vérification des informations fournis
+		const scoreSchema = baseSchema.keys({
+			rooms: Joi.array().items(
+				Joi.object({
+					roomName: Joi.string().required(),
+					time: Joi.number().integer().required(),
+					nbGoodAnswers: Joi.number().integer().required(),
+					nbBadAnswers: Joi.number().integer().required(),
+					nbHints: Joi.number().integer().required(),
+					isSolved: Joi.boolean().required(),
+					startTime: Joi.number().integer(),
+					endTime: Joi.number().integer(),
+				})).required(),
+			idTeam: Joi.number().integer().required(),
+			idGame: Joi.number().integer().required(),
+		});
+
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(scoreSchema, req)
+
+		// Les salles dont on veut ajouter les scores
+		const rooms = req.body.rooms
+
+
+		// Pour chaque salle, on ajoute le score correspondant
+		for (let i = 0; i < rooms.length; i++) {
+			const scoreData = {
+				idTeam: req.body.idTeam,
+				roomName: rooms[i].roomName,
+				idGame: req.body.idGame,
+				time: rooms[i].time,
+				nbGoodAnswers: rooms[i].nbGoodAnswers,
+				nbBadAnswers: rooms[i].nbBadAnswers,
+				nbHints: rooms[i].nbHints,
+				isSolved: rooms[i].isSolved
+			}
+
+			// Ajoute le score dans la DB et stock les données ajouté dans result
+			result.push(await Score.create(scoreData))
+		}
+
+		// Retourne result
+		res.status(201).json(result);
+
+		// Gère les erreurs
+	} catch(err) {
+		next(err)
+	}
+
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 READ                                      //
 /////////////////////////////////////////////////////////////////////////////////
 
-// Récupère les équipes d'une partie
+// Récupère une équipe à partir de son id
 exports.findOne = async (req, res, next) => {
 	try{
 	
 		// Vérifie que l'équipe appartienne bien au professeur
 		await isTeamBelongsProfessor(req.params.id, req)
 
-		// Récupère toutes les équipe d'une partie
+		// Récupère l'équipe
 		const team = await Team.findOne({ where: { id: req.params.id } })
 
-		// Renvoie les données récupéréesf
+		// Renvoie les données récupérées
 		return res.status(200).json(team);
 
 	// Gère les erreurs
@@ -145,16 +209,17 @@ exports.findOne = async (req, res, next) => {
 	}	
 }
 
+// Récupérer toutes les équipes d'une partie
 exports.findByGame = async (req, res, next) => {
 	try{
 	
-		// Vérifie que l'équipe appartienne bien au professeur
+		// Vérifie que la partie appartienne bien au professeur
 		await isGameBelongsProfessor(req.params.id, req)
 
-		// Récupère toutes les équipe d'une partie
+		// Récupère toutes les équipe de la partie
 		const team = await Team.findAll({ where: { idGame: req.params.id } })
 
-		// Renvoie les données récupéréesf
+		// Renvoie les données récupérées
 		return res.status(200).json(team);
 
 	// Gère les erreurs
@@ -171,38 +236,102 @@ exports.findStudents = async(req, res, next) => {
 		// Vérifie que l'équipe appartienne bien au professeur
 		await isTeamBelongsProfessor(req.params.id, req)
 
+		// Récupère l'id des élèves
 		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
 
+		// Pour chaque id d'élève, récupère les infos associées
 		var findedStudents = []
-		
 		for (let i = 0; i < students.length; i++) {
 			findedStudents.push(await Student.findOne({ where: { id: students[i].idStudent } }))
 		}
+
 		return res.status(200).json(findedStudents);
 	
+		// Gère les erreurs
 	}catch(err) {
-
 		next(err)
 	}	
 }
 
+// Récupère le score d'une équipe
 exports.getScore = async(req, res, next) => {
 	try{
 		
 		// Vérifie que l'équipe appartienne bien au professeur
 		await isTeamBelongsProfessor(req.params.id, req)
 
+		// Récupère le score de l'équipe
 		const scores = await Score.findAll({ where: { idTeam: req.params.id } })
-
 		
 		return res.status(200).json(scores);
 
+		// Gère les erreurs
 	}catch(err) {
 		next(err)
 	}
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////
+// 									 UPDATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+// Ajouter des élèves à une équipe
+exports.addStudents = async (req, res, next) => {
+
+
+	try{
+
+		// Vérification des informations fournis
+		const teamSchema = baseSchema.keys({
+			teams: Joi.array().items(
+				Joi.object({
+				  name: Joi.string().required(),
+				  idStudents: Joi.array().items(Joi.number().integer()).required(),
+					idSocket: Joi.string().required()
+				})).required(),
+			idGame: Joi.number().integer().required(),
+		});
+
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(teamSchema, req)
+
+		// Stock les données utiles
+		const teams = req.body.teams;
+		const idGame = req.body.idGame
+
+		// Les équipes ajoutées
+		const addedTeams = [];
+
+		// Itère sur chaque équipe
+		for (let i = 0; i < teams.length; i++) {
+
+			// Ajoute la team dans la DB
+			const createdTeam = await Team.create({ name: teams[i].name, idGame: idGame });
+
+			// Map les élèves de la team correspondante avec l'id de la team créer precedement
+			const studentsData = teams[i].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
+
+			// Ajoute les élèves dans la DB
+			await PlayIn.bulkCreate(studentsData);
+
+			// Ajoute à createdTeam l'attribut idSocket qui est l'id de la socket de l'équipe (pour pouvoir l'identifier dans game)
+			const teamData = createdTeam.dataValues;
+			teamData.idSocket = teams[i].idSocket;
+
+			// Ajoute l'équipe à la liste des équipes ajoutées
+			addedTeams.push(teamData);
+		}
+
+		// Retourne les teams ajoutées
+		return res.status(201).json(addedTeams);
+
+		// Gère les erreurs
+	} catch(err){
+		next(err)
+	}
+
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 DELETE                                    //
@@ -211,8 +340,6 @@ exports.getScore = async(req, res, next) => {
 
 // supprime une team en fonction de son id
 exports.delete = async (req, res, next) => {
-
-
 	try{
 		// Vérifie que l'équipe appartienne bien au professeur
 		await isTeamBelongsProfessor(req.params.id, req)
@@ -238,7 +365,6 @@ exports.delete = async (req, res, next) => {
 }
 
 
-// TODO : inverser param et body ?
 // Supprime un élève d'une équipe
 exports.removeStudent = async (req, res, next) => {
 
@@ -275,154 +401,4 @@ try{
 	}catch(err) {
 		next(err)
 	}
-}
-
-
-
-/////////////////////////////////////////////////////////////////////////////////
-// 									 OTHER                                    //
-/////////////////////////////////////////////////////////////////////////////////
-
-// [{"roomName":"test","time":10,"nbGoodAnswers":1,"nbBadAnswers":0"}]
-// Ajoute les scores d'une équipe pour différentes salles
-exports.addScores = async(req, res, next) => {
-
-	try {
-		// Array contenant tout les n-uplets ajoutés
-		const result = []
-
-		// Vérification des informations fournis
-		const scoreSchema = baseSchema.keys({
-			idGame: Joi.number().integer().required(),
-			scores: Joi.array()
-				.items(
-					Joi.object({
-					idTeam: Joi.number().integer().required(),
-						rooms: Joi.array()
-							.items(
-								Joi.object({
-									roomName: Joi.string().required(),
-									nbGoodAnswers: Joi.number().integer().required(),
-									nbBadAnswers: Joi.number().integer().required(),
-									nbHints: Joi.number().integer().required(),
-									isSolved: Joi.boolean().required(),
-									time: Joi.number().required(),
-									startTime: Joi.number().integer(),
-									endTime: Joi.number().integer(),
-								})
-							)
-							.required(),
-					})
-				)
-				.required(),
-		});
-
-		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
-		isRequestCorrect(scoreSchema, req);
-
-		const scores = req.body.scores
-		const idGame = req.body.idGame
-
-		// Itère sur chaque équipe
-		for (let i = 0; i < scores.length; i++) {
-			const teamData = scores[i];
-
-			// Récupère les infos de l'équipe
-			const idTeam = teamData.idTeam;
-			const teamRooms = teamData.rooms;
-
-			// Itère sur chaque salle de l'équipe
-			for (let j = 0; j < teamRooms.length; j++) {
-				const roomData = teamRooms[j];
-				// Récupère les infos de la salle
-				const roomName = roomData.roomName;
-				const time = parseInt(roomData.time);
-				const nbGoodAnswers = roomData.nbGoodAnswers;
-				const nbBadAnswers = roomData.nbBadAnswers;
-				const nbHints = roomData.nbHints;
-				const isSolved = roomData.isSolved;
-
-				const scoresData = {
-					idTeam: idTeam,
-					roomName: roomName,
-					idGame: idGame,
-					time: time,
-					nbGoodAnswers: nbGoodAnswers,
-					nbBadAnswers: nbBadAnswers,
-					nbHints: nbHints,
-					isSolved: isSolved 
-				}
-
-				// Ajoute le n-uplet à la base de données
-				result.push(await Score.create(scoresData))
-			}
-		}
-		res.status(201).json(result);
-	} catch(err) {
-		console.log(err);
-		next(err)
-	}
-		
-}
-
-
-
-
-// Ajouter des élèves à une équipe
-// Ex contenu de req.body : 
-/*
-{
-	teams: [ { name: 'Ekip de beauvais', idStudents: [Array] } ],
-	gameId: 1
-}
-*/
-exports.addStudents = async (req, res, next) => {	
-
-
-	try{
-
-		// Vérification des informations fournis
-		const teamSchema = baseSchema.keys({
-			teams: Joi.array().items(
-				Joi.object({
-					name: Joi.string().required(),
-					idStudents: Joi.array().items(Joi.number().integer()).required(),
-					idSocket: Joi.string().required()
-				})).required(),
-			idGame: Joi.number().integer().required(),
-		});
-
-		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
-		isRequestCorrect(teamSchema, req)
-
-		// Récupère les équipes dans un format adapté
-		const teams = req.body.teams;
-		const idGame = req.body.idGame
-
-		// Les équipes à ajouter
-		const addedTeams = [];
-
-		// Itère sur chaque équipe
-		for (let i = 0; i < teams.length; i++) {
-			
-			// Ajoute toutes les équipes du tableau teamsName
-			const createdTeam = await Team.create({ name: teams[i].name, idGame: idGame });
-			
-			const studentsData = teams[i].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
-			
-			// Ajoute les élèves à la table PlayIn
-			await PlayIn.bulkCreate(studentsData);
-			
-			// Ajoute à createdTeam l'attribut idSocket qui est l'id de la socket de l'équipe (pour pouvoir l'identifier dans game)
-			const teamData = createdTeam.dataValues;
-			teamData.idSocket = teams[i].idSocket;
-			// Ajoute l'équipe à la liste des équipes ajoutées
-			addedTeams.push(teamData);	
-		}
-		return res.status(201).json(addedTeams);
-		
-	} catch(err){
-		next(err)
-	}
-
 }

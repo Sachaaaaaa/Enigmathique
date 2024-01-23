@@ -1,5 +1,6 @@
 import {FaRegCircle, FaStar} from "react-icons/fa";
 import React from "react";
+import TeamModel from "../../models/team.model";
 
 const getPositionIcon = (index) => {
 	switch (index) {
@@ -22,4 +23,15 @@ const getPositionStyle = (index) => {
 	];
 	return index < 3 ? positionStyles[index] : 'text-black';
 };
-export {getPositionIcon, getPositionStyle};
+
+const loadMembers = async (idTeam) => {
+	return await TeamModel.getStudents(idTeam);
+};
+
+const calculateScore = (numSolved, numBadAnswers, numHints) => {
+	return (
+		numSolved * 100 - numBadAnswers * 10 - numHints * 20 + (numSolved > 0 ? 300 : 0)
+	);
+};
+
+export {getPositionIcon, getPositionStyle, loadMembers, calculateScore};

@@ -64,7 +64,7 @@ const StudentElement = ({student, onChange}) => {
 				<div className='space-x-3'>
 					<ActionButton 
 						title="Statistiques"
-						link='/'
+						link={`/student/stats/${student.id}`}
 					/>
 					<ActionButton
 						title="Modifier"
