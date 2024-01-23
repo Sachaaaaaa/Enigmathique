@@ -154,6 +154,33 @@ class ApiService {
 			return null;
 		}
 	}
+
+	static async putGameState(gameId, state) {
+		const endpoint = '/game/state/' + gameId;
+		const data = {
+			state: state
+		};
+
+		try {
+			const response = await this.sendRequest('PUT', endpoint, data);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	}
+
+	static async deleteGame(id) {
+		const endpoint = '/game/' + id;
+
+		try {
+			const response = await this.sendRequest('DELETE', endpoint);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	}
 }
 
 module.exports = ApiService;

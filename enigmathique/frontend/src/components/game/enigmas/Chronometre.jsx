@@ -30,9 +30,9 @@ const Chronometer = ({ initialTime, resetChronometer }) => {
 	};
 
 	return (
-		<div className='absolute bottom-0 left-0 z-50'>
-			<h1 className='text-lg'>Chronomètre</h1>
-			<p className='text-lg'>Temps restant : <strong>{formatTime(timeRemaining)}</strong></p>
+		<div className='absolute bottom-0 left-0 z-40 mb-5'>
+			<h1 className='text-xl ml-5'>Chronomètre</h1>
+			<p className='text-xl ml-5'>Temps restant : <strong>{formatTime(timeRemaining)}</strong></p>
 		</div>
 	);
 };
