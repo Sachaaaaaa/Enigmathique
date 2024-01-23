@@ -286,51 +286,78 @@ try{
 // [{"roomName":"test","time":10,"nbGoodAnswers":1,"nbBadAnswers":0"}]
 // Ajoute les scores d'une équipe pour différentes salles
 exports.addScores = async(req, res, next) => {
-	
-	// Array contenant tout les n-uplets ajoutés
-	let result = []
 
-	try{
+	try {
+		// Array contenant tout les n-uplets ajoutés
+		const result = []
 
 		// Vérification des informations fournis
 		const scoreSchema = baseSchema.keys({
 			idGame: Joi.number().integer().required(),
-			rooms: Joi.array().items(
-				Joi.object({
-					roomName: Joi.string().required(),
-					time: Joi.number().integer().required(),
-					nbGoodAnswers: Joi.number().integer().required(),
-					nbBadAnswers: Joi.number().integer().required(),
-					nbHints: Joi.number().integer().required(),
-					isSolved: Joi.boolean().required(),
-					startTime: Joi.number().integer(),
-					endTime: Joi.number().integer(),
-				})).required(),
-			idTeam: Joi.number().integer().required(),
+			scores: Joi.array()
+				.items(
+					Joi.object({
+					idTeam: Joi.number().integer().required(),
+						rooms: Joi.array()
+							.items(
+								Joi.object({
+									roomName: Joi.string().required(),
+									nbGoodAnswers: Joi.number().integer().required(),
+									nbBadAnswers: Joi.number().integer().required(),
+									nbHints: Joi.number().integer().required(),
+									isSolved: Joi.boolean().required(),
+									time: Joi.number().required(),
+									startTime: Joi.number().integer(),
+									endTime: Joi.number().integer(),
+								})
+							)
+							.required(),
+					})
+				)
+				.required(),
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
-		isRequestCorrect(scoreSchema, req)
+		isRequestCorrect(scoreSchema, req);
 
-		// Les salles dont on veut ajouter les scores
-		const rooms = req.body.rooms
+		const scores = req.body.scores
+		const idGame = req.body.idGame
 
+		// Itère sur chaque équipe
+		for (let i = 0; i < scores.length; i++) {
+			const teamData = scores[i];
 
-		// Pour chaque salle, on ajoute le score
-		for (let i = 0; i < rooms.length; i++) {
-			const scoreData = {
-				idTeam: req.body.idTeam,
-				roomName: rooms[i].roomName,
-				idGame: req.body.idGame,
-				time: rooms[i].time,
-				nbGoodAnswers: rooms[i].nbGoodAnswers,
-				nbBadAnswers: rooms[i].nbBadAnswers,
-				nbHints: rooms[i].nbHints
+			// Récupère les infos de l'équipe
+			const idTeam = teamData.idTeam;
+			const teamRooms = teamData.rooms;
+
+			// Itère sur chaque salle de l'équipe
+			for (let j = 0; j < teamRooms.length; j++) {
+				const roomData = teamRooms[j];
+				// Récupère les infos de la salle
+				const roomName = roomData.name;
+				const time = parseInt(roomData.time);
+				const nbGoodAnswers = roomData.nbGoodAnswers;
+				const nbBadAnswers = roomData.nbBadAnswers;
+				const nbHints = roomData.nbHints;
+				const isSolved = roomData.isSolved;
+
+				const scoresData = {
+					idTeam: idTeam,
+					roomName: roomName,
+					idGame: idGame,
+					time: time,
+					nbGoodAnswers: nbGoodAnswers,
+					nbBadAnswers: nbBadAnswers,
+					nbHints: nbHints,
+					isSolved: isSolved 
+				}
+
+				// Ajoute le n-uplet à la base de données
+				result.push(await Score.create(scoresData))
 			}
-			result.push(await Score.create(scoreData))
 		}
 		res.status(201).json(result);
-
 	} catch(err) {
 		next(err)
 	}
@@ -344,8 +371,8 @@ exports.addScores = async(req, res, next) => {
 // Ex contenu de req.body : 
 /*
 {
-  teams: [ { name: 'Ekip de beauvais', idStudents: [Array] } ],
-  gameId: 1
+	teams: [ { name: 'Ekip de beauvais', idStudents: [Array] } ],
+	gameId: 1
 }
 */
 exports.addStudents = async (req, res, next) => {	
@@ -357,8 +384,8 @@ exports.addStudents = async (req, res, next) => {
 		const teamSchema = baseSchema.keys({
 			teams: Joi.array().items(
 				Joi.object({
-				  name: Joi.string().required(),
-				  idStudents: Joi.array().items(Joi.number().integer()).required(),
+					name: Joi.string().required(),
+					idStudents: Joi.array().items(Joi.number().integer()).required(),
 					idSocket: Joi.string().required()
 				})).required(),
 			idGame: Joi.number().integer().required(),
