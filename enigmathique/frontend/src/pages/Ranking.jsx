@@ -7,6 +7,7 @@ import {FaRegCircle, FaStar} from "react-icons/fa";
 import ActionButton from "../components/dashboard/ActionButton";
 import TeamStats from "./TeamStats";
 import TableContainer from "../components/dashboard/TableContainer";
+import ContentHeader from "../components/dashboard/ContentHeader";
 
 const maxTime = 600;
 
@@ -112,8 +113,8 @@ const Ranking = () => {
 
 	return (
 		<LayoutProf>
-			<main className="p-8">
-				<h1 className="text-2xl font-bold mb-4">{`Nom de la partie: ${game.name}`}</h1>
+			<main>
+				<ContentHeader title={game.name} link='/dashboard'/>
 				<div className="overflow-x-auto mt-4">
 					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
 

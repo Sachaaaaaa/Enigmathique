@@ -35,6 +35,7 @@ const TopBarProf = () => {
 		"rooms": "Salles d'énigmes",
 		"create-game": "Nouvelle partie",
 		"pregame": "",
+		"ranking": "Classement",
 	}
 
 	let text = textMap[path[0]];
