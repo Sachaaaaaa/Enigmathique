@@ -15,7 +15,7 @@ const ClassList = () => {
 				value={formData.course}>
 
 				<option value={0} disabled={true} style={{color: '#343C6A'}}>Choisissez une classe</option>
-				{courses.map((course) => <option key={course.id} value={course.id} style={{color: '#343C6A'}}>{course.name}</option>)}
+				{courses.map((course,index) => <option key={index} value={course.id} style={{color: '#343C6A'}}>{course.name}</option>)}
 			
 			</select>
 		</>

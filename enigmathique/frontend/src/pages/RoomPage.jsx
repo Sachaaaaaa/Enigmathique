@@ -49,6 +49,7 @@ const RoomPage = () => {
 					{filteredRooms.map((room, index) => (
 							<>
 								<Room
+									key={index}
 									index={index}
 									room={room}
 
