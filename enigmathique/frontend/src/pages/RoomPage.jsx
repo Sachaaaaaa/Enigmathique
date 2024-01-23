@@ -16,7 +16,7 @@ const RoomPage = () => {
 	}
 
 	const [filteredRooms, setFilteredRooms] = useState([]);
-	const [filter, setFilter] = useState({chapter: 'suites', text: ''});
+	const [filter, setFilter] = useState({chapter: 'fonctions', text: ''});
 	const navigate = useNavigate();
 
 	useEffect(() => {

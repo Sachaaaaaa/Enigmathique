@@ -31,7 +31,7 @@ const getTeam = (idTeam) => {
 const getTeamFromGame = (idGame) => {
 	const token = authHeader();
 	return axios
-		.get(API_URL +'team/' + idGame, {headers: token})
+		.get(API_URL +'team/game/' + idGame, {headers: token})
 		.then((response) => {
 			return response.data;
 		});

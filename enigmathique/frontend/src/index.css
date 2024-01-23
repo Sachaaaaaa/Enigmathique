@@ -374,18 +374,18 @@
             @apply  grow flex flex-wrap justify-between gap-5 w-full;
         }
         .join-container {
-            @apply grow flex flex-wrap justify-between gap-10 w-full h-auto;
+            @apply grow flex flex-wrap justify-between gap-10 w-full;
         }
     /* Conteneur des élèves/équipes */
         .pregame-list-container {
-            @apply grow flex flex-col gap-2 w-[48%] min-w-[300px] min-h-[300px];
+            @apply grow flex flex-col gap-2 w-[45%] min-w-[300px] max-h-[100%] min-h-[200px];
         }
         .join-list-container {
             @apply grow flex flex-col gap-2 w-[45%] min-w-[300px] max-h-[100%] min-h-[200px];
         }
     /* Conteneur des listes dynamiques */
         .pregame-list {
-            @apply flex flex-col h-[80%] bg-white border-l border-r shadow-md overflow-y-scroll ;
+            @apply flex flex-col w-full h-full bg-white border-l border-r shadow-md overflow-y-auto ;
         }
         .join-list {
             @apply flex flex-col w-full h-full bg-white border-l border-r shadow-md overflow-y-auto ;       }

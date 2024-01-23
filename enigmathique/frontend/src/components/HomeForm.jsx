@@ -70,31 +70,31 @@ const HomeForm = () => {
 			> <IoIosArrowUp id="presentation" size={50}/></Link>
 			
 		<section className='w-[80%] h-[80%]'>
-			<article className='w-full h-full p-4 grid grid-cols-2 grid-row-3 gap-4'>
-				<div className='cols-span-1 row-span-3 border'></div>
-				<h2 className='cols-span-1 row-span-1 border'>Enigmathique</h2>
-				<p className='cols-span-1 row-span-2 border'>
-					Enigmathique est une application qui permet de créer des jeux {"d'énigmes"}.
-					Elle est destinée aux enseignants qui souhaitent créer des jeux
-					{"d'énigmes"} pour leurs élèves.
+			<article className='w-full h-full p-4 grid grid-cols-2 gap-4'>
+				<h2 className='col-span-1 row-span-1 border'>Enigmathique</h2>
+				<p className='col-span-1 row-span-3 row-start-2 border'>
+					Enigmathique est une application qui permet de jouer à des jeux {"d'énigmes"} en ligne.
+					Elle est destinée aux enseignants de mathématiques en seconde qui souhaitent entrainer leurs élèves
+					à travers des énigmes permettant de faire mieux comprendre et de mieux assimiler les notions de
+					mathématiques du programme de seconde
+				</p>
+				<h2 className='col-start-2 border'>Créer une partie</h2>
+				<p className='col-start-2 border'>
+					Pour créer une partie, il suffit de se connecter à {"l'application"} et de
+					remplir le formulaire de création de partie. Il est possible de créer
+					plusieurs parties.
+					Une partie est composée de différentes salles dont les élèves vont devoir {"s'échapper"} en équipes,
+					à la manière {"d'un"} escape game. Une fois les élèves sortis {"d'une"} salle, ou au bout du temps imparti,
+					les équipes récupèreront les salles des autres équipes et devront à nouveau sortir des salles dans
+					les temps.
+				</p>
+				<h2 className='col-start-2 border'>Tableau de bord</h2>
+				<p className='col-start-2 border'>
+					Le tableau de bord permet de voir les statistiques des équipes qui ont joué au jeu, de gérer ses
+					classes, ses élèves et de voir les salles disponibles sur {"l'application"}. Il est possible de voir les
+					statistiques {"d'une"} équipe en particulier.
 				</p>
 			</article>
-			{/* <article>
-				<h2>Créer un jeu</h2>
-				<p>
-					Pour créer un jeu, il suffit de se connecter à {"l'application"} et de
-					remplir le formulaire de création de jeu. Il est possible de créer
-					plusieurs jeux.
-				</p>
-			</article>
-			<article>
-				<h2> Tableau de bord</h2>
-				<p>
-					Le tableau de bord permet de voir les statistiques des équipes qui ont
-					joué au jeu. Il est possible de voir les statistiques {"d'une"} équipe en
-					particulier.
-				</p>
-			</article> */}
 		</section>
 		</div>
 

@@ -7,6 +7,7 @@ const TokenDB = db.token;
 
 // Fonction qui à partir d'un token, détermine si il est valide ou non.
 async function checkTokenValidity(token) {
+    console.log(token)
 
     // Récupère le hash du token
     const tokenHash = sha256(token);
@@ -14,7 +15,6 @@ async function checkTokenValidity(token) {
     try {
         // Essaye de trouver le n-uplet correspondant au hash du token
         const findedToken = await TokenDB.findOne({ where: { token: tokenHash } });
-
         // Si on trouve un n-uplet, cela signifie que le token n'a pas été révoqué par une deconnexion
         if (findedToken) {
 
@@ -28,7 +28,6 @@ async function checkTokenValidity(token) {
         throw new Error("Token non valide");
 
     } catch (error) {
-
         // Si l'erreur est une erreur de token expiré, on supprime le token de la base de données
         if (error.name === 'TokenExpiredError') {
             await TokenDB.destroy({ where: { token: tokenHash } });
@@ -85,12 +84,9 @@ exports.verifyGameToken = async(req, res, next) => {
     if(req.body.tokenProf){
         
         req.tokenId = await checkTokenValidity(req.body.tokenProf);
-
-        /* au cas où
-        const token = req.body.tokenProf
-        const decodedToken = jwt.verify(token, secretKey)
-        req.tokenId = decodedToken.id;
-        */
+        //const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
+        //req.tokenId = decodedToken.id;
+        
     }
 
     // Si pas de token on lève une erreur
