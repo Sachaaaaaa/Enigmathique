@@ -6,6 +6,7 @@ import LayoutProf from "../layouts/LayoutProf";
 import {FaRegCircle, FaStar} from "react-icons/fa";
 import ActionButton from "../components/dashboard/ActionButton";
 import TeamStats from "./TeamStats";
+import TableContainer from "../components/dashboard/TableContainer";
 
 const maxTime = 600;
 
@@ -112,40 +113,30 @@ const Ranking = () => {
 	return (
 		<LayoutProf>
 			<main className="p-8">
-				<h1 className="text-2xl font-bold mb-4">{game.name}</h1>
-				<h2 className="text-xl font-semibold mb-4 text-gray-500">Classement</h2>
+				<h1 className="text-2xl font-bold mb-4">{`Nom de la partie: ${game.name}`}</h1>
 				<div className="overflow-x-auto mt-4">
-					<table className="min-w-full">
-						<thead>
-						<tr className="text-left">
-							<th className="pb-4 text-blue-500">Position</th>
-							<th className="pb-4 text-blue-500">Équipe</th>
-							<th className="pb-4 text-blue-500">Score</th>
-							<th className="pb-4 text-blue-500">Énigmes Résolues</th>
-							<th className="pb-4 text-blue-500">Action</th>
-						</tr>
-						</thead>
-						<tbody>
+					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
+
 						{ranking.map((team, index) => (
 							<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-								<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center">
+								<td className="px-6 py-4 flex items-center justify-left">
 									<div className={`relative ${getPositionStyle(index)}`}>
 										{getPositionIcon(index)}
 										<span className="absolute inset-0 flex items-center justify-center">
-												{index + 1}
-											</span>
+											{index + 1}
+										</span>
 									</div>
 								</td>
-								<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+								<td className="td-style">
 									{team.name}
 								</td>
-								<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+								<td className="td-style">
 									{team.calculatedScore}
 								</td>
-								<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+								<td className="td-style">
 									{team.nbSolved}
 								</td>
-								<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+								<td className="td-style text-right">
 									<ActionButton
 										onClick={() => handleDetailsClick(team)}
 										title='Détails'
@@ -154,8 +145,7 @@ const Ranking = () => {
 								</td>
 							</tr>
 						))}
-						</tbody>
-					</table>
+					</TableContainer>
 				</div>
 			</main>
 			{selectedTeam && (
