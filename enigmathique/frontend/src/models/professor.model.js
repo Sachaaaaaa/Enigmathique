@@ -3,7 +3,7 @@ import ProfessorService from "../services/professor.course";
 class ProfessorModel {
 	/**
 	 * constructeur du professeur
-	 * @param id identifiant du professseur
+	 * @param id identifiant du professeur
 	 * @param lastname nom de famille du professeur
 	 * @param firstname prénom du professor
 	 * @param mail e-mail du professeur

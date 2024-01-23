@@ -18,7 +18,7 @@ class CourseModel {
 	}
 
 	/**
-	 * Getter de une classe à partir de son id
+	 * Getter d'une classe à partir de son id
  	 * @param id identifiant de la classe
 	 * @returns la classe correspondant à l'id
 	 */

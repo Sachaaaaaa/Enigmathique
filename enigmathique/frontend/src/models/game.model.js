@@ -54,7 +54,7 @@ class GameModel {
 	}
 
 	/**
-	 * Getter des scores associés à la partie indentifiée
+	 * Getter des scores associés à la partie identifiée
 	 * @param idGame identifiant de la partie dont on veut les scores
 	 * @returns liste des scores associés à la partie
 	 */
@@ -90,7 +90,7 @@ class GameModel {
 
 	/**
 	 * Permet d'ajouter des salles à la partie identifiée
-	 * @param idGame identifiant de la partie dont on veut associées des salles
+	 * @param idGame identifiant de la partie dont on veut associer des salles
 	 * @param rooms liste des salles à attribuer à la partie
 	 */
 	static async addRooms(idGame, rooms) {

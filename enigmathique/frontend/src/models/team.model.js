@@ -19,7 +19,7 @@ class TeamModel{
 	//TODO ajouter le getter pour récupérer les infos d'une team dans l'API
 	/**
 	 * Getter d'une équipe à partir de son identifiant
-	 * @param idTeam identifiant de l'équiê
+	 * @param idTeam identifiant de l'équipe
 	 * @returns l'équipe correspondant à l'identifiant
 	 */
 	static async getTeam(idTeam){
@@ -67,7 +67,7 @@ class TeamModel{
 
 	/**
 	 * Getter des scores d'une équipe à partir de l'identifiant de l'équipe.
-	 * L'équipe étant propre à une partie, cela correspont au scores obtenu dans chaque salle lors d'une partie par une équipe
+	 * L'équipe étant propre à une partie, cela correspond aux scores obtenus dans chaque salle lors d'une partie par une équipe
 	 * @param idTeam identifiant de l'équipe dont on veut les scores
 	 * @returns liste des scores correspondant à une équipe
 	 */
