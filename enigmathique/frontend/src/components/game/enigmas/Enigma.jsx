@@ -30,7 +30,11 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 
 	const askHint = () => {
 		console.log('ask hint');
-		socket.emit(ClientToServer.AskHint, { enigmaId });
+		if (enigmaState.isSolved) {
+			return;
+		} else {
+			socket.emit(ClientToServer.AskHint, { enigmaId });
+		}
 	};
 
 	useEffect(() => {
@@ -58,17 +62,7 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	return (
 		<Html>
 			<div className={`z-0 absolute translate-y-[-50%] top-1/2 left-1/2 p-4 w-72 bg-white rounded-md flex flex-col ${!enigmaState.isSolved ? 'border-4 border-red-600' : 'border-4 border-green-600'}`}>
-				<button onClick={closeEnigma}
-					style={{
-						display: 'flex',
-						justifyContent: 'space-around',
-						alignItems: 'center',
-						background: '#ff6666',
-						padding: '8px',
-						borderRadius: '8px',
-						width: '9vw',
-						marginBottom: '10px',
-					}}>
+				<button onClick={closeEnigma} className="flex justify-around items-center bg-red-600 p-2 rounded w-2/5 mb-4">
 					<IoIosCloseCircle /> Fermer
 				</button>
 
