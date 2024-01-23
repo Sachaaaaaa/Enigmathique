@@ -11,10 +11,10 @@ function TeamDetails({ teamData, onClose}) {
 
 	const details = selectedRoom === 'Global'
 		? {
-			indicesUtilises: teamData.rooms.reduce((acc, room) => acc + room.numHints, 0),
-			erreursCommises: teamData.rooms.reduce((acc, room) => acc + room.numBadAnswers, 0),
+			indicesUtilises: teamData.rooms.reduce((acc, room) => acc + room.nbHints, 0),
+			erreursCommises: teamData.rooms.reduce((acc, room) => acc + room.nbBadAnswers, 0),
 			sallesReussies: teamData.rooms.filter(room => room.isSolved).length,
-			enigmesResolues: teamData.rooms.reduce((acc, room) => acc + room.numSolved, 0),
+			enigmesResolues: teamData.rooms.reduce((acc, room) => acc + room.nbGoodAnswers, 0),
 		}
 		: teamData.rooms.find(room => room.name === selectedRoom);
 	
@@ -194,7 +194,7 @@ function TeamDetails({ teamData, onClose}) {
 										</div>
 										<div className="ml-3">
 											<p className="text-sm text-gray-500">Indices utilisés</p>
-											<p className="text-lg">{details.numHints}</p>
+											<p className="text-lg">{details.nbHints}</p>
 										</div>
 									</div>
 
@@ -204,7 +204,7 @@ function TeamDetails({ teamData, onClose}) {
 										</div>
 										<div className="ml-3">
 											<p className="text-sm text-gray-500">Erreurs commises</p>
-											<p className="text-lg">{details.numBadAnswers}</p>
+											<p className="text-lg">{details.nbBadAnswers}</p>
 										</div>
 									</div>
 						
@@ -224,7 +224,7 @@ function TeamDetails({ teamData, onClose}) {
 										</div>
 										<div className="ml-3">
 											<p className="text-sm text-gray-500">Énigmes résolues</p>
-											<p className="text-lg">{details.numSolved}</p>
+											<p className="text-lg">{details.nbGoodAnswers}</p>
 										</div>
 									</div>
 								</>
@@ -243,9 +243,9 @@ TeamDetails.propTypes = {
 		teamName: PropTypes.string.isRequired,
 		rooms: PropTypes.arrayOf(
 			PropTypes.shape({
-				numHints: PropTypes.number.isRequired,
-				numBadAnswers: PropTypes.number.isRequired,
-				numSolved: PropTypes.number.isRequired,
+				nbHints: PropTypes.number.isRequired,
+				nbBadAnswers: PropTypes.number.isRequired,
+				nbGoodAnswers: PropTypes.number.isRequired,
 				isSolved: PropTypes.bool.isRequired
 			})
 		).isRequired,

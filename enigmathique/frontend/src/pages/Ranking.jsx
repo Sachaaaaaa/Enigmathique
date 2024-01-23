@@ -39,9 +39,9 @@ const Ranking = () => {
 		return await TeamModel.getStudents(idTeam);
 	};
 
-	const calculateScore = (numSolved, numBadAnswers, numHints) => {
+	const calculateScore = (nbGoodAnswers, nbBadAnswers, nbHints) => {
 		return (
-			numSolved * 100 - numBadAnswers * 10 - numHints * 20 + (numSolved > 0 ? 300 : 0)
+			nbGoodAnswers * 100 - nbBadAnswers * 10 - nbHints * 20 + (nbGoodAnswers > 0 ? 300 : 0)
 		);
 	};
 

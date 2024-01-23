@@ -294,6 +294,7 @@ exports.addScores = async(req, res, next) => {
 
 		// Vérification des informations fournis
 		const scoreSchema = baseSchema.keys({
+			idGame: Joi.number().integer().required(),
 			rooms: Joi.array().items(
 				Joi.object({
 					roomName: Joi.string().required(),
@@ -306,7 +307,6 @@ exports.addScores = async(req, res, next) => {
 					endTime: Joi.number().integer(),
 				})).required(),
 			idTeam: Joi.number().integer().required(),
-			idGame: Joi.number().integer().required(),
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
