@@ -36,9 +36,9 @@ function ProfFollowUp() {
 			const roomData = rooms[i];
 			const roomName = roomData.name;
 			const roomIsSolved = roomData.isSolved;
-			const numResolved = roomData.numSolved;
-			const numBadAnswer = roomData.numBadAnswers;
-			const numHint = roomData.numHints;
+			const numResolved = roomData.nbGoodAnswers;
+			const numBadAnswer = roomData.nbBadAnswers;
+			const numHint = roomData.nbHints;
 
 			const score = calculateScore(numResolved, numBadAnswer, numHint, roomIsSolved);
 			
@@ -122,8 +122,8 @@ function ProfFollowUp() {
 		}
 	}, [token, sessionId, socket]);
 
-	const calculateScore = (numSolved, numBadAnswers, numHints, roomIsSolved) => {
-		let score = numSolved * 100 - numBadAnswers * 20 - numHints * 30;
+	const calculateScore = (nbGoodAnswers, nbBadAnswers, nbHints, roomIsSolved) => {
+		let score = nbGoodAnswers * 100 - nbBadAnswers * 20 - nbHints * 30;
 
 		if (roomIsSolved) {
 			score += 300;
