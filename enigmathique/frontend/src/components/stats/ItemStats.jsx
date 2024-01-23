@@ -31,7 +31,7 @@ function ItemStats ({text, logo, value, color}){
 ItemStats.propTypes = {
 	text: PropTypes.string.isRequired,
 	logo: PropTypes.string.isRequired,
-	value: PropTypes.number.isRequired,
+	value: PropTypes.any.isRequired,
 	color: PropTypes.string.isRequired,
 }
 
