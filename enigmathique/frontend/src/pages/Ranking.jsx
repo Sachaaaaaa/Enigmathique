@@ -4,59 +4,89 @@ import GameModel from "../models/game.model";
 import TeamModel from "../models/team.model";
 import LayoutProf from "../layouts/LayoutProf";
 import {FaRegCircle, FaStar} from "react-icons/fa";
+import ActionButton from "../components/dashboard/ActionButton";
+import TeamStats from "./TeamStats";
 
 const maxTime = 600;
 
 const Ranking = () => {
 
-	const idGame = useParams();
+	const { idGame } = useParams();
+	const parsedIdGame = parseInt(idGame);
 
 	const [game, setGame] = useState({});
 	const [teams, setTeams] = useState([]);
 	const [ranking, setRanking] = useState([]);
+	const [scoresForOneTeam, setScoresForOneTeam] = useState([]);
+	const [selectedTeam, setSelectedTeam] = useState(null);
+
+
 
 	const loadGame = async () => {
-		const data = await GameModel.getOne(idGame);
+		const data = await GameModel.getOne(parsedIdGame);
 		setGame(data);
-	}
+	};
 
 	const loadTeams = async () => {
-		const data = await TeamModel.getTeamFromGame(idGame);
+		const data = await TeamModel.getTeamFromGame(parsedIdGame);
 		setTeams(data);
-	}
-
-	const loadScore = async (idTeam) => {
-		return await TeamModel.getScores(idTeam);
-	}
+	};
 
 	const loadMembers = async (idTeam) => {
 		return await TeamModel.getStudents(idTeam);
-	}
+	};
 
-	const getRanking = (teamList) => {
-		const scoreList = teamList.map(async (team) => {
-			const scores = loadScore(team.id);
-			const calculatedScore = scores.reduce((sum, score) => sum + (score.time < maxTime ? 500 : 0)+(score.nbGoodAnswers*100)-(score.nbHints*20)-(score.nbBadAnswers*10));
-			const members = loadMembers(team.id);
-			return {
-				id: team.id,
-				name: team.name,
-				members: members,
-				calculatedScore: calculatedScore,
-				nbSolved: scores.reduce((sum, score) => sum + (score.nbGoodAnswers))
-			};
-		}).filter(team => team !== null);
+	const calculateScore = (numSolved, numBadAnswers, numHints) => {
+		return (
+			numSolved * 100 - numBadAnswers * 10 - numHints * 20 + (numSolved > 0 ? 300 : 0)
+		);
+	};
 
-		scoreList.sort((a, b) => b.calculatedScore - a.calculatedScore);
-		setRanking(scoreList);
-	}
+	const getRanking = async () => {
+		const teamList = await Promise.all(
+			teams.map(async (team) => {
+				const scores = await TeamModel.getScores(team.id);
+				const calculatedScore = scores.reduce(
+					(sum, score) =>
+						sum +
+						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints),
+					0);
+
+				const members = await loadMembers(team.id);
+
+				return {
+					id: team.id,
+					name: team.name,
+					members: members,
+					calculatedScore: calculatedScore,
+					nbSolved: scores.reduce((sum, score) => sum + score.nbGoodAnswers, 0),
+				};
+			})
+		);
+		teamList.sort((a, b) => b.calculatedScore - a.calculatedScore);
+		setRanking(teamList);
+	};
 
 	useEffect(() => {
 		loadGame();
 		loadTeams();
-		getRanking(teams);
 	}, []);
 
+	useEffect(() => {
+		if (teams.length > 0) {
+			getRanking();
+		}
+	}, [teams]);
+	const loadScoresForOneTeam = async (idTeam) => {
+		const data = await TeamModel.getScores(idTeam);
+		setScoresForOneTeam(data);
+	}
+
+	const handleDetailsClick = (team) => {
+		console.log("team", team);
+		setSelectedTeam(team);
+		loadScoresForOneTeam(team.id);
+	};
 	const getPositionIcon = (index) => {
 		switch (index) {
 			case 0:
@@ -116,10 +146,11 @@ const Ranking = () => {
 									{team.nbSolved}
 								</td>
 								<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-									{game.state === 2 ?
-										<Link to='./TeamStats' className="text-blue-600 hover:text-blue-800">Détails</Link> :
-										<span className="text-blue-600 hover:text-blue-800">Détails</span>
-									}
+									<ActionButton
+										onClick={() => handleDetailsClick(team)}
+										title='Détails'
+									>
+									</ActionButton>
 								</td>
 							</tr>
 						))}
@@ -127,7 +158,15 @@ const Ranking = () => {
 					</table>
 				</div>
 			</main>
+			{selectedTeam && (
+				<TeamStats
+					teamData={selectedTeam}
+					scores={scoresForOneTeam}
+					onClose={() => setSelectedTeam(null)}
+				/>
+			)}
 		</LayoutProf>
+
 	);
 }
 
