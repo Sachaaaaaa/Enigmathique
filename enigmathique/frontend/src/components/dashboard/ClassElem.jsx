@@ -5,8 +5,8 @@ import {Link} from 'react-router-dom';
 import { Chart as ChartJS, registerables } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import GameService from '../../services/game.service';
-import Student from '../../models/student.model';
-import Game from "../../models/game.model";
+import StudentModel from '../../models/student.model';
+import GameModel from "../../models/game.model";
 import InfoBlockElem from './InfoBlockElem';
 ChartJS.register(...registerables);
 
@@ -20,7 +20,7 @@ const ClassElem = (props) => {
 	const [students, setStudents] = useState([]);
 
 	const loadStudents = async () => {
-		const data = await Student.getAll(classGroup.id);
+		const data = await StudentModel.getAll(classGroup.id);
 		setStudents(data);
 	}
 
@@ -29,7 +29,7 @@ const ClassElem = (props) => {
 	}, []);
 
 	const loadGamesOf = async() => {
-		const data = await Game.getAll();
+		const data = await GameModel.getAll();
 		let listGames = [];
 		data.forEach((game) => {
 			classGroup.id === game.idCourse && listGames.push();

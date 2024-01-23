@@ -1,9 +1,9 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 
-import Course from 'models/course.model';
+import CourseModel from 'models/course.model';
 import TeamModel from 'models/team.model';
-import Game from 'models/game.model';
+import GameModel from 'models/game.model';
 
 /**
  * Récupère les teams d'une game données

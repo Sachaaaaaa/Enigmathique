@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import Student from 'models/student.model';
+import StudentModel from 'models/student.model';
 
 /**
  * Récupère les étudiants d'un cours
@@ -11,7 +11,7 @@ const useStudents = (idCourse, autoload = true) => {
 	const [students, setStudents] = useState([]);
 
 	const loadStudents = async () => {
-		const data = await Student.getAll(idCourse);
+		const data = await StudentModel.getAll(idCourse);
 		setStudents(data);
 	};
 

@@ -65,8 +65,8 @@ class GameSession {
     return teamsProgress;
   };
 
-  // Car il faut un truc spécial pour l'api spéciale de Sasha :)
-  getSessionDataForSasha = () => {
+  // Format pour API
+  getSessionDataForAPI = () => {
     const sessionData = { idGame: this.sessionId, scores: [] };
 
     this.teams.forEach((team) => {
@@ -92,8 +92,8 @@ class GameSession {
       totalEnigma: this.totalEnigmas,
       rooms: this.rooms.map((room) => room.name),
 			// Teams sous la forme : {idTeam: {name}}
-			teams: this.teams.reduce((acc, team) => {
-				acc[team.teamId] = { name: team.teamId };
+			teams: this.expectedTeams.reduce((acc, team) => {
+				acc[team.id] = {name: team.name};
 				return acc;
 			}, {}),
     };
@@ -121,9 +121,7 @@ class GameSession {
       console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} est déjà dans la session`));
       return;
     }
-
-    console.log(this.expectedTeams);
-    console.log(teamId);
+		
     // [ { name: 'erzoijyb', id: 1, idGame: 8 } ]
     // Vérifier que l'équipe est attendue (/!\ type string et number)
     if (!this.expectedTeams.some((t) => t.id == teamId)) {
@@ -220,7 +218,7 @@ class GameSession {
     console.log(clc.greenBright("[Session] Fin de la session normale"));
 
     // Recupère les informations de progression de chaque équipe
-    const teamsProgress = this.getSessionDataForSasha();
+    const teamsProgress = this.getSessionDataForAPI();
 
     console.log(teamsProgress);
 
