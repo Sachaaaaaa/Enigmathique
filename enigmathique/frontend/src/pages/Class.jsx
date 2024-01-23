@@ -11,7 +11,6 @@ import ContentHeader from 'components/dashboard/ContentHeader';
 import TableContainer from 'components/dashboard/TableContainer';
 import Notification from 'components/Notification';
 import toast from 'react-hot-toast';
-import {useLocation} from 'react-router-dom';
 
 
 const Class = () => {
