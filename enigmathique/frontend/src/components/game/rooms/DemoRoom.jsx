@@ -12,16 +12,16 @@ import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
 
-export default function Model(props) {
+export default function ReactorRoom(props) {
 	const socket = useContext(SocketContext);
 
 	useEffect(() => {
 		socket.emit(ClientToServer.RoomLoaded);
 	});
 
-	const { nodes, materials } = useGLTF("models/Demo_Room-001.glb");
+	const { nodes, materials } = useGLTF("models/Reactor_Room.glb");
 
-	const SuzanneEvent = () => {
+	const PorteInt = () => {
 		const {
 			mesh,
 			hovered,
@@ -35,225 +35,139 @@ export default function Model(props) {
 		return (
 			<mesh
 				ref={mesh}
-				name="Cube001"
+				name="Cube015"
 				castShadow
 				receiveShadow
-				geometry={nodes.Cube001.geometry}
-				material={materials["Wood.002"]}
-				position={[1, 1, -1.5]}
-				scale={[1, 0.03, 0.5]}
+				geometry={nodes.Cube015.geometry}
+				material={materials["Metal.001"]}
 				onPointerOver={handlePointerOver}
 				onPointerOut={handlePointerOut}
 				onClick={handleClick}
 			>
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
-					<Enigma
-						enigmaId={0}
-						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
-							<BasicDisplayTemplate
-								title="Salut Gnibo!"
-								description="Je suis un singe! La réponse est 1."
-								image={data.image}
-								hint={hint}
-								handleSubmitAnswer={handleSubmitAnswer}
-								handleAskHint={handleAskHint}
-							/>
-						)}
-						closeEnigma={forceExit}
+					<InformationPopup
+						title="Vous ne pouvez pas sortir !"
+						information="Vous etes un alchimiste amateur, en voulant vous introduire dans le laboratoire d'un grand alchimiste, vous vous êtes enfermer !
+						Et il ne tardera pas à revenir... Vous remarquez un trou dans la porte, il y a surement moyen de faire une potion de souris pour que vous rapetissiez.
+						Regardez autour de vous, il doit bien y avoir une recette qui peut vous aidez sur le bureau !"
+						closePopup={forceExit}
 					/>
 				)}
 			</mesh>
 		);
 	};
-
+	
 	return (
 		<group {...props} dispose={null}>
 			<group name="Scene">
 				<mesh
-					name="Cube"
+					name="Room001"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cube.geometry}
+					geometry={nodes.Room001.geometry}
 					material={materials.Room}
 					position={[0, 2, 0]}
 					scale={2}
 				/>
-				{/*<mesh
-					name="Cube001"
+				<mesh
+					name="Bureau"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cube001.geometry}
+					geometry={nodes.Bureau.geometry}
 					material={materials["Wood.002"]}
 					position={[1, 1, -1.5]}
 					scale={[1, 0.03, 0.5]}
-				>*/}
-				<SuzanneEvent />
-				<mesh
-					name="Cube002"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube002.geometry}
-					material={materials["Wood.002"]}
-					position={[0.1, 0.899, -1.1]}
-					scale={[0.033, 0.1, 0.033]}
 				/>
-				<mesh
-					name="Cube003"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube003.geometry}
-					material={nodes.Cube003.material}
-					position={[1.5, 1.41, -1.7]}
-					scale={0.28}
-				/>
-				<mesh
-					name="Cube004"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube004.geometry}
-					material={nodes.Cube004.material}
-					position={[1.5, 1.04, -1.21]}
-				/>
-				<mesh
-					name="Cube005"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube005.geometry}
-					material={nodes.Cube005.material}
-					position={[1.3, 1.06, -1.305]}
-					scale={0.015}
-				/>
-				<mesh
-					name="Cube006"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube006.geometry}
-					material={nodes.Cube006.material}
-					position={[1.3, 1.06, -1.113]}
-					scale={0.015}
-				/>
-				<mesh
-					name="Cube007"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube007.geometry}
-					material={nodes.Cube007.material}
-					position={[1.331, 1.06, -1.113]}
-					scale={0.015}
-				/>
-				<mesh
-					name="Cube008"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube008.geometry}
-					material={nodes.Cube008.material}
-					position={[1.362, 1.06, -1.113]}
-					scale={0.015}
-				/>
-				<mesh
-					name="Cube009"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube009.geometry}
-					material={nodes.Cube009.material}
-					position={[1.393, 1.06, -1.113]}
-					scale={0.015}
-				/>
-				<mesh
-					name="Cube010"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube010.geometry}
-					material={nodes.Cube010.material}
-					position={[1.578, 1.06, -1.113]}
-					scale={0.015}
-				/>
-				<mesh
-					name="Cube011"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube011.geometry}
-					material={nodes.Cube011.material}
-					position={[1.609, 1.06, -1.113]}
-					scale={0.015}
-				/>
-				<mesh
-					name="Cube012"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube012.geometry}
-					material={nodes.Cube012.material}
-					position={[1.64, 1.06, -1.113]}
-					scale={0.015}
-				/>
-				<mesh
-					name="Cube013"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cube013.geometry}
-					material={nodes.Cube013.material}
-					position={[1.671, 1.06, -1.113]}
-					scale={0.015}
-				/>
+				<group name="Ordi" position={[1.5, 1.41, -1.7]} scale={0.28}>
+					<mesh
+						name="Cube004"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube004.geometry}
+						material={materials["Metal.001"]}
+					/>
+					<mesh
+						name="Cube004_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube004_1.geometry}
+						material={materials.Screen}
+					/>
+				</group>
+				<group name="Clavier" position={[1.5, 1.04, -1.21]}>
+					<mesh
+						name="Cube005"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube005.geometry}
+						material={materials.Room}
+					/>
+					<mesh
+						name="Cube005_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube005_1.geometry}
+						material={materials["Plastic.001"]}
+					/>
+				</group>
 				<mesh
 					name="Cube014"
 					castShadow
 					receiveShadow
 					geometry={nodes.Cube014.geometry}
-					material={materials["Wood.002"]}
+					material={materials["Metal.001"]}
 					position={[-0.18, 0.4, -1.59]}
 					rotation={[0, -1.571, 0]}
 				/>
-				<mesh
-					name="Cylinder"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cylinder.geometry}
-					material={materials["Metal.001"]}
-					position={[0.5, 0.2, -1]}
-					scale={0.2}
-				>
+				<group name="Poubelle" position={[0.5, 0.2, -1]} scale={0.2}>
 					<mesh
-						name="Cylinder001"
+						name="Cylinder"
 						castShadow
 						receiveShadow
-						geometry={nodes.Cylinder001.geometry}
+						geometry={nodes.Cylinder.geometry}
+						material={materials["Metal.001"]}
+					/>
+					<mesh
+						name="Cylinder_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder_1.geometry}
 						material={materials["Metal_Orange.002"]}
 					/>
-				</mesh>
-				<group name="Cube015" position={[1.3, 0.3, 1.6]}>
+				</group>
+				<group name="Coffre" position={[1.3, 0.3, 1.6]}>
+					<mesh
+						name="Cube016"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube016.geometry}
+						material={materials["Plastic.001"]}
+					/>
 					<mesh
 						name="Cube016_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cube016_1.geometry}
-						material={materials["Metal.001"]}
-					/>
-					<mesh
-						name="Cube016_2"
-						castShadow
-						receiveShadow
-						geometry={nodes.Cube016_2.geometry}
 						material={materials["Metal_Orange.002"]}
 					/>
 				</group>
 				<mesh
-					name="Cube016"
+					name="Chaise"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cube016.geometry}
+					geometry={nodes.Chaise.geometry}
 					material={materials["Wood.002"]}
 					position={[1.3, 0.6, -0.2]}
 					rotation={[0, Math.PI / 9, 0]}
 					scale={[0.28, 0.028, 0.28]}
 				/>
 				<mesh
-					name="Cylinder002"
+					name="Lampe"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cylinder002.geometry}
-					material={nodes.Cylinder002.material}
+					geometry={nodes.Lampe.geometry}
+					material={materials["Metal.001"]}
 					position={[0.39, 1.046, -1.7]}
 					rotation={[Math.PI, -0.96, Math.PI]}
 					scale={[-0.16, -0.016, -0.16]}
@@ -263,7 +177,7 @@ export default function Model(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Cube017.geometry}
-						material={nodes.Cube017.material}
+						material={materials["Wire.001"]}
 						position={[-0.512, -0.875, 0.358]}
 						rotation={[-Math.PI, 0.96, -Math.PI]}
 						scale={[-0.125, -0.5, -0.125]}
@@ -273,43 +187,43 @@ export default function Model(props) {
 						castShadow
 						receiveShadow
 						geometry={nodes.Sphere.geometry}
-						material={nodes.Sphere.material}
+						material={materials.Nrj}
 						position={[0, -24, 1.55]}
 						rotation={[-Math.PI, 0, -Math.PI]}
 						scale={[-0.27, -2.7, -0.27]}
 					/>
 				</mesh>
-				<group name="Cube018" position={[-1, 1.4, 1.96]}>
+				<group name="Porte" position={[-1, 1.4, 1.96]}>
+					<mesh
+						name="Cube019"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube019.geometry}
+						material={materials["Metal.001"]}
+					/>
 					<mesh
 						name="Cube019_1"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cube019_1.geometry}
-						material={materials["Metal.001"]}
-					/>
-					<mesh
-						name="Cube019_2"
-						castShadow
-						receiveShadow
-						geometry={nodes.Cube019_2.geometry}
 						material={materials["Metal_Orange.002"]}
 					/>
 				</group>
 				<mesh
-					name="Cube019"
+					name="Blue_Wire001"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cube019.geometry}
-					material={nodes.Cube019.material}
+					geometry={nodes.Blue_Wire001.geometry}
+					material={materials["Wire.002"]}
 					position={[0, 2, 0]}
 					scale={2}
 				/>
 				<mesh
-					name="Cube020"
+					name="Red_Wire001"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cube020.geometry}
-					material={nodes.Cube020.material}
+					geometry={nodes.Red_Wire001.geometry}
+					material={materials["Wire.001"]}
 					position={[0, 2, 0]}
 					scale={2}
 				/>
@@ -318,75 +232,62 @@ export default function Model(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cube021.geometry}
-					material={nodes.Cube021.material}
+					material={materials["Plastic.001"]}
 					position={[0, 2, 0]}
 					scale={2}
 				/>
 				<mesh
-					name="BezierCurve"
+					name="Feuilles"
 					castShadow
 					receiveShadow
-					geometry={nodes.BezierCurve.geometry}
-					material={nodes.BezierCurve.material}
-					position={[0.95, 1.031, -1.38]}
-					rotation={[Math.PI / 2, 0, Math.PI / 2]}
-					scale={0.231}
-				/>
-				<mesh
-					name="BezierCurve001"
-					castShadow
-					receiveShadow
-					geometry={nodes.BezierCurve001.geometry}
-					material={nodes.BezierCurve001.material}
-					position={[0.65, 1.031, -1.48]}
-					rotation={[Math.PI / 2, 0, 1.92]}
-					scale={0.231}
-				/>
-				<mesh
-					name="BezierCurve002"
-					castShadow
-					receiveShadow
-					geometry={nodes.BezierCurve002.geometry}
-					material={nodes.BezierCurve002.material}
-					position={[0.98, 1.042, -1.58]}
-					rotation={[Math.PI / 2, 0, 1.309]}
-					scale={0.231}
-				/>
-				<mesh
-					name="BezierCurve003"
-					castShadow
-					receiveShadow
-					geometry={nodes.BezierCurve003.geometry}
-					material={nodes.BezierCurve003.material}
+					geometry={nodes.Feuilles.geometry}
+					material={nodes.Feuilles.material}
 					position={[0.25, 1.031, -1.28]}
 					rotation={[Math.PI / 2, 0, 1.222]}
 					scale={0.231}
 				/>
 				<mesh
-					name="BezierCurve004"
+					name="Poster"
 					castShadow
 					receiveShadow
-					geometry={nodes.BezierCurve004.geometry}
-					material={nodes.BezierCurve004.material}
+					geometry={nodes.Poster.geometry}
+					material={nodes.Poster.material}
 					position={[1.15, 2.331, -1.999]}
 					rotation={[-Math.PI, 0, Math.PI / 2]}
 					scale={0.503}
 				/>
+				<group name="Tableau" position={[2, 2.092, 0.5]}>
+					<mesh
+						name="Cube023_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube023_1.geometry}
+						material={materials["Plastic.001"]}
+					/>
+					<mesh
+						name="Cube023_2"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cube023_2.geometry}
+						material={materials["Wood.002"]}
+					/>
+				</group>
 				<mesh
-					name="Cube022"
+					name="Papiers_Poubelle"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cube022.geometry}
-					material={nodes.Cube022.material}
-					position={[2, 2.092, 0.5]}
+					geometry={nodes.Papiers_Poubelle.geometry}
+					material={nodes.Papiers_Poubelle.material}
+					position={[0.61, 0.06, -1.04]}
+					scale={0.06}
 				/>
 				<mesh
-					name="Cylinder003"
+					name="Room002"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cylinder003.geometry}
+					geometry={nodes.Room002.geometry}
 					material={materials.Room}
-					position={[-1, 5, -8]}
+					position={[-1, 5, -7.8]}
 					scale={[4, 5, 4]}
 				/>
 				<mesh
@@ -394,94 +295,372 @@ export default function Model(props) {
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder004.geometry}
-					material={nodes.Cylinder004.material}
-					position={[-1, 5, -8]}
+					material={materials["Wood.002"]}
+					position={[-1, 5, -7.8]}
 					scale={[4, 5, 4]}
 				/>
 				<mesh
-					name="Cylinder006"
+					name="Blue_Wire002"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cylinder006.geometry}
-					material={nodes.Cylinder006.material}
-					position={[-1, 5, -8]}
+					geometry={nodes.Blue_Wire002.geometry}
+					material={materials["Wire.002"]}
+					position={[-1, 5, -7.8]}
 					scale={[4, 5, 4]}
 				/>
-				<mesh
-					name="Cylinder005"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cylinder005.geometry}
-					material={nodes.Cylinder005.material}
-					position={[-1, 0.4, -9.8]}
+				<group
+					name="Console"
+					position={[-1, 0.4, -9.6]}
 					scale={[1.79, 0.4, 1.79]}
-				/>
+				>
+					<mesh
+						name="Cylinder005"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder005.geometry}
+						material={materials["Plastic.001"]}
+					/>
+					<mesh
+						name="Cylinder005_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder005_1.geometry}
+						material={materials["Wire.002"]}
+					/>
+					<mesh
+						name="Cylinder005_2"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder005_2.geometry}
+						material={materials.Screen}
+					/>
+					<mesh
+						name="Cylinder005_3"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder005_3.geometry}
+						material={materials.Nrj}
+					/>
+				</group>
+				<group name="Reactor_Core" position={[-1, 1.9, -10.1]} scale={1.04}>
+					<mesh
+						name="Icosphere"
+						castShadow
+						receiveShadow
+						geometry={nodes.Icosphere.geometry}
+						material={materials["Metal.001"]}
+					/>
+					<mesh
+						name="Icosphere_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Icosphere_1.geometry}
+						material={materials.Nrj}
+					/>
+				</group>
+				<group name="Reactor_Support" position={[-1, 1.9, -10.1]} scale={1.3}>
+					<mesh
+						name="Icosphere001"
+						castShadow
+						receiveShadow
+						geometry={nodes.Icosphere001.geometry}
+						material={materials["Metal.001"]}
+					/>
+					<mesh
+						name="Icosphere001_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Icosphere001_1.geometry}
+						material={materials["Metal.002"]}
+					/>
+					<mesh
+						name="Icosphere001_2"
+						castShadow
+						receiveShadow
+						geometry={nodes.Icosphere001_2.geometry}
+						material={materials.Nrj}
+					/>
+				</group>
 				<mesh
-					name="Icosphere"
+					name="Red_Wire002"
 					castShadow
 					receiveShadow
-					geometry={nodes.Icosphere.geometry}
-					material={nodes.Icosphere.material}
-					position={[-1, 1.9, -10.3]}
-					scale={1.04}
-				/>
-				<mesh
-					name="Icosphere001"
-					castShadow
-					receiveShadow
-					geometry={nodes.Icosphere001.geometry}
-					material={materials["Metal.001"]}
-					position={[-1, 1.9, -10.3]}
-					scale={1.3}
-				/>
-				<mesh
-					name="Cylinder007"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cylinder007.geometry}
-					material={nodes.Cylinder007.material}
-					position={[-1, 5, -8]}
+					geometry={nodes.Red_Wire002.geometry}
+					material={materials["Wire.001"]}
+					position={[-1, 5, -7.8]}
 					scale={[4, 5, 4]}
 				/>
-				<mesh
-					name="Cylinder008"
-					castShadow
-					receiveShadow
-					geometry={nodes.Cylinder008.geometry}
-					material={nodes.Cylinder008.material}
-					position={[2.2, 0.5, -8.3]}
+				<group
+					name="Cuve002"
+					position={[2.3, 0.5, -7.7]}
 					scale={[0.42, 0.5, 0.42]}
-				/>
+				>
+					<mesh
+						name="Cylinder008"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder008.geometry}
+						material={materials["Metal.002"]}
+					/>
+					<mesh
+						name="Cylinder008_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder008_1.geometry}
+						material={materials["Glass.001"]}
+					/>
+					<mesh
+						name="Cylinder008_2"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder008_2.geometry}
+						material={materials["Metal_Orange.002"]}
+					/>
+				</group>
 				<mesh
 					name="Cylinder009"
 					castShadow
 					receiveShadow
 					geometry={nodes.Cylinder009.geometry}
-					material={nodes.Cylinder009.material}
-					position={[-1, 5, -8]}
+					material={materials["Plastic.001"]}
+					position={[-1, 5, -7.8]}
 					scale={[4, 5, 4]}
 				/>
+				<group
+					name="Cuve003"
+					position={[2, 0.5, -6.6]}
+					scale={[0.42, 0.5, 0.42]}
+				>
+					<mesh
+						name="Cylinder009_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder009_1.geometry}
+						material={materials["Metal.002"]}
+					/>
+					<mesh
+						name="Cylinder009_2"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder009_2.geometry}
+						material={materials["Glass.001"]}
+					/>
+					<mesh
+						name="Cylinder009_3"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder009_3.geometry}
+						material={materials["Metal_Orange.002"]}
+					/>
+				</group>
+				<group
+					name="Cuve001"
+					position={[1.4, 0.5, -5.6]}
+					scale={[0.42, 0.5, 0.42]}
+				>
+					<mesh
+						name="Cylinder010"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder010.geometry}
+						material={materials["Metal.002"]}
+					/>
+					<mesh
+						name="Cylinder010_1"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder010_1.geometry}
+						material={materials["Glass.001"]}
+					/>
+					<mesh
+						name="Cylinder010_2"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder010_2.geometry}
+						material={materials["Metal_Orange.002"]}
+					/>
+				</group>
 				<mesh
-					name="Cylinder010"
+					name="BezierCurve005"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cylinder010.geometry}
-					material={nodes.Cylinder010.material}
-					position={[2, 0.5, -7]}
+					geometry={nodes.BezierCurve005.geometry}
+					material={materials["Plastic.001"]}
+					position={[-1, 0, -7.8]}
+				/>
+				<mesh
+					name="BezierCurve006"
+					castShadow
+					receiveShadow
+					geometry={nodes.BezierCurve006.geometry}
+					material={materials["Plastic.001"]}
+					position={[-1, 0, -7.8]}
+				/>
+				<mesh
+					name="BezierCurve007"
+					castShadow
+					receiveShadow
+					geometry={nodes.BezierCurve007.geometry}
+					material={materials["Plastic.001"]}
+					position={[-1, 0, -7.8]}
+				/>
+				<mesh
+					name="Cylinder012"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder012.geometry}
+					material={materials["Wire.002"]}
+					position={[2.3, 0.5, -7.7]}
 					scale={[0.42, 0.5, 0.42]}
 				/>
 				<mesh
-					name="Cylinder011"
+					name="Cylinder013"
 					castShadow
 					receiveShadow
-					geometry={nodes.Cylinder011.geometry}
-					material={nodes.Cylinder011.material}
-					position={[1.3, 0.5, -5.9]}
+					geometry={nodes.Cylinder013.geometry}
+					material={materials["Wire.002"]}
+					position={[2, 0.5, -6.6]}
 					scale={[0.42, 0.5, 0.42]}
+				/>
+				<mesh
+					name="Cylinder014"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder014.geometry}
+					material={materials["Wire.002"]}
+					position={[1.4, 0.5, -5.6]}
+					scale={[0.42, 0.5, 0.42]}
+				/>
+				<mesh
+					name="Cylinder015"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder015.geometry}
+					material={materials["Wire.001"]}
+					position={[-1.99, 0.704, -7.486]}
+					rotation={[0.215, 0, 0]}
+					scale={0.06}
+				/>
+				<mesh
+					name="Cylinder016"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder016.geometry}
+					material={materials["Wire.001"]}
+					position={[-2.3, 0.732, -7.619]}
+					rotation={[0, 1.431, 0.209]}
+					scale={0.06}
+				/>
+				<mesh
+					name="Cylinder017"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder017.geometry}
+					material={materials["Wire.001"]}
+					position={[-2.15, 0.716, -7.541]}
+					rotation={[-2.922, 0.988, 3.133]}
+					scale={0.06}
+				/>
+				<mesh
+					name="Cylinder018"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder018.geometry}
+					material={materials["Wire.001"]}
+					position={[-1.3, 0.65, -7.17]}
+					scale={0.022}
+				/>
+				<mesh
+					name="Cube023"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cube023.geometry}
+					material={materials["Metal.001"]}
+					position={[-1.23, 0.67, -7.34]}
+					rotation={[0, -0.087, 0]}
+				/>
+				<mesh
+					name="Cube024"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cube024.geometry}
+					material={materials["Metal.002"]}
+					position={[-0.67, 0.641, -7.15]}
+					scale={0.6}
+				/>
+				<mesh
+					name="Cylinder019"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder019.geometry}
+					material={materials["Metal.002"]}
+					position={[-0.75, 0.66, -7.266]}
+					rotation={[0.204, 0, 0]}
+					scale={0.024}
+				>
+					<mesh
+						name="Cylinder020"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder020.geometry}
+						material={materials["Wire.002"]}
+						position={[0, 1, 2.8]}
+						scale={[0.7, 0.252, 0.7]}
+					/>
+				</mesh>
+				<mesh
+					name="Cylinder021"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder021.geometry}
+					material={materials["Metal.002"]}
+					position={[-0.82, 0.66, -7.266]}
+					rotation={[0.204, 0, 0]}
+					scale={0.024}
+				>
+					<mesh
+						name="Cylinder022"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder022.geometry}
+						material={materials["Wire.002"]}
+						position={[0, 0.851, -2.233]}
+						scale={[0.7, 0.252, 0.7]}
+					/>
+				</mesh>
+				<mesh
+					name="Cylinder023"
+					castShadow
+					receiveShadow
+					geometry={nodes.Cylinder023.geometry}
+					material={materials["Metal.002"]}
+					position={[-0.89, 0.66, -7.266]}
+					rotation={[0.204, 0, 0]}
+					scale={0.024}
+				>
+					<mesh
+						name="Cylinder024"
+						castShadow
+						receiveShadow
+						geometry={nodes.Cylinder024.geometry}
+						material={materials["Wire.002"]}
+						position={[0, 0.891, 1.248]}
+						scale={[0.7, 0.252, 0.7]}
+					/>
+				</mesh>
+				<mesh
+					name="Plane"
+					castShadow
+					receiveShadow
+					geometry={nodes.Plane.geometry}
+					material={materials.Logo}
+					position={[-1, 2, 2.011]}
+					rotation={[Math.PI / 2, 0, 0]}
+					scale={0.51}
 				/>
 			</group>
 		</group>
 	);
 }
 
-useGLTF.preload("models/Demo_Room-001.glb");
+useGLTF.preload("models/Reactor_Room.glb");
