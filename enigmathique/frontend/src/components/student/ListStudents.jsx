@@ -14,9 +14,6 @@ const ListStudents = (props) => {
 	const [students, setStudents] = useState([]);
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
-	// TODO : récupérer l'id de la classe
-	const URL = window.location.href;
-	const id = URL.substring(URL.lastIndexOf('/') + 1);
 	/**
 	 * récupère la liste de tous les élèves de la classe
 	 */
@@ -29,7 +26,7 @@ const ListStudents = (props) => {
 	useEffect(() => {
 		loadStudents();
 	}, []);
-	
+
 	const handleClickCreate = async (event, firstname, lastname, idCourse) => {
 		event.preventDefault();
 		await toast.promise(Student.create(firstname, lastname, idCourse), {
@@ -93,7 +90,7 @@ const ListStudents = (props) => {
 						<button
 							type='submit'
 							className='bg-blue-gradient-color modal-validate-button-style'
-							onClick={(event) => handleClickCreate(event, firstname, lastname, id)}>
+							onClick={(event) => handleClickCreate(event, firstname, lastname, props.id)}>
 							Créer
 						</button>
 						<button
