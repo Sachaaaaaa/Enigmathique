@@ -4,8 +4,7 @@ import Modal, {ModalBody, ModalHeader} from '../components/Modal';
 
 import CourseModel from '../models/course.model';
 import ClassElement from '../components/class/ClassElement';
-import {useState, useEffect} from 'react';
-
+import {useState, useEffect} from 'react'
 import CreateButton from 'components/dashboard/CreateButton';
 import ContentHeader from 'components/dashboard/ContentHeader';
 import TableContainer from 'components/dashboard/TableContainer';
