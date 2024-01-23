@@ -22,7 +22,6 @@ const TeamStats = () => {
 		const data = await TeamModel.getScores(parsedIdTeam);
 		setScores(data);
 	}
-	console.log(scores);
 
 	useEffect(() => {
 		loadMembers();

@@ -21,9 +21,10 @@ const Student = (props) => {
 	};
 
 	return (
-		<div className='flex flex-row items-center gap-10 justify-between p-4 bg-white'>
-			<div className='flex flex-row items-center gap-2'>
-				<div className='h-10 w-10 rounded-full bg-gray-500'></div>
+		<div className={`flex items-center justify-between  p-4
+						border-t border-[#CECDFD]  ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+			<div className='flex items-center gap-2'>
+				<div className='h-10 w-10 rounded-full bg-purple-color'></div>
 				<p className=''>{props.firstname} {props.lastname}</p>
 			</div>
 			{props.isSelected ?
@@ -39,6 +40,7 @@ const Student = (props) => {
 	);
 };
 Student.propTypes = {
+	index: PropTypes.number.isRequired,
 	id: PropTypes.number.isRequired,
 	lastname: PropTypes.string.isRequired,
 	firstname: PropTypes.string.isRequired,

@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 const TeamContainer = (props) => {
 	return (
-		<section className="flex flex-col gap-2 w-[48%] min-w-[250px] h-full pb-5">
+		<section className="pregame-list-container">
 			<h2 className="medium-title uppercase">
 				{props.isValidated ? 'Équipes acceptées' : 'Équipes en attente'}
 			</h2>
-			<section className="w-full h-full p-0 m-0 bg-white border-l border-r shadow-md overflow-y-auto">
+			<section className="pregame-list">
 					{props.teams.map((team, index) => (
 						<>
 							<Team
