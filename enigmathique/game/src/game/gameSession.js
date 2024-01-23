@@ -85,7 +85,6 @@ class GameSession {
    * @returns {Object} Informations de la session
    */
   getMetadata = () => {
-		console.log(this.expectedTeams);
     return {
       sessionStartTime: this.sessionStartTime,
       roundStartTime: this.roundStartTime,
@@ -122,9 +121,7 @@ class GameSession {
       console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} est déjà dans la session`));
       return;
     }
-
-    console.log(this.expectedTeams);
-    console.log(teamId);
+		
     // [ { name: 'erzoijyb', id: 1, idGame: 8 } ]
     // Vérifier que l'équipe est attendue (/!\ type string et number)
     if (!this.expectedTeams.some((t) => t.id == teamId)) {
