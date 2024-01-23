@@ -154,8 +154,8 @@ class ApiService {
 		}
 	}
 
-	static async putGameState(roomId, state) {
-		const endpoint = '/game/state/' + roomId;
+	static async putGameState(gameId, state) {
+		const endpoint = '/game/state/' + gameId;
 		const data = {
 			state: state
 		};
