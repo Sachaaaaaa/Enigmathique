@@ -325,7 +325,8 @@ exports.addScores = async(req, res, next) => {
 				time: rooms[i].time,
 				nbGoodAnswers: rooms[i].nbGoodAnswers,
 				nbBadAnswers: rooms[i].nbBadAnswers,
-				nbHints: rooms[i].nbHints
+				nbHints: rooms[i].nbHints,
+				isSolved: rooms[i].isSolved
 			}
 			result.push(await Score.create(scoreData))
 		}

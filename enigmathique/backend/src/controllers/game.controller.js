@@ -507,51 +507,6 @@ exports.addRooms = async(req, res, next) => {
 	
 }
 
-// todo :verifier team
-// Accepte une équipe à une partie
-exports.accept = async(req, res) => {
-	
-	try{
-
-		if (!req.body.idGame) {
-			const error = new Error("Il manque des informations pour ajouter des équipes.");
-			error.statusCode = 400;  
-			throw error;
-		}
-
-
-		// Vérifie que la partie appartient bien au professeur
-		await isGameBelongsProfessor(req.params.id, req);
-
-
-
-		const game = await Game.findOne({ where: { id: req.body.idGame} })
-		const team = await Team.findAll({ where: { id: req.params.id} })
-
-		// Vérifie que la taille des équipes est respéctée
-		if(game.teamSize<team.length){
-			const error = new Error("La taille de l'équipe est trop grande.");
-			error.statusCode = 400;  
-			throw error;
-		}
-
-		// Récupère toutes les rooms dans gamerooms
-		const rooms = await GameRooms.findAll({ where: { idGame: req.body.idGame } })
-
-		// Ajouter une ligne score pour chaque team, pour chaque score
-		const scoreToAdd = rooms.map(gameroom => ({idTeam: req.params.id,idGame: req.body.idGame, roomName: gameroom.roomName, time: 0, nbGoodAnswers: 0, nbBadAnswers: 0, nbHints: 0})); 
-		const scores = await Score.bulkCreate(scoreToAdd)
-		
-		res.status(201).json(scores);
-
-	// Gère les erreurs
-	}catch(err) {
-		next(err)
-	}
-	
-}
-
-
 
 // methode pour récuperer une partie en fonction de son id
 exports.getState = async (req, res, next) => {
