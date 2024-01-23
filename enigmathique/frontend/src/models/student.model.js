@@ -22,7 +22,7 @@ class StudentModel {
 	/**
 	 * Getter d'un élève à partir de son identifiant
 	 * @param idStudent identifiant de l'élève
-	 * @returns l'élève qui correspond à l'identifiant
+	 * @returns l'élève correspondant à l'identifiant
 	 */
 	static async getOne(idStudent){
 		try {
