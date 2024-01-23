@@ -81,9 +81,9 @@ const Join = (props) => {
 	const [status, setStatus] = useState('');
 	useEffect(() => {
 		if (isConfirmed) {
-			setStatus('Votre équipe est prête, en attente des autres équipes');
+			setStatus('Votre équipe est prête, en attente du lancement de la partie');
 		} else if (isLocked) {
-			setStatus('Votre équipe est verrouillée, en attente de confirmation');
+			setStatus('Votre équipe a été enregistrée, en attente de validation');
 		}
 	}, [isConfirmed, isLocked]);
 
@@ -106,11 +106,11 @@ const Join = (props) => {
 			<SocketContext.Provider value={socket}>
 				<main className='fullscreen-container'>
 				<AuthHeader title = "Rejoindre une partie"/>
-			<div className='grow flex flex-col gap-10 h-full p-5 pb-10 overflow-auto '>
+			<div className='grow flex flex-col justify-center items-center gap-10 h-full p-5 pb-10 overflow-auto '>
 				{isLocked ?
 						(	<>
 								<SyncLoader color='#4c49ed'/>
-								<h1 className='text-2xl p-5'>{status}</h1>
+								<h1 className='text-2xl p-1'>{status}</h1>
 							</>
 						)
 						:

@@ -6,7 +6,7 @@ import { FaCheck } from 'react-icons/fa';
 import { FiInfo } from "react-icons/fi";
 import {MdOutlineModeEdit, MdDeleteForever, MdOutlineRemove} from 'react-icons/md';
 import PropTypes from 'prop-types';
-
+import { IoMdRemove } from "react-icons/io";
 const ActionButton = ({title,link = '', onClick= () => {}, disabled=false}) => {
 
     // const actionMap = {
@@ -42,7 +42,7 @@ const ActionButton = ({title,link = '', onClick= () => {}, disabled=false}) => {
             className: "btn-action-valider p-2",
         },
         refuser : {
-            icon: <MdOutlineRemove size='1em'/>,
+            icon: <IoMdRemove size='1em'/>,
             className: "btn-action-refuser p-2",
         },
 

@@ -48,6 +48,7 @@ const Team = (props) => {
 						title='Valider'
 						onClick={addingTeam}
 						/>
+					
 						<ActionButton
 						title='Refuser'
 						onClick={removingTeam}
