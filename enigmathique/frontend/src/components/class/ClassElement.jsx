@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom';
 import Modal, {ModalBody, ModalHeader} from '../Modal';
 import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
 import { IoPerson } from "react-icons/io5";
-import Course from "../../models/course.model";
+import CourseModel from "../../models/course.model";
 import { IoIosStats } from "react-icons/io";
-import Game from "../../models/game.model";
+import GameModel from "../../models/game.model";
 import PropTypes from 'prop-types';
 import toast from "react-hot-toast";
 import ActionButton from "components/dashboard/ActionButton";
@@ -22,7 +22,7 @@ const ClassElement = ({classe, onChange,index}) => {
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
-			Course.delete(id),
+			CourseModel.delete(id),
 			{
 				loading: 'Suppression...',
 				success: "La classe a bien été supprimée",
@@ -37,7 +37,7 @@ const ClassElement = ({classe, onChange,index}) => {
 	const handleClickEdit = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
-			Course.edit(name, id),
+			CourseModel.edit(name, id),
 			{
 				loading: 'Enregistrement...',
 				success: "La classe a bien été modifiée",
@@ -50,7 +50,7 @@ const ClassElement = ({classe, onChange,index}) => {
 	}
 
 	const loadGamesOf = async() => {
-		const data = await Game.getAll();
+		const data = await GameModel.getAll();
 		let listGames = [];
 		data.forEach((game) => {
 			classe.id === game.idCourse && listGames.push();

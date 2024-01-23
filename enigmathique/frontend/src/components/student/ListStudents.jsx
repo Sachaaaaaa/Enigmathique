@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Modal, {ModalBody, ModalHeader} from '../Modal';
 import PropTypes from 'prop-types';
 import SearchInput from "../SearchInput";
-import Student from "../../models/student.model";
+import StudentModel from "../../models/student.model";
 import StudentElement from "./StudentElement";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import CreateButton from 'components/dashboard/CreateButton';
@@ -14,14 +14,11 @@ const ListStudents = (props) => {
 	const [students, setStudents] = useState([]);
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
-	// TODO : récupérer l'id de la classe
-	const URL = window.location.href;
-	const id = URL.substring(URL.lastIndexOf('/') + 1);
 	/**
 	 * récupère la liste de tous les élèves de la classe
 	 */
 	const loadStudents = async () => {
-		const data = await Student.getAll(props.id);
+		const data = await StudentModel.getAll(props.id);
 		setStudents(data);
 		//console.log(data);
 	}
@@ -29,10 +26,10 @@ const ListStudents = (props) => {
 	useEffect(() => {
 		loadStudents();
 	}, []);
-	
+
 	const handleClickCreate = async (event, firstname, lastname, idCourse) => {
 		event.preventDefault();
-		await toast.promise(Student.create(firstname, lastname, idCourse), {
+		await toast.promise(StudentModel.create(firstname, lastname, idCourse), {
 			loading: "Ajout...",
 			success: 'Elève ajouté !',
 			error: "Une erreur s'est produite"
@@ -93,7 +90,7 @@ const ListStudents = (props) => {
 						<button
 							type='submit'
 							className='bg-blue-gradient-color modal-validate-button-style'
-							onClick={(event) => handleClickCreate(event, firstname, lastname, id)}>
+							onClick={(event) => handleClickCreate(event, firstname, lastname, props.id)}>
 							Créer
 						</button>
 						<button

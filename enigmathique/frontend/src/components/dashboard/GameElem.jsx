@@ -2,8 +2,8 @@ import {Link} from 'react-router-dom';
 import React, {useEffect, useState, useTransition} from 'react';
 import PropTypes from 'prop-types';
 import TeamService from "../../services/team.service";
-import Game from "../../models/game.model";
-import Course from "../../models/course.model";
+import GameModel from "../../models/game.model";
+import CourseModel from "../../models/course.model";
 import useCourses from "../../hooks/useCourses";
 import useTeams from "../../hooks/useTeams";
 import TeamModel from "../../models/team.model";
@@ -25,7 +25,7 @@ const GameElem = (props) => {
 	
 	const fetchData = async () => {
 		try {
-			const scoresData = await Game.getScores(game.id);
+			const scoresData = await GameModel.getScores(game.id);
 			setScores(scoresData);
 			getWinners(scoresData)
 		}catch (e) {

@@ -1,6 +1,6 @@
 import CourseService from "../services/course.service";
 
-class Course {
+class CourseModel {
 	/**
 	 *
 	 * @param id
@@ -20,7 +20,7 @@ class Course {
 	static async get(id) {
 		try {
 			const data = await CourseService.getOne(id);
-			return new Course(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
+			return new CourseModel(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
 		}catch (error){
 			console.log(`erreur dans le getter d'une classe dans le modèle d'une classe (front) ${error}`);
 		}
@@ -28,7 +28,7 @@ class Course {
 	static async getAll() {
 		try {
 			const data = await CourseService.getAll();
-			return data.map((course) => new Course(course.id, course.name, course.idProfessor, course.createdAt, course.updatedAt));
+			return data.map((course) => new CourseModel(course.id, course.name, course.idProfessor, course.createdAt, course.updatedAt));
 		}catch (error){
 			console.log(`erreur dans le getter de toutes les classes dans le modèle d'une classe (front) ${error}`);
 		}
@@ -44,7 +44,7 @@ class Course {
 	static async create(name) {
 		try {
 			const data = await CourseService.create(name);
-			return new Course(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
+			return new CourseModel(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
 		}catch (error){
 			console.log(`erreur dans le create dans le modèle d'une classe (front) ${error}`);
 		}
@@ -52,7 +52,7 @@ class Course {
 	static async edit(name, id) {
 		try {
 			const data = await CourseService.edit(name, id);
-			return new Course(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
+			return new CourseModel(data.id, data.name, data.idProfessor, data.createdAt, data.updatedAt);
 		}catch (error){
 			console.log(`erreur dans l'edit dans le modèle d'une classe (front) ${error}`);
 		}
@@ -60,4 +60,4 @@ class Course {
 
 }
 
-export default Course;
+export default CourseModel;
