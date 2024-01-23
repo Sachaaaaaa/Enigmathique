@@ -44,7 +44,7 @@ const CreationGame1 = (props) => {
 	return (
 
 		<section className='flex flex-col justify-center items-center w-full h-[calc(100%-26px)] min-h-[400px] '>
-			<ContentHeader title='Paramètres' link='/dashboard' onClick={handleAnnuler}/>
+			<ContentHeader title='Paramètres de partie' link='/dashboard' onClick={handleAnnuler}/>
 
 			{/* Formulaire des paramètres de la partie */}
 			<article className="flex flex-col justify-center items-center w-[25%] min-w-[300px] h-full px-5">

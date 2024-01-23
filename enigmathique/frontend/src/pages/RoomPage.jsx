@@ -37,7 +37,7 @@ const RoomPage = () => {
 	return (
 		<LayoutProf>
 			<main className="flex flex-col overflow-y-hidden">
-				<ContentHeader title="" link='/dashboard'>
+				<ContentHeader link='/dashboard'>
 						<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>
 						<RoomNav
 							chapterChange={(e) => (setFilter({...filter, chapter: e.target.value}))}
