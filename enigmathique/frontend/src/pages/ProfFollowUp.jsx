@@ -12,6 +12,7 @@ function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
 	const [totalRounds, setTotalRounds] = useState(null);
 	const [allData, setAllData] = useState(null);
+	const [metaData, setMetaData] = useState(null);
 
 
 	// Assurez-vous que le token et le sessionId sont présents
@@ -35,9 +36,9 @@ function ProfFollowUp() {
 			const roomData = rooms[i];
 			const roomName = roomData.name;
 			const roomIsSolved = roomData.isSolved;
-			const numResolved = roomData.numSolved;
-			const numBadAnswer = roomData.numBadAnswers;
-			const numHint = roomData.numHints;
+			const numResolved = roomData.nbGoodAnswers;
+			const numBadAnswer = roomData.nbBadAnswers;
+			const numHint = roomData.nbHints;
 
 			const score = calculateScore(numResolved, numBadAnswer, numHint, roomIsSolved);
 			
@@ -72,6 +73,7 @@ function ProfFollowUp() {
 			// Écouteur de progression de toutes les équipes
 			socket.on(ServerToClient.AllTeamsProgress, (data) => {
 				data = data.data;
+				setMetaData(data.metadata);
 				setAllData(data);
 				console.log('Progression des équipes', data);
 				
@@ -82,6 +84,7 @@ function ProfFollowUp() {
 				}
 
 				if (data && data.teams && typeof data.teams === 'object') {
+					console.log('Données de progression des équipes', data);
 					const teamsData = Object.keys(data.teams).map((key) => {
 						if (data.teams[key] && data.teams[key].length > 0) {
 							const teamData = data.teams[key];
@@ -119,8 +122,8 @@ function ProfFollowUp() {
 		}
 	}, [token, sessionId, socket]);
 
-	const calculateScore = (numSolved, numBadAnswers, numHints, roomIsSolved) => {
-		let score = numSolved * 100 - numBadAnswers * 20 - numHints * 30;
+	const calculateScore = (nbGoodAnswers, nbBadAnswers, nbHints, roomIsSolved) => {
+		let score = nbGoodAnswers * 100 - nbBadAnswers * 20 - nbHints * 30;
 
 		if (roomIsSolved) {
 			score += 300;
@@ -183,7 +186,7 @@ function ProfFollowUp() {
 									</div>
 								</td>
 								<td className="td-style">
-									{team.teamName}
+									{metaData == null ? 'NaN' : metaData.teams[team.id].name}
 								</td>
 								<td className="td-style">
 									{team.score}

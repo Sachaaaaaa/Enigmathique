@@ -443,7 +443,7 @@ exports.getIdFromCode = async (req, res, next) => {
 	try{
 
 		// Récupère la classe courrespondant au code
-		const game = await Game.findOne({ gameCode: { code: req.params.code} })
+		const game = await Game.findOne({where: { gameCode: req.params.code }});
 
 		return res.status(200).json(game.id);
 

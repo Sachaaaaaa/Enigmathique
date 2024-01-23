@@ -3,7 +3,7 @@ const { Socket } = require('socket.io');
 
 const GameManager = require('./game/gameManager');
 const TeamCompositionManager = require('./teamComposition/teamCompositionManager');
-const { ClientToServer, ConnectionType } = require('./socketMessages');
+const { ClientToServer, ConnectionType, ServerToClient } = require('./socketMessages');
 const CompositionSession = require('./teamComposition/compositionSession');
 const ApiService = require('./api/api');
 
@@ -31,15 +31,23 @@ class SocketManager {
 		const sessionCode = socket.handshake.query.sessionId;
 		if (!sessionCode) {
 			console.log(clc.red('[Socket] Aucun id de session, déconnexion'));
+			socket.emit(ServerToClient.Error, {message: 'Aucun id de session', isFatal: true});
 			socket.disconnect();
 			return;
 		}
 
 		// Vérifier si la session est valide
 		const sessionId = await ApiService.getGameIdFromCode(sessionCode);
+		if (sessionId == null) {
+			console.log(clc.red('[Socket] Session invalide, déconnexion'));
+			socket.emit(ServerToClient.Error, {message: 'L\'id de session n\'est pas valide', isFatal: true});
+			socket.disconnect();
+			return;
+		}
 		const sessionState = await ApiService.getGameStateById(sessionId);
 		if (sessionState == null || sessionState >= 2) {
-			console.log(clc.red('[Socket] Session invalide ou terminée, déconnexion'));
+			console.log(clc.red('[Socket] Session terminée, déconnexion'));
+			socket.emit(ServerToClient.Error, {message: 'La session est terminée', isFatal: true});
 			socket.disconnect();
 			return;
 		}

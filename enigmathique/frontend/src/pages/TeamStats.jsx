@@ -166,9 +166,9 @@ const TeamStats = ({teamData, onClose, scores}) => {
 }
 
 TeamStats.propTypes = {
-	teamData: PropTypes.object.isRequired,
-	scores: PropTypes.array.isRequired,
-	onClose: PropTypes.func.isRequired,
+	teamData: PropTypes.object,
+	scores: PropTypes.array,
+	onClose: PropTypes.func,
 };
 
 export default TeamStats;

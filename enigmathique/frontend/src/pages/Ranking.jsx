@@ -9,6 +9,7 @@ import TeamStats from "./TeamStats";
 import TableContainer from "../components/dashboard/TableContainer";
 import ContentHeader from "../components/dashboard/ContentHeader";
 
+import {getPositionStyle, getPositionIcon} from "../components/stats/RankStyleManager";
 const maxTime = 600;
 
 const Ranking = () => {
@@ -38,9 +39,9 @@ const Ranking = () => {
 		return await TeamModel.getStudents(idTeam);
 	};
 
-	const calculateScore = (numSolved, numBadAnswers, numHints) => {
+	const calculateScore = (nbGoodAnswers, nbBadAnswers, nbHints) => {
 		return (
-			numSolved * 100 - numBadAnswers * 10 - numHints * 20 + (numSolved > 0 ? 300 : 0)
+			nbGoodAnswers * 100 - nbBadAnswers * 10 - nbHints * 20 + (nbGoodAnswers > 0 ? 300 : 0)
 		);
 	};
 
@@ -89,27 +90,7 @@ const Ranking = () => {
 		setSelectedTeam(team);
 		loadScoresForOneTeam(team.id);
 	};
-	const getPositionIcon = (index) => {
-		switch (index) {
-			case 0:
-				return <FaStar className="text-3xl text-yellow-400" />;
-			case 1:
-				return <FaStar className="text-3xl text-gray-500" />;
-			case 2:
-				return <FaStar className="text-3xl text-orange-600" />;
-			default:
-				return <FaRegCircle className="text-4xl text-blue-300 stroke-2" />;
-		}
-	};
 
-	const getPositionStyle = (index) => {
-		const positionStyles = [
-			'text-white',
-			'text-white',
-			'text-white',
-		];
-		return index < 3 ? positionStyles[index] : 'text-blue-400';
-	};
 
 	return (
 		<LayoutProf>

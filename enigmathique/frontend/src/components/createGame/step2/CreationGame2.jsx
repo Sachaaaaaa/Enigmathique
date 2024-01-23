@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import RoomNav from "./RoomNav";
 import Room from "./Room";
 import PropTypes from "prop-types";
-import Game from "../../../models/game.model";
+import GameModel from "../../../models/game.model";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import FooterButtons from '../FooterButtons';
 import SearchInput from "../../SearchInput";
@@ -58,15 +58,15 @@ const CreationGame2 = (props) => {
 
 	const createGame = async () => {
 		//return await GameService.createGame(formData.course, formData.gameName, formData.teamSize);
-		return await Game.create(formData.course, formData.gameName, formData.teamSize)
+		return await GameModel.create(formData.course, formData.gameName, formData.teamSize)
 	}
 	const addRooms = async (gameId, roomsIds) => {
 		//return await GameService.addRooms(gameId, roomsIds);
-		return await Game.addRooms(gameId, roomsIds);
+		return await GameModel.addRooms(gameId, roomsIds);
 	}
 	const openGame = async (gameId) => {
 		//return await GameService.openGame(gameId);
-		return await Game.openGame(gameId);
+		return await GameModel.openGame(gameId);
 	}
 
 	const handleRoomSelection = (roomName) => {
