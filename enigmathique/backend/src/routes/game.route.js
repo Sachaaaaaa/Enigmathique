@@ -41,9 +41,6 @@ module.exports = app => {
 
 	// Y'a moyen de rassembler plusieurs méthodes en une seule
 	// teams + rooms | 
-	
-	// Accepte une équipe au sein de la partie
-	//router.post("/team/accept/:id", middleware.verifyToken, game.accept);
 
 	// Supprime une partie
 	router.delete("/:id", middleware.verifyGameToken, game.backendDelete, middleware.verifyErrors)
