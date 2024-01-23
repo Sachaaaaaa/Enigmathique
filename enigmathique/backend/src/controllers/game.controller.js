@@ -231,6 +231,43 @@ exports.findOne = async (req, res, next) => {
 }
 
 /////////////////////////////////////////////////////////////////////////////////
+// 									 UPDATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+// methode pour mettre à jour le professeur connecté
+exports.setState = async(req, res, next) => {
+	
+	try{
+
+		// Vérification des informations fournis
+		const GameSchema = baseSchema.keys({
+			state: Joi.number().integer().min(0).max(2).required(),
+		});
+
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(GameSchema, req)
+
+		// Effectue la requête de mise à jour
+		const updatedRows = await Game.update({state: req.body.state}, {where: { id: req.params.id} })
+
+		// Vérifie que la colonne à effectivement été mise à jour
+		if (updatedRows == 0) {
+			const error = new Error("Impossible de mettre à jour la partie");
+			error.statusCode = 404;  
+			throw error;
+		} 
+	
+		return res.status(201).json({message: "La partie à été mise a jour avec succès"});
+	
+	// Gère les erreurs
+	} catch(err) {
+		console.log(err)
+		next(err)
+	}
+  };
+
+
+/////////////////////////////////////////////////////////////////////////////////
 // 									 OTHER                                     //
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -344,6 +381,21 @@ exports.delete = async (req, res, next) => {
 		// Vérifie que la partie appartient bien au professeur
 		await isGameBelongsProfessor(req.params.id, req);
 
+		// Enregistrer la classe dans la base de données
+		const destroyedRows = await Game.destroy({ where: { id: req.params.id}})
+		return res.status(200).json(destroyedRows);
+		
+
+	// Gère les erreurs
+	}catch(err) {
+		next(err)
+	}
+}
+
+// Supprime la partie
+exports.backendDelete = async (req, res, next) => {
+
+	try{
 		// Enregistrer la classe dans la base de données
 		const destroyedRows = await Game.destroy({ where: { id: req.params.id}})
 		return res.status(200).json(destroyedRows);

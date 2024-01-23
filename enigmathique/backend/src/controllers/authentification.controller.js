@@ -2,11 +2,36 @@
 require('dotenv').config();
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
+const sha256 = require('js-sha256');
 const db = require("../models/db.js");
+const TokenDB = db.token;
 const Professor = db.professor;
 const Joi = require('joi');
 const { baseSchema } = require('./validationSchemas');
 const Op = db.Sequelize.Op;
+
+
+// Fonction générant un token JWT
+async function generateToken(idProf, res) {
+    try {
+
+		// Générer un token contenant l'id du prof
+        const token = jwt.sign({ id: idProf }, process.env.SECRET_KEY, { expiresIn: '1h' });
+		
+		// Génère le hash du token
+		const tokenHash = sha256(token);
+		
+        // Enregistre dans la DB le hash du token
+        await TokenDB.create( { token:tokenHash});
+
+        // Renvoyer la réponse JSON une fois que tout est fait
+        return res.status(201).json({ token: token });
+
+		// gère les erreurs
+    } catch (error) {
+        next(err)
+    }
+}
 
 
 // Créer et enregistrer un nouveau professeur
@@ -34,19 +59,40 @@ exports.register = async (req, res, next) => {
 			lastname: req.body.lastname,
 			firstname: req.body.firstname,
 			mail: req.body.mail,
+			// Utilise argon2 pour hasher le mot de passe
 			password: await argon2.hash(req.body.password + process.env.PEPPER_KEY),
 		};
 
 		// Enregistrer le professeur dans la base de données
 		const createdProfessor  = await Professor.create(professor)
 		
-		// Génère le token de connexion
-		const token = jwt.sign( {id: createdProfessor['dataValues']['id']}, process.env.SECRET_KEY, { expiresIn: '1h' });
-		return res.status(201).json({
-			token: token,
-		});
+		// Génère le token de connexion contenant l'id du professeur
+		await generateToken(createdProfessor['dataValues']['id'], res)
+
+		// gère les erreurs
 	} catch(err) {
-		console.log(err)
+		next(err)
+	}
+}
+
+
+// Gère la déconnexion d'un professeur
+exports.logout = async (req, res, next) => {
+
+	try{
+		// Récupère le token dans le headers
+		const token = req.headers['authorization']
+
+		// Récupère le hash du token
+		const tokenHash = sha256(token);
+
+		// Supprime le token de la DB, ce qui a pour effet de le révoquer
+		await TokenDB.destroy({ where: { token: tokenHash} })
+
+		return res.status(201).json("Deconnexion avec succès");
+
+		// Gère les erreurs
+	} catch(err) {
 		next(err)
 	}
 }
@@ -81,15 +127,16 @@ exports.login = async (req, res, next) => {
 
 			// On vérifie qu'il s'agissent du bon mdp
 			if(await argon2.verify(password, req.body.password + process.env.PEPPER_KEY)) {
-				// On récupère l'id du prof pour le token
-				const token = jwt.sign({ id: existingProfessor['dataValues']['id'] }, process.env.SECRET_KEY, { expiresIn: '1h' });
-				return res.status(201).json({
-					token: token,
-				});
+				
+				// Génère le token de connexion
+				await generateToken(existingProfessor['dataValues']['id'], res)
+
+			} else {
+				// On indique qu'il s'agit du mauvais mdp
+				const error = new Error("Mauvais mdp.");
+				error.statusCode = 400;  
+				throw error;
 			}
-			const error = new Error("Mauvais mdp.");
-			error.statusCode = 400;  
-			throw error;
 		} else {
 			// Si le prof n'existe pas on renvoie une erreur
 			const error = new Error("Aucun compte ne correspond au mail indiqué.");
@@ -99,6 +146,7 @@ exports.login = async (req, res, next) => {
 
 
 	} catch(err) {
+		console.log(err)
 		next(err)
 	}
 }
