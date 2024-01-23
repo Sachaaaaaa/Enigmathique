@@ -7,18 +7,16 @@ import TeamModel from "../models/team.model";
 import {FaDoorOpen, FaExclamationCircle, FaLightbulb, FaPuzzlePiece, FaTimes} from "react-icons/fa";
 import {Doughnut} from "react-chartjs-2";
 import PropTypes from "prop-types";
+import ItemStats from "../components/stats/ItemStats";
 
 const TeamStats = ({teamData, onClose, scores}) => {
 	const [selectedRoom, setSelectedRoom] = useState('Global');
 	const [roomTimers, setRoomTimers] = useState({});
 	const [chartData, setChartData] = useState({});
 	const [backgroundColorSet, setBackgroundColorSet] = useState([]);
-	console.log('teamdaaaaaaaaaatata',teamData);
-	console.log('scoressssssssssss', scores);
 
 	const details = selectedRoom === 'Global'
 		? {
-
 			indicesUtilises: scores.reduce((acc, score) => acc + score.nbHints, 0),
 			erreursCommises: scores.reduce((acc, score) => acc + score.nbBadAnswers, 0),
 			sallesReussies: scores.filter(score => score.isSolved).length,
@@ -27,7 +25,7 @@ const TeamStats = ({teamData, onClose, scores}) => {
 		: scores.find(score => score.roomName === selectedRoom);
 
 	useEffect(() => {
-		if (scores===undefined) return <p>SIUUUUUUU</p>;
+		if (scores===undefined) return <p>Loading..</p>;
 		// Générer un jeu fixe de couleurs lors du premier chargement du composant
 		if (scores.length > 0 && backgroundColorSet.length === 0) {
 			const generatedColors = scores.map((_, index) => {
@@ -40,9 +38,8 @@ const TeamStats = ({teamData, onClose, scores}) => {
 
 
 	useEffect(() => {
-		if (scores===undefined) return <p>SIUUUUUUU</p>;
+		if (scores===undefined) return <p>Loading..</p>;
 		const timers = {};
-
 		scores.forEach(score => {
 			setRoomTimers(prevTimers => ({
 				...prevTimers,
@@ -57,12 +54,12 @@ const TeamStats = ({teamData, onClose, scores}) => {
 
 
 	useEffect(() => {
-		if (scores===undefined) return <p>SIUUUUUUU</p>;
+		if (scores===undefined) return <p>Loading..</p>;
 		const chartData = {
 			labels: scores.map(score => score.roomName),
 			datasets: [{
 				label: 'Temps passé dans chaque salle',
-				data: scores.map(score=> convertTimeToSeconds(roomTimers[score.roomName])),
+				data: scores.map(score=> convertTimeToSeconds(roomTimers[score.roomName])),//score.time
 				backgroundColor: backgroundColorSet,
 				hoverBackgroundColor: backgroundColorSet.map(color => lightenColor(color, 10))
 			}]
@@ -99,7 +96,11 @@ const TeamStats = ({teamData, onClose, scores}) => {
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 			<div className="bg-white w-full max-w-2xl mx-auto rounded-lg shadow-md-xl overflow-hidden">
 				<div className="flex justify-between items-center border-b p-5">
-					<h2 className="text-2xl font-bold">{teamData.teamName}</h2>
+					<h2 className="text-2xl font-bold">{teamData.name}</h2>
+					<div className='w-[70%]'>
+						<h3 className="text-l font-semibold ">{`Membres de l'équipe`}</h3>
+						<p className='text-gray-500'>{teamData.members.map((student)=> student.firstname +' '+student.lastname+'/ ')}</p>
+					</div>
 					<button onClick={onClose} className="text-black text-2xl">
 						<FaTimes />
 					</button>
@@ -144,87 +145,16 @@ const TeamStats = ({teamData, onClose, scores}) => {
 						<div className="space-y-2">
 							{selectedRoom === 'Global' ? (
 								<>
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-yellow-100">
-											<FaLightbulb className="text-yellow-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Indices utilisés</p>
-											<p className="text-lg">{details.indicesUtilises}</p>
-										</div>
-									</div>
-
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-red-100">
-											<FaExclamationCircle className="text-red-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Erreurs commises</p>
-											<p className="text-lg">{details.erreursCommises}</p>
-										</div>
-									</div>
-
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-blue-100">
-											<FaDoorOpen className="text-blue-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Salles réussies</p>
-
-											<p className="text-lg">{details.sallesReussies}</p>
-										</div>
-									</div>
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-green-100">
-											<FaPuzzlePiece className="text-green-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Énigmes résolues</p>
-											<p className="text-lg">{details.nbGoodAnswers}</p>
-										</div>
-									</div>
+									<ItemStats logo='indices' text='Indices utilisés' value={details.indicesUtilises} color='yellow'/>
+									<ItemStats logo='erreurs' text='Erreurs commises' value={details.erreursCommises} color='red'/>
+									<ItemStats logo='sallesReussies' text='Salles réussies' value={details.sallesReussies} color='blue'/>
 								</>
 							): (
 								<>
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-yellow-100">
-											<FaLightbulb className="text-yellow-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Indices utilisés</p>
-											<p className="text-lg">{details.nbHints}</p>
-										</div>
-									</div>
-
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-red-100">
-											<FaExclamationCircle className="text-red-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Erreurs commises</p>
-											<p className="text-lg">{details.nbBadAnswers}</p>
-										</div>
-									</div>
-
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-blue-100">
-											<FaDoorOpen className="text-blue-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Salle réussie</p>
-											{/* // affiché si la salle est résolue ou non */}
-											<p className="text-lg">{details.isSolved ? 'Oui' : 'Non'}</p>
-										</div>
-									</div>
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-green-100">
-											<FaPuzzlePiece className="text-green-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Énigmes résolues</p>
-											<p className="text-lg">{details.nbGoodAnswers}</p>
-										</div>
-									</div>
+									<ItemStats logo='indices' text='Indices utilisés' value={details.nbHints} color='yellow'/>
+									<ItemStats logo='erreurs' text='Erreurs commises' value={details.nbBadAnswers} color='red'/>
+									<ItemStats logo='sallesReussies' text='Salles réussies' value={details.isSolved ? 'Oui' : 'Non'} color='blue'/>
+									<ItemStats logo='enigmesResolues' text='Énigmes résolues' value={details.nbGoodAnswers} color='green'/>
 								</>
 							)}
 						</div>
