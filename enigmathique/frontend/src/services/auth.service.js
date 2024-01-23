@@ -1,4 +1,5 @@
 import axios from 'axios';
+import authHeader from "./auth-header";
 
 const API_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
@@ -34,7 +35,10 @@ const login = (mail, password) => {
 		});
 };
 
-const logout = () => {
+const logout = 	async() => {
+	const token = authHeader();
+	await axios
+		.post(API_URL + 'auth/logout', {}, {headers: token});
 	// Supprime l'utilisateur de la mémoire locale
 	localStorage.removeItem('user');
 };
