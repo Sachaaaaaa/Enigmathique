@@ -104,12 +104,13 @@ const Join = (props) => {
 
 	return (
 			<SocketContext.Provider value={socket}>
-				<AuthHeader title = {`Session : ${sessionId}`}/>
-				<main className='flex flex-col justify-center items-center w-full'>
-					{isLocked ?
+				<main className='fullscreen-container'>
+				<AuthHeader title = "Rejoindre une partie"/>
+			<div className='grow flex flex-col gap-10 h-full p-5 pb-10 overflow-auto '>
+				{isLocked ?
 						(	<>
 								<SyncLoader color='#4c49ed'/>
-								<h1 className='text-2xl'>{status}</h1>
+								<h1 className='text-2xl p-5'>{status}</h1>
 							</>
 						)
 						:
@@ -117,20 +118,18 @@ const Join = (props) => {
 							<>
 								<Notification/>
 								
-								<h1 className='text-2xl'>Création de l&apos;équipe</h1>
-								<section className='flex flex-row justify-evenly gap-2 p-4 h-[70%] w-full'>
+								{/* <div className='w-full min-w-[250px] py-2 bg-white primary-font-color text-center text-lg font-semibold shadow-md rounded-full'> {"Création de l'équipe"}</div> */}
+								<button className="pregame-join-button" 
+								onClick={handleCreateTeam}>
+									Créer mon équipe
+								</button>
+								<section className='join-container'>
 									<AvailableStudents available={available} teamSize={maxTeamSize}/>
 									<SelectedStudents selected={selected} handleChange={handleTeamNameChange} teamSize={maxTeamSize}/>
 								</section>
-								<section className='flex flex-row justify-end p-4 h-[10%] w-full'>
-									<button className='p-2 bg-blue-800 rounded-xl text-white'
-											onClick={handleCreateTeam}>Créer
-										mon
-										équipe
-									</button>
-								</section>
 							</>
 						)}
+					</div>
 				</main>
 			</SocketContext.Provider>
 	);

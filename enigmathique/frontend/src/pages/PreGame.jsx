@@ -10,6 +10,7 @@ import {
 } from 'data/socketMessages';
 import AuthService from '../services/auth.service';
 import {useNavigate} from 'react-router-dom';
+import Notification from '../components/Notification';
 
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
@@ -67,12 +68,13 @@ const PreGame = () => {
 	return (
 		<SocketContext.Provider value={socket}>
 			<LayoutProf>
-				<main className='flex flex-col flex-grow gap-3 p-5'>
+				<main className='flex flex-col gap-4 p-5'>
+				<Notification/>
 				<div className='w-full min-w-[250px] py-2 bg-white primary-font-color text-center text-lg font-semibold shadow-md rounded-full'> Code de connexion : <span className='blue-font-color'>{sessionId}</span> </div>
-				<button className="bg-blue-gradient-color modal-validate-button-style w-full min-w-[250px] p-8 font-medium uppercase" onClick={handleStartGame}>
+				<button className="pregame-join-button" onClick={handleStartGame}>
 					Commencer la partie
 				</button>
-					<section className="grow flex flex-wrap justify-between items-center gap-5 w-full">
+					<section className="pregame-container">
 						<TeamContainer teams={lockedTeams} isValidated={false} />
 						<TeamContainer teams={confirmedTeams} isValidated={true} />
 					</section>

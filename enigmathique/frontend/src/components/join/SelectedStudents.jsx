@@ -2,42 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Student from './Student';
 import { AiOutlineTeam } from "react-icons/ai";
+
 const SelectedStudents = (props) => {
-	const color = props.selected.length === props.teamSize ? 'text-green-500' : 'text-red-500';
+	const color = props.selected.length === props.teamSize ? 'text-green-500' : 'text-[#EF4565]';
 
 	return (
-		<section className="flex flex-col h-full w-1/3 gap-2">
-			<section>
-				<h1>Membres de l&apos;équipe</h1>
-			</section>
-			<section className="flex flex-col h-[90%] bg-white shadow-md p-2">
-				<nav className="flex flex-row justify-center items-center gap-2 p-2">
-					<AiOutlineTeam size={25} className='blue-font-color' />
+		<section className="relative join-list-container">
+			<h2 className='medium-title uppercase'> {"Membres de l'équipe"}</h2>
+			<section className="absolute join-list">
+				<nav className="flex flex-row justify-center items-center gap-2 py-2 px-5 border-b border-white-color">
+					<AiOutlineTeam size={30} className='blue-font-color' />
 					<input
-						className="w-full p-2 bg-transparent"
+						className="w-full p-2 bg-transparent primary-font-color focus:border-transparent focus:outline-none "
 						type="text"
 						placeholder="Nom de l'équipe"
 						onChange={props.handleChange}
 					/>
-					<p className={color}>Taille équipe : {props.selected.length}/{props.teamSize}</p>
-
+					<p className={` text-sm whitespace-nowrap ${color}`}> Membres {props.selected.length}/{props.teamSize}</p>
 				</nav>
-				<hr></hr>
-				<section className="h-full overflow-y-scroll">
+				<div className='overflow-y-auto'>
 					{props.selected.map((student, index) => (
 						<>
 							<Student
+								index={index}
 								key={student.id}
 								id={student.id}
 								lastname={student.lastname}
 								firstname={student.firstname}
 								isSelected={true}
 							/>
-							{index!==props.selected.length-1 && <hr></hr>}
 						</>
 					))}
-
-				</section>
+				</div>
 			</section>
 		</section>
 	);
