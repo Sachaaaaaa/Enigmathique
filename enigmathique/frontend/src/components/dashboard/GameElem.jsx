@@ -106,7 +106,7 @@ const GameElem = (props) => {
 		case 0:
 			winnerLabel = "Partie non lancée" ;
 			successRateLabel = "Partie non lancée" ;
-			link =  <Link to={'/pregame/'+game.gameCode} className="btn-show col-span-2">Voir</Link>;
+			link =  <Link to={'/pregame/'+game.gameCode} className="btn-show col-span-2">lancer</Link>;
 			break ;
 		case 1:
 			winnerLabel = "Partie en cours" ;

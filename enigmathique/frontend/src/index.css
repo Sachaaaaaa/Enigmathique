@@ -308,7 +308,7 @@
 
         /* Texte des informations dans le dashboard*/
             .small-text {
-                @apply primary-font-color text-sm leading-4 ;
+                @apply primary-font-color text-sm  ;
             }
 
         /* Bouton voir */
