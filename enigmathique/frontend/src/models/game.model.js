@@ -52,7 +52,7 @@ class GameModel {
 	static async getScores(idGame) {
 		try {
 			const data = await GameService.getScores(idGame);
-			return data.map((score) => new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time,
+			return data.map((score) => new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time, score.isSolved,
 				score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.createdAt, score.updatedAt));
 		}catch (e) {
 			console.log(`erreur dans le getter des scores dans le modèle de game (front) ${e}`);

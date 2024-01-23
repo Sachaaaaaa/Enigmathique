@@ -21,7 +21,7 @@ class TeamModel{
 	static async getScores(idTeam){
 		try {
 			const data = await TeamService.getScores(idTeam);
-			return data.map((score) =>new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time,
+			return data.map((score) =>new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time, score.isSolved,
 				score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.createdAt, score.updatedAt));
 		}catch (e){
 			console.error(`erreur dans le getter des score d'une team dans le modèle de team (front) ${e}`);
