@@ -16,6 +16,7 @@ import CreateGameWrapper from './components/contexts/CreationGame.wrapper';
 import RoomList from 'pages/RoomPage';
 import ProfFollowUp from 'pages/ProfFollowUp';
 import Ranking from 'pages/Ranking';
+import StudentStats from "./pages/StudentStats";
 
 const App = () => {
 	return (
@@ -35,6 +36,7 @@ const App = () => {
 			<Route path='/rooms' element={<RoomList/>}/>
 			<Route path='/leaderboard' element={<ProfFollowUp/>}/>
 			<Route path='/ranking/:idGame' element={<Ranking/>}/>
+			<Route path='/student/stats/:idStudent' element={<StudentStats/>}/>
 		</Routes>
 	);
 };
