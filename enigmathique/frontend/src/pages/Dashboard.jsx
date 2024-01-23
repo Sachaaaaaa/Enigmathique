@@ -17,8 +17,11 @@ import useRooms from "../hooks/useRooms";
 
 const Dashboard = () => {
 
+	//récupération des classes à l'aide du hook useCourses
 	const [courses] = useCourses();
+	//récupération des parties à l'aide du hook useGames
 	const [games] = useGames();
+	//récupération des salles à l'aide du hook useRooms
 	const [rooms] = useRooms();
 
 	// Ajout d'un état pour les salles sélectionnées
@@ -27,12 +30,16 @@ const Dashboard = () => {
 	const [currentClassIndex, setCurrentClassIndex] = useState(0);
 
 
-
+	/**
+	 * useEffect pour choisir les salles à afficher au chargement de la page
+	 */
 	useEffect(() => {
 		roomSelection();
 	}, [rooms]);
 
-	// Choix des salles à afficher
+	/**
+	 * Selection des salles à afficher
+	 */
 	const roomSelection = () => {
 		if(rooms.length > 2) {
 			let max = rooms.length - 1;
@@ -54,22 +61,27 @@ const Dashboard = () => {
 	};
 
 
-
-	// Fonction pour aller à la classe précédente
+	/**
+	 * Permet d'aller à la classe précédente
+	 */
 	const prevClass = () => {
 		setCurrentClassIndex(prevIndex =>
 			prevIndex > 0 ? prevIndex - 1 : courses.length - 1
 		);
 	};
 
-	// Fonction pour aller à la classe suivante
+	/**
+	 * Permet d'aller à la classe suivante
+	 */
 	const nextClass = () => {
 		setCurrentClassIndex(prevIndex =>
 			prevIndex < courses.length - 1 ? prevIndex + 1 : 0
 		);
 	};
 
-	// Fonction pour afficher les parties récentes
+	/**
+	 * Pemet d'afficher les parties en fonction de leur nombre dans la db
+	 */
 	const showGames = () => {
 		if(games.length !== 0) {
 			// Si il y a plus de 2 parties, on affiche les 2 dernières

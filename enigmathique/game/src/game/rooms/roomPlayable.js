@@ -11,7 +11,7 @@ class RoomPlayable {
 
 		this.enigmasSolved = [];
 		this.enigmasHint = [];
-		this.numBadAnswers = 0;
+		this.nbBadAnswers = 0;
 
 		this.startTime = 0;
 		this.endTime = 0;
@@ -55,7 +55,7 @@ class RoomPlayable {
 		const isSolved = enigma.answer == answer;
 		
 		if (!isSolved) {
-			this.numBadAnswers++;
+			this.nbBadAnswers++;
 		} else if(!this.enigmasSolved.includes(enigmaId)) { // Vérifie si l'énigme n'a pas déjà été résolue (pour éviter de compter plusieurs fois la même énigme)
 			this.enigmasSolved.push(enigmaId);
 		}
@@ -120,10 +120,10 @@ class RoomPlayable {
 	 */
 	getData = () => {
 		return {
-			name: this.name,
-			numSolved: this.enigmasSolved.length,
-			numBadAnswers: this.numBadAnswers,
-			numHints: this.enigmasHint.length,
+			roomName: this.name,
+			nbGoodAnswers: this.enigmasSolved.length,
+			nbBadAnswers: this.nbBadAnswers,
+			nbHints: this.enigmasHint.length,
 			isSolved: this.isRoomSolved(),
 			time: this.getElapsedTime(),
 			startTime: this.startTime,

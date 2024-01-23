@@ -85,7 +85,6 @@ class GameSession {
    * @returns {Object} Informations de la session
    */
   getMetadata = () => {
-		console.log(this.expectedTeams);
     return {
       sessionStartTime: this.sessionStartTime,
       roundStartTime: this.roundStartTime,
@@ -122,9 +121,7 @@ class GameSession {
       console.log(clc.redBright(`[Session] L\'équipe ${team.teamId} est déjà dans la session`));
       return;
     }
-
-    console.log(this.expectedTeams);
-    console.log(teamId);
+		
     // [ { name: 'erzoijyb', id: 1, idGame: 8 } ]
     // Vérifier que l'équipe est attendue (/!\ type string et number)
     if (!this.expectedTeams.some((t) => t.id == teamId)) {
@@ -213,7 +210,10 @@ class GameSession {
       console.log(clc.redBright("[Session] Fin de la session anormale"));
       // Ne pas envoyer les résultats à l'API
       // A la place, demande à l'API de supprimer la session
+
+			// TODO: Changer ca, pas besoin d'appeller les deux
       const response = await ApiService.postSessionEnd(this.sessionId, endedNormally);
+			await ApiService.deleteGame(this.sessionId);
       console.log(response);
       return;
     }
@@ -228,6 +228,8 @@ class GameSession {
     // Envoie à l'API
     const response = await ApiService.postTeamsScore(teamsProgress);
     console.log(response);
+		// Fin de partie
+		await ApiService.putGameState(this.sessionId, 2);
 
     this.game.onSessionEnd(this.sessionId);
   };

@@ -4,41 +4,53 @@ import Modal, {ModalBody, ModalHeader} from '../components/Modal';
 
 import CourseModel from '../models/course.model';
 import ClassElement from '../components/class/ClassElement';
-import {useState, useEffect} from 'react';
-
+import {useState, useEffect} from 'react'
 import CreateButton from 'components/dashboard/CreateButton';
 import ContentHeader from 'components/dashboard/ContentHeader';
 import TableContainer from 'components/dashboard/TableContainer';
 import Notification from 'components/Notification';
 import toast from 'react-hot-toast';
-import {useLocation} from 'react-router-dom';
 
 
 const Class = () => {
 
+	//état pour stocker les classes
 	const [courses, setCourses] = useState([]);
+	//état pour gérer le modal
 	const [createModalOpen, setCreateModalOpen] = useState(false);
+	//état pour stocker le nom de la classe dans les modals
 	const [name, setName] = useState('');
 
+	/**
+	 * Permet de charger les classes à partir du modèle
+	 */
 	const loadClasses = async () => {
 		const data = await CourseModel.getAll();
 		setCourses(data);
 		//console.log(data);
 	};
 
+	/**
+	 * UseEffect pour charger les classes au chargement de la page
+	 */
 	useEffect(() => {
 		loadClasses();
 	}, []);
 
-
+	/**
+	 * Permet d'effctuer la création d'une classe
+	 * @param event évènement déclachant la fonction
+	 */
 	const handleClickCreate = async (event) => {
 		event.preventDefault();
+		//Ajoute la nouvelle classe à la db et donne un retour
 		await toast.promise(CourseModel.create(name), {
 			loading: 'Ajout...',
 			success: 'Classe ajoutée !',
 			error: 'Une erreur s\'est produite'
 		}
 		);
+		//Réinitialises les états et recharge les classes après l'ajout
 		loadClasses();
 		setCreateModalOpen(false);
 		setName('');

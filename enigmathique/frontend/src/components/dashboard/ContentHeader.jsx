@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {MdArrowBackIos} from 'react-icons/md';
+import { BiLeftArrowAlt } from "react-icons/bi";
 
 const ContentHeader = (props) => {
 
@@ -10,8 +11,8 @@ const ContentHeader = (props) => {
     return (
         <nav className='w-full h-max  flex flex-wrap justify-between gap-8 p-5 pb-0 primary-font-color'>
             <div className=' flex items-center font-semibold text-lg'>
-                <Link to={link} onClick={onClick} className='p-1'>
-                    <MdArrowBackIos size='1em'/>
+                <Link to={link} onClick={onClick} className='p-1 pr-10'>
+                    <BiLeftArrowAlt size='1.5em'/>
                 </Link>
                 <p className='my-auto'>{title}</p>
             </div>

@@ -128,7 +128,7 @@ function isRequestCorrect(schema, req) {
 
 // Ajoute les scores d'une équipe pour différentes salles
 exports.addScores = async(req, res, next) => {
-	
+
 	// Array contenant tout les n-uplets ajoutés
 	let result = []
 
@@ -182,7 +182,7 @@ exports.addScores = async(req, res, next) => {
 	} catch(err) {
 		next(err)
 	}
-		
+
 }
 
 
@@ -239,8 +239,8 @@ exports.findStudents = async(req, res, next) => {
 		// Récupère l'id des élèves
 		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
 
-		// Pour chaque id d'élève, récupère les infos associées 
-		var findedStudents = []		
+		// Pour chaque id d'élève, récupère les infos associées
+		var findedStudents = []
 		for (let i = 0; i < students.length; i++) {
 			findedStudents.push(await Student.findOne({ where: { id: students[i].idStudent } }))
 		}
@@ -277,7 +277,7 @@ exports.getScore = async(req, res, next) => {
 /////////////////////////////////////////////////////////////////////////////////
 
 // Ajouter des élèves à une équipe
-exports.addStudents = async (req, res, next) => {	
+exports.addStudents = async (req, res, next) => {
 
 
 	try{
@@ -305,27 +305,27 @@ exports.addStudents = async (req, res, next) => {
 
 		// Itère sur chaque équipe
 		for (let i = 0; i < teams.length; i++) {
-			
+
 			// Ajoute la team dans la DB
 			const createdTeam = await Team.create({ name: teams[i].name, idGame: idGame });
-			
+
 			// Map les élèves de la team correspondante avec l'id de la team créer precedement
 			const studentsData = teams[i].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
-			
+
 			// Ajoute les élèves dans la DB
 			await PlayIn.bulkCreate(studentsData);
-			
+
 			// Ajoute à createdTeam l'attribut idSocket qui est l'id de la socket de l'équipe (pour pouvoir l'identifier dans game)
 			const teamData = createdTeam.dataValues;
 			teamData.idSocket = teams[i].idSocket;
 
 			// Ajoute l'équipe à la liste des équipes ajoutées
-			addedTeams.push(teamData);	
+			addedTeams.push(teamData);
 		}
 
 		// Retourne les teams ajoutées
 		return res.status(201).json(addedTeams);
-		
+
 		// Gère les erreurs
 	} catch(err){
 		next(err)

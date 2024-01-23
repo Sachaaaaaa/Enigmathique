@@ -6,6 +6,7 @@
 const ServerToClient = {
 	Connection: 'connect',
 	Disconnection: 'disconnect',
+	Error: 'error', // + {message: string, isFatal: bool}
 	
 	GameInfo: 'gameInfo', // + {maxTeamSize: int} // INFO: Si besoin d'ajouter le nom de la session, mettre içi
 
@@ -17,6 +18,7 @@ const ServerToClient = {
 	TeamCount: 'teamCount', // + {count: int}
 	Feedback: 'feedback', // + {isSolved: bool, ~endMessage: string}
 	Hint: 'hint', // + {hint: string}
+	RoomSolved: 'roomSolved', //
 	// Professeur
 	TeamProgress: 'teamProgress', // + {teamId: int, progress: object}
 	AllTeamsProgress: 'allTeamsProgress', // + {teamsProgress: object}

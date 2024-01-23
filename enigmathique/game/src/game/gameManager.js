@@ -27,7 +27,7 @@ class GameManager {
 		this.roomsData = [
 			new RoomDefinition(require('../../data/rooms/Laboratory.json')),
 			new RoomDefinition(require('../../data/rooms/SwitchRoom.json')),
-			new RoomDefinition(require('../../data/rooms/DemoRoom.json')),
+			new RoomDefinition(require('../../data/rooms/Reactor.json')),
 		]
 
 		console.log(clc.green('[Game] Données des salles chargées'));
