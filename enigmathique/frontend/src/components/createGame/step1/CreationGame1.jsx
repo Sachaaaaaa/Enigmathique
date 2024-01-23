@@ -22,16 +22,20 @@ const CreationGame1 = (props) => {
 			props.setStep(2);
 			return;
 		}
-		let messages = ['Veuillez remplir le(s) champ(s) suivant(s) :'];
+		let errorGameName = [];
+		let errorCourse = [];
 		if (formData.gameName === '') {
-			messages.push('-Nom de la partie');
+			errorGameName.push('Veuillez entrer un nom de partie');
+			toast.error(
+				errorGameName.join(''),
+			);
 		}
 		if (formData.course === 0) {
-			messages.push('-Classe');
+			errorCourse.push('Veuillez sélectionner une classe');
+			toast.error(
+				errorCourse.join(''),
+			);
 		}
-		toast.error(
-			messages.join('\n'),
-		);
 	};
 	const handleAnnuler = (event) => {
 		if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
