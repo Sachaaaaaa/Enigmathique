@@ -31,9 +31,6 @@ module.exports = app => {
 	// Ouvre une partie (aux élèves)
 	router.post("/open/:id", middleware.verifyToken, game.open, middleware.verifyErrors);
 
-	// Ferme une partie (aux élèves)
-	router.post("/close/:id", middleware.verifyToken, game.close, middleware.verifyErrors)
-
 	// Supprime une partie
 	router.delete("/delete/:id", middleware.verifyToken, game.delete, middleware.verifyErrors)
 
@@ -47,9 +44,7 @@ module.exports = app => {
 
 	// Mets à jour une partie
 	router.put("/state/:id", middleware.verifyGameToken, game.setState, middleware.verifyErrors);
-	
-	// Termine une partie 
-	router.post("/end/:id", middleware.verifyGameToken, game.end, middleware.verifyErrors)
+
 
 	// Récupère les score d'une partie 
 	router.post("/score/:id", middleware.verifyGameToken, game.getScore, middleware.verifyErrors)
