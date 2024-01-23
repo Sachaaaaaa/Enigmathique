@@ -12,6 +12,7 @@ import Rules from 'components/game/Rules';
 import E from '../assets/img/E.png';
 import help from '../assets/img/help.png';
 import logoNameNobg from '../assets/img/logo-name-nobg.png';
+import bglogo from '../assets/img/bg_logo.png';
 
 import { IoIosCloseCircle } from 'react-icons/io';
 import { clear } from '@testing-library/user-event/dist/clear';
@@ -21,6 +22,8 @@ const Game = () => {
 	// A changer, facilement modifiable par l'utilisateur
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [isLoading, setIsLoading] = useState(true); // Pour savoir si on est en train de charger la scène
+	const [isFinished, setIsFinished] = useState(false); // Pour savoir si on a fini la salle
+
 	const sessionId = searchParams.get('sessionId');
 	const teamId = searchParams.get('teamId');
 
@@ -36,6 +39,7 @@ const Game = () => {
 		socket.on(ServerToClient.Message, (message) => {
 			console.log('Message du serveur : ' + message);
 			setIsLoading(false);
+			setIsFinished(false);
 		});
 
 		socket.on(ServerToClient.Connection, () => {
@@ -46,10 +50,17 @@ const Game = () => {
 			console.log('Déconnecté du serveur');
 		});
 
+		socket.on(ServerToClient.RoomSolved, () => {
+			// TODO: Faire quelque chose avec ca
+			console.log('Salle résolue');
+			setIsFinished(true);
+		});
+
 		return () => {
 			socket.off(ServerToClient.Message);
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnection);
+			socket.off(ServerToClient.RoomSolved);
 		};
 	});
 
@@ -64,7 +75,7 @@ const Game = () => {
 		<SocketContext.Provider value={socket}>
 			<section className="absolute w-full h-20 border-y-0 top-0 topbar-container z-50">
 				<div className="w-11/12">
-					<img src={logoNameNobg} alt="logo" style={{ height: '4em' , marginLeft: '2em'}} />
+					<img src={logoNameNobg} alt="logo" style={{ height: '4em', marginLeft: '2em' }} />
 				</div>
 				<div className="flex flex-row items-center gap-2">
 					<img src={E} alt="logo" style={{ height: '4em' }} />
@@ -94,7 +105,33 @@ const Game = () => {
 				</div>
 			)}
 
-			{isLoading && <Chronometer initialTime={600} />}
+			{/* Fin de la salle */}
+			{isFinished && (
+				<div className='absolute top-0 left-0 w-full h-full flex justify-center items-center z-50' style={{background: 'rgba(0, 0, 0, 0.7)',}}>
+					
+					<img src={bglogo} alt="logo" style={{
+						position: 'absolute',
+						width: '100vw',
+						height: '100vh',
+						top: '0',
+						left: '0',
+						zIndex: '-1',
+					}}/>
+
+					<div className='flex flex-col justify-center items-center'>
+						<h1 style={{
+							fontSize: '3em',
+							fontWeight: 'bold',
+							color: '#1affff',
+						}}>VOUS AVEZ FINI LA SALLE !</h1>
+						<p style={{ fontSize: '2em',fontWeight: 'bold',color: '#ffffff',}}>Profitez-en pour prendre une pose, vous l&apos;avez bien mérité.</p>
+					</div>
+				</div>
+			)}
+
+			{/* Chronomètre */}
+
+			{isLoading && <Chronometer initialTime={600} resetChronometer={isFinished} />}
 			<RoomProvider>
 				<Canvas
 					shadows

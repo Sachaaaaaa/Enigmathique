@@ -18,6 +18,7 @@ const ServerToClient = {
 	TeamCount: 'teamCount', // + {count: int}
 	Feedback: 'feedback', // + {isSolved: bool, ~endMessage: string}
 	Hint: 'hint', // + {hint: string}
+	RoomSolved: 'roomSolved', //
 	// Professeur
 	TeamProgress: 'teamProgress', // + {teamId: int, progress: object}
 	AllTeamsProgress: 'allTeamsProgress', // + {teamsProgress: object}

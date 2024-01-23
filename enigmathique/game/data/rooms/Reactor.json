@@ -1,0 +1,14 @@
+{
+	"name": "Reactor",
+	"enigmas": [
+		{
+			"variables": { },
+			"answer": {
+				"type": "fixed",
+				"value": "1"
+			},
+			"hint": "Mettre un indice dans Reactor.json !",
+			"endMessage": "Bien jouer"
+		}
+	]
+}

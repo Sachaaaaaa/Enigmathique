@@ -68,6 +68,12 @@ class SocketTeam {
 	onSubmit = ({enigmaId, answer}) => {
 		console.log(clc.yellowBright(`[Team] Réponse reçu: (${enigmaId}, ${answer})`));
 	
+		// Vérifie si la réponse a déjà été donnée
+		if (this.currentRoom.enigmasSolved.includes(enigmaId)) {
+			console.log(clc.redBright('[Team] Réponse déjà donnée'));
+			return;
+		}
+
 		const isSolved = this.currentRoom.checkAnswer(enigmaId, answer);
 		const endMessage = isSolved ? this.currentRoom.getEndMessage(enigmaId): null;
 		console.log(isSolved ? clc.green('[Team] Réponse correcte') : clc.redBright('[Team] Réponse incorrecte'));
@@ -79,6 +85,7 @@ class SocketTeam {
 
 			this.gameSession.onTeamSolvedEnigma(this, enigmaId);
 			if (this.currentRoom.enigmasSolved.length == this.currentRoom.enigmas.length) {
+				this.sendRoomSolved();
 				this.gameSession.onTeamSolvedRoom(this);
 			}
 		} else {
@@ -146,6 +153,12 @@ class SocketTeam {
 		console.log(clc.yellowBright('[Team] Envoi indice'));
 		this.socket.emit(ServerToClient.Hint, { hint });
 	}
+
+	sendRoomSolved = () => {
+		console.log(clc.yellowBright('[Team] Envoi de la résolution de la salle'));
+		this.socket.emit(ServerToClient.RoomSolved);
+	}
+
 }
 
 module.exports = SocketTeam;
