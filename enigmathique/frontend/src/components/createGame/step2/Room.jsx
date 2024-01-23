@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 const Room = (props) => {
 
-	const { index, room, handleRoomSelection,	selected } = props;
+	const { index, room, handleRoomSelection,selected } = props;
 
 	const [roomSelected, setSelected] = useState(selected);
 	const handleChange = () => {
@@ -43,7 +43,7 @@ const Room = (props) => {
 
 	return(
 		<label htmlFor={"roomselect"+index}  className={`flex items-center justify-left h-fit w-full min-w-max gap-6 cursor-pointer
-							 ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}
+											border-t border-[#CECDFD] ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}
 							`}>
 			<div className={`w-[5px] h-full ${roomSelected ? ' bg-blue-color':'bg-transparent'}`}></div>
 

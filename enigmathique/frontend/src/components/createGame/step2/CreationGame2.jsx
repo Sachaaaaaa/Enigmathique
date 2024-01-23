@@ -24,7 +24,7 @@ const CreationGame2 = (props) => {
 
 	useEffect(() => {
 		const filtered = rooms.filter(
-			(room) => room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
+			(room) => room.chapter.toLowerCase() === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
 		);
 		setFilteredRooms([...filtered]);
 	}, [filter]);
@@ -81,14 +81,14 @@ const CreationGame2 = (props) => {
 				<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>
 				<RoomNav
 					chapterChange={(e)=> (setFilter({...filter, chapter: e.target.value}))}
-					filter={filter}
+					selectedFilter={filter}
 				/>
 			</ContentHeader>
 
 			<article className='room-list-container'>
 				{filteredRooms.map((room, index) => {
 					return(
-						room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
+						room.chapter.toLowerCase() === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
 							<Room
 								index={index}
 								room={room}

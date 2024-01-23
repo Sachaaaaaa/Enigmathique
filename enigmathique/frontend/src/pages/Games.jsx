@@ -65,6 +65,7 @@ const Games = () => {
 					{filteredGames.map((game, index) => {							
 						return (
 							<GameRow
+								index={index}
 								key={index}
 								game={game}
 								loadGames={loadGames}

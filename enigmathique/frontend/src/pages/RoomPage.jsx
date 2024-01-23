@@ -25,7 +25,7 @@ const RoomPage = () => {
 
 	useEffect(() => {
 		const filtered = rooms.filter(
-			(room) => room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
+			(room) => room.chapter.toLowerCase() === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
 		);
 		setFilteredRooms([...filtered]);
 	}, [filter, rooms]);
@@ -41,7 +41,7 @@ const RoomPage = () => {
 						<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>
 						<RoomNav
 							chapterChange={(e) => (setFilter({...filter, chapter: e.target.value}))}
-							filter={filter}
+							selectedFilter={filter}
 						/>
 				</ContentHeader> 
 
