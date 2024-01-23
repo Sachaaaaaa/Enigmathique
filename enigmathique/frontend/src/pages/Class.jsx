@@ -16,29 +16,43 @@ import {useLocation} from 'react-router-dom';
 
 const Class = () => {
 
+	//état pour stocker les classes
 	const [courses, setCourses] = useState([]);
+	//état pour gérer le modal
 	const [createModalOpen, setCreateModalOpen] = useState(false);
+	//état pour stocker le nom de la classe dans les modals
 	const [name, setName] = useState('');
 
+	/**
+	 * Permet de charger les classes à partir du modèle
+	 */
 	const loadClasses = async () => {
 		const data = await Course.getAll();
 		setCourses(data);
 		//console.log(data);
 	};
 
+	/**
+	 * UseEffect pour charger les classes au chargement de la page
+	 */
 	useEffect(() => {
 		loadClasses();
 	}, []);
 
-
+	/**
+	 * Permet d'effctuer la création d'une classe
+	 * @param event évènement déclachant la fonction
+	 */
 	const handleClickCreate = async (event) => {
 		event.preventDefault();
+		//Ajoute la nouvelle classe à la db et donne un retour
 		await toast.promise(Course.create(name), {
 			loading: 'Ajout...',
 			success: 'Classe ajoutée !',
 			error: 'Une erreur s\'est produite'
 		}
 		);
+		//Réinitialises les états et recharge les classes après l'ajout
 		loadClasses();
 		setCreateModalOpen(false);
 		setName('');
