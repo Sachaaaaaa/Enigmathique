@@ -6,6 +6,9 @@ module.exports = app => {
 	const game = require("../controllers/game.controller.js");
 	const middleware = require("./middleware.js");
 	var router = require("express").Router();
+	const bodyParser = require('body-parser');
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: true }));
 
 	// Quatre statues d'une partie : créée, ouverte, en cours, terminée
 
@@ -32,7 +35,7 @@ module.exports = app => {
 	router.post("/close/:id", middleware.verifyToken, game.close, middleware.verifyErrors)
 
 	// Supprime une partie
-	router.post("/delete/:id", middleware.verifyToken, game.delete, middleware.verifyErrors)
+	router.delete("/delete/:id", middleware.verifyToken, game.delete, middleware.verifyErrors)
 
 	// Méthode interne :
 
@@ -42,6 +45,12 @@ module.exports = app => {
 	// Accepte une équipe au sein de la partie
 	//router.post("/team/accept/:id", middleware.verifyToken, game.accept);
 
+	// Supprime une partie
+	router.delete("/:id", middleware.verifyGameToken, game.backendDelete, middleware.verifyErrors)
+
+	// Mets à jour une partie
+	router.put("/state/:id", middleware.verifyGameToken, game.setState, middleware.verifyErrors);
+	
 	// Termine une partie 
 	router.post("/end/:id", middleware.verifyGameToken, game.end, middleware.verifyErrors)
 

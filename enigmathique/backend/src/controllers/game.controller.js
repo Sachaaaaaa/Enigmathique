@@ -6,6 +6,7 @@
 
 const db = require("../models/db.js");
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 const Game = db.game;
 const Course = db.course;
 const Team = db.team;
@@ -20,119 +21,107 @@ const Op = db.Sequelize.Op;
 // 									 FONCTIONS                                 //
 /////////////////////////////////////////////////////////////////////////////////
 
-// Provient de https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-
+// Génère un string aléatoire de longueur length
 function makeid(length) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let randomString = '';
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomString += characters.charAt(randomIndex);
     }
-    return result;
+  
+    return randomString;
+  }
+
+// Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
+async function isClassBelongsProfessor(idCourse, req) {
+
+	// Récupère toutes les classes du professeur courant
+	const courses = await Course.findAll({ where: { idProfessor: req.tokenId } });
+
+	// Récupère les id correspondant aux classes du professeur courant
+	const ids = courses.map(item => item.id);
+
+	// Vérifie que la classe appartient bien au professeur
+	if(!ids.includes(parseInt(idCourse))){
+		const error = new Error("La classe n'appartient pas au professeur.");
+		error.statusCode = 403;
+		throw error;
+	}
+
 }
 
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
 async function isStudentBelongsProfessor (idStudent, req) {
-	try {
 
-		// Récupère toutes les classes du professeur courant
-		const student = await Student.findOne({ where: { id: idStudent} });
-		if(student){
-			// Récupère les id correspondant aux classes du professeur courant
-			const idCourse = student.idCourse;
+	// Récupère toutes les classes du professeur courant
+	const student = await Student.findOne({ where: { id: idStudent} });
 
-			// Vérifie que la classe appartient bien au professeur
-			return await isClassBelongsProfessor(idCourse, req);
-		} else {
-			throw new Error("L'élève n'existe pas.");
-		}
-
-	} catch (err) {
-		// Gère les erreurs
-		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+	// Vérifie que l'élève existe bien
+	if(!student){
+		const error = new Error("L'élève n'existe pas.");
+		error.statusCode = 404;
+		throw error;
 	}
-}
 
-// Fonction vérifiant si une équipe, à partir de son id, appartiant au professeur
-async function isTeamBelongsProfessor(idTeam, req) {
-	try {
-
-		// Récupère toutes les classes du professeur courant
-		const data = await Team.findAll({ where: { id: idTeam} });
-
-		// Récupère les id correspondant aux classes du professeur courant
-		const ids = data.map(item => item.idStudent);
-
-		// Vérifie que la team existe bie,
-		if(ids.length == 0){
-			return false
-		}
-
-		// Pour chaque élève, vérifie qu'il appartient bien au professeur
-		for (const id of ids) {
-			try {
-				if (!await isStudentBelongsProfessor(id, req)) {
-					return false
-				}
-			} catch (err){
-				throw new Error("L'élève n'existe pas.");
-			}
-		}
-
+	try{
 		// Vérifie que la classe appartient bien au professeur
-		return true
-
-	} catch (err) {
-		// Gère les erreurs
-		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+		await isClassBelongsProfessor(student.idCourse, req);
+	} catch(err) {
+		const error = new Error("L'élève n'appartient pas au professeur.");
+		error.statusCode = 403;
+		throw error;
 	}
-}
 
-// to do : on peut simplfier ?
-// Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
-async function isClassBelongsProfessor(idCourse, req) {
-	try {
-
-		// Récupère toutes les classes du professeur courant
-		const data = await Course.findAll({ where: { idProfessor: req.tokenId } });
-
-		// Récupère les id correspondant aux classes du professeur courant
-		const ids = data.map(item => item.id);
-		idCourse = parseInt(idCourse)
-
-
-		// Vérifie que la classe appartient bien au professeur
-		return ids.includes(idCourse);
-
-	} catch (err) {
-		// Gère les erreurs
-		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
-	}
 }
 
 // Fonction vérifiant si une partie, à partir de son id, appartiant au professeur
-async function isGameBelongsProfessor(idGame, req) {
-	try {
+async function isGameBelongsProfessor (idGame, req) {
 
-		// Récupère la partie souhaité
-		const game = await Game.findOne({ where: { id: idGame} });
-		if(game){
-			// Récupère l'id des classes de la partie
-			const idGame = game.idCourse;
+	// Récupère toutes les classes du professeur courant
+	const game = await Game.findOne({ where: { id: idGame} });
 
-			// Vérifie que la classe appartiennent bien au professeur
-			return await isClassBelongsProfessor(idGame, req);
-		} else {
-			throw new Error("La parrtie n'existe pas.");
-		}
-
-	} catch (err) {
-		// Gère les erreurs
-		throw new Error(err.message || "Une erreur s'est produite lors de la récupération des classes.");
+	// Vérifie que l'élève existe bien
+	if(!game){
+		const error = new Error("La partie n'existe pas.");
+		error.statusCode = 404;
+		throw error;
 	}
+
+	try{
+		// Vérifie que la classe appartient bien au professeur
+		await isClassBelongsProfessor(game.idCourse, req);
+	} catch(err) {
+		const error = new Error("L'élève n'appartient pas au professeur.");
+		error.statusCode = 403;
+		throw error;
+	}
+
+}
+
+// Fonction vérifiant si une team, à partir de son id, appartiant au professeur
+async function isTeamBelongsProfessor (idTeam, req) {
+
+	// Récupère toutes les teams du professeur courant
+	const team = await Team.findOne({ where: { id: idTeam} });
+
+	// Vérifie que l'élève existe bien
+	if(!team){
+		const error = new Error("L'équipe n'existe pas.");
+		error.statusCode = 404;
+		throw error;
+	}
+
+	try{
+		// Vérifie que la classe appartient bien au professeur
+		await isGameBelongsProfessor(team.idGame, req);
+	} catch(err) {
+		const error = new Error("L'équipe n'appartient pas au professeur.");
+		error.statusCode = 403;
+		throw error;
+	}
+
 }
 
 
@@ -145,6 +134,7 @@ function isRequestCorrect(schema, req) {
 		throw validationError;
 	}
 }
+
 /////////////////////////////////////////////////////////////////////////////////
 // 									 CREATE                                    //
 /////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +145,7 @@ exports.create = async (req, res, next) => {
 
 	try{
 		// Vérification des informations fournis
-		const gameSchema = Joi.object({
+		const gameSchema = baseSchema.keys({
 			idCourse: Joi.number().integer().required(),
 			teamSize: Joi.number().integer().required(),
 			name: Joi.string().required(),
@@ -165,16 +155,13 @@ exports.create = async (req, res, next) => {
 		isRequestCorrect(gameSchema, req)
 
 		// Vérifie que la classe appartient bien au professeur
-		if(! await isClassBelongsProfessor(req.body.idCourse, req)){
-			const error = new Error("La classe n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isClassBelongsProfessor(req.body.idCourse, req)
 
 		const game = {
 			name: req.body.name,
 			idCourse: req.body.idCourse,
 			teamSize: req.body.teamSize,
+			gameCode: null,
 		};
 
 	
@@ -199,6 +186,7 @@ exports.create = async (req, res, next) => {
 // Récupère toutes les parties du professeur connecté
 exports.findAll = async (req, res, next) => {
 
+
 	try{
 
 		let coursesId = [];
@@ -208,50 +196,32 @@ exports.findAll = async (req, res, next) => {
 
 		// Récupère les id correspondant aux classes du professeur connécté
 		coursesId = courses.map(course => course.dataValues.id);
-	
 
 		// Récupère toutes les parties correspondantes aux classes du professeur connecté
 		const gamesData = await Game.findAll({ where: { idCourse: { [Op.in]: coursesId } } });
+
 		return res.status(200).json(gamesData);
 	
 		// Gère les erreurs
 	} catch (err) {
 		next(err)
 	}
-		  
-	
-
 }
 
 
-exports.getScore = async(req, res) => {
-	
-	try{
-			
-		const scores = await Score.findAll({ where: { idGame: req.params.id } })
-		res.status(200).json(scores);
-		
-	}catch(err) {
-		res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération des scores."
-		});
-	}
-}
 
 // methode pour récuperer une partie en fonction de son id
 exports.findOne = async (req, res, next) => {
 	
 	try{
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-		if (!isBelongsToProfessor) {
-			const error = new Error("La partie n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isGameBelongsProfessor(req.params.id, req);
 
 		// Récupère la partie souhaité
 		const game = await Game.findOne({ where: { id: req.params.id} })
+
+		console.log(game)
+
 		return res.status(200).json(game);
 
 	// Gère les erreurs
@@ -261,15 +231,57 @@ exports.findOne = async (req, res, next) => {
 }
 
 /////////////////////////////////////////////////////////////////////////////////
+// 									 UPDATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+// methode pour mettre à jour le professeur connecté
+exports.setState = async(req, res, next) => {
+	
+	try{
+
+		// Vérification des informations fournis
+		const GameSchema = baseSchema.keys({
+			state: Joi.number().integer().min(0).max(2).required(),
+		});
+
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(GameSchema, req)
+
+		// Effectue la requête de mise à jour
+		const updatedRows = await Game.update({state: req.body.state}, {where: { id: req.params.id} })
+
+		// Vérifie que la colonne à effectivement été mise à jour
+		if (updatedRows == 0) {
+			const error = new Error("Impossible de mettre à jour la partie");
+			error.statusCode = 404;  
+			throw error;
+		} 
+	
+		return res.status(201).json({message: "La partie à été mise a jour avec succès"});
+	
+	// Gère les erreurs
+	} catch(err) {
+		console.log(err)
+		next(err)
+	}
+  };
+
+
+/////////////////////////////////////////////////////////////////////////////////
 // 									 OTHER                                     //
 /////////////////////////////////////////////////////////////////////////////////
 
 exports.getScore = async (req, res, next) => {
 
 	try{
+		// Vérifie que la partie appartient bien au professeur
+		await isGameBelongsProfessor(req.params.id, req);
+
 		// Récupère les scores de la partie souhaité
 		const scores = await Score.findAll({ where: { idGame: req.params.id } })
+
 		res.status(200).json(scores);
+
 	}catch(err) {
 		next(err)
 	}
@@ -281,20 +293,23 @@ exports.gameBelongsToProf = async (req, res, next) => {
 	try{
 
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
+		await isGameBelongsProfessor(req.params.id, req);
 
-		if (!isBelongsToProfessor) {
-			return res.status(200).json({
-				isBelongsTo: false 
-			});
-		} else {
-			return res.status(200).json({
-				isBelongsTo: true 
-			});
-		}
+		return res.status(200).json({
+			isBelongsTo: true
+		});
 
 	// Gère les erreurs
 	} catch (err) {
+
+		// Si le code d'erreur est 403 cela signifie que la partie n'appartient pas au professeur
+		if(err.statusCode == 403){
+			return res.status(200).json({
+				isBelongsTo: false
+			});
+		}
+
+
 		next(err)
 	}
 }
@@ -306,33 +321,30 @@ exports.open = async (req, res, next) => {
 	try{
 		
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-		if (!isBelongsToProfessor) {
-			const error = new Error("La partie n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
-
-		let gameidCourse = null
-
+		await isGameBelongsProfessor(req.params.id, req)
 
 		// Récupère l'id de la classe de la partie
 		const game =  await Game.findOne({ where: { id: req.params.id} })
-		gameidCourse = game.idCourse;
 
+		if(game.gameCode || game.state == 2){
+			const validationError = new Error("La partie est déjà ouverte ou terminé.");
+			validationError.statusCode = 500;
+			throw validationError;
+		}
 
-		// Créer un code de la partie correspondant aux élèves de la classe concerné par la partie
-		const gameCode = {
-			code: makeid(10),
-			idGame: req.params.id,
-			idCourse: gameidCourse,
-		};
+		const code = makeid(10);
 
-		// Enregistrer le code dans la base de données
-		const createdGameCode = await GameCode.create(gameCode)
+		// Définit le gameCode de la partie avec une chaîne de caractère aléatoire
+		const updatedRows = await Game.update({gameCode: code},{where: { id: req.params.id }});
+		
+		// Vérifie que la colonne à effectivement été mise à jour
+		if (updatedRows == 0) {
+			const error = new Error("Impossible de mettre à jour la classe.");
+			error.statusCode = 404;
+			throw error;
+		}
 
-		// Renvoie les données créées
-		return res.status(201).json(createdGameCode);
+		return res.status(201).json({gameCode: code});
 
 		// Gère les erreurs
 	}catch(err) {
@@ -346,12 +358,7 @@ exports.close = async (req, res, next) => {
 
 	try{
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-		if (!isBelongsToProfessor) {
-			const error = new Error("La partie n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isGameBelongsProfessor(req.params.id, req);
 
 		// Enregistrer la classe dans la base de données
 		const destroyedGameCode = await GameCode.destroy({ where: { idGame: req.params.id}})
@@ -372,13 +379,23 @@ exports.delete = async (req, res, next) => {
 
 	try{
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-		if (!isBelongsToProfessor) {
-			const error = new Error("La partie n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isGameBelongsProfessor(req.params.id, req);
 
+		// Enregistrer la classe dans la base de données
+		const destroyedRows = await Game.destroy({ where: { id: req.params.id}})
+		return res.status(200).json(destroyedRows);
+		
+
+	// Gère les erreurs
+	}catch(err) {
+		next(err)
+	}
+}
+
+// Supprime la partie
+exports.backendDelete = async (req, res, next) => {
+
+	try{
 		// Enregistrer la classe dans la base de données
 		const destroyedRows = await Game.destroy({ where: { id: req.params.id}})
 		return res.status(200).json(destroyedRows);
@@ -396,16 +413,16 @@ exports.end = async (req, res, next) => {
 	try{
 		// La partie s'est terminée normalement ?
 		const endedNormally = req.body.endedNormally;
-		const gameId = req.params.id;
 
 		if (endedNormally == true) {
 			// Enregistrer la classe dans la base de données
-			const updatedRows = await Game.update({state: 2},{where: { id: gameId }});
+			const updatedRows = await Game.update({state: 2,gameCode: null},{where: { id: req.params.id }})
+
 			// Renvoie les données mise a jour
 			return res.status(201).json(updatedRows);
 		} else {
 			// Supprimer la partie
-			const destroyedRows = await Game.destroy({ where: { id: gameId }});
+			const destroyedRows = await Game.destroy({ where: { id: req.params.id }});
 			// Renvoie les données supprimées
 			return res.status(201).json(destroyedRows);
 		}
@@ -413,7 +430,7 @@ exports.end = async (req, res, next) => {
 
 	// Gère les erreurs
 	}catch(err) {
-		console.log(err);
+		console.log(err)
 		next(err)
 	}
 }
@@ -424,9 +441,11 @@ exports.end = async (req, res, next) => {
 exports.getIdFromCode = async (req, res, next) => {
 
 	try{
+
 		// Récupère la classe courrespondant au code
-		const gameCode = await GameCode.findOne({ where: { code: req.params.code} })
-		return res.status(200).json(gameCode.idGame);
+		const game = await Game.findOne({ gameCode: { code: req.params.code} })
+
+		return res.status(200).json(game.id);
 
 	// Gère les erreurs
 	}catch(err) {
@@ -438,9 +457,8 @@ exports.getIdFromCode = async (req, res, next) => {
 exports.course = async (req, res, next) => {
 
 	try{
-		// Récupère la classe courrespondant au code
-		const gameCode = await GameCode.findOne({ where: { idGame: req.params.id} })
-
+		// Récupère la classe correspondant au code
+		const gameCode = await Game.findOne({ where: { id: req.params.id} })
 		// Récupèrer les élèves de la classe
 		const students = await Student.findAll({ where: { idCourse: gameCode.idCourse} })
 
@@ -449,30 +467,29 @@ exports.course = async (req, res, next) => {
 
 	// Gère les erreurs
 	}catch(err) {
+		console.log(err)
 		next(err)
 	}	
 }
 
+//
 // Ajoute des salles à une partie
 exports.addRooms = async(req, res, next) => {
 	
 	try{
 
-		// Valider la requête
-		if (!req.body.idGame || !req.body.roomName) {
-			const error = new Error("Il manque des informations pour ajouter des salles.");
-			error.statusCode = 400;  
-			throw error;
-		}
+		// Vérification des informations fournis
+		const gameSchema = baseSchema.keys({
+			idGame: Joi.number().integer().required(),
+			roomName: Joi.array().items(
+				Joi.string().required()).required()
+		});
 
+		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+		isRequestCorrect(gameSchema, req)
 
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.body.idGame, req);
-		if (!isBelongsToProfessor) {
-			const error = new Error("La partie n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isGameBelongsProfessor(req.body.idGame, req);
 
 		// Récupère les id des salles à ajouter
 		const roomNames = req.body.roomName;
@@ -504,12 +521,7 @@ exports.accept = async(req, res) => {
 
 
 		// Vérifie que la partie appartient bien au professeur
-		const isBelongsToProfessor = await isGameBelongsProfessor(req.params.id, req);
-		if (!isBelongsToProfessor) {
-			const error = new Error("La partie n'appartient pas au professeur.");
-			error.statusCode = 403;  
-			throw error;
-		}
+		await isGameBelongsProfessor(req.params.id, req);
 
 
 

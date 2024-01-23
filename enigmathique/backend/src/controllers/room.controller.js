@@ -7,6 +7,7 @@ const roomRoute = require("../routes/room.route.js");
 const Room= db.room;
 const Op = db.Sequelize.Op;
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 FONCTIONS                                 //
@@ -27,12 +28,12 @@ function isRequestCorrect(schema, req) {
 /////////////////////////////////////////////////////////////////////////////////
 
 // Créer et enregistrer une nouvelle salle dans la base de données
-exports.create = async (req, res) => {
+exports.create = async (req, res, next) => {
 
 	try{
 		
 		// Vérification des informations fournis
-		const roomSchema = Joi.object({
+		const roomSchema = baseSchema.keys({
 			name: Joi.string().required(),
 			chapter: Joi.string().required(),
 			difficulty: Joi.string().required(),
@@ -57,9 +58,7 @@ exports.create = async (req, res) => {
 
 	// Gère les erreurs
 	}catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la création de la salle."
-		});
+		next(err)
 	}
 }
 
@@ -69,7 +68,7 @@ exports.create = async (req, res) => {
 /////////////////////////////////////////////////////////////////////////////////
 
 // methode pour récuperer les salles de la base de données
-exports.findAll = async (req, res) => {
+exports.findAll = async (req, res, next) => {
 
 	try{
 
@@ -78,8 +77,6 @@ exports.findAll = async (req, res) => {
 		return res.status(200).json(rooms);
 
 	}catch(err) {
-		return res.status(500).json({
-			message: err.message || "Une erreur s'est produite lors de la récupération des salles."
-		});
+		next(err)
 	}	
 }

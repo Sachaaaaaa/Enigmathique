@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
-import { SocketContext, socket } from 'contexts/SocketContext';
+import { socket } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from 'data/socketMessages';
 import TeamDetails from './TeamDetails';
+import ActionButton from 'components/dashboard/ActionButton';
+import TableContainer from 'components/dashboard/TableContainer';
 
 function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
@@ -157,6 +159,8 @@ function ProfFollowUp() {
 		setSelectedTeam(null);
 	};
 
+	
+
 	return (
 		<LayoutProf>
 			<main className="p-8">
@@ -166,48 +170,38 @@ function ProfFollowUp() {
 				)}
 				<h2 className="text-xl font-semibold mb-4 text-gray-500">Classement</h2>
 				<div className="overflow-x-auto mt-4">
-					<table className="min-w-full">
-						<thead>
-							<tr className="text-left">
-								<th className="pb-4 text-blue-500">Position</th>
-								<th className="pb-4 text-blue-500">Équipe</th>
-								<th className="pb-4 text-blue-500">Score</th>
-								<th className="pb-4 text-blue-500">Énigmes Résolues</th>
-								<th className="pb-4 text-blue-500">Action</th>
+					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
+
+						{rankings.map((team, index) => (
+							<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
+								<td className="px-6 py-4 flex items-center justify-left">
+									<div className={`relative ${getPositionStyle(index)}`}>
+										{getPositionIcon(index)}
+										<span className="absolute inset-0 flex items-center justify-center">
+											{index + 1}
+										</span>
+									</div>
+								</td>
+								<td className="td-style">
+									{team.teamName}
+								</td>
+								<td className="td-style">
+									{team.score}
+								</td>
+								<td className="td-style">
+									{team.resolved}
+								</td>
+								<td className="td-style text-right">
+									<ActionButton
+										onClick={() => handleDetailsClick(team)}
+										title='Détails'
+									>
+									</ActionButton>
+								</td>
 							</tr>
-						</thead>
-						<tbody>
-							{rankings.map((team, index) => (
-								<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-									<td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center">
-										<div className={`relative ${getPositionStyle(index)}`}>
-											{getPositionIcon(index)}
-											<span className="absolute inset-0 flex items-center justify-center">
-												{index + 1}
-											</span>
-										</div>
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-										{team.teamName}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-										{team.score}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-										{team.resolved}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-										<button
-											onClick={() => handleDetailsClick(team)}
-											className="text-blue-600 hover:text-blue-800"
-										>
-                      Détails
-										</button>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
+						))}
+						
+					</TableContainer>
 				</div>
 				{/* Pagination ou autres contrôles ici */}
 			</main>
@@ -215,8 +209,6 @@ function ProfFollowUp() {
 				<TeamDetails
 					teamData={selectedTeam}
 					onClose={() => setSelectedTeam(null)}
-					// envoie des données
-					data={allData}
 				/>
 			)}
 		</LayoutProf>

@@ -13,7 +13,7 @@ class TeamModel{
 	static async getStudents(idTeam){
 		try {
 			const data = await TeamService.getStudents(idTeam);
-			return data[0].map((student) =>  new Student(student.id, student.idCourse, student.firstname, student.lastname, student.createdAt, student.updatedAt));
+			return data.map((student) =>  new Student(student.id, student.idCourse, student.firstname, student.lastname, student.createdAt, student.updatedAt));
 		}catch (e){
 			console.error(`erreur dans le getter des students d'une team dans le modèle de team (front) ${e}`);
 		}
@@ -21,8 +21,8 @@ class TeamModel{
 	static async getScores(idTeam){
 		try {
 			const data = await TeamService.getScores(idTeam);
-			return new ScoreModel(data.idTeam, data.roomName, data.idGame, data.time,
-				data.nbGoodAnswers, data.nbBadAnswers, data.nbHints, data.createdAt, data.updatedAt);
+			return data.map((score) =>new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time,
+				score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.createdAt, score.updatedAt));
 		}catch (e){
 			console.error(`erreur dans le getter des score d'une team dans le modèle de team (front) ${e}`);
 		}

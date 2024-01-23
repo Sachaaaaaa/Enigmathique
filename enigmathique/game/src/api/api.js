@@ -52,6 +52,7 @@ class ApiService {
 			// Retourne un tableau d'objets { id, firstname, lastname } => retire les autres informations non nécessaires
 			return response.map(student => { return { id: student.id, firstname: student.firstname, lastname: student.lastname } });
 		} catch (error) {
+			console.log(error);
 			return null;
 		}
 	}
