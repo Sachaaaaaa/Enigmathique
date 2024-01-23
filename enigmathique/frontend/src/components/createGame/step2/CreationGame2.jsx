@@ -17,7 +17,7 @@ const CreationGame2 = (props) => {
 
 	const [filteredRooms, setFilteredRooms] = useState([]);
 	const [selectedRooms, setSelectedRooms] = useState([]);
-	const [filter, setFilter] = useState({chapter: 'suites', text: ''});
+	const [filter, setFilter] = useState({chapter: 'fonctions', text: ''});
 	const navigate = useNavigate();
 
 
