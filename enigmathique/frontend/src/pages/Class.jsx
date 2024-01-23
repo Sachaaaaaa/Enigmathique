@@ -2,7 +2,7 @@ import React from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import Modal, {ModalBody, ModalHeader} from '../components/Modal';
 
-import Course from '../models/course.model';
+import CourseModel from '../models/course.model';
 import ClassElement from '../components/class/ClassElement';
 import {useState, useEffect} from 'react';
 
@@ -26,7 +26,7 @@ const Class = () => {
 	 * Permet de charger les classes à partir du modèle
 	 */
 	const loadClasses = async () => {
-		const data = await Course.getAll();
+		const data = await CourseModel.getAll();
 		setCourses(data);
 		//console.log(data);
 	};
@@ -45,7 +45,7 @@ const Class = () => {
 	const handleClickCreate = async (event) => {
 		event.preventDefault();
 		//Ajoute la nouvelle classe à la db et donne un retour
-		await toast.promise(Course.create(name), {
+		await toast.promise(CourseModel.create(name), {
 			loading: 'Ajout...',
 			success: 'Classe ajoutée !',
 			error: 'Une erreur s\'est produite'

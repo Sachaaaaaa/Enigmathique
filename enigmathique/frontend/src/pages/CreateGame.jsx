@@ -5,7 +5,7 @@ import ProgressBar from "../components/createGame/ProgressBar";
 import {initialFormData, useCreationGameContext} from "../components/contexts/CreationGame.context";
 import CreationGame2 from "../components/createGame/step2/CreationGame2";
 import RoomModel from "../models/room.model";
-import Course from "../models/course.model";
+import CourseModel from "../models/course.model";
 import Notification from "../components/Notification";
 
 const CreateGame = () => {
@@ -21,7 +21,7 @@ const CreateGame = () => {
 		setRooms(data);
 	}
 	const loadCourse = async () => {
-		const data =  await Course.getAll();
+		const data =  await CourseModel.getAll();
 		setCourses(data);
 	}
 

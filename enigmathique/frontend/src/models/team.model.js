@@ -1,5 +1,5 @@
 import TeamService from "../services/team.service";
-import Student from "./student.model";
+import StudentModel from "./student.model";
 import ScoreModel from "./score.model";
 
 class TeamModel{
@@ -13,7 +13,7 @@ class TeamModel{
 	static async getStudents(idTeam){
 		try {
 			const data = await TeamService.getStudents(idTeam);
-			return data.map((student) =>  new Student(student.id, student.idCourse, student.firstname, student.lastname, student.createdAt, student.updatedAt));
+			return data.map((student) =>  new StudentModel(student.id, student.idCourse, student.firstname, student.lastname, student.createdAt, student.updatedAt));
 		}catch (e){
 			console.error(`erreur dans le getter des students d'une team dans le modèle de team (front) ${e}`);
 		}

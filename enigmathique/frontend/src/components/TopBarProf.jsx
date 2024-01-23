@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import {Link} from 'react-router-dom';
 import { MdLogout } from "react-icons/md";
 import {useLocation} from "react-router-dom";
-import Course from "../models/course.model";
-import Professor from "../models/professor.model";
+import CourseModel from "../models/course.model";
+import ProfessorModel from "../models/professor.model";
 import AuthService from '../services/auth.service';
 
 
@@ -20,9 +20,9 @@ const TopBarProf = () => {
 
 	useEffect(() => {
 		const load = async () => {
-			setProfessor(await Professor.getCurrent());
+			setProfessor(await ProfessorModel.getCurrent());
 			if (path[0] === "class" && classId) {
-				setCourse(await Course.get(classId));
+				setCourse(await CourseModel.get(classId));
 			}
 		}
 		load().then(r => console.log('Top bar data loaded'));

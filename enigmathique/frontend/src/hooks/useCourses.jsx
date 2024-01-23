@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import Course from 'models/course.model';
+import CourseModel from 'models/course.model';
 
 /**
  * Récupère une classe du professeur connecté
@@ -10,7 +10,7 @@ const useCourses = (autoload = true) => {
 	const [courses, setCourses] = useState([]);
 
 	const loadCourses = async () => {
-		const data = await Course.getAll();
+		const data = await CourseModel.getAll();
 		setCourses(data);
 	};
 
