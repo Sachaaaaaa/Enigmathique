@@ -13,8 +13,8 @@ const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, descript
 	};
 
 	const handleRotateRight = () => {
-		setRotationAngle(rotationAngle + 10);
-		setUserAnswer((rotationAngle + 100).toString());
+		setRotationAngle(rotationAngle + 50);
+		setUserAnswer((rotationAngle + 50).toString());
 	};
 
 	return (
