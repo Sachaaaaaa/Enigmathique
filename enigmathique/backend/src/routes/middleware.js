@@ -84,8 +84,7 @@ exports.verifyGameToken = async(req, res, next) => {
     // Si il y a un token de professeur
     if(req.body.tokenProf){
         
-        req.tokenId = await checkTokenValidity(token);
-
+        req.tokenId = await checkTokenValidity(req.body.tokenProf);
         /* au cas où
         const token = req.body.tokenProf
         const decodedToken = jwt.verify(token, secretKey)
