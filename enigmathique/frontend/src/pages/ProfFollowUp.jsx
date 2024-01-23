@@ -12,6 +12,7 @@ function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
 	const [totalRounds, setTotalRounds] = useState(null);
 	const [allData, setAllData] = useState(null);
+	const [metaData, setMetaData] = useState(null);
 
 
 	// Assurez-vous que le token et le sessionId sont présents
@@ -72,6 +73,7 @@ function ProfFollowUp() {
 			// Écouteur de progression de toutes les équipes
 			socket.on(ServerToClient.AllTeamsProgress, (data) => {
 				data = data.data;
+				setMetaData(data.metadata);
 				setAllData(data);
 				console.log('Progression des équipes', data);
 				
@@ -82,6 +84,7 @@ function ProfFollowUp() {
 				}
 
 				if (data && data.teams && typeof data.teams === 'object') {
+					console.log('Données de progression des équipes', data);
 					const teamsData = Object.keys(data.teams).map((key) => {
 						if (data.teams[key] && data.teams[key].length > 0) {
 							const teamData = data.teams[key];
@@ -183,7 +186,7 @@ function ProfFollowUp() {
 									</div>
 								</td>
 								<td className="td-style">
-									{team.teamName}
+									{metaData == null ? 'NaN' : metaData.teams[team.id].name}
 								</td>
 								<td className="td-style">
 									{team.score}
