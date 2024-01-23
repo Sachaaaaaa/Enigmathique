@@ -74,9 +74,10 @@ const HomeForm = () => {
 				<div className='cols-span-1 row-span-3 border'></div>
 				<h2 className='cols-span-1 row-span-1 border'>Enigmathique</h2>
 				<p className='cols-span-1 row-span-2 border'>
-					Enigmathique est une application qui permet de créer des jeux {"d'énigmes"}.
-					Elle est destinée aux enseignants qui souhaitent créer des jeux
-					{"d'énigmes"} pour leurs élèves.
+					Enigmathique est une application qui permet de jouer à des jeux {"d'énigmes"} en ligne.
+					Elle est destinée aux enseignants de mathématiques en seconde qui souhaitent entrainer leurs élèves
+					à travers des énigmes permettant de faire mieux comprendre et de mieux assimiler les notions de
+					mathématiques du programme de seconde
 				</p>
 			</article>
 			{/* <article>
