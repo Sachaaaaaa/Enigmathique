@@ -6,6 +6,7 @@ import {initialFormData, useCreationGameContext} from "../components/contexts/Cr
 import CreationGame2 from "../components/createGame/step2/CreationGame2";
 import RoomModel from "../models/room.model";
 import Course from "../models/course.model";
+import Notification from "../components/Notification";
 
 const CreateGame = () => {
 
@@ -44,6 +45,7 @@ const CreateGame = () => {
 	return (
 		<LayoutProf>
 			<main>
+				<Notification/>
 				{/* Barre de progression indiquant les étapes de création */}
 				<ProgressBar step={step}/>
 				{/* Affiche le composant correspondant à l'étape de création */}

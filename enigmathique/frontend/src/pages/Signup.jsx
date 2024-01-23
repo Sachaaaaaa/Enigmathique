@@ -48,7 +48,7 @@ function Signup() {
 
 	return (
 		// Ecran entier
-		<div className='h-screen w-screen bg-main-color overflow-x-hidden'>
+		<div className='fullscreen-container overflow-y-auto'>
 			
 			<AuthHeader title="Inscription"/>
 			

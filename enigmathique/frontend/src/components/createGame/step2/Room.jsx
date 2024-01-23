@@ -4,14 +4,27 @@ import {FaSearch} from 'react-icons/fa';
 import '../createGame.css'
 import {IconContext} from 'react-icons';
 import { FaPuzzlePiece, FaMedal  } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 
 const Room = (props) => {
 
-	const [selected, setSelected] = useState(false);
+	const [selected, setSelected] = useState(props.selected);
 	const handleChange = () => {
 		props.handleRoomSelection(props.name);
 		setSelected(!selected);
+		if (selected) {
+			toast.error(
+				'La salle a été retirée de la partie',
+				{duration: 800}
+				);
+		} else {
+			toast.success(
+				'La salle a été ajoutée à la partie',
+				{duration: 800}
+				);
+
+		}
 	}
 
 	
@@ -24,11 +37,11 @@ const Room = (props) => {
 
 	const difficulty = props.difficulty.toLowerCase();
 
-	const roomElemClass = 'flex items-center gap-3 py-5 ' ;
+	const roomElemClass = 'flex items-center gap-3 py-4 ' ;
 
 	return(
-		<label htmlFor={"roomselect"+props.index}  className={`flex items-center justify-between h-fit w-full min-w-max gap-10 pl-5
-							border-t border-[#CECDFD] ${props.index % 2 == 0 ? 'bg-[#4C49ED]/[.06]' : 'bg-[#4C49ED]/[.02]'}`}>
+		<label htmlFor={"roomselect"+props.index}  className={`flex items-center justify-between h-fit w-full min-w-max gap-10 pl-5 cursor-pointer
+							border-t border-[#CECDFD] ${props.index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
 			
 			<article className={roomElemClass}>
 				<img
@@ -62,7 +75,7 @@ const Room = (props) => {
 				</div>
 			</article>
 			<article className={`flex justify-end items-center h-full pr-4 border-r-[5px] ${selected ? ' border-blue-color':'border-transparent'}`}>
-				<input  id={"roomselect"+props.index} size={100} type='checkbox' onChange={handleChange}/>
+				<input  id={"roomselect"+props.index} size={100} checked={props.selected} type='checkbox' onChange={handleChange}/>
 			</article>
 		</label>
 	);
@@ -74,6 +87,7 @@ Room.propTypes = {
 	riddles: PropTypes.number.isRequired,
 	winrate: PropTypes.number.isRequired,
 	handleRoomSelection: PropTypes.func,
+	selected: PropTypes.bool.isRequired,
 }
 
 export default Room;

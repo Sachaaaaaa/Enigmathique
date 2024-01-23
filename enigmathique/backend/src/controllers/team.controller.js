@@ -6,6 +6,7 @@
 
 const db = require("../models/db.js");
 const Joi = require('joi');
+const { baseSchema } = require('./validationSchemas');
 const Team = db.team;
 const PlayIn = db.playIn;
 const Course = db.course;
@@ -172,9 +173,15 @@ exports.findStudents = async(req, res, next) => {
 
 		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
 
-		return res.status(200).json(students);
+		var findedStudents = []
+		
+		for (let i = 0; i < students.length; i++) {
+			findedStudents.push(await Student.findOne({ where: { id: students[i].idStudent } }))
+		}
+		return res.status(200).json(findedStudents);
 	
 	}catch(err) {
+
 		next(err)
 	}	
 }
@@ -186,6 +193,8 @@ exports.getScore = async(req, res, next) => {
 		await isTeamBelongsProfessor(req.params.id, req)
 
 		const scores = await Score.findAll({ where: { idTeam: req.params.id } })
+
+		
 		return res.status(200).json(scores);
 
 	}catch(err) {
@@ -235,7 +244,7 @@ exports.removeStudent = async (req, res, next) => {
 
 try{
 	// Vérification des informations fournis
-	const teamSchema = Joi.object({
+	const teamSchema = baseSchema.keys({
 		idTeam: Joi.number().integer().required(),
 	});
 
@@ -284,7 +293,7 @@ exports.addScores = async(req, res, next) => {
 	try{
 
 		// Vérification des informations fournis
-		const scoreSchema = Joi.object({
+		const scoreSchema = baseSchema.keys({
 			rooms: Joi.array().items(
 				Joi.object({
 					roomName: Joi.string().required(),
@@ -345,7 +354,7 @@ exports.addStudents = async (req, res, next) => {
 	try{
 
 		// Vérification des informations fournis
-		const teamSchema = Joi.object({
+		const teamSchema = baseSchema.keys({
 			teams: Joi.array().items(
 				Joi.object({
 				  name: Joi.string().required(),

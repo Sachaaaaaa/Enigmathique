@@ -52,6 +52,7 @@ class ApiService {
 			// Retourne un tableau d'objets { id, firstname, lastname } => retire les autres informations non nécessaires
 			return response.map(student => { return { id: student.id, firstname: student.firstname, lastname: student.lastname } });
 		} catch (error) {
+			console.log(error);
 			return null;
 		}
 	}
@@ -147,6 +148,33 @@ class ApiService {
 
 		try {
 			const response = await this.sendRequest('POST', endpoint, data);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	}
+
+	static async putGameState(gameId, state) {
+		const endpoint = '/game/state/' + gameId;
+		const data = {
+			state: state
+		};
+
+		try {
+			const response = await this.sendRequest('PUT', endpoint, data);
+			return response;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	}
+
+	static async deleteGame(id) {
+		const endpoint = '/game/' + id;
+
+		try {
+			const response = await this.sendRequest('DELETE', endpoint);
 			return response;
 		} catch (error) {
 			console.log(error);

@@ -40,6 +40,12 @@ class SocketTeam {
 		return roomsData;
 	}
 
+	getDataPlusPlus = () => {
+		const data = this.getProgressionData();
+		// Ajoute le nom de l'équipe
+		data.teamName = this.teamId;
+	}
+
 	onDisconnect = () => {
 		console.log(clc.redBright('[Team] Déconnexion'));
 		this.leaved = true;
@@ -62,6 +68,12 @@ class SocketTeam {
 	onSubmit = ({enigmaId, answer}) => {
 		console.log(clc.yellowBright(`[Team] Réponse reçu: (${enigmaId}, ${answer})`));
 	
+		// Vérifie si la réponse a déjà été donnée
+		if (this.currentRoom.enigmasSolved.includes(enigmaId)) {
+			console.log(clc.redBright('[Team] Réponse déjà donnée'));
+			return;
+		}
+
 		const isSolved = this.currentRoom.checkAnswer(enigmaId, answer);
 		const endMessage = isSolved ? this.currentRoom.getEndMessage(enigmaId): null;
 		console.log(isSolved ? clc.green('[Team] Réponse correcte') : clc.redBright('[Team] Réponse incorrecte'));

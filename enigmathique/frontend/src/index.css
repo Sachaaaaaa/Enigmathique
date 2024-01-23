@@ -25,6 +25,7 @@
 
         ::-webkit-scrollbar, ::-webkit-scrollbar:vertical {
             width: 10px;
+            height: 10px;
         }
     
         ::-webkit-scrollbar-thumb {
@@ -78,6 +79,10 @@
             .bg-blue-color {
                 @apply bg-[#0A06F4];
             }    
+
+            .bg-purple-color {
+                @apply bg-[#CECDFD];
+            }
             
             .bg-btn-red-color {
                 @apply bg-[#EF4565];
@@ -98,6 +103,10 @@
             }
             .bg-btn-orange-color:hover {
                 @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
+            }
+
+            .bg-btn-gray-color {
+                @apply bg-gray-400;
             }
 
             .bg-btn-blue-color {
@@ -343,7 +352,7 @@
             }
 
             .room-list-container {
-                @apply flex flex-col w-full min-w-max mt-10  overflow-auto ;
+                @apply flex flex-col w-full min-w-max mt-10 overflow-auto ;
             }
 
 
@@ -395,36 +404,54 @@
             }
 
         /* Bouton statistiques */
-            .btn-action-Statistiques {
+            .btn-action-statistiques {
                 @apply btn-action bg-[#4C49ED]
             }
-            .btn-action-Statistiques:hover {
+            .btn-action-statistiques:hover {
                 @apply bg-gradient-to-r from-[#6462e6] to-[#4C49ED];
             }    
 
         /* Bouton modifier */    
-            .btn-action-Modifier {
+            .btn-action-modifier {
                 @apply btn-action bg-[#FB7D5B]
             }
-            .btn-action-Modifier:hover {
+            .btn-action-modifier:hover {
                 @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
             }
 
         /* Bouton supprimer */
-            .btn-action-Supprimer {
+            .btn-action-supprimer {
                 @apply btn-action bg-btn-red-color
             }
 
         /* Bouton classement */
-            .btn-action-Classement {
+            .btn-action-classement {
                 @apply btn-action bg-[#fabe32]
             }
-            .btn-action-Classement:hover {
+            .btn-action-classement:hover {
                 @apply bg-gradient-to-r from-[#f3ca6a] to-[#fabe32];
             }
 
         /* Boutons infos */
-            .btn-action-Détails {
+            .btn-action-détails {
                 @apply btn-action bg-btn-blue-color
+            }
+
+        /* Bouton valider */
+            .btn-action-valider {
+                @apply btn-action bg-[#019799]
+            }
+            .btn-action-valider:hover {
+                @apply bg-gradient-to-r from-[#4eb5b6] to-[#019799];
+            }
+
+        /* Bouton refuser */
+            .btn-action-refuser {
+                @apply btn-action bg-btn-red-color
+            }
+    
+        /* Boutons désactivé*/
+            .btn-disabled {
+                @apply btn-action bg-btn-gray-color
             }
 }

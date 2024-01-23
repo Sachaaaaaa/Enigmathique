@@ -30,6 +30,13 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.INTEGER,
 			allowNull: false,
 		},
+
+		// Code de la partie
+		gameCode: {
+			type: Sequelize.STRING,
+			allowNull: true,
+		},
+
 		// Date de création de l'objet
 		createdAt: {
 			type: Sequelize.DATE,

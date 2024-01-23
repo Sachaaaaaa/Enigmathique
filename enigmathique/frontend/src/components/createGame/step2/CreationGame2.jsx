@@ -9,6 +9,7 @@ import Game from "../../../models/game.model";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import FooterButtons from '../FooterButtons';
 import SearchInput from "../../SearchInput";
+import toast from "react-hot-toast";
 
 const CreationGame2 = (props) => {
 
@@ -27,7 +28,9 @@ const CreationGame2 = (props) => {
 		);
 		setFilteredRooms([...filtered]);
 	}, [filter]);
-
+	useEffect(() => {
+		console.log(selectedRooms);
+	}, [selectedRooms]);
 
 	const handlePrecedent = () => {
 		props.setStep(1);
@@ -35,7 +38,9 @@ const CreationGame2 = (props) => {
 
 	const handleSuivant = async (event) => {
 		if (selectedRooms.length === 0) {
-			alert('Veuillez sélectionner au moins une salle');
+			toast.error(
+				'Veuillez sélectionner au moins une salle',
+				);
 			event.preventDefault();
 			return;
 		}
@@ -43,8 +48,8 @@ const CreationGame2 = (props) => {
 			const game = await createGame();
 			await addRooms(game.id, selectedRooms);
 			const res = await openGame(game.id);
-			console.log(res.code);
-			navigate(`/pregame/${res.code}`);
+			console.log(res.gameCode);
+			navigate(`/pregame/${res.gameCode}`);
 
 			return;
 		}
@@ -93,12 +98,13 @@ const CreationGame2 = (props) => {
 								riddles={999}
 								winrate={999}
 								handleRoomSelection={handleRoomSelection}
+								selected={selectedRooms.includes(room.name)}
 							/>
 					);
 				})}
 			</article>
 
-			<FooterButtons handleRetour={handlePrecedent} handleSuivant={handleSuivant}/>
+			<FooterButtons linkRetour='' handleRetour={handlePrecedent} handleSuivant={handleSuivant}/>
 
 		</section>
 	)

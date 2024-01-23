@@ -116,7 +116,7 @@ class CompositionSession {
 		const team = this.teamSockets.find((t) => t.socket.id === teamId);
 		if (team) {
 			team.confirmed = true;
-			this.sendCompositionToProfessor();
+			this.resyncAll();
 		}
 	}
 
@@ -124,7 +124,6 @@ class CompositionSession {
 		const team = this.teamSockets.find((t) => t.socket.id === teamId);
 		if (team) {
 			team.wipeComposition();
-
 			this.resyncAll();
 		}	
 	}
@@ -187,7 +186,8 @@ class CompositionSession {
 
 		// Envoie la composition à l'API
 		const response = await ApiService.postTeamsComposition(this.sessionId, teams);
-		// [ { id: 4, name: 'AA', idGame: 8, idSocket: 'gK0IZqZQXy0QCKdsAAAF' } ]
+		// Modifie l'état de la partie
+		await ApiService.putGameState(this.sessionId, 1);
 
 		// Envoyer début de partie aux élèves avec leur teamId
 		// Itère les équipes dans la réponse
