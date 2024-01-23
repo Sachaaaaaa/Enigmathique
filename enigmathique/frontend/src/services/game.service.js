@@ -71,58 +71,6 @@ const deleteGame = (idGame) => {
 		});
 };
 
-//socket
-const acceptTeam = (idGame, idTeam) => {
-	const token = authHeader();
-	return axios
-		.post(API_URL + 'game/team/accept/' + idTeam, {
-			idGame
-		}, {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-};
-//socket
-const getGameBelongsToProfessor = (idProfessor) => {
-	const token = authHeader();
-	return axios
-		.get(API_URL + 'game/gameBelongsToProf/' + idProfessor, {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-};
-//socket
-const EndGame = (idGame) => {
-	const token = authHeader();
-	return axios
-		.post(API_URL + 'game/end/' + idGame, {}, {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-}
-
-
-//socket
-const closeGame = (idGame) => {
-	const token = authHeader();
-	return axios
-		.post(API_URL + 'game/close/' + idGame,  {}, {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-};
-//socket
-const getCourseFromGameCode = (gameCode) => {
-	const token = authHeader();
-	return axios
-		.get(API_URL + 'game/course/' + gameCode, {headers: token})
-		.then((response) => {
-			return response.data;
-		});
-};
-
-
-
 
 /**
  * Permet d'avoir tous les scores liés à une partie

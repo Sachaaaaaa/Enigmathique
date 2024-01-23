@@ -3,14 +3,11 @@ import {useParams, Link} from "react-router-dom";
 import GameModel from "../models/game.model";
 import TeamModel from "../models/team.model";
 import LayoutProf from "../layouts/LayoutProf";
-import {FaRegCircle, FaStar} from "react-icons/fa";
 import ActionButton from "../components/dashboard/ActionButton";
 import TeamStats from "./TeamStats";
 import TableContainer from "../components/dashboard/TableContainer";
 import ContentHeader from "../components/dashboard/ContentHeader";
-
-import {getPositionStyle, getPositionIcon} from "../components/stats/RankStyleManager";
-const maxTime = 600;
+import {getPositionStyle, getPositionIcon, calculateScore, loadMembers} from "../components/stats/RankStyleManager";
 
 const Ranking = () => {
 
@@ -35,23 +32,13 @@ const Ranking = () => {
 		setTeams(data);
 	};
 
-	const loadMembers = async (idTeam) => {
-		return await TeamModel.getStudents(idTeam);
-	};
 
-	const calculateScore = (numSolved, numBadAnswers, numHints) => {
-		return (
-			numSolved * 100 - numBadAnswers * 10 - numHints * 20 + (numSolved > 0 ? 300 : 0)
-		);
-	};
 
 	const getRanking = async () => {
 		const teamList = await Promise.all(
 			teams.map(async (team) => {
 				const scores = await TeamModel.getScores(team.id);
-				const calculatedScore = scores.reduce(
-					(sum, score) =>
-						sum +
+				const calculatedScore = scores.reduce((sum, score) => sum +
 						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints),
 					0);
 
