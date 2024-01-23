@@ -25,7 +25,7 @@ const SelectedStudents = (props) => {
 						<>
 							<Student
 								index={index}
-								key={student.id}
+								key={index}
 								id={student.id}
 								lastname={student.lastname}
 								firstname={student.firstname}
