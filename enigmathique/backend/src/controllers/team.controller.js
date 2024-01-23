@@ -335,7 +335,7 @@ exports.addScores = async(req, res, next) => {
 			for (let j = 0; j < teamRooms.length; j++) {
 				const roomData = teamRooms[j];
 				// Récupère les infos de la salle
-				const roomName = roomData.name;
+				const roomName = roomData.roomName;
 				const time = parseInt(roomData.time);
 				const nbGoodAnswers = roomData.nbGoodAnswers;
 				const nbBadAnswers = roomData.nbBadAnswers;
@@ -359,6 +359,7 @@ exports.addScores = async(req, res, next) => {
 		}
 		res.status(201).json(result);
 	} catch(err) {
+		console.log(err);
 		next(err)
 	}
 		
