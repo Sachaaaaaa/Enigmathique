@@ -49,7 +49,9 @@ const Games = () => {
 		const filtered = games.filter(
 			(game) => game.name.toLowerCase().includes(filter.toLowerCase())
 		);
-		setFilteredGames([...filtered]);
+		setFilteredGames([...filtered].sort((a, b) => {
+			return a.createdAt > b.createdAt ? -1 : 1
+		}));
 	}, [filter, games]);
 
 
