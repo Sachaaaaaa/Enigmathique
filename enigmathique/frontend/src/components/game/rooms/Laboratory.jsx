@@ -270,6 +270,7 @@ export default function Room001(props) {
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
+								stepButton={50}
 							/>
 						)}
 						closeEnigma={forceExit}
