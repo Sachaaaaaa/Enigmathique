@@ -10,14 +10,14 @@ const Timer = ({ duration = 600 }) => {
 	const [currentTime, setCurrentTime] = useState(Date.now());
 
 	useEffect(() => {
-		const handleTimer = ({ startTime }) => {
-			setStartTime(startTime);
+		const handleStartTimer = () => {
+			setStartTime(Date.now());
 		};
 
-		socket.on(ServerToClient.StartRound, handleTimer);
+		socket.on(ServerToClient.StartRound, handleStartTimer);
 
 		return () => {
-			socket.off(ServerToClient.StartRound, handleTimer);
+			socket.off(ServerToClient.StartRound, handleStartTimer);
 		};
 	}, []);
 
