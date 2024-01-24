@@ -49,7 +49,7 @@ const Ranking = () => {
 					id: team.id,
 					name: team.name,
 					members: members,
-					calculatedScore: calculatedScore,
+					calculatedScore: calculatedScore === 0 ? 0: calculatedScore,
 					nbSolved: scores.reduce((sum, score) => sum + score.nbGoodAnswers, 0),
 				};
 			})
