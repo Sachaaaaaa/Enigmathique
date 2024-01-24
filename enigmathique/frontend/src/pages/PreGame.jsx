@@ -70,7 +70,9 @@ const PreGame = () => {
 			<LayoutProf>
 				<main className='flex flex-col gap-4 p-5'>
 					<Notification/>
-					<div className='w-full min-w-[250px] py-2 bg-white primary-font-color text-center text-lg font-semibold shadow-md rounded-full'> Code de connexion : <span className='blue-font-color'>{sessionId}</span> </div>
+					<div className='w-full min-w-[250px] py-2 bg-white primary-font-color text-center text-lg 
+								font-semibold shadow-md rounded-full'> 
+					Code de connexion : <span className='blue-font-color'>{sessionId}</span> </div>
 					<button className="pregame-join-button" onClick={handleStartGame}>
 						Commencer la partie
 					</button>

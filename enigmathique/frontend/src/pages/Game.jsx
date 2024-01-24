@@ -11,7 +11,7 @@ import Rules from 'components/game/Rules';
 
 import E from '../assets/img/E.png';
 import help from '../assets/img/help.png';
-import logoNameNobg from '../assets/img/logo-name-nobg.png';
+import logoNameNobg from '../assets/img/logo-name-enigmathique-white.png';
 import bglogo from '../assets/img/bg_logo.png';
 
 import { IoIosCloseCircle } from 'react-icons/io';

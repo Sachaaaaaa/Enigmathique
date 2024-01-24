@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logo from '../assets/img/logo-name-enigmathique.png';
+import logo from '../assets/img/logo-name-enigmathique-black.png';
 import {Link} from 'react-router-dom';
 
 const AuthHeader = ({ title }) => {
     return (
         <header className='topbar-container flex justify-start h-[75px] bg-white'>
-            <Link to='/' className='w-[172px] border-r-2 box-border .border-white-color'>
-				<img src={logo} alt='logo' height={75}/>
+            <div className='flex items-center w-fit h-[75px] px-2 pt-2 border-r-2 box-border .border-white-color'>
+            <Link to='/' className='w-[172px]'>
+				<img src={logo} alt='logo'/>
 			</Link>
+            </div>
             <h1 className='pl-5 primary-font-color text-2xl font-semibold'>{title}</h1>
         </header>
     );

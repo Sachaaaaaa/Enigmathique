@@ -38,7 +38,8 @@ const 	AvailableStudents = (props) => {
 						{searchResult.map((student, index) => (
 							<>
 								<Student
-									key={student.id}
+									index={index}
+									key={index}
 									id={student.id}
 									lastname={student.lastname}
 									firstname={student.firstname}

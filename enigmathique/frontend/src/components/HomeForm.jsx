@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, animateScroll as scroll } from 'react-scroll';
-import logo from '../assets/img/logo-name-nobg.png';
+import logo from '../assets/img/logo-name-enigmathique-white.png';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import GameModel from '../models/game.model';
 import Carousel from 'nuka-carousel';
