@@ -106,22 +106,14 @@ const Join = (props) => {
 	};
 
 	const handleCreateTeam = () => {
-		let errorTeamName = [];
-		let errorTeamSize = [];
 		let error = false ;
 		if (selected.length === 0) {
-			errorTeamName.push("Veuillez entrer un nom d'équipe");
 			error = true;
-			toast.error(
-				errorTeamName.join(''),
-			);
+			toast.error("Veuillez entrer un nom d'équipe");
 		}
 		if (teamName === '') {
-			errorTeamSize.push("Veuillez sélectionner un moins un élève");
 			error = true;
-			toast.error(
-				errorTeamSize.join(''),
-			);
+			toast.error("Veuillez sélectionner un moins un élève");
 		}
 		if (error) return;
 		socket.emit(ClientToServer.LockTeam, {name: teamName});

@@ -22,19 +22,11 @@ const CreationGame1 = (props) => {
 			props.setStep(2);
 			return;
 		}
-		let errorGameName = [];
-		let errorCourse = [];
 		if (formData.gameName === '') {
-			errorGameName.push('Veuillez entrer un nom de partie');
-			toast.error(
-				errorGameName.join(''),
-			);
+			toast.error('Veuillez entrer un nom de partie');
 		}
 		if (formData.course === 0) {
-			errorCourse.push('Veuillez sélectionner une classe');
-			toast.error(
-				errorCourse.join(''),
-			);
+			toast.error('Veuillez sélectionner une classe');
 		}
 	};
 	const handleAnnuler = (event) => {
