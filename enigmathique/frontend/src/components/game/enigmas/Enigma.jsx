@@ -7,11 +7,11 @@ import { useRoom } from 'contexts/RoomContext';
 import { useSocket } from 'contexts/SocketContext';
 import useMemoryState from 'hooks/useMemoryState';
 import { ClientToServer, ServerToClient } from 'data/socketMessages';
-import { IoIosCloseCircle } from 'react-icons/io';
+import ClosePopup from '../informations/ClosePopup';
 
 extend({ Html });
 
-const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
+const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma, title="" }) => {
 	const { room } = useRoom();
 	const socket = useSocket();
 
@@ -61,14 +61,16 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 
 	return (
 		<Html>
-			<div className={`z-0 absolute translate-y-[-50%] top-1/2 left-1/2 p-4 w-72 bg-white rounded-md flex flex-col 
+			<div className={`pop-up-container max-w-[300px]
 			${!enigmaState.isSolved ? 'border-4 border-red-600' : 'border-4 border-green-600'}`}>
-				<button onClick={closeEnigma} className="flex justify-around items-center bg-red-600 p-2 rounded w-2/5 mb-4">
-					<IoIosCloseCircle /> Fermer
-				</button>
+				<div className='flex justify-between items-start w-full '>
+					<h1 className='pop-up-title p-3'>{title} </h1>
+					<ClosePopup onClick={closeEnigma}></ClosePopup>
+				</div>
 
+				<div className='p-3 pt-0'>
 				{enigmaDisplayTemplate(variables, enigmaState.hint, submitAnswer, askHint)}
-
+				</div>
 				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
 
 			</div>
@@ -82,6 +84,7 @@ Enigma.propTypes = {
 	enigmaId: PropTypes.number.isRequired,
 	enigmaDisplayTemplate: PropTypes.elementType.isRequired,
 	closeEnigma: PropTypes.func.isRequired,
+	title: PropTypes.string,
 };
 
 /*

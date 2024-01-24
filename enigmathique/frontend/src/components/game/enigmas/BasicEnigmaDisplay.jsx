@@ -4,11 +4,11 @@ import { BsQuestionDiamondFill } from 'react-icons/bs';
 import { FaCheck } from 'react-icons/fa';
 
 
-const BasicDisplayTemplate = ({ handleSubmitAnswer, handleAskHint, title, description, hint, image }) => {
+const BasicDisplayTemplate = ({ title, description, hint, image, handleSubmitAnswer, handleAskHint}) => {
 	const [userAnswer, setUserAnswer] = useState('');
-
+	
 	const handleInputChange = (event) => {
-		setUserAnswer(event.target.value);
+		setUserAnswer(event.target.value.replace(/[^0-9]/g, ""));
 	};
 
 	return (
@@ -18,15 +18,16 @@ const BasicDisplayTemplate = ({ handleSubmitAnswer, handleAskHint, title, descri
 			{image != null && <img src={image} alt='enigma image' />}
 			<input
 				type="text"
-				placeholder="Votre réponse"
+				pattern="[0-9]*"
+				placeholder="Numéro du tiroir"
 				value={userAnswer}
-				onChange={handleInputChange}
-				className="m-1.5"
-				style={{border: '2px solid #b3b3b3'}} 
+				onChange={() =>handleInputChange}
+				className="form-inputfield-style"
 			/>
 			
 			{!hint && (
-				<button onClick={() => handleAskHint()} className="m-1.5"
+				<button onClick={() => handleAskHint()} 
+				className="m-1.5"
 					style={{
 						background: '#ffcc00',
 						display: 'flex',
@@ -61,7 +62,8 @@ export default BasicDisplayTemplate;
 BasicDisplayTemplate.propTypes = {
 	handleSubmitAnswer: PropTypes.func.isRequired,
 	handleAskHint: PropTypes.func.isRequired,
-	hint: PropTypes.string,
+	hint : PropTypes.string,
+	enigmaState: PropTypes.object,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	image: PropTypes.string,

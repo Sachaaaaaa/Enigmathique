@@ -40,13 +40,21 @@
             @apply w-fit p-2 pl-0;
         }
 
-/*************** Informations pop-up (InformationPopup.jsx **************/
-
+/**************** Affichage des énigmes et informations ****************/
+    /* Conteneur du pop-up */
+        .pop-up-container {
+            @apply centered-pop-up flex flex-col w-max bg-white primary-font-color rounded-md shadow-md
+        }
+    /* Pour le centrer */    
     .centered-pop-up {
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%,-50%);
+    }
+
+    .pop-up-title {
+        @apply font-semibold text-lg text-center p-5;
     }
 
 /**************** Boutons ******************/

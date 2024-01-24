@@ -93,10 +93,10 @@ export default function Room001(props) {
 				{clicked && (
 					<InformationPopup
 						title="Recette de potion de Nano"
-						information="Cette recette vous dit quelque chose... Ca a l'air d'être une recette alternative a la potion de souris !"
 						image={recette_test}
-						closePopup={forceExit}
-					/>
+						closePopup={forceExit}>
+					<p>Cette recette vous dit quelque chose... Ça a {"l'air d'être"} une <strong>recette alternative</strong> à la potion de souris !</p>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -129,6 +129,7 @@ export default function Room001(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigma
+						title='Étagère'
 						enigmaId={0}
 						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
