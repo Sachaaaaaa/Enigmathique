@@ -109,11 +109,11 @@ const Join = (props) => {
 		let error = false ;
 		if (selected.length === 0) {
 			error = true;
-			toast.error("Veuillez entrer un nom d'équipe");
+			toast.error("Veuillez sélectionner un moins un élève");
 		}
 		if (teamName === '') {
 			error = true;
-			toast.error("Veuillez sélectionner un moins un élève");
+			toast.error("Veuillez entrer un nom d'équipe");
 		}
 		if (error) return;
 		socket.emit(ClientToServer.LockTeam, {name: teamName});

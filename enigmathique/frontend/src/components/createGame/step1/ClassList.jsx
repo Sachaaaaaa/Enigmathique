@@ -1,20 +1,27 @@
 import React from "react";
 import {useCreationGameContext} from "../../contexts/CreationGame.context";
+import {IoChevronDown, IoChevronUp} from "react-icons/io5";
+import { useState } from "react";
 
 const ClassList = () => {
 	const {formData, setFormData, courses} = useCreationGameContext();
+	const [isExpanded, setIsExpanded] = useState(false);
 	return(
 		<>
 			<label className='form-label-style' htmlFor="courses">
-				Classe
+				Classe 
 			</label>
 			<select
+				onSelect={() =>setIsExpanded(!isExpanded)}
 				id="courses"
 				className="form-inputfield-style"
 				onChange={(e) => setFormData({...formData, course: parseInt(e.target.value)})}
-				value={formData.course}>
-
-				<option value={0} disabled={true} style={{color: '#343C6A'}}>Choisissez une classe</option>
+				value={formData.course }>
+				{/* {isExpanded ? <IoChevronUp /> : <IoChevronDown />} */}
+				<option value={0} disabled={true} style={{color: '#343C6A'}}>
+					Choisissez une classe
+					
+				</option>
 				{courses.map((course,index) => <option key={index} value={course.id} style={{color: '#343C6A'}}>{course.name}</option>)}
 			
 			</select>

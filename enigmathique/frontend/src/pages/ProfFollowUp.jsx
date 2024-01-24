@@ -10,6 +10,7 @@ import TableContainer from 'components/dashboard/TableContainer';
 import ContentHeader from 'components/dashboard/ContentHeader';
 import {getPositionIcon, getPositionStyle, calculateScore} from "../components/stats/RankStyleManager";
 import { FiInfo } from 'react-icons/fi';
+import { getRowColor } from 'components/ListManager';
 
 function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
@@ -143,7 +144,7 @@ function ProfFollowUp() {
 				<div className="overflow-x-auto">
 					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
 						{rankings.map((team, index) => (
-							<tr key={index} className={`border-t border-[#CECDFD]  ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+							<tr key={index} className={getRowColor(index)}>
 								<td className="p-5 flex items-center justify-left">
 									<div className={`relative ${getPositionStyle(index)}`}>
 										{getPositionIcon(index)}
