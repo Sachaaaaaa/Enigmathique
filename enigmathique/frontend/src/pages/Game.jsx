@@ -6,7 +6,7 @@ import { socket, SocketContext } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
-import Chronometer from '../components/game/enigmas/Chronometre';
+import Timer from '../components/game/enigmas/Timer';
 import Rules from 'components/game/Rules';
 
 import E from '../assets/img/E.png';
@@ -106,7 +106,8 @@ const Game = () => {
 			)}
 
 			{/* Fin de la salle */}
-			{isFinished && (
+			{/* TODO: Remettre quand fix, empeche de rejouer quand rotation */}
+			{(isFinished && false) && ( 
 				<div className='absolute top-0 left-0 w-full h-full flex justify-center items-center z-50' style={{background: 'rgba(0, 0, 0, 0.7)',}}>
 					
 					<img src={bglogo} alt="logo" style={{
@@ -131,7 +132,7 @@ const Game = () => {
 
 			{/* Chronomètre */}
 
-			{isLoading && <Chronometer initialTime={600} resetChronometer={isFinished} />}
+			{isLoading && <Timer duration={600}/>}
 			<RoomProvider>
 				<Canvas
 					shadows
