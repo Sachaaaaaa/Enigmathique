@@ -74,10 +74,10 @@ const Ranking = () => {
 	}
 
 	const handleDetailsClick = (team) => {
-		console.log("team", team);
 		setSelectedTeam(team);
 		loadScoresForOneTeam(team.id);
 	};
+	console.log('ranking' , ranking);
 
 
 	return (
@@ -86,9 +86,8 @@ const Ranking = () => {
 				<ContentHeader title={game.name} link='/games'/>
 				<div className="overflow-x-auto">
 					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
-
 						{ranking.map((team, index) => (
-							<TeamRow key={team.id} index={index} detailsOnClick={() => handleDetailsClick(team)}/>
+							<TeamRow team={team} key={team.id} index={index} detailsOnClick={() => handleDetailsClick(team)}/>
 						))}
 					</TableContainer>
 				</div>
