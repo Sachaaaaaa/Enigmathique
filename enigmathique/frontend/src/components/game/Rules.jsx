@@ -59,8 +59,8 @@ const Rules = ({onCloseClick}) => {
                             <IoMdTrophy  size='2em' />
                         </div>
                         <div>
+                            <p> <strong></strong> +500 points si vous sortez de la salle</p>
                             <p> +100 points par énigme résolue</p>
-                            <p> +500 points si vous sortez de la salle</p>
                             <p> -10 points par indice utilisé</p>
                             <p> -20 points par mauvaise réponse</p>
                         </div>
