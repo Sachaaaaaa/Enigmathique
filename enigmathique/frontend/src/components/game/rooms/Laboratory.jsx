@@ -53,11 +53,11 @@ export default function Room001(props) {
 				{clicked && (
 					<InformationPopup
 						title="Vous ne pouvez pas sortir !"
-						information="Vous etes un alchimiste amateur, en voulant vous introduire dans le laboratoire d'un grand alchimiste, vous vous êtes enfermer !
-						Et il ne tardera pas à revenir... Vous remarquez un trou dans la porte, il y a surement moyen de faire une potion de souris pour que vous rapetissiez.
-						Regardez autour de vous, il doit bien y avoir une recette qui peut vous aidez sur le bureau !"
-						closePopup={forceExit}
-					/>
+						closePopup={forceExit}>
+							<p>Tu es amateur {"d'alchimie"} et en voulant {"t'introduire"} dans le laboratoire {"d'un"} grand alchimiste, tu as été malencontreusement enfermé !
+						Le scientifique ne tardera pas à revenir... Vous remarquez un <strong>trou</strong> dans la porte, il y a surement moyen de faire une <strong>potion de souris</strong> pour que vous rapetissiez.
+						<br/>Regardez autour de vous, il doit bien y avoir une <strong>recette</strong> qui peut vous aidez !</p> 
+					</InformationPopup>
 				)}
 			</mesh>
 		);

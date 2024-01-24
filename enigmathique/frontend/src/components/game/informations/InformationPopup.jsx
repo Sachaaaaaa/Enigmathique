@@ -4,40 +4,39 @@ import PropTypes from 'prop-types';
 import { extend } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 
-import { IoIosCloseCircle } from 'react-icons/io';
+import { IoClose } from "react-icons/io5";
 
 extend({ Html });
 
-const InformationPopup = ({ title, information, image, closePopup }) => {
+const InformationPopup = ({ title, image, closePopup, children }) => {
+
 	return (
 		<Html>
-			<div className="absolute translate-y-[-70%] top-0 left-1/2 p-4 bg-white rounded-md flex flex-col items-center" style={{ width: '700px' }}>
-				<h1> <strong>{title}</strong> </h1>
-				<p>{information}</p>
-				{image && <img src={image} alt="information image"/>}
-				<button onClick={closePopup}
-					style={{
-						display: 'flex',
-						justifyContent: 'space-around',
-						alignItems: 'center',
-						background: '#ff6666',
-						padding: '8px',
-						borderRadius: '8px',
-						width: '9vw',
-						marginBottom: '10px',
-					}}>
-					<IoIosCloseCircle /> Fermer
+			<div className="centered-pop-up flex flex-col items-center w-max max-w-[600px] primary-font-color bg-white shadow-md rounded-md">
+				<div className='flex justify-between items-start w-full '>
+				<h1 className='font-semibold text-lg text-center p-5'>{title} </h1>
+				<button onClick={closePopup} className='close-button p-2'>
+					<IoClose size={"2em"}/>
 				</button>
+				</div>
+				
+				<div className='p-5 pt-0'>
+				{children}
+				</div>
+				
+				{image && <img src={image} alt="information image"/>}
+
 			</div>
 		</Html>
 	);
 };
 
-export default InformationPopup;
-
 InformationPopup.propTypes = {
 	title: PropTypes.string.isRequired,
-	information: PropTypes.string.isRequired,
 	image: PropTypes.string,
 	closePopup: PropTypes.func.isRequired,
+	children: PropTypes.node.isRequired,
 };
+
+export default InformationPopup;
+

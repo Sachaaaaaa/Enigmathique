@@ -23,21 +23,37 @@
 
 /**************** Affichage des règles du jeu (Rules.jsx) ****************/
 
-        /* Section de la page */
-        .articleClassname {
+    /* Section de la page */
+        .rule-article {
             @apply flex flex-col gap-2 w-full;
         }
-        /* Titre de la section */
-        .titleDivClassname {
+    /* Titre de la section */
+        .rule-title {
             @apply font-semibold py-3 primary-font-color uppercase;
         }
-        /* Contenu de la section */
-        .ruleDivClassname {
+    /* Contenu de la section */
+        .rule-div-content {
             @apply flex justify-start items-center gap-2 w-full primary-font-color;
         }
-        /* Style des icones */
-        .iconDivClassname {
+    /* Style des icones */
+        .icon-rule-div {
             @apply w-fit p-2 pl-0;
+        }
+
+/*************** Informations pop-up (InformationPopup.jsx **************/
+
+    .centered-pop-up {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+/**************** Boutons ******************/
+
+    /** Bouton fermer **/
+        .close-button {
+            @apply flex justify-center items-center p-0 red-font-color font-semibold rounded-full  ;
         }
 
 }

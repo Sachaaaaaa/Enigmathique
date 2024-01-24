@@ -14,10 +14,6 @@ import './game.css'
 import { IconContext } from "react-icons";  
 
 
-const articleClassname = "flex flex-col gap-2 w-full" ;
-const titleDivClassname = "font-semibold primary-font-color py-3 uppercase" ;
-const ruleDivClassname = "flex justify-left items-center gap-2 w-full primary-font-color" ;
-
 const Rules = ({onCloseClick}) => {
     return (
 
@@ -30,32 +26,32 @@ const Rules = ({onCloseClick}) => {
                 }}
             >
             <section className='flex gap-3'>
-                <article className="articleClassname">
-                    <h2 className="titleDivClassname"> Déplacements</h2>
-                    <div className="ruleDivClassname">
+                <article className="rule-article">
+                    <h2 className="rule-title"> Déplacements</h2>
+                    <div className="rule-div-content">
                         <img src={leftclick} alt="leftclick" width={40}/>
                         <p> <strong>Tournez</strong> la salle en maintenant clic gauche</p>
                     </div>
-                    <div className="ruleDivClassname">
+                    <div className="rule-div-content">
                         <img src={rightclick} alt="rightclick" width={40} />
                         <p> <strong>Déplacez</strong> la salle grâce au clic droit</p>               
                     </div>
-                    <div className="ruleDivClassname">
+                    <div className="rule-div-content">
                         <img src={scroll} alt="scroll" width={40}/>
                         <p> <strong>Zoomez</strong> avec la molette </p>               
                     </div>
                 </article>
 
-                <article className="articleClassname">
-                    <h2 className="titleDivClassname"> Objectif </h2>
-                    <div className="ruleDivClassname">
-                        <div className="iconDivClassname">
+                <article className="rule-article">
+                    <h2 className="rule-title"> Objectif </h2>
+                    <div className="rule-div-content">
+                        <div className="icon-rule-div">
                             <BsFillDoorOpenFill size='2em' />
                         </div>
                         <p> Votre objectif ? Vous <strong>échappez</strong> de la pièce dans le <strong>temps imparti</strong> ! Dans chaque salle, cliquez sur la <strong>porte</strong> pour afficher le contexte.</p>
                     </div>
-                    <div className="ruleDivClassname">
-                        <div className="iconDivClassname">
+                    <div className="rule-div-content">
+                        <div className="icon-rule-div">
                             <IoMdTrophy  size='2em' />
                         </div>
                         <div>
@@ -67,17 +63,17 @@ const Rules = ({onCloseClick}) => {
                     </div>
                 </article>
                 
-                <article className="articleClassname">
-                    <h2 className="titleDivClassname"> énigmes </h2>
-                    <div className="ruleDivClassname">
-                        <div className="iconDivClassname">
+                <article className="rule-article">
+                    <h2 className="rule-title"> énigmes </h2>
+                    <div className="rule-div-content">
+                        <div className="icon-rule-div">
                             <IoIosSearch  size='2em' />
                         </div>
                         <p> Passez votre souris sur tous les <strong>éléments</strong> de la scène pour voir lesquels sont <strong>interactifs</strong>. Ceux-ci <strong> changent de couleur </strong>.
                             Certains éléments sont durs à trouver, ouvrez {"l'oeil !"} </p>
                     </div>
-                    <div className="ruleDivClassname">
-                        <div className="iconDivClassname">
+                    <div className="rule-div-content">
+                        <div className="icon-rule-div">
                             <HiCursorClick  size='2em' />
                         </div>
                         <p>
@@ -89,8 +85,7 @@ const Rules = ({onCloseClick}) => {
             </section>
             </IconContext.Provider>
             <div className='w-full flex justify-end'>
-            <button className=' flex justify-center items-center
-								btn-action red-font-color p-0'
+            <button className=' close-button'
 								onClick={onCloseClick}><MdCancel size='4em'/></button>
             </div>
 		</div>
