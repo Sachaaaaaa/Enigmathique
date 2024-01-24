@@ -59,7 +59,7 @@ const PreGame = () => {
 	}, []);
 
 	const handleStartGame = () => {
-		if (lockedTeams.length === 0) {
+		if (confirmedTeams.length === 0) {
 			toast.error('Il faut au moins une équipe pour commencer la partie');
 			return;
 		}

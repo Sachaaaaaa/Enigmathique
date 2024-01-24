@@ -14,7 +14,7 @@ const register = (firstname, lastname, mail, password) => {
 		})
 		.then((response) => {
 			if (response.data.token) {
-				localStorage.setItem('user', JSON.stringify(response.data));
+				sessionStorage.setItem('user', JSON.stringify(response.data));
 			}
 			return response.data;
 		});
@@ -29,7 +29,7 @@ const login = (mail, password) => {
 		})
 		.then((response) => {
 			if (response.data.token) {
-				localStorage.setItem('user', JSON.stringify(response.data));
+				sessionStorage.setItem('user', JSON.stringify(response.data));
 			}
 			return response.data;
 		});
@@ -40,17 +40,17 @@ const logout = 	async() => {
 	await axios
 		.post(API_URL + 'auth/logout', {}, {headers: token});
 	// Supprime l'utilisateur de la mémoire locale
-	localStorage.removeItem('user');
+	sessionStorage.removeItem('user');
 };
 
 const getCurrentUser = () => {
 	// Retourne l'utilisateur courant
-	return JSON.parse(localStorage.getItem('user'));
+	return JSON.parse(sessionStorage.getItem('user'));
 };
 
 const getToken = () => {
 	// Retourne le token de l'utilisateur courant
-	const user = JSON.parse(localStorage.getItem('user'));
+	const user = JSON.parse(sessionStorage.getItem('user'));
 	return user.token;
 };
 
