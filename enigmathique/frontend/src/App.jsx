@@ -17,10 +17,12 @@ import RoomList from 'pages/RoomPage';
 import ProfFollowUp from 'pages/ProfFollowUp';
 import Ranking from 'pages/Ranking';
 import StudentStats from "./pages/StudentStats";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
 	return (
 		<Routes>
+			<Route path='*' element={<NotFound/>}/>
 			<Route path='/' element={<Home/>}/>
 			<Route path='/signup' element={<Signup/>}/>
 			<Route path='/login' element={<Login/>}/>

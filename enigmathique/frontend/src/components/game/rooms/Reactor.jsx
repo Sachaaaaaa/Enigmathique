@@ -126,7 +126,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<InformationPopup
 						title="Tient encore des papier !"
-						information="Sur un des papier il y a écrit : 'Pense bete, code coffre : Décomposer la première valeur de l'addresse de l'ordinateur en facteur de nombre premier. (a = x * y * z² => xyzz)'"
+						information="Sur un des papier il y a écrit : 'Pense bete, code coffre : Décomposer la première valeur de l'addresse de l'ordinateur en produit de facteur de nombre premier. (a = x * y * z² => xyzz)'"
 						closePopup={forceExit}
 					/>
 				)}
