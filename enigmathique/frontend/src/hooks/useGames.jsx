@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import Game from 'models/game.model';
+import GameModel from 'models/game.model';
 
 /**
  * Récupère toutes les parties du professeur connecté
@@ -10,7 +10,7 @@ const useGames = (autoload = true) => {
 	const [games, setGames] = useState([]);
 
 	const loadGames = async () => {
-		const data = await Game.getAll();
+		const data = await GameModel.getAll();
 		setGames(data);
 	};
 

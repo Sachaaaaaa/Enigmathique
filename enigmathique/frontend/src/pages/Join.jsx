@@ -60,6 +60,15 @@ const Join = (props) => {
 			setSelected(data.composition.students);
 		});
 
+		socket.on(ServerToClient.Error, (data) => {
+			if (data.isFatal) {
+				alert(`Erreur : ${data.message}, isFatal : ${data.isFatal}. Faire quelque chose, rajouter du feedback`);
+				navigate('/');
+			} else {
+				toast.error(data.message);
+			}
+		});
+
 		socket.on(ServerToClient.CompositionFinished, (data) => {
 			// TODO: Modifier façon de mettre session et teamId dans l'url
 			const teamId = data.teamId;

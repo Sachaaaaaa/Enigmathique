@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
 import Chronometer from '../components/game/enigmas/Chronometre';
+import Rules from 'components/game/Rules';
 
 import E from '../assets/img/E.png';
 import help from '../assets/img/help.png';
@@ -88,36 +89,10 @@ const Game = () => {
 
 			{/* Fenêtre d'aide */}
 			{isWindowOpen && (
-				<div className='absolute bottom-0 right-0 bg-white'
-					style={{
-						padding: '16px',
-						boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-						zIndex: 999,
-					}}
-				>
+				<>
 					{/* Contenu de la fenêtre */}
-					<h2> <strong>Aide</strong></h2>
-					<p>Vous pouvez tourner la salle en maintenant <strong>clic gauche</strong> et en déplaçant votre souris,
-						déplacer la salle avec <strong>clic droit </strong>
-						et n&apos;hésitez pas à <strong>zoomer avec la molette</strong> sur des éléments de la salle pour voir plus en <strong>détail</strong> des objets. Passer votre souris sur tous les éléments de la scène pour voir les quelques sont interactifs.
-						Les éléments avec lesquels vous pouvez interagir <strong>change de couleur. </strong>
-						Vous pouvez aussi cliquer sur les éléments interactifs pour afficher les énigmes et rentré votre réponse.
-						Certains éléments ne donnent pas d&apos;énigmes mais des informations sur des éléments de réponse.
-						Pour fermer une énigme ou une autre fenêtre vous pouvez appuis sur la <strong>croix</strong> en bas ou <strong>rappuyer</strong> sur l&apos;objet cliqué.
-						Les énigmes qui ont des bordures <strong>rouges</strong> n&apos;ont pas encore étai résolu, si vous entrez une réponse et que les bordures <strong>restent rouges</strong> c&apos;est que ce n&apos;est pas la bonne réponse. 
-						Si les bordures passent au <strong>vert</strong> alors vous avez trouvé la bonne réponse.
-						Cliqué sur la <strong>porte</strong> du niveau pour afficher le contexte de la scène.
-					<strong> Attention</strong> vous avez un temps imparti pour sortir de la salle, le temps est affiché en bas a gauche.
-						Chaque bonne réponse vous fait gagner <strong>100 points</strong>, chaque mauvaise réponse vous fait perdre <strong>10 points</strong> et chaque indice vous fait perdre <strong>20 points.</strong>
-					<strong> 500 points</strong> si vous sortez de la salle avant la fin du temps imparti.
-					</p>
-					<button onClick={toggleWindow} style={{
-						background: '#ff6666',
-						padding: '8px',
-						borderRadius: '8px',
-						width: '12vw'
-					}}><IoIosCloseCircle style={{ height: '2em', width: '2em' }} /></button>
-				</div>
+					<Rules onCloseClick = {toggleWindow}></Rules>
+				</>
 			)}
 
 			{/* Loader */}

@@ -6,6 +6,7 @@
 const ServerToClient = {
 	Connection: 'connect',
 	Disconnection: 'disconnect',
+	Error: 'error', // + {message: string, isFatal: bool}
 	
 	GameInfo: 'gameInfo', // + {maxTeamSize: int} // INFO: Si besoin d'ajouter le nom de la session, mettre içi
 
