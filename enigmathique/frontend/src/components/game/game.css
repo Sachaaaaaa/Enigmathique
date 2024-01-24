@@ -1,0 +1,43 @@
+/************************ Fichiers css spécial pour l'affichage des composants du jeu ************************/
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+@layer components {
+/**************** Couleurs et styles de base ****************/
+
+/** Couleurs de texte **/
+
+    .primary-font-color {
+        @apply text-[#343C6A];
+    }
+    .green-font-color {
+        @apply text-[#019799];
+    }
+    .red-font-color {
+        @apply text-[#EF4565];
+    }
+
+
+/**************** Affichage des règles du jeu (Rules.jsx) ****************/
+
+        /* Section de la page */
+        .articleClassname {
+            @apply flex flex-col gap-2 w-full;
+        }
+        /* Titre de la section */
+        .titleDivClassname {
+            @apply font-semibold py-3 primary-font-color uppercase;
+        }
+        /* Contenu de la section */
+        .ruleDivClassname {
+            @apply flex justify-start items-center gap-2 w-full primary-font-color;
+        }
+        /* Style des icones */
+        .iconDivClassname {
+            @apply w-fit p-2 pl-0;
+        }
+
+}
