@@ -46,11 +46,22 @@ const ListStudents = (props) => {
 		//console.log(filter);
 		setFilter({...filter, text: e.target.value})
 	}
+
+	const compareStudents = (stud1, stud2) => {
+		if(stud1.lastname < stud2.lastname || (stud1.lastname === stud2.lastname && stud1.firstname < stud2.firstname)) {
+			return -1;
+		} else if (stud1.lastname > stud2.lastname || (stud1.lastname === stud2.lastname && stud1.firstname > stud2.firstname)){
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
 	//filtre les élèves en fonction du texte entré
 	const filteredStudents = students.filter((student) =>
 		student.firstname.toLowerCase().startsWith(filter.text.toLowerCase()) ||
 		student.lastname.toLowerCase().startsWith(filter.text.toLowerCase())
-	);
+	).sort(compareStudents);
 	
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	
