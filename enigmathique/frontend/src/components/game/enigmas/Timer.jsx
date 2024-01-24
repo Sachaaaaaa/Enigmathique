@@ -12,6 +12,7 @@ const Timer = ({ duration = 600 }) => {
 	useEffect(() => {
 		const handleStartTimer = () => {
 			setStartTime(Date.now());
+			console.log('start timer');
 		};
 
 		socket.on(ServerToClient.StartRound, handleStartTimer);
