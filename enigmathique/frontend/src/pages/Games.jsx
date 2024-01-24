@@ -7,9 +7,6 @@ import SearchInput from "../components/SearchInput";
 import CreateButton from "components/dashboard/CreateButton";
 import ContentHeader from "components/dashboard/ContentHeader";
 import TableContainer from "components/dashboard/TableContainer";
-import ActionButton from "components/dashboard/ActionButton";
-import Modal, {ModalBody, ModalHeader} from "../components/Modal";
-import toast from "react-hot-toast";
 import Notification from "components/Notification";
 import GameRow from "components/dashboard/GameRow";
 
@@ -49,7 +46,9 @@ const Games = () => {
 		const filtered = games.filter(
 			(game) => game.name.toLowerCase().includes(filter.toLowerCase())
 		);
-		setFilteredGames([...filtered]);
+		setFilteredGames([...filtered].sort((a, b) => {
+			return a.createdAt > b.createdAt ? -1 : 1
+		}));
 	}, [filter, games]);
 
 
