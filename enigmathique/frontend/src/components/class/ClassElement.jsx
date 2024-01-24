@@ -9,6 +9,7 @@ import GameModel from "../../models/game.model";
 import PropTypes from 'prop-types';
 import toast from "react-hot-toast";
 import ActionButton from "components/dashboard/ActionButton";
+import { getRowColor } from 'components/ListManager';
 
 const ClassElement = ({classe, onChange,index}) => {
 
@@ -75,7 +76,7 @@ const ClassElement = ({classe, onChange,index}) => {
 	}
 
 	return (
-		<tr value={classe.name} key={index} className={`border-t border-[#CECDFD] ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+		<tr value={classe.name} key={index} className={getRowColor(index)} >
 			<td className="pl-5 td-style">
 				{classe.name}
 			</td>

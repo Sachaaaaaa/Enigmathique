@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getPositionStyle, getPositionIcon} from './RankStyleManager';
 import ActionButton from 'components/dashboard/ActionButton';
+import { getRowColor } from 'components/ListManager';
 
 
 const TeamRow = ({index, team, detailsOnClick }) => {
     return (
-        <tr key={team.id} className={`border-t border-[#CECDFD]  ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+        <tr key={team.id} className={getRowColor(index)}>
         <td className="p-5 flex items-center justify-left">
             <div className={`relative ${getPositionStyle(index)}`}>
                 {getPositionIcon(index)}

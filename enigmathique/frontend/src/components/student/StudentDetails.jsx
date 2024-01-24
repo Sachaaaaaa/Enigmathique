@@ -8,6 +8,7 @@ import ContentHeader from "../dashboard/ContentHeader";
 import TableContainer from "../dashboard/TableContainer";
 import ActionButton from "../dashboard/ActionButton";
 import TeamStats from "../../pages/TeamStats";
+import { getRowColor } from 'components/ListManager';
 
 const StudentDetails = ({id}) =>{
 	const [currentStudent, setCurrentStudent] = useState(null);
@@ -158,7 +159,7 @@ const StudentDetails = ({id}) =>{
 				<div className="overflow-x-auto mt-4">
 					<TableContainer headers={['Date','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
 						{listScores.map((team, index) => (
-							<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
+							<tr key={team.id} className={getRowColor(index)}>
 								<td className="td-style">
 									{team.date}
 								</td>
