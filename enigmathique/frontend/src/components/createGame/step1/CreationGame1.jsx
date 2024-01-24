@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import Counter from './Counter';
 import {initialFormData, useCreationGameContext} from "../../contexts/CreationGame.context";
 import '../../../index.css';
-import '../createGame.css'
 import ClassList from "./ClassList";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
