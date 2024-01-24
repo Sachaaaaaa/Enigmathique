@@ -8,6 +8,7 @@ import TeamDetails from './TeamDetails';
 import ActionButton from 'components/dashboard/ActionButton';
 import TableContainer from 'components/dashboard/TableContainer';
 import ContentHeader from 'components/dashboard/ContentHeader';
+import {getPositionIcon, getPositionStyle, calculateScore} from "../components/stats/RankStyleManager";
 import { FiInfo } from 'react-icons/fi';
 
 function ProfFollowUp() {
@@ -124,47 +125,11 @@ function ProfFollowUp() {
 		}
 	}, [token, sessionId, socket]);
 
-	const calculateScore = (nbGoodAnswers, nbBadAnswers, nbHints, roomIsSolved) => {
-		let score = nbGoodAnswers * 100 - nbBadAnswers * 20 - nbHints * 30;
-
-		if (roomIsSolved) {
-			score += 300;
-		}
-
-		return score;
-	};
-
-	const getPositionIcon = (index) => {
-		switch (index) {
-		case 0:
-			return <FaStar size={"2em"} className="text-yellow-400" />;
-		case 1:
-			return <FaStar  size={"2em"} className="text-gray-500" />;
-		case 2:
-			return <FaStar  size={"2em"} className="text-orange-600" />;
-		default:
-			return <FaRegCircle  size={"2.5em"} className="text-blue-300 stroke-2" />;
-		}
-	};
-
-	const getPositionStyle = (index) => {
-		const positionStyles = [
-			'text-white',
-			'text-white',
-			'text-white',
-		];
-		return index < 3 ? positionStyles[index] : 'text-blue-400';
-	};
 
 	const handleDetailsClick = (team) => {
 		setSelectedTeam(team);
 	};
 
-	const handleCloseDetails = () => {
-		setSelectedTeam(null);
-	};
-
-	
 
 	return (
 		<LayoutProf>
@@ -177,7 +142,6 @@ function ProfFollowUp() {
 				)}
 				<div className="overflow-x-auto">
 					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
-
 						{rankings.map((team, index) => (
 							<tr key={index} className={`border-t border-[#CECDFD]  ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
 								<td className="p-5 flex items-center justify-left">
@@ -207,7 +171,7 @@ function ProfFollowUp() {
 								</td>
 							</tr>
 						))}
-						
+
 					</TableContainer>
 				</div>
 				{/* Pagination ou autres contrôles ici */}
