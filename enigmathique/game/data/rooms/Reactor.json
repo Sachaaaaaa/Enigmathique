@@ -16,7 +16,7 @@
 				"type": "fixed",
 				"value": "1"
 			},
-			"hint": "Regarder bien les formules sur l'ordinateur !",
+			"hint": "Regarder bien la formule du volume d'une sphére sur l'ordinateur !",
 			"endMessage": "JSP"
 		},
 		{
@@ -25,8 +25,17 @@
 				"type": "fixed",
 				"value": "Zr"
 			},
-			"hint": "Regarder bien les formules sur l'ordinateur !",
-			"endMessage": "JSP"
+			"hint": "Personne sera que vous avez lu les dossiers confidentiels !",
+			"endMessage": "Vous insérez l'atome dans le réacteur, aucune alerte ne se déclenche, vous pouvez passer à la suite !"
+		},
+		{
+			"variables": { },
+			"answer": {
+				"type": "fixed",
+				"value": "1"
+			},
+			"hint": "Tout est dans la documentation !",
+			"endMessage": "Le courant est rétabli, la porte s'ouvre !"
 		}
 	]
 }
