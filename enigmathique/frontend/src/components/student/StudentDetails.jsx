@@ -103,7 +103,7 @@ const StudentDetails = ({id}) =>{
 				const scores = await TeamModel.getScores(team.id);
 				const date = new Date(scores[0].createdAt);
 				const calculatedScore = scores.reduce((sum, score) => sum +
-						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints),
+						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved),
 					0);
 
 
