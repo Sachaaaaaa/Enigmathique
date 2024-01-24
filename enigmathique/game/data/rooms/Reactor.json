@@ -5,10 +5,28 @@
 			"variables": { },
 			"answer": {
 				"type": "fixed",
+				"value": "2337"
+			},
+			"hint": "Décomposition en facteur de nombre premier !",
+			"endMessage": "Dans le coffre vous trouvez des dossiers confidentiels, sur l'un d'entre eux il y a écrit 'Atom à mettre dans le réacteur : (x-5)² = (x-5)(2x-3), x1 = Groupe et (x2)² = Période.'"
+		},
+		{
+			"variables": { },
+			"answer": {
+				"type": "fixed",
 				"value": "1"
 			},
-			"hint": "Mettre un indice dans Reactor.json !",
-			"endMessage": "Bien jouer"
+			"hint": "Regarder bien les formules sur l'ordinateur !",
+			"endMessage": "JSP"
+		},
+		{
+			"variables": { },
+			"answer": {
+				"type": "fixed",
+				"value": "Zr"
+			},
+			"hint": "Regarder bien les formules sur l'ordinateur !",
+			"endMessage": "JSP"
 		}
 	]
 }

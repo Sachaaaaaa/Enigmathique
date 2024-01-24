@@ -11,6 +11,8 @@ import { SocketContext } from '../../../contexts/SocketContext';
 import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
+import EnigmaCoffreDisplay from '../enigmas/EnigmaCoffreDisplay';
+import EnigmaWithSlidersDisplay from '../enigmas/EnigmaSliderDisplay';
 
 export default function ReactorRoom(props) {
 	const socket = useContext(SocketContext);
@@ -35,29 +37,275 @@ export default function ReactorRoom(props) {
 		return (
 			<mesh
 				ref={mesh}
-				name="Cube015"
+				name="Cube019"
 				castShadow
 				receiveShadow
-				geometry={nodes.Cube015.geometry}
+				geometry={nodes.Cube019.geometry}
 				material={materials["Metal.001"]}
 				onPointerOver={handlePointerOver}
 				onPointerOut={handlePointerOut}
 				onClick={handleClick}
 			>
-				{hovered && <meshBasicMaterial color={0x00ff00} />}
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<InformationPopup
-						title="Vous ne pouvez pas sortir !"
-						information="Vous etes un alchimiste amateur, en voulant vous introduire dans le laboratoire d'un grand alchimiste, vous vous êtes enfermer !
-						Et il ne tardera pas à revenir... Vous remarquez un trou dans la porte, il y a surement moyen de faire une potion de souris pour que vous rapetissiez.
-						Regardez autour de vous, il doit bien y avoir une recette qui peut vous aidez sur le bureau !"
+						title="Plus rien ne marche !"
+						information="Vous étes le nouveau stagiaire de la station de recherche énergétique. 
+						Le réacteur c'est emballer et pris de panique vous avez appuyé sur tous les boutons. 
+						Par miracle vous l'avez éteint mais il n'y a plus d'électricité. Le réacteur et l'ordinateur ont une batterie de secours qui ne tiendra pas longtemps. 
+						Dépêchez-vous de réactiver le réacteur pour ouvrir la porte. Il doit bien avoir des indications sur l'ordinateur."
 						closePopup={forceExit}
 					/>
 				)}
 			</mesh>
 		);
 	};
-	
+
+	const FeuilleInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Feuilles"
+				castShadow
+				receiveShadow
+				geometry={nodes.Feuilles.geometry}
+				material={nodes.Feuilles.material}
+				position={[0.25, 1.031, -1.28]}
+				rotation={[Math.PI / 2, 0, 1.222]}
+				scale={0.231}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<InformationPopup
+						title="Commande Ordinateur"
+						information="IP : affiche l'adresse de l'ordinateur / Info -R : Documentation du reacteur"
+						closePopup={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const PoubelleInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cylinder"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cylinder.geometry}
+				material={materials["Metal.001"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<InformationPopup
+						title="Tient encore des papier !"
+						information="Sur un des papier il y a écrit : 'Pense bete, code coffre : Décomposer la première valeur de l'addresse de l'ordinateur en facteur de nombre premier. (a = x * y * z² => xyzz)'"
+						closePopup={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const PosterInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Poster"
+				castShadow
+				receiveShadow
+				geometry={nodes.Poster.geometry}
+				material={nodes.Poster.material}
+				position={[1.15, 2.331, -1.999]}
+				rotation={[-Math.PI, 0, Math.PI / 2]}
+				scale={0.503}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<InformationPopup
+						title="Ca fait un peux de déco."
+						information="Ça peut vous aider à chercher l'atome pour le réacteur."
+						image="https://i.pinimg.com/originals/5a/72/b7/5a72b79c8f66fca9b3635bc457c3813b.png"
+						closePopup={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const CoffreInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cube016"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cube016.geometry}
+				material={materials["Plastic.001"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={0}
+						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+							<EnigmaCoffreDisplay
+								handleSubmitAnswer={handleSubmitAnswer}
+								title="Impossible de forcer le coffre !"
+								description="Si il y a autant de sécurité c'est qu'il doit y avoir quelque chose d'important dedans."
+								image={data.image}
+								hint={hint}
+								handleAskHint={handleAskHint}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const ConsoleInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cylinder005"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cylinder005.geometry}
+				material={materials["Plastic.001"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={0}
+						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+							<EnigmaWithSlidersDisplay
+								handleSubmitAnswer={handleSubmitAnswer}
+								titreSlider='Volume H2O'
+								title="Console"
+								description="Il faut trouver le bon code pour réactiver le réacteur."
+								image={data.image}
+								hint={hint}
+								handleAskHint={handleAskHint}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const CoreInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Icosphere"
+				castShadow
+				receiveShadow
+				geometry={nodes.Icosphere.geometry}
+				material={materials["Metal.001"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={0}
+						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+							<BasicDisplayTemplate
+								handleSubmitAnswer={handleSubmitAnswer}
+								title="Alors peut-être que..."
+								description="Mettre le bon atome dans le réacteur."
+								image={data.image}
+								hint={hint}
+								handleAskHint={handleAskHint}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
 	return (
 		<group {...props} dispose={null}>
 			<group name="Scene">
@@ -121,6 +369,7 @@ export default function ReactorRoom(props) {
 					rotation={[0, -1.571, 0]}
 				/>
 				<group name="Poubelle" position={[0.5, 0.2, -1]} scale={0.2}>
+					{/*
 					<mesh
 						name="Cylinder"
 						castShadow
@@ -128,6 +377,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Cylinder.geometry}
 						material={materials["Metal.001"]}
 					/>
+					*/}
+					<PoubelleInt />
 					<mesh
 						name="Cylinder_1"
 						castShadow
@@ -137,6 +388,7 @@ export default function ReactorRoom(props) {
 					/>
 				</group>
 				<group name="Coffre" position={[1.3, 0.3, 1.6]}>
+					{/*
 					<mesh
 						name="Cube016"
 						castShadow
@@ -144,6 +396,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Cube016.geometry}
 						material={materials["Plastic.001"]}
 					/>
+					*/}
+					<CoffreInt />
 					<mesh
 						name="Cube016_1"
 						castShadow
@@ -194,13 +448,16 @@ export default function ReactorRoom(props) {
 					/>
 				</mesh>
 				<group name="Porte" position={[-1, 1.4, 1.96]}>
-					<mesh
+					{/*
+						<mesh
 						name="Cube019"
 						castShadow
 						receiveShadow
 						geometry={nodes.Cube019.geometry}
 						material={materials["Metal.001"]}
 					/>
+					*/}
+					<PorteInt />
 					<mesh
 						name="Cube019_1"
 						castShadow
@@ -236,6 +493,7 @@ export default function ReactorRoom(props) {
 					position={[0, 2, 0]}
 					scale={2}
 				/>
+				{/*
 				<mesh
 					name="Feuilles"
 					castShadow
@@ -246,6 +504,9 @@ export default function ReactorRoom(props) {
 					rotation={[Math.PI / 2, 0, 1.222]}
 					scale={0.231}
 				/>
+				*/}
+				<FeuilleInt />
+				{/*
 				<mesh
 					name="Poster"
 					castShadow
@@ -256,6 +517,8 @@ export default function ReactorRoom(props) {
 					rotation={[-Math.PI, 0, Math.PI / 2]}
 					scale={0.503}
 				/>
+				*/}
+				<PosterInt />
 				<group name="Tableau" position={[2, 2.092, 0.5]}>
 					<mesh
 						name="Cube023_1"
@@ -313,6 +576,7 @@ export default function ReactorRoom(props) {
 					position={[-1, 0.4, -9.6]}
 					scale={[1.79, 0.4, 1.79]}
 				>
+					{/*
 					<mesh
 						name="Cylinder005"
 						castShadow
@@ -320,6 +584,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Cylinder005.geometry}
 						material={materials["Plastic.001"]}
 					/>
+					*/}
+					<ConsoleInt />
 					<mesh
 						name="Cylinder005_1"
 						castShadow
@@ -343,6 +609,7 @@ export default function ReactorRoom(props) {
 					/>
 				</group>
 				<group name="Reactor_Core" position={[-1, 1.9, -10.1]} scale={1.04}>
+					{/*
 					<mesh
 						name="Icosphere"
 						castShadow
@@ -350,6 +617,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere.geometry}
 						material={materials["Metal.001"]}
 					/>
+					*/}
+					<CoreInt />
 					<mesh
 						name="Icosphere_1"
 						castShadow

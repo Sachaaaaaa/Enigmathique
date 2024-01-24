@@ -44,7 +44,9 @@ class SocketManager {
 			socket.disconnect();
 			return;
 		}
+		
 		const sessionState = await ApiService.getGameStateById(sessionId);
+		console.log(`Code: ${sessionCode} => Id: ${sessionId} | State: ${sessionState}`)
 		if (sessionState == null || sessionState >= 2) {
 			console.log(clc.red('[Socket] Session terminée, déconnexion'));
 			socket.emit(ServerToClient.Error, {message: 'La session est terminée', isFatal: true});

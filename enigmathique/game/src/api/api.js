@@ -37,7 +37,6 @@ class ApiService {
 		const endpoint = `/game/getIdFromCode/${code}`;
 		try {
 			const response = await this.sendRequest('GET', endpoint);
-			console.log(response);
 			return response;
 		} catch (error) {
 			console.log(error);
