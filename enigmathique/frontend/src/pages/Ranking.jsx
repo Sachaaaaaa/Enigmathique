@@ -8,6 +8,7 @@ import TeamStats from "./TeamStats";
 import TableContainer from "../components/dashboard/TableContainer";
 import ContentHeader from "../components/dashboard/ContentHeader";
 import {getPositionStyle, getPositionIcon, calculateScore, loadMembers} from "../components/stats/RankStyleManager";
+import TeamRow from 'components/stats/TeamRow';
 
 const Ranking = () => {
 
@@ -82,37 +83,12 @@ const Ranking = () => {
 	return (
 		<LayoutProf>
 			<main>
-				<ContentHeader title={game.name} link='/dashboard'/>
-				<div className="overflow-x-auto mt-4">
+				<ContentHeader title={game.name} link='/games'/>
+				<div className="overflow-x-auto">
 					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
 
 						{ranking.map((team, index) => (
-							<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-								<td className="px-6 py-4 flex items-center justify-left">
-									<div className={`relative ${getPositionStyle(index)}`}>
-										{getPositionIcon(index)}
-										<span className="absolute inset-0 flex items-center justify-center">
-											{index + 1}
-										</span>
-									</div>
-								</td>
-								<td className="td-style">
-									{team.name}
-								</td>
-								<td className="td-style">
-									{team.calculatedScore}
-								</td>
-								<td className="td-style">
-									{team.nbSolved}
-								</td>
-								<td className="td-style text-right">
-									<ActionButton
-										onClick={() => handleDetailsClick(team)}
-										title='Détails'
-									>
-									</ActionButton>
-								</td>
-							</tr>
+							<TeamRow key={team.id} index={index} detailsOnClick={() => handleDetailsClick(team)}/>
 						))}
 					</TableContainer>
 				</div>

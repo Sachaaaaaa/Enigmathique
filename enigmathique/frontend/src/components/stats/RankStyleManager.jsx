@@ -16,12 +16,7 @@ const getPositionIcon = (index) => {
 };
 
 const getPositionStyle = (index) => {
-	const positionStyles = [
-		'text-white',
-		'text-white',
-		'text-white',
-	];
-	return index < 3 ? positionStyles[index] : 'text-black';
+	return index < 3 ? 'text-white' : 'text-black';
 };
 
 const loadMembers = async (idTeam) => {

@@ -168,7 +168,7 @@ function ProfFollowUp() {
 	return (
 		<LayoutProf>
 			<main>
-				<ContentHeader title='Nom partie putain' link='/games'>			
+				<ContentHeader title='' link='/games'>			
 				</ContentHeader>
 				{currentRound !== null && totalRounds !== null && (
 					<div className='w-auto min-w-[250px] m-5 mb-0 py-2 bg-white primary-font-color text-center text-lg font-semibold shadow-md rounded-full'> 
