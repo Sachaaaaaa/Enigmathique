@@ -111,7 +111,7 @@ const GameElem = (props) => {
 		case 1:
 			winnerLabel = "Partie en cours" ;
 			successRateLabel = "Partie en cours" ;
-			link =  <Link to={`/leaderboard?idSession=${game.gameCode}`} className="btn-show col-span-2">Voir</Link>;
+			link =  <Link to={`/leaderboard?sessionId=${game.gameCode}`} className="btn-show col-span-2">Voir</Link>;
 			break ;
 		case 2:
 			winnerLabel = winners.name ;

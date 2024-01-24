@@ -68,7 +68,7 @@ const GameRow = ({ game, index, loadGames }) => {
 			break ;
 		case 1:
 			successRateLabel = "Partie en cours" ;
-            leaderboardButtonLink = `/leaderboard?idSession=${game.gameCode}`;
+            leaderboardButtonLink = `/leaderboard?sessionId=${game.gameCode}`;
 			break ;
 		case 2:
 			successRateLabel = getWinRate()+'%' ;
