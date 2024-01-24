@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from "prop-types";
 import StudentModel from "../../models/student.model";
-import CourseModel from "../../models/course.model";
 import GameModel from "../../models/game.model";
 import TeamModel from "../../models/team.model";
-import {calculateScore, getPositionIcon, getPositionStyle, loadMembers} from "../stats/RankStyleManager";
+import {calculateScore, loadMembers} from "../stats/RankStyleManager";
 import ContentHeader from "../dashboard/ContentHeader";
 import TableContainer from "../dashboard/TableContainer";
 import ActionButton from "../dashboard/ActionButton";
 import TeamStats from "../../pages/TeamStats";
-import LayoutProf from "../../layouts/LayoutProf";
 const StudentDetails = ({id}) =>{
 	const [currentStudent, setCurrentStudent] = useState(null);
 	const [games, setGames] = useState([]);
@@ -55,7 +53,6 @@ const StudentDetails = ({id}) =>{
 	 * @returns {Promise<void>}
 	 */
 	const loadAllData = (games) =>{
-
 		games.map(async (game) => {
 			//récupération de toutes les teams d'une partie
 			const teams = await TeamModel.getTeamFromGame(game.id)
@@ -146,18 +143,10 @@ const StudentDetails = ({id}) =>{
 			<main>
 				<ContentHeader title={currentStudent? currentStudent.name:'Loading...'} link='/dashboard'/>
 				<div className="overflow-x-auto mt-4">
-					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
+					<TableContainer headers={['Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
 
 						{listScores.map((team, index) => (
 							<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-								<td className="px-6 py-4 flex items-center justify-left">
-									<div className={`relative ${getPositionStyle(index)}`}>
-										{getPositionIcon(index)}
-										<span className="absolute inset-0 flex items-center justify-center">
-											{index + 1}
-										</span>
-									</div>
-								</td>
 								<td className="td-style">
 									{team.name}
 								</td>
@@ -194,37 +183,3 @@ StudentDetails.propTypes = {
 	id: PropTypes.number.isRequired
 }
 export default StudentDetails;
-
-//TODO solution alternative pour le chargement des données vérfier l'efficacité entre les deux
-/**
-	useEffect(() => {
-		loadCurrentStudent();
-		//chargement de tous les datas au fur et à mesure
-		const fetchData = async () => {
-			const gamesdata = await loadAllGames();
-			await loadAllData(gamesdata);
-		};
-		fetchData();
-	}, []);
-
-
-	const loadAllGames = async () =>{
-		const data = await GameModel.getAll();
-		setGames(data);
-		return data;
-	}
-
-	const loadAllData = async (games) =>{
-		//attendre que toutes les parties soient chargées pour effectuer la suite
-		await Promise.all(
-			games.map(async (game) => {
-				//récupération de toutes les teams d'une partie
-				const teams = await TeamModel.getTeamFromGame(game.id)
-				console.log('les teams',teams)
-				//attendre que toutes les teams soient chargées pour effectuer la suite
-				await Promise.all(
-					teams.map((team) => loadStudentFromTeam(team.id))
-				);
-			})
-		);
-	};*/
