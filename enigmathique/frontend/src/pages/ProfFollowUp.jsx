@@ -8,6 +8,7 @@ import TeamDetails from './TeamDetails';
 import ActionButton from 'components/dashboard/ActionButton';
 import TableContainer from 'components/dashboard/TableContainer';
 import ContentHeader from 'components/dashboard/ContentHeader';
+import { FiInfo } from 'react-icons/fi';
 
 function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
@@ -197,11 +198,12 @@ function ProfFollowUp() {
 									{team.resolved}
 								</td>
 								<td className="td-style text-right">
-									<ActionButton
+									<button
 										onClick={() => handleDetailsClick(team)}
 										title='Détails'
-									>
-									</ActionButton>
+										className='btn-action-blue'
+									> <FiInfo size='1.25em'/>
+									</button>
 								</td>
 							</tr>
 						))}
