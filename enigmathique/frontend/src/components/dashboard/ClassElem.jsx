@@ -108,7 +108,7 @@ const ClassElem = (props) => {
 	return (
 		// Affichage des informations d'une classe
 		// Grid pour afficher les informations sur 2 colonnes fixes
-		<div className=' info-block grid-block w-full h-[calc(100%-50px)]'>
+		<div className=' info-block grid-block w-full'>
 
 			<InfoBlockElem title='Nom' text={classGroup.name} />
 

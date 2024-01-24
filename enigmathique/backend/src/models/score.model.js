@@ -43,6 +43,12 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: false,
         },
+
+        // Indique si la salle a été résolu 
+        isSolved: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+        },
         
         // Nombre de bonnes réponses
         nbGoodAnswers: {
@@ -61,6 +67,8 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: false,
         },
+
+
 
         // Date de création de l'objet
 		createdAt: {

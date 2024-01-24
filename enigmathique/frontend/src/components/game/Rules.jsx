@@ -45,7 +45,7 @@ const Rules = ({onCloseClick}) => {
                 </p>
             </div>
             <div className='w-full flex justify-end'>
-            <button onClick={onCloseClick} className='btn-action text-[#EF4565]'>
+            <button onClick={onCloseClick} className='btn-action p-3 text-[#EF4565]'>
             <MdCancel style={{ height: '3em', width: '3em' }} /></button>
             </div>
 		</div>
