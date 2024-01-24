@@ -11,6 +11,11 @@ import Notification from "../components/Notification";
 import toast from "react-hot-toast";
 import {SyncLoader} from "react-spinners";
 import AuthHeader from "../components/AuthHeader";
+import help from '../assets/img/help.png';
+import Rules from 'components/game/Rules';
+import ActionButton from 'components/dashboard/ActionButton';
+import { FiInfo } from "react-icons/fi";
+
 
 const Join = (props) => {
 	//? Faire un hook pour ça ? vu le nombre de useStates
@@ -101,13 +106,32 @@ const Join = (props) => {
 	};
 
 	const handleCreateTeam = () => {
-		if (teamName === '') {
-			toast.error('Veuillez entrer un nom d\'équipe');
-			return;
+		let errorTeamName = [];
+		let errorTeamSize = [];
+		let error = false ;
+		if (selected.length === 0) {
+			errorTeamName.push("Veuillez entrer un nom d'équipe");
+			error = true;
+			toast.error(
+				errorTeamName.join(''),
+			);
 		}
-		setTeamName('');
+		if (teamName === '') {
+			errorTeamSize.push("Veuillez sélectionner un moins un élève");
+			error = true;
+			toast.error(
+				errorTeamSize.join(''),
+			);
+		}
+		if (error) return;
 		socket.emit(ClientToServer.LockTeam, {name: teamName});
 		//TODO: Faut mettre un loader ici
+	};
+
+	// Gestion de la fenetre d'aide
+	const [isWindowOpen, setIsWindowOpen] = useState(false);
+	const toggleWindow = () => {
+		setIsWindowOpen(!isWindowOpen);
 	};
 
 	return (
@@ -119,6 +143,21 @@ const Join = (props) => {
 						(	<>
 								<SyncLoader color='#4c49ed'/>
 								<h1 className='text-2xl p-1'>{status}</h1>
+											{/* Bouton pour ouvrir/fermer la fenêtre */}
+									
+								<button className='absolute z-50 bottom-0 right-0 
+													flex justify-center items-center m-5
+								btn-action-blue'
+								onClick={toggleWindow}><FiInfo size='3em'/></button>
+
+
+								{/* Fenêtre d'aide */}
+								{isWindowOpen && (
+									<>
+										{/* Contenu de la fenêtre */}
+										<Rules onCloseClick = {toggleWindow}></Rules>
+									</>
+								)}
 							</>
 						)
 						:
