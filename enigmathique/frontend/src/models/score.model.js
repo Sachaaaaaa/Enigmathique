@@ -11,12 +11,14 @@ class ScoreModel{
 	 * @param nbHints nombre d'indice utilisé dans la salle
 	 * @param createdAt date de création du score
 	 * @param updatedAt date de dernière mise à jour du score
+	 * @param isSolved salle terminée
 	 */
-	constructor(idTeam, roomName, idGame, time, nbGoodAnswers, nbBadAnswers, nbHints, createdAt, updatedAt) {
+	constructor(idTeam, roomName, idGame, time, isSolved, nbGoodAnswers, nbBadAnswers, nbHints, createdAt, updatedAt) {
 		this.idTeam = idTeam;
 		this.roomName = roomName;
 		this.idGame = idGame;
 		this.time = time;
+		this.isSolved = isSolved
 		this.nbGoodAnswers = nbGoodAnswers;
 		this.nbBadAnswers = nbBadAnswers;
 		this.nbHints = nbHints;

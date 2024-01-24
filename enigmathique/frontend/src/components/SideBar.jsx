@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import logo from '../assets/img/logo-name-enigmathique.png';
+import logo from '../assets/img/logo-name-enigmathique-black.png';
 import PropTypes from 'prop-types';
 import {IconContext} from 'react-icons';
 import {MdCollectionsBookmark, MdDoorFront, MdGames, MdHome} from 'react-icons/md';
@@ -26,7 +26,7 @@ const SideBar = () => {
 
 	return (
 		<nav className='flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-white-color box-border'>
-			<Link to='/dashboard' className='w-[172px]'>
+			<Link to='/dashboard' className='w-[172px] mt-7 mb-5'>
 				<img src={logo} alt='logo'/>
 			</Link>
 			<section className='flex flex-col justify-between items-center w-full h-full py-5 pr-2 whitespace-nowrap;'>

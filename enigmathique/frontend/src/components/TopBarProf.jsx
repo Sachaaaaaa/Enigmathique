@@ -36,6 +36,7 @@ const TopBarProf = () => {
 		"create-game": "Nouvelle partie",
 		"pregame": "",
 		"ranking": "Classement",
+		"leaderboard": "Classement",
 	}
 
 	let text = textMap[path[0]];

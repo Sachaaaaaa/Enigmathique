@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from '../assets/img/logo-name-enigmathique.png';
 import {Link} from 'react-router-dom';
 
 

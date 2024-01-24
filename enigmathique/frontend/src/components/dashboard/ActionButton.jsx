@@ -5,6 +5,7 @@ import {FaRankingStar} from "react-icons/fa6";
 import { FaCheck } from 'react-icons/fa';
 import { FiInfo } from "react-icons/fi";
 import {MdOutlineModeEdit, MdDeleteForever, MdOutlineRemove} from 'react-icons/md';
+import { HiPlay } from "react-icons/hi2";
 import PropTypes from 'prop-types';
 import { IoMdRemove } from "react-icons/io";
 const ActionButton = ({title,link = '', onClick= () => {}, disabled=false}) => {
@@ -19,31 +20,35 @@ const ActionButton = ({title,link = '', onClick= () => {}, disabled=false}) => {
     const actionButtons = {
         statistiques: {
             icon: <IoIosStats size='1.25em'/>,
-            className: "btn-action-statistiques p-2",
+            className: "btn-action-blue",
         },
         modifier: {
             icon: <MdOutlineModeEdit size='1.25em'/>,
-            className: "btn-action-modifier p-2",
+            className: "btn-action-orange",
         },
         supprimer: {
             icon: <MdDeleteForever size='1.25em'/>,
-            className: "btn-action-supprimer p-2",
+            className: "btn-action-red",
         },
         classement: {
             icon: <FaRankingStar size='1.25em'/>,
-            className: "btn-action-classement p-2",
+            className: "btn-action-yellow",
+        },
+        lancer : {
+            icon: <HiPlay size='1.25em'/>,
+            className: "btn-action-blue",
         },
         détails: {
             icon: <FiInfo size='1.25em'/>,
-            className: "btn-action-détails p-2",
+            className: "btn-action-blue",
         },
         valider: {
             icon: <FaCheck size='1em'/>,
-            className: "btn-action-valider p-2",
+            className: "btn-action-green",
         },
         refuser : {
             icon: <IoMdRemove size='1em'/>,
-            className: "btn-action-refuser p-2",
+            className: "btn-action-red",
         },
 
     }
@@ -52,7 +57,7 @@ const ActionButton = ({title,link = '', onClick= () => {}, disabled=false}) => {
 
 
     const icon = actionButtons[buttonTitle].icon;
-    const className = disabled ? "btn-disabled p-2" : actionButtons[buttonTitle].className;
+    const className = disabled ? "btn-disabled" : actionButtons[buttonTitle].className;
     return (
             <Link to={link}>
                 <button

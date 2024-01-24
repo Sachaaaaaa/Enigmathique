@@ -3,14 +3,12 @@ import {useParams, Link} from "react-router-dom";
 import GameModel from "../models/game.model";
 import TeamModel from "../models/team.model";
 import LayoutProf from "../layouts/LayoutProf";
-import {FaRegCircle, FaStar} from "react-icons/fa";
 import ActionButton from "../components/dashboard/ActionButton";
 import TeamStats from "./TeamStats";
 import TableContainer from "../components/dashboard/TableContainer";
 import ContentHeader from "../components/dashboard/ContentHeader";
-
-import {getPositionStyle, getPositionIcon} from "../components/stats/RankStyleManager";
-const maxTime = 600;
+import {getPositionStyle, getPositionIcon, calculateScore, loadMembers} from "../components/stats/RankStyleManager";
+import TeamRow from 'components/stats/TeamRow';
 
 const Ranking = () => {
 
@@ -35,23 +33,13 @@ const Ranking = () => {
 		setTeams(data);
 	};
 
-	const loadMembers = async (idTeam) => {
-		return await TeamModel.getStudents(idTeam);
-	};
 
-	const calculateScore = (nbGoodAnswers, nbBadAnswers, nbHints) => {
-		return (
-			nbGoodAnswers * 100 - nbBadAnswers * 10 - nbHints * 20 + (nbGoodAnswers > 0 ? 300 : 0)
-		);
-	};
 
 	const getRanking = async () => {
 		const teamList = await Promise.all(
 			teams.map(async (team) => {
 				const scores = await TeamModel.getScores(team.id);
-				const calculatedScore = scores.reduce(
-					(sum, score) =>
-						sum +
+				const calculatedScore = scores.reduce((sum, score) => sum +
 						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints),
 					0);
 
@@ -86,46 +74,20 @@ const Ranking = () => {
 	}
 
 	const handleDetailsClick = (team) => {
-		console.log("team", team);
 		setSelectedTeam(team);
 		loadScoresForOneTeam(team.id);
 	};
+	console.log('ranking' , ranking);
 
 
 	return (
 		<LayoutProf>
 			<main>
-				<ContentHeader title={game.name} link='/dashboard'/>
-				<div className="overflow-x-auto mt-4">
+				<ContentHeader title={game.name} link='/games'/>
+				<div className="overflow-x-auto">
 					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
-
 						{ranking.map((team, index) => (
-							<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-								<td className="px-6 py-4 flex items-center justify-left">
-									<div className={`relative ${getPositionStyle(index)}`}>
-										{getPositionIcon(index)}
-										<span className="absolute inset-0 flex items-center justify-center">
-											{index + 1}
-										</span>
-									</div>
-								</td>
-								<td className="td-style">
-									{team.name}
-								</td>
-								<td className="td-style">
-									{team.calculatedScore}
-								</td>
-								<td className="td-style">
-									{team.nbSolved}
-								</td>
-								<td className="td-style text-right">
-									<ActionButton
-										onClick={() => handleDetailsClick(team)}
-										title='Détails'
-									>
-									</ActionButton>
-								</td>
-							</tr>
+							<TeamRow team={team} key={team.id} index={index} detailsOnClick={() => handleDetailsClick(team)}/>
 						))}
 					</TableContainer>
 				</div>

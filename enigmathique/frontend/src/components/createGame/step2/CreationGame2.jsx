@@ -24,12 +24,11 @@ const CreationGame2 = (props) => {
 
 	useEffect(() => {
 		const filtered = rooms.filter(
-			(room) => room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
+			(room) => room.chapter.toLowerCase() === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
 		);
 		setFilteredRooms([...filtered]);
 	}, [filter]);
 	useEffect(() => {
-		console.log(selectedRooms);
 	}, [selectedRooms]);
 
 	const handlePrecedent = () => {
@@ -48,7 +47,6 @@ const CreationGame2 = (props) => {
 			const game = await createGame();
 			await addRooms(game.id, selectedRooms);
 			const res = await openGame(game.id);
-			console.log(res.gameCode);
 			navigate(`/pregame/${res.gameCode}`);
 
 			return;
@@ -83,14 +81,14 @@ const CreationGame2 = (props) => {
 				<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>
 				<RoomNav
 					chapterChange={(e)=> (setFilter({...filter, chapter: e.target.value}))}
-					filter={filter}
+					selectedFilter={filter}
 				/>
 			</ContentHeader>
 
 			<article className='room-list-container'>
 				{filteredRooms.map((room, index) => {
 					return(
-						room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
+						room.chapter.toLowerCase() === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
 							<Room
 								index={index}
 								room={room}

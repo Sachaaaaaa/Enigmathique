@@ -22,16 +22,20 @@ const CreationGame1 = (props) => {
 			props.setStep(2);
 			return;
 		}
-		let messages = ['Veuillez remplir le(s) champ(s) suivant(s) :'];
+		let errorGameName = [];
+		let errorCourse = [];
 		if (formData.gameName === '') {
-			messages.push('-Nom de la partie');
+			errorGameName.push('Veuillez entrer un nom de partie');
+			toast.error(
+				errorGameName.join(''),
+			);
 		}
 		if (formData.course === 0) {
-			messages.push('-Classe');
+			errorCourse.push('Veuillez sélectionner une classe');
+			toast.error(
+				errorCourse.join(''),
+			);
 		}
-		toast.error(
-			messages.join('\n'),
-		);
 	};
 	const handleAnnuler = (event) => {
 		if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
@@ -44,7 +48,7 @@ const CreationGame1 = (props) => {
 	return (
 
 		<section className='flex flex-col justify-center items-center w-full h-[calc(100%-26px)] min-h-[400px] '>
-			<ContentHeader title='Paramètres' link='/dashboard' onClick={handleAnnuler}/>
+			<ContentHeader title='Paramètres de partie' link='/dashboard' onClick={handleAnnuler}/>
 
 			{/* Formulaire des paramètres de la partie */}
 			<article className="flex flex-col justify-center items-center w-[25%] min-w-[300px] h-full px-5">

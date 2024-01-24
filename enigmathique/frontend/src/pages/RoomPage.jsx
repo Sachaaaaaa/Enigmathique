@@ -25,7 +25,7 @@ const RoomPage = () => {
 
 	useEffect(() => {
 		const filtered = rooms.filter(
-			(room) => room.chapter === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
+			(room) => room.chapter.toLowerCase() === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase())
 		);
 		setFilteredRooms([...filtered]);
 	}, [filter, rooms]);
@@ -37,11 +37,11 @@ const RoomPage = () => {
 	return (
 		<LayoutProf>
 			<main className="flex flex-col overflow-y-hidden">
-				<ContentHeader title="" link='/dashboard'>
+				<ContentHeader link='/dashboard'>
 						<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>
 						<RoomNav
 							chapterChange={(e) => (setFilter({...filter, chapter: e.target.value}))}
-							filter={filter}
+							selectedFilter={filter}
 						/>
 				</ContentHeader> 
 
@@ -49,6 +49,7 @@ const RoomPage = () => {
 					{filteredRooms.map((room, index) => (
 							<>
 								<Room
+									key={index}
 									index={index}
 									room={room}
 

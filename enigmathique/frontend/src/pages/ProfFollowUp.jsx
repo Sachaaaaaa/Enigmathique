@@ -7,6 +7,7 @@ import { ConnectionType, ServerToClient } from 'data/socketMessages';
 import TeamDetails from './TeamDetails';
 import ActionButton from 'components/dashboard/ActionButton';
 import TableContainer from 'components/dashboard/TableContainer';
+import ContentHeader from 'components/dashboard/ContentHeader';
 
 function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
@@ -135,13 +136,13 @@ function ProfFollowUp() {
 	const getPositionIcon = (index) => {
 		switch (index) {
 		case 0:
-			return <FaStar className="text-3xl text-yellow-400" />;
+			return <FaStar size={"2em"} className="text-yellow-400" />;
 		case 1:
-			return <FaStar className="text-3xl text-gray-500" />;
+			return <FaStar  size={"2em"} className="text-gray-500" />;
 		case 2:
-			return <FaStar className="text-3xl text-orange-600" />;
+			return <FaStar  size={"2em"} className="text-orange-600" />;
 		default:
-			return <FaRegCircle className="text-4xl text-blue-300 stroke-2" />;
+			return <FaRegCircle  size={"2.5em"} className="text-blue-300 stroke-2" />;
 		}
 	};
 
@@ -166,21 +167,22 @@ function ProfFollowUp() {
 
 	return (
 		<LayoutProf>
-			<main className="p-8">
-				<h1 className="text-2xl font-bold mb-4">Entraînement Probabilités</h1>
+			<main>
+				<ContentHeader title='' link='/games'>			
+				</ContentHeader>
 				{currentRound !== null && totalRounds !== null && (
-					<div className="mb-4">Round actuel : {currentRound+1} / {totalRounds}</div>
+					<div className='w-auto min-w-[250px] m-5 mb-0 py-2 bg-white primary-font-color text-center text-lg font-semibold shadow-md rounded-full'> 
+					Tour actuel :  <span className='blue-font-color'> {currentRound+1} / {totalRounds}</span> </div>
 				)}
-				<h2 className="text-xl font-semibold mb-4 text-gray-500">Classement</h2>
-				<div className="overflow-x-auto mt-4">
+				<div className="overflow-x-auto">
 					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
 
 						{rankings.map((team, index) => (
-							<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
-								<td className="px-6 py-4 flex items-center justify-left">
+							<tr key={index} className={`border-t border-[#CECDFD]  ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+								<td className="p-5 flex items-center justify-left">
 									<div className={`relative ${getPositionStyle(index)}`}>
 										{getPositionIcon(index)}
-										<span className="absolute inset-0 flex items-center justify-center">
+										<span className="absolute inset-0 flex items-center justify-center text-sm">
 											{index + 1}
 										</span>
 									</div>

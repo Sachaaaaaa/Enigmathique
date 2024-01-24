@@ -73,8 +73,7 @@ class TeamModel{
 		try {
 			//appel au service pour obtenir les données
 			const data = await TeamService.getScores(idTeam);
-			//transformation des données en liste d'objet de ScoreModel
-			return data.map((score) =>new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time,
+			return data.map((score) =>new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time, score.isSolved,
 				score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.createdAt, score.updatedAt));
 		}catch (e){
 			console.error(`erreur dans le getter des score d'une team dans le modèle de team (front) ${e}`);

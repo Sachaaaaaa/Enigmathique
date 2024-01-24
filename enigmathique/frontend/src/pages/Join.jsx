@@ -7,7 +7,6 @@ import {useNavigate} from "react-router-dom";
 import {socket, SocketContext} from 'contexts/SocketContext';
 import {useParams} from 'react-router-dom';
 import {ClientToServer, ConnectionType, ServerToClient} from 'data/socketMessages';
-import LayoutStudent from "../layouts/LayoutStudent";
 import Notification from "../components/Notification";
 import toast from "react-hot-toast";
 import {SyncLoader} from "react-spinners";

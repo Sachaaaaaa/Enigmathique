@@ -7,7 +7,6 @@ const TokenDB = db.token;
 
 // Fonction qui à partir d'un token, détermine si il est valide ou non.
 async function checkTokenValidity(token) {
-    console.log(token)
 
     // Récupère le hash du token
     const tokenHash = sha256(token);
@@ -86,7 +85,7 @@ exports.verifyGameToken = async(req, res, next) => {
         req.tokenId = await checkTokenValidity(req.body.tokenProf);
         //const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
         //req.tokenId = decodedToken.id;
-        
+
     }
 
     // Si pas de token on lève une erreur

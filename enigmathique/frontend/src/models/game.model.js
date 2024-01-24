@@ -21,7 +21,6 @@ class GameModel {
 		this.createdAt = new Date(createdAt);
 		this.gameCode = gameCode;
 	}
-
 	/**
 	 * Getter d'une partie à partir de son identifiant
 	 * @param idGame identifiant de la partie
@@ -29,14 +28,13 @@ class GameModel {
 	 */
 	static async getOne(idGame) {
 		try {
-			//appel au service pour récupérer
 			const data = await GameService.getOne(idGame);
-			//transformation de ces données en un objet de la classe GameModel
 			return new GameModel(data.id, data.idCourse, data.name, data.state, data.teamSize, data.createdAt, data.gameCode);
 		}catch (e) {
 			console.log(`erreur dans le getter de d'une game dans le modèle de game (front) ${e}`);
 		}
 	}
+
 
 	/**
 	 * Getter de toutes les parties du professeur
@@ -52,7 +50,6 @@ class GameModel {
 			console.log(`erreur dans le getter de toutes les games dans le modèle de game (front) ${e}`);
 		}
 	}
-
 	/**
 	 * Getter des scores associés à la partie identifiée
 	 * @param idGame identifiant de la partie dont on veut les scores
@@ -63,7 +60,7 @@ class GameModel {
 			//appel au service pour obtenir les données
 			const data = await GameService.getScores(idGame);
 			//transformation de ces données en une liste d'objet ScoreModel
-			return data.map((score) => new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time,
+			return data.map((score) => new ScoreModel(score.idTeam, score.roomName, score.idGame, score.time, score.isSolved,
 				score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.createdAt, score.updatedAt));
 		}catch (e) {
 			console.log(`erreur dans le getter des scores dans le modèle de game (front) ${e}`);
@@ -87,6 +84,8 @@ class GameModel {
 			console.log(`erreur dans le create dans le modèle d'une game ${e}`);
 		}
 	}
+
+
 
 	/**
 	 * Permet d'ajouter des salles à la partie identifiée

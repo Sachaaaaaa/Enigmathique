@@ -92,7 +92,7 @@
             }
 
             .bg-btn-gray-color {
-                @apply bg-gray-400;
+                @apply bg-gray-300;
             }
             .bg-blue-gradient-color {
                 @apply bg-gradient-to-r from-[#4C49ED] to-[#0A06F4];
@@ -111,7 +111,7 @@
                 @apply text-[#0A06F4];
             }
             .nav-font-color {
-                @apply text-[#B1B1B1];
+                @apply text-[#8f8e8e];
             }
 
             .blue-gradient-font-color {
@@ -308,7 +308,7 @@
 
         /* Texte des informations dans le dashboard*/
             .small-text {
-                @apply primary-font-color text-sm leading-4 ;
+                @apply primary-font-color text-sm  ;
             }
 
         /* Bouton voir */
@@ -394,71 +394,58 @@
 
         /* Style commun à tous les boutons utilitaires */
             .btn-action{
-                @apply text-white font-semibold rounded-full p-3
+                @apply text-white font-semibold rounded-full p-2
             }
         
         /* Boutons de validation */
             .btn-validate{
-                @apply btn-action bg-blue-gradient-color whitespace-normal rounded-[8px] ;
+                @apply btn-action p-3 bg-blue-gradient-color whitespace-normal rounded-[8px] ;
             }
 
         /* Bouton créer */
             .btn-action-create {
-                @apply btn-action bg-blue-gradient-color flex space-x-2 items-center ;
+                @apply btn-action flex space-x-2 items-center p-3 bg-blue-gradient-color  ;
             }
         
         /* Bouton voir élèves */
             .btn-action-see {
-                @apply  btn-action text-white text-xs font-medium bg-blue-gradient-color flex space-x-2 items-center rounded-full px-4 py-2 ;
+                @apply  btn-action flex space-x-2 items-center px-4 py-2 bg-blue-gradient-color text-white text-xs font-medium rounded-full ;
             }
 
-        /* Bouton statistiques */
-            .btn-action-statistiques {
+        /* Bouton bleu (statistiques et détails)*/
+            .btn-action-blue {
                 @apply btn-action bg-[#4C49ED]
             }
-            .btn-action-statistiques:hover {
+            .btn-action-blue:hover {
                 @apply bg-gradient-to-r from-[#6462e6] to-[#4C49ED];
             }    
 
-        /* Bouton modifier */    
-            .btn-action-modifier {
+        /* Bouton orange (modifier) */    
+            .btn-action-orange {
                 @apply btn-action bg-[#FB7D5B]
             }
-            .btn-action-modifier:hover {
+            .btn-action-orange:hover {
                 @apply bg-gradient-to-r from-[#FC9679] to-[#FB7D5B];
             }
 
-        /* Bouton supprimer */
-            .btn-action-supprimer {
-                @apply btn-action bg-btn-red-color
-            }
-
-        /* Bouton classement */
-            .btn-action-classement {
+        /* Bouton jaune (classement et pregame) */
+            .btn-action-yellow {
                 @apply btn-action bg-[#fabe32]
             }
-            .btn-action-classement:hover {
+            .btn-action-yellow:hover {
                 @apply bg-gradient-to-r from-[#f3ca6a] to-[#fabe32];
             }
-
-        /* Boutons infos */
-            .btn-action-détails {
-                @apply btn-action bg-[#0704c3];
-            }
-            .btn-action-détails:hover {
-                @apply bg-gradient-to-r from-[#3a38d1] to-[#0704c3];
-            }
                 
-        /* Bouton valider */
-            .btn-action-valider {
+        /* Bouton vert (valider et lancer la partie) */
+            .btn-action-green {
                 @apply btn-action bg-[#019799]
             }
-            .btn-action-valider:hover {
+            .btn-action-green:hover {
                 @apply bg-gradient-to-r from-[#4eb5b6] to-[#019799];
             }
 
-        /* Bouton refuser */
-            .btn-action-refuser {
+        /* Bouton rouge (supprimer et refuser) */
+            .btn-action-red {
                 @apply btn-action bg-btn-red-color
             }
     

@@ -121,172 +121,13 @@ function isRequestCorrect(schema, req) {
 	}
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////
-// 									 READ                                      //
-/////////////////////////////////////////////////////////////////////////////////
-
-// Récupère les équipes d'une partie
-exports.findOne = async (req, res, next) => {
-	try{
-	
-		// Vérifie que l'équipe appartienne bien au professeur
-		await isTeamBelongsProfessor(req.params.id, req)
-
-		// Récupère toutes les équipe d'une partie
-		const team = await Team.findOne({ where: { id: req.params.id } })
-
-		// Renvoie les données récupéréesf
-		return res.status(200).json(team);
-
-	// Gère les erreurs
-	} catch(err) {
-		next(err)
-	}	
-}
-
-exports.findByGame = async (req, res, next) => {
-	try{
-	
-		// Vérifie que l'équipe appartienne bien au professeur
-		await isGameBelongsProfessor(req.params.id, req)
-
-		// Récupère toutes les équipe d'une partie
-		const team = await Team.findAll({ where: { idGame: req.params.id } })
-
-		// Renvoie les données récupéréesf
-		return res.status(200).json(team);
-
-	// Gère les erreurs
-	} catch(err) {
-		next(err)
-	}	
-}
-
-// Retourne les élèves d'une team
-exports.findStudents = async(req, res, next) => {
-	
-	try {
-
-		// Vérifie que l'équipe appartienne bien au professeur
-		await isTeamBelongsProfessor(req.params.id, req)
-
-		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
-
-		var findedStudents = []
-		
-		for (let i = 0; i < students.length; i++) {
-			findedStudents.push(await Student.findOne({ where: { id: students[i].idStudent } }))
-		}
-		return res.status(200).json(findedStudents);
-	
-	}catch(err) {
-
-		next(err)
-	}	
-}
-
-exports.getScore = async(req, res, next) => {
-	try{
-		
-		// Vérifie que l'équipe appartienne bien au professeur
-		await isTeamBelongsProfessor(req.params.id, req)
-
-		const scores = await Score.findAll({ where: { idTeam: req.params.id } })
-
-		
-		return res.status(200).json(scores);
-
-	}catch(err) {
-		next(err)
-	}
-}
-
-
-
-/////////////////////////////////////////////////////////////////////////////////
-// 									 DELETE                                    //
+// 									CREATE                                     //
 /////////////////////////////////////////////////////////////////////////////////
 
 
-// supprime une team en fonction de son id
-exports.delete = async (req, res, next) => {
-
-
-	try{
-		// Vérifie que l'équipe appartienne bien au professeur
-		await isTeamBelongsProfessor(req.params.id, req)
-	
-		// Effectue la requête de delete
-		const deletedRows = await Team.destroy({ where: { id: req.params.id} })
-
-		// Vérifie si la classe a bien été supprimé
-		if (deletedRows == 0) {
-			const error = new Error("Impossible de supprimer l'équipe");
-			error.statusCode = 404;  
-			throw error;
-		} 
-
-		return res.status(201).json({
-			message: "L'équipe a été supprimée avec succès"
-		})
-
-		// Gère les erreurs
-		}catch(err) {
-			next(err)
-		}
-}
-
-
-// TODO : inverser param et body ?
-// Supprime un élève d'une équipe
-exports.removeStudent = async (req, res, next) => {
-
-try{
-	// Vérification des informations fournis
-	const teamSchema = baseSchema.keys({
-		idTeam: Joi.number().integer().required(),
-	});
-
-	// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
-	isRequestCorrect(teamSchema, req)
-
-	// Vérifie que l'équipe appartienne bien au professeur
-	await isTeamBelongsProfessor(req.body.idTeam, req)
-
-	// Vérifie que l'élève appartienne bien au professeur
-	await isStudentBelongsProfessor(req.params.id, req)
-
-	// Effectue la requête de delete
-	const deletedRows = await PlayIn.destroy({ where: { idStudent: req.params.id, idTeam:req.body.idTeam } })
-
-	// Vérifie si la classe a bien été supprimé
-	if (deletedRows == 0) {
-		const error = new Error("Impossible de supprimer l'élève");
-		error.statusCode = 404;  
-		throw error;
-	} 
-
-	return res.status(201).json({
-		message: "L'élève a été supprimée avec succès"
-	});
-
-	// Gère les erreurs
-	}catch(err) {
-		next(err)
-	}
-}
-
-
-
-/////////////////////////////////////////////////////////////////////////////////
-// 									 OTHER                                    //
-/////////////////////////////////////////////////////////////////////////////////
-
-// [{"roomName":"test","time":10,"nbGoodAnswers":1,"nbBadAnswers":0"}]
 // Ajoute les scores d'une équipe pour différentes salles
 exports.addScores = async(req, res, next) => {
-
 	try {
 		// Array contenant tout les n-uplets ajoutés
 		const result = []
@@ -335,7 +176,7 @@ exports.addScores = async(req, res, next) => {
 			for (let j = 0; j < teamRooms.length; j++) {
 				const roomData = teamRooms[j];
 				// Récupère les infos de la salle
-				const roomName = roomData.roomName;
+				const roomName = roomData.name;
 				const time = parseInt(roomData.time);
 				const nbGoodAnswers = roomData.nbGoodAnswers;
 				const nbBadAnswers = roomData.nbBadAnswers;
@@ -359,24 +200,106 @@ exports.addScores = async(req, res, next) => {
 		}
 		res.status(201).json(result);
 	} catch(err) {
-		console.log(err);
 		next(err)
 	}
-		
+
 }
 
 
 
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 READ                                      //
+/////////////////////////////////////////////////////////////////////////////////
+
+// Récupère une équipe à partir de son id
+exports.findOne = async (req, res, next) => {
+	try{
+	
+		// Vérifie que l'équipe appartienne bien au professeur
+		await isTeamBelongsProfessor(req.params.id, req)
+
+		// Récupère l'équipe
+		const team = await Team.findOne({ where: { id: req.params.id } })
+
+		// Renvoie les données récupérées
+		return res.status(200).json(team);
+
+	// Gère les erreurs
+	} catch(err) {
+		next(err)
+	}	
+}
+
+// Récupérer toutes les équipes d'une partie
+exports.findByGame = async (req, res, next) => {
+	try{
+	
+		// Vérifie que la partie appartienne bien au professeur
+		await isGameBelongsProfessor(req.params.id, req)
+
+		// Récupère toutes les équipe de la partie
+		const team = await Team.findAll({ where: { idGame: req.params.id } })
+
+		// Renvoie les données récupérées
+		return res.status(200).json(team);
+
+	// Gère les erreurs
+	} catch(err) {
+		next(err)
+	}	
+}
+
+// Retourne les élèves d'une team
+exports.findStudents = async(req, res, next) => {
+	
+	try {
+
+		// Vérifie que l'équipe appartienne bien au professeur
+		await isTeamBelongsProfessor(req.params.id, req)
+
+		// Récupère l'id des élèves
+		const students = await PlayIn.findAll({ where: { idTeam: req.params.id } })
+
+		// Pour chaque id d'élève, récupère les infos associées
+		var findedStudents = []
+		for (let i = 0; i < students.length; i++) {
+			findedStudents.push(await Student.findOne({ where: { id: students[i].idStudent } }))
+		}
+
+		return res.status(200).json(findedStudents);
+	
+		// Gère les erreurs
+	}catch(err) {
+		next(err)
+	}	
+}
+
+// Récupère le score d'une équipe
+exports.getScore = async(req, res, next) => {
+	try{
+		
+		// Vérifie que l'équipe appartienne bien au professeur
+		await isTeamBelongsProfessor(req.params.id, req)
+
+		// Récupère le score de l'équipe
+		const scores = await Score.findAll({ where: { idTeam: req.params.id } })
+		
+		return res.status(200).json(scores);
+
+		// Gère les erreurs
+	}catch(err) {
+		next(err)
+	}
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 UPDATE                                    //
+/////////////////////////////////////////////////////////////////////////////////
 
 // Ajouter des élèves à une équipe
-// Ex contenu de req.body : 
-/*
-{
-	teams: [ { name: 'Ekip de beauvais', idStudents: [Array] } ],
-	gameId: 1
-}
-*/
-exports.addStudents = async (req, res, next) => {	
+exports.addStudents = async (req, res, next) => {
 
 
 	try{
@@ -385,8 +308,8 @@ exports.addStudents = async (req, res, next) => {
 		const teamSchema = baseSchema.keys({
 			teams: Joi.array().items(
 				Joi.object({
-					name: Joi.string().required(),
-					idStudents: Joi.array().items(Joi.number().integer()).required(),
+				  name: Joi.string().required(),
+				  idStudents: Joi.array().items(Joi.number().integer()).required(),
 					idSocket: Joi.string().required()
 				})).required(),
 			idGame: Joi.number().integer().required(),
@@ -395,34 +318,109 @@ exports.addStudents = async (req, res, next) => {
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
 		isRequestCorrect(teamSchema, req)
 
-		// Récupère les équipes dans un format adapté
+		// Stock les données utiles
 		const teams = req.body.teams;
 		const idGame = req.body.idGame
 
-		// Les équipes à ajouter
+		// Les équipes ajoutées
 		const addedTeams = [];
 
 		// Itère sur chaque équipe
 		for (let i = 0; i < teams.length; i++) {
-			
-			// Ajoute toutes les équipes du tableau teamsName
+
+			// Ajoute la team dans la DB
 			const createdTeam = await Team.create({ name: teams[i].name, idGame: idGame });
-			
+
+			// Map les élèves de la team correspondante avec l'id de la team créer precedement
 			const studentsData = teams[i].idStudents.map(studentId => ({ idTeam: createdTeam.id, idStudent: studentId }));
-			
-			// Ajoute les élèves à la table PlayIn
+
+			// Ajoute les élèves dans la DB
 			await PlayIn.bulkCreate(studentsData);
-			
+
 			// Ajoute à createdTeam l'attribut idSocket qui est l'id de la socket de l'équipe (pour pouvoir l'identifier dans game)
 			const teamData = createdTeam.dataValues;
 			teamData.idSocket = teams[i].idSocket;
+
 			// Ajoute l'équipe à la liste des équipes ajoutées
-			addedTeams.push(teamData);	
+			addedTeams.push(teamData);
 		}
+
+		// Retourne les teams ajoutées
 		return res.status(201).json(addedTeams);
-		
+
+		// Gère les erreurs
 	} catch(err){
 		next(err)
 	}
 
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+// 									 DELETE                                    //
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// supprime une team en fonction de son id
+exports.delete = async (req, res, next) => {
+	try{
+		// Vérifie que l'équipe appartienne bien au professeur
+		await isTeamBelongsProfessor(req.params.id, req)
+	
+		// Effectue la requête de delete
+		const deletedRows = await Team.destroy({ where: { id: req.params.id} })
+
+		// Vérifie si la classe a bien été supprimé
+		if (deletedRows == 0) {
+			const error = new Error("Impossible de supprimer l'équipe");
+			error.statusCode = 404;  
+			throw error;
+		} 
+
+		return res.status(201).json({
+			message: "L'équipe a été supprimée avec succès"
+		})
+
+		// Gère les erreurs
+		}catch(err) {
+			next(err)
+		}
+}
+
+
+// Supprime un élève d'une équipe
+exports.removeStudent = async (req, res, next) => {
+
+try{
+	// Vérification des informations fournis
+	const teamSchema = baseSchema.keys({
+		idTeam: Joi.number().integer().required(),
+	});
+
+	// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
+	isRequestCorrect(teamSchema, req)
+
+	// Vérifie que l'équipe appartienne bien au professeur
+	await isTeamBelongsProfessor(req.body.idTeam, req)
+
+	// Vérifie que l'élève appartienne bien au professeur
+	await isStudentBelongsProfessor(req.params.id, req)
+
+	// Effectue la requête de delete
+	const deletedRows = await PlayIn.destroy({ where: { idStudent: req.params.id, idTeam:req.body.idTeam } })
+
+	// Vérifie si la classe a bien été supprimé
+	if (deletedRows == 0) {
+		const error = new Error("Impossible de supprimer l'élève");
+		error.statusCode = 404;  
+		throw error;
+	} 
+
+	return res.status(201).json({
+		message: "L'élève a été supprimée avec succès"
+	});
+
+	// Gère les erreurs
+	}catch(err) {
+		next(err)
+	}
 }
