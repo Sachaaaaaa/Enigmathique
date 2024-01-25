@@ -1,15 +1,15 @@
-const io = require('socket.io')();
-const clc = require('cli-color');
+const { Server } = require('socket.io');
+const { createServer } = require('http');
 const SocketManager = require('./socketManager');
+const clc = require('cli-color');
 
 require('dotenv').config();
+const httpServer = createServer();
+const io = new Server(httpServer, {cors: {origin: '*'}});
+
 
 const socketManager = new SocketManager(io);
 
 console.log(clc.blue('Si le message Session Invalide apparait, vérifier les .env de enigmathique/game et enigmathique/api (TOKEN / URL)'))
 
-io.listen(4000, {
-	cors: {
-		origin: "*",
-	}
-});
+httpServer.listen(4000);
