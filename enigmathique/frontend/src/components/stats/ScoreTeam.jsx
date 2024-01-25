@@ -43,7 +43,6 @@ const ScoreTeam = (props) => {
 	}
 
 	if (scores == null || scores.length === 0) return <div>Chargement...</div>
-	//console.log('getRoom', getRoom(option, scores))
 	return (
 		<div>
 			<div>

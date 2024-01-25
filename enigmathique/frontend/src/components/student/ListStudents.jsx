@@ -27,14 +27,12 @@ const ListStudents = (props) => {
 		});
 		setCreateModalOpen(false);
 		props.loadStudents();
-		//console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
 	}
 	
 	const [filter, setFilter] = useState({text: ''});
 	const handleChangeText = (e) => {
-		//console.log(filter);
 		setFilter({...filter, text: e.target.value})
 	}
 
