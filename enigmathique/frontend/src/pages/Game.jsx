@@ -137,7 +137,7 @@ const Game = () => {
 					camera={{ position: [5, 5, 5], fov: 35 }}
 					style={{ height: '100vh', width: '100vw' }}
 				>
-					<color attach="background" args={['#9999e6']} />
+					<color attach="background" args={['#24579e']} />
 					<Scene />
 				</Canvas>
 			</RoomProvider>

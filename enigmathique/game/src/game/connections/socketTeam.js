@@ -151,7 +151,7 @@ class SocketTeam {
 
 	sendHint = (enigmaId, hint) => {
 		console.log(clc.yellowBright('[Team] Envoi indice'));
-		this.socket.emit(ServerToClient.Hint, { hint });
+		this.socket.emit(ServerToClient.Hint, { enigmaId, hint });
 	}
 
 	sendRoomSolved = () => {
@@ -159,6 +159,10 @@ class SocketTeam {
 		this.socket.emit(ServerToClient.RoomSolved);
 	}
 
+	sendGameEnded = () => {
+		console.log(clc.yellowBright('[Team] Envoi de la fin de la partie'));
+		this.socket.emit(ServerToClient.GameEnded);
+	}
 }
 
 module.exports = SocketTeam;

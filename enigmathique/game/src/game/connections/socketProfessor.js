@@ -40,6 +40,10 @@ class SocketProfessor {
 		});
 	}
 
+	sendGameEnded = () => {
+		console.log(clc.yellowBright('[Team] Envoi de la fin de la partie'));
+		this.socket.emit(ServerToClient.GameEnded);
+	}
 }
 
 module.exports = SocketProfessor;

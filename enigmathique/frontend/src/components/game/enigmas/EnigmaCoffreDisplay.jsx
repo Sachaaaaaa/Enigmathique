@@ -22,10 +22,10 @@ const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, descrip
 			{image != null && <img src={image} alt='enigma image' />}
 			<input
 				type="text"
-				placeholder="Votre réponse"
+				placeholder="Code du coffre"
 				value={userAnswer}
 				onChange={handleInputChange}
-				className="m-1.5"
+				className="form-inputfield-style"
 				style={{ border: '2px solid #b3b3b3' }}
 				readOnly
 			/>

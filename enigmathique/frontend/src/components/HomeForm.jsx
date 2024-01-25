@@ -5,6 +5,7 @@ import logo from '../assets/img/logo-name-enigmathique-white.png';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import GameModel from '../models/game.model';
 import Carousel from 'nuka-carousel';
+import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
 const HomeForm = () => {
 	const [code, setCode] = useState('');
 
@@ -81,16 +82,16 @@ const HomeForm = () => {
 				</Link>
 
 				<section className="w-[80%] h-[80%]">
-					<Carousel 
+					<Carousel
 						wrapAround={true}
 						renderCenterLeftControls={({ previousSlide }) => (
-							<button style={{ backgroundColor: 'blue', color: 'white' }} onClick={previousSlide}>
-								Previous
+							<button onClick={previousSlide}>
+								<FaChevronLeft/>
 							</button>
 						)}
 						renderCenterRightControls={({ nextSlide }) => (
-							<button style={{ backgroundColor: 'blue', color: 'white' }} onClick={nextSlide}>
-								Next
+							<button onClick={nextSlide}>
+								<FaChevronRight/>
 							</button>
 						)}	
 					>

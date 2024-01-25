@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LayoutProf from '../layouts/LayoutProf';
 import { FaStar, FaRegCircle } from 'react-icons/fa';
 import { socket } from 'contexts/SocketContext';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from 'data/socketMessages';
 import TeamDetails from './TeamDetails';
 import ActionButton from 'components/dashboard/ActionButton';
@@ -28,6 +28,8 @@ function ProfFollowUp() {
 
 	const [rankings, setRankings] = useState([]);
 	const [selectedTeam, setSelectedTeam] = useState(null);
+
+	const navigate = useNavigate();
 
 	const sumRoomData = (rooms) => {
 		let totalSolved = 0;
@@ -116,12 +118,21 @@ function ProfFollowUp() {
 				}
 			});
 
+			socket.on(ServerToClient.GameEnded, () => {
+				// TODO: Modifier façon de mettre id de game dans l'url (à partir de code de partie)
+				//navigate(`rankinkg/${ID_DE_LA_GAME}`);
+				navigate('/games/');
+			});
+
 			socket.connect();
 
 			return () => {
+				socket.disconnect();
+
 				socket.off(ServerToClient.Connection);
 				socket.off(ServerToClient.Disconnection);
 				socket.off(ServerToClient.AllTeamsProgress);
+				socket.off(ServerToClient.GameEnded);
 			};
 		}
 	}, [token, sessionId, socket]);

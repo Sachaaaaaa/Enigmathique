@@ -11,21 +11,12 @@ import toast from "react-hot-toast";
 
 const ListStudents = (props) => {
 	
-	const [students, setStudents] = useState([]);
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
 	/**
 	 * récupère la liste de tous les élèves de la classe
 	 */
-	const loadStudents = async () => {
-		const data = await StudentModel.getAll(props.id);
-		setStudents(data);
-		//console.log(data);
-	}
-	
-	useEffect(() => {
-		loadStudents();
-	}, []);
+
 
 	const handleClickCreate = async (event, firstname, lastname, idCourse) => {
 		event.preventDefault();
@@ -34,7 +25,6 @@ const ListStudents = (props) => {
 			success: 'Elève ajouté !',
 			error: "Une erreur s'est produite"
 		});
-		loadStudents();
 		setCreateModalOpen(false);
 		//console.log('create ' + id);
 		setFirstname('');
@@ -58,7 +48,7 @@ const ListStudents = (props) => {
 	}
 
 	//filtre les élèves en fonction du texte entré
-	const filteredStudents = students.filter((student) =>
+	const filteredStudents = props.students.filter((student) =>
 		student.firstname.toLowerCase().startsWith(filter.text.toLowerCase()) ||
 		student.lastname.toLowerCase().startsWith(filter.text.toLowerCase())
 	).sort(compareStudents);
@@ -69,13 +59,13 @@ const ListStudents = (props) => {
 	return (
 		<>
 			<ContentHeader title="Liste des élèves" link='/class'>
-					<SearchInput handleChangeText={handleChangeText}/>
-					<CreateButton title="Ajouter un élève" onClick={() => setCreateModalOpen(true)}/>
+				<SearchInput handleChangeText={handleChangeText}/>
+				<CreateButton title="Ajouter un élève" onClick={() => setCreateModalOpen(true)}/>
 			</ContentHeader> 
 
 			<ul className='flex flex-wrap gap-5 p-5 mt-10'>
 				{filteredStudents.map((student) => (
-					<StudentElement key={student.id} student={student} onChange={() => loadStudents()}/>
+					<StudentElement key={student.id} student={student} />
 				))}
 			</ul>
 			{createModalOpen && (
@@ -117,7 +107,8 @@ const ListStudents = (props) => {
 }
 
 ListStudents.propTypes = {
-	id: PropTypes.number.isRequired,
+	students: PropTypes.array.isRequired,
+	id: PropTypes.number.isRequired
 }
 
 export default ListStudents;

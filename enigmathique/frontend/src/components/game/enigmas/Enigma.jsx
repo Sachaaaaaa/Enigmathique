@@ -39,15 +39,29 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma, title="" }) => {
 	};
 
 	useEffect(() => {
-		const handleAnswerFeedback = ({ isSolved, endMessage }) => {
-			if (isSolved) {
-				setEnigmaState({ isSolved: true, endMessage: endMessage, hint: null });
+		const handleAnswerFeedback = (data) => {
+			const _enigmaId = data.enigmaId;
+			const _isSolved = data.isSolved;
+			const _endMessage = data.endMessage;
+
+			if (_enigmaId == null || _enigmaId !== enigmaId) {
+				return;
+			}
+
+			if (_isSolved) {
+				setEnigmaState({ isSolved: true, endMessage: _endMessage, hint: null });
 			}
 		};
 
-		const handleHintFeedback = ({ hint }) => {
-			console.log('hint', hint);
-			setEnigmaState({ hint });
+		const handleHintFeedback = (data) => {
+			const _enigmaId = data.enigmaId;
+
+			if (_enigmaId == null || enigmaId !== _enigmaId) {
+				return;
+			}
+
+			const _hint = data.hint;
+			setEnigmaState({ hint: _hint });
 		};
 
 		socket.on(ServerToClient.Feedback, handleAnswerFeedback);
