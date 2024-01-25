@@ -100,12 +100,21 @@ class SocketTeam {
 		// Vérifie si l'équipe est verrouillée ou confirmée
 		if (this.locked || this.confirmed) {
 			console.log(clc.redBright('[Team] Tentative de verrouillage d\'une équipe déjà verrouillée ou confirmée'));
+			this.socket.emit(ServerToClient.Error, {message: 'L\'équipe est déjà verrouillée ou confirmée', isFatal: false});
 			return;
 		}
 
 		// Vérifie que l'équipe n'est pas vide
 		if (this.composition.length === 0) {
 			console.log(clc.redBright('[Team] Tentative de verrouillage d\'une équipe vide'));
+			this.socket.emit(ServerToClient.Error, {message: 'L\'équipe est vide', isFatal: false});
+			return;
+		}
+
+		// Vérifie longueur du nom de l'équipe
+		if (name.length > 20) {
+			console.log(clc.redBright('[Team] Tentative de verrouillage d\'une équipe avec un nom trop long'));
+			this.socket.emit(ServerToClient.Error, {message: 'Le nom de l\'équipe est trop long', isFatal: false});
 			return;
 		}
 
