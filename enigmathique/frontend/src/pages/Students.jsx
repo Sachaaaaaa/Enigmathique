@@ -7,6 +7,7 @@ import StudentModel from "../models/student.model";
 
 function Students() {
 	const {id} = useParams();
+	const parseId = parseInt(id);
 	const [students, setStudents] = React.useState([]);
 	const navigate = useNavigate();
 	const loadStudents = async () => {
@@ -14,12 +15,12 @@ function Students() {
 		const data = await StudentModel.getAll(id);
 		console.log(data);
 		setStudents(data);
-
 		if (data !== undefined) {
 			return;
 		}
 		navigate('/class');
 	};
+
 	useEffect(() => {
 		loadStudents();
 	}, []);
@@ -28,7 +29,7 @@ function Students() {
 		<LayoutProf>
 			<main>
 				<Notification/>
-				<ListStudents students={students} id={id} loadStudents={loadStudents}/>
+				<ListStudents students={students} id={parseId} loadStudents={loadStudents}/>
 
 			</main>
 		</LayoutProf>

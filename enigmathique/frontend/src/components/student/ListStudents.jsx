@@ -13,7 +13,6 @@ const ListStudents = (props) => {
 	
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
-
 	/**
 	 * récupère la liste de tous les élèves de la classe
 	 */
@@ -40,20 +39,21 @@ const ListStudents = (props) => {
 	}
 
 	const compareStudents = (stud1, stud2) => {
-		if(stud1.lastname < stud2.lastname || (stud1.lastname === stud2.lastname && stud1.firstname < stud2.firstname)) {
+		if(stud1.lastname.toLowerCase() < stud2.lastname.toLowerCase() ||
+			(stud1.lastname.toLowerCase() === stud2.lastname.toLowerCase() && stud1.firstname.toLowerCase() < stud2.firstname.toLowerCase())) {
 			return -1;
-		} else if (stud1.lastname > stud2.lastname || (stud1.lastname === stud2.lastname && stud1.firstname > stud2.firstname)){
+		} else if (stud1.lastname.toLowerCase() > stud2.lastname.toLowerCase() ||
+			(stud1.lastname.toLowerCase() === stud2.lastname.toLowerCase() && stud1.firstname.toLowerCase() > stud2.firstname.toLowerCase())){
 			return 1;
 		} else {
 			return 0;
 		}
 	}
 
+	const filteredStudents = props.students.sort( (studA, studB) =>{return compareStudents(studA, studB);});
+
 	//filtre les élèves en fonction du texte entré
-	const filteredStudents = props.students.filter((student) =>
-		student.firstname.toLowerCase().startsWith(filter.text.toLowerCase()) ||
-		student.lastname.toLowerCase().startsWith(filter.text.toLowerCase())
-	).sort(compareStudents);
+
 	
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	
@@ -67,7 +67,7 @@ const ListStudents = (props) => {
 
 			<ul className='flex flex-wrap gap-5 p-5 mt-10'>
 				{filteredStudents.map((student) => (
-					<StudentElement key={student.id} student={student} onChange={() => compareStudents()} />
+					<StudentElement key={student.id} student={student} onChange={() => props.loadStudents()} />
 				))}
 			</ul>
 			{createModalOpen && (

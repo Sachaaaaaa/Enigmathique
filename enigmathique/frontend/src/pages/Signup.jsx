@@ -32,7 +32,7 @@ function Signup() {
 		setMessage('');
 
 		
-		const formConplete = handleSignupError(firstname, lastname, mail, password);
+		const formComplete = handleSignupError(firstname, lastname, mail, password);
 		const {
 			firstnameStyle,
 			lastnameStyle,
@@ -43,9 +43,8 @@ function Signup() {
 		setLastnameStyle(lastnameStyle);
 		setMailStyle(mailStyle);
 		setPasswordStyle(passwordStyle);
-		console.log(formConplete);
 		
-		if (formConplete !== 1) {
+		if (formComplete !== 1) {
 			setLoading(true);
 			// Envoie des données de connexion à l'API
 			AuthService.register(firstname, lastname, mail, password).then(

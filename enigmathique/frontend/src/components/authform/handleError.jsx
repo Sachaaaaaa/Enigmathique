@@ -61,13 +61,9 @@ const handleLoginError = (mail, password) => {
 	}
 	if (!isValidEmail(mail) && mail!=='') {
 		styleEdit('', '', mail, password);
-		error = true;
-		toast.error('Veuillez entrer une adresse email valide');
 	}
 	if (!isValidPassword(password)  && password!=='') {
 		styleEdit('', '', mail, password);
-		error = true;
-		toast.error('Le mot de passe est incorrect.');
 	}
 	if (error) return 1;
 }
