@@ -14,7 +14,7 @@ const ClassList = () => {
 			<select
 				onSelect={() =>setIsExpanded(!isExpanded)}
 				id="courses"
-				className="form-inputfield-style"
+				className="form-inputfield-style cursor-pointer"
 				onChange={(e) => setFormData({...formData, course: parseInt(e.target.value)})}
 				value={formData.course }>
 				{/* {isExpanded ? <IoChevronUp /> : <IoChevronDown />} */}

@@ -8,7 +8,7 @@ import Game from './pages/Game';
 import Class from './pages/Class';
 import Students from './pages/Students';
 import './index.css';
-import TeamStats from './pages/TeamStats';
+import TeamStats from './components/stats/TeamStats';
 import Games from './pages/Games';
 import Join from './pages/Join';
 import PreGameWrapper from './components/contexts/PreGame.wrapper';
@@ -16,11 +16,11 @@ import CreateGameWrapper from './components/contexts/CreationGame.wrapper';
 import RoomList from 'pages/RoomPage';
 import ProfFollowUp from 'pages/ProfFollowUp';
 import Ranking from 'pages/Ranking';
-import StudentStats from "pages/StudentStats";
-import NotFound from "pages/NotFound";
-
+import StudentStats from 'pages/StudentStats';
+import NotFound from 'pages/NotFound';
+import CLassStats from 'pages/ClassStats';
 import useCourses from 'hooks/useCourses';
-import CGU from "pages/CGU";
+import CGU from 'pages/CGU';
 
 
 const App = () => {
@@ -48,6 +48,7 @@ const App = () => {
 			<Route path='/leaderboard' element={<ProfFollowUp/>}/>
 			<Route path='/ranking/:idGame' element={<Ranking/>}/>
 			<Route path='/student/stats/:idStudent' element={<StudentStats/>}/>
+			<Route path='/class/stats/:idClass' element={<CLassStats/>}/>
 			<Route path='/cgu' element={<CGU/>}/>
 		</Routes>
 	);

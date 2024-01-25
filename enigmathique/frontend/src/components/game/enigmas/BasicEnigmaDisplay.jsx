@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { BsQuestionDiamondFill } from 'react-icons/bs';
 import { FaCheck } from 'react-icons/fa';
+import ValidateButton from 'components/game/enigmas/ValidateButton';
+import HintButton from 'components/game/enigmas/HintButton';
 
 
 const BasicDisplayTemplate = ({ title, description, placeholder = "Votre réponse", isNumberOnly, hint, isSolved = false, image, handleSubmitAnswer, handleAskHint}) => {
@@ -27,17 +29,13 @@ const BasicDisplayTemplate = ({ title, description, placeholder = "Votre répons
 			/>
 
 			{(!hint && !isSolved) && (
-				<button onClick={() => handleAskHint()}
-					className="hint-button">
-					<BsQuestionDiamondFill /> Indice
-				</button>
+				<HintButton onClick={() => handleAskHint()} />
 			)}
+		
+			{hint && <p className="hint-text">{hint}</p>}
 
-			{hint && <p className="m-1.5">{hint}</p>}
+			{!isSolved && <ValidateButton onClick={()=> handleSubmitAnswer(userAnswer)}/> }
 
-			{!isSolved && <button onClick={() => handleSubmitAnswer(userAnswer)} className="validate-button">
-				<FaCheck /> Valider
-			</button>}
 		</div>
 	);
 };

@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { BsQuestionDiamondFill } from 'react-icons/bs';
 import { FaCheck } from 'react-icons/fa';
 import termos from 'assets/img/termos.png';
+import ValidateButton from 'components/game/enigmas/ValidateButton';
+import HintButton from 'components/game/enigmas/HintButton';
 
-const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, hint, image, stepButton }) => {
+const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, hint,isSolved, image, stepButton }) => {
 	const [userAnswer, setUserAnswer] = useState('');
 	const [rotationAngle, setRotationAngle] = useState(0);
 
@@ -41,33 +43,13 @@ const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, descript
 				</div>
 			</div>
 
-			{!hint && (
-				<button onClick={() => handleAskHint()} className="m-1.5"
-					style={{
-						background: '#ffcc00',
-						display: 'flex',
-						justifyContent: 'space-around',
-						alignItems: 'center',
-						padding: '8px',
-						borderRadius: '8px',
-					}}>
-					<BsQuestionDiamondFill /> Indice
-				</button>
+			{(!hint && !isSolved) && (
+				<HintButton onClick={() => handleAskHint()} />
 			)}
+		
+			{hint && <p className="hint-text">{hint}</p>}
 
-			{hint && <p className="m-1.5">{hint}</p>}
-
-			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5"
-				style={{
-					background: '#00ff00',
-					display: 'flex',
-					justifyContent: 'space-around',
-					alignItems: 'center',
-					padding: '8px',
-					borderRadius: '8px',
-				}}>
-				<FaCheck /> Valider
-			</button>
+			{!isSolved && <ValidateButton onClick={()=> handleSubmitAnswer(userAnswer)}/> }
 		</>
 	);
 };
@@ -78,6 +60,7 @@ EnigmaChaufDisplay.propTypes = {
 	handleSubmitAnswer: PropTypes.func.isRequired,
 	handleAskHint: PropTypes.func.isRequired,
 	hint: PropTypes.string,
+	isSolved: PropTypes.bool.isRequired,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	image: PropTypes.string,

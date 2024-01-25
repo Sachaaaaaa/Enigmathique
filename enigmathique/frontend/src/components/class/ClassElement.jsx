@@ -2,23 +2,23 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Modal, {ModalBody, ModalHeader} from '../Modal';
 import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
-import { IoPerson } from "react-icons/io5";
+import {IoPerson} from "react-icons/io5";
 import CourseModel from "../../models/course.model";
-import { IoIosStats } from "react-icons/io";
+import {IoIosStats} from "react-icons/io";
 import GameModel from "../../models/game.model";
 import PropTypes from 'prop-types';
 import toast from "react-hot-toast";
 import ActionButton from "components/dashboard/ActionButton";
-import { getRowColor } from 'components/ListManager';
+import {getRowColor} from 'components/ListManager';
 
-const ClassElement = ({classe, onChange,index}) => {
-
+const ClassElement = ({classe, onChange, index}) => {
+	
 	const [gamesOf, setGamesOf] = useState([]);
-
+	
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [name, setName] = useState('');
-
+	
 	
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
@@ -34,7 +34,7 @@ const ClassElement = ({classe, onChange,index}) => {
 		setDeleteModalOpen(false);
 		//console.log('delete ' + id);
 	}
-
+	
 	const handleClickEdit = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
@@ -49,80 +49,80 @@ const ClassElement = ({classe, onChange,index}) => {
 		setEditModalOpen(false);
 		//console.log('edit ' + id);
 	}
-
-	const loadGamesOf = async() => {
+	
+	const loadGamesOf = async () => {
 		const data = await GameModel.getAll();
-		console.log(data) ;
+		console.log(data);
 		let listGames = [];
 		data.forEach((game) => {
 			classe.id === game.idCourse && listGames.push(game);
 		});
 		setGamesOf(listGames);
 	}
-
+	
 	useEffect(() => {
 		loadGamesOf();
 	}, []);
-
+	
 	const getLastGame = (games) => {
-		if(games.length !== 0) {
+		if (games.length !== 0) {
 			let maxDate = games[0].createdAt;
 			games.forEach((game) => {
 				(game.createdAt > maxDate) && (maxDate = game.createdAt);
 			});
 			return maxDate.toLocaleDateString('fr-FR');
 		} else {
-			return 'Jamais joué'
+			return 'Jamais joué';
 		}
-	}
-
+	};
+	
 	return (
-		<tr value={classe.name} key={index} className={getRowColor(index)} >
+		<tr key={index} className={getRowColor(index)}>
 			<td className="pl-5 td-style">
 				{classe.name}
 			</td>
 			<td className="td-style">
 				<Link to={`/class/${classe.id}`} className='w-fit btn-action-see'>
-						<IoPerson size='1em'/>
-						<p>Elèves</p>
+					<IoPerson size='1em'/>
+					<p>Elèves</p>
 				</Link>
 			</td>
 			<td className="td-style">
 				{getLastGame(gamesOf)}
 			</td>
-
+			
 			<td className="td-style text-right pr-5">
-			<div className='space-x-3'>
-			<ActionButton
-				title="Statistiques"
-				link='/'
-			/>
-			<ActionButton
-				title="Modifier"
-				onClick={() => setEditModalOpen(true)}
-			/>
-			<ActionButton
-				title="Supprimer"
-				onClick={() => setDeleteModalOpen(true)}
-			/>
-			</div>
+				<div className='space-x-3'>
+					<ActionButton
+						title="Statistiques"
+						link={`/class/stats/${classe.id}`}
+					/>
+					<ActionButton
+						title="Modifier"
+						onClick={() => setEditModalOpen(true)}
+					/>
+					<ActionButton
+						title="Supprimer"
+						onClick={() => setDeleteModalOpen(true)}
+					/>
+				</div>
 			</td>
 			{editModalOpen && (
 				<Modal setOpenModal={setEditModalOpen}>
 					<ModalHeader title="Modifier une classe"/>
 					<ModalBody>
-					<form className='flex flex-col justify-center items-end w-full gap-3 '>
+						<form className='flex flex-col justify-center items-end w-full gap-3 '>
 							<div className='w-full pb-3'>
-							<label htmlFor='name' className='form-label-style primary-font-color'>
-								Nom de la classe
-							</label>
-							<input
-								type='text'
-								name='name'
-								id='name'
-								defaultValue={classe.name}
-								onChange={(e) => setName(e.target.value)}
-								className='form-inputfield-style  '/> 
+								<label htmlFor='name' className='form-label-style primary-font-color'>
+									Nom de la classe
+								</label>
+								<input
+									type='text'
+									name='name'
+									id='name'
+									defaultValue={classe.name}
+									onChange={(e) => setName(e.target.value)}
+									className='form-inputfield-style  '/>
 							</div>
 							<button
 								type='submit'
@@ -143,7 +143,8 @@ const ClassElement = ({classe, onChange,index}) => {
 					<ModalHeader title={`Supprimer une classe`}/>
 					<ModalBody>
 						<form className='flex flex-col text-center w-full gap-3'>
-							<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la classe {classe.name} ?</p>
+							<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la
+								classe {classe.name} ?</p>
 							<button
 								type='submit'
 								className='modal-validate-button-style bg-[#ef4565] hover:bg-red-500'
@@ -159,8 +160,8 @@ const ClassElement = ({classe, onChange,index}) => {
 					</ModalBody>
 				</Modal>)}
 		</tr>
-	)
-}
+	);
+};
 
 ClassElement.propTypes = {
 	classe: PropTypes.object.isRequired,

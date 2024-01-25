@@ -139,9 +139,7 @@ const Join = (props) => {
 								<h1 className='text-2xl p-1'>{status}</h1>
 											{/* Bouton pour ouvrir/fermer la fenêtre */}
 									
-								<button className='absolute z-50 bottom-0 right-0 
-													flex justify-center items-center m-5
-								btn-action-blue'
+								<button className='absolute z-50 bottom-0 right-0 flex justify-center items-center m-5 btn-action-blue'
 								onClick={toggleWindow}><FiInfo size='3em'/></button>
 
 

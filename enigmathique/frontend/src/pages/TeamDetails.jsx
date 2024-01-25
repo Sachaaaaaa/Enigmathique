@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FaTimes, FaLightbulb, FaExclamationCircle, FaPuzzlePiece, FaDoorOpen } from 'react-icons/fa';
 import { Doughnut } from 'react-chartjs-2';
+import RoomSelector from 'components/stats/RoomSelector';
+import ItemStats from 'components/stats/ItemStats';
 
-function TeamDetails({ teamData, onClose}) {
+function TeamDetails({ teamData,teamName, onClose}) {
 	const [selectedRoom, setSelectedRoom] = useState('Global');
 	const [roomTimers, setRoomTimers] = useState({});
 	const [chartData, setChartData] = useState({});
@@ -100,21 +102,21 @@ function TeamDetails({ teamData, onClose}) {
 
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-			<div className="bg-white w-full max-w-2xl mx-auto rounded-lg shadow-md-xl overflow-hidden">
+		<div className="team-stats-screen">
+			<div className="team-stats-container">
 				<div className="flex justify-between items-center border-b p-5">
-					<h2 className="text-2xl font-bold">{teamData.teamName}</h2>
-					<button onClick={onClose} className="text-black text-2xl">
+					<h2 className="text-2xl font-bold">{teamName}</h2>
+					<button onClick={onClose} className="text-[#EF4565] text-2xl">
 						<FaTimes />
 					</button>
 				</div>
 				<div className="p-5 flex">
 					{/* Left side - Temps de jeu */}
 					<div className="w-1/2 pr-4">
-						<h3 className="text-xl font-semibold mb-4 text-gray-500">Temps de jeu :</h3>
+						<h3 className="text-xl font-semibold mb-4">Temps de jeu :</h3>
 						{teamData.rooms.map((room, index) => (
 							<div key={index} className="mb-2 flex items-center justify-between">
-								<span className="text-gray-500">{room.roomName}</span>
+								<span>{room.roomName}</span>
 								<span className="font-bold">{roomTimers[room.roomName]}</span>
 							</div>
 						))}
@@ -126,110 +128,26 @@ function TeamDetails({ teamData, onClose}) {
 					{/* Right side - Temps de jeu */}
 					<div className="w-1/2 pl-4 border-l">
 						<div className="mb-4 flex items-center justify-between">
-							<label htmlFor="room-select" className="text-xl font-semibold mb-4 text-gray-500">Détails :</label>
-							<div className="relative">
-								<select id="room-select" value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)} 
-									className="appearance-none bg-white border border-blue-500 text-blue-600 py-1 px-4 rounded-full shadow-md-sm focus:outline-none">
-									<option value="Global">Global</option>
-									{teamData.rooms.map((room) => (
-										<option key={room.roomName} value={room.roomName}>{room.roomName}</option>
-									))}
-								</select>
-								<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-blue-500">
-									<svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-										<path d="M5.5 7l5 5 5-5H5.5z" />
-									</svg>
-								</div>
-							</div>
+							<label htmlFor="room-select" className="text-xl font-semibold mb-4">Détails :</label>
+							<RoomSelector rooms={teamData.rooms} selectedRoom={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)}/>
 						</div>
-						<div className="space-y-2">
-							{selectedRoom === 'Global' ? (
+						<div className="space-y-2 flex flex-col gap-3">
+						{selectedRoom === 'Global' ? (
 								<>
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-yellow-100">
-											<FaLightbulb className="text-yellow-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Indices utilisés</p>
-											<p className="text-lg">{details.indicesUtilises}</p>
-										</div>
-									</div>
-
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-red-100">
-											<FaExclamationCircle className="text-red-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Erreurs commises</p>
-											<p className="text-lg">{details.erreursCommises}</p>
-										</div>
-									</div>
-
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-blue-100">
-											<FaDoorOpen className="text-blue-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Salles réussies</p>
-
-											<p className="text-lg">{details.sallesReussies}</p>
-										</div>
-									</div>
-
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-green-100">
-											<FaPuzzlePiece className="text-green-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Énigmes résolues</p>
-											<p className="text-lg">{details.enigmesResolues}</p>
-										</div>
-									</div>
+									<ItemStats logo='indices' text='Indices utilisés' value={details.indicesUtilises} color='yellow'/>
+									<ItemStats logo='erreurs' text='Erreurs commises' value={details.erreursCommises} color='red'/>
+									<ItemStats logo='sallesReussies' text='Salles réussies' value={details.sallesReussies} color='blue'/>
+									<ItemStats logo='enigmesResolues' text='Énigmes résolues' value={details.enigmesResolues} color='green'/>
 								</>
 							): (
 								<>
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-yellow-100">
-											<FaLightbulb className="text-yellow-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Indices utilisés</p>
-											<p className="text-lg">{details.nbHints}</p>
-										</div>
-									</div>
-
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-red-100">
-											<FaExclamationCircle className="text-red-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Erreurs commises</p>
-											<p className="text-lg">{details.nbBadAnswers}</p>
-										</div>
-									</div>
-						
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-blue-100">
-											<FaDoorOpen className="text-blue-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Salle réussie</p>
-											{/* // affiché si la salle est résolue ou non */}
-											<p className="text-lg">{details.isSolved ? 'Oui' : 'Non'}</p>
-										</div>
-									</div>
-									<div className="flex items-center">
-										<div className="p-4 rounded-full bg-green-100">
-											<FaPuzzlePiece className="text-green-500 text-3xl" />
-										</div>
-										<div className="ml-3">
-											<p className="text-sm text-gray-500">Énigmes résolues</p>
-											<p className="text-lg">{details.nbGoodAnswers}</p>
-										</div>
-									</div>
+									<ItemStats logo='indices' text='Indices utilisés' value={details.nbHints} color='yellow'/>
+									<ItemStats logo='erreurs' text='Erreurs commises' value={details.nbBadAnswers} color='red'/>
+									<ItemStats logo='sallesReussies' text='Salle réussie' value={details.isSolved ? 'Oui' : 'Non'} color='blue'/>
+									<ItemStats logo='enigmesResolues' text='Énigmes résolues' value={details.nbGoodAnswers} color='green'/>
 								</>
-						
 							)}
+						
 						</div>
 					</div>
 				</div>
@@ -253,6 +171,7 @@ TeamDetails.propTypes = {
 		endTime: PropTypes.string.isRequired,
 	}).isRequired,
 	onClose: PropTypes.func.isRequired,
+	teamName: PropTypes.string.isRequired,
 };
 
 export default TeamDetails;

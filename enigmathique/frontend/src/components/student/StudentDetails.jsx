@@ -7,7 +7,7 @@ import {calculateScore, loadMembers} from "../stats/RankStyleManager";
 import ContentHeader from "../dashboard/ContentHeader";
 import TableContainer from "../dashboard/TableContainer";
 import ActionButton from "../dashboard/ActionButton";
-import TeamStats from "../../pages/TeamStats";
+import TeamStats from "../stats/TeamStats";
 import { getRowColor } from 'components/ListManager';
 import {useNavigate} from "react-router-dom";
 
@@ -112,15 +112,16 @@ const StudentDetails = ({id}) =>{
 				const scores = await TeamModel.getScores(team.id);
 				const date = new Date(scores[0].createdAt);
 				const calculatedScore = scores.reduce((sum, score) => sum +
-						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved),
-					0);
+						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved), 0);
+				const game = await GameModel.getOne(team.idGame);
+				const gameName = game.name;
 
 
 				const members = await loadMembers(team.id);
 				return {
 					id: team.id,
 					date: date.toLocaleDateString(),
-					name: team.name,
+					name: gameName,
 					members: members,
 					calculatedScore: calculatedScore,
 					nbSolved: scores.reduce((sum, score) => sum + score.nbGoodAnswers, 0),
@@ -165,14 +166,14 @@ const StudentDetails = ({id}) =>{
 					link={`/class/${currentStudent ? currentStudent.idCourse : '/class'}`}
 				/>
 				<div className="overflow-x-auto mt-4">
-					<TableContainer headers={['Date','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
+					<TableContainer headers={['Nom de la partie','Date', 'Score', 'Énigmes Résolues', 'Action']}>
 						{listScores.map((team, index) => (
 							<tr key={team.id} className={getRowColor(index)}>
 								<td className="td-style">
-									{team.date}
+									{team.name}
 								</td>
 								<td className="td-style">
-									{team.name}
+									{team.date}
 								</td>
 								<td className="td-style">
 									{team.calculatedScore}

@@ -201,7 +201,7 @@
         /* Inputs */
             .form-inputfield-style {
                 @apply  w-full h-fit py-2 px-3 primary-font-color leading-snug 
-                        border rounded shadow-md appearance-none focus:outline-none ;
+                        border rounded shadow-md appearance-none focus:outline-none;
             }
 
         /* Boutons de validation*/
@@ -346,7 +346,7 @@
 
         /* Bouton valider */
             .modal-validate-button-style {
-                @apply form-button-style bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] flex items-center justify-center h-[40px];
+                @apply form-button-style bg-gradient-to-r flex items-center justify-center h-[40px];
             }
             .modal-validate-button-style:hover {
                 @apply bg-gradient-to-r from-[#615eec] to-[#0A06F4];
@@ -405,6 +405,20 @@
         }
         
     
+    /*************************** Statistiques ***************************************/
+    /* Ces classes concernent les pages de statistiques (TeamStats et StudentStats) */
+
+    /* Style de l'écran pour afficher la fenetre */
+        .team-stats-screen {
+            @apply fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50 ;
+        }
+    /* Conteneur global */
+        .team-stats-container {
+            @apply w-full max-w-2xl mx-auto bg-white primary-font-color rounded-lg shadow-xl overflow-hidden ;
+        }
+        
+
+
     /***************** Affichage des salles d'énigmes ******************/
 
     /* Menu des chapitres */

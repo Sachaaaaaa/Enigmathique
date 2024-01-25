@@ -4,7 +4,7 @@ import GameModel from "../models/game.model";
 import TeamModel from "../models/team.model";
 import LayoutProf from "../layouts/LayoutProf";
 import ActionButton from "../components/dashboard/ActionButton";
-import TeamStats from "./TeamStats";
+import TeamStats from "../components/stats/TeamStats";
 import TableContainer from "../components/dashboard/TableContainer";
 import ContentHeader from "../components/dashboard/ContentHeader";
 import {getPositionStyle, getPositionIcon, calculateScore, loadMembers} from "../components/stats/RankStyleManager";
@@ -55,8 +55,7 @@ const Ranking = () => {
 			teams.map(async (team) => {
 				const scores = await TeamModel.getScores(team.id);
 				const calculatedScore = scores.reduce((sum, score) => sum +
-						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved),
-				0);
+						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved), 0);
 
 				const members = await loadMembers(team.id);
 

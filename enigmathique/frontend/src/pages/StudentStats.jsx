@@ -5,7 +5,7 @@ import Notification from "../components/Notification";
 import ListStudents from "../components/student/ListStudents";
 import LayoutProf from "../layouts/LayoutProf";
 const StudentStats = () =>{
-	const {idStudent} = useParams()
+	const {idStudent} = useParams();
 	return(
 		<LayoutProf>
 			<main>
