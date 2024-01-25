@@ -34,14 +34,17 @@ async function isClassBelongsProfessor(idCourse, req) {
 }
 
 // Fonction vérifiant si la requête est conforme aux attentes
+// Fonction vérifiant si la requête est conforme aux attentes
 function isRequestCorrect(schema, req) {
 	const { error } = schema.validate(req.body);
 	if (error) {
 		const validationError = new Error(error.details[0].message);
-		validationError.statusCode = 500;  
+		validationError.statusCode = 400;  
 		throw validationError;
 	}
 }
+
+
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 CREATE                                    //
@@ -53,7 +56,7 @@ exports.create = async (req, res, next) => {
 	try{
 			// Vérification des informations fournis
 			const courseSchema = baseSchema.keys({
-				name: Joi.string().required(),
+				name: Joi.string().max(150).required(),
 			});
 			
 			// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
@@ -150,7 +153,7 @@ exports.update = async(req, res, next) => {
 
 		// Vérification des informations fournis
 		const courseSchema = baseSchema.keys({
-			name: Joi.string().required(),
+			name: Joi.string().max(150).required(),
 		});
 		
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon

@@ -18,7 +18,7 @@ function isRequestCorrect(schema, req) {
 	const { error } = schema.validate(req.body);
 	if (error) {
 		const validationError = new Error(error.details[0].message);
-		validationError.statusCode = 500;  
+		validationError.statusCode = 400;  
 		throw validationError;
 	}
 }
@@ -34,9 +34,9 @@ exports.create = async (req, res, next) => {
 		
 		// Vérification des informations fournis
 		const roomSchema = baseSchema.keys({
-			name: Joi.string().required(),
-			chapter: Joi.string().required(),
-			difficulty: Joi.string().required(),
+			name: Joi.string().max(150).required(),
+			chapter: Joi.string().max(150).required(),
+			difficulty: Joi.string().max(150).required(),
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
