@@ -91,7 +91,7 @@ function isRequestCorrect(schema, req) {
 	// Si le schema n'est pas validé, on lève une erreur
 	if (error) {
 		const validationError = new Error(error.details[0].message);
-		validationError.statusCode = 500;  
+		validationError.statusCode = 400;  
 		throw validationError;
 	}
 }

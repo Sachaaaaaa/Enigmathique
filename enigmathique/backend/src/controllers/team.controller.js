@@ -116,7 +116,7 @@ function isRequestCorrect(schema, req) {
 	const { error } = schema.validate(req.body);
 	if (error) {
 		const validationError = new Error(error.details[0].message);
-		validationError.statusCode = 500;  
+		validationError.statusCode = 400;  
 		throw validationError;
 	}
 }

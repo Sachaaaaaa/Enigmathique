@@ -79,8 +79,8 @@ exports.create = async(req, res, next) => {
 
 		// Vérification des informations fournis
 		const studentSchema = baseSchema.keys({
-			lastname: Joi.string().required(),
-			firstname: Joi.string().required(),
+			lastname: Joi.string().max(150).required(),
+			firstname: Joi.string().max(150).required(),
 			idCourse: Joi.number().integer().required(),
 		});
 
