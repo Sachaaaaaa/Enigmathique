@@ -1,9 +1,15 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
+import React from 'react';
 
-const ClassDetails = ({id}) => {
+const ClassDetails = ({idClass}) => {
 
-}
+	return(
+		<div>
+			<p>dsqdqsdqsdq</p>
+		</div>
+	);
+};
 ClassDetails.propTypes = {
-	id: PropTypes.number.isRequired
-}
+	idClass: PropTypes.number.isRequired
+};
 export default ClassDetails;
