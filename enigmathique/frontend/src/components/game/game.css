@@ -63,5 +63,20 @@
         .close-button {
             @apply flex justify-center items-center p-0 red-font-color font-semibold rounded-full  ;
         }
+    
+    
+    /*** Boutons d'énigme ***/
+        .enigma-button {
+            @apply flex justify-center items-center gap-5 w-full p-[8px] rounded-lg  ;
+        }
+        /** Bouton de validation **/
+            .validate-button {
+                @apply enigma-button bg-[#00ff00d7] ;
+            }
+
+        /* Bouton d'indice */
+            .hint-button {
+                @apply enigma-button bg-[#ffcc00] ;
+            }
 
 }

@@ -131,11 +131,12 @@ export default function Room001(props) {
 					<Enigma
 						title='Étagère'
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="L'ingrédient que vous cherchez doit être ici !"
 								description="Encore faut-il trouver le bon tiroir..."
 								hint={hint}
+								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
@@ -175,13 +176,14 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={1}
-						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								title="OOH un coffre !"
 								description="Vous vous en doutiez mais il faut un code."
 								image={data.image}
 								hint={hint}
+								isSolved={isSolved}
 								handleAskHint={handleAskHint}
 							/>
 						)}
@@ -219,11 +221,12 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={2}
-						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Une bonne mixture !"
 								description="Mais pendant combien de temps il faut melanger ?"
 								hint={hint}
+								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
@@ -263,11 +266,12 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={3}
-						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
 								title="Chaud devant !"
 								description="La potion est presque terminée, mais il ne faut pas la faire bruler !"
 								hint={hint}
+								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}

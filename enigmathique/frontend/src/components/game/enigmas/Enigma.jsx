@@ -9,6 +9,7 @@ import useMemoryState from 'hooks/useMemoryState';
 import { ClientToServer, ServerToClient } from 'data/socketMessages';
 import ClosePopup from '../informations/ClosePopup';
 
+
 extend({ Html });
 
 const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma, title="" }) => {
@@ -51,7 +52,6 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma, title="" }) => {
 
 		socket.on(ServerToClient.Feedback, handleAnswerFeedback);
 		socket.on(ServerToClient.Hint, handleHintFeedback);
-
 		return () => {
 			socket.off(ServerToClient.Feedback, handleAnswerFeedback);
 			socket.off(ServerToClient.Hint, handleHintFeedback);
@@ -69,9 +69,11 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma, title="" }) => {
 				</div>
 
 				<div className='p-3 pt-0'>
-				{enigmaDisplayTemplate(variables, enigmaState.hint, submitAnswer, askHint)}
+				{enigmaDisplayTemplate(variables, enigmaState.hint, enigmaState.isSolved, submitAnswer, askHint)}
+				<div className='text-green-600'>
+					{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
 				</div>
-				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
+				</div>
 
 			</div>
 		</Html>
