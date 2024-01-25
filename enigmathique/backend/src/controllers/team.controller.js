@@ -116,7 +116,7 @@ function isRequestCorrect(schema, req) {
 	const { error } = schema.validate(req.body);
 	if (error) {
 		const validationError = new Error(error.details[0].message);
-		validationError.statusCode = 500;  
+		validationError.statusCode = 400;  
 		throw validationError;
 	}
 }
@@ -142,14 +142,14 @@ exports.addScores = async(req, res, next) => {
 						rooms: Joi.array()
 							.items(
 								Joi.object({
-									roomName: Joi.string().required(),
-									nbGoodAnswers: Joi.number().integer().required(),
-									nbBadAnswers: Joi.number().integer().required(),
-									nbHints: Joi.number().integer().required(),
+									roomName: Joi.string().max(150).required(),
+									nbGoodAnswers: Joi.number().integer().max(150).required(),
+									nbBadAnswers: Joi.number().integer().max(150).required(),
+									nbHints: Joi.number().integer().max(150).required(),
 									isSolved: Joi.boolean().required(),
-									time: Joi.number().required(),
-									startTime: Joi.number().integer(),
-									endTime: Joi.number().integer(),
+									time: Joi.number().max(999999).required(),
+									startTime: Joi.number().max(999999).integer(),
+									endTime: Joi.number().max(999999).integer(),
 								})
 							)
 							.required(),
@@ -309,7 +309,7 @@ exports.addStudents = async (req, res, next) => {
 		const teamSchema = baseSchema.keys({
 			teams: Joi.array().items(
 				Joi.object({
-				  name: Joi.string().required(),
+				  name: Joi.string().max(150).required(),
 				  idStudents: Joi.array().items(Joi.number().integer()).required(),
 					idSocket: Joi.string().required()
 				})).required(),

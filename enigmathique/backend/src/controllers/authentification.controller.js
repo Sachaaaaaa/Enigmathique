@@ -44,17 +44,16 @@ function isRequestCorrect(schema, req) {
 }
 
 
-
 // Créer et enregistrer un nouveau professeur
 exports.register = async (req, res, next) => {
 
 	try{
 		// Vérification des informations fournis
 		const registerSchema = baseSchema.keys({
-			lastname: Joi.string().required(),
-			firstname: Joi.string().required(),
-			mail: Joi.string().email().required(),
-			password: Joi.string().min(8).required(), 
+			lastname: Joi.string().max(150).required(),
+			firstname: Joi.string().max(150).required(),
+			mail: Joi.string().email().max(150).required(),
+			password: Joi.string().min(8).max(150).required(), 
 		  });
 
 
@@ -113,8 +112,8 @@ exports.login = async (req, res, next) => {
 	try{
 		// Vérification des informations fournis
 		const loginSchema  = baseSchema.keys({
-			mail: Joi.string().email().required(),
-			password: Joi.string().required(),
+			mail: Joi.string().email().max(150).required(),
+			password: Joi.string().max(150).required(),
 		});	
 		
 		isRequestCorrect(loginSchema, req)
