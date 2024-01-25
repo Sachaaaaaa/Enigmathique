@@ -11,6 +11,8 @@ const ServerToClient = {
 	GameInfo: 'gameInfo', // + {maxTeamSize: int} // INFO: Si besoin d'ajouter le nom de la session, mettre içi
 
 	/** GAME */
+	GameEnded: 'gameEnded', // { }
+
 	// Equipe
 	SwitchRoom: 'room', // + {roomTag: string}
 	Message: 'message', // + {message: string}

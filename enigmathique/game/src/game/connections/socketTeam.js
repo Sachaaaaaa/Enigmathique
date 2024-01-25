@@ -159,6 +159,10 @@ class SocketTeam {
 		this.socket.emit(ServerToClient.RoomSolved);
 	}
 
+	sendGameEnded = () => {
+		console.log(clc.yellowBright('[Team] Envoi de la fin de la partie'));
+		this.socket.emit(ServerToClient.GameEnded);
+	}
 }
 
 module.exports = SocketTeam;
