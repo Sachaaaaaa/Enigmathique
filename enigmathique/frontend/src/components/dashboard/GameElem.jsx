@@ -47,7 +47,7 @@ const GameElem = (props) => {
 			const scoreTeam = new Map();
 
 			scores.forEach((score) => {
-				const calculatedScore = (score.time < maxTime ? 500 : 0) +
+				const calculatedScore = (score.isSolved ? 500 : 0) +
 					(score.nbGoodAnswers * 100) -
 					(score.nbHints * 20) -
 					(score.nbBadAnswers * 10);
@@ -88,7 +88,7 @@ const GameElem = (props) => {
 		const nbScore = scores.length;
 		if(scores.length !== 0) {
 			scores.forEach((score) => {
-				score.time < maxTime && winRate++;
+				score.isSolved && winRate++;
 			});
 			return Math.floor((winRate / nbScore) * 100);
 		} else {
@@ -101,7 +101,6 @@ const GameElem = (props) => {
 	let winnerLabel ;
 	let successRateLabel ;
 	let link ;
-	console.log(game.state);
 	switch (game.state) {
 		case 0:
 			winnerLabel = "Partie non lancée" ;

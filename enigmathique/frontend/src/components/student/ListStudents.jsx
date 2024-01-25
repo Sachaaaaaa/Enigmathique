@@ -27,6 +27,7 @@ const ListStudents = (props) => {
 			error: "Une erreur s'est produite"
 		});
 		setCreateModalOpen(false);
+		props.loadStudents();
 		//console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
@@ -91,7 +92,7 @@ const ListStudents = (props) => {
 						/>
 						<button
 							type='submit'
-							className='bg-blue-gradient-color modal-validate-button-style'
+							className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
 							onClick={(event) => handleClickCreate(event, firstname, lastname, props.id)}>
 							Créer
 						</button>
@@ -109,7 +110,8 @@ const ListStudents = (props) => {
 
 ListStudents.propTypes = {
 	students: PropTypes.array.isRequired,
-	id: PropTypes.number.isRequired
+	id: PropTypes.number.isRequired,
+	loadStudents: PropTypes.func.isRequired
 }
 
 export default ListStudents;

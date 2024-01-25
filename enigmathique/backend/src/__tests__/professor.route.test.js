@@ -74,10 +74,9 @@ describe('Test des routes /api/professor', () => {
   test('DELETE /api/professor/ devrait supprimer un professeur', async () => {
     const response = await request(app)
       .delete(`/api/professor`)
-      .set('Authorization', `${token}`); // Incluez le token JWT pour l'authentification
+      .set('Authorization', `${token}`); // Utilisez "Bearer" pour la cohérence
 
     expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
   });
-
 
 });
