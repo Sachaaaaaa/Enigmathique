@@ -28,7 +28,6 @@ const StudentElement = ({student, onChange}) => {
 		
 		onChange();
 		setDeleteModalOpen(false);
-		//console.log('delete ' + id);
 	}
 	
 	
@@ -46,7 +45,6 @@ const StudentElement = ({student, onChange}) => {
 		);
 		onChange();
 		setEditModalOpen(false);
-		//console.log('edit ' + id);
 	}
 	
 	

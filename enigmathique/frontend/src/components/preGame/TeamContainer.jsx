@@ -7,7 +7,6 @@ const TeamContainer = (props) => {
 
 	let nbValidatedStudents = 0;
 	props.isValidated && props.teams.map((team) => {
-		console.log(team);
 		nbValidatedStudents = nbValidatedStudents + team.students.length;
 	});
 

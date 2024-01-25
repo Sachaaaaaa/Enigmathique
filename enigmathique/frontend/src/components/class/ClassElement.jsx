@@ -47,12 +47,10 @@ const ClassElement = ({classe, onChange, index}) => {
 		);
 		onChange();
 		setEditModalOpen(false);
-		//console.log('edit ' + id);
 	}
 	
 	const loadGamesOf = async () => {
 		const data = await GameModel.getAll();
-		console.log(data);
 		let listGames = [];
 		data.forEach((game) => {
 			classe.id === game.idCourse && listGames.push(game);

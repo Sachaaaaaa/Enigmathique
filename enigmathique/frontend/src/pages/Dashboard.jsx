@@ -118,7 +118,7 @@ const Dashboard = () => {
 	};
 
 	return (
-		<LayoutProf>
+		<LayoutProf title='Tableau de bord'>
 			{/* Conteneur principal du tableau de bord */}
 			<main className="flex flex-wrap flex-grow gap-2 justify-between overflow-x-hidden">
 				{/* Section de gauche (Parties récentes et salles) */}
@@ -163,11 +163,11 @@ const Dashboard = () => {
 						<h2 className="medium-title">Mes classes</h2>
 						<div>
 							{/* Flèches de navigation entre les classes */}
-							<button onClick={prevClass}>
-								<FaAngleLeft />
+							<button className="hover:blue-font-color" onClick={prevClass}>
+								<FaAngleLeft size={"1.5em"} />
 							</button>
-							<button onClick={nextClass}>
-								<FaAngleRight />
+							<button className="hover:blue-font-color" onClick={nextClass}>
+								<FaAngleRight size={"1.5em"} />
 							</button>
 						</div>
 					</div>

@@ -49,10 +49,10 @@ const GameStats = () => {
 	// }, []);
 
 	return(
-		<LayoutProf>
+		<LayoutProf title={game.name} >
 			<main>
 				<div>
-					<Link to={}>{'<'}</Link>
+					<Link to=''>{'<'}</Link>
 					<h2>Statistiques de {game.name}</h2>
 					<select onChange={handleOption}>
 						<option value='global'>Global</option>

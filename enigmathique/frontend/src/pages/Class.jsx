@@ -57,7 +57,7 @@ const Class = () => {
 	};
 
 	return (
-		<LayoutProf>
+		<LayoutProf title='Mes classes'>
 			<main>
 				{/* Notification feedback */}
 				<Notification/>

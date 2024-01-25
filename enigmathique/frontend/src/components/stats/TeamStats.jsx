@@ -8,6 +8,8 @@ import {FaDoorOpen, FaExclamationCircle, FaLightbulb, FaPuzzlePiece, FaTimes} fr
 import {Doughnut} from "react-chartjs-2";
 import PropTypes from "prop-types";
 import ItemStats from "./ItemStats";
+import RoomSelector from "components/stats/RoomSelector";
+import { SpriteAnimator } from '@react-three/drei';
 
 const TeamStats = ({teamData, onClose, scores}) => {
 	const [selectedRoom, setSelectedRoom] = useState('Global');
@@ -93,25 +95,24 @@ const TeamStats = ({teamData, onClose, scores}) => {
 		};
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-			<div className="bg-white w-full max-w-2xl mx-auto rounded-lg shadow-md-xl overflow-hidden">
-				<div className="flex justify-between items-center border-b p-5">
+		<div className="team-stats-screen">
+			<div className="team-stats-container">
+				<div className="flex items-center gap-10 border-b p-5">
 					<h2 className="text-2xl font-bold">{teamData.name}</h2>
-					<div className='w-[70%]'>
-						<h3 className="text-l font-semibold ">{`Membres de l'équipe`}</h3>
-						<p className='text-gray-500'>{teamData.members.map((student)=> student.firstname +' '+student.lastname+'/ ')}</p>
+					<div className='grow flex flex-col'>
+						{teamData.members.map((student,index)=><p key={index}> {student.firstname +' '+student.lastname} </p>)}
 					</div>
-					<button onClick={onClose} className="text-black text-2xl">
+					<button onClick={onClose} className="text-[#EF4565] text-2xl">
 						<FaTimes />
 					</button>
 				</div>
 				<div className="p-5 flex">
 					{/* Left side - Temps de jeu */}
 					<div className="w-1/2 pr-4">
-						<h3 className="text-xl font-semibold mb-4 text-gray-500">Temps de jeu :</h3>
+						<h3 className="text-xl font-semibold mb-4">Temps de jeu :</h3>
 						{scores.map((score, index) => (
 							<div key={index} className="mb-2 flex items-center justify-between">
-								<span className="text-gray-500">{score.roomName}</span>
+								<span>{score.roomName}</span>
 								<span className="font-bold">{roomTimers[score.roomName]}</span>
 							</div>
 						))}
@@ -123,26 +124,10 @@ const TeamStats = ({teamData, onClose, scores}) => {
 					{/* Right side - Temps de jeu */}
 					<div className="w-1/2 pl-4 border-l">
 						<div className="mb-4 flex items-center justify-between">
-							<label htmlFor="room-select" className="text-xl font-semibold mb-4 text-gray-500">Détails :</label>
-							<div className="relative">
-								<select
-									id="room-select"
-									value={selectedRoom}
-									onChange={(e) => setSelectedRoom(e.target.value)}
-									className="appearance-none bg-white border border-blue-500 text-blue-600 py-1 px-4 rounded-full shadow-md-sm focus:outline-none">
-									<option value="Global">Global</option>
-									{scores.map((score) => (
-										<option key={score.roomName} value={score.roomName}>{score.roomName}</option>
-									))}
-								</select>
-								<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-blue-500">
-									<svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-										<path d="M5.5 7l5 5 5-5H5.5z" />
-									</svg>
-								</div>
-							</div>
+							<label htmlFor="room-select" className="text-xl font-semibold">Détails :</label>
+							<RoomSelector rooms={scores} selectedRoom={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)}/>
 						</div>
-						<div className="space-y-2">
+						<div className="space-y-2 flex flex-col gap-3">
 							{selectedRoom === 'Global' ? (
 								<>
 									<ItemStats logo='indices' text='Indices utilisés' value={details.indicesUtilises} color='yellow'/>
@@ -153,7 +138,7 @@ const TeamStats = ({teamData, onClose, scores}) => {
 								<>
 									<ItemStats logo='indices' text='Indices utilisés' value={details.nbHints} color='yellow'/>
 									<ItemStats logo='erreurs' text='Erreurs commises' value={details.nbBadAnswers} color='red'/>
-									<ItemStats logo='sallesReussies' text='Salles réussies' value={details.isSolved ? 'Oui' : 'Non'} color='blue'/>
+									<ItemStats logo='sallesReussies' text='Salle réussie' value={details.isSolved ? 'Oui' : 'Non'} color='blue'/>
 									<ItemStats logo='enigmesResolues' text='Énigmes résolues' value={details.nbGoodAnswers} color='green'/>
 								</>
 							)}

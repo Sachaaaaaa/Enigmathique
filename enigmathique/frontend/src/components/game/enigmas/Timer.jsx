@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSocket } from 'contexts/SocketContext';
 import { ServerToClient } from 'data/socketMessages';
+import { FaRegHourglassHalf } from "react-icons/fa6";
+
 
 const Timer = ({ duration = 600 }) => {
 	const socket = useSocket();
@@ -44,9 +46,9 @@ const Timer = ({ duration = 600 }) => {
 	const timeLeft = startTime ? formatTime(Math.max(0, duration - Math.floor((currentTime - startTime) / 1000))) : null;
 
 	return (
-		<div className='absolute bottom-0 left-0 z-40 mb-5'>
-			<h1 className='text-xl ml-5'>Chronomètre</h1>
-			<p className='text-xl ml-5'>Temps restant : <strong>{timeLeft}</strong></p>
+		<div className='absolute flex items-center bottom-0 left-0 z-40 mb-5 ml-5'>
+			<div><FaRegHourglassHalf className='w-7 h-7'/></div>
+			<p className='text-3xl'><strong>{timeLeft}</strong></p>
 		</div>
 	);
 };

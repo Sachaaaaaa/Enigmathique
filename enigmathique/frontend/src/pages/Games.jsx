@@ -53,7 +53,7 @@ const Games = () => {
 
 
 	return (
-		<LayoutProf>
+		<LayoutProf title="Mes parties">
 			<main>
 				<Notification></Notification>
 				<ContentHeader link='/dashboard'>

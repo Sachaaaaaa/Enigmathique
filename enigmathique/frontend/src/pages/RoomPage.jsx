@@ -35,7 +35,7 @@ const RoomPage = () => {
 	}
 
 	return (
-		<LayoutProf>
+		<LayoutProf title="Salles d'énigmes">
 			<main className="flex flex-col overflow-y-hidden">
 				<ContentHeader link='/dashboard'>
 						<SearchInput handleChangeText={(e) => (setFilter({...filter, text: e.target.value}))}/>

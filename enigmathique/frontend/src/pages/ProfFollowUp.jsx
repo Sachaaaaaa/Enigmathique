@@ -28,6 +28,7 @@ function ProfFollowUp() {
 
 	const [rankings, setRankings] = useState([]);
 	const [selectedTeam, setSelectedTeam] = useState(null);
+	const [selectedTeamName, setSelectedTeamName] = useState(null);
 
 	const navigate = useNavigate();
 
@@ -139,12 +140,14 @@ function ProfFollowUp() {
 
 
 	const handleDetailsClick = (team) => {
+		console.log('Détails de l\'équipe', team);
 		setSelectedTeam(team);
+		setSelectedTeamName(metaData.teams[team.id].name);
 	};
 
 
 	return (
-		<LayoutProf>
+		<LayoutProf title='Classement'>
 			<main>
 				<ContentHeader title='' link='/games'>			
 				</ContentHeader>
@@ -191,6 +194,7 @@ function ProfFollowUp() {
 			{selectedTeam && (
 				<TeamDetails
 					teamData={selectedTeam}
+					teamName={selectedTeamName}
 					onClose={() => setSelectedTeam(null)}
 				/>
 			)}
