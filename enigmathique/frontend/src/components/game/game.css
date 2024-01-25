@@ -20,7 +20,7 @@
         @apply text-[#EF4565];
     }
     .hint-text {
-        @apply m-1.5 text-[#FFB001];
+        @apply m-1.5 text-[#fe6601];
     }
 
 
@@ -80,7 +80,7 @@
 
         /* Bouton d'indice */
             .hint-button {
-                @apply enigma-button bg-[#fe6601] ;
+                @apply enigma-button bg-[#ffcc00] ;
             }
 
         /* Coffre */

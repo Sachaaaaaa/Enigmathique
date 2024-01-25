@@ -201,7 +201,7 @@
         /* Inputs */
             .form-inputfield-style {
                 @apply  w-full h-fit py-2 px-3 primary-font-color leading-snug 
-                        border rounded shadow-md appearance-none focus:outline-none ;
+                        border rounded shadow-md appearance-none focus:outline-none;
             }
 
         /* Boutons de validation*/
