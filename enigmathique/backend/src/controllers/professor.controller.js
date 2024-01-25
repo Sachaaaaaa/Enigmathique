@@ -58,9 +58,9 @@ exports.update = async(req, res, next) => {
 
 		// Vérification des informations fournis
 		const studentSchema = baseSchema.keys({
-			lastname: Joi.string(),
-			firstname: Joi.string(),
-			mail: Joi.string().email(),
+			lastname: Joi.string().max(150),
+			firstname: Joi.string().max(150),
+			mail: Joi.string().email().max(150),
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon

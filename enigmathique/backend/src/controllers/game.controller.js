@@ -91,7 +91,7 @@ function isRequestCorrect(schema, req) {
 	// Si le schema n'est pas validé, on lève une erreur
 	if (error) {
 		const validationError = new Error(error.details[0].message);
-		validationError.statusCode = 500;  
+		validationError.statusCode = 400;  
 		throw validationError;
 	}
 }
@@ -109,7 +109,7 @@ exports.create = async (req, res, next) => {
 		const gameSchema = baseSchema.keys({
 			idCourse: Joi.number().integer().required(),
 			teamSize: Joi.number().integer().required(),
-			name: Joi.string().required(),
+			name: Joi.string().max(150).required(),
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
@@ -148,9 +148,9 @@ exports.addRooms = async(req, res, next) => {
 
 		// Vérification des informations fournis
 		const gameSchema = baseSchema.keys({
-			idGame: Joi.number().integer().required(),
-			roomName: Joi.array().items(
-				Joi.string().required()).required()
+			idGame: Joi.number().integer().max(150).required(),
+			roomName: Joi.array().max(150).items(
+				Joi.string().max(150).required()).required()
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
@@ -438,7 +438,7 @@ exports.addRooms = async(req, res, next) => {
 		const gameSchema = baseSchema.keys({
 			idGame: Joi.number().integer().required(),
 			roomName: Joi.array().items(
-				Joi.string().required()).required()
+				Joi.string().required()).max(150).required()
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
