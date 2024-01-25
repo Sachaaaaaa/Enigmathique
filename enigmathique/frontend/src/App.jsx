@@ -16,10 +16,11 @@ import CreateGameWrapper from './components/contexts/CreationGame.wrapper';
 import RoomList from 'pages/RoomPage';
 import ProfFollowUp from 'pages/ProfFollowUp';
 import Ranking from 'pages/Ranking';
-import StudentStats from "./pages/StudentStats";
-import NotFound from "./pages/NotFound";
+import StudentStats from "pages/StudentStats";
+import NotFound from "pages/NotFound";
 
 import useCourses from 'hooks/useCourses';
+import CGU from "pages/CGU";
 
 
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
 			<Route path='/leaderboard' element={<ProfFollowUp/>}/>
 			<Route path='/ranking/:idGame' element={<Ranking/>}/>
 			<Route path='/student/stats/:idStudent' element={<StudentStats/>}/>
+			<Route path='/cgu' element={<CGU/>}/>
 		</Routes>
 	);
 };
