@@ -71,7 +71,7 @@ function isRequestCorrect(schema, req) {
 // 									 CREATE                                    //
 /////////////////////////////////////////////////////////////////////////////////
 
-// Créer et enregistrer un nouvel élève
+// Créer un nouvel élève
 exports.create = async(req, res, next) => {
 
 
@@ -147,9 +147,9 @@ exports.update = async(req, res, next) => {
 
 		// Vérification des informations fournis
 		const studentSchema = baseSchema.keys({
-			lastname: Joi.string(),
-			firstname: Joi.string(),
-			idCourse: Joi.number(),
+			lastname: Joi.string().max(150),
+			firstname: Joi.string().max(150),
+			idCourse: Joi.number().max(150),
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
@@ -182,7 +182,7 @@ exports.update = async(req, res, next) => {
 
 		// Vérifie que la colonne à effectivement été mise à jour
 		if (updatedRows == 0) {
-			const error = new Error("Impossible de mettre à jour la l'élève");
+			const error = new Error("Impossible de mettre à jour l'élève");
 			error.statusCode = 404;  
 			throw error;
 		}

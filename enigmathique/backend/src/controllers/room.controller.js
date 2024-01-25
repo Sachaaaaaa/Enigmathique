@@ -34,9 +34,9 @@ exports.create = async (req, res, next) => {
 		
 		// Vérification des informations fournis
 		const roomSchema = baseSchema.keys({
-			name: Joi.string().required(),
-			chapter: Joi.string().required(),
-			difficulty: Joi.string().required(),
+			name: Joi.string().max(150).required(),
+			chapter: Joi.string().max(150).required(),
+			difficulty: Joi.string().max(150).required(),
 		});
 
 		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
