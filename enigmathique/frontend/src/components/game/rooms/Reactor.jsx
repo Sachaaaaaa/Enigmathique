@@ -52,12 +52,13 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<InformationPopup
 						title="Plus rien ne marche !"
-						information="Vous étes le nouveau stagiaire de la station de recherche énergétique. 
-						Le réacteur c'est emballer et pris de panique vous avez appuyé sur tous les boutons. 
-						Par miracle vous l'avez éteint mais il n'y a plus d'électricité. Le réacteur et l'ordinateur ont une batterie de secours qui ne tiendra pas longtemps. 
-						Dépêchez-vous de réactiver le réacteur pour ouvrir la porte. Il doit bien avoir des indications sur l'ordinateur."
 						closePopup={forceExit}
-					/>
+					>
+						<p>Vous étes le nouveau stagiaire de la station de recherche énergétique. 
+						Le réacteur c&apos;est emballer et pris de panique vous avez appuyé sur tous les boutons. 
+						Par miracle vous l&apos;avez éteint mais il n&apos;y a plus d&apos;électricité. Le réacteur et l&apos;ordinateur ont une batterie de secours qui ne tiendra pas longtemps. 
+						Dépêchez-vous de réactiver le réacteur pour ouvrir la porte. Il doit bien avoir des indications sur l&apos;ordinateur.</p>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -163,9 +164,12 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<InformationPopup
 						title="Tient encore des papier !"
-						information="Sur un des papier il y a écrit : 'Pense bete, code coffre : Décomposer la première valeur de l'addresse de l'ordinateur en produit de facteur de nombre premier. (a = x * y * z² => xyzz)'"
 						closePopup={forceExit}
-					/>
+					>
+						<p>Sur un des papiers au fond de la poubelle il y a écrit :
+							Pense bete, <strong>code coffre</strong> : Décomposer la première valeur de l&apos;addresse de l&apos;ordinateur
+							en produit de facteur de nombre premier. <strong>Exemple</strong> : (a = x * y * z² ={">"} xyzz)</p>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -200,7 +204,7 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<InformationPopup
-						title="Ca fait un peux de déco."
+						title="Ca fait un peut de déco."
 						information="Ça peut vous aider à chercher l'atome pour le réacteur."
 						image="https://i.pinimg.com/originals/5a/72/b7/5a72b79c8f66fca9b3635bc457c3813b.png"
 						closePopup={forceExit}
@@ -237,7 +241,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								title="Impossible de forcer le coffre !"
@@ -282,7 +286,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={1}
-						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaWithSlidersDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								titreSlider='Volume H2O'
@@ -331,7 +335,7 @@ export default function ReactorRoom(props) {
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								handleSubmitAnswer={handleSubmitAnswer}
-								title="Alors peut-être que..."
+								title="Alors peut-être du Ca, du Mn, du C ou alors du O..."
 								description="Mettre le bon atome dans le réacteur."
 								image={data.image}
 								hint={hint}
@@ -373,7 +377,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={3}
-						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
 								title="Pas trop chaud."
 								description="Le but c'est de refroidir le réacteur."
@@ -406,11 +410,11 @@ export default function ReactorRoom(props) {
 		return (
 			<mesh
 				ref={mesh}
-				name="Icosphere001_1"
+				name="Icosphere001"
 				castShadow
 				receiveShadow
-				geometry={nodes.Icosphere001_1.geometry}
-				material={materials["Metal.002"]}
+				geometry={nodes.Icosphere001.geometry}
+				material={materials["Metal.001"]}
 				onPointerOver={handlePointerOver}
 				onPointerOut={handlePointerOut}
 				onClick={handleClick}
@@ -419,7 +423,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={4}
-						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Attention a ne pas tout faire sauter."
 								description="Il faut mettre la bonne intensité de courant."
@@ -583,7 +587,7 @@ export default function ReactorRoom(props) {
 				</mesh>
 				<group name="Porte" position={[-1, 1.4, 1.96]}>
 					{/*
-						<mesh
+					<mesh
 						name="Cube019"
 						castShadow
 						receiveShadow
@@ -761,7 +765,8 @@ export default function ReactorRoom(props) {
 						material={materials.Nrj}
 					/>
 				</group>
-				<group name="Reactor_Support" position={[-1, 1.9, -10.1]} scale={1.3}>
+				<group name="Turbine" position={[-1, 1.9, -10.1]} scale={1.3}>
+					{/*
 					<mesh
 						name="Icosphere001"
 						castShadow
@@ -769,7 +774,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere001.geometry}
 						material={materials["Metal.001"]}
 					/>
-					{/*
+					*/}
+					<CourantInt />
 					<mesh
 						name="Icosphere001_1"
 						castShadow
@@ -777,8 +783,6 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere001_1.geometry}
 						material={materials["Metal.002"]}
 					/>
-					*/}
-					<CourantInt />
 					<mesh
 						name="Icosphere001_2"
 						castShadow
@@ -1066,6 +1070,15 @@ export default function ReactorRoom(props) {
 					position={[-1, 2, 2.011]}
 					rotation={[Math.PI / 2, 0, 0]}
 					scale={0.51}
+				/>
+				<mesh
+					name="Reactor_Support"
+					castShadow
+					receiveShadow
+					geometry={nodes.Reactor_Support.geometry}
+					material={materials["Metal.002"]}
+					position={[-1, 1.9, -10.1]}
+					scale={1.3}
 				/>
 			</group>
 		</group>
