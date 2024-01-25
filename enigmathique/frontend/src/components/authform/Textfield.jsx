@@ -16,6 +16,7 @@ const Textfield = ({label, name, value, placeholder, onChange, style}) => {
 				name={name}
 				value={value}
 				placeholder={placeholder}
+				maxLength={30}
 				onChange={onChange}
 				className={`form-inputfield-style ${style}`}
 				required
