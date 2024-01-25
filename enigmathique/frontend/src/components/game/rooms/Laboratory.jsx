@@ -53,11 +53,11 @@ export default function Room001(props) {
 				{clicked && (
 					<InformationPopup
 						title="Vous ne pouvez pas sortir !"
-						information="Vous etes un alchimiste amateur, en voulant vous introduire dans le laboratoire d'un grand alchimiste, vous vous êtes enfermer !
-						Et il ne tardera pas à revenir... Vous remarquez un trou dans la porte, il y a surement moyen de faire une potion de souris pour que vous rapetissiez.
-						Regardez autour de vous, il doit bien y avoir une recette qui peut vous aidez sur le bureau !"
-						closePopup={forceExit}
-					/>
+						closePopup={forceExit}>
+							<p>Tu es amateur {"d'alchimie"} et en voulant {"t'introduire"} dans le laboratoire {"d'un"} grand alchimiste, tu as été malencontreusement enfermé !
+						Le scientifique ne tardera pas à revenir... Vous remarquez un <strong>trou</strong> dans la porte, il y a surement moyen de faire une <strong>potion de souris</strong> pour que vous rapetissiez.
+						<br/>Regardez autour de vous, il doit bien y avoir une <strong>recette</strong> qui peut vous aidez !</p> 
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -93,10 +93,10 @@ export default function Room001(props) {
 				{clicked && (
 					<InformationPopup
 						title="Recette de potion de Nano"
-						information="Cette recette vous dit quelque chose... Ca a l'air d'être une recette alternative a la potion de souris !"
 						image={recette_test}
-						closePopup={forceExit}
-					/>
+						closePopup={forceExit}>
+					<p>Cette recette vous dit quelque chose... Ça a {"l'air d'être"} une <strong>recette alternative</strong> à la potion de souris !</p>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -129,12 +129,14 @@ export default function Room001(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigma
+						title='Étagère'
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="L'ingrédient que vous cherchez doit être ici !"
 								description="Encore faut-il trouver le bon tiroir..."
 								hint={hint}
+								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
@@ -174,13 +176,14 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={1}
-						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								title="OOH un coffre !"
 								description="Vous vous en doutiez mais il faut un code."
 								image={data.image}
 								hint={hint}
+								isSolved={isSolved}
 								handleAskHint={handleAskHint}
 							/>
 						)}
@@ -218,11 +221,12 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={2}
-						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Une bonne mixture !"
 								description="Mais pendant combien de temps il faut melanger ?"
 								hint={hint}
+								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
@@ -262,14 +266,16 @@ export default function Room001(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={3}
-						enigmaDisplayTemplate={(data, hint,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
 								title="Chaud devant !"
 								description="La potion est presque terminée, mais il ne faut pas la faire bruler !"
 								hint={hint}
+								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
+								stepButton={50}
 							/>
 						)}
 						closeEnigma={forceExit}

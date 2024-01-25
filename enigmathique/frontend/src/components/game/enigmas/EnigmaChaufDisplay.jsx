@@ -4,7 +4,7 @@ import { BsQuestionDiamondFill } from 'react-icons/bs';
 import { FaCheck } from 'react-icons/fa';
 import termos from 'assets/img/termos.png';
 
-const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, hint, image }) => {
+const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, hint, image, stepButton }) => {
 	const [userAnswer, setUserAnswer] = useState('');
 	const [rotationAngle, setRotationAngle] = useState(0);
 
@@ -13,8 +13,8 @@ const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, descript
 	};
 
 	const handleRotateRight = () => {
-		setRotationAngle(rotationAngle + 50);
-		setUserAnswer((rotationAngle + 50).toString());
+		setRotationAngle(rotationAngle + stepButton);
+		setUserAnswer((rotationAngle + stepButton).toString());
 	};
 
 	return (
@@ -81,4 +81,5 @@ EnigmaChaufDisplay.propTypes = {
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	image: PropTypes.string,
+	stepButton: PropTypes.number.isRequired,
 };

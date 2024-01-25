@@ -1,6 +1,5 @@
 import React from 'react';
 import {useCreationGameContext} from "../../contexts/CreationGame.context";
-import '../createGame.css'
 
 const Counter = () => {
 

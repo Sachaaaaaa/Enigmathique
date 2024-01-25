@@ -390,6 +390,46 @@
         .join-list {
             @apply flex flex-col w-full h-full bg-white border-l border-r shadow-md overflow-y-auto ;       }
 
+    /* Barre de progression */
+        .progress-bar {
+            @apply grow h-[10px] rounded-xl ;
+        }
+        .progress-bar-on{
+            @apply progress-bar bg-blue-color;
+        }
+        .progress-bar-off{
+            @apply progress-bar bg-[#E5E5E5] ;
+        }
+        
+    
+    /***************** Affichage des salles d'énigmes ******************/
+
+    /* Menu des chapitres */
+        .label-filter-selected {
+            @apply border-b-2 border-blue-color blue-font-color p-3 text-center w-fit
+        }
+        .label-filter {
+            @apply border-b-2 border-[#cbcbcb] nav-font-color p-3 text-center w-fit;
+        }
+        .label-filter:hover {
+            @apply text-[#7c79ff] border-[#7c79ff];
+        }
+
+    /* Indicateur de difficulté */
+        .chip {
+            @apply rounded-full px-4 py-1 text-xs text-white text-center;
+        }
+        .chip-facile {
+            @apply bg-[#4cbc9a] chip;
+        }
+        .chip-moyen {
+            @apply bg-[#fb7d5b] chip;
+        }
+        .chip-difficile {
+            @apply bg-[#ff4550] chip;
+        }
+    
+    
     /*********************** Boutons utilitaires ***********************/
 
         /* Style commun à tous les boutons utilitaires */

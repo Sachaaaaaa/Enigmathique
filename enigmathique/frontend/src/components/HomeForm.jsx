@@ -14,8 +14,6 @@ const HomeForm = () => {
 	const handleValider = () => {
 		//TODO: vérifier que le code est valide
 		const rep = GameModel.getAll();
-		console.log('hehe');
-		console.log(rep);
 		navigate(`/join/${code}`);
 	};
 

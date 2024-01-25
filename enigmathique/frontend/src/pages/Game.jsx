@@ -10,12 +10,9 @@ import Timer from '../components/game/enigmas/Timer';
 import Rules from 'components/game/Rules';
 
 import E from '../assets/img/E.png';
-import help from '../assets/img/help.png';
 import logoNameNobg from '../assets/img/logo-name-enigmathique-white.png';
 import bglogo from '../assets/img/bg_logo.png';
-
-import { IoIosCloseCircle } from 'react-icons/io';
-import { clear } from '@testing-library/user-event/dist/clear';
+import { FiInfo } from 'react-icons/fi';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -83,9 +80,10 @@ const Game = () => {
 			</section>
 
 			{/* Bouton pour ouvrir/fermer la fenêtre */}
-			<div className='absolute bottom-0 right-0 m-4 w-16 h-16 z-50'>
-				<button onClick={toggleWindow}><img src={help} alt="help" /></button>
-			</div>
+			<button className='absolute z-50 bottom-0 right-0 
+													flex justify-center items-center m-5
+								btn-action-blue'
+								onClick={toggleWindow}><FiInfo size='3em'/></button>
 
 			{/* Fenêtre d'aide */}
 			{isWindowOpen && (

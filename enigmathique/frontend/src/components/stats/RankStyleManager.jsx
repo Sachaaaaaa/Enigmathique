@@ -23,9 +23,9 @@ const loadMembers = async (idTeam) => {
 	return await TeamModel.getStudents(idTeam);
 };
 
-const calculateScore = (numSolved, numBadAnswers, numHints) => {
+const calculateScore = (numSolved, numBadAnswers, numHints, isSolved) => {
 	return (
-		numSolved * 100 - numBadAnswers * 10 - numHints * 20 + (numSolved > 0 ? 300 : 0)
+		numSolved * 100 - numBadAnswers * 10 - numHints * 20 + ((isSolved) ? 500 : 0)
 	);
 };
 
