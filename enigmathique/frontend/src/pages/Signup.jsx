@@ -9,6 +9,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import AuthService from '../services/auth.service';
 import toast from "react-hot-toast";
 import Notification from "../components/Notification";
+import {handleSignupError,	styleEdit} from "../components/authform/handleError";
 
 function Signup() {
 	
@@ -18,20 +19,33 @@ function Signup() {
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState('');
-	
 	const navigate = useNavigate();
-	
+
+	const [firstnameStyle, setFirstnameStyle] = useState('');
+	const [lastnameStyle, setLastnameStyle] = useState('');
+	const [mailStyle, setMailStyle] = useState('');
+	const [passwordStyle, setPasswordStyle] = useState('');
 	const handleRegister = (e) => {
 		// Empêcher le rechargement de la page
 		e.preventDefault();
 		// Réinitialiser le message d'erreur
 		setMessage('');
+
 		
-		const formConplete = handleEmptyFields();
+		const formConplete = handleSignupError(firstname, lastname, mail, password);
+		const {
+			firstnameStyle,
+			lastnameStyle,
+			mailStyle,
+			passwordStyle
+		}= styleEdit(firstname, lastname, mail, password)
+		setFirstnameStyle(firstnameStyle);
+		setLastnameStyle(lastnameStyle);
+		setMailStyle(mailStyle);
+		setPasswordStyle(passwordStyle);
 		console.log(formConplete);
 		
 		if (formConplete !== 1) {
-			console.log('form complete');
 			setLoading(true);
 			// Envoie des données de connexion à l'API
 			AuthService.register(firstname, lastname, mail, password).then(
@@ -40,50 +54,17 @@ function Signup() {
 					navigate('/dashboard');
 				},
 				(error) => {
-					console.log(error);
+					//gestion des erreurs
+					const resMessage =
+						(error.response &&
+							error.response.data &&
+							error.response.data.message) ||
+						error.message ||
+						error.toString();
+					setLoading(false);
+					toast.error(resMessage);
 				});
 		}
-		
-	};
-	//vérification des champs
-	const isValidEmail = (email) => {
-		// Expression RegEx pour vérifier le format de l'email
-		const emailRegex = /^[^\s@]+@[^\s@]+\.(com|fr|net|org|edu|mil|int|co|io|app|blog|info|me|name|gov)$/;
-		return emailRegex.test(email);
-	};
-	const isValidPassword = (password) => {
-		return password.length >= 8;
-	};
-	const getFieldStyle = (value) => {
-		return value ===''?'border-red-700':'border-green-700';
-	};
-	const getPasswordStyle = (value) => {
-		return isValidPassword(value)? 'border-green-600' : 'border-red-700';
-	};
-	const getMailStyle = (value) => {
-		return isValidEmail(value) ? 'border-green-700' : 'border-red-700';
-	};
-	//changement du style des champs
-	const firstnameStyle = getFieldStyle(firstname);
-	const lastnameStyle = getFieldStyle(lastname);
-	const mailStyle = getMailStyle(mail);
-	const passwordStyle = getPasswordStyle(password);
-	const handleEmptyFields = () => {
-		let error = false;
-		if (firstname === '' || lastname === '' || mail === '' || password === '') {
-			console.log('firstname empty');
-			error = true;
-			toast.error('Veuillez remplir tous les champs');
-		}
-		if (!isValidEmail(mail)) {
-			error = true;
-			toast.error('Veuillez entrer une adresse email valide');
-		}
-		if (!isValidPassword(password)) {
-			error = true;
-			toast.error('Le mot de passe doit contenir au moins 8 caractères');
-		}
-		if (error) return 1;
 	};
 	
 	return (
@@ -130,10 +111,6 @@ function Signup() {
 						loading={loading}
 						onClick={handleRegister}
 					/>
-					
-					{message && (
-						<div className='text-error-style'>{message}</div>
-					)}
 					
 					<div className='text-auth-container-style'>
 						<span> Vous avez déjà un compte ?</span>
