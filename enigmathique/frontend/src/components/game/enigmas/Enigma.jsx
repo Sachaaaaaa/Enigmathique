@@ -44,18 +44,21 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma, title="" }) => {
 			const _isSolved = data.isSolved;
 			const _endMessage = data.endMessage;
 
-			if (_enigmaId == null && _enigmaId !== enigmaId) {
+			if (_enigmaId == null || _enigmaId !== enigmaId) {
+				console.log('Enigma id mismatch');
 				return;
 			}
 
 			if (_isSolved) {
+				console.log('Enigma solved: ', enigmaId);
 				setEnigmaState({ isSolved: true, endMessage: _endMessage, hint: null });
 			}
 		};
 
 		const handleHintFeedback = (data) => {
 			const _enigmaId = data.enigmaId;
-			if (enigmaId !== _enigmaId) {
+			console.log(data);
+			if (_enigmaId == null || enigmaId !== _enigmaId) {
 				return;
 			}
 
