@@ -79,6 +79,9 @@ const Ranking = () => {
 	}, []);
 
 	useEffect(() => {
+		if (teams === undefined) {
+			return;
+		}
 		if (teams.length > 0) {
 			getRanking();
 		}
