@@ -16,7 +16,7 @@ const LayoutProf = (props) => {
 
 			{/* TopBar et contenu (width 5/6) */}
 			<div className="flex flex-col flex-grow w-5/6 min-h-screen overflow-x-auto">
-				<TopBarProf/>
+				<TopBarProf title={props.title} id={props.id}/>
 				{props.children}
 			</div>
 		</div>
@@ -24,5 +24,7 @@ const LayoutProf = (props) => {
 }
 LayoutProf.propTypes = {
 	children: PropTypes.node.isRequired,
+	title: PropTypes.string.isRequired,
+	id: PropTypes.number,
 }
 export default LayoutProf;

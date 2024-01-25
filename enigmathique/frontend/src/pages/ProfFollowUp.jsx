@@ -147,7 +147,7 @@ function ProfFollowUp() {
 
 
 	return (
-		<LayoutProf>
+		<LayoutProf title='Classement'>
 			<main>
 				<ContentHeader title='' link='/games'>			
 				</ContentHeader>

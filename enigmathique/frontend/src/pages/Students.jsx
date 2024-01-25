@@ -26,7 +26,7 @@ function Students() {
 	}, []);
 
 	return (
-		<LayoutProf>
+		<LayoutProf title='class' id={parseId}>
 			<main>
 				<Notification/>
 				<ListStudents students={students} id={parseId} loadStudents={loadStudents}/>

@@ -100,9 +100,9 @@ const Ranking = () => {
 	}
 
 	return (
-		<LayoutProf>
+		<LayoutProf title={game.name}>
 			<main>
-				<ContentHeader title={game.name} link='/games'/>
+				<ContentHeader title="Classement" link='/games'/>
 				<div className="overflow-x-auto">
 					<TableContainer headers={['Position','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
 						{ranking.map((team, index) => (

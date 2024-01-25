@@ -43,7 +43,7 @@ const CreateGame = () => {
 	}
 
 	return (
-		<LayoutProf>
+		<LayoutProf title="Nouvelle partie">
 			<main>
 				<Notification/>
 				{/* Barre de progression indiquant les étapes de création */}
