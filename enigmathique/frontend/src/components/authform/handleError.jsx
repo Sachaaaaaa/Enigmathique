@@ -67,7 +67,7 @@ const handleLoginError = (mail, password) => {
 	if (!isValidPassword(password)  && password!=='') {
 		styleEdit('', '', mail, password);
 		error = true;
-		toast.error('Le mot de passe doit contenir au moins 8 caractères');
+		toast.error('Le mot de passe est incorrect.');
 	}
 	if (error) return 1;
 }
