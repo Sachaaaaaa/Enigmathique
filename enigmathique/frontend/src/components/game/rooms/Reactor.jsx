@@ -93,11 +93,13 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<InformationPopup
 						title="Commande Ordinateur"
-						information="ipconfig : affiche l'adresse de l'ordinateur |
-													info : Documentation du reacteur |
-													formule : Afficher les formules importantes"
 						closePopup={forceExit}
-					/>
+					>
+						<div><p><strong>ipconfig</strong> : affiche l&apos;adresse de l&apos;ordinateur</p>
+							<p><strong>info</strong> : Documentation du reacteur</p>
+							<p><strong>formule</strong> : Afficher les formules importantes</p>
+						</div>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -235,7 +237,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								title="Impossible de forcer le coffre !"
@@ -243,6 +245,7 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -279,7 +282,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={1}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaWithSlidersDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								titreSlider='Volume H2O'
@@ -288,6 +291,7 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -324,7 +328,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={2}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								handleSubmitAnswer={handleSubmitAnswer}
 								title="Alors peut-être que..."
@@ -332,6 +336,7 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -368,7 +373,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={3}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
 								title="Pas trop chaud."
 								description="Le but c'est de refroidir le réacteur."
@@ -377,6 +382,52 @@ export default function ReactorRoom(props) {
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
 								stepButton={1}
+								isSolved={isSolved}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const CourantInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Icosphere001_1"
+				castShadow
+				receiveShadow
+				geometry={nodes.Icosphere001_1.geometry}
+				material={materials["Metal.002"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={4}
+						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+							<BasicDisplayTemplate
+								title="Attention a ne pas tout faire sauter."
+								description="Il faut mettre la bonne intensité de courant."
+								hint={hint}
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -718,6 +769,7 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere001.geometry}
 						material={materials["Metal.001"]}
 					/>
+					{/*
 					<mesh
 						name="Icosphere001_1"
 						castShadow
@@ -725,6 +777,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere001_1.geometry}
 						material={materials["Metal.002"]}
 					/>
+					*/}
+					<CourantInt />
 					<mesh
 						name="Icosphere001_2"
 						castShadow
