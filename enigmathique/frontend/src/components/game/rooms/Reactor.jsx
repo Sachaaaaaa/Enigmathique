@@ -386,6 +386,50 @@ export default function ReactorRoom(props) {
 		);
 	};
 
+	const CourantInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Icosphere001_1"
+				castShadow
+				receiveShadow
+				geometry={nodes.Icosphere001_1.geometry}
+				material={materials["Metal.002"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={4}
+						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+							<BasicDisplayTemplate
+								title="Attention a ne pas tout faire sauter."
+								description="Il faut mettre la bonne intensité de courant."
+								hint={hint}
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
 	return (
 		<group {...props} dispose={null}>
 			<group name="Scene">
@@ -718,6 +762,7 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere001.geometry}
 						material={materials["Metal.001"]}
 					/>
+					{/*
 					<mesh
 						name="Icosphere001_1"
 						castShadow
@@ -725,6 +770,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere001_1.geometry}
 						material={materials["Metal.002"]}
 					/>
+					*/}
+					<CourantInt />
 					<mesh
 						name="Icosphere001_2"
 						castShadow

@@ -44,7 +44,7 @@
 				"value": "16"
 			},
 			"hint": "Il faut passer l'intensité à gauche de l'égalité.",
-			"endMessage": "Le courant est rétabli, la porte s'ouvre !"
+			"endMessage": "Le courant est rétabli !"
 		}
 	]
 }

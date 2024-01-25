@@ -20,7 +20,7 @@ const ComputerConsoleEnigma = (closePopup) => {
 			setOutputResponse('Adresse de l\'ordinateur : 126.144.100.242');
 			break;
 		case 'info':
-			setOutputResponse('Documentation du Reacteur : \n Prototype du réacteur atomique A23, produit de l\'énergie a partir d\'atome placer a l\'intérieur. Le réacteur a un diamétre de 80 dm, une cage en titane et une turbine \n 1) Le reacteur a besoin d\'un atome spécifique pour fonctionner \n 2) Pour le bon fonction du reacteur, il faut le refroidir avec un fuide caloporteur comme H2O \n 3) Ce meme fluide caloporteur doit être a la température indiqué sur la courbe \n 4) Avant de lancé le réacteur, il faut configurer l\'intensité du courant');
+			setOutputResponse('Documentation du Reacteur : \n Prototype du réacteur atomique A23, produit de l\'énergie a partir d\'atome placer a l\'intérieur. Le réacteur a un diamétre de 80 dm, une cage en titane et une turbine \n Processus de démarrage du réacteur : \n 1) Le reacteur a besoin d\'un atome spécifique pour fonctionner \n 2) Pour le bon fonction du reacteur, il faut le refroidir avec un fuide caloporteur comme H2O \n 3) Ce meme fluide caloporteur doit être a la température indiqué sur la courbe \n 4) Avant de lancé le réacteur, il faut configurer l\'intensité du courant');
 			break;
 		case 'formule':
 			setOutputResponse('Loi d\'Ohm : U = R * I \n U : Tension en Volt \n R : Résistance en Ohm \n I : Intensité en Ampère \n Volume sphère : 4/3 * Pi * R^3 \n Pi : 3.14 \n R : Rayon de la sphère \n Volume réacteur : Volume sphère / 3');	
