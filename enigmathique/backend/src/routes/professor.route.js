@@ -14,7 +14,6 @@ module.exports = app => {
 	// Récupérer un professeur par son id
 	router.get("/", middleware.verifyToken,professors.findOne, middleware.verifyErrors);
 
-	// to do : revok le token ?
 	// Supprimer le professeur
 	router.delete("/", middleware.verifyToken, professors.delete, middleware.verifyErrors);
 

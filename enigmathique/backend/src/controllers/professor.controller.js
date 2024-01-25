@@ -4,7 +4,6 @@
 
 const db = require("../models/db.js");
 const Professor = db.professor;
-const Op = db.Sequelize.Op;
 const Joi = require('joi');
 const { baseSchema } = require('./validationSchemas');
 
@@ -17,7 +16,7 @@ function isRequestCorrect(schema, req) {
 	const { error } = schema.validate(req.body);
 	if (error) {
 		const validationError = new Error(error.details[0].message);
-		validationError.statusCode = 500;  
+		validationError.statusCode = 400;  
 		throw validationError;
 	}
 }
@@ -95,11 +94,10 @@ exports.update = async(req, res, next) => {
 			throw error;
 		} 
 	
-		return res.status(201).json({message: "Le professeur à été mise a jour avec succès"});
+		return res.status(201).json("Le professeur à été mise a jour avec succès");
 	
 	// Gère les erreurs
 	} catch(err) {
-		console.log(err)
 		next(err)
 	}
   };
@@ -115,7 +113,7 @@ exports.delete = async (req, res, next) => {
 
 	try {
 		// Effectue la requête de suppression du professeur connecté
-		const destroyedRows = await Professor.destroy({ where: { id: req.tokenId} })
+		const deletedRows = await Professor.destroy({ where: { id: req.tokenId} })
 		
 		// Vérifie si le professeur a bien été supprimé
 		if (deletedRows == 0) {
@@ -124,7 +122,7 @@ exports.delete = async (req, res, next) => {
 			throw error;
 		} 
 			
-		return res.status(200).json({message: "La classe a été supprimée avec succès"})
+		return res.status(200).json("La classe a été supprimée avec succès")
 
 	// Gère les erreurs
 	} catch(err) {

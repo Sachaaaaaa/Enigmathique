@@ -83,8 +83,6 @@ exports.verifyGameToken = async(req, res, next) => {
     if(req.body.tokenProf){
         
         req.tokenId = await checkTokenValidity(req.body.tokenProf);
-        //const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
-        //req.tokenId = decodedToken.id;
 
     }
 
