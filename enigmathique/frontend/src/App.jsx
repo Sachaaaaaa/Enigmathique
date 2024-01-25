@@ -8,7 +8,7 @@ import Game from './pages/Game';
 import Class from './pages/Class';
 import Students from './pages/Students';
 import './index.css';
-import TeamStats from './pages/TeamStats';
+import TeamStats from './components/stats/TeamStats';
 import Games from './pages/Games';
 import Join from './pages/Join';
 import PreGameWrapper from './components/contexts/PreGame.wrapper';
