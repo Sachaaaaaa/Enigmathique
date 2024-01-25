@@ -7,8 +7,8 @@
 				"type": "fixed",
 				"value": "2337"
 			},
-			"hint": "Décomposition en produit de facteur de nombre premier !",
-			"endMessage": "Dans le coffre vous trouvez des dossiers confidentiels, sur l'un d'entre eux il y a écrit 'Atom à mettre dans le réacteur : (x-5)² = (x-5)(2x-3), x1 > x2, x1 = Groupe et (x2)² = Période.'"
+			"hint": "Décomposition en produit de facteurs premiers !",
+			"endMessage": "Dans le coffre vous trouvez des dossiers confidentiels. Sur l'un d'entre eux il y a écrit 'Atome de groupe x1 et de période (x2)² à mettre dans le réacteur : (x-5)² = (x-5)(2x-3), avec x1 > x2"
 		},
 		{
 			"variables": { },
@@ -16,7 +16,7 @@
 				"type": "fixed",
 				"value": "90"
 			},
-			"hint": "Regarder bien la formule du volume d'une sphére sur l'ordinateur !",
+			"hint": "Regardez bien la formule du volume d'une sphère sur l'ordinateur !",
 			"endMessage": "Vous configurez le réacteur pour le remplir avec 90L d'eau !"
 		},
 		{
@@ -25,8 +25,8 @@
 				"type": "fixed",
 				"value": "Zr"
 			},
-			"hint": "Personne sera que vous avez lu les dossiers confidentiels !",
-			"endMessage": "Vous insérez l'atome dans le réacteur, aucune alerte ne se déclenche, vous pouvez passer à la prochaine étape !"
+			"hint": "Personne ne saura que vous avez lu les dossiers confidentiels !",
+			"endMessage": "Vous insérez l'atome dans le réacteur. Aucune alerte ne se déclenche, vous pouvez passer à la prochaine étape !"
 		},
 		{
 			"variables": { },
