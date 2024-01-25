@@ -22,7 +22,7 @@ function Students() {
 	};
 	useEffect(() => {
 		loadStudents();
-	}, []);
+	}, [students]);
 
 	return (
 		<LayoutProf>
