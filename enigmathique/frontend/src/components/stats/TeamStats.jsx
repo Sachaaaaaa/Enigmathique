@@ -98,7 +98,7 @@ const TeamStats = ({teamData, onClose, scores}) => {
 		<div className="team-stats-screen">
 			<div className="team-stats-container">
 				<div className="flex items-center gap-10 border-b p-5">
-					<h2 className="text-2xl font-bold blue-font-color">{teamData.name}</h2>
+					<h2 className="text-2xl font-bold">{teamData.name}</h2>
 					<div className='grow flex flex-col'>
 						{teamData.members.map((student,index)=><p key={index}> {student.firstname +' '+student.lastname} </p>)}
 					</div>
@@ -124,7 +124,7 @@ const TeamStats = ({teamData, onClose, scores}) => {
 					{/* Right side - Temps de jeu */}
 					<div className="w-1/2 pl-4 border-l">
 						<div className="mb-4 flex items-center justify-between">
-							<label htmlFor="room-select" className="text-xl font-semibold mb-4">Détails :</label>
+							<label htmlFor="room-select" className="text-xl font-semibold">Détails :</label>
 							<RoomSelector rooms={scores} selectedRoom={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)}/>
 						</div>
 						<div className="space-y-2 flex flex-col gap-3">
