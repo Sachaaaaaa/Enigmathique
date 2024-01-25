@@ -52,9 +52,10 @@ const ClassElement = ({classe, onChange,index}) => {
 
 	const loadGamesOf = async() => {
 		const data = await GameModel.getAll();
+		console.log(data) ;
 		let listGames = [];
 		data.forEach((game) => {
-			classe.id === game.idCourse && listGames.push();
+			classe.id === game.idCourse && listGames.push(game);
 		});
 		setGamesOf(listGames);
 	}
@@ -67,9 +68,9 @@ const ClassElement = ({classe, onChange,index}) => {
 		if(games.length !== 0) {
 			let maxDate = games[0].createdAt;
 			games.forEach((game) => {
-				(game.createdAt.localeCompare(maxDate) > 0) && (maxDate = game.createdAt);
+				(game.createdAt > maxDate) && (maxDate = game.createdAt);
 			});
-			return maxDate;
+			return maxDate.toLocaleDateString('fr-FR');
 		} else {
 			return 'Jamais joué'
 		}
