@@ -13,7 +13,7 @@ const FooterButtons = ({linkRetour, handleRetour, handleSuivant }) => {
             Retour
         </Link>
         <button
-            className='bg-blue-gradient-color modal-validate-button-style w-fit px-8 py-6 border-2 border-blue-color box-border '
+            className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style w-fit px-8 py-6 border-2 border-blue-color box-border '
             onClick={handleSuivant}
         >
             Suivant
