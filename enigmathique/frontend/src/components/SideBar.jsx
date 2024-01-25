@@ -37,7 +37,7 @@ const SideBar = () => {
 					<ItemList type='room' onClick={handleNav} currentPath={path}/>
 				</ul>
 				<Link to='/create-game' className='flex justify-center items-center w-full'>
-					<button className='bg-blue-gradient-color modal-validate-button-style w-[80%] whitespace-nowrap p-8'>Nouvelle partie</button>
+					<button className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style w-[80%] whitespace-nowrap p-8'>Nouvelle partie</button>
 				</Link>
 			</section>
 		</nav>
