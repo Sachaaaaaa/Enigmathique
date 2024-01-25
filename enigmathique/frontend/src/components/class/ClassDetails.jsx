@@ -7,10 +7,7 @@ import ContentHeader from "../dashboard/ContentHeader";
 import TableContainer from "../dashboard/TableContainer";
 import {getRowColor} from "../ListManager";
 import ActionButton from "../dashboard/ActionButton";
-import TeamStats from "../stats/TeamStats";
-import ScoreModel from "../../models/score.model";
-import TeamModel from "../../models/team.model";
-import {calculateScore, loadMembers} from "../stats/RankStyleManager";
+
 
 const ClassDetails = ({idClass}) => {
 	
@@ -64,6 +61,11 @@ const ClassDetails = ({idClass}) => {
 		setSelectedGame(tempListGames);
 		
 	};
+	/**
+	 * Récupération du taux de réussite d'une partie
+	 * @param game
+	 * @returns {Promise<number>}
+	 */
 	const getWinRate = async (game) => {
 		const scores = await GameModel.getScores(game.id);
 		if (scores == null) return 0;
@@ -80,7 +82,7 @@ const ClassDetails = ({idClass}) => {
 	};
 	
 	/**
-	 *
+	 * Récupération du taux de réussite d'une partie
 	 * @returns {Promise<void>}
 	 */
 	const getListGame = async () => {
@@ -97,6 +99,7 @@ const ClassDetails = ({idClass}) => {
 				
 			})
 		);
+		//s'assurer que la liste des games ne contient pas de doublons
 		setListGame((prevListGame) => {
 			const uniqueNewGame = newGame.filter(
 				(newGame) => !prevListGame.some((existingGame) => existingGame.id === newGame.id)
