@@ -10,32 +10,16 @@ import ContentHeader from 'components/dashboard/ContentHeader';
 import TableContainer from 'components/dashboard/TableContainer';
 import Notification from 'components/Notification';
 import toast from 'react-hot-toast';
+import useCourses from 'hooks/useCourses';
 
 
 const Class = () => {
-
-	//état pour stocker les classes
-	const [courses, setCourses] = useState([]);
+	// état pour stocker les classes
+	const [courses, loadCourses] = useCourses(true);
 	//état pour gérer le modal
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	//état pour stocker le nom de la classe dans les modals
 	const [name, setName] = useState('');
-
-	/**
-	 * Permet de charger les classes à partir du modèle
-	 */
-	const loadClasses = async () => {
-		const data = await CourseModel.getAll();
-		setCourses(data);
-		//console.log(data);
-	};
-
-	/**
-	 * UseEffect pour charger les classes au chargement de la page
-	 */
-	useEffect(() => {
-		loadClasses();
-	}, []);
 
 	/**
 	 * Permet d'effctuer la création d'une classe
@@ -51,7 +35,7 @@ const Class = () => {
 		}
 		);
 		//Réinitialises les états et recharge les classes après l'ajout
-		loadClasses();
+		loadCourses();
 		setCreateModalOpen(false);
 		setName('');
 	};
@@ -66,7 +50,7 @@ const Class = () => {
 				</ContentHeader>
 				<TableContainer headers={['Nom','élèves', 'Dernière partie', 'Action']}>
 					{courses.map((classe,index) => (
-						<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadClasses()}/>
+						<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadCourses()}/>
 					))}
 				</TableContainer>
 
