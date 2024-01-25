@@ -13,6 +13,7 @@ const ListStudents = (props) => {
 	
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
+
 	/**
 	 * récupère la liste de tous les élèves de la classe
 	 */
@@ -65,7 +66,7 @@ const ListStudents = (props) => {
 
 			<ul className='flex flex-wrap gap-5 p-5 mt-10'>
 				{filteredStudents.map((student) => (
-					<StudentElement key={student.id} student={student} />
+					<StudentElement key={student.id} student={student} onChange={() => compareStudents()} />
 				))}
 			</ul>
 			{createModalOpen && (
