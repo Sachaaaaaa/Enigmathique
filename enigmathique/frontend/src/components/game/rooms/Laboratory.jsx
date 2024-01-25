@@ -54,8 +54,8 @@ export default function Room001(props) {
 					<InformationPopup
 						title="Vous ne pouvez pas sortir !"
 						closePopup={forceExit}>
-							<p>Tu es amateur {"d'alchimie"} et en voulant {"t'introduire"} dans le laboratoire {"d'un"} grand alchimiste, tu as été malencontreusement enfermé !
-						Le scientifique ne tardera pas à revenir... Vous remarquez un <strong>trou</strong> dans la porte, il y a surement moyen de faire une <strong>potion de souris</strong> pour que vous rapetissiez.
+							<p>Vous êtes amateur {"d'alchimie"} et en voulant {"vous introduire"} dans le laboratoire {"d'un"} grand alchimiste, vous avez été malencontreusement enfermé !
+						Le scientifique ne tardera pas à revenir... Vous remarquez un <strong>trou</strong> dans la porte, il y a sûrement moyen de faire une <strong>potion de souris</strong> pour que vous rapetissiez.
 						<br/>Regardez autour de vous, il doit bien y avoir une <strong>recette</strong> qui peut vous aidez !</p> 
 					</InformationPopup>
 				)}
@@ -129,13 +129,14 @@ export default function Room001(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigma
-						title='Étagère'
+						title='Armoire'
 						enigmaId={0}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
-								title="L'ingrédient que vous cherchez doit être ici !"
-								description="Encore faut-il trouver le bon tiroir..."
+								description="L'ingrédient que vous cherchez doit être ici ! Encore faut-il trouver le bon tiroir..."
 								hint={hint}
+								placeholder='Numéro du tiroir'
+								isNumberOnly={true}
 								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
@@ -175,12 +176,12 @@ export default function Room001(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigma
+						title='Coffre'
 						enigmaId={1}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
-								title="OOH un coffre !"
-								description="Vous vous en doutiez mais il faut un code."
+								description="Il est trop solide pour être forcé. Il doit y avoir un code quelque part.."
 								image={data.image}
 								hint={hint}
 								isSolved={isSolved}
