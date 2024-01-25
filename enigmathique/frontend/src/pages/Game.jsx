@@ -130,7 +130,7 @@ const Game = () => {
 
 			{/* Chronomètre */}
 
-			{isLoading && <Timer duration={600}/>}
+			{!isLoading && <Timer duration={600}/>}
 			<RoomProvider>
 				<Canvas
 					shadows
