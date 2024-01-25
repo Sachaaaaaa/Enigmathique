@@ -26,6 +26,7 @@ const ListStudents = (props) => {
 			error: "Une erreur s'est produite"
 		});
 		setCreateModalOpen(false);
+		props.loadStudents();
 		//console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
@@ -38,20 +39,25 @@ const ListStudents = (props) => {
 	}
 
 	const compareStudents = (stud1, stud2) => {
-		if(stud1.lastname < stud2.lastname || (stud1.lastname === stud2.lastname && stud1.firstname < stud2.firstname)) {
+		if(stud1.lastname.toLowerCase() < stud2.lastname.toLowerCase() ||
+			(stud1.lastname.toLowerCase() === stud2.lastname.toLowerCase() && stud1.firstname.toLowerCase() < stud2.firstname.toLowerCase())) {
 			return -1;
-		} else if (stud1.lastname > stud2.lastname || (stud1.lastname === stud2.lastname && stud1.firstname > stud2.firstname)){
+		} else if (stud1.lastname.toLowerCase() > stud2.lastname.toLowerCase() ||
+			(stud1.lastname.toLowerCase() === stud2.lastname.toLowerCase() && stud1.firstname.toLowerCase() > stud2.firstname.toLowerCase())){
 			return 1;
 		} else {
 			return 0;
 		}
 	}
 
-	//filtre les élèves en fonction du texte entré
+	//const filteredStudents = props.students.sort( (studA, studB) =>{return compareStudents(studA, studB);});
+
 	const filteredStudents = props.students.filter((student) =>
 		student.firstname.toLowerCase().startsWith(filter.text.toLowerCase()) ||
 		student.lastname.toLowerCase().startsWith(filter.text.toLowerCase())
-	).sort(compareStudents);
+	).sort( (studA, studB) =>{return compareStudents(studA, studB);});
+	//filtre les élèves en fonction du texte entré
+
 	
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	
@@ -65,7 +71,7 @@ const ListStudents = (props) => {
 
 			<ul className='flex flex-wrap gap-5 p-5 mt-10'>
 				{filteredStudents.map((student) => (
-					<StudentElement key={student.id} student={student} />
+					<StudentElement key={student.id} student={student} onChange={() => props.loadStudents()} />
 				))}
 			</ul>
 			{createModalOpen && (
@@ -90,7 +96,7 @@ const ListStudents = (props) => {
 						/>
 						<button
 							type='submit'
-							className='bg-blue-gradient-color modal-validate-button-style'
+							className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
 							onClick={(event) => handleClickCreate(event, firstname, lastname, props.id)}>
 							Créer
 						</button>
@@ -108,7 +114,8 @@ const ListStudents = (props) => {
 
 ListStudents.propTypes = {
 	students: PropTypes.array.isRequired,
-	id: PropTypes.number.isRequired
+	id: PropTypes.number.isRequired,
+	loadStudents: PropTypes.func.isRequired
 }
 
 export default ListStudents;

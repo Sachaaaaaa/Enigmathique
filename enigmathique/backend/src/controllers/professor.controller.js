@@ -115,7 +115,7 @@ exports.delete = async (req, res, next) => {
 
 	try {
 		// Effectue la requête de suppression du professeur connecté
-		const destroyedRows = await Professor.destroy({ where: { id: req.tokenId} })
+		const deletedRows = await Professor.destroy({ where: { id: req.tokenId} })
 		
 		// Vérifie si le professeur a bien été supprimé
 		if (deletedRows == 0) {
@@ -128,6 +128,7 @@ exports.delete = async (req, res, next) => {
 
 	// Gère les erreurs
 	} catch(err) {
+		console.log(err);
 		next(err)
 	}
 }

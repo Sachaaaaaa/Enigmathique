@@ -6,73 +6,88 @@ import AuthHeader from 'components/AuthHeader';
 import Textfield from 'components/authform/Textfield';
 import Passwordfield from 'components/authform/Passwordfield'; 
 import SubmitButton from 'components/authform/SubmitButton';
+import {handleLoginError, styleEdit} from "../components/authform/handleError";
+import Notification from "../components/Notification";
+import toast from "react-hot-toast";
 
 const Login = () => {
-	const [username, setUsername] = useState('');
+	const [mail, setMail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
+
+
+	const [mailStyle, setMailStyle] = useState('');
+	const [passwordStyle, setPasswordStyle] = useState('');
 
 	const handleLogin = (e) => {
 		// Empêcher le rechargement de la page
 		e.preventDefault();
 		// Réinitialiser le message d'erreur
 		setMessage('');
-		setLoading(true);
+
+		const formComplete = handleLoginError(mail, password);
+		const {
+			mailStyle,
+			passwordStyle
+		}= styleEdit('', '', mail, password);
+		setMailStyle(mailStyle);
+		setPasswordStyle(passwordStyle);
 
 		// Envoie des données de connexion à l'API
-		AuthService.login(username, password).then(
-			() => {
-				// Redirection vers la page d'accueil
-				window.location.href = '/dashboard';
-			},
-			(error) => {
-				// Gestion des erreurs
-				const resMessage =
-					(error.response &&
-						error.response.data &&
-						error.response.data.message) ||
-					error.message ||
-					error.toString();
-				setLoading(false);
-				setMessage(resMessage);
-			}
-		);
+		if (formComplete !== 1) {
+			setLoading(true);
+			AuthService.login(mail, password).then(
+				() => {
+					// Redirection vers la page d'accueil
+					window.location.href = '/dashboard';
+				},
+				(error) => {
+					// Gestion des erreurs
+
+					const resMessage =
+						(error.response &&
+							error.response.data &&
+							error.response.data.message) ||
+						error.message ||
+						error.toString();
+					setLoading(false);
+					toast.error(resMessage);
+				}
+			);
+		}
 	};
 
 
 	return (
 		// Ecran entier
 		<div className='fullscreen-container overflow-y-auto'>
-
+			<Notification></Notification>
 			<AuthHeader title="Connexion"/>
-
 			{/* Conteneur du formulaire (full width et centre le formulaire) */}
 			<div className='form-container-style min-h-[350px]'>
-
 					<form onSubmit={handleLogin} className='form-style' >
 						<Textfield 
 							label='Email'
 							placeholder='Votre adresse mail'
-							name='username'
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
+							name='mail'
+							value={mail}
+							onChange={(e) => setMail(e.target.value)}
+							style={mailStyle}
 						/>
 						<Passwordfield 
 							label='Mot de passe'
 							name='password'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
+							style={passwordStyle}
 						/>
 						<SubmitButton 
 							text='Se connecter'
 							loading={loading}
+							onClick={handleLogin}
 						/>
-						
-						{message && (
-							<div className='text-error-style'>{message}</div>
-						)}
 
 						<div className='text-auth-container-style '>
 							<span> Pas encore de compte ?</span>

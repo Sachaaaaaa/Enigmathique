@@ -34,7 +34,7 @@ const GameRow = ({ game, index, loadGames }) => {
 		const nbScore = scores.length;
 		if(scores.length !== 0) {
 			scores.forEach((score) => {
-				score.time < maxTime && winRate++;
+				score.isSolved && winRate++;
 			});
 			return Math.floor((winRate / nbScore) * 100);
 		} else {
