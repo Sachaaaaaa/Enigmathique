@@ -50,8 +50,12 @@ const ListStudents = (props) => {
 		}
 	}
 
-	const filteredStudents = props.students.sort( (studA, studB) =>{return compareStudents(studA, studB);});
+	//const filteredStudents = props.students.sort( (studA, studB) =>{return compareStudents(studA, studB);});
 
+	const filteredStudents = props.students.filter((student) =>
+		student.firstname.toLowerCase().startsWith(filter.text.toLowerCase()) ||
+		student.lastname.toLowerCase().startsWith(filter.text.toLowerCase())
+	).sort( (studA, studB) =>{return compareStudents(studA, studB);});
 	//filtre les élèves en fonction du texte entré
 
 	
