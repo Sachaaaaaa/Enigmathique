@@ -15,6 +15,7 @@ import help from '../assets/img/help.png';
 import Rules from 'components/game/Rules';
 import ActionButton from 'components/dashboard/ActionButton';
 import { FiInfo } from "react-icons/fi";
+import GameModel from "../models/game.model";
 
 
 const Join = (props) => {
@@ -66,7 +67,7 @@ const Join = (props) => {
 
 		socket.on(ServerToClient.Error, (data) => {
 			if (data.isFatal) {
-				alert(`Erreur : ${data.message}, isFatal : ${data.isFatal}. Faire quelque chose, rajouter du feedback`);
+				alert(`Erreur : ${data.message}`);
 				navigate('/');
 			} else {
 				toast.error(data.message);
@@ -128,6 +129,7 @@ const Join = (props) => {
 
 	return (
 			<SocketContext.Provider value={socket}>
+				<Notification/>
 				<main className='fullscreen-container'>
 				<AuthHeader title = "Rejoindre une partie"/>
 			<div className='grow flex flex-col justify-center items-center gap-10 h-full p-5 pb-10 overflow-auto '>
