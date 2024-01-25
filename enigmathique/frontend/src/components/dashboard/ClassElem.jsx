@@ -40,6 +40,10 @@ const ClassElem = ({classGroup}) => {
 		const getGameData = async(game) => {
 			// Chargement des scores
 			const scores = await GameModel.getScores(game.id);
+			if (scores == null) {
+				return [0, 0];
+			}
+
 			// Filtre les scores => ceux de la classe
 			let totalSolved = 0;
 			let totalRoom = 0;
