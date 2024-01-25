@@ -121,7 +121,7 @@ function Signup() {
 				{/* Conditions d'inscription */}
 				<div className='w-[450px] text-[13px] p-1 text-center primary-font-color'>
 					<span>En {`t'inscrivant`}, tu acceptes nos </span>
-					<Link to='' className='font-medium underline'>Conditions générales</Link>
+					<Link to='/cgu' target="_blank" className='font-medium underline'>Conditions générales</Link>
 					<span>. Merci de lire notre </span>
 					<Link to='' className='font-medium underline'>Politique de confidentialité</Link>
 					<span> et notre </span>
