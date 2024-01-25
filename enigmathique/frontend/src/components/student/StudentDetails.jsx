@@ -7,8 +7,9 @@ import {calculateScore, loadMembers} from "../stats/RankStyleManager";
 import ContentHeader from "../dashboard/ContentHeader";
 import TableContainer from "../dashboard/TableContainer";
 import ActionButton from "../dashboard/ActionButton";
-import TeamStats from "../../pages/TeamStats";
+import TeamStats from "../stats/TeamStats";
 import { getRowColor } from 'components/ListManager';
+import {useNavigate} from "react-router-dom";
 
 const StudentDetails = ({id}) =>{
 	const [currentStudent, setCurrentStudent] = useState(null);
@@ -22,6 +23,7 @@ const StudentDetails = ({id}) =>{
 	//les scores d'une team
 	const [scoresForOneTeam, setScoresForOneTeam] = useState([]);
 
+	const navigate = useNavigate();
 	/**
 	 * Récupération de l'élève courant
 	 * @returns {Promise<StudentModel>}
@@ -29,6 +31,9 @@ const StudentDetails = ({id}) =>{
 	const loadCurrentStudent = async () =>{
 		const data = await StudentModel.getOne(id);
 		setCurrentStudent(data);
+		if (data === undefined) {
+			navigate('/class');
+		}
 		return data;
 	}
 	/**
@@ -85,6 +90,9 @@ const StudentDetails = ({id}) =>{
 	 * @returns {[]}
 	 */
 	const addTeam = (listStudents, team, currentStudent) => {
+		if (currentStudent === undefined) {
+			return [];
+		}
 		listStudents.map((student) => {
 			//.some permet de savoir si au moins un élément du tableau vérifie la condition
 			if (student.id === currentStudent.id && !listTeam.some(existingTeam => existingTeam.id === team.id)){
@@ -104,15 +112,16 @@ const StudentDetails = ({id}) =>{
 				const scores = await TeamModel.getScores(team.id);
 				const date = new Date(scores[0].createdAt);
 				const calculatedScore = scores.reduce((sum, score) => sum +
-						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved),
-					0);
+						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved), 0);
+				const game = await GameModel.getOne(team.idGame);
+				const gameName = game.name;
 
 
 				const members = await loadMembers(team.id);
 				return {
 					id: team.id,
 					date: date.toLocaleDateString(),
-					name: team.name,
+					name: gameName,
 					members: members,
 					calculatedScore: calculatedScore,
 					nbSolved: scores.reduce((sum, score) => sum + score.nbGoodAnswers, 0),
@@ -153,18 +162,18 @@ const StudentDetails = ({id}) =>{
 		<>
 			<main>
 				<ContentHeader
-					title={currentStudent? currentStudent.firstname +' '+currentStudent.lastname :'Loading...'}
-					link={`/class/${currentStudent? currentStudent.idCourse: '/class'}`}
+					title={currentStudent ? currentStudent.firstname +' '+currentStudent.lastname : 'Loading...'}
+					link={`/class/${currentStudent ? currentStudent.idCourse : '/class'}`}
 				/>
 				<div className="overflow-x-auto mt-4">
-					<TableContainer headers={['Date','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
+					<TableContainer headers={['Nom de la partie','Date', 'Score', 'Énigmes Résolues', 'Action']}>
 						{listScores.map((team, index) => (
 							<tr key={team.id} className={getRowColor(index)}>
 								<td className="td-style">
-									{team.date}
+									{team.name}
 								</td>
 								<td className="td-style">
-									{team.name}
+									{team.date}
 								</td>
 								<td className="td-style">
 									{team.calculatedScore}

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import LayoutProf from '../layouts/LayoutProf';
+import LayoutProf from '../../layouts/LayoutProf';
 import {Link, useParams} from 'react-router-dom';
-import GameTeam from '../components/stats/GameTeam';
-import ScoreTeam from '../components/stats/ScoreTeam';
-import TeamModel from "../models/team.model";
+import GameTeam from './GameTeam';
+import ScoreTeam from './ScoreTeam';
+import TeamModel from "../../models/team.model";
 import {FaDoorOpen, FaExclamationCircle, FaLightbulb, FaPuzzlePiece, FaTimes} from "react-icons/fa";
 import {Doughnut} from "react-chartjs-2";
 import PropTypes from "prop-types";
-import ItemStats from "../components/stats/ItemStats";
+import ItemStats from "./ItemStats";
 
 const TeamStats = ({teamData, onClose, scores}) => {
 	const [selectedRoom, setSelectedRoom] = useState('Global');

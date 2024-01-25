@@ -32,7 +32,7 @@ function Signup() {
 		setMessage('');
 
 		
-		const formConplete = handleSignupError(firstname, lastname, mail, password);
+		const formComplete = handleSignupError(firstname, lastname, mail, password);
 		const {
 			firstnameStyle,
 			lastnameStyle,
@@ -43,9 +43,8 @@ function Signup() {
 		setLastnameStyle(lastnameStyle);
 		setMailStyle(mailStyle);
 		setPasswordStyle(passwordStyle);
-		console.log(formConplete);
 		
-		if (formConplete !== 1) {
+		if (formComplete !== 1) {
 			setLoading(true);
 			// Envoie des données de connexion à l'API
 			AuthService.register(firstname, lastname, mail, password).then(
@@ -121,7 +120,7 @@ function Signup() {
 				{/* Conditions d'inscription */}
 				<div className='w-[450px] text-[13px] p-1 text-center primary-font-color'>
 					<span>En {`t'inscrivant`}, tu acceptes nos </span>
-					<Link to='' className='font-medium underline'>Conditions générales</Link>
+					<Link to='/cgu' target="_blank" className='font-medium underline'>Conditions générales</Link>
 					<span>. Merci de lire notre </span>
 					<Link to='' className='font-medium underline'>Politique de confidentialité</Link>
 					<span> et notre </span>
