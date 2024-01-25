@@ -45,25 +45,23 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma, title="" }) => {
 			const _endMessage = data.endMessage;
 
 			if (_enigmaId == null || _enigmaId !== enigmaId) {
-				console.log('Enigma id mismatch');
 				return;
 			}
 
 			if (_isSolved) {
-				console.log('Enigma solved: ', enigmaId);
 				setEnigmaState({ isSolved: true, endMessage: _endMessage, hint: null });
 			}
 		};
 
 		const handleHintFeedback = (data) => {
 			const _enigmaId = data.enigmaId;
-			console.log(data);
+
 			if (_enigmaId == null || enigmaId !== _enigmaId) {
 				return;
 			}
 
 			const _hint = data.hint;
-			setEnigmaState({ _hint });
+			setEnigmaState({ hint: _hint });
 		};
 
 		socket.on(ServerToClient.Feedback, handleAnswerFeedback);
