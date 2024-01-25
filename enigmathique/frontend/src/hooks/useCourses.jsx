@@ -16,7 +16,7 @@ const useCourses = (autoload = true) => {
 
 	useEffect(() => {
 		if (autoload) {
-			loadCourses().then(r => console.log('classes loaded'));
+			loadCourses();
 		}
 	}, []);
 

@@ -35,7 +35,7 @@ const StudentDetails = ({id}) =>{
 			navigate('/class');
 		}
 		return data;
-	}
+	};
 	/**
 	 * chargement de toutes les données à partir des games et de l'élève courant
 	 */
@@ -52,7 +52,7 @@ const StudentDetails = ({id}) =>{
 		setGames(data);
 		const student = await loadCurrentStudent();
 		loadAllData(data, student);
-	}
+	};
 
 	/**
 	 * Récupération de toutes les données d'une partie
@@ -69,9 +69,9 @@ const StudentDetails = ({id}) =>{
 				const listStudents = await loadStudentFromTeam(team.id);
 
 				addTeam(listStudents, team, student);
-			})
-		})
-	}
+			});
+		});
+	};
 	/**
 	 * Récupération de tous les élèves d'une team
 	 * @param id l'id de la team
@@ -80,7 +80,7 @@ const StudentDetails = ({id}) =>{
 	const loadStudentFromTeam = async (id) =>{
 		//récupération de toutes les teams d'une partie
 		return await TeamModel.getStudents(id);
-	}
+	};
 	/**
 	 * Ajout d'une team dans la liste des teams à condition qu'elle ne soit pas déjà présente dans
 	 * la liste et que l'élève courant fasse partie de la team
@@ -98,8 +98,8 @@ const StudentDetails = ({id}) =>{
 			if (student.id === currentStudent.id && !listTeam.some(existingTeam => existingTeam.id === team.id)){
 				setListTeam([...listTeam, team]);
 			}
-		})
-	}
+		});
+	};
 
 	/**
 	 * Récupération des scores de chaque team et création d'un score contenant les données
@@ -127,7 +127,7 @@ const StudentDetails = ({id}) =>{
 					nbSolved: scores.reduce((sum, score) => sum + score.nbGoodAnswers, 0),
 				};
 			})
-		)
+		);
 		setListScores((prevListScores) => {
 			const uniqueNewScores = newScores.filter(
 				(newScore) => !prevListScores.some((existingScore) => existingScore.id === newScore.id)
@@ -140,7 +140,7 @@ const StudentDetails = ({id}) =>{
 		});
 
 
-	}
+	};
 
 	useEffect(() => {
 		if (listTeam.length > 0) {
@@ -150,7 +150,7 @@ const StudentDetails = ({id}) =>{
 	const loadScoresForOneTeam = async (idTeam) => {
 		const data = await TeamModel.getScores(idTeam);
 		setScoresForOneTeam(data);
-	}
+	};
 
 	const handleDetailsClick = (team) => {
 		setSelectedTeam(team);
@@ -201,10 +201,10 @@ const StudentDetails = ({id}) =>{
 				/>
 			)}
 		</>
-	)
-}
+	);
+};
 
 StudentDetails.propTypes = {
 	id: PropTypes.number.isRequired
-}
+};
 export default StudentDetails;

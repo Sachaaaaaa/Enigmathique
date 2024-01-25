@@ -63,6 +63,7 @@ class SocketManager {
 			// Si token invalide, déconnecte
 			if (!isTokenValid) {
 				console.log(clc.red('[Socket] Token invalide, déconnexion'));
+				socket.emit(ServerToClient.Error, {message: 'Vous n\'êtes pas connecté', isFatal: true});
 				socket.disconnect();
 				return;
 			}			
@@ -72,12 +73,12 @@ class SocketManager {
 		const connectionType = socket.handshake.query.connectionType;
 
 		// Redirige vers le bon gestionnaire
-		if (connectionType == ConnectionType.Game) {
+		if (connectionType == ConnectionType.Game && sessionState == 1) {
 			this.gameManager.handleConnection(socket, sessionId);
-		} else if (connectionType == ConnectionType.TeamComposition) {
+		} else if (connectionType == ConnectionType.TeamComposition && sessionState == 0) {
 			this.teamCompositionManager.handleConnection(socket, sessionId);
 		} else {
-			console.log(clc.red('[Socket] Type de connexion inconnu: ' + connectionType));
+			console.log(clc.red('[Socket] Type de connexion inconnu ou la partie n\'est pas dans le même état que la connexion: ' + connectionType));
 		}
 	}
 

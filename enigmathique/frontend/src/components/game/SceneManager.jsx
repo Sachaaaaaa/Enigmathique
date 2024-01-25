@@ -6,8 +6,9 @@ import { SocketContext } from '../../contexts/SocketContext';
 import { ClientToServer, ServerToClient } from '../../data/socketMessages';
 import { RoomProvider, useRoom } from '../../contexts/RoomContext';
 import useMemoryState from 'hooks/useMemoryState';
+import PropTypes from 'prop-types';
 
-export const Scene = () => {
+export const Scene = ({setIsLoading}) => {
 	const socket = useContext(SocketContext);
 	const { room, setRoom } = useRoom();
 	const [memoryState, setMemoryState, resetAllMemoryState] = useMemoryState();
@@ -16,10 +17,17 @@ export const Scene = () => {
 	useEffect(() => {
 		const importRoom = async (roomName) => {
 			resetAllMemoryState();
+			// Affiche le chargement
+			setIsLoading(true);
 
+			// Importe la scène
 			console.log('Chargement de la scène : ' + roomName);
 			const module = await import(`./rooms/${roomName}.jsx`);
 			const RoomComponent = module.default;
+
+			// Cache le chargement
+			setIsLoading(false);
+
 			return RoomComponent;
 		};
 
@@ -45,4 +53,8 @@ export const Scene = () => {
 			{room.component}
 		</>
 	);
+};
+
+Scene.propTypes = {
+	setIsLoading: PropTypes.func.isRequired,
 };
