@@ -38,15 +38,28 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	};
 
 	useEffect(() => {
-		const handleAnswerFeedback = ({ isSolved, endMessage }) => {
-			if (isSolved) {
-				setEnigmaState({ isSolved: true, endMessage: endMessage, hint: null });
+		const handleAnswerFeedback = (data) => {
+			const _enigmaId = data.enigmaId;
+			const _isSolved = data.isSolved;
+			const _endMessage = data.endMessage;
+
+			if (_enigmaId == null && _enigmaId !== enigmaId) {
+				return;
+			}
+
+			if (_isSolved) {
+				setEnigmaState({ isSolved: true, endMessage: _endMessage, hint: null });
 			}
 		};
 
-		const handleHintFeedback = ({ hint }) => {
-			console.log('hint', hint);
-			setEnigmaState({ hint });
+		const handleHintFeedback = (data) => {
+			const _enigmaId = data.enigmaId;
+			if (enigmaId !== _enigmaId) {
+				return;
+			}
+
+			const _hint = data.hint;
+			setEnigmaState({ _hint });
 		};
 
 		socket.on(ServerToClient.Feedback, handleAnswerFeedback);

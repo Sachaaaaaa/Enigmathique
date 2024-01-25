@@ -151,7 +151,7 @@ class SocketTeam {
 
 	sendHint = (enigmaId, hint) => {
 		console.log(clc.yellowBright('[Team] Envoi indice'));
-		this.socket.emit(ServerToClient.Hint, { hint });
+		this.socket.emit(ServerToClient.Hint, { enigmaId, hint });
 	}
 
 	sendRoomSolved = () => {
