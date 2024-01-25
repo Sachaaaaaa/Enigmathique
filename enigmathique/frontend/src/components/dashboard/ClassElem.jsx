@@ -11,13 +11,15 @@ import InfoBlockElem from './InfoBlockElem';
 import ScoreModel from 'models/score.model';
 ChartJS.register(...registerables);
 
-const maxTime = 600;
+const MAX_GAME_TIME = 600;
+const NEVER_PLAYED_TEXT = 'jamais joué';
 
 const ClassElem = ({classGroup}) => {
 
 	const [students, setStudents] = useState([]);
 	const [gamesOfClass, setGamesOfClass] = useState([]);
 	const [winrate, setWinrate] = useState(0);
+	const [lastGame, setLastGame] = useState(NEVER_PLAYED_TEXT);
 	
 	const loadData = async() => {
 		// Chargement les élèves
@@ -34,6 +36,7 @@ const ClassElem = ({classGroup}) => {
 		});
 		setGamesOfClass(listGames);
 
+		// Calcul le nombre de salle résolues et le nombre de salle totale sur une partie
 		const getGameData = async(game) => {
 			// Chargement des scores
 			const scores = await GameModel.getScores(game.id);
@@ -48,9 +51,9 @@ const ClassElem = ({classGroup}) => {
 		};
 
 		const calculateWinrate = async() => {
-			// getGameData pour toutes les parties
 			let totalSolved = 0;
 			let totalRoom = 0;
+			// Itère toutes les parties
 			for (let i = 0; i < listGames.length; i++) {
 				const game = listGames[i];
 				const [solved, room] = await getGameData(game);
@@ -58,13 +61,23 @@ const ClassElem = ({classGroup}) => {
 				totalRoom += room;
 			}
 
-			// Calcul du taux de réussite
+			// Calcul le winrate et met à jour le state
 			const winrate = Math.round((totalSolved / totalRoom) * 100);
 			setWinrate(winrate);
 		};
-	
 
-		const winrate = await calculateWinrate();
+		// Calcul le winrate
+		await calculateWinrate();
+
+		// Cherche la dernière partie (c'est la dernière dans la liste)
+		const lastGame = listGames.length > 0 ? listGames[listGames.length - 1] : null;
+		// Si la dernière partie n'est pas nulle
+		if (lastGame) {
+			setLastGame(lastGame.createdAt.toLocaleDateString('fr-Fr'));
+		} else {
+			setLastGame(NEVER_PLAYED_TEXT);
+		}
+		
 	};
 
 	useEffect(() => {
@@ -113,7 +126,7 @@ const ClassElem = ({classGroup}) => {
 
 			<InfoBlockElem title='nombre de parties jouées' text={gamesOfClass.length}/>
 
-			<InfoBlockElem title='dernière partie' text={'getLastGame(gamesOfClass)'}/>
+			<InfoBlockElem title='dernière partie' text={lastGame}/>
 
 			{/* Div pour les statistiques */}
 			<Bar className='col-span-2 row-span-2' data={data} options={options}/>
