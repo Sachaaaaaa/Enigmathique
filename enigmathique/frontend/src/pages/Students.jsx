@@ -22,13 +22,13 @@ function Students() {
 	};
 	useEffect(() => {
 		loadStudents();
-	}, [students]);
+	}, []);
 
 	return (
 		<LayoutProf>
 			<main>
 				<Notification/>
-				<ListStudents students={students} id={id}/>
+				<ListStudents students={students} id={id} loadStudents={loadStudents}/>
 
 			</main>
 		</LayoutProf>

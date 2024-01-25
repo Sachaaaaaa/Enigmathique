@@ -13,6 +13,7 @@ const ListStudents = (props) => {
 	
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
+
 	/**
 	 * récupère la liste de tous les élèves de la classe
 	 */
@@ -26,6 +27,7 @@ const ListStudents = (props) => {
 			error: "Une erreur s'est produite"
 		});
 		setCreateModalOpen(false);
+		props.loadStudents();
 		//console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
@@ -65,7 +67,7 @@ const ListStudents = (props) => {
 
 			<ul className='flex flex-wrap gap-5 p-5 mt-10'>
 				{filteredStudents.map((student) => (
-					<StudentElement key={student.id} student={student} />
+					<StudentElement key={student.id} student={student} onChange={() => compareStudents()} />
 				))}
 			</ul>
 			{createModalOpen && (
@@ -90,7 +92,7 @@ const ListStudents = (props) => {
 						/>
 						<button
 							type='submit'
-							className='bg-blue-gradient-color modal-validate-button-style'
+							className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
 							onClick={(event) => handleClickCreate(event, firstname, lastname, props.id)}>
 							Créer
 						</button>
@@ -108,7 +110,8 @@ const ListStudents = (props) => {
 
 ListStudents.propTypes = {
 	students: PropTypes.array.isRequired,
-	id: PropTypes.number.isRequired
+	id: PropTypes.number.isRequired,
+	loadStudents: PropTypes.func.isRequired
 }
 
 export default ListStudents;
