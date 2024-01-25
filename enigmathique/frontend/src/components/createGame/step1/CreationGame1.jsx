@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import Counter from './Counter';
 import {initialFormData, useCreationGameContext} from "../../contexts/CreationGame.context";
 import '../../../index.css';
-import '../createGame.css'
 import ClassList from "./ClassList";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
@@ -22,19 +21,11 @@ const CreationGame1 = (props) => {
 			props.setStep(2);
 			return;
 		}
-		let errorGameName = [];
-		let errorCourse = [];
 		if (formData.gameName === '') {
-			errorGameName.push('Veuillez entrer un nom de partie');
-			toast.error(
-				errorGameName.join(''),
-			);
+			toast.error('Veuillez entrer un nom de partie');
 		}
 		if (formData.course === 0) {
-			errorCourse.push('Veuillez sélectionner une classe');
-			toast.error(
-				errorCourse.join(''),
-			);
+			toast.error('Veuillez sélectionner une classe');
 		}
 	};
 	const handleAnnuler = (event) => {

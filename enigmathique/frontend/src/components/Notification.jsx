@@ -7,10 +7,12 @@ const Notification = () => {
         duration={200}
         containerStyle={{
             top: 100,
-            left: 20,
-            bottom: 20,
-            right: 20,
             }} 
+        toastOptions={{
+            style: {
+                width: 'max-content',
+            },
+            }}
         />
     )
 }

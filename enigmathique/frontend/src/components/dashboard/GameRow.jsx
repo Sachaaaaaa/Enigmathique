@@ -5,6 +5,7 @@ import Modal, { ModalBody, ModalHeader } from 'components/Modal';
 import ActionButton from './ActionButton';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { getRowColor } from 'components/ListManager';
 
 const GameRow = ({ game, index, loadGames }) => {
 
@@ -78,7 +79,7 @@ const GameRow = ({ game, index, loadGames }) => {
 	}
 
     return (
-        <tr key={index} className={`border-t border-[#CECDFD] ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}`}>
+        <tr key={index} className={getRowColor(index)}>
             <td className="pl-5 td-style">
                 {game.name}
             </td>

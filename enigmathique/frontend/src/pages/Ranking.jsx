@@ -40,7 +40,7 @@ const Ranking = () => {
 			teams.map(async (team) => {
 				const scores = await TeamModel.getScores(team.id);
 				const calculatedScore = scores.reduce((sum, score) => sum +
-						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints),
+						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved),
 					0);
 
 				const members = await loadMembers(team.id);

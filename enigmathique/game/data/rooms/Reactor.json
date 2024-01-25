@@ -7,17 +7,17 @@
 				"type": "fixed",
 				"value": "2337"
 			},
-			"hint": "Décomposition en facteur de nombre premier !",
-			"endMessage": "Dans le coffre vous trouvez des dossiers confidentiels, sur l'un d'entre eux il y a écrit 'Atom à mettre dans le réacteur : (x-5)² = (x-5)(2x-3), x1 = Groupe et (x2)² = Période.'"
+			"hint": "Décomposition en produit de facteur de nombre premier !",
+			"endMessage": "Dans le coffre vous trouvez des dossiers confidentiels, sur l'un d'entre eux il y a écrit 'Atom à mettre dans le réacteur : (x-5)² = (x-5)(2x-3), x1 > x2, x1 = Groupe et (x2)² = Période.'"
 		},
 		{
 			"variables": { },
 			"answer": {
 				"type": "fixed",
-				"value": "1"
+				"value": "90"
 			},
 			"hint": "Regarder bien la formule du volume d'une sphére sur l'ordinateur !",
-			"endMessage": "JSP"
+			"endMessage": "Vous configurez le réacteur pour le remplir avec 90L d'eau !"
 		},
 		{
 			"variables": { },
@@ -26,15 +26,24 @@
 				"value": "Zr"
 			},
 			"hint": "Personne sera que vous avez lu les dossiers confidentiels !",
-			"endMessage": "Vous insérez l'atome dans le réacteur, aucune alerte ne se déclenche, vous pouvez passer à la suite !"
+			"endMessage": "Vous insérez l'atome dans le réacteur, aucune alerte ne se déclenche, vous pouvez passer à la prochaine étape !"
 		},
 		{
 			"variables": { },
 			"answer": {
 				"type": "fixed",
-				"value": "1"
+				"value": "43"
 			},
 			"hint": "Tout est dans la documentation !",
+			"endMessage": "Vous réglez l'eau à 43°C, le réacteur est prêt à être lancé !"
+		},
+		{
+			"variables": { },
+			"answer": {
+				"type": "fixed",
+				"value": "16"
+			},
+			"hint": "Il faut passer l'intensité à gauche de l'égalité.",
 			"endMessage": "Le courant est rétabli, la porte s'ouvre !"
 		}
 	]

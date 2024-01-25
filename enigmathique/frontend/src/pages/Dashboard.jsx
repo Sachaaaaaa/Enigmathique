@@ -91,7 +91,7 @@ const Dashboard = () => {
 					<>
 						<GameElem key={0} game={games[0]} />
 						<EmptyInfoBlock
-							title="Nouvelle partie ?"
+							title="Nouvelle partie"
 							link="/create-game"
 							sizeClasses="min-h-[200px]"
 						/>
@@ -103,12 +103,12 @@ const Dashboard = () => {
 			return (
 				<>
 					<EmptyInfoBlock
-						title="Nouvelle partie ?"
+						title="Nouvelle partie"
 						link="/create-game"
 						sizeClasses="min-h-[200px]"
 					/>
 					<EmptyInfoBlock
-						title="Nouvelle partie ?"
+						title="Nouvelle partie"
 						link="/create-game"
 						sizeClasses="min-h-[200px]"
 					/>
@@ -180,7 +180,7 @@ const Dashboard = () => {
 						/>
 					) : (
 						<EmptyInfoBlock
-							title="Créer une classe ?"
+							title="Créer une classe"
 							link="/class"
 							sizeClasses="w-full h-[calc(100%-50px)]"
 						/>
