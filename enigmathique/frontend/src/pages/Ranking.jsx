@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams, Link} from "react-router-dom";
+import {useParams, Link, useNavigate} from "react-router-dom";
 import GameModel from "../models/game.model";
 import TeamModel from "../models/team.model";
 import LayoutProf from "../layouts/LayoutProf";
@@ -20,8 +20,29 @@ const Ranking = () => {
 	const [ranking, setRanking] = useState([]);
 	const [scoresForOneTeam, setScoresForOneTeam] = useState([]);
 	const [selectedTeam, setSelectedTeam] = useState(null);
+	const [isGameFinished, setIsGameFinished] = useState(false);
 
 
+	const navigate = useNavigate();
+	const checkIfGameFinished = async () => {
+		const games = await GameModel.getAll();
+		if (games === undefined) {
+			navigate('/games');
+			return;
+		}
+		for (const game of games) {
+			if (game.id === parsedIdGame) {
+				if (game.state === 2) {
+					setIsGameFinished(true);
+					return;
+				} else {
+					navigate('/games');
+					return;
+				}
+			}
+		}
+		navigate('/games');
+	};
 
 	const loadGame = async () => {
 		const data = await GameModel.getOne(parsedIdGame);
@@ -41,7 +62,7 @@ const Ranking = () => {
 				const scores = await TeamModel.getScores(team.id);
 				const calculatedScore = scores.reduce((sum, score) => sum +
 						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved),
-					0);
+				0);
 
 				const members = await loadMembers(team.id);
 
@@ -59,6 +80,7 @@ const Ranking = () => {
 	};
 
 	useEffect(() => {
+		checkIfGameFinished();
 		loadGame();
 		loadTeams();
 	}, []);
@@ -78,7 +100,9 @@ const Ranking = () => {
 		loadScoresForOneTeam(team.id);
 	};
 	console.log('ranking' , ranking);
-
+	if (!isGameFinished) {
+		return null;
+	}
 
 	return (
 		<LayoutProf>
