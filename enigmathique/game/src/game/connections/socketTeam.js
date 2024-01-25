@@ -23,6 +23,9 @@ class SocketTeam {
 
 		// Permet d'attendre que tout le monde ait chargé sa room
 		this.haveLoadedRoom = false;
+
+		// Permet de savoir si l'équipe a quitté la partie
+		this.leaved = false;
 	}
 
 	/**

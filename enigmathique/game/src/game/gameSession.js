@@ -156,8 +156,6 @@ class GameSession {
    * @param {SocketTeam} team
    */
   onTeamLeave = (team) => {
-    this.removeTeam(team);
-
     if (this.getActiveTeamCount() == 0) {
       console.log(clc.yellow("[Session] Il n'y a plus d'équipes"));
       this.stopSession();
@@ -204,18 +202,7 @@ class GameSession {
     console.log(clc.yellow("[Session] Fin de la session"));
     this.isSessionRunning = false;
 
-    const endedNormally = this.round >= this.numRounds;
-
-    if (!endedNormally) {
-      console.log(clc.redBright("[Session] Fin de la session anormale"));
-      // Ne pas envoyer les résultats à l'API
-      // A la place, demande à l'API de supprimer la session
-      await ApiService.deleteGame(this.sessionId);
-      this.broadcastGameEnded();
-      return;
-    }
-
-    console.log(clc.greenBright("[Session] Fin de la session normale"));
+    console.log(clc.greenBright("[Session] Fin de la session"));
 
     // Recupère les informations de progression de chaque équipe
     const teamsProgress = this.getSessionDataForAPI();
