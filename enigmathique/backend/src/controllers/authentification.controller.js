@@ -33,6 +33,17 @@ async function generateToken(idProf, res) {
     }
 }
 
+// Fonction vérifiant si la requête est conforme aux attentes
+function isRequestCorrect(schema, req) {
+	const { error } = schema.validate(req.body);
+	if (error) {
+		const validationError = new Error(error.details[0].message);
+		validationError.statusCode = 400;  
+		throw validationError;
+	}
+}
+
+
 
 // Créer et enregistrer un nouveau professeur
 exports.register = async (req, res, next) => {
@@ -46,13 +57,8 @@ exports.register = async (req, res, next) => {
 			password: Joi.string().min(8).required(), 
 		  });
 		
-		const { error } = registerSchema.validate(req.body);
 
-		if (error) {
-			const validationError = new Error(error.details[0].message);
-			validationError.statusCode = 500;  
-			throw validationError;
-		}
+		isRequestCorrect(registerSchema, req)
 
 		// Créer un professeur
 		const professor = {
@@ -71,6 +77,10 @@ exports.register = async (req, res, next) => {
 
 		// gère les erreurs
 	} catch(err) {
+		if(err.name=="SequelizeUniqueConstraintError"){
+			err = new Error("Le mail que vous avez fournis possède déjà un compte");
+			err.statusCode = 400;  
+		}
 		next(err)
 	}
 }
@@ -107,13 +117,7 @@ exports.login = async (req, res, next) => {
 			password: Joi.string().required(),
 		});	
 		
-		const {error} = loginSchema.validate(req.body);
-		
-		if (error) {
-			const validationError = new Error(error.details[0].message);
-			validationError.statusCode = 400;  
-			throw validationError;
-		}
+		isRequestCorrect(loginSchema, req)
 
 		// Essaye de récuperer le professeur dans la DB à partir du mail
 		const existingProfessor = await Professor.findOne({ where: { mail: req.body.mail } });
@@ -133,7 +137,7 @@ exports.login = async (req, res, next) => {
 
 			} else {
 				// On indique qu'il s'agit du mauvais mdp
-				const error = new Error("Mauvais mdp.");
+				const error = new Error("Le mot de passe est incorrect.");
 				error.statusCode = 400;  
 				throw error;
 			}
