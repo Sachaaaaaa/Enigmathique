@@ -16,7 +16,7 @@ function TeamDetails({ teamData, onClose}) {
 			sallesReussies: teamData.rooms.filter(room => room.isSolved).length,
 			enigmesResolues: teamData.rooms.reduce((acc, room) => acc + room.nbGoodAnswers, 0),
 		}
-		: teamData.rooms.find(room => room.name === selectedRoom);
+		: teamData.rooms.find(room => room.roomName === selectedRoom);
 	
 	useEffect(() => {
 		// Générer un jeu fixe de couleurs lors du premier chargement du composant
@@ -36,14 +36,14 @@ function TeamDetails({ teamData, onClose}) {
 			const startTime = new Date(room.startTime).getTime();
 			let endTime = room.endTime ? new Date(room.endTime).getTime() : null;
 
-			timers[room.name] = setInterval(() => {
+			timers[room.roomName] = setInterval(() => {
 				if (!endTime) {
 					endTime = new Date().getTime();
 				}
 				const elapsedTime = endTime - startTime;
 				setRoomTimers(prevTimers => ({
 					...prevTimers,
-					[room.name]: formatElapsedTime(elapsedTime)
+					[room.roomName]: formatElapsedTime(elapsedTime)
 				}));
 			}, 1000);
 		});
@@ -56,10 +56,10 @@ function TeamDetails({ teamData, onClose}) {
 	useEffect(() => {
 
 		const chartData = {
-			labels: teamData.rooms.map(room => room.name),
+			labels: teamData.rooms.map(room => room.roomName),
 			datasets: [{
 				label: 'Temps passé dans chaque salle',
-				data: teamData.rooms.map(room => convertTimeToSeconds(roomTimers[room.name])),
+				data: teamData.rooms.map(room => convertTimeToSeconds(roomTimers[room.roomName])),
 				backgroundColor: backgroundColorSet,
 				hoverBackgroundColor: backgroundColorSet.map(color => lightenColor(color, 10))
 			}]
@@ -114,8 +114,8 @@ function TeamDetails({ teamData, onClose}) {
 						<h3 className="text-xl font-semibold mb-4 text-gray-500">Temps de jeu :</h3>
 						{teamData.rooms.map((room, index) => (
 							<div key={index} className="mb-2 flex items-center justify-between">
-								<span className="text-gray-500">{room.name}</span>
-								<span className="font-bold">{roomTimers[room.name]}</span>
+								<span className="text-gray-500">{room.roomName}</span>
+								<span className="font-bold">{roomTimers[room.roomName]}</span>
 							</div>
 						))}
 						{/* Graphique en beignet */}
@@ -132,7 +132,7 @@ function TeamDetails({ teamData, onClose}) {
 									className="appearance-none bg-white border border-blue-500 text-blue-600 py-1 px-4 rounded-full shadow-md-sm focus:outline-none">
 									<option value="Global">Global</option>
 									{teamData.rooms.map((room) => (
-										<option key={room.name} value={room.name}>{room.name}</option>
+										<option key={room.roomName} value={room.roomName}>{room.roomName}</option>
 									))}
 								</select>
 								<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-blue-500">

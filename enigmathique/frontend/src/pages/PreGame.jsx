@@ -11,6 +11,7 @@ import {
 import AuthService from '../services/auth.service';
 import {useNavigate} from 'react-router-dom';
 import Notification from '../components/Notification';
+import toast from 'react-hot-toast';
 
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
@@ -58,6 +59,10 @@ const PreGame = () => {
 	}, []);
 
 	const handleStartGame = () => {
+		if (confirmedTeams.length === 0) {
+			toast.error('Il faut au moins une équipe pour commencer la partie');
+			return;
+		}
 		socket.emit(ClientToServer.FinishComposition);
 	};
 

@@ -7,11 +7,12 @@ import { useRoom } from 'contexts/RoomContext';
 import { useSocket } from 'contexts/SocketContext';
 import useMemoryState from 'hooks/useMemoryState';
 import { ClientToServer, ServerToClient } from 'data/socketMessages';
-import { IoIosCloseCircle } from 'react-icons/io';
+import ClosePopup from '../informations/ClosePopup';
+
 
 extend({ Html });
 
-const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
+const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma, title="" }) => {
 	const { room } = useRoom();
 	const socket = useSocket();
 
@@ -38,20 +39,33 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 	};
 
 	useEffect(() => {
-		const handleAnswerFeedback = ({ isSolved, endMessage }) => {
-			if (isSolved) {
-				setEnigmaState({ isSolved: true, endMessage: endMessage, hint: null });
+		const handleAnswerFeedback = (data) => {
+			const _enigmaId = data.enigmaId;
+			const _isSolved = data.isSolved;
+			const _endMessage = data.endMessage;
+
+			if (_enigmaId == null || _enigmaId !== enigmaId) {
+				return;
+			}
+
+			if (_isSolved) {
+				setEnigmaState({ isSolved: true, endMessage: _endMessage, hint: null });
 			}
 		};
 
-		const handleHintFeedback = ({ hint }) => {
-			console.log('hint', hint);
-			setEnigmaState({ hint });
+		const handleHintFeedback = (data) => {
+			const _enigmaId = data.enigmaId;
+
+			if (_enigmaId == null || enigmaId !== _enigmaId) {
+				return;
+			}
+
+			const _hint = data.hint;
+			setEnigmaState({ hint: _hint });
 		};
 
 		socket.on(ServerToClient.Feedback, handleAnswerFeedback);
 		socket.on(ServerToClient.Hint, handleHintFeedback);
-
 		return () => {
 			socket.off(ServerToClient.Feedback, handleAnswerFeedback);
 			socket.off(ServerToClient.Hint, handleHintFeedback);
@@ -61,14 +75,19 @@ const Enigma = ({ enigmaId, enigmaDisplayTemplate, closeEnigma }) => {
 
 	return (
 		<Html>
-			<div className={`z-0 absolute translate-y-[-50%] top-1/2 left-1/2 p-4 w-72 bg-white rounded-md flex flex-col ${!enigmaState.isSolved ? 'border-4 border-red-600' : 'border-4 border-green-600'}`}>
-				<button onClick={closeEnigma} className="flex justify-around items-center bg-red-600 p-2 rounded w-2/5 mb-4">
-					<IoIosCloseCircle /> Fermer
-				</button>
+			<div className={`pop-up-container max-w-[300px]
+			${!enigmaState.isSolved ? 'border-4 border-red-600' : 'border-4 border-green-600'}`}>
+				<div className='flex justify-between items-start w-full '>
+					<h1 className='pop-up-title p-3'>{title} </h1>
+					<ClosePopup onClick={closeEnigma}></ClosePopup>
+				</div>
 
-				{enigmaDisplayTemplate(variables, enigmaState.hint, submitAnswer, askHint)}
-
-				{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
+				<div className='p-3 pt-0'>
+				{enigmaDisplayTemplate(variables, enigmaState.hint, enigmaState.isSolved, submitAnswer, askHint)}
+				<div className='text-green-600'>
+					{enigmaState.isSolved && <p>{enigmaState.endMessage}</p>}
+				</div>
+				</div>
 
 			</div>
 		</Html>
@@ -81,6 +100,7 @@ Enigma.propTypes = {
 	enigmaId: PropTypes.number.isRequired,
 	enigmaDisplayTemplate: PropTypes.elementType.isRequired,
 	closeEnigma: PropTypes.func.isRequired,
+	title: PropTypes.string,
 };
 
 /*

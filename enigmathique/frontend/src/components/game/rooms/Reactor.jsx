@@ -13,6 +13,8 @@ import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
 import EnigmaCoffreDisplay from '../enigmas/EnigmaCoffreDisplay';
 import EnigmaWithSlidersDisplay from '../enigmas/EnigmaSliderDisplay';
+import EnigmaPcConsole from '../enigmas/EnigmaPcConsole';
+import EnigmaChaufDisplay from '../enigmas/EnigmaChaufDisplay';
 
 export default function ReactorRoom(props) {
 	const socket = useContext(SocketContext);
@@ -91,9 +93,42 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<InformationPopup
 						title="Commande Ordinateur"
-						information="IP : affiche l'adresse de l'ordinateur / Info -R : Documentation du reacteur"
+						information="ipconfig : affiche l'adresse de l'ordinateur |
+													info : Documentation du reacteur |
+													formule : Afficher les formules importantes"
 						closePopup={forceExit}
 					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const OrdiInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cube004"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cube004.geometry}
+				material={materials["Metal.001"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<EnigmaPcConsole closePopup={forceExit} />
 				)}
 			</mesh>
 		);
@@ -126,7 +161,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<InformationPopup
 						title="Tient encore des papier !"
-						information="Sur un des papier il y a écrit : 'Pense bete, code coffre : Décomposer la première valeur de l'addresse de l'ordinateur en facteur de nombre premier. (a = x * y * z² => xyzz)'"
+						information="Sur un des papier il y a écrit : 'Pense bete, code coffre : Décomposer la première valeur de l'addresse de l'ordinateur en produit de facteur de nombre premier. (a = x * y * z² => xyzz)'"
 						closePopup={forceExit}
 					/>
 				)}
@@ -243,13 +278,13 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
-						enigmaId={0}
+						enigmaId={1}
 						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaWithSlidersDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								titreSlider='Volume H2O'
-								title="Console"
-								description="Il faut trouver le bon code pour réactiver le réacteur."
+								title="Panneau de controle"
+								description="Il faut éviter une autre surchauffe. Arrondir le volume du fluide caloporteur à l'entier le plus proche."
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
@@ -288,7 +323,7 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
-						enigmaId={0}
+						enigmaId={2}
 						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								handleSubmitAnswer={handleSubmitAnswer}
@@ -297,6 +332,51 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
+							/>
+						)}
+						closeEnigma={forceExit}
+					/>
+				)}
+			</mesh>
+		);
+	};
+
+	const TH2OInt = () => {
+		const {
+			mesh,
+			hovered,
+			clicked,
+			handlePointerOver,
+			handlePointerOut,
+			handleClick,
+			forceExit,
+		} = useInteractiveObject();
+		// Mettre les paramètres de l'objet qu'on veut modifier dans le hook
+		return (
+			<mesh
+				ref={mesh}
+				name="Cylinder009_2"
+				castShadow
+				receiveShadow
+				geometry={nodes.Cylinder009_2.geometry}
+				material={materials["Glass.001"]}
+				onPointerOver={handlePointerOver}
+				onPointerOut={handlePointerOut}
+				onClick={handleClick}
+			>
+				{hovered && <meshBasicMaterial color={0xffcc00} />}
+				{clicked && (
+					<Enigma
+						enigmaId={3}
+						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+							<EnigmaChaufDisplay
+								title="Pas trop chaud."
+								description="Le but c'est de refroidir le réacteur."
+								hint={hint}
+								image={data.image}
+								handleSubmitAnswer={handleSubmitAnswer}
+								handleAskHint={handleAskHint}
+								stepButton={1}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -328,6 +408,7 @@ export default function ReactorRoom(props) {
 					scale={[1, 0.03, 0.5]}
 				/>
 				<group name="Ordi" position={[1.5, 1.41, -1.7]} scale={0.28}>
+					{/*
 					<mesh
 						name="Cube004"
 						castShadow
@@ -335,6 +416,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Cube004.geometry}
 						material={materials["Metal.001"]}
 					/>
+					*/}
+					<OrdiInt />
 					<mesh
 						name="Cube004_1"
 						castShadow
@@ -707,6 +790,7 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Cylinder009_1.geometry}
 						material={materials["Metal.002"]}
 					/>
+					{/*
 					<mesh
 						name="Cylinder009_2"
 						castShadow
@@ -714,6 +798,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Cylinder009_2.geometry}
 						material={materials["Glass.001"]}
 					/>
+					*/}
+					<TH2OInt />
 					<mesh
 						name="Cylinder009_3"
 						castShadow

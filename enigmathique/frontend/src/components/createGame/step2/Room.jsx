@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
 import {FaSearch} from 'react-icons/fa';
-import '../createGame.css'
 import {IconContext} from 'react-icons';
 import { FaPuzzlePiece, FaMedal  } from "react-icons/fa";
 import toast from "react-hot-toast";

@@ -6,16 +6,13 @@ import { socket, SocketContext } from 'contexts/SocketContext';
 import { useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
-import Chronometer from '../components/game/enigmas/Chronometre';
+import Timer from '../components/game/enigmas/Timer';
 import Rules from 'components/game/Rules';
 
 import E from '../assets/img/E.png';
-import help from '../assets/img/help.png';
 import logoNameNobg from '../assets/img/logo-name-enigmathique-white.png';
 import bglogo from '../assets/img/bg_logo.png';
-
-import { IoIosCloseCircle } from 'react-icons/io';
-import { clear } from '@testing-library/user-event/dist/clear';
+import { FiInfo } from 'react-icons/fi';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -83,9 +80,10 @@ const Game = () => {
 			</section>
 
 			{/* Bouton pour ouvrir/fermer la fenêtre */}
-			<div className='absolute bottom-0 right-0 m-4 w-16 h-16 z-50'>
-				<button onClick={toggleWindow}><img src={help} alt="help" /></button>
-			</div>
+			<button className='absolute z-50 bottom-0 right-0 
+													flex justify-center items-center m-5
+								btn-action-blue'
+								onClick={toggleWindow}><FiInfo size='3em'/></button>
 
 			{/* Fenêtre d'aide */}
 			{isWindowOpen && (
@@ -106,7 +104,8 @@ const Game = () => {
 			)}
 
 			{/* Fin de la salle */}
-			{isFinished && (
+			{/* TODO: Remettre quand fix, empeche de rejouer quand rotation */}
+			{(isFinished && false) && ( 
 				<div className='absolute top-0 left-0 w-full h-full flex justify-center items-center z-50' style={{background: 'rgba(0, 0, 0, 0.7)',}}>
 					
 					<img src={bglogo} alt="logo" style={{
@@ -131,14 +130,14 @@ const Game = () => {
 
 			{/* Chronomètre */}
 
-			{isLoading && <Chronometer initialTime={600} resetChronometer={isFinished} />}
+			{isLoading && <Timer duration={600}/>}
 			<RoomProvider>
 				<Canvas
 					shadows
 					camera={{ position: [5, 5, 5], fov: 35 }}
 					style={{ height: '100vh', width: '100vw' }}
 				>
-					<color attach="background" args={['#9999e6']} />
+					<color attach="background" args={['#24579e']} />
 					<Scene />
 				</Canvas>
 			</RoomProvider>

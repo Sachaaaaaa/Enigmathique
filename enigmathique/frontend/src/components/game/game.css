@@ -1,0 +1,82 @@
+/************************ Fichiers css spécial pour l'affichage des composants du jeu ************************/
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+@layer components {
+/**************** Couleurs et styles de base ****************/
+
+/** Couleurs de texte **/
+
+    .primary-font-color {
+        @apply text-[#343C6A];
+    }
+    .green-font-color {
+        @apply text-[#019799];
+    }
+    .red-font-color {
+        @apply text-[#EF4565];
+    }
+
+
+/**************** Affichage des règles du jeu (Rules.jsx) ****************/
+
+    /* Section de la page */
+        .rule-article {
+            @apply flex flex-col gap-2 w-full;
+        }
+    /* Titre de la section */
+        .rule-title {
+            @apply font-semibold py-3 primary-font-color uppercase;
+        }
+    /* Contenu de la section */
+        .rule-div-content {
+            @apply flex justify-start items-center gap-2 w-full primary-font-color;
+        }
+    /* Style des icones */
+        .icon-rule-div {
+            @apply w-fit p-2 pl-0;
+        }
+
+/**************** Affichage des énigmes et informations ****************/
+    /* Conteneur du pop-up */
+        .pop-up-container {
+            @apply centered-pop-up flex flex-col w-max bg-white primary-font-color rounded-md shadow-md
+        }
+    /* Pour le centrer */    
+    .centered-pop-up {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .pop-up-title {
+        @apply font-semibold text-lg text-center p-5;
+    }
+
+/**************** Boutons ******************/
+
+    /** Bouton fermer **/
+        .close-button {
+            @apply flex justify-center items-center p-0 red-font-color font-semibold rounded-full  ;
+        }
+    
+    
+    /*** Boutons d'énigme ***/
+        .enigma-button {
+            @apply flex justify-center items-center gap-5 w-full p-[8px] rounded-lg  ;
+        }
+        /** Bouton de validation **/
+            .validate-button {
+                @apply enigma-button bg-[#00ff00d7] ;
+            }
+
+        /* Bouton d'indice */
+            .hint-button {
+                @apply enigma-button bg-[#ffcc00] ;
+            }
+
+}

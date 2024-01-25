@@ -8,6 +8,8 @@ import ContentHeader from "../dashboard/ContentHeader";
 import TableContainer from "../dashboard/TableContainer";
 import ActionButton from "../dashboard/ActionButton";
 import TeamStats from "../../pages/TeamStats";
+import { getRowColor } from 'components/ListManager';
+
 const StudentDetails = ({id}) =>{
 	const [currentStudent, setCurrentStudent] = useState(null);
 	const [games, setGames] = useState([]);
@@ -43,26 +45,24 @@ const StudentDetails = ({id}) =>{
 	const loadAllGames = async () =>{
 		const data = await GameModel.getAll();
 		setGames(data);
-		console.log('games',data);
-		loadAllData(data);
+		const student = await loadCurrentStudent();
+		loadAllData(data, student);
 	}
 
 	/**
 	 * Récupération de toutes les données d'une partie
 	 * @param games la liste des parties
+	 * @param student l'élève courant
 	 * @returns {Promise<void>}
 	 */
-	const loadAllData = (games) =>{
+	const loadAllData = (games, student) =>{
 		games.map(async (game) => {
 			//récupération de toutes les teams d'une partie
 			const teams = await TeamModel.getTeamFromGame(game.id)
-			console.log('les teams',teams)
 			teams.map(async (team) => {
 				//récupération de tous les élèves d'une team
 				const listStudents = await loadStudentFromTeam(team.id);
-				console.log('les students',listStudents)
-				const student= await loadCurrentStudent();
-				console.log('le student',student);
+
 				addTeam(listStudents, team, student);
 			})
 		})
@@ -74,8 +74,7 @@ const StudentDetails = ({id}) =>{
 	 */
 	const loadStudentFromTeam = async (id) =>{
 		//récupération de toutes les teams d'une partie
-		const students = await TeamModel.getStudents(id)
-		return students;
+		return await TeamModel.getStudents(id);
 	}
 	/**
 	 * Ajout d'une team dans la liste des teams à condition qu'elle ne soit pas déjà présente dans
@@ -93,22 +92,26 @@ const StudentDetails = ({id}) =>{
 			}
 		})
 	}
-	console.log('listTeam',listTeam);
 
 	/**
 	 * Récupération des scores de chaque team et création d'un score contenant les données
 	 */
 	const getRanking = async () => {
 		//attendre que toutes les promesses soient chargées pour effectuer la suite
-		const listItem = await Promise.all(
+		const newScores = await Promise.all(
 			listTeam.map( async (team) => {
+
 				const scores = await TeamModel.getScores(team.id);
+				const date = new Date(scores[0].createdAt);
 				const calculatedScore = scores.reduce((sum, score) => sum +
-						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints),
+						calculateScore(score.nbGoodAnswers, score.nbBadAnswers, score.nbHints, score.isSolved),
 					0);
+
+
 				const members = await loadMembers(team.id);
 				return {
 					id: team.id,
+					date: date.toLocaleDateString(),
 					name: team.name,
 					members: members,
 					calculatedScore: calculatedScore,
@@ -116,11 +119,20 @@ const StudentDetails = ({id}) =>{
 				};
 			})
 		)
-		setListScores(listItem);
-		console.log('listItem',listItem);
-		console.log('listScores',listScores);
+		setListScores((prevListScores) => {
+			const uniqueNewScores = newScores.filter(
+				(newScore) => !prevListScores.some((existingScore) => existingScore.id === newScore.id)
+			);
+			// Trier la liste combinée par dates la plus récentes
+			const sortedList = [...prevListScores, ...uniqueNewScores].sort((a, b) => {
+				return b.date.localeCompare(a.date);
+			});
+			return sortedList;
+		});
+
 
 	}
+
 	useEffect(() => {
 		if (listTeam.length > 0) {
 			getRanking();
@@ -132,7 +144,6 @@ const StudentDetails = ({id}) =>{
 	}
 
 	const handleDetailsClick = (team) => {
-		console.log('team',team);
 		setSelectedTeam(team);
 		loadScoresForOneTeam(team.id);
 	};
@@ -141,12 +152,17 @@ const StudentDetails = ({id}) =>{
 	return(
 		<>
 			<main>
-				<ContentHeader title={currentStudent? currentStudent.name:'Loading...'} link='/dashboard'/>
+				<ContentHeader
+					title={currentStudent? currentStudent.firstname +' '+currentStudent.lastname :'Loading...'}
+					link={`/class/${currentStudent? currentStudent.idCourse: '/class'}`}
+				/>
 				<div className="overflow-x-auto mt-4">
-					<TableContainer headers={['Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
-
+					<TableContainer headers={['Date','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
 						{listScores.map((team, index) => (
-							<tr key={team.id} className={`${index % 2 === 0 ? 'bg-white' : 'bg-blue-50'}`}>
+							<tr key={team.id} className={getRowColor(index)}>
+								<td className="td-style">
+									{team.date}
+								</td>
 								<td className="td-style">
 									{team.name}
 								</td>

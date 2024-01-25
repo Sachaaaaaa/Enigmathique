@@ -17,15 +17,26 @@ import RoomList from 'pages/RoomPage';
 import ProfFollowUp from 'pages/ProfFollowUp';
 import Ranking from 'pages/Ranking';
 import StudentStats from "./pages/StudentStats";
+import NotFound from "./pages/NotFound";
+
+import useCourses from 'hooks/useCourses';
+
 
 const App = () => {
+
+	const [courses] = useCourses();
 	return (
 		<Routes>
+			<Route path='*' element={<NotFound/>}/>
 			<Route path='/' element={<Home/>}/>
 			<Route path='/signup' element={<Signup/>}/>
 			<Route path='/login' element={<Login/>}/>
 			<Route path='/dashboard' element={<Dashboard/>}/>
 			<Route path='/class' element={<Class/>}/>
+			{/* {courses.map((course) =>  {
+				return <Route key={course.id} path={'/class/:' + course.id} element={<Students/>}/>
+			})
+			} */}
 			<Route path='/class/:id' element={<Students/>}/>
 			<Route path='/game' element={<Game/>}/>
 			<Route path='/games' element={<Games/>}/>

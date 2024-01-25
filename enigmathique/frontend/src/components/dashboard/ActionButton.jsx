@@ -50,6 +50,10 @@ const ActionButton = ({title,link = '', onClick= () => {}, disabled=false}) => {
             icon: <IoMdRemove size='1em'/>,
             className: "btn-action-red",
         },
+        règles: {
+            icon: <FiInfo size='1.25em'/>,
+            className: "btn-action-blue absolute bottom-0 right-0 m-4 w-16 h-16 z-50",
+        },
 
     }
 
