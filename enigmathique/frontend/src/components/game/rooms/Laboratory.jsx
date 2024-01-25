@@ -11,11 +11,21 @@ import { SocketContext } from '../../../contexts/SocketContext';
 import { ClientToServer } from '../../../data/socketMessages';
 import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
+import InfoPopupSlider from '../informations/InfoPopupSlider';
 import EnigmaCoffreDisplay from '../enigmas/EnigmaCoffreDisplay';
 import EnigmaChaufDisplay from '../enigmas/EnigmaChaufDisplay';
-import recette_test from '../../../assets/img/recette_test.png';
+
+import la_recette from '../../../assets/img/la_recette.png';
+import NoteLab from '../../../assets/img/Notes_lab.png';
+import fonctionLab from '../../../assets/img/fonction_lab.png';
 
 export default function Room001(props) {
+	const images = [
+		la_recette,
+		fonctionLab,
+		NoteLab,
+	];
+
 	const socket = useContext(SocketContext);
 
 	useEffect(() => {
@@ -91,12 +101,12 @@ export default function Room001(props) {
 			>
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
-					<InformationPopup
+					<InfoPopupSlider
 						title="Recette de potion de Nano"
-						image={recette_test}
+						images={images}
 						closePopup={forceExit}>
-					<p>Cette recette vous dit quelque chose... Ça a {"l'air d'être"} une <strong>recette alternative</strong> à la potion de souris !</p>
-					</InformationPopup>
+						<p>Cette recette vous dit quelque chose... Ça a {"l'air d'être"} une <strong>recette alternative</strong> à la potion de souris !</p>
+					</InfoPopupSlider>
 				)}
 			</mesh>
 		);
@@ -323,7 +333,7 @@ export default function Room001(props) {
 						material={materials["Metal.001"]}
 					/>
 					*/}
-					<PorteInt/>
+					<PorteInt />
 					<mesh
 						name="Cube015_1"
 						castShadow

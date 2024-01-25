@@ -93,11 +93,13 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<InformationPopup
 						title="Commande Ordinateur"
-						information="ipconfig : affiche l'adresse de l'ordinateur |
-													info : Documentation du reacteur |
-													formule : Afficher les formules importantes"
 						closePopup={forceExit}
-					/>
+					>
+						<div><p><strong>ipconfig</strong> : affiche l&apos;adresse de l&apos;ordinateur</p>
+							<p><strong>info</strong> : Documentation du reacteur</p>
+							<p><strong>formule</strong> : Afficher les formules importantes</p>
+						</div>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -235,7 +237,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								title="Impossible de forcer le coffre !"
@@ -243,6 +245,7 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -279,7 +282,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={1}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaWithSlidersDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								titreSlider='Volume H2O'
@@ -288,6 +291,7 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -324,7 +328,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={2}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								handleSubmitAnswer={handleSubmitAnswer}
 								title="Alors peut-être que..."
@@ -332,6 +336,7 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -368,7 +373,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={3}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
 								title="Pas trop chaud."
 								description="Le but c'est de refroidir le réacteur."
@@ -377,6 +382,7 @@ export default function ReactorRoom(props) {
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
 								stepButton={1}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -413,7 +419,7 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<Enigma
 						enigmaId={4}
-						enigmaDisplayTemplate={(data, hint, handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								title="Attention a ne pas tout faire sauter."
 								description="Il faut mettre la bonne intensité de courant."
@@ -421,6 +427,7 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
+								isSolved={isSolved}
 							/>
 						)}
 						closeEnigma={forceExit}
