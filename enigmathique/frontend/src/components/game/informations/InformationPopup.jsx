@@ -14,15 +14,15 @@ const InformationPopup = ({ title, image, closePopup, children }) => {
 		<Html>
 			<div className="pop-up-container items-center max-w-[600px]">
 				<div className='flex justify-between items-start w-full '>
-				<h1 className='pop-up-title'>{title} </h1>
-				<ClosePopup onClick={closePopup}></ClosePopup>
+					<h1 className='pop-up-title'>{title} </h1>
+					<ClosePopup onClick={closePopup}></ClosePopup>
 				</div>
-				
+
 				<div className='p-5 pt-0'>
-				{children}
+					{children}
 				</div>
-				
-				{image && <img src={image} alt="information image"/>}
+
+				{image && <img src={image} alt="information image" />}
 
 			</div>
 		</Html>
