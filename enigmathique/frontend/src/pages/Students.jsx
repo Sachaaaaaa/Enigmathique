@@ -13,7 +13,6 @@ function Students() {
 	const loadStudents = async () => {
 
 		const data = await StudentModel.getAll(id);
-		console.log(data);
 		setStudents(data);
 		if (data !== undefined) {
 			return;
@@ -26,7 +25,7 @@ function Students() {
 	}, []);
 
 	return (
-		<LayoutProf title='class' id={parseId}>
+		<LayoutProf title="" id={parseId}>
 			<main>
 				<Notification/>
 				<ListStudents students={students} id={parseId} loadStudents={loadStudents}/>
