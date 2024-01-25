@@ -13,6 +13,8 @@ import E from '../assets/img/E.png';
 import logoNameNobg from '../assets/img/logo-name-enigmathique-white.png';
 import bglogo from '../assets/img/bg_logo.png';
 import { FiInfo } from 'react-icons/fi';
+import Notification from 'components/Notification';
+import toast from 'react-hot-toast';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -58,10 +60,20 @@ const Game = () => {
 		};
 		socket.on(ServerToClient.SwitchRoom, handleRoomSwitch);
 
+		
 		socket.on(ServerToClient.GameEnded, () => {
 			console.log('Partie terminée');
 			// TODO: Bouger vers la page de fin de partie quand
 			navigate('/');
+		});
+
+		socket.on(ServerToClient.Error, (data) => {
+			if (data.isFatal) {
+				alert(`Erreur : ${data.message}, isFatal : ${data.isFatal}. Faire quelque chose, rajouter du feedback`);
+				navigate('/');
+			} else {
+				toast.error(data.message);
+			}
 		});
 
 		return () => {
@@ -71,6 +83,7 @@ const Game = () => {
 			socket.off(ServerToClient.RoomSolved);
 			socket.off(ServerToClient.SwitchRoom, handleRoomSwitch); // Retire uniquement cette fonction de l'évent
 			socket.off(ServerToClient.GameEnded);
+			socket.off(ServerToClient.Error);
 		};
 	});
 
@@ -83,6 +96,7 @@ const Game = () => {
 
 	return (
 		<SocketContext.Provider value={socket}>
+			<Notification />
 			<section className="absolute w-full h-20 border-y-0 top-0 topbar-container z-50">
 				<div className="w-11/12">
 					<img src={logoNameNobg} alt="logo" style={{ height: '4em', marginLeft: '2em' }} />
