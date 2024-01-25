@@ -32,7 +32,7 @@ const ClassElem = (props) => {
 		const data = await GameModel.getAll();
 		let listGames = [];
 		data.forEach((game) => {
-			classGroup.id === game.idCourse && listGames.push();
+			classGroup.id === game.idCourse && listGames.push(game);
 		});
 		setGamesOf(listGames);
 	}
@@ -45,11 +45,11 @@ const ClassElem = (props) => {
 		if(games.length !== 0) {
 			let maxDate = games[0].createdAt;
 			games.forEach((game) => {
-				(game.createdAt.localeCompare(maxDate) > 0) && (maxDate = game.createdAt);
+				(game.createdAt > maxDate) && (maxDate = game.createdAt);
 			});
-			return maxDate;
+			return maxDate.toLocaleDateString('fr-FR');
 		} else {
-			return 'jamais joué'
+			return 'Jamais joué'
 		}
 	}
 
@@ -58,13 +58,13 @@ const ClassElem = (props) => {
 		let nbScore;
 		if(games.length !== 0) {
 			games.forEach((game) => {
-				GameService.getScores(game.id).then((response) => {
+					GameService.getScores(game.id).then((response) => {
 					const scoreList = response;
 					scoreList.forEach((score) => {
-						score.time < maxTime && winRate++;
+						score.isSolved && winRate++;
 					});
-					nbScore = scoreList.length;
-				}).catch((error) => {
+						nbScore = scoreList.length;
+					}).catch((error) => {
 					console.log(error);
 				});
 			});
@@ -73,7 +73,6 @@ const ClassElem = (props) => {
 			return 0;
 		}
 	}
-
 
 	/*Données de génération du graphique*/
 	const data = {

@@ -1,60 +1,47 @@
 /*
   ================================
-   Test des routes /api/professor
+   Test des routes /api/student
   ================================
 */
-
-
 const request = require('supertest');
-const app = 'http://localhost:5000'; 
+const app = 'http://localhost:5000';
 
-let token; // Pour stocker le token JWT
-let studentId1; // Pour stocker l'ID de l'élève créé
-let studentId2; // Pour stocker l'ID de l'élève créé n°2
-let courseId; // Pour stocker l'ID de la classe créée
-let professorId; // Pour stocker l'ID du professeur créé
+let token, courseId, professorId, studentId1, studentId2;
 
 describe('Test des routes /api/student', () => {
-    // Création d'un professeur pour les tests
-    test('POST /api/professor devrait créer un professeur', async () => {
-        const newProfessorData = {
-        lastname: 'sacha',
-        firstname: 'test',
-        mail: 'sachatest@example.com',
-        password: 'password1234'
-        };
+    beforeAll(async () => {
+        // Créer un professeur
+        const profResponse = await request(app)
+            .post('/api/auth/register')
+            .send({
+                lastname: 'Lolosz',
+                firstname: 'bergerysa',
+                mail: 'lolosaz@example.com',
+                password: 'password1234sza'
+            });
+        expect(profResponse.statusCode).toBe(201);
+        token = profResponse.body.token;
+        professorId = profResponse.body.id;
 
-        const response = await request(app)
-        .post('/api/auth/register')
-        .send(newProfessorData);
-
-        expect(response.statusCode).toBe(201);
-        token = response.body.token; // Stock le token JWT pour les tests suivants
-        professorId = response.body.id; // Stock l'ID du professeur créé
+        // Créer une classe
+        const courseResponse = await request(app)
+            .post('/api/course')
+            .set('Authorization', `${token}`)
+            .send({
+                name: 'Secondes 1 test',
+                idProfessor: professorId
+            });
+        expect(courseResponse.statusCode).toBe(201);
+        courseId = courseResponse.body.id;
     });
 
-    // Création d'une classe Seconde 1 pour les tests
-    test('POST /api/course devrait créer une classe', async () => {
-        const newCourseData = {
-        name: 'Secondes 1', // Nom de la classe
-        idProfessor: professorId // ID du professeur 
-        };
-
-        const response = await request(app)
-        .post('/api/course')
-        .set('Authorization', `${token}`)
-        .send(newCourseData);
-
-        expect(response.statusCode).toBe(201);
-        courseId = response.body.id; // Stocke l'ID de la classe créée
-    });
 
     // Test de création d'un élève
     test('POST /api/student devrait créer un élève', async () => {
         const newStudentData = {
-            lastname: 'eleve',
-            firstname: 'test',
-            idCourse: courseId // ID de la classe
+            lastname: 'Eleve1',
+            firstname: 'Test1',
+            idCourse: courseId
         };
 
         const response = await request(app)
@@ -63,15 +50,15 @@ describe('Test des routes /api/student', () => {
             .send(newStudentData);
 
         expect(response.statusCode).toBe(201);
-        studentId1 = response.body.id; // Stocke l'ID de l'élève créé
+        studentId1 = response.body.id;
     });
 
-    // Test de création d'un élève n°2
-    test('POST /api/student devrait créer un élève', async () => {
+    // Test de création d'un second élève
+    test('POST /api/student devrait créer un second élève', async () => {
         const newStudentData = {
-            lastname: 'eleve2',
-            firstname: 'test2',
-            idCourse: courseId // ID de la classe
+            lastname: 'Eleve2',
+            firstname: 'Test2',
+            idCourse: courseId
         };
 
         const response = await request(app)
@@ -80,64 +67,41 @@ describe('Test des routes /api/student', () => {
             .send(newStudentData);
 
         expect(response.statusCode).toBe(201);
-        studentId2 = response.body.id; // Stocke l'ID de l'élève créé
-    });
-    
-
-    // Test de récupération des élève d'une classe du professeur
-    test('GET /api/student devrait récupérer l élève 1', async () => {
-        const response = await request(app)
-            .get(`/api/student/${studentId1}`) // ID de l'élève dans l'URL
-            .set('Authorization', `${token}`) // Token JWT pour l'authentification
-
-        expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+        studentId2 = response.body.id;
     });
 
-    // Test de récupération des élève des classe du professeur
-    test('GET /api/student devrait récupérer l élève 2', async () => {
+    // Test de récupération des informations d'un élève
+    test('GET /api/student/:id devrait récupérer les informations de l\'élève', async () => {
         const response = await request(app)
-            .get(`/api/student/${studentId2}`) // ID de l'élève dans l'URL
-            .set('Authorization', `${token}`) // Token JWT pour l'authentification
+            .get(`/api/student/${studentId1}`)
+            .set('Authorization', `${token}`);
 
-        expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+        expect(response.statusCode).toBe(200);
     });
 
-
-    // Test suppression de l'élève n°1
-    test('DELETE /api/student/id devrait supprimer un élève', async () => {
+    // Test de suppression d'un élève
+    test('DELETE /api/student/:id devrait supprimer un élève', async () => {
         const response = await request(app)
-            .delete(`/api/student/${studentId1}`) // Id de l'élève à supprimer
-            .set('Authorization', `${token}`) // Token JWT pour l'authentification
-
-        expect(response.statusCode).toBe(201); // On s'assure que le statut est 200 (OK)
-    });
-
-    // Test suppression de l'élève n°2
-    test('DELETE /api/student/id devrait supprimer un élève', async () => {
-        const response = await request(app)
-            .delete(`/api/student/${studentId2}`)// Id de l'élève à supprimer
-            .set('Authorization', `${token}`) // Token JWT pour l'authentification
-
-        expect(response.statusCode).toBe(201); // On s'assure que le statut est 200 (OK)
-    });
-
-    // suppression de la classe
-     test('DELETE /api/course/id devrait supprimer la classe Seconde 2', async () => {
-        const response = await request(app)
-        .delete(`/api/course/${courseId}`) // ID de la classe
-        .set('Authorization', `${token}`)
+            .delete(`/api/student/${studentId1}`)
+            .set('Authorization', `${token}`);
 
         expect(response.statusCode).toBe(201);
-
     });
 
-    // Suppression du professeur
-    test('DELETE /api/professor/:id devrait supprimer un professeur', async () => {
+    // Test de suppression du second élève
+    test('DELETE /api/student/:id devrait supprimer un second élève', async () => {
         const response = await request(app)
-        .delete(`/api/professor`)
-        .set('Authorization', `${token}`); // Inclue le token JWT pour l'authentification
+            .delete(`/api/student/${studentId2}`)
+            .set('Authorization', `${token}`);
 
-        expect(response.statusCode).toBe(200); // On s'assure que le statut est 200 (OK)
+        expect(response.statusCode).toBe(201);
+    });
 
+    afterAll(async () => {
+        // Supprimer les élèves, la classe et le professeur créés
+        await request(app).delete(`/api/student/${studentId1}`).set('Authorization', `${token}`);
+        await request(app).delete(`/api/student/${studentId2}`).set('Authorization', `${token}`);
+        await request(app).delete(`/api/course/${courseId}`).set('Authorization', `${token}`);
+        await request(app).delete(`/api/professor`).set('Authorization', `${token}`);
     });
 });
