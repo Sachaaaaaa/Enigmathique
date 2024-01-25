@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 
 import { Scene } from '../components/game/SceneManager';
 import { socket, SocketContext } from 'contexts/SocketContext';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
 import Timer from '../components/game/enigmas/Timer';
@@ -21,12 +21,14 @@ const Game = () => {
 	const [isLoading, setIsLoading] = useState(true); // Pour savoir si on est en train de charger la scène
 	const [isFinished, setIsFinished] = useState(false); // Pour savoir si on a fini la salle
 
+	const navigate = useNavigate();
+
 	const sessionId = searchParams.get('sessionId');
 	const teamId = searchParams.get('teamId');
 
 	// Si l'id de session n'est pas défini, on quitte la page
 	if (!sessionId || !teamId) {
-		window.location.href = '/';
+		navigate('/');
 	}
 
 	// Met à jour l'id de session dans le handshake du socket
@@ -35,8 +37,6 @@ const Game = () => {
 	useEffect(() => {
 		socket.on(ServerToClient.Message, (message) => {
 			console.log('Message du serveur : ' + message);
-			setIsLoading(false);
-			setIsFinished(false);
 		});
 
 		socket.on(ServerToClient.Connection, () => {
@@ -48,9 +48,20 @@ const Game = () => {
 		});
 
 		socket.on(ServerToClient.RoomSolved, () => {
-			// TODO: Faire quelque chose avec ca
 			console.log('Salle résolue');
 			setIsFinished(true);
+		});
+
+		// Obliger de déclarer la fonction comme ça pour pouvoir enlever uniquement celle là dans le return
+		const handleRoomSwitch = () => {
+			setIsFinished(false);
+		};
+		socket.on(ServerToClient.SwitchRoom, handleRoomSwitch);
+
+		socket.on(ServerToClient.GameEnded, () => {
+			console.log('Partie terminée');
+			// TODO: Bouger vers la page de fin de partie quand
+			navigate('/');
 		});
 
 		return () => {
@@ -58,6 +69,8 @@ const Game = () => {
 			socket.off(ServerToClient.Connection);
 			socket.off(ServerToClient.Disconnection);
 			socket.off(ServerToClient.RoomSolved);
+			socket.off(ServerToClient.SwitchRoom, handleRoomSwitch); // Retire uniquement cette fonction de l'évent
+			socket.off(ServerToClient.GameEnded);
 		};
 	});
 
@@ -138,7 +151,7 @@ const Game = () => {
 					style={{ height: '100vh', width: '100vw' }}
 				>
 					<color attach="background" args={['#24579e']} />
-					<Scene />
+					<Scene setIsLoading={setIsLoading}/>
 				</Canvas>
 			</RoomProvider>
 		</SocketContext.Provider>
