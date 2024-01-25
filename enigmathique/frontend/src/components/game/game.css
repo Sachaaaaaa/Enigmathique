@@ -19,6 +19,9 @@
     .red-font-color {
         @apply text-[#EF4565];
     }
+    .hint-text {
+        @apply m-1.5 text-[#FFB001];
+    }
 
 
 /**************** Affichage des règles du jeu (Rules.jsx) ****************/
@@ -45,6 +48,7 @@
         .pop-up-container {
             @apply centered-pop-up flex flex-col w-max bg-white primary-font-color rounded-md shadow-md
         }
+
     /* Pour le centrer */    
     .centered-pop-up {
         position: absolute;
@@ -76,7 +80,22 @@
 
         /* Bouton d'indice */
             .hint-button {
-                @apply enigma-button bg-[#ffcc00] ;
+                @apply enigma-button bg-[#fe6601] ;
             }
+
+        /* Coffre */
+            .chest-input {
+                @apply w-full h-fit p-3 bg-transparent text-white text-center
+                         appearance-none focus:outline-none
+            }
+            .chest-button {
+                @apply w-auto p-2 text-white bg-[#2B2B2B] border-white;
+            }
+            .chest-button:hover {
+                @apply bg-[#1E1E1E];
+            }
+            .empty-chest-button {
+                @apply w-auto text-white bg-[#2B2B2B] border-white;
+            }    
 
 }
