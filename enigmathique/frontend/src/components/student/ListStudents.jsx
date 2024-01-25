@@ -26,6 +26,7 @@ const ListStudents = (props) => {
 			error: "Une erreur s'est produite"
 		});
 		setCreateModalOpen(false);
+		props.loadStudents();
 		//console.log('create ' + id);
 		setFirstname('');
 		setLastname('');
@@ -108,7 +109,8 @@ const ListStudents = (props) => {
 
 ListStudents.propTypes = {
 	students: PropTypes.array.isRequired,
-	id: PropTypes.number.isRequired
+	id: PropTypes.number.isRequired,
+	loadStudents: PropTypes.func.isRequired
 }
 
 export default ListStudents;
