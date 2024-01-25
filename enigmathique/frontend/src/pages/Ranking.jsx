@@ -9,6 +9,7 @@ import TableContainer from "../components/dashboard/TableContainer";
 import ContentHeader from "../components/dashboard/ContentHeader";
 import {getPositionStyle, getPositionIcon, calculateScore, loadMembers} from "../components/stats/RankStyleManager";
 import TeamRow from 'components/stats/TeamRow';
+import useTeams from 'hooks/useTeams';
 
 const Ranking = () => {
 
@@ -16,7 +17,7 @@ const Ranking = () => {
 	const parsedIdGame = parseInt(idGame);
 
 	const [game, setGame] = useState({});
-	const [teams, setTeams] = useState([]);
+	const [teams] = useTeams(parsedIdGame);
 	const [ranking, setRanking] = useState([]);
 	const [scoresForOneTeam, setScoresForOneTeam] = useState([]);
 	const [selectedTeam, setSelectedTeam] = useState(null);
@@ -49,13 +50,6 @@ const Ranking = () => {
 		setGame(data);
 	};
 
-	const loadTeams = async () => {
-		const data = await TeamModel.getTeamFromGame(parsedIdGame);
-		setTeams(data);
-	};
-
-
-
 	const getRanking = async () => {
 		const teamList = await Promise.all(
 			teams.map(async (team) => {
@@ -82,7 +76,6 @@ const Ranking = () => {
 	useEffect(() => {
 		checkIfGameFinished();
 		loadGame();
-		loadTeams();
 	}, []);
 
 	useEffect(() => {

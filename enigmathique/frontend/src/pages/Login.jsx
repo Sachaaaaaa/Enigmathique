@@ -27,7 +27,7 @@ const Login = () => {
 		// Réinitialiser le message d'erreur
 		setMessage('');
 
-		const formConplete = handleLoginError(mail, password);
+		const formComplete = handleLoginError(mail, password);
 		const {
 			mailStyle,
 			passwordStyle
@@ -36,9 +36,8 @@ const Login = () => {
 		setPasswordStyle(passwordStyle);
 
 		// Envoie des données de connexion à l'API
-		if (formConplete !== 1) {
+		if (formComplete !== 1) {
 			setLoading(true);
-			console.log('nous y est');
 			AuthService.login(mail, password).then(
 				() => {
 					// Redirection vers la page d'accueil
