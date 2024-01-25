@@ -9,6 +9,7 @@ import TableContainer from "../dashboard/TableContainer";
 import ActionButton from "../dashboard/ActionButton";
 import TeamStats from "../../pages/TeamStats";
 import { getRowColor } from 'components/ListManager';
+import {useNavigate} from "react-router-dom";
 
 const StudentDetails = ({id}) =>{
 	const [currentStudent, setCurrentStudent] = useState(null);
@@ -22,6 +23,7 @@ const StudentDetails = ({id}) =>{
 	//les scores d'une team
 	const [scoresForOneTeam, setScoresForOneTeam] = useState([]);
 
+	const navigate = useNavigate();
 	/**
 	 * Récupération de l'élève courant
 	 * @returns {Promise<StudentModel>}
@@ -29,6 +31,9 @@ const StudentDetails = ({id}) =>{
 	const loadCurrentStudent = async () =>{
 		const data = await StudentModel.getOne(id);
 		setCurrentStudent(data);
+		if (data === undefined) {
+			navigate('/class');
+		}
 		return data;
 	}
 	/**
@@ -85,6 +90,9 @@ const StudentDetails = ({id}) =>{
 	 * @returns {[]}
 	 */
 	const addTeam = (listStudents, team, currentStudent) => {
+		if (currentStudent === undefined) {
+			return [];
+		}
 		listStudents.map((student) => {
 			//.some permet de savoir si au moins un élément du tableau vérifie la condition
 			if (student.id === currentStudent.id && !listTeam.some(existingTeam => existingTeam.id === team.id)){
@@ -153,8 +161,8 @@ const StudentDetails = ({id}) =>{
 		<>
 			<main>
 				<ContentHeader
-					title={currentStudent? currentStudent.firstname +' '+currentStudent.lastname :'Loading...'}
-					link={`/class/${currentStudent? currentStudent.idCourse: '/class'}`}
+					title={currentStudent ? currentStudent.firstname +' '+currentStudent.lastname : 'Loading...'}
+					link={`/class/${currentStudent ? currentStudent.idCourse : '/class'}`}
 				/>
 				<div className="overflow-x-auto mt-4">
 					<TableContainer headers={['Date','Équipe', 'Score', 'Énigmes Résolues', 'Action']}>
