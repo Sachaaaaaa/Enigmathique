@@ -30,7 +30,7 @@ const styleEdit = (firstname, lastname, mail, password) =>{
 	}
 }
 
-const handleEmptyFields = (firstname, lastname, mail, password) => {
+const handleSignupError = (firstname, lastname, mail, password) => {
 	let error = false;
 	if (firstname === '' || lastname === '' || mail === '' || password === '') {
 		styleEdit(firstname, lastname, mail, password);
@@ -50,4 +50,25 @@ const handleEmptyFields = (firstname, lastname, mail, password) => {
 	}
 	if (error) return 1;
 };
-export {handleEmptyFields, styleEdit}
+
+const handleLoginError = (mail, password) => {
+	let error = false;
+	if (mail === '' || password === '') {
+		styleEdit('', '', mail, password);
+		error = true;
+		toast.error('Veuillez remplir tous les champs');
+		if (error) return 1;
+	}
+	if (!isValidEmail(mail) && mail!=='') {
+		styleEdit('', '', mail, password);
+		error = true;
+		toast.error('Veuillez entrer une adresse email valide');
+	}
+	if (!isValidPassword(password)  && password!=='') {
+		styleEdit('', '', mail, password);
+		error = true;
+		toast.error('Le mot de passe doit contenir au moins 8 caractères');
+	}
+	if (error) return 1;
+}
+export {handleSignupError, handleLoginError, styleEdit}

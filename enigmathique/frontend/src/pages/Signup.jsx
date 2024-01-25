@@ -9,7 +9,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import AuthService from '../services/auth.service';
 import toast from "react-hot-toast";
 import Notification from "../components/Notification";
-import {handleEmptyFields,	styleEdit} from "../components/authform/handleError";
+import {handleSignupError,	styleEdit} from "../components/authform/handleError";
 
 function Signup() {
 	
@@ -32,7 +32,7 @@ function Signup() {
 		setMessage('');
 
 		
-		const formConplete = handleEmptyFields(firstname, lastname, mail, password);
+		const formConplete = handleSignupError(firstname, lastname, mail, password);
 		const {
 			firstnameStyle,
 			lastnameStyle,
@@ -46,7 +46,6 @@ function Signup() {
 		console.log(formConplete);
 		
 		if (formConplete !== 1) {
-			console.log('form complete');
 			setLoading(true);
 			// Envoie des données de connexion à l'API
 			AuthService.register(firstname, lastname, mail, password).then(
@@ -63,7 +62,7 @@ function Signup() {
 						error.message ||
 						error.toString();
 					setLoading(false);
-					setMessage(resMessage);
+					toast.error(resMessage);
 				});
 		}
 	};
@@ -112,10 +111,6 @@ function Signup() {
 						loading={loading}
 						onClick={handleRegister}
 					/>
-					
-					{message && (
-						<div className='text-error-style'>{message}</div>
-					)}
 					
 					<div className='text-auth-container-style'>
 						<span> Vous avez déjà un compte ?</span>

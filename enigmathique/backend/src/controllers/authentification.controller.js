@@ -133,7 +133,7 @@ exports.login = async (req, res, next) => {
 
 			} else {
 				// On indique qu'il s'agit du mauvais mdp
-				const error = new Error("Mauvais mdp.");
+				const error = new Error("Mauvais mot de passe.");
 				error.statusCode = 400;  
 				throw error;
 			}
