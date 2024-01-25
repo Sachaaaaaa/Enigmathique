@@ -5,18 +5,18 @@ import TeamModel from "../../models/team.model";
 const getPositionIcon = (index) => {
 	switch (index) {
 		case 0:
-			return <FaStar className="text-3xl text-yellow-400" />;
+			return <FaStar className="text-4xl text-yellow-400" />;
 		case 1:
-			return <FaStar className="text-3xl text-gray-500" />;
+			return <FaStar className="text-4xl text-gray-500" />;
 		case 2:
-			return <FaStar className="text-3xl text-orange-600" />;
+			return <FaStar className="text-4xl text-orange-600" />;
 		default:
-			return <FaRegCircle className="text-4xl text-blue-300 stroke-2" />;
+			return <FaRegCircle className="text-4xl blue-font-color stroke-2" />;
 	}
 };
 
 const getPositionStyle = (index) => {
-	return index < 3 ? 'text-white' : 'text-black';
+	return index < 3 ? 'text-white' : 'blue-font-color';
 };
 
 const loadMembers = async (idTeam) => {
