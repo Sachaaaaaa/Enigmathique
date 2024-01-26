@@ -108,14 +108,14 @@ const Game = () => {
 			{(isFinished && false) && ( 
 				<div className='absolute top-0 left-0 w-full h-full flex justify-center items-center z-50' style={{background: 'rgba(0, 0, 0, 0.7)',}}>
 					
-					<img src={bglogo} alt="logo" style={{
+					{/* <img src={bglogo} alt="logo" style={{
 						position: 'absolute',
 						width: '100vw',
 						height: '100vh',
 						top: '0',
 						left: '0',
 						zIndex: '-1',
-					}}/>
+					}}/> */}
 
 					<div className='flex flex-col justify-center items-center'>
 						<h1 style={{
