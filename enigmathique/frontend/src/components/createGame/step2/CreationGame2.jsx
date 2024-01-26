@@ -95,7 +95,7 @@ const CreationGame2 = (props) => {
 								room={room}
 								handleRoomSelection={handleRoomSelection}
 								selected={selectedRooms.includes(room.name)}
-
+								selectOption={true}
 							/>
 					);
 				})}
