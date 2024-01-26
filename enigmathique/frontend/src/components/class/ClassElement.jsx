@@ -1,16 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Modal, {ModalBody, ModalHeader} from '../Modal';
-import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
-import {IoPerson} from "react-icons/io5";
-import CourseModel from "../../models/course.model";
-import {IoIosStats} from "react-icons/io";
-import GameModel from "../../models/game.model";
+import {IoPerson} from 'react-icons/io5';
+import CourseModel from 'models/course.model';
+import GameModel from 'models/game.model';
 import PropTypes from 'prop-types';
-import toast from "react-hot-toast";
-import ActionButton from "components/dashboard/ActionButton";
+import toast from 'react-hot-toast';
+import ActionButton from 'components/dashboard/ActionButton';
 import {getRowColor} from 'components/ListManager';
 
+/**
+ * Composant representant une classe dans la liste des classes
+ * @param classe
+ * @param onChange
+ * @param index
+ * @returns {Element}
+ * @constructor
+ */
 const ClassElement = ({classe, onChange, index}) => {
 	
 	const [gamesOf, setGamesOf] = useState([]);
@@ -18,37 +24,50 @@ const ClassElement = ({classe, onChange, index}) => {
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [name, setName] = useState('');
-	
-	
+
+	/**
+	 * Gestions des clics sur le bouton supprimer
+	 * @param event
+	 * @param id
+	 * @returns {Promise<void>}
+	 */
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
 			CourseModel.delete(id),
 			{
 				loading: 'Suppression...',
-				success: "La classe a bien été supprimée",
-				error: "Une erreur s'est produite",
+				success: 'La classe a bien été supprimée',
+				error: 'Une erreur s\'est produite',
 			}
 		);
 		onChange();
 		setDeleteModalOpen(false);
-		//console.log('delete ' + id);
-	}
-	
+	};
+
+	/**
+	 * Gestions des clics sur le bouton modifier
+	 * @param event
+	 * @param id
+	 * @returns {Promise<void>}
+	 */
 	const handleClickEdit = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
 			CourseModel.edit(name, id),
 			{
 				loading: 'Enregistrement...',
-				success: "La classe a bien été modifiée",
-				error: "Une erreur s'est produite",
+				success: 'La classe a bien été modifiée',
+				error: 'Une erreur s\'est produite',
 			}
 		);
 		onChange();
 		setEditModalOpen(false);
-	}
-	
+	};
+	/**
+	 * chargement des games de la classe courante
+	 * @returns {Promise<void>}
+	 */
 	const loadGamesOf = async () => {
 		const data = await GameModel.getAll();
 		let listGames = [];
@@ -56,12 +75,18 @@ const ClassElement = ({classe, onChange, index}) => {
 			classe.id === game.idCourse && listGames.push(game);
 		});
 		setGamesOf(listGames);
-	}
-	
+	};
+	/**
+	 * chargement des games de la classe courante
+	 */
 	useEffect(() => {
 		loadGamesOf();
 	}, []);
-	
+	/**
+	 * Récupération de la date de la dernière game
+	 * @param games
+	 * @returns {string}
+	 */
 	const getLastGame = (games) => {
 		if (games.length !== 0) {
 			let maxDate = games[0].createdAt;
@@ -138,7 +163,7 @@ const ClassElement = ({classe, onChange, index}) => {
 				</Modal>)}
 			{deleteModalOpen && (
 				<Modal setOpenModal={setDeleteModalOpen}>
-					<ModalHeader title={`Supprimer une classe`}/>
+					<ModalHeader title={'Supprimer une classe'}/>
 					<ModalBody>
 						<form className='flex flex-col text-center w-full gap-3'>
 							<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la
@@ -165,6 +190,6 @@ ClassElement.propTypes = {
 	classe: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 	index: PropTypes.number.isRequired,
-}
+};
 
 export default ClassElement;

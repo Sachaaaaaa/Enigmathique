@@ -1,7 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-
+/**
+ * Champ de formulaire pour les textes
+ * @param label
+ * @param name
+ * @param value
+ * @param placeholder
+ * @param onChange
+ * @param style
+ * @returns {Element}
+ * @constructor
+ */
 const Textfield = ({label, name, value, placeholder, onChange, style}) => {
 
 	

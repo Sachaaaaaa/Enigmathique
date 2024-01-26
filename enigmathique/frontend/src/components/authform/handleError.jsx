@@ -1,7 +1,9 @@
 //vérification des champs
-import toast from "react-hot-toast";
-import {useState} from "react";
+import toast from 'react-hot-toast';
 
+/**
+ * Fonctions utilitaires pour vérifier les champs du formulaire
+ */
 const isValidEmail = (email) => {
 	// Expression RegEx pour vérifier le format de l'email
 	const emailRegex = /^[^\s@]+@[^\s@]+\.(com|fr|net|org|edu|mil|int|co|io|app|blog|info|me|name|gov)$/;
@@ -27,8 +29,8 @@ const styleEdit = (firstname, lastname, mail, password) =>{
 		lastnameStyle : getFieldStyle(lastname),
 		mailStyle : getMailStyle(mail),
 		passwordStyle : getPasswordStyle(password)
-	}
-}
+	};
+};
 
 const handleSignupError = (firstname, lastname, mail, password) => {
 	let error = false;
@@ -66,5 +68,5 @@ const handleLoginError = (mail, password) => {
 		styleEdit('', '', mail, password);
 	}
 	if (error) return 1;
-}
-export {handleSignupError, handleLoginError, styleEdit}
+};
+export {handleSignupError, handleLoginError, styleEdit};

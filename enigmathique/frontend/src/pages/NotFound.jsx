@@ -1,6 +1,11 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React from 'react';
+import {Link} from 'react-router-dom';
 
+/**
+ * Page d'erreur 404
+ * @returns {Element}
+ * @constructor
+ */
 const NotFound = () => {
 	return (
 		<main
@@ -14,7 +19,7 @@ const NotFound = () => {
 				className="home-form-content text-white uppercase tracking-wide hover:bg-[#5705F5] hover:border-[#5705F5] transition duration-300 "
 				to='/'
 			>
-				<span>{"Retour à l'accueil"}</span>
+				<span>{'Retour à l\'accueil'}</span>
 			</Link>
 		</main>
 	);

@@ -1,10 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import SideBar from "../components/SideBar";
-import TopBarProf from "../components/TopBarProf";
+import React from 'react';
+import PropTypes from 'prop-types';
+import SideBar from 'components/SideBar';
+import TopBarProf from 'components/TopBarProf';
 
-
-
+/**
+ * Layout pour les professeurs
+ * @param props
+ * @returns {Element}
+ * @constructor
+ */
 const LayoutProf = (props) => {
 
 	return(
@@ -21,10 +25,11 @@ const LayoutProf = (props) => {
 			</div>
 		</div>
 	);
-}
+};
+
 LayoutProf.propTypes = {
 	children: PropTypes.node.isRequired,
 	title: PropTypes.string.isRequired,
 	id: PropTypes.number,
-}
+};
 export default LayoutProf;

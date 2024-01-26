@@ -2,6 +2,16 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {IoEye, IoEyeOff} from 'react-icons/io5';
 
+/**
+ * Champ de formulaire pour les mots de passe
+ * @param label
+ * @param name
+ * @param value
+ * @param onChange
+ * @param style
+ * @returns {Element}
+ * @constructor
+ */
 const Passwordfield = ({label, name, value, onChange, style}) => {
 	const [showPassword, setShowPassword] = useState(false);
 	return (
