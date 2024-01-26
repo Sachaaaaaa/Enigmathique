@@ -14,7 +14,7 @@ const Login = () => {
 	const [mail, setMail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
-	const [setMessage] = useState('');
+	const [message, setMessage] = useState('');
 
 
 	const [mailStyle, setMailStyle] = useState('');
