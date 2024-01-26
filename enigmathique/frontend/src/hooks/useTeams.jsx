@@ -1,15 +1,11 @@
-import React from 'react';
 import {useState, useEffect} from 'react';
-
-import CourseModel from 'models/course.model';
 import TeamModel from 'models/team.model';
-import GameModel from 'models/game.model';
 
 /**
  * Récupère les teams d'une game données
  * @param {number} idGame
  * @param {boolean} autoload 
- * @returns 
+ * @returns une liste des teams d'une partie
  */
 const useTeams = (idGame, autoload = true) => {
 	const [teams, setTeams] = useState([]);
