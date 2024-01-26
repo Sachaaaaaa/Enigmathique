@@ -3,10 +3,10 @@ import React, {useEffect, useState} from 'react';
 import GameModel from 'models/game.model';
 import CourseModel from 'models/course.model';
 import {useNavigate} from 'react-router-dom';
-import ContentHeader from 'dashboard/ContentHeader';
-import TableContainer from 'dashboard/TableContainer';
-import {getRowColor} from 'ListManager';
-import ActionButton from 'dashboard/ActionButton';
+import ContentHeader from 'components/dashboard/ContentHeader';
+import TableContainer from 'components/dashboard/TableContainer';
+import {getRowColor} from 'components/ListManager';
+import ActionButton from 'components/dashboard/ActionButton';
 
 /**
  * Composant de détails d'une classe
