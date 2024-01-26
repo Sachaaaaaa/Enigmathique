@@ -51,7 +51,7 @@ const HomeForm = () => {
 							<span>Rejoindre</span>
 						</button>
 					</div>
-					{/* Flèche pour aller vers le bas */}
+					{/* Flèche pour aller vers le bas
 					<Link
 						className="moving-arrow down"
 						activeClass="active"
@@ -62,11 +62,11 @@ const HomeForm = () => {
 						duration={500}
 					>
 						<IoIosArrowDown size={50} />
-					</Link>
+					</Link> */}
 				</form>
 			</div>
 
-			<div className="home-section bg-white">
+			{/* <div className="home-section bg-white">
 				<a id="presentation"></a>
 				<Link
 					className="moving-arrow up "
@@ -133,7 +133,7 @@ const HomeForm = () => {
 						</article>
 					</Carousel>
 				</section>
-			</div>
+			</div> */}
 		</>
 	);
 };
