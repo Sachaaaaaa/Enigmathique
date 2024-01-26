@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Link, animateScroll as scroll } from 'react-scroll';
-import logo from '../assets/img/logo-name-enigmathique-white.png';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import GameModel from '../models/game.model';
-import Carousel from 'nuka-carousel';
-import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
+import logo from 'assets/img/logo-name-enigmathique-white.png';
+import GameModel from 'models/game.model';
+
+
+/**
+ * Formulaire d'entrée du code pour se connecter à une partie
+ * @returns {Element}
+ * @constructor
+ */
 const HomeForm = () => {
 	const [code, setCode] = useState('');
 
 	const navigate = useNavigate();
 
 	const handleValider = () => {
-		//TODO: vérifier que le code est valide
 		const rep = GameModel.getAll();
 		navigate(`/join/${code}`);
 	};
