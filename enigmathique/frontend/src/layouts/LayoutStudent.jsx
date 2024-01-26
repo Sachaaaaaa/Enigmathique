@@ -1,9 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import TopBarStudent from "../components/TopBarStudent";
+import React from 'react';
+import PropTypes from 'prop-types';
+import TopBarStudent from '../components/TopBarStudent';
+
+/**
+ * Interface de base pour les élèves
+ */
 const LayoutStudent = (props) => {
 	return (
-		<div className="flex flex-col fullscreen-container">
+		<div className='flex flex-col fullscreen-container'>
 			<TopBarStudent/>
 			{props.children}
 		</div>

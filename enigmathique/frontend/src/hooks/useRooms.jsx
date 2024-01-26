@@ -1,9 +1,9 @@
-import React from 'react';
 import {useState, useEffect} from 'react';
 import RoomModel from 'models/room.model';
 /**
  * Récupère toutes les salles de jeu
- * @param {boolean} autoload 
+ * @param {boolean} autoload
+ * @returns une liste des salles de jeu
  */
 const useRooms = (autoload = true) => {
 	const [rooms, setRooms] = useState([]);

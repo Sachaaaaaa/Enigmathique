@@ -4,7 +4,7 @@ import GameModel from 'models/game.model';
 /**
  * Récupère toutes les parties du professeur connecté
  * @param {boolean} autoload
- * @returns
+ * @returns une liste des parties du professeur
  */
 const useGames = (autoload = true) => {
 	const [games, setGames] = useState([]);

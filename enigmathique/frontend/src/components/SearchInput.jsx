@@ -1,8 +1,13 @@
 import React from "react";
-import {IconContext} from "react-icons";
 import {FaSearch} from "react-icons/fa";
 import PropTypes from "prop-types";
 
+/**
+ * Définit la bar de recherche
+ * @param props
+ * @returns {Element}
+ * @constructor
+ */
 const SearchInput = (props) => {
 	return(
 		<section className='min-h-max flex flex-row items-center justify-center self-stretch bg-white rounded-full p-3 gap-2 shadow-md'>
