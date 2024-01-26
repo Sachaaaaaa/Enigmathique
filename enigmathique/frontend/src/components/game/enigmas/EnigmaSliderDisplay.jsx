@@ -7,7 +7,7 @@ import { FaCheck } from 'react-icons/fa';
 import ValidateButton from './ValidateButton';
 import HintButton from './HintButton';
 
-const EnigmaWithSlidersDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, titreSlider, isSolved, hint, image }) => {
+const EnigmaWithSlidersDisplay = ({ handleSubmitAnswer, handleAskHint, description, titreSlider, isSolved, hint, image }) => {
 	const [userAnswer, setUserAnswer] = useState('');
 	const handleInputChange = (event) => {
 		setUserAnswer(event.target.value);
@@ -33,7 +33,6 @@ const EnigmaWithSlidersDisplay = ({ handleSubmitAnswer, handleAskHint, title, de
 
 	return (
 		<div className='flex flex-col gap-2'>
-			<h1>{title}</h1>
 			<p>{description}</p>
 			{image != null && <img src={image} alt='enigma image' />}
 			<input
@@ -69,7 +68,6 @@ export default EnigmaWithSlidersDisplay;
 EnigmaWithSlidersDisplay.propTypes = {
 	handleSubmitAnswer: PropTypes.func.isRequired,
 	handleAskHint: PropTypes.func.isRequired,
-	title: PropTypes.string.isRequired,
 	isSolved: PropTypes.bool.isRequired,
 	description: PropTypes.string.isRequired,
 	titreSlider: PropTypes.string,

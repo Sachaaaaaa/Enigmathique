@@ -280,11 +280,10 @@ export default function Room001(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigma
-					title='Cuisson'
+						title='Cuisson'
 						enigmaId={3}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
-								title=""
 								description="Chaud devant ! La potion est presque terminée, mais il ne faut pas la faire brûler !"
 								hint={hint}
 								isSolved={isSolved}

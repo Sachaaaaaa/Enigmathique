@@ -6,7 +6,7 @@ import termos from 'assets/img/termos.png';
 import ValidateButton from 'components/game/enigmas/ValidateButton';
 import HintButton from 'components/game/enigmas/HintButton';
 
-const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, hint,isSolved, image, stepButton }) => {
+const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, description, hint,isSolved, image, stepButton }) => {
 	const [userAnswer, setUserAnswer] = useState('');
 	const [temperature, setTemperature] = useState(0);
 	const [rightRotationAngle, setRightRotationAngle] = useState(0);
@@ -39,7 +39,6 @@ const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, descript
 
 	return (
 		<div className='flex flex-col gap-2'>
-			<h1>{title}</h1>
 			<p>{description}</p>
 			{/*image != null && <img src={image} alt='enigma image' />*/}
 			<input
@@ -86,7 +85,6 @@ EnigmaChaufDisplay.propTypes = {
 	handleAskHint: PropTypes.func.isRequired,
 	hint: PropTypes.string,
 	isSolved: PropTypes.bool.isRequired,
-	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	image: PropTypes.string,
 	stepButton: PropTypes.number.isRequired,
