@@ -132,7 +132,7 @@ const Game = () => {
 
 			{/* Fin de la salle */}
 			{/* TODO: Remettre quand fix, empeche de rejouer quand rotation */}
-			{(isFinished && false) && ( 
+			{(isFinished) && ( 
 				<div className='absolute top-0 left-0 w-full h-full flex justify-center items-center z-50' style={{background: 'rgba(0, 0, 0, 0.7)',}}>
 					
 					<img src={bglogo} alt="logo" style={{
