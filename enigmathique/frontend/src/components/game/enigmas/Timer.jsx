@@ -46,7 +46,7 @@ const Timer = ({ duration = 600 }) => {
 	const timeLeft = startTime ? formatTime(Math.max(0, duration - Math.floor((currentTime - startTime) / 1000))) : null;
 
 	return (
-		<div className='absolute flex items-center bottom-0 left-0 z-40 mb-5 ml-5'>
+		<div className='absolute flex items-center top-0 right-0 z-40 mt-5 mr-5 text-white'>
 			<div><FaRegHourglassHalf className='w-7 h-7'/></div>
 			<p className='text-3xl'><strong>{timeLeft}</strong></p>
 		</div>
