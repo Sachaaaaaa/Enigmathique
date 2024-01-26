@@ -19,10 +19,17 @@
 
 ---
 
+Le site : https://77.129.53.78:25565/
+Documentation : http://77.129.53.78/doc.html
+
+# Important
+
+Pour notre site, nous utilisons le port 25565, qui est souvent bloqué sur les réseaux publics. Si ce port est bloqué sur votre réseau, vous devrez donc vous connecter à un réseau privé. 
+
 # Jouer
 
 ## Créer un compte
-Pour bénéficier des fonctionnalités réservées aux professeurs, la création d'un compte est indispensable.
+Pour bénéficier des fonctionnalités réservées aux professeurs, un compte est indispensable.
 
 Si vous vous connectez pour la première fois, il faudra alors vous créer un compte.
 
@@ -37,12 +44,13 @@ Afin de créer une partie, vous devez d'abord créer une classe ainsi que des é
 Lorsque vous démarrez une partie, vous devez choisir la classe contenant les élèves avec lesquels vous souhaitez jouer, puis sélectionner les salles désirées. Un code sera généré à ce moment-là, que vous devrez partager avec vos élèves. Ces derniers devront le saisir sur la page d'accueil.
 
 Chaque groupe d'élèves devra sélectionner les noms des élèves le composant ainsi qu'un nom d'équipe. Une fois ces informations soumises, vous recevrez les détails et aurez la possibilité de valider ou de rejeter ces équipes.
+Si les équipes ne s'affichent pas en direct dans la vue du professeur, cela peut être dû à un problème de connexion, vous aurez alors seulement à actualiser la page.
 
 _Note : si vous retournez à l'accueil avant de lancer la partie, vous avez toujours la possibilité de reprendre la création en retournant dans la liste de vos parties et en cliquant sur le logo play._
 
 ## Déroulement de la partie
 
-Une fois les équipes validées, vous pouvez lancer la partie et suivre le score en direct.
+Une fois les équipes validées, vous pouvez lancer la partie et suivre le score en direct. 
 
 Une fois la partie terminée, vous pouvez consulter les scores dans la section "statistique" dans "Partie".
 
@@ -51,11 +59,11 @@ Une fois la partie terminée, vous pouvez consulter les scores dans la section "
 
 ## Connexion serveur
 Le serveur sur lequel est hébergé notre site n’est pas accessible au public, si vous voulez vous connecter en ssh, il faudra donc d’abord passer par transit :
-```ssh woss@transit.iut2.univ-grenoble-alpes.fr```
-pour ensuite se connecter réellement au serveur :
-```ssh dev@192.168.14.134```
-ou à la base de donnée :
-```psql -h 192.168.14.234 -U dev -d enigmathique ```
+```ssh votreLogin@transit.iut2.univ-grenoble-alpes.fr```  
+pour ensuite se connecter réellement au serveur :  
+```ssh dev@192.168.14.134```  
+ou à la base de donnée :  
+```psql -h 192.168.14.234 -U dev -d enigmathique ```  
 
 Dans les deux cas, les identifiants sont :
 - login: dev
@@ -84,10 +92,11 @@ PEPPER_KEY=<PEPPER_KEY>
 
 Dans /frontend/.env :
 ```
-REACT_APP_DEV_API_URL=http://localhost:5000/api/
-REACT_APP_DEV_SOCKET_URL=http://localhost:4000/
-REACT_APP_PROD_API_URL=http://localhost:8084/api/
-REACT_APP_PROD_SOCKET_URL=http://localhost:8084/socket.io
+REACT_APP_DEV_API_URL=https://77.129.53.78:25565/api/
+REACT_APP_DEV_SOCKET_URL=https://77.129.53.78:25565
+
+REACT_APP_PROD_API_URL=http://77.129.53.78:25565/api/
+REACT_APP_PROD_SOCKET_URL=http://77.129.53.78:25565
 ```
 
 Dans /game/.env :
@@ -99,10 +108,9 @@ API_URL=http://localhost:5000/api/
 
 ## Configuration ssh
 
-Notre serveur n'étant pas public de base, nous utilisons un intermédiaire public (rasberry PI 5) pour rediriger le trafic.
-Pour cela, il faut établir un reverse tunnel SSH depuis le serveur vers le rasberry PI.
-
-Si vous êtes sur le serveur, vous pouvez utiliser le script disponible à /home/dev/scriptSSH :
+Notre serveur n'étant pas publique de base, nous utilisons un intermédiaire public (rasberry PI 5) pour rediriger le trafic.
+Pour cela, nous utilisons un reverse tunnel SSH depuis le serveur vers le rasberry PI.
+le script qui lance ce tunnel est disponible à /home/dev/scriptSSH :
 ```sh
 #!/bin/bash
 
@@ -118,19 +126,13 @@ fi
 ```
 
 Ce script établit la connexion et la relance si cette dernière n'est plus active, cependant, il est nécessaire d'avoir un logiciel qui exécute ce script toutes les minutes afin de relancer le tunnel SSH automatiquement en cas de fermeture.
-Pour cela, vous pouvez utiliser ```cron``` pour mettre en place des tâches planifiées.
-Pour ce faire :
-```crontab -e```
-et ajoutez la ligne :
-```
-* * * * * /home/dev/scriptSSH
-```
-Qui lancera le script SSH toutes les minutes.
+Pour cela, nous utilisons ```cron``` pour mettre en place des tâches planifiées.
+Il lance le script SSH toutes les minutes.
 
 
 ## Reverse proxy
 
-Nous utilisons un seul port pour nos trois services (frontend, backend, game) puis nous redirigeons les requêtes vers leurs ports locaux correspondants, ceci est fait par un reverse proxy, si vous voulez effectuer la même configuration, vous pouvez éditer ```/etc/apache2/sites-available/enigmathique.fr.conf``` pour que cela ressemble à ça :
+Nous utilisons un seul port pour nos trois services (frontend, backend, game) puis nous redirigeons les requêtes vers leurs ports locaux correspondants, ceci est fait par un reverse proxy, la configuration est disponible ici : ```/etc/apache2/sites-available/enigmathique.fr.conf``` :
 
 
 ```
@@ -176,12 +178,11 @@ ProxyPassReverse "http://localhost:4000/socket.io/"
 </VirtualHost>
 ```
 
-_Note : bien sûr, il faut utiliser les mêmes ports que dans la configuration ci-dessus ou alors ajouter les vôtres dedans._
 
 ## Lancement de la backend, frontend et du jeu
 
 Pour gérer nos différents services, nous utilisons des units systemd.
-Vous pouvez les utiliser avec les commandes suivantes :
+Nous les utilisons avec les commandes suivantes :
 ```
 // Pour voir le status des différents services :
 systemctl status enigmathique-backend.service
@@ -198,12 +199,7 @@ nano /etc/systemd/system/enigmathique-backend.service
 nano /etc/systemd/system/enigmathique-frontend.service
 nano /etc/systemd/system/enigmathique-game.service
 ```
-
-Si vous voulez créer vos propres units, vous pouvez utiliser :
-```
-nano /etc/systemd/system/{nomVoulu}.service
-```
-Et y mettre :
+Voici le contenu typique d'un unit : 
 ```
 [Unit]
 Description= Enigmathique Backend
@@ -219,7 +215,7 @@ Group=jhon
 WantedBy=multi-user.target
 ```
 
-Nous vous recommandons de remplir les champs ```User``` et ```Group``` avec un utilisateur dédié à cette tâche, qui ne possède pas de bash, comme cela, même si cet utilisateur est compromis, l'attaquant ne pourra pas se connecter.
+Nous avons remplit les champs ```User``` et ```Group``` avec un utilisateur dédié à cette tâche, qui ne possède pas de bash, comme cela, même si cet utilisateur est compromis, l'attaquant ne pourra pas se connecter (c'est le principe du moindre privilège).
 
 Si le lancement provoque des erreurs cela peut être, car vous n'avez pas tous les packages, pour palier cela, faites ```npm i``` dans les répertoires backend, frontend et game.
 
@@ -239,7 +235,7 @@ __Ces routes sont documentées et disponibles à l'adresse suivante :
 Elles possèdent également des tests unitaires afin de garantir leur stabilité.
 Si vous voulez exécuter ces tests, positionnez-vous dans le répertoire backend et lancez : ``` npm run dev ```
 
-Les routes utilisées par la backend, utilisent un token unique : ```EFEZFEZZJFSEZJEDFJKBSFJKSEFJKSBEFKJSZSEBSGHI```
+Les routes utilisées par la backend, utilisent un token unique : ```<GAME_TOKEN>```
 
 ## Tester avec l'API
 
