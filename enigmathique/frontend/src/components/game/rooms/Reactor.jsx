@@ -240,7 +240,7 @@ export default function ReactorRoom(props) {
 					<Enigma
 						title="Coffre-fort"
 						enigmaId={0}
-						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								description="Impossible de forcer le coffre ! S'il y a autant de sécurité, c'est qu'il doit y avoir quelque chose d'important dedans..."
@@ -286,7 +286,7 @@ export default function ReactorRoom(props) {
 					<Enigma
 						title='Panneau de contrôle'
 						enigmaId={1}
-						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaWithSlidersDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								titreSlider='Volume H2O'
@@ -378,7 +378,7 @@ export default function ReactorRoom(props) {
 					<Enigma
 					title='Trouver un nom'
 						enigmaId={3}
-						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
 								description="Le but c'est de refroidir le réacteur."
 								hint={hint}
@@ -410,11 +410,11 @@ export default function ReactorRoom(props) {
 		return (
 			<mesh
 				ref={mesh}
-				name="Icosphere001_1"
+				name="Icosphere001"
 				castShadow
 				receiveShadow
-				geometry={nodes.Icosphere001_1.geometry}
-				material={materials["Metal.002"]}
+				geometry={nodes.Icosphere001.geometry}
+				material={materials["Metal.001"]}
 				onPointerOver={handlePointerOver}
 				onPointerOut={handlePointerOut}
 				onClick={handleClick}
@@ -424,7 +424,7 @@ export default function ReactorRoom(props) {
 					<Enigma
 						title="Panneau électrique"
 						enigmaId={4}
-						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
+						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								description="Il faut mettre la bonne intensité de courant. Attention à ne pas tout faire sauter !"
 								placeholder="Intensité en Ampère"
@@ -588,7 +588,7 @@ export default function ReactorRoom(props) {
 				</mesh>
 				<group name="Porte" position={[-1, 1.4, 1.96]}>
 					{/*
-						<mesh
+					<mesh
 						name="Cube019"
 						castShadow
 						receiveShadow
@@ -766,7 +766,8 @@ export default function ReactorRoom(props) {
 						material={materials.Nrj}
 					/>
 				</group>
-				<group name="Reactor_Support" position={[-1, 1.9, -10.1]} scale={1.3}>
+				<group name="Turbine" position={[-1, 1.9, -10.1]} scale={1.3}>
+					{/*
 					<mesh
 						name="Icosphere001"
 						castShadow
@@ -774,7 +775,8 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere001.geometry}
 						material={materials["Metal.001"]}
 					/>
-					{/*
+					*/}
+					<CourantInt />
 					<mesh
 						name="Icosphere001_1"
 						castShadow
@@ -782,8 +784,6 @@ export default function ReactorRoom(props) {
 						geometry={nodes.Icosphere001_1.geometry}
 						material={materials["Metal.002"]}
 					/>
-					*/}
-					<CourantInt />
 					<mesh
 						name="Icosphere001_2"
 						castShadow
@@ -1071,6 +1071,15 @@ export default function ReactorRoom(props) {
 					position={[-1, 2, 2.011]}
 					rotation={[Math.PI / 2, 0, 0]}
 					scale={0.51}
+				/>
+				<mesh
+					name="Reactor_Support"
+					castShadow
+					receiveShadow
+					geometry={nodes.Reactor_Support.geometry}
+					material={materials["Metal.002"]}
+					position={[-1, 1.9, -10.1]}
+					scale={1.3}
 				/>
 			</group>
 		</group>
