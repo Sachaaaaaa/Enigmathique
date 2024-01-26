@@ -91,7 +91,7 @@ class SocketTeam {
 		// Ajoute l'étudiant à l'équipe
 		this.composition.push(this.session.getStudentWithId(studentId));
 
-		// Rafraichit la liste des étudiants disponibles
+		// Rafraichit la liste des élèves disponibles
 		this.session.onTeamCompositionChange(this);
 	}
 
@@ -114,7 +114,7 @@ class SocketTeam {
 			this.composition.splice(index, 1);
 		}
 
-		// Rafraichit la liste des étudiants disponibles
+		// Rafraichit la liste des élèves disponibles
 		this.session.onTeamCompositionChange(this);
 	}
 
@@ -162,12 +162,19 @@ class SocketTeam {
 		this.socket.emit(ServerToClient.GameInfo, { maxTeamSize: maxTeamSize });
 	}
 
+	/**
+	 * Envoie un message au client avec les élèves disponibles
+	 * @param {Array} students 
+	 */
 	sendAvailableStudents = (students) => {
-		this.log('Envoi des étudiants disponibles', sendColor);
+		this.log('Envoi des élèves disponibles', sendColor);
 
 		this.socket.emit(ServerToClient.SyncAvailableStudents, { students });
 	}
 
+	/**
+	 * Envoie un message au client avec la composition de l'équipe
+	 */
 	sendTeamComposition = () => {
 		this.log('Envoi de la composition de l\'équipe', sendColor);
 
@@ -175,12 +182,19 @@ class SocketTeam {
 		this.socket.emit(ServerToClient.SyncTeamStudents, { composition: this.toData() });
 	}
 
+	/**
+	 * Envoie un message au client avec leur id d'équipe (pour pouvoir s'identifier dans le jeu)
+	 * @param {int} teamId 
+	 */
 	sendSessionStart = (teamId) => {
 		this.log('Envoi du début de la session', sendColor);
 
 		this.socket.emit(ServerToClient.CompositionFinished, { teamId });
 	}
 
+	/**
+	 * Remet la composition à zéro
+	 */
 	wipeComposition = () => {
 		this.log('Suppression de la composition de l\'équipe', infoColor);
 
@@ -189,7 +203,7 @@ class SocketTeam {
 		this.locked = false;
 		this.confirmed = false;
 		
-		// Rafraichit la liste des étudiants disponibles et des équipes
+		// Rafraichit la liste des élèves disponibles et des équipes
 		this.session.onTeamCompositionChange(this);
 	}
 }
