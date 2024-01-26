@@ -1,27 +1,22 @@
 /**
- * Définition des routes pour les professeurs (api/student)
+ * Définition des routes pour les équipes (api/teams)
 */
 
 module.exports = app => {
 	const team = require("../controllers/team.controller.js");
 	const middleware = require("./middleware.js");
-
 	var router = require("express").Router();
-
 	const bodyParser = require('body-parser');
 	app.use(bodyParser.json());
-
-	// todo : remove un student from a team
-	// todo : tout mettre en cascade 
 
 
 	// Supprime un élève de l'équipe
 	router.post("/student/:id", middleware.verifyToken, team.removeStudent, middleware.verifyErrors);
 
-	// Récupère une team en fonction de son id
+	// Récupère les infos d'une équipe en fonction de son id
 	router.get("/:id", middleware.verifyToken, team.findOne, middleware.verifyErrors);
 
-	// Récupère toutes les teams d'une partie
+	// Récupère toutes les équipes d'une partie
 	router.get("/game/:id", middleware.verifyToken, team.findByGame, middleware.verifyErrors);
 
 	// Supprime une équipe
@@ -37,10 +32,10 @@ module.exports = app => {
 	
 	// interne : 
 	
-	// Ajoute un élève à une équipe
+	// Ajoute les élève à une équipe
 	router.post("/student/", middleware.verifyGameToken, team.addStudents, middleware.verifyErrors);
 
-	// Ajouter les scores d'une équipe
+	// Ajouter les scores à une équipe
 	router.post("/score/", middleware.verifyGameToken, team.addScores, middleware.verifyErrors);
 
 	app.use("/api/team", router);
