@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 const Textfield = ({label, name, value, placeholder, onChange, style}) => {
-
 	
 	return (
 		<div className='w-full mb-4 primary-font-color'>

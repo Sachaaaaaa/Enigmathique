@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
-import { MdLogout } from "react-icons/md";
-import {useLocation} from "react-router-dom";
-import CourseModel from "../models/course.model";
-import ProfessorModel from "../models/professor.model";
-import AuthService from '../services/auth.service';
+import { MdLogout } from 'react-icons/md';
+import {useLocation} from 'react-router-dom';
+import CourseModel from 'models/course.model';
+import ProfessorModel from 'models/professor.model';
+import AuthService from 'services/auth.service';
 import PropTypes from 'prop-types';
 
-
+/**
+ * Entête des pages du côté prof
+ * @param title titre de la page
+ * @param id
+ * @returns {Element}
+ * @constructor
+ */
 const TopBarProf = ({title, id}) => {
 	const location = useLocation();
 	const path = location.pathname.split("/");

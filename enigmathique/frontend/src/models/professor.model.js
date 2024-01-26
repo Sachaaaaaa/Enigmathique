@@ -1,4 +1,4 @@
-import ProfessorService from "../services/professor.course";
+import ProfessorService from '../services/professor.course';
 
 class ProfessorModel {
 	/**

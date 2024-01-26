@@ -41,7 +41,7 @@ const Passwordfield = ({label, name, value, onChange, style}) => {
 			</div>
 		</div>
 	);
-}
+};
 
 Passwordfield.propTypes = {
 	label: PropTypes.string.isRequired,

@@ -50,7 +50,7 @@ const StudentElement = ({student, onChange}) => {
 	
 	return (
 		<li key={student.id} value={student.firstname}
-				className='bg-white flex-col p-2 h-[220px] w-[220px] rounded-lg drop-shadow-md'>
+				className='bg-white flex-col p-2 h-[220px] w-[220px] rounded-lg' style={{boxShadow:"0px 10px 15px -3px rgba(0,0,0,0.1)"}}>
 			<section className='flex flex-col justify-around items-center h-full space-y-1 primary-font-color'>
 				<div>
 				<figure className="bg-purple-color w-[80px] h-[80px] rounded-full mx-auto">
