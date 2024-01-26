@@ -4,24 +4,34 @@ import logo from '../assets/img/logo-name-enigmathique-black.png';
 import PropTypes from 'prop-types';
 import {IconContext} from 'react-icons';
 import {MdCollectionsBookmark, MdDoorFront, MdGames, MdHome} from 'react-icons/md';
+import {useState} from 'react';
+import Modal, {ModalBody, ModalHeader} from './Modal';
+import {useNavigate} from 'react-router-dom';
 
 
 const SideBar = () => {
 
-	// const location = useLocation();
-	// const path = location.pathname;
+	const [cancelModalOpen, setCancelModalOpen] = useState(false);
+	const location = useLocation();
+	const path = location.pathname;
 	// const {setFormData} = useCreationGameContext();
-	const path='';
+
 
 	const handleNav = (event) => {
 		if (path === "/create-game") {
-			if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
-				// setFormData(initialFormData);
-
-				return;
-			}
+			// if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
+			// 	// setFormData(initialFormData);
+			// 	return;
+			// }
+			setCancelModalOpen(true);
 			event.preventDefault();
 		}
+	}
+
+	const navigate = useNavigate();
+	const handleRedirection = () => {
+		setCancelModalOpen(false);	
+		navigate('/dashboard');
 	}
 
 	return (
@@ -40,6 +50,26 @@ const SideBar = () => {
 					<button className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style w-[80%] whitespace-nowrap p-8'>Nouvelle partie</button>
 				</Link>
 			</section>
+			{cancelModalOpen && (
+				<Modal>
+                <ModalHeader title="Retour au menu"/>
+                <ModalBody>
+                    <form className='flex flex-col text-center w-full gap-3'>
+                        <p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir retourner au menu ?</p>
+                        <button
+                            type='submit'
+                            className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
+                            onClick={handleRedirection}>
+                            Oui
+                        </button>
+                        <button
+                            className='modal-cancel-button-style'
+                            onClick={() => setCancelModalOpen(false)}>
+                            Annuler
+                        </button>
+                    </form>
+                </ModalBody>
+            </Modal>)}
 		</nav>
 	);
 };
