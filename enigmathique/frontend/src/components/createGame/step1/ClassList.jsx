@@ -1,8 +1,12 @@
-import React from "react";
-import {useCreationGameContext} from "../../contexts/CreationGame.context";
-import {IoChevronDown, IoChevronUp} from "react-icons/io5";
-import { useState } from "react";
+import React from 'react';
+import {useCreationGameContext} from 'components/contexts/CreationGame.context';
+import { useState } from 'react';
 
+/**
+ * Composant qui affiche la liste des classes
+ * @returns {Element}
+ * @constructor
+ */
 const ClassList = () => {
 	const {formData, setFormData, courses} = useCreationGameContext();
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -27,5 +31,5 @@ const ClassList = () => {
 			</select>
 		</>
 	);
-}
+};
 export default ClassList;

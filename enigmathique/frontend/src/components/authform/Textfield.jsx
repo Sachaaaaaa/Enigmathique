@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 /**
- * Composant Textfield
- * @param label le label du champ
- * @param name le nom du champ
- * @param value la valeur du champ
- * @param placeholder le placeholder du champ
- * @param onChange la fonction de changement de la valeur du champ
- * @param style le style du champ modifié conditionnellement
- * @returns {Element} le composant Textfield
+ * Champ de formulaire pour les textes
+ * @param label
+ * @param name
+ * @param value
+ * @param placeholder
+ * @param onChange
+ * @param style
+ * @returns {Element}
+ * @constructor
  */
 const Textfield = ({label, name, value, placeholder, onChange, style}) => {
 	

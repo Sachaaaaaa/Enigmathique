@@ -1,8 +1,12 @@
-import React, {useEffect} from "react";
-import { PreGameDataProvider } from './PreGame.context';
-import PreGame from '../../pages/PreGame';
-import GameModel from "../../models/game.model";
-import {useNavigate, useParams} from "react-router-dom";
+import React, {useEffect} from 'react';
+import { PreGameDataProvider } from 'components/contexts/PreGame.context';
+import PreGame from 'pages/PreGame';
+import GameModel from 'models/game.model';
+import {useNavigate, useParams} from 'react-router-dom';
+
+/**
+ * Wrapper de la page de prégame
+ */
 
 const PreGameWrapper = () => {
 	const navigate = useNavigate();
@@ -35,4 +39,4 @@ const PreGameWrapper = () => {
 	);
 };
 
-export default PreGameWrapper
+export default PreGameWrapper;

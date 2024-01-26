@@ -1,7 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-
+/**
+ * Composant de la barre de filtre des salles
+ * @param props
+ * @returns {Element}
+ * @constructor
+ */
 const RoomNav = (props) => {
 
 	const {selectedFilter, chapterChange} = props;
@@ -12,7 +17,7 @@ const RoomNav = (props) => {
 		{label: 'Probabilités',value: 'probabilités'},
 		{label: 'Ensembles',value: 'ensembles'},
 		{label: 'Géométrie',value: 'géométrie'},
-	]
+	];
 
 	return(
 		<section className="flex flex-row justify-center items-center p-0">
@@ -33,9 +38,9 @@ const RoomNav = (props) => {
 		</section>
 			
 	);
-}
+};
 RoomNav.propTypes = {
 	chapterChange: PropTypes.func.isRequired,
 	selectedFilter: PropTypes.object.isRequired,
-}
+};
 export default RoomNav;

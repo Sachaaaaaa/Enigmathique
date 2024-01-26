@@ -1,6 +1,12 @@
 import React from 'react';
-import AuthHeader from "components/AuthHeader";
-import InfoCGUElem from "components/InfoCGUElem";
+import AuthHeader from 'components/AuthHeader';
+import InfoCGUElem from 'components/InfoCGUElem';
+
+/**
+ * Page des Conditions Générales d'Utilisation
+ * @returns {Element}
+ * @constructor
+ */
 
 const CGU = () => {
 
@@ -47,7 +53,7 @@ const CGU = () => {
 			</InfoCGUElem>
 			<p className='m-4 pl-[172px] text-[14px]'>Contact : Pour toute question, veuillez nous contacter à contact@enigmatique.fr</p>
 		</div>
-)
-}
+	);
+};
 
 export default CGU;
