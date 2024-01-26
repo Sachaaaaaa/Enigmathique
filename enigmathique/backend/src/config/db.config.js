@@ -5,7 +5,7 @@
 // TODO: Mettre les informations sensibles dans un fichier .env
 
 module.exports = {
-	HOST: process.env == "docker" ? "db" : "localhost",
+	HOST: "localhost",
 	USER: "dev",
 	PASSWORD: "dev",
 	DB: "enigmathique",

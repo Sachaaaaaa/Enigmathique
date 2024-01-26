@@ -30,7 +30,7 @@ class SocketTeam {
 	}
 
 	log = (message, color = infoColor) => {
-		console.log(color(`[Team ${socket.id}]` + message));
+		console.log(color(`[Team ${this.socket.id}] ` + message));
 	};
 
 	/**
@@ -44,6 +44,19 @@ class SocketTeam {
 			locked: this.locked,
 			confirmed: this.confirmed,
 			students: this.composition
+		}
+	}
+
+	/**
+	 * Permet de convertir l'objet en données JSON pour l'envoyer à l'API.
+	 * @returns {Object} Les données de l'équipe
+	 */
+	toPostData = () => {
+		// retourne sous la forme:  {name: "nom de l'équipe", students: [id1, id2, id3]}
+		return {
+			idSocket: this.socket.id, // Rajoute l'id de la socket pour pouvoir l'identifier plus tard (retour de l'id de l'équipe depuis API)
+			name: this.name,
+			idStudents: this.composition.map((student) => student.id)
 		}
 	}
 

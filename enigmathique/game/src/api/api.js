@@ -1,14 +1,15 @@
 const axios = require('axios');
 const clc = require('cli-color');
 
-const API_URL = process.env.API_URL;
-
 class ApiService {
 	static async sendRequest(method, endpoint, data) {
 		const token = process.env.API_TOKEN;
+		const url = process.env.API_URL;
+		console.log(process.env.API_URL);
+
 		const response = await axios({
 			method,
-			url: API_URL + endpoint,
+			url: url + endpoint,
 			data: data,
 			headers: {
 				'Authorization': `${token}`
