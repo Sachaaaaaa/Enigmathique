@@ -1,5 +1,6 @@
 const ApiService = require('../api/api');
 const SocketTeam = require('./connections/socketTeam');
+const clc = require('cli-color');
 
 const infoColor = clc.blue;
 const errorColor = clc.red;

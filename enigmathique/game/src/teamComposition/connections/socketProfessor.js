@@ -28,7 +28,7 @@ class SocketProfessor {
 	}
 
 	log = (message, color = infoColor) => {
-		console.log(color(`[Professor ${socket.id}]` + message));
+		console.log(color(`[Professor ${this.socket.id}] ` + message));
 	};
 
 	
