@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from 'assets/img/logo-name-enigmathique-white.png';
-import GameModel from 'models/game.model';
 
 
 /**
