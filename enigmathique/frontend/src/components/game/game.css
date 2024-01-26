@@ -11,7 +11,9 @@
 /* Couleurs de fond */
     .bg-black-color {
         @apply bg-[#2B2B2B];
-    
+    }
+    .bg-black-color:hover {
+        @apply bg-[#1E1E1E];
     }
 
 /** Couleurs de texte **/

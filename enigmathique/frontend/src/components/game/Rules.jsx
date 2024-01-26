@@ -78,7 +78,7 @@ const Rules = ({onCloseClick}) => {
                         </div>
                         <p>
                             Pour <strong>fermer</strong> une énigme ou une autre fenêtre vous pouvez appuyer sur 
-                            la <strong>croix</strong> rouge ou <strong>rappuyer</strong> sur {"'objet"} cliqué.
+                            la <strong>croix</strong> rouge ou <strong>rappuyer</strong> sur {"l'objet"} cliqué.
                         </p>
                     </div>
                 </article>

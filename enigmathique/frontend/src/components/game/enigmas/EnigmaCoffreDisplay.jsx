@@ -5,15 +5,19 @@ import { FaCheck } from 'react-icons/fa';
 import ValidateButton from 'components/game/enigmas/ValidateButton';
 import HintButton from 'components/game/enigmas/HintButton';
 
-const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, hint, isSolved, image }) => {
+const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, answerLength, hint, isSolved, image }) => {
 	const [userAnswer, setUserAnswer] = useState('');
 
 	const handleNumericButtonClick = (number) => {
 		// Concaténer le chiffre à la réponse actuelle
-		if (userAnswer.length >= 2) return ;
+		if (userAnswer.length >= answerLength) return ;
 		setUserAnswer(userAnswer + number);
 	};
 
+	let placeholder = '';
+	for (let i = 0; i < answerLength; i++) {
+		placeholder += 'X';
+	}
 	return (
 		<div className='flex flex-col gap-2'>
 			<h1>{title}</h1>
@@ -24,7 +28,7 @@ const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, descrip
 			<div className='bg-black'>
 				<input
 					type="text"
-					placeholder="XX"
+					placeholder={placeholder}
 					value={userAnswer}
 					disabled={isSolved}
 					className="chest-input"
@@ -72,4 +76,5 @@ EnigmaCoffreDisplay.propTypes = {
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	image: PropTypes.string,
+	answerLength: PropTypes.number.isRequired,
 };

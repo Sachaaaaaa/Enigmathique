@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { BsQuestionDiamondFill } from 'react-icons/bs';
 import { FaCheck } from 'react-icons/fa';
@@ -12,19 +12,29 @@ const EnigmaChaufDisplay = ({ handleSubmitAnswer, handleAskHint, title, descript
 	const [rightRotationAngle, setRightRotationAngle] = useState(0);
 	const [leftRotationAngle, setLeftRotationAngle] = useState(0);
 
+	useEffect(() => {
+		if (temperature <= 0) {
+			setTemperature(0);
+			setLeftRotationAngle(leftRotationAngle + stepButton);
+		} else if (temperature >= 1000) {
+			setTemperature(1000);
+			setRightRotationAngle(rightRotationAngle - stepButton);
+		}
+	}, [temperature]);
 	const handleInputChange = (event) => {
 		setUserAnswer(event.target.value);
 	};
 
 	const handleRotateRight = () => {
 		setRightRotationAngle(rightRotationAngle + stepButton);
-		setUserAnswer((temperature + stepButton).toString());
 		setTemperature(temperature + stepButton);
+		setUserAnswer((temperature).toString());
+		
 	};
 	const handleRotateLeft = () => {
 		setLeftRotationAngle(leftRotationAngle - stepButton);
-		setUserAnswer((temperature - stepButton).toString());
 		setTemperature(temperature - stepButton);
+		setUserAnswer((temperature).toString());
 	}
 
 	return (

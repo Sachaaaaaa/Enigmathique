@@ -145,7 +145,7 @@ const ClassElement = ({classe, onChange, index}) => {
 								classe {classe.name} ?</p>
 							<button
 								type='submit'
-								className='modal-delete-button-style bg-[#EF4565] bg-[#EF4565] bg-[#EF4565]'
+								className='modal-delete-button-style bg-[#EF4565]'
 								onClick={(event) => handleClickDelete(event, classe.id)}>
 								Supprimer
 							</button>

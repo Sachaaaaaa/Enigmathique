@@ -195,6 +195,7 @@ export default function Room001(props) {
 								description="Il est trop solide pour être forcé. Il doit y avoir un code quelque part.."
 								image={data.image}
 								hint={hint}
+								answerLength={2}
 								isSolved={isSolved}
 								handleAskHint={handleAskHint}
 							/>
@@ -236,9 +237,10 @@ export default function Room001(props) {
 						enigmaId={2}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
-								title=""
 								description="Une bonne mixture ! Mais pendant combien de temps il faut mélanger ?"
+								isNumberOnly={true}
 								hint={hint}
+								placeholder='Temps de mélange (en secondes)'
 								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
