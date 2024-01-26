@@ -16,6 +16,16 @@ const { baseSchema } = require('./validationSchemas');
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
 async function isClassBelongsProfessor(idCourse, req) {
 
+	// Récupère la classe en question
+	const course = await Course.findOne({ where: { id: idCourse} });
+
+	// Vérifie que l'élève existe bien
+	if(!course){
+		const error = new Error("La classe n'existe pas.");
+		error.statusCode = 404;  
+		throw error;
+	}
+		
 	// Récupère toutes les classes du professeur courant
 	const courses = await Course.findAll({ where: { idProfessor: req.tokenId } });
 
