@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logo from '../assets/img/logo-name-enigmathique-black.png';
+import logo from 'assets/img/logo-name-enigmathique-black.png';
 import {Link} from 'react-router-dom';
 
 /**

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiInbox } from "react-icons/fi";
+import { FiInbox } from 'react-icons/fi';
 import PropTypes from 'prop-types';
 
 /**
