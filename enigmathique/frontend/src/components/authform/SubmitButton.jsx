@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Composant SubmitButton
- * @param text le texte du bouton
- * @param loading l'état du bouton actif ou non
- * @param onClick la fonction à exécuter au clic
- * @returns {Element} le composant SubmitButton
+ * Bouton de formulaire
+ * @param text
+ * @param loading
+ * @param onClick
+ * @returns {Element}
+ * @constructor
  */
 const SubmitButton = ({text, loading, onClick}) => {
 	return (

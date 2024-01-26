@@ -12,7 +12,7 @@ const RoomElem = (props) => {
 		// Affichage des informations de la salle
 		// Grid pour afficher les informations sur 2 colonnes fixes
 		<article className='info-block grid-block'>
-			<figure className='col-span-2 relative h-[150px] rounded-t-[30px]'
+			<figure className='col-span-2 relative h-[150px] rounded-t-[8px]'
 					style={{
 						backgroundImage: `url(${require('../../assets/img/room-img/'+room.name+'.png')})`,
 						backgroundSize: 'cover',
@@ -25,7 +25,7 @@ const RoomElem = (props) => {
 
 			<InfoBlockElem title='Difficulté' text={room.difficulty}/>
 
-			<Link to='' className='col-span-2 btn-show'>
+			<Link to='/rooms' className='col-span-2 btn-show'>
 				Voir
 			</Link>
 		</article>

@@ -1,18 +1,25 @@
-import React, {useState} from "react";
-import PropTypes from "prop-types";
-import {FaSearch} from 'react-icons/fa';
-import {IconContext} from 'react-icons';
-import { FaPuzzlePiece, FaMedal  } from "react-icons/fa";
-import toast from "react-hot-toast";
-import { getRowColor } from "components/ListManager";
-import ActionButton from "components/dashboard/ActionButton";
+import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 
+import { FaPuzzlePiece, FaMedal  } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+import { getRowColor } from 'components/ListManager';
+import ActionButton from 'components/dashboard/ActionButton';
 
+/**
+ * Composant qui affiche une salle dans la liste des salles
+ * @param props
+ * @returns {Element}
+ * @constructor
+ */
 const Room = (props) => {
 
 	const { index, room, handleRoomSelection, selectOption, selected } = props;
 
 	const [roomSelected, setSelected] = useState(selected);
+	/**
+	 * Gère la sélection d'une salle
+	 */
 	const handleChange = () => {
 		handleRoomSelection(room.name);
 		setSelected(!roomSelected);
@@ -20,38 +27,41 @@ const Room = (props) => {
 			toast.error(
 				'La salle a été retirée de la partie',
 				{duration: 800}
-				);
+			);
 		} else {
 			toast.success(
 				'La salle a été ajoutée à la partie',
 				{duration: 800}
-				);
+			);
 
 		}
-	}
+	};
 
-	
+	/**
+	 * Retourne la couleur de la en fonction de la difficulte
+	 * @type {{moyen: string, intermédiaire: string, difficile: string, facile: string}}
+	 */
 	const difficultyChip = {
 		facile: 'chip-facile',
 		moyen: 'chip-moyen',
 		intermédiaire: 'chip-moyen',
 		difficile: 'chip-difficile',
-	}
+	};
 	const difficulty = room.difficulty.toLowerCase();
 
 	const roomElemClass = 'grow flex items-center gap-3 py-4 ' ;
 
-	let htmlForLabel = "";
-	let cursorPointer = "";
+	let htmlForLabel = '';
+	let cursorPointer = '';
 	let actionElem ;
 	if (selectOption) {
-		htmlForLabel = "roomselect"+index;
-		cursorPointer = "cursor-pointer";
-		actionElem = <input  id={"roomselect"+index}  style={{width:"20px",height:"20px"}}  checked={selected} type='checkbox' onChange={handleChange}/>;
+		htmlForLabel = 'roomselect'+index;
+		cursorPointer = 'cursor-pointer';
+		actionElem = <input  id={'roomselect'+index}  style={{width:'20px',height:'20px'}}  checked={selected} type='checkbox' onChange={handleChange}/>;
 	} else {
-		htmlForLabel = "";
-		cursorPointer = "";
-		actionElem = <ActionButton title="Détails" link={`/room/${room.name}`} disabled={true}/>
+		htmlForLabel = '';
+		cursorPointer = '';
+		actionElem = <ActionButton title="Détails" link={`/room/${room.name}`} disabled={true}/>;
 	}
 
 	return(
@@ -89,18 +99,18 @@ const Room = (props) => {
 					<span className='nav-font-color'>Taux de réussite</span>
 				</div>
 			</article>
-			<article className={`grow flex justify-end items-center h-full pr-4`}>
+			<article className={'grow flex justify-end items-center h-full pr-4'}>
 				{actionElem}
 			</article>
 		</label>
 	);
-}
+};
 Room.propTypes = {
 	index: PropTypes.number.isRequired,
 	room : PropTypes.object.isRequired,
 	handleRoomSelection: PropTypes.func,
 	selected: PropTypes.bool,
 	selectOption: PropTypes.bool.isRequired
-}
+};
 
 export default Room;

@@ -1,10 +1,10 @@
 import React from 'react';
-import LayoutProf from '../layouts/LayoutProf';
-import Modal, {ModalBody, ModalHeader} from '../components/Modal';
+import LayoutProf from 'layouts/LayoutProf';
+import Modal, {ModalBody, ModalHeader} from 'components/Modal';
 
-import CourseModel from '../models/course.model';
-import ClassElement from '../components/class/ClassElement';
-import {useState, useEffect} from 'react'
+import CourseModel from 'models/course.model';
+import ClassElement from 'components/class/ClassElement';
+import {useState} from 'react';
 import CreateButton from 'components/dashboard/CreateButton';
 import ContentHeader from 'components/dashboard/ContentHeader';
 import TableContainer from 'components/dashboard/TableContainer';
@@ -13,7 +13,11 @@ import toast from 'react-hot-toast';
 import useCourses from 'hooks/useCourses';
 import EmptyPage from 'components/EmptyPage';
 
-
+/**
+ * Page des classes de l'enseignant
+ * @returns {Element}
+ * @constructor
+ */
 const Class = () => {
 	// état pour stocker les classes
 	const [courses, loadCourses] = useCourses(true);
@@ -50,13 +54,13 @@ const Class = () => {
 					<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
 				</ContentHeader>
 				<TableContainer headers={['Nom','élèves', 'Dernière partie', 'Action']}>
-				{courses.length != 0 && 
+					{courses.length != 0 &&
 					<>
-					{courses.map((classe,index) => (
-						<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadCourses()}/>
-					))}
+						{courses.map((classe,index) => (
+							<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadCourses()}/>
+						))}
 					</>
-				}
+					}
 				</TableContainer>
 				{courses.length === 0 && <EmptyPage title="Vous n'avez pas encore de classe !" />}		
 

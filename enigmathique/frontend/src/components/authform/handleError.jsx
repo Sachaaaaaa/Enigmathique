@@ -1,6 +1,5 @@
 //vérification des champs
-import toast from "react-hot-toast";
-import {useState} from "react";
+import toast from 'react-hot-toast';
 
 /**
  * Vérifie si l'email à un format valide

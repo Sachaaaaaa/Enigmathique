@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
-import GameModel from '../../models/game.model';
-import CourseModel from '../../models/course.model';
+import GameModel from 'models/game.model';
+import CourseModel from 'models/course.model';
 import {useNavigate} from 'react-router-dom';
-import ContentHeader from '../dashboard/ContentHeader';
-import TableContainer from '../dashboard/TableContainer';
-import {getRowColor} from '../ListManager';
-import ActionButton from '../dashboard/ActionButton';
+import ContentHeader from 'dashboard/ContentHeader';
+import TableContainer from 'dashboard/TableContainer';
+import {getRowColor} from 'ListManager';
+import ActionButton from 'dashboard/ActionButton';
 
-
+/**
+ * Composant de détails d'une classe
+ * @param idClass
+ * @returns {Element}
+ * @constructor
+ */
 const ClassDetails = ({idClass}) => {
 	
 	//la liste des games de la classe courante

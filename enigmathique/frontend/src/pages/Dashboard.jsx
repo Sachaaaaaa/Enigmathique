@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ClassElem from '../components/dashboard/ClassElem';
-import RoomElem from '../components/dashboard/RoomElem';
-import GameElem from '../components/dashboard/GameElem';
+import ClassElem from 'components/dashboard/ClassElem';
+import RoomElem from 'components/dashboard/RoomElem';
+import GameElem from 'components/dashboard/GameElem';
 import EmptyInfoBlock from 'components/dashboard/EmptyInfoBlock';
 
 import { randInt } from 'three/src/math/MathUtils';
-import LayoutProf from '../layouts/LayoutProf';
+import LayoutProf from 'layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
 
-import useCourses from '../hooks/useCourses';
-import useGames from '../hooks/useGames';
-import useRooms from '../hooks/useRooms';
+import useCourses from 'hooks/useCourses';
+import useGames from 'hooks/useGames';
+import useRooms from 'hooks/useRooms';
 
+/**
+ * Page du tableau de bord de l'enseignant
+ * @returns {Element}
+ * @constructor
+ */
 const Dashboard = () => {
 	//récupération des classes à l'aide du hook useCourses
 	const [courses] = useCourses();
@@ -156,23 +161,23 @@ const Dashboard = () => {
 					</article>
 				</section>
 
-				{/* Section de droite (Classes) */}
+				{/* Section de droite (Classes)
 				<section className="section w-[35svw]">
-					{/* Titre de la section */}
+					Titre de la section
 					<div className="title-container primary-font-color">
 						<h2 className="medium-title">Mes classes</h2>
 						<div>
-							{/* Flèches de navigation entre les classes */}
+							Flèches de navigation entre les classes
 							<button className="hover:blue-font-color" onClick={prevClass}>
-								<FaAngleLeft size={"1.5em"} />
+								<FaAngleLeft size={'1.5em'} />
 							</button>
 							<button className="hover:blue-font-color" onClick={nextClass}>
-								<FaAngleRight size={"1.5em"} />
+								<FaAngleRight size={'1.5em'} />
 							</button>
 						</div>
 					</div>
 
-					{/* Afficher seulement la classe actuellement sélectionnée */}
+					Afficher seulement la classe actuellement sélectionnée
 					{courses.length !== 0 ? (
 						<ClassElem
 							key={currentClassIndex}
@@ -185,7 +190,7 @@ const Dashboard = () => {
 							sizeClasses="w-full h-[calc(100%-50px)]"
 						/>
 					)}
-				</section>
+				</section> */}
 			</main>
 		</LayoutProf>
 	);

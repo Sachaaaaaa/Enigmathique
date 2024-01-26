@@ -2,13 +2,21 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Modal, {ModalBody, ModalHeader} from '../Modal';
 import {IoPerson} from 'react-icons/io5';
-import CourseModel from '../../models/course.model';
-import GameModel from '../../models/game.model';
+import CourseModel from 'models/course.model';
+import GameModel from 'models/game.model';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import ActionButton from 'components/dashboard/ActionButton';
 import {getRowColor} from 'components/ListManager';
 
+/**
+ * Composant representant une classe dans la liste des classes
+ * @param classe
+ * @param onChange
+ * @param index
+ * @returns {Element}
+ * @constructor
+ */
 const ClassElement = ({classe, onChange, index}) => {
 	//les parties de la classe courante
 	const [gamesOf, setGamesOf] = useState([]);
@@ -71,7 +79,9 @@ const ClassElement = ({classe, onChange, index}) => {
 		});
 		setGamesOf(listGames);
 	};
-	
+	/**
+	 * chargement des games de la classe courante
+	 */
 	useEffect(() => {
 		loadGamesOf();
 	}, []);
@@ -157,7 +167,7 @@ const ClassElement = ({classe, onChange, index}) => {
 				</Modal>)}
 			{deleteModalOpen && (
 				<Modal setOpenModal={setDeleteModalOpen}>
-					<ModalHeader title={`Supprimer une classe`}/>
+					<ModalHeader title={'Supprimer une classe'}/>
 					<ModalBody>
 						<form className='flex flex-col text-center w-full gap-3'>
 							<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la
