@@ -1,5 +1,5 @@
 /**
- * Définition des routes pour les professeurs (api/professor)
+ * Définition des routes pour les parties (api/game)
 */
 
 module.exports = app => {
@@ -10,16 +10,13 @@ module.exports = app => {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: true }));
 
-	// Quatre statues d'une partie : créée, ouverte, en cours, terminée
-
 	// Créer une partie
 	router.post("/", middleware.verifyToken, game.create, middleware.verifyErrors);
 
-
-	// Ajouter les salles
+	// Ajouter des salles d'énigmes à une partie
 	router.post("/rooms/", middleware.verifyToken, game.addRooms, middleware.verifyErrors);
 
-	// Récupérer toutes les parties du professeur connecté
+	// Récupérer toutes les parties du professeur
 	router.get("/", middleware.verifyToken, game.findAll, middleware.verifyErrors);
 
 	// Récupérer une partie à partir de son id
@@ -35,9 +32,7 @@ module.exports = app => {
 	router.delete("/delete/:id", middleware.verifyToken, game.delete, middleware.verifyErrors)
 
 	// Méthode interne :
-
-	// Y'a moyen de rassembler plusieurs méthodes en une seule
-	// teams + rooms | 
+ 
 
 	// Supprime une partie
 	router.delete("/:id", middleware.verifyGameToken, game.backendDelete, middleware.verifyErrors)

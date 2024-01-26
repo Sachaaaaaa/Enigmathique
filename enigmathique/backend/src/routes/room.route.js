@@ -1,5 +1,5 @@
 /**
- * Définition des routes pour les professeurs (api/professor)
+ * Définition des routes pour les salles (api/room)
 */
 
 module.exports = app => {
@@ -13,9 +13,6 @@ module.exports = app => {
 
 	// Récupère toutes les salles de la DB
 	router.get("/", middleware.verifyToken, course.findAll, middleware.verifyErrors);
-
-	// Ajouter une salle à la DB
-	router.post("/", middleware.verifyToken, course.create, middleware.verifyErrors);
 
 	app.use("/api/room", router);
 }

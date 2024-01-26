@@ -23,45 +23,6 @@ function isRequestCorrect(schema, req) {
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////
-// 									 CREATE                                    //
-/////////////////////////////////////////////////////////////////////////////////
-
-// Créer et enregistrer une nouvelle salle dans la base de données
-exports.create = async (req, res, next) => {
-
-	try{
-		
-		// Vérification des informations fournis
-		const roomSchema = baseSchema.keys({
-			name: Joi.string().max(150).required(),
-			chapter: Joi.string().max(150).required(),
-			difficulty: Joi.string().max(150).required(),
-		});
-
-		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
-		isRequestCorrect(roomSchema, req)
-
-		// Créer une salle
-		const room = {
-			name: req.body.name,
-			chapter: req.body.chapter,
-			difficulty: req.body.difficulty,
-		};
-
-
-		// Enregistrer la salle dans la base de données
-		const createdRoom = await Room.create(room)
-
-		// Renvoie les données créées
-		return res.status(201).json(createdRoom);
-
-	// Gère les erreurs
-	}catch(err) {
-		next(err)
-	}
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 READ                                      //

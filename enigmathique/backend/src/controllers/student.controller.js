@@ -6,7 +6,6 @@
 const db = require("../models/db.js");
 const Student = db.student;
 const Course = db.course;
-const Op = db.Sequelize.Op;
 const Joi = require('joi');
 const { baseSchema } = require('./validationSchemas');
 

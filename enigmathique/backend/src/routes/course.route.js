@@ -1,5 +1,5 @@
 /**
- * Définition des routes pour les professeurs (api/professor)
+ * Définition des routes pour les classes (api/course)
 */
 
 module.exports = app => {
