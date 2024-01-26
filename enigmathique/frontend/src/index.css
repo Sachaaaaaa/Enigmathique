@@ -280,25 +280,15 @@
             
         /* Conteneur des blocs d'informations du dashboard */
             .info-container {
-                @apply flex flex-wrap flex-grow justify-between items-center gap-2 w-full h-full ;
+                @apply flex flex-wrap flex-grow justify-between items-center gap-5 w-full h-full ;
             }
 
         /* Bloc des informations du dashboard*/
             .info-block {
-                @apply bg-white mt-2 w-[15svw] min-w-[280px] grow rounded-[30px] shadow-md overflow-hidden flex flex-col;
+                @apply bg-white mt-2 w-[15svw] min-w-[280px] grow rounded-[8px] shadow-md overflow-hidden flex flex-col;
             }
             .grid-block {
                 @apply grid grid-cols-2 gap-1 ;
-            }
-
-        /* Bloc vide si aucune information n'est disponible */
-            .empty-info-block {
-                @apply info-block self-stretch min-h-[200px] justify-center items-center ;
-            }
-
-        /* Elements du bloc */
-            .element-info-block {
-                @apply p-1 ml-3 mr-3
             }
 
         /* Titres des informations dans le dashboard*/
@@ -313,7 +303,7 @@
 
         /* Bouton voir */
             .btn-show {
-                @apply flex items-center justify-center w-full h-10 mt-1 bg-blue-gradient-color text-white text-center uppercase rounded-b-[30px] transition-colors duration-300;
+                @apply flex items-center justify-center w-full h-10 mt-1 bg-blue-gradient-color text-white text-center uppercase rounded-b-[8px] transition-colors duration-300;
             }
 
 
