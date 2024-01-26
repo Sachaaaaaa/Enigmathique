@@ -1,4 +1,4 @@
-import StudentService from '../services/student.service';
+import StudentService from 'services/student.service';
 
 class StudentModel {
 	/**

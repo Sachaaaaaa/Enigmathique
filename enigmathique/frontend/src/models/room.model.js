@@ -1,4 +1,4 @@
-import RoomService from '../services/room.service';
+import RoomService from 'services/room.service';
 
 class RoomModel{
 	/**
