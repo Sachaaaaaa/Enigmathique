@@ -22,13 +22,13 @@ const 	AvailableStudents = (props) => {
 	}, [search, props.available]);
 	
 	return (
-		<section className="relative join-list-container">
+		<section className="relative pregame-join-list-container">
 			<h2 className='medium-title uppercase'> Élèves</h2>
-			<div className='absolute join-list'>
-				<nav className="flex flex-row justify-center items-center gap-2 py-2 px-5 border-b border-white-color">
+			<div className='absolute pregame-join-list'>
+				<nav className="join-list-header">
 					<FaSearch size={25} className='blue-font-color' />
 					<input
-						className="w-full p-2 bg-transparent primary-font-color focus:border-transparent focus:outline-none "
+						className="join-input "
 						type="text"
 						placeholder="Élève"
 						onChange={handleSearch}

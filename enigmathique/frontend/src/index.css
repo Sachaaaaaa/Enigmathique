@@ -378,25 +378,41 @@
             @apply  bg-blue-gradient-color modal-validate-button-style w-full min-w-[250px] p-8 font-medium uppercase;
         }
     /* Conteneur global */
+        .pregame-join-container {
+            @apply  grow flex flex-wrap justify-between w-full;
+        }
         .pregame-container {
-            @apply  grow flex flex-wrap justify-between gap-5 w-full;
+            @apply  pregame-join-container gap-5 ;
         }
         .join-container {
-            @apply grow flex flex-wrap justify-between gap-10 w-full;
+            @apply pregame-join-container gap-10 ;
         }
     /* Conteneur des élèves/équipes */
-        .pregame-list-container {
-            @apply grow flex flex-col gap-2 w-[45%] min-w-[300px] max-h-[100%] min-h-[200px];
+            /* Conteneur commun */
+            .pregame-join-list-container {
+                @apply grow flex flex-col gap-2 w-[45%] min-w-[300px] max-h-[100%] min-h-[200px]  ;
+            }
+            /* Header commun */
+            .pregame-join-list-header {
+                @apply flex flex-row justify-center items-center gap-2 py-2 px-5 border-white-color  ;
+            }
+                /* Celui pour le pregame */
+                .pregame-list-header {
+                    @apply pregame-join-list-header border-y medium-title uppercase;
+                }
+                /* Celui pour le join */
+                .join-list-header {
+                    @apply pregame-join-list-header border-b ;
+                }
+    
+    /* Input pour join */
+        .join-input {
+            @apply w-full p-2 bg-transparent primary-font-color focus:border-transparent focus:outline-none ;
         }
-        .join-list-container {
-            @apply grow flex flex-col gap-2 w-[45%] min-w-[300px] max-h-[100%] min-h-[200px];
-        }
-    /* Conteneur des listes dynamiques */
-        .pregame-list {
+    /* Conteneur commun des listes dynamiques */
+        .pregame-join-list {
             @apply flex flex-col w-full h-full bg-white border-l border-r shadow-md overflow-y-auto ;
         }
-        .join-list {
-            @apply flex flex-col w-full h-full bg-white border-l border-r shadow-md overflow-y-auto ;       }
 
     /* Barre de progression */
         .progress-bar {

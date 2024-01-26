@@ -11,10 +11,11 @@ const TeamContainer = (props) => {
 	});
 
 	return (
-		<section className="relative pregame-list-container ">
-			<article className="absolute pregame-list">
+		<section className="relative pregame-join-list-container ">
+			<article className="absolute pregame-join-list">
+				{/* Affichage des élèves validés */}
 				{props.isValidated && <p className='absolute top-0 right-0 p-2 blue-font-color font-medium'> {JSON.stringify(nbValidatedStudents)} élèves</p>}
-				<h2 className="flex flex-row justify-center items-center gap-2 py-2 px-5 border-y border-white-color medium-title uppercase">
+				<h2 className="pregame-list-header">
 					{props.isValidated ? "Équipes acceptées" : "Équipes en attente"}
 				</h2>
 				<div className="overflow-y-auto">

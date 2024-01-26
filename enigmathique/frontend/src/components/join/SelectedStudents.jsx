@@ -7,16 +7,18 @@ const SelectedStudents = (props) => {
 	const color = props.selected.length === props.teamSize ? 'text-green-500' : 'text-[#EF4565]';
 
 	return (
-		<section className="relative join-list-container">
+		<section className="relative pregame-join-list-container">
 			<h2 className='medium-title uppercase'> {"Membres de l'équipe"}</h2>
-			<section className="absolute join-list">
-				<nav className="flex flex-row justify-center items-center gap-2 py-2 px-5 border-b border-white-color">
+			<section className="absolute pregame-join-list">
+				
+				<nav className="join-list-header">
 					<AiOutlineTeam size={30} className='blue-font-color' />
 					<input
-						className="w-full p-2 bg-transparent primary-font-color focus:border-transparent focus:outline-none "
+						className="join-input"
 						type="text"
 						placeholder="Nom de l'équipe"
 						onChange={props.handleChange}
+						maxLength={40}
 					/>
 					<p className={` text-sm whitespace-nowrap ${color}`}> Membres {props.selected.length}/{props.teamSize}</p>
 				</nav>
