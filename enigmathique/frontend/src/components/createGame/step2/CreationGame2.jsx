@@ -43,14 +43,11 @@ const CreationGame2 = (props) => {
 			event.preventDefault();
 			return;
 		}
-		if (confirm('Les informations entrées sont exactes ?')) {
-			const game = await createGame();
-			await addRooms(game.id, selectedRooms);
-			const res = await openGame(game.id);
-			navigate(`/pregame/${res.gameCode}`);
-
-			return;
-		}
+		
+		const game = await createGame();
+		await addRooms(game.id, selectedRooms);
+		const res = await openGame(game.id);
+		navigate(`/pregame/${res.gameCode}`);
 		event.preventDefault();
 	};
 

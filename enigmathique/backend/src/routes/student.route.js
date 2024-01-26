@@ -1,5 +1,5 @@
 /**
- * Définition des routes pour les professeurs (api/student)
+ * Définition des routes pour les élèves (api/student)
 */
 
 module.exports = app => {
@@ -14,13 +14,13 @@ module.exports = app => {
 	// Créer un nouvel élève
 	router.post("/", middleware.verifyToken, student.create, middleware.verifyErrors);
 
-	// Récupérer un élève à partir de son id
+	// Récupérer les infos d'un élève à partir de son id
 	router.get("/:id", middleware.verifyToken, student.findById, middleware.verifyErrors);
 
 	// Mettre a jour un élève
 	router.put("/:id", middleware.verifyToken, student.update, middleware.verifyErrors);
 
-	// Supprime un élève d'un professeur
+	// Supprime un élève
 	router.delete("/:id", middleware.verifyToken, student.delete, middleware.verifyErrors);
 
 	
