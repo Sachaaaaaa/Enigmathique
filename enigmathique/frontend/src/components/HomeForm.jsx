@@ -15,7 +15,6 @@ const HomeForm = () => {
 	const navigate = useNavigate();
 
 	const handleValider = () => {
-		const rep = GameModel.getAll();
 		navigate(`/join/${code}`);
 	};
 
