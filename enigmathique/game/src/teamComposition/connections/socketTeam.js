@@ -1,6 +1,14 @@
 const clc = require('cli-color');
 const { ClientToServer, ServerToClient } = require('../../socketMessages');
 
+const infoColor = clc.blue;
+const errorColor = clc.red;
+const sendColor = clc.green;
+const receiveColor = clc.yellow;
+
+/**
+ * Gère la connexion 
+ */
 class SocketTeam {
 	constructor(socket, session) {
 		console.log(clc.greenBright('[Team] Nouvelle connexion'));
@@ -8,6 +16,7 @@ class SocketTeam {
 		this.socket = socket;
 		this.session = session;
 
+		// Enregistre les événements
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
 		this.socket.on(ClientToServer.AddStudent, this.onAddStudent);
 		this.socket.on(ClientToServer.RemoveStudent, this.onRemoveStudent);
@@ -34,51 +43,64 @@ class SocketTeam {
 		}
 	}
 
-	toPostData = () => {
-		// retourne sous la forme:  {name: "nom de l'équipe", students: [id1, id2, id3]}
-		return {
-			idSocket: this.socket.id, // Rajoute l'id de la socket pour pouvoir l'identifier plus tard (retour de l'id de l'équipe depuis API)
-			name: this.name,
-			idStudents: this.composition.map((student) => student.id)
-		}
-	}
+é
 
+	/**
+	 * Vérifie si l'étudiant est dans l'équipe
+	 * @param {int} studentId 
+	 * @returns {boolean} true si l'étudiant est dans l'équipe, false sinon
+	 */
 	hasStudent = (studentId) => {
 		return this.composition.find(student => student.id === studentId);
 	}
 
+	/**
+	 * Event appelé lors de la déconnexion d'un client
+	 */
 	onDisconnect = () => {
-		console.log(clc.redBright('[Team] Déconnexion'));
+		this.log('Déconnexion', errorColor);
 		this.socket.removeAllListeners();
-
 		this.session.onTeamLeave(this);
 	}
 
+	/**
+	 * Event appelé lors de l'ajout d'un étudiant à l'équipe
+	 * @param {int} studentId 
+	 */
 	onAddStudent = (studentId) => {
-		console.log(clc.cyan('[Team] Ajout d\'un étudiant'));
+		this.log('Ajout d\'un étudiant ' + studentId, receiveColor);
 
 		// Vérifie si l'équipe est verrouillée ou confirmée
 		if (this.locked || this.confirmed) {
-			console.log(clc.redBright('[Team] Tentative d\'ajout d\'un étudiant dans une équipe verrouillée ou confirmée'));
+			this.log('Tentative d\'ajout d\'un étudiant dans une équipe verrouillée ou confirmée', errorColor);
 			return;
 		}
 
+		// Vérifie si l'étudiant est déjà dans une équipe
 		if (!this.session.isStudentAvailable(studentId)) {
+			this.log('Tentative d\'ajout d\'un étudiant déjà dans une équipe', errorColor);
 			return;
 		}
 
+		// Vérifie si l'équipe n'est pas pleine
 		if (this.composition.length >= this.session.maxTeamSize) {
+			this.log('Tentative d\'ajout d\'un étudiant dans une équipe pleine', errorColor);
 			return;
 		}
+
+		// Ajoute l'étudiant à l'équipe
 		this.composition.push(this.session.getStudentWithId(studentId));
 
-		console.log(this.composition);
-
+		// Rafraichit la liste des étudiants disponibles
 		this.session.onTeamCompositionChange(this);
 	}
 
+	/**
+	 * Event appelé lors de la suppression d'un étudiant de l'équipe
+	 * @param {int} studentId 
+	 */
 	onRemoveStudent = (studentId) => {
-		console.log(clc.cyan('[Team] Suppression d\'un étudiant ' + studentId));
+		this.log('Suppression d\'un étudiant ' + studentId, receiveColor);
 
 		// Vérifie si l'équipe est verrouillée ou confirmée
 		if (this.locked || this.confirmed) {
@@ -86,76 +108,89 @@ class SocketTeam {
 			return;
 		}
 
+		// Supprime l'étudiant de l'équipe si il est dedans
 		const index = this.composition.findIndex(student => student.id === studentId);
 		if (index > -1) {
 			this.composition.splice(index, 1);
 		}
 
+		// Rafraichit la liste des étudiants disponibles
 		this.session.onTeamCompositionChange(this);
 	}
 
+	/**
+	 * Event appelé lors du verrouillage de l'équipe
+	 */
 	onLockTeam = ({name}) => {
-		console.log(clc.cyan('[Team] Verrouillage de l\'équipe ' + clc.bold(name)));
+		this.log(`Verrouillage de l'équipe ${name}`, receiveColor);
 
 		// Vérifie si l'équipe est verrouillée ou confirmée
 		if (this.locked || this.confirmed) {
-			console.log(clc.redBright('[Team] Tentative de verrouillage d\'une équipe déjà verrouillée ou confirmée'));
+			this.log('Tentative de verrouillage d\'une équipe déjà verrouillée ou confirmée', errorColor);
 			this.socket.emit(ServerToClient.Error, {message: 'L\'équipe est déjà verrouillée ou confirmée', isFatal: false});
 			return;
 		}
 
 		// Vérifie que l'équipe n'est pas vide
 		if (this.composition.length === 0) {
-			console.log(clc.redBright('[Team] Tentative de verrouillage d\'une équipe vide'));
+			this.log('Tentative de verrouillage d\'une équipe vide', errorColor);
 			this.socket.emit(ServerToClient.Error, {message: 'L\'équipe est vide', isFatal: false});
 			return;
 		}
 
 		// Vérifie longueur du nom de l'équipe
-		if (name.length > 20) {
-			console.log(clc.redBright('[Team] Tentative de verrouillage d\'une équipe avec un nom trop long'));
+		if (name.length > 50) {
+			this.log('Tentative de verrouillage d\'une équipe avec un nom trop long', errorColor);
 			this.socket.emit(ServerToClient.Error, {message: 'Le nom de l\'équipe est trop long', isFatal: false});
 			return;
 		}
 
+		// Met à jour le nom de l'équipe et verrouille l'équipe
 		this.name = name;
 		this.locked = true;
+
+		// Met à jour les équipe
 		this.session.onTeamCompositionChange(this);
 	}
 
+	/**
+	 * Envoie un message au client avec les informations de la session
+	 * @param {int} maxTeamSize 
+	 */
 	sendGameInfo = (maxTeamSize) => {
-		console.log(clc.yellowBright('[Team] Envoi des informations de la session'));
-
+		this.log('Envoi des informations de la session', sendColor);
 		this.socket.emit(ServerToClient.GameInfo, { maxTeamSize: maxTeamSize });
 	}
 
 	sendAvailableStudents = (students) => {
-		console.log(clc.yellowBright('[Team] Envoi des étudiants disponibles'));
+		this.log('Envoi des étudiants disponibles', sendColor);
 
 		this.socket.emit(ServerToClient.SyncAvailableStudents, { students });
 	}
 
 	sendTeamComposition = () => {
-		console.log(clc.yellowBright('[Team] Envoi de la composition de l\'équipe'));
+		this.log('Envoi de la composition de l\'équipe', sendColor);
 
 		// TODO: Modifier { composition: this.toData() } => Côté client donne : data.composition.{...}, pas pratique
 		this.socket.emit(ServerToClient.SyncTeamStudents, { composition: this.toData() });
 	}
 
 	sendSessionStart = (teamId) => {
-		console.log(clc.yellowBright('[Team] Envoi du début de la session'));
+		this.log('Envoi du début de la session', sendColor);
 
 		this.socket.emit(ServerToClient.CompositionFinished, { teamId });
 	}
 
 	wipeComposition = () => {
-		console.log(clc.yellowBright('[Team] Suppression de la composition de l\'équipe'));
+		this.log('Suppression de la composition de l\'équipe', infoColor);
 
+		// Remet la composition à zéro
 		this.composition = [];
-		this.session.onTeamCompositionChange(this);
-
 		this.locked = false;
 		this.confirmed = false;
+		
+		// Rafraichit la liste des étudiants disponibles et des équipes
+		this.session.onTeamCompositionChange(this);
 	}
 }
 
