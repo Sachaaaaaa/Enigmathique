@@ -1,8 +1,8 @@
 const clc = require('cli-color');
 const { ClientToServer, ServerToClient } = require('../../socketMessages');
 
-const infoColor = clc.blue;
-const errorColor = clc.red;
+const infoColor = clc.cyan;
+const errorColor = clc.redBright;
 const sendColor = clc.green;
 const receiveColor = clc.yellow;
 
@@ -28,6 +28,10 @@ class SocketTeam {
 		this.locked = false;
 		this.confirmed = false;
 	}
+
+	log = (message, color = infoColor) => {
+		console.log(color(`[Team ${socket.id}]` + message));
+	};
 
 	/**
 	 * Permet de convertir l'objet en données JSON.

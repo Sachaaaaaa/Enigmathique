@@ -19,7 +19,7 @@ class TeamCompositionManager {
 	}
 
 	log = (message, color = infoColor) => {
-		console.log(color('[CompositionSession ' + message));
+		console.log(color('[CompositionSession] ' + message));
 	};
 
 	/**
