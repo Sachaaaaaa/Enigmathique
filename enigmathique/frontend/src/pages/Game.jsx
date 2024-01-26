@@ -1,20 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 
-import { Scene } from '../components/game/SceneManager';
+import { Scene } from 'components/game/SceneManager';
 import { socket, SocketContext } from 'contexts/SocketContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from '../data/socketMessages';
 import { RoomProvider } from '../contexts/RoomContext';
-import Timer from '../components/game/enigmas/Timer';
+import Timer from 'components/game/enigmas/Timer';
 import Rules from 'components/game/Rules';
-
+import Modal, { ModalBody, ModalHeader } from 'components/Modal';
 import E from '../assets/img/E.png';
 import logoNameNobg from '../assets/img/logo-name-enigmathique-white.png';
 import bglogo from '../assets/img/bg_logo.png';
 import { FiInfo } from 'react-icons/fi';
 import Notification from 'components/Notification';
 import toast from 'react-hot-toast';
+import { handleLoginError } from 'components/authform/handleError';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -22,6 +23,7 @@ const Game = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [isLoading, setIsLoading] = useState(true); // Pour savoir si on est en train de charger la scène
 	const [isFinished, setIsFinished] = useState(false); // Pour savoir si on a fini la salle
+	const [errorModalOpen, setErrorModalOpen] = useState(false); // Pour gérer les erreurs et déconnexion
 
 	const navigate = useNavigate();
 
@@ -69,8 +71,9 @@ const Game = () => {
 
 		socket.on(ServerToClient.Error, (data) => {
 			if (data.isFatal) {
-				alert(`Erreur : ${data.message}, isFatal : ${data.isFatal}. Faire quelque chose, rajouter du feedback`);
-				navigate('/');
+				// alert(`Erreur : ${data.message}, isFatal : ${data.isFatal}. Faire quelque chose, rajouter du feedback`);
+				// navigate('/');
+				setErrorModalOpen(true);
 			} else {
 				toast.error(data.message);
 			}
@@ -93,6 +96,10 @@ const Game = () => {
 		setIsWindowOpen(!isWindowOpen);
 	};
 
+	const handleRedirection = () => {
+		setErrorModalOpen(false);
+		navigate('/');
+	}
 
 	return (
 		<SocketContext.Provider value={socket}>
@@ -156,8 +163,22 @@ const Game = () => {
 			)}
 
 			{/* Chronomètre */}
-
 			{!isLoading && <Timer duration={600}/>}
+			{errorModalOpen && (
+					<Modal>
+						<ModalHeader title="Erreur"/>
+						<ModalBody>
+							<form className='flex flex-col text-center w-full gap-3'>
+								<p className=' block text-sm font-medium mb-5 primary-font-color'> Vous avez été déconnecté de la partie.</p>
+								<button
+									type='submit'
+									className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
+									onClick={handleRedirection}>
+									Accueil
+								</button>
+							</form>
+						</ModalBody>
+					</Modal>)}
 			<RoomProvider>
 				<Canvas
 					shadows

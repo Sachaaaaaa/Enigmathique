@@ -444,10 +444,10 @@
 
     /* Menu des chapitres */
         .label-filter-selected {
-            @apply border-b-2 border-blue-color blue-font-color p-3 text-center w-fit
+            @apply border-b-2 border-blue-color blue-font-color p-3 text-center w-fit whitespace-nowrap
         }
         .label-filter {
-            @apply border-b-2 border-[#cbcbcb] nav-font-color p-3 text-center w-fit;
+            @apply border-b-2 border-[#cbcbcb] nav-font-color p-3 text-center w-fit whitespace-nowrap;
         }
         .label-filter:hover {
             @apply text-[#7c79ff] border-[#7c79ff];
