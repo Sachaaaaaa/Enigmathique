@@ -1,5 +1,5 @@
-import GameService from "../services/game.service";
-import ScoreModel from "./score.model";
+import GameService from '../services/game.service';
+import ScoreModel from './score.model';
 
 class GameModel {
 	/**
