@@ -120,7 +120,7 @@ const StudentDetails = ({id}) =>{
 				const members = await loadMembers(team.id);
 				return {
 					id: team.id,
-					date: date.toLocaleDateString(),
+					date: date.toLocaleDateString('fr-FR'),
 					name: gameName,
 					members: members,
 					calculatedScore: calculatedScore,

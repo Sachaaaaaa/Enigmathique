@@ -12,17 +12,19 @@ import {useNavigate} from 'react-router-dom';
 const SideBar = () => {
 
 	const [cancelModalOpen, setCancelModalOpen] = useState(false);
+	const [cancelNavPath, setCancelNavPath] = useState("dashboard");
 	const location = useLocation();
 	const path = location.pathname;
 	// const {setFormData} = useCreationGameContext();
 
 
-	const handleNav = (event) => {
+	const handleNav = (event,navPath) => {
 		if (path === "/create-game") {
 			// if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
 			// 	// setFormData(initialFormData);
 			// 	return;
 			// }
+			setCancelNavPath(navPath);
 			setCancelModalOpen(true);
 			event.preventDefault();
 		}
@@ -31,7 +33,7 @@ const SideBar = () => {
 	const navigate = useNavigate();
 	const handleRedirection = () => {
 		setCancelModalOpen(false);	
-		navigate('/dashboard');
+		navigate("/" + cancelNavPath);
 	}
 
 	return (
@@ -41,10 +43,10 @@ const SideBar = () => {
 			</Link>
 			<section className='flex flex-col justify-between items-center w-full h-full py-5 pr-2 whitespace-nowrap;'>
 				<ul className='w-full text-base'>
-					<ItemList type='dashboard' onClick={handleNav} currentPath={path}/>
-					<ItemList type='class' onClick={handleNav} currentPath={path}/>
-					<ItemList type='games' onClick={handleNav} currentPath={path}/>
-					<ItemList type='room' onClick={handleNav} currentPath={path}/>
+					<ItemList type='dashboard' onClick={(e) => handleNav(e,"dashboard")} currentPath={path}/>
+					<ItemList type='class' onClick={(e) => handleNav(e,"class")} currentPath={path}/>
+					<ItemList type='games' onClick={(e) => handleNav(e,"games")} currentPath={path}/>
+					<ItemList type='room' onClick={(e) => handleNav(e,"rooms")} currentPath={path}/>
 				</ul>
 				<Link to='/create-game' className='flex justify-center items-center w-full'>
 					<button className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style w-[80%] whitespace-nowrap p-8'>Nouvelle partie</button>

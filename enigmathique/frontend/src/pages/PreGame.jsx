@@ -9,13 +9,15 @@ import {
 	ServerToClient,
 } from 'data/socketMessages';
 import AuthService from '../services/auth.service';
-import {useNavigate} from 'react-router-dom';
 import Notification from '../components/Notification';
 import toast from 'react-hot-toast';
+import Modal, {ModalBody, ModalHeader} from 'components/Modal';
+import { useNavigate } from 'react-router-dom';
 
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
 	const [confirmedTeams, setConfirmedTeams] = useState([]);
+	const [confirmateModalOpen, setConfirmateModalOpen] = useState(false);
 
 	const { sessionId } = useParams();
 	const token = AuthService.getToken();
@@ -63,8 +65,13 @@ const PreGame = () => {
 			toast.error('Il faut au moins une équipe pour commencer la partie');
 			return;
 		}
-		socket.emit(ClientToServer.FinishComposition);
+		setConfirmateModalOpen(true);
+
 	};
+	const handleRedirection = () => {
+		setConfirmateModalOpen(false);
+		socket.emit(ClientToServer.FinishComposition);
+	}
 
 	if (!Array.isArray(lockedTeams) || !Array.isArray(confirmedTeams)) {
 		throw new Error('lockedTeams and confirmedTeams must be arrays');
@@ -85,6 +92,26 @@ const PreGame = () => {
 						<TeamContainer teams={lockedTeams} isValidated={false} />
 						<TeamContainer teams={confirmedTeams} isValidated={true} />
 					</section>
+					{confirmateModalOpen && (
+					<Modal>
+					<ModalHeader title="Lancer la partie"/>
+					<ModalBody>
+						<form className='flex flex-col text-center w-full gap-3'>
+							<p className=' block text-sm font-medium mb-5 primary-font-color'>Voulez-vous commencer la partie ?</p>
+							<button
+								type='submit'
+								className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
+								onClick={handleRedirection}>
+								Lancer
+							</button>
+							<button
+								className='modal-cancel-button-style'
+								onClick={() => setConfirmateModalOpen(false)}>
+								Annuler
+							</button>
+						</form>
+						</ModalBody>
+					</Modal>)}
 				</main>
 			</LayoutProf>
 		</SocketContext.Provider>
