@@ -1,6 +1,6 @@
-import TeamService from "../services/team.service";
-import StudentModel from "./student.model";
-import ScoreModel from "./score.model";
+import TeamService from '../services/team.service';
+import StudentModel from './student.model';
+import ScoreModel from './score.model';
 
 class TeamModel{
 	/**

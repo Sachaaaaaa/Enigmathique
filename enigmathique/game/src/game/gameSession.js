@@ -80,8 +80,9 @@ class GameSession {
 
     return sessionData;
   };
+	
   /**
-   *
+   * Récupère les informations de la session
    * @returns {Object} Informations de la session
    */
   getMetadata = () => {
@@ -261,6 +262,9 @@ class GameSession {
     this.sendDataToProfessors();
   };
 
+	/**
+	 * Envoie à tout le monde que la partie est terminée
+	 */
   broadcastGameEnded = () => {
     // Envoie à tout le monde que la partie est terminée
     this.teams.forEach((team) => {
@@ -270,6 +274,7 @@ class GameSession {
       professor.sendGameEnded();
     });
   };
+
   /**
    * Permet de récupérer les informations de progression de chaque équipe pour être envoyé aux professeurs
    * @returns {Object} Informations de progression de chaque équipe
@@ -291,6 +296,7 @@ class GameSession {
    * Tick à interval régulier
    */
   tick = () => {
+		// TODO: Remplacer par un setInterval (check gameManager.js: run(..))
     if (this.isPlaying) {
       const now = Date.now();
       const elapsed = now - this.roundStartTime;

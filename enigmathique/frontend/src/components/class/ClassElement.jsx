@@ -1,54 +1,76 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Modal, {ModalBody, ModalHeader} from '../Modal';
-import {MdDeleteForever, MdOutlineModeEdit} from 'react-icons/md';
-import {IoPerson} from "react-icons/io5";
-import CourseModel from "../../models/course.model";
-import {IoIosStats} from "react-icons/io";
-import GameModel from "../../models/game.model";
+import {IoPerson} from 'react-icons/io5';
+import CourseModel from 'models/course.model';
+import GameModel from 'models/game.model';
 import PropTypes from 'prop-types';
-import toast from "react-hot-toast";
-import ActionButton from "components/dashboard/ActionButton";
+import toast from 'react-hot-toast';
+import ActionButton from 'components/dashboard/ActionButton';
 import {getRowColor} from 'components/ListManager';
 
+/**
+ * Composant representant une classe dans la liste des classes
+ * @param classe
+ * @param onChange
+ * @param index
+ * @returns {Element}
+ * @constructor
+ */
 const ClassElement = ({classe, onChange, index}) => {
-	
+	//les parties de la classe courante
 	const [gamesOf, setGamesOf] = useState([]);
-	
+	//le statut du modal de l'édition d'une classe
 	const [editModalOpen, setEditModalOpen] = useState(false);
+	//le statut du modal de la suppression d'une classe
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+	//le nom de la classe à modifier
 	const [name, setName] = useState('');
 	
-	
+	/**
+	 * handler de la suppression d'une classe
+	 * @param event le click sur le bouton
+	 * @param id l'id de la classe
+	 * @returns la classe supprimée dans la base de données
+	 */
 	const handleClickDelete = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
 			CourseModel.delete(id),
 			{
 				loading: 'Suppression...',
-				success: "La classe a bien été supprimée",
-				error: "Une erreur s'est produite",
+				success: 'La classe a bien été supprimée',
+				error: 'Une erreur s\'est produite',
 			}
 		);
 		onChange();
 		setDeleteModalOpen(false);
 		//console.log('delete ' + id);
-	}
+	};
 	
+	/**
+	 * Modification d'une classe
+	 * @param event le click sur le bouton
+	 * @param id l'id de la classe
+	 * @returns la classe modifiée dans la base de données
+	 */
 	const handleClickEdit = async (event, id) => {
 		event.preventDefault();
 		await toast.promise(
 			CourseModel.edit(name, id),
 			{
 				loading: 'Enregistrement...',
-				success: "La classe a bien été modifiée",
-				error: "Une erreur s'est produite",
+				success: 'La classe a bien été modifiée',
+				error: 'Une erreur s\'est produite',
 			}
 		);
 		onChange();
 		setEditModalOpen(false);
-	}
-	
+	};
+	/**
+	 * chargement des games de la classe courante
+	 * @returns {Promise<void>}
+	 */
 	const loadGamesOf = async () => {
 		const data = await GameModel.getAll();
 		let listGames = [];
@@ -56,12 +78,19 @@ const ClassElement = ({classe, onChange, index}) => {
 			classe.id === game.idCourse && listGames.push(game);
 		});
 		setGamesOf(listGames);
-	}
-	
+	};
+	/**
+	 * chargement des games de la classe courante
+	 */
 	useEffect(() => {
 		loadGamesOf();
 	}, []);
 	
+	/**
+	 * Récupération de la date de la dernière partie si elle existe
+	 * @param games la liste des games
+	 * @returns {string} la date ou 'Jamais joué'
+	 */
 	const getLastGame = (games) => {
 		if (games.length !== 0) {
 			let maxDate = games[0].createdAt;
@@ -76,38 +105,38 @@ const ClassElement = ({classe, onChange, index}) => {
 	
 	return (
 		<tr key={index} className={getRowColor(index)}>
-			<td className="pl-5 td-style">
+			<td className='pl-5 td-style'>
 				{classe.name}
 			</td>
-			<td className="td-style">
+			<td className='td-style'>
 				<Link to={`/class/${classe.id}`} className='w-fit btn-action-see'>
 					<IoPerson size='1em'/>
 					<p>Elèves</p>
 				</Link>
 			</td>
-			<td className="td-style">
+			<td className='td-style'>
 				{getLastGame(gamesOf)}
 			</td>
 			
-			<td className="td-style text-right pr-5">
+			<td className='td-style text-right pr-5'>
 				<div className='space-x-3'>
 					<ActionButton
-						title="Détails"
+						title='Détails'
 						link={`/class/stats/${classe.id}`}
 					/>
 					<ActionButton
-						title="Modifier"
+						title='Modifier'
 						onClick={() => setEditModalOpen(true)}
 					/>
 					<ActionButton
-						title="Supprimer"
+						title='Supprimer'
 						onClick={() => setDeleteModalOpen(true)}
 					/>
 				</div>
 			</td>
 			{editModalOpen && (
 				<Modal setOpenModal={setEditModalOpen}>
-					<ModalHeader title="Modifier une classe"/>
+					<ModalHeader title='Modifier une classe'/>
 					<ModalBody>
 						<form className='flex flex-col justify-center items-end w-full gap-3 '>
 							<div className='w-full pb-3'>
@@ -138,7 +167,7 @@ const ClassElement = ({classe, onChange, index}) => {
 				</Modal>)}
 			{deleteModalOpen && (
 				<Modal setOpenModal={setDeleteModalOpen}>
-					<ModalHeader title={`Supprimer une classe`}/>
+					<ModalHeader title={'Supprimer une classe'}/>
 					<ModalBody>
 						<form className='flex flex-col text-center w-full gap-3'>
 							<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la
@@ -165,6 +194,6 @@ ClassElement.propTypes = {
 	classe: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 	index: PropTypes.number.isRequired,
-}
+};
 
 export default ClassElement;

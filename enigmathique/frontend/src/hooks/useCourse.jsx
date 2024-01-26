@@ -1,14 +1,11 @@
-import React from 'react';
-
 import {useState, useEffect} from 'react';
-
 import CourseModel from 'models/course.model';
 
 /**
- * Récupère les classes du professeur connecté
+ * Récupère une classe du professeur connecté
  * @param {number} id
  * @param {boolean} autoload 
- * @returns 
+ * @returns une classe du professeur
  */
 const useCourse = (id, autoload = true) => {
 	const [course, setCourse] = useState(null);

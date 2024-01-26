@@ -1,15 +1,15 @@
 import React from 'react';
-import '../index.css';
+import 'index.css';
 import AuthHeader from 'components/AuthHeader';
 import Textfield from 'components/authform/Textfield';
 import Passwordfield from 'components/authform/Passwordfield';
 import SubmitButton from 'components/authform/SubmitButton';
 import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import AuthService from '../services/auth.service';
-import toast from "react-hot-toast";
-import Notification from "../components/Notification";
-import {handleSignupError,	styleEdit} from "../components/authform/handleError";
+import AuthService from 'services/auth.service';
+import toast from 'react-hot-toast';
+import Notification from 'components/Notification';
+import {handleSignupError,	styleEdit} from 'components/authform/handleError';
 
 function Signup() {
 	
@@ -25,6 +25,10 @@ function Signup() {
 	const [lastnameStyle, setLastnameStyle] = useState('');
 	const [mailStyle, setMailStyle] = useState('');
 	const [passwordStyle, setPasswordStyle] = useState('');
+	/**
+	 * Fonction qui gère l'inscription
+	 * @param e
+	 */
 	const handleRegister = (e) => {
 		// Empêcher le rechargement de la page
 		e.preventDefault();
@@ -38,7 +42,7 @@ function Signup() {
 			lastnameStyle,
 			mailStyle,
 			passwordStyle
-		}= styleEdit(firstname, lastname, mail, password)
+		}= styleEdit(firstname, lastname, mail, password);
 		setFirstnameStyle(firstnameStyle);
 		setLastnameStyle(lastnameStyle);
 		setMailStyle(mailStyle);
@@ -119,7 +123,7 @@ function Signup() {
 				
 				{/* Conditions d'inscription */}
 				<div className='w-[450px] text-[13px] p-1 text-center primary-font-color'>
-					<span>En {`t'inscrivant`}, tu acceptes nos </span>
+					<span>En {'t\'inscrivant'}, tu acceptes nos </span>
 					<Link to='/cgu' target="_blank" className='font-medium underline'>Conditions générales</Link>
 					<span>. Merci de lire notre </span>
 					<Link to='' className='font-medium underline'>Politique de confidentialité</Link>

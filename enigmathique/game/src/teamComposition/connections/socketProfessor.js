@@ -3,50 +3,76 @@ const { Socket } = require('socket.io');
 const TeamCompositionManager = require('../teamCompositionManager');
 const { ClientToServer, ServerToClient } = require('../../socketMessages');
 
+const infoColor = clc.cyan;
+const errorColor = clc.redBright;
+const sendColor = clc.green;
+const receiveColor = clc.yellow;
+
 class SocketProfessor {
 	/**
 	 * 
 	 * @param {Socket} socket 
 	 * @param {TeamCompositionManager} session 
 	 */
-	constructor(socket, session) {
-		console.log(clc.greenBright('[Professor] Nouvelle connexion'));
-
+	constructor(socket, session) {	
 		this.socket = socket;
 		this.manager = session;
+		
+		this.log('Nouvelle connexion');
 
+		// Enregistre les événements
 		this.socket.on(ClientToServer.ValidateTeam, this.onConfirmTeamComposition);
 		this.socket.on(ClientToServer.RefuseTeam, this.onRefuseTeamComposition);
 		this.socket.on(ClientToServer.Disconnection, this.onDisconnect);
 		this.socket.on(ClientToServer.FinishComposition, this.onFinishComposition);
 	}
 
+	log = (message, color = infoColor) => {
+		console.log(color(`[Professor ${socket.id}]` + message));
+	};
+
+	
+	/**
+	 * Event appelé lors de la déconnexion du professeur
+	 */
 	onDisconnect = () => {
-		console.log(clc.redBright('[Professor] Déconnexion'));
+		this.log('Déconnexion', errorColor);
 		this.socket.removeAllListeners();
 	}
 
+	/**
+	 * Event appelé lors de la validation de la composition d'une équipe
+	 * @param {*} data 
+	 */
 	onConfirmTeamComposition = (data) => {
-		console.log(data);
-		console.log(clc.yellowBright('[Professor] Confirmation de la composition de l\'équipe ' + data.id));
-
+		this.log('Confirmation de la composition de l\'équipe ' + data.id, receiveColor);
 		this.manager.confirmTeamComposition(data.id);
 	}
 
+	/**
+	 * Event appelé lors du refus de la composition d'une équipe
+	 */
 	onRefuseTeamComposition = (data) => {
-		console.log(clc.yellowBright('[Professor] Annulation de la composition de l\'équipe ' + data.id));
-
+		this.log('Annulation de la composition de l\'équipe ' + data.id, receiveColor);
 		this.manager.refuseTeamComposition(data.id);
 	}
 
+	/**
+	 * Event appelé lors de la fin de la composition (professeur valide)
+	 */
 	onFinishComposition = () => {
-		console.log(clc.yellowBright('[Professor] Fin de la composition'));
-
+		this.log('Fin de la composition', receiveColor);
 		this.manager.finishComposition();
 	}
 
+	/**
+	 * Envoie la composition des équipes
+	 * @param {Array} availableStudents 
+	 * @param {Array} lockedTeams 
+	 * @param {Array} confirmedTeams 
+	 */
 	sendComposition = (availableStudents, lockedTeams, confirmedTeams) => {
-		console.log(clc.yellowBright('[Professor] Envoi de la composition'));
+		this.log('Envoi de la composition', sendColor);
 		
 		this.socket.emit(ServerToClient.SyncTeams, {
 			availableStudents,
@@ -55,9 +81,11 @@ class SocketProfessor {
 		});
 	}
 
+	/**
+	 * Envoie la liste des élèves disponibles
+	 */
 	sendSessionStart = () => {
-		console.log(clc.yellowBright('[Professor] Envoi du début de la session'));
-
+		this.log('Envoi du début de la session', sendColor);
 		this.socket.emit(ServerToClient.CompositionFinished);
 	}
 }

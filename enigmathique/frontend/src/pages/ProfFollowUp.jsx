@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import LayoutProf from '../layouts/LayoutProf';
-import { FaStar, FaRegCircle } from 'react-icons/fa';
+import LayoutProf from 'layouts/LayoutProf';
 import { socket } from 'contexts/SocketContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ConnectionType, ServerToClient } from 'data/socketMessages';
-import TeamDetails from './TeamDetails';
-import ActionButton from 'components/dashboard/ActionButton';
+import TeamDetails from 'pages/TeamDetails';
 import TableContainer from 'components/dashboard/TableContainer';
 import ContentHeader from 'components/dashboard/ContentHeader';
-import {getPositionIcon, getPositionStyle, calculateScore} from "../components/stats/RankStyleManager";
+import {getPositionIcon, getPositionStyle, calculateScore} from 'components/stats/RankStyleManager';
 import { FiInfo } from 'react-icons/fi';
 import { getRowColor } from 'components/ListManager';
 
+/**
+ * Page permettant de suivre la progression des équipes durant la partie
+ * @returns {Element}
+ * @constructor
+ */
 function ProfFollowUp() {
 	const [currentRound, setCurrentRound] = useState(null);
 	const [totalRounds, setTotalRounds] = useState(null);
@@ -32,6 +35,11 @@ function ProfFollowUp() {
 
 	const navigate = useNavigate();
 
+	/**
+	 * Calcule les données d'une équipe
+	 * @param rooms
+	 * @returns {{totalGoodAnswer: number, totalSolved: number, totalBadAnswer: number, totalHint: number, totalScore: number}}
+	 */
 	const sumRoomData = (rooms) => {
 		let totalSolved = 0;
 		let totalGoodAnswer = 0;
@@ -41,7 +49,6 @@ function ProfFollowUp() {
 
 		for (let i = 0; i < rooms.length; i++) {
 			const roomData = rooms[i];
-			const roomName = roomData.name;
 			const roomIsSolved = roomData.isSolved;
 			const numResolved = roomData.nbGoodAnswers;
 			const numBadAnswer = roomData.nbBadAnswers;
@@ -58,7 +65,9 @@ function ProfFollowUp() {
 
 		return { totalSolved, totalGoodAnswer, totalBadAnswer, totalHint, totalScore };
 	};
-
+	/**
+	 * UseEffect pour gérer les évènements du socket
+	 */
 	useEffect(() => {
 		if (token && sessionId) {
 			socket.io.opts.query = {
@@ -120,8 +129,6 @@ function ProfFollowUp() {
 			});
 
 			socket.on(ServerToClient.GameEnded, () => {
-				// TODO: Modifier façon de mettre id de game dans l'url (à partir de code de partie)
-				//navigate(`rankinkg/${ID_DE_LA_GAME}`);
 				navigate('/games/');
 			});
 
@@ -138,7 +145,10 @@ function ProfFollowUp() {
 		}
 	}, [token, sessionId, socket]);
 
-
+	/**
+	 * Gestion du bouton de de détails d'une équipe
+	 *
+	 */
 	const handleDetailsClick = (team) => {
 		console.log('Détails de l\'équipe', team);
 		setSelectedTeam(team);

@@ -1,22 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import AvailableStudents from 'components/join/AvailableStudents';
 import SelectedStudents from 'components/join/SelectedStudents';
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 
 import {socket, SocketContext} from 'contexts/SocketContext';
 import {useParams} from 'react-router-dom';
 import {ClientToServer, ConnectionType, ServerToClient} from 'data/socketMessages';
-import Notification from "components/Notification";
-import toast from "react-hot-toast";
-import {SyncLoader} from "react-spinners";
-import AuthHeader from "components/AuthHeader"
+import Notification from 'components/Notification';
+import toast from 'react-hot-toast';
+import {SyncLoader} from 'react-spinners';
+import AuthHeader from 'components/AuthHeader';
 import Rules from 'components/game/Rules';
-import { FiInfo } from "react-icons/fi";
+import { FiInfo } from 'react-icons/fi';
 import Modal, { ModalBody, ModalHeader } from 'components/Modal';
 
-
-const Join = (props) => {
+/**
+ * Page permettant de rejoindre une partie
+ * @returns {Element}
+ * @constructor
+ */
+const Join = () => {
 	//? Faire un hook pour ça ? vu le nombre de useStates
 	const [available, setAvailable] = useState([]);
 	const [selected, setSelected] = useState([]);
@@ -39,6 +42,9 @@ const Join = (props) => {
 	// Met à jour l'id de session dans le handshake du socket
 	socket.io.opts.query = {sessionId, connectionType: ConnectionType.TeamComposition};
 
+	/**
+	 * UseEffect pour gérer les évènements du socket
+	 */
 	useEffect(() => {
 
 		socket.on(ServerToClient.Connection, () => {
@@ -76,7 +82,6 @@ const Join = (props) => {
 		});
 
 		socket.on(ServerToClient.CompositionFinished, (data) => {
-			// TODO: Modifier façon de mettre session et teamId dans l'url
 			const teamId = data.teamId;
 			navigate(`/game?sessionId=${sessionId}&teamId=${teamId}`);
 		});
@@ -93,7 +98,11 @@ const Join = (props) => {
 			socket.off(ServerToClient.CompositionFinished);
 		};
 	}, []);
+
 	const [status, setStatus] = useState('');
+	/**
+	 * UseEffect pour gérer le statut de l'équipe
+	 */
 	useEffect(() => {
 		if (isConfirmed) {
 			setStatus('Votre équipe est prête, en attente du lancement de la partie');
@@ -103,60 +112,73 @@ const Join = (props) => {
 	}, [isConfirmed, isLocked]);
 
 	const [teamName, setTeamName] = useState('');
+	/**
+	 * Permet de gérer le changement de nom d'équipe
+	 * @param event
+	 */
 	const handleTeamNameChange = (event) => {
 		setTeamName(event.target.value);
 	};
-
+	/**
+	 * Gestion du bouton de création d'équipe
+	 *
+	 */
 	const handleCreateTeam = () => {
 		let error = false ;
 		if (selected.length === 0) {
 			error = true;
-			toast.error("Veuillez sélectionner un moins un élève");
+			toast.error('Veuillez sélectionner un moins un élève');
 		}
 		if (teamName === '') {
 			error = true;
-			toast.error("Veuillez entrer un nom d'équipe");
+			toast.error('Veuillez entrer un nom d\'équipe');
 		}
 		if (error) return;
 		socket.emit(ClientToServer.LockTeam, {name: teamName});
 		//TODO: Faut mettre un loader ici
 	};
 
+	/**
+	 * Gestion de la redirection vers l'accueil
+	 */
 	const handleRedirection = () => {
 		setErrorModalOpen(false);
 		navigate('/');
-	}
+	};
 
 	// Gestion de la fenetre d'aide
 	const [isWindowOpen, setIsWindowOpen] = useState(false);
+	/**
+	 * Permet d'ouvrir/fermer la fenêtre d'aide
+	 */
 	const toggleWindow = () => {
 		setIsWindowOpen(!isWindowOpen);
 	};
 
 	return (
-			<SocketContext.Provider value={socket}>
-				<Notification/>
-				<main className='fullscreen-container'>
+		<SocketContext.Provider value={socket}>
+			<Notification/>
+			<main className='fullscreen-container'>
 				<AuthHeader title = "Rejoindre une partie"/>
-			<div className='grow flex flex-col justify-center items-center gap-10 h-full p-5 pb-10 overflow-auto '>
-				{isLocked ?
+				<div className='grow flex flex-col justify-center items-center gap-10 h-full p-5 pb-10 overflow-auto '>
+					{isLocked ?
 						(	<>
-								<SyncLoader color='#4c49ed'/>
-								<h1 className='text-2xl p-1'>{status}</h1>
-											{/* Bouton pour ouvrir/fermer la fenêtre */}
+							<SyncLoader color='#4c49ed'/>
+							<h1 className='text-2xl p-1'>{status}</h1>
+							{/* Bouton pour ouvrir/fermer la fenêtre */}
 									
-								<button className='absolute z-50 bottom-0 right-0 flex justify-center items-center m-5 btn-action-blue'
+							<button className='absolute z-50 bottom-0 right-0 flex justify-center items-center m-5 btn-action-blue'
 								onClick={toggleWindow}><FiInfo size='3em'/></button>
 
 
-								{/* Fenêtre d'aide */}
-								{isWindowOpen && (
-									<>
-										{/* Contenu de la fenêtre */}
-										<Rules onCloseClick = {toggleWindow}></Rules>
-									</>
-								)}
-							</>
+							{/* Fenêtre d'aide */}
+							{isWindowOpen && (
+								<>
+									{/* Contenu de la fenêtre */}
+									<Rules onCloseClick = {toggleWindow}></Rules>
+								</>
+							)}
+						</>
 						)
 						:
 						(
@@ -165,7 +187,7 @@ const Join = (props) => {
 								
 								{/* <div className='w-full min-w-[250px] py-2 bg-white primary-font-color text-center text-lg font-semibold shadow-md rounded-full'> {"Création de l'équipe"}</div> */}
 								<button className="pregame-join-button" 
-								onClick={handleCreateTeam}>
+									onClick={handleCreateTeam}>
 									Créer mon équipe
 								</button>
 								<section className='join-container'>
@@ -174,13 +196,13 @@ const Join = (props) => {
 								</section>
 							</>
 						)}
-					</div>
-					{errorModalOpen && (
+				</div>
+				{errorModalOpen && (
 					<Modal>
 						<ModalHeader title="Code non valide"/>
 						<ModalBody>
 							<form className='flex flex-col text-center w-full gap-3'>
-								<p className=' block text-sm font-medium mb-5 primary-font-color'> La partie que vous tentez de rejoindre {"n'existe"} pas.</p>
+								<p className=' block text-sm font-medium mb-5 primary-font-color'> La partie que vous tentez de rejoindre {'n\'existe'} pas.</p>
 								<button
 									type='submit'
 									className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
@@ -190,11 +212,8 @@ const Join = (props) => {
 							</form>
 						</ModalBody>
 					</Modal>)}
-				</main>
-			</SocketContext.Provider>
+			</main>
+		</SocketContext.Provider>
 	);
-};
-Join.propTypes = {
-	professorName: PropTypes.string,
 };
 export default Join;

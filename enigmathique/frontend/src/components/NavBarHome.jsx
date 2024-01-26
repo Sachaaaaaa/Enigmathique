@@ -1,7 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-
+/**
+ * Bar de navigation de la page principale
+ * @returns {Element}
+ * @constructor
+ */
 function NavBarHome() {
 	const loginPath = './login';
 	const registerPath = './signup'

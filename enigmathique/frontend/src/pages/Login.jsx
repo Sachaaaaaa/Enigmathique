@@ -1,21 +1,20 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import AuthService from '../services/auth.service';
+import AuthService from 'services/auth.service';
 import AuthHeader from 'components/AuthHeader';
 
 import Textfield from 'components/authform/Textfield';
 import Passwordfield from 'components/authform/Passwordfield'; 
 import SubmitButton from 'components/authform/SubmitButton';
-import {handleLoginError, styleEdit} from "../components/authform/handleError";
-import Notification from "../components/Notification";
-import toast from "react-hot-toast";
+import {handleLoginError, styleEdit} from 'components/authform/handleError';
+import Notification from 'components/Notification';
+import toast from 'react-hot-toast';
 
 const Login = () => {
 	const [mail, setMail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
-	const [message, setMessage] = useState('');
-	const [showPassword, setShowPassword] = useState(false);
+	const [setMessage] = useState('');
 
 
 	const [mailStyle, setMailStyle] = useState('');
@@ -67,37 +66,37 @@ const Login = () => {
 			<AuthHeader title="Connexion"/>
 			{/* Conteneur du formulaire (full width et centre le formulaire) */}
 			<div className='form-container-style min-h-[350px]'>
-					<form onSubmit={handleLogin} className='form-style' >
-						<Textfield 
-							label='Email'
-							placeholder='Votre adresse mail'
-							name='mail'
-							value={mail}
-							onChange={(e) => setMail(e.target.value)}
-							style={mailStyle}
-						/>
-						<Passwordfield 
-							label='Mot de passe'
-							name='password'
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							style={passwordStyle}
-						/>
-						<SubmitButton 
-							text='Se connecter'
-							loading={loading}
-							onClick={handleLogin}
-						/>
+				<form onSubmit={handleLogin} className='form-style' >
+					<Textfield 
+						label='Email'
+						placeholder='Votre adresse mail'
+						name='mail'
+						value={mail}
+						onChange={(e) => setMail(e.target.value)}
+						style={mailStyle}
+					/>
+					<Passwordfield 
+						label='Mot de passe'
+						name='password'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						style={passwordStyle}
+					/>
+					<SubmitButton 
+						text='Se connecter'
+						loading={loading}
+						onClick={handleLogin}
+					/>
 
-						<div className='text-auth-container-style '>
-							<span> Pas encore de compte ?</span>
-							<Link to='/signup' className='text-auth-style'>{"S'inscrire"} </Link>
-						</div>
+					<div className='text-auth-container-style '>
+						<span> Pas encore de compte ?</span>
+						<Link to='/signup' className='text-auth-style'>{'S\'inscrire'} </Link>
+					</div>
 
-					</form>
-				</div>
+				</form>
+			</div>
 		</div>
-	)
+	);
 };
 
 export default Login;

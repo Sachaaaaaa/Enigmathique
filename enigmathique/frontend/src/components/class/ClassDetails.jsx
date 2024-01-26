@@ -1,19 +1,28 @@
 import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
-import GameModel from '../../models/game.model';
-import CourseModel from "../../models/course.model";
-import {useNavigate} from "react-router-dom";
-import ContentHeader from "../dashboard/ContentHeader";
-import TableContainer from "../dashboard/TableContainer";
-import {getRowColor} from "../ListManager";
-import ActionButton from "../dashboard/ActionButton";
+import GameModel from 'models/game.model';
+import CourseModel from 'models/course.model';
+import {useNavigate} from 'react-router-dom';
+import ContentHeader from 'components/dashboard/ContentHeader';
+import TableContainer from 'components/dashboard/TableContainer';
+import {getRowColor} from 'components/ListManager';
+import ActionButton from 'components/dashboard/ActionButton';
 
-
+/**
+ * Composant de détails d'une classe
+ * @param idClass
+ * @returns {Element}
+ * @constructor
+ */
 const ClassDetails = ({idClass}) => {
 	
+	//la liste des games de la classe courante
 	const [selectedGame, setSelectedGame] = useState([]);
+	//la liste des games du professeur
 	const [games, setGames] = useState([]);
+	//la classe courante
 	const [currentClass, setCurrentClass] = useState(null);
+	//la liste des games avec les infos utiles pour l'affichage
 	const [listGame, setListGame] = useState([]);
 	const navigate = useNavigate();
 	/**
@@ -44,9 +53,8 @@ const ClassDetails = ({idClass}) => {
 	}, []);
 	/**
 	 * Sélection des games de la classe courante
-	 * @param games
-	 * @param classe
-	 * @returns {*[]}
+	 * @param games la liste des games
+	 * @param classe la classe courante
 	 */
 	const addGame = (games, classe) => {
 		if (classe === undefined) {
@@ -63,8 +71,8 @@ const ClassDetails = ({idClass}) => {
 	};
 	/**
 	 * Récupération du taux de réussite d'une partie
-	 * @param game
-	 * @returns {Promise<number>}
+	 * @param game la partie dont on veut le taux de réussite
+	 * @returns le taux de réussite
 	 */
 	const getWinRate = async (game) => {
 		const scores = await GameModel.getScores(game.id);
@@ -82,8 +90,8 @@ const ClassDetails = ({idClass}) => {
 	};
 	
 	/**
-	 * Récupération du taux de réussite d'une partie
-	 * @returns {Promise<void>}
+	 * Récupération de la liste des games de la classe courante
+	 * @returns une liste de games
 	 */
 	const getListGame = async () => {
 		//attendre que toutes les promesses soient chargées pour effectuer la suite
@@ -124,20 +132,20 @@ const ClassDetails = ({idClass}) => {
 					title={currentClass ? currentClass.name : 'Loading...'}
 					link='/class'
 				/>
-				<div className="overflow-x-auto mt-4">
+				<div className='overflow-x-auto mt-4'>
 					<TableContainer headers={['Nom de la partie','Date', 'Taux de réussite', 'Action']}>
 						{listGame.map((game, index) => (
 							<tr key={game.id} className={getRowColor(index)}>
-								<td className="td-style">
+								<td className='td-style'>
 									{game.name}
 								</td>
-								<td className="td-style">
+								<td className='td-style'>
 									{game.date}
 								</td>
-								<td className="td-style">
+								<td className='td-style'>
 									{game.winrate}%
 								</td>
-								<td className="td-style text-right">
+								<td className='td-style text-right'>
 									<ActionButton
 										link={`/ranking/${game.id}`}
 										title='Classement'

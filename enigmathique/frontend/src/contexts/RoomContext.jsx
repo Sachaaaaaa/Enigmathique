@@ -2,8 +2,14 @@ import React from 'react';
 import { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export const RoomContext = createContext();
 
+export const RoomContext = createContext();
+/**
+ * Contexte permettant de stocker les données de la room
+ * @param children
+ * @returns {Element}
+ * @constructor
+ */
 export const RoomProvider = ({ children }) => {
 	const [room, setRoom] = useState({name: null, enigmasVariables: null, component: null});
 

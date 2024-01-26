@@ -33,12 +33,23 @@ class GameManager {
 		console.log(clc.green('[Game] Données des salles chargées'));
 	};
 
+
+	//? Fonction utilisée ?
+	/**
+	 * Gère la déconnexion d'un client
+	 * @param {socketio.Socket} socket 
+	 */
 	handleDisconnection = (socket) => {
 		// Supprime les événements
 		socket.removeAllListeners();
 	};
 
 
+	/**
+	 * Prend en charge une nouvelle connexion
+	 * @param {socketio.Socket} socket 
+	 * @param {int} sessionId 
+	 */
 	handleConnection = async(socket, sessionId) => {
 		console.log(clc.green('[Game] Nouvelle connexion ' + socket.id));
 
@@ -73,14 +84,24 @@ class GameManager {
 		}
 	};
 
+	/**
+	 * Lorsqu'une session se termine
+	 * @param {int} sessionId 
+	 */
 	onSessionEnd = (sessionId) => {
 		console.log(clc.yellow('[Game] Fin de la session ' + sessionId));
 		delete this.sessions[sessionId];
 	};
 
-	run = (ticksPerSecond) => {
+	/**
+	 * Démarre le jeu
+	 * @param {number} ticksPerSecond 
+	 */
+	run = (ticksPerSecond) => { 
+		// Permet de faire tourner le jeu à une fréquence donnée
+		// Sert uniquement à faire changer les salles
+		// Peut être remplacé par un setInterval dans chaque session
 		setInterval(() => {
-			//console.log(clc.cyan('[Game] Boucle...'));
 			for (const sessionId in this.sessions) {
 				const session = this.sessions[sessionId];
 				session.tick();

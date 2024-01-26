@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {useParams, Link, useNavigate} from "react-router-dom";
-import GameModel from "../models/game.model";
-import TeamModel from "../models/team.model";
-import LayoutProf from "../layouts/LayoutProf";
-import ActionButton from "../components/dashboard/ActionButton";
-import TeamStats from "../components/stats/TeamStats";
-import TableContainer from "../components/dashboard/TableContainer";
-import ContentHeader from "../components/dashboard/ContentHeader";
-import {getPositionStyle, getPositionIcon, calculateScore, loadMembers} from "../components/stats/RankStyleManager";
+import {useParams, useNavigate} from 'react-router-dom';
+import GameModel from 'models/game.model';
+import TeamModel from 'models/team.model';
+import LayoutProf from 'layouts/LayoutProf';
+import TeamStats from 'components/stats/TeamStats';
+import TableContainer from 'components/dashboard/TableContainer';
+import ContentHeader from 'components/dashboard/ContentHeader';
+import {calculateScore, loadMembers} from 'components/stats/RankStyleManager';
 import TeamRow from 'components/stats/TeamRow';
 import useTeams from 'hooks/useTeams';
 
+/**
+ * Page du classement d'une partie
+ * @returns {React.JSX.Element|null}
+ * @constructor
+ */
 const Ranking = () => {
 
 	const { idGame } = useParams();
@@ -25,6 +29,11 @@ const Ranking = () => {
 
 
 	const navigate = useNavigate();
+
+	/**
+	 * Vérifie si la partie est terminée et redirige vers la page des parties si ce n'est pas le cas
+	 * @returns {Promise<void>}
+	 */
 	const checkIfGameFinished = async () => {
 		const games = await GameModel.getAll();
 		if (games === undefined) {
@@ -44,12 +53,18 @@ const Ranking = () => {
 		}
 		navigate('/games');
 	};
-
+	/**
+	 * Charge une partie
+	 * @returns {Promise<void>}
+	 */
 	const loadGame = async () => {
 		const data = await GameModel.getOne(parsedIdGame);
 		setGame(data);
 	};
-
+	/**
+	 * Calcule le score d'une équipe
+	 * @returns {Promise<void>}
+	 */
 	const getRanking = async () => {
 		const teamList = await Promise.all(
 			teams.map(async (team) => {
@@ -72,11 +87,16 @@ const Ranking = () => {
 		setRanking(teamList);
 	};
 
+	/**
+	 * useEffect pour charger la partie et son score au chargement de la page
+	 */
 	useEffect(() => {
 		checkIfGameFinished();
 		loadGame();
 	}, []);
-
+	/**
+	 * useEffect pour charger le ranking
+	 */
 	useEffect(() => {
 		if (teams === undefined) {
 			return;
@@ -85,16 +105,26 @@ const Ranking = () => {
 			getRanking();
 		}
 	}, [teams]);
+	/**
+	 * Charge les scores d'une équipe
+	 * @param idTeam
+	 * @returns {Promise<void>}
+	 */
 	const loadScoresForOneTeam = async (idTeam) => {
 		const data = await TeamModel.getScores(idTeam);
 		setScoresForOneTeam(data);
-	}
-
+	};
+	/**
+	 * Gère le clic sur le bouton de détails d'une équipe
+	 * @param team
+	 */
 	const handleDetailsClick = (team) => {
 		setSelectedTeam(team);
 		loadScoresForOneTeam(team.id);
 	};
-	console.log('ranking' , ranking);
+	/**
+	 * Si la partie n'est pas terminée, on ne charge pas la page
+	 */
 	if (!isGameFinished) {
 		return null;
 	}
@@ -121,6 +151,6 @@ const Ranking = () => {
 		</LayoutProf>
 
 	);
-}
+};
 
 export default Ranking;

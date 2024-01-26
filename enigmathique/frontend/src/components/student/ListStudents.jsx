@@ -80,34 +80,34 @@ const ListStudents = (props) => {
 				<Modal setOpenModal={setCreateModalOpen}>
 					<ModalHeader title="Ajouter un élève"/>
 					<ModalBody>
+					<form className='flex flex-col justify-center items-end w-full gap-3 '>	
+						<Textfield
+								label="Prénom de l'élève"
+								placeholder="Prénom"
+								name="firstname"
+								value={firstname}
+								onChange={(e) => setFirstname(e.target.value)}
+							/>
+							<Textfield
+								label="Nom de l'élève"
+								placeholder="Nom"
+								name="lastname"
+								value={lastname}
+								onChange={(e) => setLastname(e.target.value)}
+							/>
+							<button
+								type='submit'
+								className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
+								onClick={(event) => handleClickCreate(event, firstname, lastname, props.id)}>
+								Créer
+							</button>
+							<button
+								className='modal-cancel-button-style'
+								onClick={() => setCreateModalOpen(false)}>
+								Annuler
+							</button>		
+						</form>
 
-					<form className='flex flex-col justify-center items-end w-full gap-1 '>
-						<Textfield
-							label="Prénom de l'élève"
-							placeholder="Prénom"
-							name="firstname"
-							value={firstname}
-							onChange={(e) => setFirstname(e.target.value)}
-						/>
-						<Textfield
-							label="Nom de l'élève"
-							placeholder="Nom"
-							name="lastname"
-							value={lastname}
-							onChange={(e) => setLastname(e.target.value)}
-						/>
-						<button
-							type='submit'
-							className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
-							onClick={(event) => handleClickCreate(event, firstname, lastname, props.id)}>
-							Créer
-						</button>
-						<button
-							className='modal-cancel-button-style'
-							onClick={() => setCreateModalOpen(false)}>
-							Annuler
-						</button>
-					</form>
 				</ModalBody>
 			</Modal>)}
 		</>
