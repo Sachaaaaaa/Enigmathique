@@ -4,19 +4,34 @@ const { Socket } = require('socket.io');
 const GameManager = require('./game/gameManager');
 const TeamCompositionManager = require('./teamComposition/teamCompositionManager');
 const { ClientToServer, ConnectionType, ServerToClient } = require('./socketMessages');
-const CompositionSession = require('./teamComposition/compositionSession');
 const ApiService = require('./api/api');
 
+const infoColor = clc.blue;
+const errorColor = clc.red;
+const sendColor = clc.green;
+const receiveColor = clc.yellow;
+
+/**
+ * Gère les connexions des clients
+ * Redirige vers les bons gestionnaires
+ */
 class SocketManager {
 	constructor(io) {
+		// io => instance de Socket.io
 		this.io = io;
 
+		// Gestionnaires
 		this.gameManager = new GameManager();
 		this.teamCompositionManager = new TeamCompositionManager();
 
+		// Lorsque le serveur reçoit une nouvelle connexion
 		this.io.on(ClientToServer.Connection, this.handleConnection);
 
 		console.log(clc.green('[Socket] SocketManager prêt'));
+	}
+
+	log(message, color = infoColor) {
+		console.log(color('[Socket] ' + message));
 	}
 
 	/**
@@ -25,12 +40,12 @@ class SocketManager {
 	 * @param {Socket} socket 
 	 */
 	handleConnection = async(socket) => {
-		console.log(clc.green('[Socket] Nouvelle connexion ' + socket.id));
+		this.log('Nouvelle connexion ' + socket.id, receiveColor);
 
 		// Vérifier si il y a un id de session (évite reverifier dans chaque gestionnaire)
 		const sessionCode = socket.handshake.query.sessionId;
 		if (!sessionCode) {
-			console.log(clc.red('[Socket] Aucun id de session, déconnexion'));
+			this.log('Aucun id de session, déconnexion', errorColor)
 			socket.emit(ServerToClient.Error, {message: 'Aucun id de session', isFatal: true});
 			socket.disconnect();
 			return;
@@ -39,16 +54,17 @@ class SocketManager {
 		// Vérifier si la session est valide
 		const sessionId = await ApiService.getGameIdFromCode(sessionCode);
 		if (sessionId == null) {
-			console.log(clc.red('[Socket] Session invalide, déconnexion'));
+			this.log('Session invalide, déconnexion', errorColor)
 			socket.emit(ServerToClient.Error, {message: 'L\'id de session n\'est pas valide', isFatal: true});
 			socket.disconnect();
 			return;
 		}
 		
+		// Vérifier l'état de la session
 		const sessionState = await ApiService.getGameStateById(sessionId);
-		console.log(`Code: ${sessionCode} => Id: ${sessionId} | State: ${sessionState}`)
+		// Si la session est terminée, déconnecte
 		if (sessionState == null || sessionState >= 2) {
-			console.log(clc.red('[Socket] Session terminée, déconnexion'));
+			this.log('Session terminée, déconnexion', errorColor)
 			socket.emit(ServerToClient.Error, {message: 'La session est terminée', isFatal: true});
 			socket.disconnect();
 			return;
@@ -62,7 +78,7 @@ class SocketManager {
 
 			// Si token invalide, déconnecte
 			if (!isTokenValid) {
-				console.log(clc.red('[Socket] Token invalide, déconnexion'));
+				this.log('Token invalide, déconnexion', errorColor)
 				socket.emit(ServerToClient.Error, {message: 'Vous n\'êtes pas connecté', isFatal: true});
 				socket.disconnect();
 				return;
@@ -78,7 +94,9 @@ class SocketManager {
 		} else if (connectionType == ConnectionType.TeamComposition && sessionState == 0) {
 			this.teamCompositionManager.handleConnection(socket, sessionId);
 		} else {
-			console.log(clc.red('[Socket] Type de connexion inconnu ou la partie n\'est pas dans le même état que la connexion: ' + connectionType));
+			this.log('Type de connexion inconnu ou la partie n\'est pas dans le même état que la connexion: ' + connectionType + ', déconnexion', errorColor);
+			socket.emit(ServerToClient.Error, {message: 'Type de connexion inconnu ou la partie n\'est pas dans le même état que la connexion', isFatal: true});
+			socket.disconnect();
 		}
 	}
 

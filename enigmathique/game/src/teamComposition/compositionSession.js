@@ -1,6 +1,18 @@
 const ApiService = require('../api/api');
 const SocketTeam = require('./connections/socketTeam');
 
+const infoColor = clc.blue;
+const errorColor = clc.red;
+const sendColor = clc.green;
+const receiveColor = clc.yellow;
+
+/* TODO: Les messages envoyés aux clients ne sont tout le temps utiles
+** (ex: quand un professeur se connecte, il n'y a pas besoin de tout resync)
+*/ 
+
+/**
+ * Gère la composition des équipes
+ */
 class CompositionSession {
 	constructor(manager, sessionId, maxTeamSize = 4) {
 		this.manager = manager;
@@ -20,15 +32,22 @@ class CompositionSession {
 		this.fetchStudents();
 	}
 
+	log = (message, color = infoColor) => {
+		console.log(color(`[CompositionSession ${this.sessionId}] ` + message));
+	};
+
+	/**
+	 * Récupére les élèves depuis l'API
+	 */
 	fetchStudents = async() => {
-		// Récupére les élèves disponibles depuis l'API
 		this.students = await ApiService.getStudentsFromGameId(this.sessionId);
 		// Resync tout si quelqu'un se connecte avant que les élèves soient récupérés
 		this.resyncAll();
 	};
 
-
-	/**
+// #region Professeur
+	
+/**
 	 * Ajoute un professeur à la session
 	 * @param {SocketProfessor} professor
 	 */
@@ -49,6 +68,9 @@ class CompositionSession {
 		}
 	};
 
+	// #endregion
+
+// #region Equipe
 	addTeam = (team) => {
 		this.teamSockets.push(team);
 
@@ -65,11 +87,13 @@ class CompositionSession {
 		}
 	};
 
+	// #endregion
+
 	/**
 	 * Vérifie si toutes les équipes sont formées et légales
 	 * @returns {boolean} true si toutes les équipes sont formées et légales
 	 */
-	areTeamsLegals = () => {
+	areTeamsLegal = () => {
 		const studentsId = [];
 		for (const team of this.teamSockets) {
 			// Vérifie la taille de l'équipe
@@ -89,6 +113,9 @@ class CompositionSession {
 		return true;
 	};
 
+	/**
+	 * Rafraichit la liste des élèves disponibles
+	 */
 	refreshAvailableStudents = () => {
 		// Parmis les élèves, on retire ceux qui sont dans une équipe (formés ou en cours de formation)
 		this.availableStudents = this.students.filter(
@@ -96,22 +123,44 @@ class CompositionSession {
 		);
 	};
 
+	/**
+	 * Retourne les équipes vérrouillées
+	 * @returns {SocketTeam[]} Les équipes vérrouillées
+	 */
 	getLockedTeams = () => {
 		return this.teamSockets.filter((t) => t.locked && !t.confirmed);
 	};
 
+	/**
+	 * Retourne les équipes confirmées
+	 * @returns {SocketTeam[]} Les équipes confirmées
+	 */
 	getConfirmedTeams = () => {
 		return this.teamSockets.filter((t) => t.confirmed);
 	};
 
+	/**
+	 * Retourne l'élève avec l'id donné
+	 * @param {int} id
+	 * @returns {Student | undefined} L'élève avec l'id donné
+	 */
 	getStudentWithId = (id) => {
 		return this.students.find((s) => s.id === id);
 	};
 
+	/**
+	 * Retourne si l'élève avec l'id donné est disponible
+	 * @param {int} id
+	 * @returns {Student | undefined} L'élève disponible avec l'id donné
+	 */
 	isStudentAvailable = (id) => {
 		return this.teamSockets.every((t) => !t.hasStudent(id));
 	}
 
+	/**
+	 * Confirme la composition de l'équipe avec l'id donné
+	 * @param {int} teamId
+	 */
 	confirmTeamComposition(teamId) {
 		const team = this.teamSockets.find((t) => t.socket.id === teamId);
 		if (team) {
@@ -120,6 +169,10 @@ class CompositionSession {
 		}
 	}
 
+	/**
+	 * Refuse la composition de l'équipe avec l'id donné
+	 * @param {int} teamId 
+	 */
 	refuseTeamComposition(teamId) {
 		const team = this.teamSockets.find((t) => t.socket.id === teamId);
 		if (team) {
@@ -129,17 +182,17 @@ class CompositionSession {
 	}
 
 	/**
-	 *
-	 * @param {SocketTeam} team
+	 * 
+	 * @param {SocketTeam} team 
 	 */
 	onTeamCompositionChange = (team) => {
 		// Met à jour la liste des élèves disponibles
-		// TODO: Envoyer uniquement ce qui est nécessaire
 		this.resyncAll();
 	};
 
 	/**
 	 * Synchronise les données de la session avec tous les clients
+	 * (Elèves et professeur)
 	 */
 	resyncAll = () => {
 		this.refreshAvailableStudents();
@@ -148,16 +201,25 @@ class CompositionSession {
 		this.sendSelfCompositionToTeam();
 	};
 
+	/**
+	 * Envoie la liste des élèves disponibles aux équipes
+	 */
 	sendAvailableToTeams = () => {
 		this.teamSockets.forEach((t) =>
 			t.sendAvailableStudents(this.availableStudents)
 		);
 	};
 
+	/**
+	 * Envoie la composition de l'équipe à tous les clients (leur propre composition)
+	 */
 	sendSelfCompositionToTeam = () => {
 		this.teamSockets.forEach((t) => t.sendTeamComposition());
 	};
 
+	/**
+	 * Envoie la composition de toutes les équipes aux professeurs
+	 */
 	sendCompositionToProfessor = () => {
 		const lockedTeams = this.getLockedTeams().map((t) => t.toData());
 		const confirmedTeams = this.getConfirmedTeams().map((t) => t.toData());
@@ -174,22 +236,20 @@ class CompositionSession {
 	 * @returns {boolean} true si la session a été lancée
 	 */
 	finishComposition = async() => {
-		// TODO: Faire la vérification
-		// if (!this.areTeamsLegals()) {
-		// 	return false;
-		// }
+		// TODO: Faire la vérification et prendre en charge les erreurs
+		if (!this.areTeamsLegal()) {
+			return false;
+		}
 
-		// Récupére les données des équipes
+		// Récupére les données des équipes dans le format attendu par l'API
 		const teams = this.teamSockets.map((t) => t.toPostData());
-		
-		console.log(teams);
 
 		// Envoie la composition à l'API
 		const response = await ApiService.postTeamsComposition(this.sessionId, teams);
 		// Modifie l'état de la partie
 		await ApiService.putGameState(this.sessionId, 1);
 
-		// Envoyer début de partie aux élèves avec leur teamId
+		// Envoie le message de lancement de la session aux équipes
 		// Itère les équipes dans la réponse
 		for (const team of response) {
 			const teamSocket = this.teamSockets.find((t) => t.socket.id === team.idSocket);
@@ -197,12 +257,7 @@ class CompositionSession {
 				teamSocket.sendSessionStart(team.id);
 			}
 		}
-
-		// TODO: Faire autre chose si la requête a échouée
-		
-
-		// Pour l'instant on considère que ça a marché
-		// Informe les clients que la session a été lancée
+		// Envoie le message de lancement de la session aux professeurs
 		this.professorSockets.forEach((p) => p.sendSessionStart());
 	}
 }
