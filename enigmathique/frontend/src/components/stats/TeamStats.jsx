@@ -133,6 +133,7 @@ const TeamStats = ({teamData, onClose, scores}) => {
 									<ItemStats logo='indices' text='Indices utilisés' value={details.indicesUtilises} color='yellow'/>
 									<ItemStats logo='erreurs' text='Erreurs commises' value={details.erreursCommises} color='red'/>
 									<ItemStats logo='sallesReussies' text='Salles réussies' value={details.sallesReussies} color='blue'/>
+									<ItemStats logo='enigmesResolues' text='Énigmes résolues' value={teamData.nbSolved} color='green'/>
 								</>
 							): (
 								<>

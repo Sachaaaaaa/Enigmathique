@@ -7,7 +7,7 @@ import LayoutProf from "../layouts/LayoutProf";
 const StudentStats = () =>{
 	const {idStudent} = useParams();
 	return(
-		<LayoutProf title='student' id={idStudent}>
+		<LayoutProf title='Statistiques'>
 			<main>
 				<Notification/>
 				<StudentDetails id={parseInt(idStudent)}/>

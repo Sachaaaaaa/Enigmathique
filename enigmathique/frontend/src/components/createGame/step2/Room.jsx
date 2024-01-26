@@ -4,11 +4,13 @@ import {FaSearch} from 'react-icons/fa';
 import {IconContext} from 'react-icons';
 import { FaPuzzlePiece, FaMedal  } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { getRowColor } from "components/ListManager";
+import ActionButton from "components/dashboard/ActionButton";
 
 
 const Room = (props) => {
 
-	const { index, room, handleRoomSelection,selected } = props;
+	const { index, room, handleRoomSelection, selectOption, selected } = props;
 
 	const [roomSelected, setSelected] = useState(selected);
 	const handleChange = () => {
@@ -35,15 +37,26 @@ const Room = (props) => {
 		intermédiaire: 'chip-moyen',
 		difficile: 'chip-difficile',
 	}
-
 	const difficulty = room.difficulty.toLowerCase();
 
 	const roomElemClass = 'grow flex items-center gap-3 py-4 ' ;
 
+	let htmlForLabel = "";
+	let cursorPointer = "";
+	let actionElem ;
+	if (selectOption) {
+		htmlForLabel = "roomselect"+index;
+		cursorPointer = "cursor-pointer";
+		actionElem = <input  id={"roomselect"+index}  style={{width:"20px",height:"20px"}}  checked={selected} type='checkbox' onChange={handleChange}/>;
+	} else {
+		htmlForLabel = "";
+		cursorPointer = "";
+		actionElem = <ActionButton title="Détails" link={`/room/${room.name}`} disabled={true}/>
+	}
+
 	return(
-		<label htmlFor={"roomselect"+index}  className={`flex items-center justify-left h-fit w-full min-w-max gap-6 cursor-pointer
-											border-t border-[#CECDFD] ${index % 2 == 0 ? 'bg-[#EBECF9]' : 'bg-[#F1F3FA]'}
-							`}>
+		<label htmlFor={htmlForLabel}  className={`flex items-center justify-left h-fit w-full min-w-max gap-6 ${cursorPointer}
+											${getRowColor(index)}`}>
 			<div className={`w-[5px] h-full ${roomSelected ? ' bg-blue-color':'bg-transparent'}`}></div>
 
 			<article className={roomElemClass}>
@@ -64,7 +77,7 @@ const Room = (props) => {
 			<article className={roomElemClass}>
 				<FaPuzzlePiece size={30} className="blue-font-color"/>
 				<div className='flex flex-col'>
-					<span className='primary-font-color font-bold'>{999}</span>
+					<span className='primary-font-color font-bold'>N/A</span>
 					<span className='nav-font-color'>Énigmes</span>
 				</div>
 			</article>
@@ -77,7 +90,7 @@ const Room = (props) => {
 				</div>
 			</article>
 			<article className={`grow flex justify-end items-center h-full pr-4`}>
-				<input  id={"roomselect"+index}  style={{width:"20px",height:"20px"}}  checked={selected} type='checkbox' onChange={handleChange}/>
+				{actionElem}
 			</article>
 		</label>
 	);
@@ -87,6 +100,7 @@ Room.propTypes = {
 	room : PropTypes.object.isRequired,
 	handleRoomSelection: PropTypes.func,
 	selected: PropTypes.bool,
+	selectOption: PropTypes.bool.isRequired
 }
 
 export default Room;

@@ -83,6 +83,9 @@ const HomeForm = () => {
 
 				<section className="w-[80%] h-[80%]">
 					<Carousel
+						defaultControlsConfig={{
+						pagingDotsContainerClassName : 'flex justify-center items-center gap-3',
+					}}
 						wrapAround={true}
 						renderCenterLeftControls={({ previousSlide }) => (
 							<button onClick={previousSlide}>

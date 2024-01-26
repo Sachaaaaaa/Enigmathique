@@ -13,7 +13,7 @@ import BasicDisplayTemplate from '../enigmas/BasicEnigmaDisplay';
 import InformationPopup from '../informations/InformationPopup';
 import EnigmaCoffreDisplay from '../enigmas/EnigmaCoffreDisplay';
 import EnigmaWithSlidersDisplay from '../enigmas/EnigmaSliderDisplay';
-import EnigmaPcConsole from '../enigmas/EnigmaPcConsole';
+import ComputerConsoleEnigma from '../enigmas/EnigmaPcConsole';
 import EnigmaChaufDisplay from '../enigmas/EnigmaChaufDisplay';
 
 export default function ReactorRoom(props) {
@@ -52,12 +52,12 @@ export default function ReactorRoom(props) {
 				{clicked && (
 					<InformationPopup
 						title="Plus rien ne marche !"
-						information="Vous étes le nouveau stagiaire de la station de recherche énergétique. 
-						Le réacteur c'est emballer et pris de panique vous avez appuyé sur tous les boutons. 
-						Par miracle vous l'avez éteint mais il n'y a plus d'électricité. Le réacteur et l'ordinateur ont une batterie de secours qui ne tiendra pas longtemps. 
-						Dépêchez-vous de réactiver le réacteur pour ouvrir la porte. Il doit bien avoir des indications sur l'ordinateur."
-						closePopup={forceExit}
-					/>
+						closePopup={forceExit}>
+						<p> Vous êtes le nouveau stagiaire de la station de recherche énergétique. 
+						Le <strong>réacteur {"s'est emballé"}</strong> et pris de panique, vous avez appuyé sur tous les boutons. 
+						Par miracle vous {"l'avez éteint mais il n'y a"} <strong>plus {"d'électricité"}</strong>. Le réacteur et {"l'ordinateur"} ont une batterie de secours qui ne tiendra pas longtemps. 
+						Dépêchez-vous de <strong>réactiver</strong> le réacteur pour ouvrir la porte. Il doit bien avoir des indications sur <strong>{"l'ordinateur"}</strong>.</p>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -92,11 +92,10 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<InformationPopup
-						title="Commande Ordinateur"
-						closePopup={forceExit}
-					>
-						<div><p><strong>ipconfig</strong> : affiche l&apos;adresse de l&apos;ordinateur</p>
-							<p><strong>info</strong> : Documentation du reacteur</p>
+						title="Commandes de l'ordinateur"
+						closePopup={forceExit}>
+						<div><p><strong>ipconfig</strong> : {"Afficher l'adresse IP de l'ordinateur"}</p>
+							<p><strong>info</strong> : Afficher la documentation du réacteur</p>
 							<p><strong>formule</strong> : Afficher les formules importantes</p>
 						</div>
 					</InformationPopup>
@@ -130,7 +129,7 @@ export default function ReactorRoom(props) {
 			>
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
-					<EnigmaPcConsole closePopup={forceExit} />
+					<ComputerConsoleEnigma closeEnigma={forceExit} />
 				)}
 			</mesh>
 		);
@@ -162,10 +161,12 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<InformationPopup
-						title="Tient encore des papier !"
-						information="Sur un des papier il y a écrit : 'Pense bete, code coffre : Décomposer la première valeur de l'addresse de l'ordinateur en produit de facteur de nombre premier. (a = x * y * z² => xyzz)'"
-						closePopup={forceExit}
-					/>
+						title="Poubelle"
+						closePopup={forceExit}>
+					<div><p>Désespéré, vous fouillez la poubelle... Sur un des papiers, il est écrit : </p>
+						<p><i>Pense-bête, code coffre : Décomposer la première valeur de  <strong>{"l'adresse IP"}</strong> de {"l'ordinateur"} en produit de facteurs premiers.</i></p>
+						<p> <i><strong>{"(x * y * z²) => xyzz dans l'ordre croissant"}</strong></i> </p></div>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -200,11 +201,12 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<InformationPopup
-						title="Ca fait un peux de déco."
-						information="Ça peut vous aider à chercher l'atome pour le réacteur."
+						title="Tableau périodique des éléments"
 						image="https://i.pinimg.com/originals/5a/72/b7/5a72b79c8f66fca9b3635bc457c3813b.png"
 						closePopup={forceExit}
-					/>
+					>
+						<p>Sympa la déco. Ça peut vous aider pour chercher <strong>{"l'atome"}</strong> du réacteur.</p>
+					</InformationPopup>
 				)}
 			</mesh>
 		);
@@ -236,16 +238,17 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
+						title="Coffre-fort"
 						enigmaId={0}
 						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaCoffreDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
-								title="Impossible de forcer le coffre !"
-								description="Si il y a autant de sécurité c'est qu'il doit y avoir quelque chose d'important dedans."
+								description="Impossible de forcer le coffre ! S'il y a autant de sécurité, c'est qu'il doit y avoir quelque chose d'important dedans..."
 								image={data.image}
 								hint={hint}
-								handleAskHint={handleAskHint}
+								answerLength={4}
 								isSolved={isSolved}
+								handleAskHint={handleAskHint}
 							/>
 						)}
 						closeEnigma={forceExit}
@@ -281,12 +284,12 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
+						title='Panneau de contrôle'
 						enigmaId={1}
 						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaWithSlidersDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
 								titreSlider='Volume H2O'
-								title="Panneau de controle"
 								description="Il faut éviter une autre surchauffe. Arrondir le volume du fluide caloporteur à l'entier le plus proche."
 								image={data.image}
 								hint={hint}
@@ -327,12 +330,13 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
+					title='Réacteur'
 						enigmaId={2}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
 								handleSubmitAnswer={handleSubmitAnswer}
-								title="Alors peut-être que..."
 								description="Mettre le bon atome dans le réacteur."
+								placeholder="Symbole de l'atome"
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
@@ -372,10 +376,10 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
+					title='Trouver un nom'
 						enigmaId={3}
 						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
-								title="Pas trop chaud."
 								description="Le but c'est de refroidir le réacteur."
 								hint={hint}
 								image={data.image}
@@ -418,11 +422,12 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
+						title="Panneau électrique"
 						enigmaId={4}
 						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
-								title="Attention a ne pas tout faire sauter."
-								description="Il faut mettre la bonne intensité de courant."
+								description="Il faut mettre la bonne intensité de courant. Attention à ne pas tout faire sauter !"
+								placeholder="Intensité en Ampère"
 								hint={hint}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}

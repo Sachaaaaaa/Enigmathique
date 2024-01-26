@@ -6,19 +6,14 @@ import CourseModel from "../models/course.model";
 import ProfessorModel from "../models/professor.model";
 import AuthService from '../services/auth.service';
 import PropTypes from 'prop-types';
-import GameModel from "models/game.model";
-import StudentModel from "models/student.model";
 
 
 const TopBarProf = ({title, id}) => {
-
 	const location = useLocation();
 	const path = location.pathname.split("/");
 	path.shift();
 
 	const [course, setCourse] = useState();
-	const [game, setGame] = useState();
-	const [student, setStudent] = useState();
 	const [professor, setProfessor] = useState();
 	const classId = parseInt(path[1]);
 
@@ -26,31 +21,19 @@ const TopBarProf = ({title, id}) => {
 	useEffect(() => {
 		const load = async () => {
 			setProfessor(await ProfessorModel.getCurrent());
-			if (title === "class") {
-				setCourse(await CourseModel.get(id));
-			} else if (title === "game") {
-				setGame(await GameModel.getOne(id));
-			} else if (title === "student") {
-				setStudent(await StudentModel.getOne(id));
+			if (path[0] === "class" && classId) {
+				setCourse(await CourseModel.get(classId));
 			}
 
 		}
 		load().then(r => console.log('Top bar data loaded'));
-	}, [id]);
+	}, [classId]);
 
-	
-	switch (title) {
-		case "game":
-			title = game ? game.name : "Chargement...";
-			break;
-		case "class":
-			title = course ? course.name : "Chargement...";
-			break;
-		case "student":
-			title = student ? student.firstname + " " + student.lastname : "Chargement...";
-			break;
-		default:
-			break;
+	if (path.length === 2) {
+		switch (path[0]) {
+			case "class":
+				title = course ? course.name : "Chargement...";
+		}
 	}
 
 	// Déconnexion

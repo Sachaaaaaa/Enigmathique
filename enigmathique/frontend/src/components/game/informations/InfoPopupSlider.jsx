@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { extend } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import { IoClose } from "react-icons/io5";
-import Carousel from 'nuka-carousel';
+import Carousel, { PagingDots } from 'nuka-carousel';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ClosePopup from './ClosePopup';
 
@@ -21,7 +21,7 @@ const InfoPopupSlider = ({ title, images, closePopup, children }) => {
 
 	return (
 		<Html>
-			<div className="pop-up-container items-center max-w-[600px]">
+			<div className="pop-up-container items-center max-w-[400px]">
 				<div className="flex justify-between items-start w-full">
 					<h1 className="pop-up-title">{title} </h1>
 					<ClosePopup onClick={closePopup} />
@@ -33,6 +33,9 @@ const InfoPopupSlider = ({ title, images, closePopup, children }) => {
 
 				{images && images.length > 0 ? (
 					<Carousel
+						defaultControlsConfig={{
+							pagingDotsContainerClassName : 'flex justify-center items-center gap-3',
+						}}
 						wrapAround={true}
 						renderCenterLeftControls={({ previousSlide }) => (
 							<button onClick={previousSlide}>
@@ -46,7 +49,7 @@ const InfoPopupSlider = ({ title, images, closePopup, children }) => {
 						)}	
 					>
 						{images.map((image, index) => (
-							<img key={index} src={image} alt={`Image ${index + 1}`} />
+							<img className='px-5' key={index} src={image} alt={`Image ${index + 1}`} />
 						))}
 					</Carousel>
 				) : (

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { extend } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
-import { IoIosCloseCircle } from 'react-icons/io';
+import ClosePopup from '../informations/ClosePopup';
 
 extend({ Html });
 
-const ComputerConsoleEnigma = (closePopup) => {
+const ComputerConsoleEnigma = ({closeEnigma}) => {
 	const [inputCommand, setInputCommand] = useState('');
 	const [outputResponse, setOutputResponse] = useState('');
 
@@ -20,13 +20,13 @@ const ComputerConsoleEnigma = (closePopup) => {
 			setOutputResponse('Adresse de l\'ordinateur : 126.144.100.242');
 			break;
 		case 'info':
-			setOutputResponse('Documentation du Reacteur :\nPrototype du réacteur à énergie atomique A23, produit de l\'énergie a partir d\'atome placer a l\'intérieur. Le réacteur a un diamétre de 80 dm, une cage en titane et une turbine.\nProcessus de démarrage du réacteur : \n1) Le reacteur a besoin d\'un atome spécifique pour fonctionner \n2) Pour le bon fonctionnement du reacteur, il faut le refroidir avec un fuide caloporteur comme H2O. Remplir le réacteur avec la formule indiqué. \n3) Ce meme fluide caloporteur doit être a la température indiqué sur la courbe \n4) Avant de lancé le réacteur, il faut configurer l\'intensité du courant');
+			setOutputResponse('Documentation du réacteur :\nPrototype du réacteur à énergie atomique A23, produit de l\'énergie a partir d\'atomes placer à l\'intérieur. Le réacteur a un diamétre de 80 dm, une cage en titane et une turbine.\nProcessus de démarrage du réacteur : \n1) Le réacteur a besoin d\'un atome spécifique pour fonctionner \n2) Pour le bon fonctionnement du reacteur, il faut le refroidir avec un fuide caloporteur comme H2O. Remplir le réacteur avec la formule indiquée. \n3) Ce même fluide caloporteur doit être a la température indiquée sur la courbe \n4) Avant de lancer le réacteur, il faut configurer l\'intensité du courant');
 			break;
 		case 'formule':
 			setOutputResponse('Loi d\'Ohm : U = R * I \n U : Tension en Volt \n R : Résistance en Ohm \n I : Intensité en Ampère \nVolume sphère : 4/3 * Pi * R^3 \n Pi : 3.14 \n R : Rayon de la sphère \nVolume réacteur : Volume sphère / 3');	
 			break;
 		default:
-			setOutputResponse("Rentrer une commande valide");
+			setOutputResponse("Commande invalide");
 			break;
 		}
 
@@ -36,24 +36,29 @@ const ComputerConsoleEnigma = (closePopup) => {
 
 	return (
 		<Html>
-			<div className="absolute translate-y-[-70%] top-0 left-1/2 p-4 bg-white rounded-md flex flex-col items-center w-96">
-				<h1>Console d&apos;ordinateur</h1>
-				<div>
+			<div className={`pop-up-container max-w-[500px]`}>
+				<div className='flex justify-between items-start w-full '>
+					<h1 className='pop-up-title p-3'>{"Console de l'ordinateur"} </h1>
+					<ClosePopup onClick={closeEnigma}></ClosePopup>
+				</div>
+
+				<div className='flex flex-col w-full p-3 pt-0'>
 					<textarea
-						placeholder="Tapez une commande..."
-						value={inputCommand}
-						onChange={handleInputChange}
-						className="border p-2"
-					></textarea>
-					<button onClick={handleExecuteCommand} className="bg-blue-500 text-white p-2 ml-2 rounded">
+							placeholder="Entrez une commande..."
+							maxLength={20}
+							value={inputCommand}
+							onChange={handleInputChange}
+							className="bg-black text-white border p-2 resize-none">	
+					</textarea>
+					<button onSubmit={handleExecuteCommand} className="bg-black-color text-white p-2">
 						Exécuter
 					</button>
+
+					<pre className="bg-black text-white border p-2 whitespace-pre-wrap	">{outputResponse}</pre>
 				</div>
-				<div className="mt-4">
-					<p>Réponse :</p>
-					<pre className="border p-2 max-w-96	whitespace-pre-wrap	">{outputResponse}</pre>
-				</div>
+
 			</div>
+
 		</Html>
 	);
 };
@@ -61,5 +66,5 @@ const ComputerConsoleEnigma = (closePopup) => {
 export default ComputerConsoleEnigma;
 
 ComputerConsoleEnigma.propTypes = {
-	closePopup: PropTypes.func.isRequired,
+	closeEnigma: PropTypes.func.isRequired,
 };

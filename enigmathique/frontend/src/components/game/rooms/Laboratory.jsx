@@ -105,8 +105,8 @@ export default function Room001(props) {
 						title="Paperasse"
 						images={images}
 						closePopup={forceExit}>
-			<p> Ce bureau est un vrai bazar ! 3 papiers éparpillés attirent votre attention : une <strong>recette</strong>, un <strong>protocole</strong> de cuisson et une fiche de <strong>notes.</strong> 
-						Il doivent bien vous être utile... </p>					
+						<p> Ce bureau est un vrai bazar ! 3 papiers éparpillés attirent votre attention : une <strong>recette</strong>, un <strong>protocole</strong> de cuisson et une fiche de <strong>notes.</strong>
+						{" "}Ils doivent bien vous être utile... </p>					
 						</InfoPopupSlider>
 				)}
 			</mesh>
@@ -195,6 +195,7 @@ export default function Room001(props) {
 								description="Il est trop solide pour être forcé. Il doit y avoir un code quelque part.."
 								image={data.image}
 								hint={hint}
+								answerLength={2}
 								isSolved={isSolved}
 								handleAskHint={handleAskHint}
 							/>
@@ -236,9 +237,10 @@ export default function Room001(props) {
 						enigmaId={2}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
-								title=""
 								description="Une bonne mixture ! Mais pendant combien de temps il faut mélanger ?"
+								isNumberOnly={true}
 								hint={hint}
+								placeholder='Temps de mélange (en secondes)'
 								isSolved={isSolved}
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
@@ -278,11 +280,10 @@ export default function Room001(props) {
 				{hovered && <meshBasicMaterial color={0x00ff00} />}
 				{clicked && (
 					<Enigma
-					title='Cuisson'
+						title='Cuisson'
 						enigmaId={3}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
-								title=""
 								description="Chaud devant ! La potion est presque terminée, mais il ne faut pas la faire brûler !"
 								hint={hint}
 								isSolved={isSolved}

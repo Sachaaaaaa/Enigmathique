@@ -122,7 +122,7 @@ const ClassDetails = ({idClass}) => {
 			<main>
 				<ContentHeader
 					title={currentClass ? currentClass.name : 'Loading...'}
-					link={`/class/${currentClass ? currentClass.idCourse : '/class'}`}
+					link='/class'
 				/>
 				<div className="overflow-x-auto mt-4">
 					<TableContainer headers={['Nom de la partie','Date', 'Winrate', 'Action']}>

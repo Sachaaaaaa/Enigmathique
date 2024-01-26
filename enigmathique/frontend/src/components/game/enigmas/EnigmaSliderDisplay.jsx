@@ -4,8 +4,10 @@ import 'rc-slider/assets/index.css';
 import PropTypes from 'prop-types';
 import { BsQuestionDiamondFill } from 'react-icons/bs';
 import { FaCheck } from 'react-icons/fa';
+import ValidateButton from './ValidateButton';
+import HintButton from './HintButton';
 
-const EnigmaWithSlidersDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, titreSlider, hint, image }) => {
+const EnigmaWithSlidersDisplay = ({ handleSubmitAnswer, handleAskHint, description, titreSlider, isSolved, hint, image }) => {
 	const [userAnswer, setUserAnswer] = useState('');
 	const handleInputChange = (event) => {
 		setUserAnswer(event.target.value);
@@ -30,8 +32,7 @@ const EnigmaWithSlidersDisplay = ({ handleSubmitAnswer, handleAskHint, title, de
 
 
 	return (
-		<>
-			<h1>{title}</h1>
+		<div className='flex flex-col gap-2'>
 			<p>{description}</p>
 			{image != null && <img src={image} alt='enigma image' />}
 			<input
@@ -39,46 +40,26 @@ const EnigmaWithSlidersDisplay = ({ handleSubmitAnswer, handleAskHint, title, de
 				placeholder="Votre réponse"
 				value={userAnswer}
 				onChange={handleInputChange}
-				className="m-1.5"
-				style={{ border: '2px solid #b3b3b3' }}
+				className="form-inputfield-style disabled:opacity-50"
 				readOnly
+				disabled={isSolved}
 			/>
 
 			<div className='mb-8'>
 				<div>
 					<p>{titreSlider} {/*sliderValues[0]*/}</p>
-					<Slider value={sliderValues[0]} onChange={(value) => handleSliderChange(0, value)} marks={generateMarks()} step={1} />
+					<Slider disabled={isSolved} value={sliderValues[0]} onChange={(value) => handleSliderChange(0, value)} marks={generateMarks()} step={1} />
 				</div>
 			</div>
 
-			{!hint && (
-				<button onClick={() => handleAskHint()} className="m-1.5"
-					style={{
-						background: '#ffcc00',
-						display: 'flex',
-						justifyContent: 'space-around',
-						alignItems: 'center',
-						padding: '8px',
-						borderRadius: '8px',
-					}}>
-					<BsQuestionDiamondFill /> Indice
-				</button>
+			{(!hint && !isSolved) && (
+				<HintButton onClick={() => handleAskHint()} />
 			)}
+		
+			{hint && <p className="hint-text">{hint}</p>}
 
-			{hint && <p className="m-1.5">{hint}</p>}
-
-			<button onClick={() => handleSubmitAnswer(userAnswer)} className="m-1.5"
-				style={{
-					background: '#00ff00',
-					display: 'flex',
-					justifyContent: 'space-around',
-					alignItems: 'center',
-					padding: '8px',
-					borderRadius: '8px',
-				}}>
-				<FaCheck /> Valider
-			</button>
-		</>
+			{!isSolved && <ValidateButton onClick={()=> handleSubmitAnswer(userAnswer)}/> }
+		</div>
 	);
 };
 
@@ -87,7 +68,7 @@ export default EnigmaWithSlidersDisplay;
 EnigmaWithSlidersDisplay.propTypes = {
 	handleSubmitAnswer: PropTypes.func.isRequired,
 	handleAskHint: PropTypes.func.isRequired,
-	title: PropTypes.string.isRequired,
+	isSolved: PropTypes.bool.isRequired,
 	description: PropTypes.string.isRequired,
 	titreSlider: PropTypes.string,
 	image: PropTypes.string,

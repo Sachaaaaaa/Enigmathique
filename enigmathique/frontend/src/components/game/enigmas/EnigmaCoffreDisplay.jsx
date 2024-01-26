@@ -5,18 +5,21 @@ import { FaCheck } from 'react-icons/fa';
 import ValidateButton from 'components/game/enigmas/ValidateButton';
 import HintButton from 'components/game/enigmas/HintButton';
 
-const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, description, hint, isSolved, image }) => {
+const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, description, answerLength, hint, isSolved, image }) => {
 	const [userAnswer, setUserAnswer] = useState('');
 
 	const handleNumericButtonClick = (number) => {
 		// Concaténer le chiffre à la réponse actuelle
-		if (userAnswer.length >= 2) return ;
+		if (userAnswer.length >= answerLength) return ;
 		setUserAnswer(userAnswer + number);
 	};
 
+	let placeholder = '';
+	for (let i = 0; i < answerLength; i++) {
+		placeholder += 'X';
+	}
 	return (
 		<div className='flex flex-col gap-2'>
-			<h1>{title}</h1>
 			<p>{description}</p>
 			{image != null && <img src={image} alt='enigma image' />}
 
@@ -24,7 +27,7 @@ const EnigmaCoffreDisplay = ({ handleSubmitAnswer, handleAskHint, title, descrip
 			<div className='bg-black'>
 				<input
 					type="text"
-					placeholder="XX"
+					placeholder={placeholder}
 					value={userAnswer}
 					disabled={isSolved}
 					className="chest-input"
@@ -69,7 +72,7 @@ EnigmaCoffreDisplay.propTypes = {
 	handleAskHint: PropTypes.func.isRequired,
 	hint: PropTypes.string,
 	isSolved: PropTypes.bool.isRequired,
-	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	image: PropTypes.string,
+	answerLength: PropTypes.number.isRequired,
 };

@@ -9,6 +9,7 @@ import ContentHeader from "components/dashboard/ContentHeader";
 import TableContainer from "components/dashboard/TableContainer";
 import Notification from "components/Notification";
 import GameRow from "components/dashboard/GameRow";
+import EmptyPage from "components/EmptyPage";
 
 import {Link} from "react-router-dom";
 
@@ -54,13 +55,16 @@ const Games = () => {
 
 	return (
 		<LayoutProf title="Mes parties">
-			<main>
+			<main >
 				<Notification></Notification>
 				<ContentHeader link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
 					<Link to='/create-game'> <CreateButton title="Créer une partie" onClick={() => null}/> </Link>
 				</ContentHeader>
+				
 				<TableContainer headers={['Nom', 'Date', 'Classe', 'Taux de réussite', 'Action']}>
+				{filteredGames.length != 0 && 
+					<>
 					{filteredGames.map((game, index) => {							
 						return (
 							<GameRow
@@ -71,7 +75,10 @@ const Games = () => {
 							/>	
 							);
 						})}
+					</>
+				}
 				</TableContainer>
+				{filteredGames.length === 0 && <EmptyPage title="Vous n'avez pas encore de partie !" />}
 
 			</main>
 		</LayoutProf>

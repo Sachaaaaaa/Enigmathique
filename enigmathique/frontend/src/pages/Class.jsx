@@ -11,6 +11,7 @@ import TableContainer from 'components/dashboard/TableContainer';
 import Notification from 'components/Notification';
 import toast from 'react-hot-toast';
 import useCourses from 'hooks/useCourses';
+import EmptyPage from 'components/EmptyPage';
 
 
 const Class = () => {
@@ -49,11 +50,15 @@ const Class = () => {
 					<CreateButton title="Ajouter une classe" onClick={() => setCreateModalOpen(true)}/>
 				</ContentHeader>
 				<TableContainer headers={['Nom','élèves', 'Dernière partie', 'Action']}>
+				{courses.length != 0 && 
+					<>
 					{courses.map((classe,index) => (
 						<ClassElement key={classe.id} index={index} classe={classe} onChange={() => loadCourses()}/>
 					))}
+					</>
+				}
 				</TableContainer>
-
+				{courses.length === 0 && <EmptyPage title="Vous n'avez pas encore de classe !" />}		
 
 				{createModalOpen && (
 					<Modal setOpenModal={setCreateModalOpen}>

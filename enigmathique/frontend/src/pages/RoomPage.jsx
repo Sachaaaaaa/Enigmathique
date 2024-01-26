@@ -52,7 +52,7 @@ const RoomPage = () => {
 									key={index}
 									index={index}
 									room={room}
-
+									selectOption={false}
 									handleRoomSelection={() => handleRoomSelection(room)}
 								/>
 							</>

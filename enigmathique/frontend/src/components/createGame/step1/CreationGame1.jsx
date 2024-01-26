@@ -1,19 +1,22 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Counter from './Counter';
 import {initialFormData, useCreationGameContext} from "../../contexts/CreationGame.context";
-import '../../../index.css';
 import ClassList from "./ClassList";
-import {Link} from "react-router-dom";
+import {useState} from "react";
 import PropTypes from "prop-types";
 import ContentHeader from 'components/dashboard/ContentHeader';
 import Textfield from 'components/authform/Textfield';
 import FooterButtons from '../FooterButtons';
 import toast from "react-hot-toast";
+import Modal, {ModalBody, ModalHeader} from 'components/Modal';
+import { useNavigate } from 'react-router-dom';
 
 
 const CreationGame1 = (props) => {
 
 	const {formData, setFormData} = useCreationGameContext();
+	// Gestion des retours en arrière
+	const [cancelModalOpen, setCancelModalOpen] = useState(false);
 
 
 	const handleSuivant = () => {
@@ -29,11 +32,19 @@ const CreationGame1 = (props) => {
 		}
 	};
 	const handleAnnuler = (event) => {
-		if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
-			setFormData(initialFormData)
-			return;
-		}
+		// if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
+		// 	setFormData(initialFormData)
+		// 	return;
+		// }
+		setCancelModalOpen(true);
 		event.preventDefault();
+	}
+
+	const navigate = useNavigate();
+	const handleRedirection = (event) => {
+		setFormData(initialFormData);
+		setCancelModalOpen(false);
+		navigate('/dashboard');
 	}
 
 	return (
@@ -61,9 +72,30 @@ const CreationGame1 = (props) => {
 						<Counter/>
 					</div>
 			</article>
-
 			{/* Boutons*/}
 			<FooterButtons linkRetour='/dashboard' handleRetour={handleAnnuler} handleSuivant={handleSuivant}/>
+
+			{/* Modal de confirmation d'annulation */}
+			{cancelModalOpen && (
+				<Modal>
+                <ModalHeader title="Retour au menu"/>
+                <ModalBody>
+                    <form className='flex flex-col text-center w-full gap-3'>
+                        <p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir retourner au menu ?</p>
+                        <button
+                            type='submit'
+                            className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
+                            onClick={handleRedirection}>
+                            Oui
+                        </button>
+                        <button
+                            className='modal-cancel-button-style'
+                            onClick={() => setCancelModalOpen(false)}>
+                            Annuler
+                        </button>
+                    </form>
+                </ModalBody>
+            </Modal>)}
 		</section>
 	);
 

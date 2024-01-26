@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-	IoCheckmarkCircleOutline,
 	IoChevronDown,
 	IoChevronUp,
-	IoRemoveCircle,
 } from 'react-icons/io5';
-import { FaCheckCircle } from 'react-icons/fa';
-import { IconContext } from 'react-icons';
-import { usePreGameContext } from '../contexts/PreGame.context';
-import gameService from '../../services/game.service';
 import { useSocket } from '../../contexts/SocketContext';
 import { ClientToServer } from 'data/socketMessages';
 import ActionButton from 'components/dashboard/ActionButton';
 import toast from 'react-hot-toast';
+import { getRowColor } from 'components/ListManager';
 
 const Team = (props) => {
 	const socket = useSocket();

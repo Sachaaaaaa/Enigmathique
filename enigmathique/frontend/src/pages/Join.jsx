@@ -1,21 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import AvailableStudents from '../components/join/AvailableStudents';
-import SelectedStudents from '../components/join/SelectedStudents';
+import AvailableStudents from 'components/join/AvailableStudents';
+import SelectedStudents from 'components/join/SelectedStudents';
 import {useNavigate} from "react-router-dom";
 
 import {socket, SocketContext} from 'contexts/SocketContext';
 import {useParams} from 'react-router-dom';
 import {ClientToServer, ConnectionType, ServerToClient} from 'data/socketMessages';
-import Notification from "../components/Notification";
+import Notification from "components/Notification";
 import toast from "react-hot-toast";
 import {SyncLoader} from "react-spinners";
-import AuthHeader from "../components/AuthHeader";
-import help from '../assets/img/help.png';
+import AuthHeader from "components/AuthHeader"
 import Rules from 'components/game/Rules';
-import ActionButton from 'components/dashboard/ActionButton';
 import { FiInfo } from "react-icons/fi";
-import GameModel from "../models/game.model";
+import Modal, { ModalBody, ModalHeader } from 'components/Modal';
 
 
 const Join = (props) => {
@@ -26,6 +24,8 @@ const Join = (props) => {
 	const [isConfirmed, setIsConfirmed] = useState(false);
 	const [maxTeamSize, setMaxTeamSize] = useState(4);
 	const navigate = useNavigate();
+	// Gestion du cas de code invalide
+	const [errorModalOpen, setErrorModalOpen] = useState(false);
 
 
 	// Recupère l'id de session dans l'url
@@ -67,8 +67,9 @@ const Join = (props) => {
 
 		socket.on(ServerToClient.Error, (data) => {
 			if (data.isFatal) {
-				alert(`Erreur : ${data.message}`);
-				navigate('/');
+				// alert(`Erreur : ${data.message}`);
+				// navigate('/');
+				setErrorModalOpen(true);
 			} else {
 				toast.error(data.message);
 			}
@@ -121,6 +122,11 @@ const Join = (props) => {
 		//TODO: Faut mettre un loader ici
 	};
 
+	const handleRedirection = () => {
+		setErrorModalOpen(false);
+		navigate('/');
+	}
+
 	// Gestion de la fenetre d'aide
 	const [isWindowOpen, setIsWindowOpen] = useState(false);
 	const toggleWindow = () => {
@@ -169,6 +175,21 @@ const Join = (props) => {
 							</>
 						)}
 					</div>
+					{errorModalOpen && (
+					<Modal>
+						<ModalHeader title="Code non valide"/>
+						<ModalBody>
+							<form className='flex flex-col text-center w-full gap-3'>
+								<p className=' block text-sm font-medium mb-5 primary-font-color'> La partie que vous tentez de rejoindre {"n'existe"} pas.</p>
+								<button
+									type='submit'
+									className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
+									onClick={handleRedirection}>
+									Accueil
+								</button>
+							</form>
+						</ModalBody>
+					</Modal>)}
 				</main>
 			</SocketContext.Provider>
 	);
