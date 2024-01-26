@@ -7,7 +7,7 @@ import ClassDetails from '../components/class/ClassDetails';
 const ClassStats = () =>{
 	const {idClass} = useParams();
 	return(
-		<LayoutProf title='class' id={parseInt(idClass)} >
+		<LayoutProf title='Historique' >
 			<main>
 				<Notification/>
 				<ClassDetails idClass={parseInt(idClass)}/>

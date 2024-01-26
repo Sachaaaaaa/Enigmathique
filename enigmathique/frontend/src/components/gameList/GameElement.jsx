@@ -58,7 +58,7 @@ const GameElement = ({game, onChange, index}) => {
 								<p className=' block text-sm font-medium mb-5 primary-font-color'>Êtes-vous sûr de vouloir supprimer la partie {game.name} ?</p>
 								<button
 									type='submit'
-									className='modal-validate-button-style bg-[#ef4565] hover:bg-red-500'
+									className='modal-delete-button-style bg-[#EF4565]'
 									onClick={(event) => handleClickDelete(event, game.id)}>
 									Supprimer
 								</button>

@@ -126,7 +126,7 @@ const StudentElement = ({student, onChange}) => {
 							<p className=' block text-sm text-center font-medium mb-2 primary-font-color'>Êtes-vous sûr de vouloir supprimer {"l'élève"} {student.firstname} {student.lastname} ?</p>
 							<button
 								type='submit'
-								className='modal-validate-button-style bg-[#ef4565] hover:bg-red-500 modal-student-button-style'
+								className='modal-delete-button-style bg-[#EF4565] modal-student-button-style'
 								onClick={(event) => handleClickDelete(event, student.id)}>
 								Supprimer
 							</button>

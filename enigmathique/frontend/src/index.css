@@ -351,6 +351,11 @@
             .modal-validate-button-style:hover {
                 @apply bg-gradient-to-r from-[#615eec] to-[#0A06F4];
             }
+            .modal-delete-button-style {
+                @apply form-button-style  flex items-center justify-center h-[40px];
+            } .modal-delete-button-style:hover {
+                @apply bg-gradient-to-r from-[#f06179] to-[#EF4565];
+            }
 
         /* Bouton spécifique pour la page de liste d'élèves */
             .modal-student-button-style {
