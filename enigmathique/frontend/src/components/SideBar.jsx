@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import logo from '../assets/img/logo-name-enigmathique-black.png';
+import logo from 'assets/img/logo-name-enigmathique-black.png';
 import PropTypes from 'prop-types';
 import {IconContext} from 'react-icons';
 import {MdCollectionsBookmark, MdDoorFront, MdGames, MdHome} from 'react-icons/md';
@@ -8,22 +8,21 @@ import {useState} from 'react';
 import Modal, {ModalBody, ModalHeader} from './Modal';
 import {useNavigate} from 'react-router-dom';
 
-
+/**
+ * Définit la side bar sur le côté professeur
+ * @returns {Element}
+ * @constructor
+ */
 const SideBar = () => {
 
 	const [cancelModalOpen, setCancelModalOpen] = useState(false);
 	const [cancelNavPath, setCancelNavPath] = useState("dashboard");
 	const location = useLocation();
 	const path = location.pathname;
-	// const {setFormData} = useCreationGameContext();
 
 
 	const handleNav = (event,navPath) => {
 		if (path === "/create-game") {
-			// if (confirm("Etes-vous sûr de vouloir quitter la création de la partie ?")) {
-			// 	// setFormData(initialFormData);
-			// 	return;
-			// }
 			setCancelNavPath(navPath);
 			setCancelModalOpen(true);
 			event.preventDefault();
@@ -76,6 +75,12 @@ const SideBar = () => {
 	);
 };
 
+/**
+ * Définit les sections de la side bar
+ * @param props
+ * @returns {Element}
+ * @constructor
+ */
 const ItemList = (props) => {
 	const location = useLocation();
 	const path = location.pathname.toLowerCase();
@@ -102,7 +107,6 @@ const ItemList = (props) => {
 			icon: <MdDoorFront/>,
 		},
 	}
-	//TODO: Surveiller si ca marche avec toutes les pages
 	const selected = path.includes(type[props.type].path);
 
 	const liClassName = selected ? 'nav-item-selected' : 'nav-item' ;

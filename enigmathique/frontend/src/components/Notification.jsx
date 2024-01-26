@@ -1,6 +1,11 @@
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 
+/**
+ * Notification gérant les toasters
+ * @returns {Element}
+ * @constructor
+ */
 const Notification = () => {
     return (       
         <Toaster

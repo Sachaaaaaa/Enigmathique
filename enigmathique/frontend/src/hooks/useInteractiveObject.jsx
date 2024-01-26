@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef } from 'react';
 
 // Créer un hook pour les objets interactifs qui isolent les fonctions de gestion des événements
 const useInteractiveObject = () => {

@@ -1,32 +1,33 @@
 import React from 'react';
 import {Route, Routes} from 'react-router-dom';
-import Home from './pages/Home';
-import Signup from './pages/Signup';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Game from './pages/Game';
-import Class from './pages/Class';
-import Students from './pages/Students';
-import './index.css';
-import TeamStats from './components/stats/TeamStats';
-import Games from './pages/Games';
-import Join from './pages/Join';
-import PreGameWrapper from './components/contexts/PreGame.wrapper';
-import CreateGameWrapper from './components/contexts/CreationGame.wrapper';
+import Home from 'pages/Home';
+import Signup from 'pages/Signup';
+import Login from 'pages/Login';
+import Dashboard from 'pages/Dashboard';
+import Game from 'pages/Game';
+import Class from 'pages/Class';
+import Students from 'pages/Students';
+import 'index.css';
+import Games from 'pages/Games';
+import Join from 'pages/Join';
+import PreGameWrapper from 'components/contexts/PreGame.wrapper';
+import CreateGameWrapper from 'components/contexts/CreationGame.wrapper';
 import RoomList from 'pages/RoomPage';
 import ProfFollowUp from 'pages/ProfFollowUp';
 import Ranking from 'pages/Ranking';
 import StudentStats from 'pages/StudentStats';
 import NotFound from 'pages/NotFound';
 import CLassStats from 'pages/ClassStats';
-import useCourses from 'hooks/useCourses';
 import CGU from 'pages/CGU';
 
-
+/**
+ * Composant principal de l'application
+ * @returns {Element}
+ * @constructor
+ */
 const App = () => {
-
-	const [courses] = useCourses();
 	return (
+		//Liste des routes accessibles du site
 		<Routes>
 			<Route path='*' element={<NotFound/>}/>
 			<Route path='/' element={<Home/>}/>
@@ -34,10 +35,6 @@ const App = () => {
 			<Route path='/login' element={<Login/>}/>
 			<Route path='/dashboard' element={<Dashboard/>}/>
 			<Route path='/class' element={<Class/>}/>
-			{/* {courses.map((course) =>  {
-				return <Route key={course.id} path={'/class/:' + course.id} element={<Students/>}/>
-			})
-			} */}
 			<Route path='/class/:id' element={<Students/>}/>
 			<Route path='/game' element={<Game/>}/>
 			<Route path='/games' element={<Games/>}/>

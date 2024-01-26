@@ -6,6 +6,7 @@ import StudentModel from 'models/student.model';
  * Récupère les étudiants d'un cours
  * @param {number} idCourse 
  * @param {boolean} autoload
+ * @returns une liste des étudiants d'une classe
  */
 const useStudents = (idCourse, autoload = true) => {
 	const [students, setStudents] = useState([]);

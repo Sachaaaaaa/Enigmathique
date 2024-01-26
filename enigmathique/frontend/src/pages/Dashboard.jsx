@@ -156,13 +156,13 @@ const Dashboard = () => {
 					</article>
 				</section>
 
-				{/* Section de droite (Classes) */}
+				{/* Section de droite (Classes)
 				<section className="section w-[35svw]">
-					{/* Titre de la section */}
+					Titre de la section
 					<div className="title-container primary-font-color">
 						<h2 className="medium-title">Mes classes</h2>
 						<div>
-							{/* Flèches de navigation entre les classes */}
+							Flèches de navigation entre les classes
 							<button className="hover:blue-font-color" onClick={prevClass}>
 								<FaAngleLeft size={"1.5em"} />
 							</button>
@@ -172,7 +172,7 @@ const Dashboard = () => {
 						</div>
 					</div>
 
-					{/* Afficher seulement la classe actuellement sélectionnée */}
+					Afficher seulement la classe actuellement sélectionnée
 					{courses.length !== 0 ? (
 						<ClassElem
 							key={currentClassIndex}
@@ -185,7 +185,7 @@ const Dashboard = () => {
 							sizeClasses="w-full h-[calc(100%-50px)]"
 						/>
 					)}
-				</section>
+				</section> */}
 			</main>
 		</LayoutProf>
 	);
