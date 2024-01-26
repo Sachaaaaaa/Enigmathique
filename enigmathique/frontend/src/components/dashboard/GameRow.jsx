@@ -92,11 +92,12 @@ const GameRow = ({ game, index, loadGames }) => {
                     title={leaderboardButtonTitle}
                     link={leaderboardButtonLink}
                 />
-                <ActionButton
+                {/* Bouton supprimé car page associé non faite  */}
+                {/* <ActionButton
                     title="Détails"
                     link={`/game/${game.id}`}
                     disabled={isDetailsButtonDisabled}
-                />
+                /> */}
                 <ActionButton
                     title="Supprimer"
                     onClick={() => setDeleteModalOpen(true)}

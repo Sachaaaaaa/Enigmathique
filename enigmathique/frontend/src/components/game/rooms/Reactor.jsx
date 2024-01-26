@@ -376,7 +376,7 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
-					title='Trouver un nom'
+					title="Cuve d'eau"
 						enigmaId={3}
 						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<EnigmaChaufDisplay
@@ -385,7 +385,7 @@ export default function ReactorRoom(props) {
 								image={data.image}
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
-								stepButton={1}
+								stepButton={10}
 								isSolved={isSolved}
 							/>
 						)}
@@ -422,7 +422,7 @@ export default function ReactorRoom(props) {
 				{hovered && <meshBasicMaterial color={0xffcc00} />}
 				{clicked && (
 					<Enigma
-						title="Panneau électrique"
+						title="Turbine"
 						enigmaId={4}
 						enigmaDisplayTemplate={(data, hint, isSolved,handleSubmitAnswer, handleAskHint) => (
 							<BasicDisplayTemplate
@@ -433,6 +433,7 @@ export default function ReactorRoom(props) {
 								handleSubmitAnswer={handleSubmitAnswer}
 								handleAskHint={handleAskHint}
 								isSolved={isSolved}
+								isNumberOnly={true}
 							/>
 						)}
 						closeEnigma={forceExit}

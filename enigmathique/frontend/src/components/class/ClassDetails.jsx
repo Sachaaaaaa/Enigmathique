@@ -125,7 +125,7 @@ const ClassDetails = ({idClass}) => {
 					link='/class'
 				/>
 				<div className="overflow-x-auto mt-4">
-					<TableContainer headers={['Nom de la partie','Date', 'Winrate', 'Action']}>
+					<TableContainer headers={['Nom de la partie','Date', 'Taux de réussite', 'Action']}>
 						{listGame.map((game, index) => (
 							<tr key={game.id} className={getRowColor(index)}>
 								<td className="td-style">
@@ -140,7 +140,7 @@ const ClassDetails = ({idClass}) => {
 								<td className="td-style text-right">
 									<ActionButton
 										link={`/ranking/${game.id}`}
-										title='Détails'
+										title='Classement'
 									>
 									</ActionButton>
 								</td>
