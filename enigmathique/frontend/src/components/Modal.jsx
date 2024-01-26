@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../index.css';
+import 'index.css';
 
+/**
+ * Entête de la fenêtre modale
+ * @param title titre de la fenêtre
+ * @returns {Element}
+ * @constructor
+ */
 function ModalHeader({title}) {
 	return (
 		<div className='w-full bg-white rounded-t-lg flex flex-col justify-center items-start border-b-2 box-border border-white-color'>
@@ -10,6 +16,12 @@ function ModalHeader({title}) {
 	);
 }
 
+/**
+ * Corps de la fenêtre modale
+ * @param children contenu de la fenêtre
+ * @returns {Element}
+ * @constructor
+ */
 function ModalBody({children}) {
 	return (
 		<div className='w-full h-full px-5 py-4'>
@@ -18,6 +30,14 @@ function ModalBody({children}) {
 	);
 }
 
+/**
+ * Défini la fenêtre modale
+ * @param children contenu de la fenêtre modale
+ * @param width largeur de la fenêtre
+ * @param height hauteur de la fenêtre
+ * @returns {Element}
+ * @constructor
+ */
 function Modal({children, width = 400, height = 300}) {
 	// setOpenModal sert a fermer le modal quand on clique en dehors du modal
 	// Faire en sorte que le modal se ferme lorsqu'on clique en dehors
