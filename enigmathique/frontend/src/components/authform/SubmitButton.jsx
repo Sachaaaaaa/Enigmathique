@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Composant SubmitButton
+ * @param text le texte du bouton
+ * @param loading l'état du bouton actif ou non
+ * @param onClick la fonction à exécuter au clic
+ * @returns {Element} le composant SubmitButton
+ */
 const SubmitButton = ({text, loading, onClick}) => {
 	return (
 		<button
@@ -15,7 +22,7 @@ const SubmitButton = ({text, loading, onClick}) => {
 			<span>{text}</span>
 		</button>
 	);
-}
+};
 
 SubmitButton.propTypes = {
 	text: PropTypes.string.isRequired,
