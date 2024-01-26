@@ -2,6 +2,12 @@ import React from 'react';
 import { FiInbox } from "react-icons/fi";
 import PropTypes from 'prop-types';
 
+/**
+ * Affichage d'une liste lorsqu'elle est vide
+ * @param title label de la page vide
+ * @returns {Element}
+ * @constructor
+ */
 const EmptyPage = ({title}) => {
     return (
         <section className='flex flex-col justify-center items-center w-full pt-[10%]'>
