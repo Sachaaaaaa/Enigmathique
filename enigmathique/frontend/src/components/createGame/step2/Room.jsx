@@ -64,7 +64,7 @@ const Room = (props) => {
 			<article className={roomElemClass}>
 				<FaPuzzlePiece size={30} className="blue-font-color"/>
 				<div className='flex flex-col'>
-					<span className='primary-font-color font-bold'>{999}</span>
+					<span className='primary-font-color font-bold'>N/A</span>
 					<span className='nav-font-color'>Énigmes</span>
 				</div>
 			</article>

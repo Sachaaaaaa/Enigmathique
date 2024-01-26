@@ -90,6 +90,7 @@ const CreationGame2 = (props) => {
 					return(
 						room.chapter.toLowerCase() === filter.chapter && room.name.toLowerCase().includes(filter.text.toLowerCase()) &&
 							<Room
+								key={index}
 								index={index}
 								room={room}
 								handleRoomSelection={handleRoomSelection}

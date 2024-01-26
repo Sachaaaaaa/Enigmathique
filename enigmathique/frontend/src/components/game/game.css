@@ -8,6 +8,12 @@
 @layer components {
 /**************** Couleurs et styles de base ****************/
 
+/* Couleurs de fond */
+    .bg-black-color {
+        @apply bg-[#2B2B2B];
+    
+    }
+
 /** Couleurs de texte **/
 
     .primary-font-color {
@@ -89,13 +95,13 @@
                          appearance-none focus:outline-none
             }
             .chest-button {
-                @apply w-auto p-2 text-white bg-[#2B2B2B] border-white;
+                @apply w-auto p-2 text-white bg-black-color border-white disabled:opacity-50;
             }
             .chest-button:hover {
                 @apply bg-[#1E1E1E];
             }
             .empty-chest-button {
-                @apply w-auto text-white bg-[#2B2B2B] border-white;
+                @apply w-auto text-white bg-black-color border-white;
             }    
 
 }

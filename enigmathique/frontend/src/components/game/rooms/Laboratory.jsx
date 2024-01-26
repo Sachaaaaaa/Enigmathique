@@ -105,8 +105,8 @@ export default function Room001(props) {
 						title="Paperasse"
 						images={images}
 						closePopup={forceExit}>
-			<p> Ce bureau est un vrai bazar ! 3 papiers éparpillés attirent votre attention : une <strong>recette</strong>, un <strong>protocole</strong> de cuisson et une fiche de <strong>notes.</strong> 
-						Il doivent bien vous être utile... </p>					
+						<p> Ce bureau est un vrai bazar ! 3 papiers éparpillés attirent votre attention : une <strong>recette</strong>, un <strong>protocole</strong> de cuisson et une fiche de <strong>notes.</strong>
+						{" "}Ils doivent bien vous être utile... </p>					
 						</InfoPopupSlider>
 				)}
 			</mesh>
