@@ -78,6 +78,25 @@ Dans un souci de sécurité, les variables sensibles telles que le token, le poi
 
 _Note : pour des raisons de sécurité ces .env sont placés dans un .gitignore donc si vous faites un git clone, vous devrez créer et renseigner ces .env manuellement_
 
+## Configuration de Postgresql
+
+Dans /backend/src/config/db.config.js la configuration devrait ressembler à ceci :
+```
+module.exports = {
+    HOST: "localhost",
+    USER: "dev",
+    PASSWORD: "dev",
+    DB: "enigmathique",
+    dialect: "postgres",
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000,
+    },
+}
+```
+
 ### Créer les .env
 Il faut donc créer et remplir les .env suivants :
 
