@@ -1,16 +1,21 @@
 import React, { createContext, useContext, useState } from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
+
+/**
+ * Contexte de création de game
+ */
+
 
 const CreationGameContext = createContext(null);
 export const initialFormData = {
 	gameName: '',
 	course: 0,
 	teamSize: 1,
-}
+};
 export const initialFilterData = {
 	text:'',
 	chapter:'suit',
-}
+};
 export const CreationGameDataProvider = (props) => {
 
 	//Data étape 1

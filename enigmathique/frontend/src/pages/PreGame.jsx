@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import LayoutProf from '../layouts/LayoutProf';
-import TeamContainer from '../components/preGame/TeamContainer';
+import LayoutProf from 'layouts/LayoutProf';
+import TeamContainer from 'components/preGame/TeamContainer';
 import { SocketContext, socket } from 'contexts/SocketContext';
 import { useParams } from 'react-router-dom';
 import {
@@ -8,12 +8,17 @@ import {
 	ConnectionType,
 	ServerToClient,
 } from 'data/socketMessages';
-import AuthService from '../services/auth.service';
-import Notification from '../components/Notification';
+import AuthService from 'services/auth.service';
+import Notification from 'components/Notification';
 import toast from 'react-hot-toast';
 import Modal, {ModalBody, ModalHeader} from 'components/Modal';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Page permettant de valider les équipes avant le début de la partie
+ * @returns {Element}
+ * @constructor
+ */
 const PreGame = () => {
 	const [lockedTeams, setLockedTeams] = useState([]);
 	const [confirmedTeams, setConfirmedTeams] = useState([]);
@@ -29,7 +34,9 @@ const PreGame = () => {
 		sessionId,
 		connectionType: ConnectionType.TeamComposition,
 	};
-
+	/**
+	 * UseEffect pour gérer les évènements du socket
+	 */
 	useEffect(() => {
 		socket.on(ServerToClient.Connection, () => {
 			console.log('Connecté au serveur');
@@ -59,7 +66,9 @@ const PreGame = () => {
 			socket.off(ServerToClient.CompositionFinished);
 		};
 	}, []);
-
+	/**
+	 * Gestion du bouton de modal de confirmation
+	 */
 	const handleStartGame = () => {
 		if (confirmedTeams.length === 0) {
 			toast.error('Il faut au moins une équipe pour commencer la partie');
@@ -68,11 +77,17 @@ const PreGame = () => {
 		setConfirmateModalOpen(true);
 
 	};
+	/**
+	 * Gestion du bouton de redirection
+	 */
 	const handleRedirection = () => {
 		setConfirmateModalOpen(false);
 		socket.emit(ClientToServer.FinishComposition);
-	}
+	};
 
+	/**
+	 * Vérifie que lockedTeams et confirmedTeams sont des tableaux
+	 */
 	if (!Array.isArray(lockedTeams) || !Array.isArray(confirmedTeams)) {
 		throw new Error('lockedTeams and confirmedTeams must be arrays');
 	}
@@ -93,25 +108,25 @@ const PreGame = () => {
 						<TeamContainer teams={confirmedTeams} isValidated={true} />
 					</section>
 					{confirmateModalOpen && (
-					<Modal>
-					<ModalHeader title="Lancer la partie"/>
-					<ModalBody>
-						<form className='flex flex-col text-center w-full gap-3'>
-							<p className=' block text-sm font-medium mb-5 primary-font-color'>Voulez-vous commencer la partie ?</p>
-							<button
-								type='submit'
-								className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
-								onClick={handleRedirection}>
+						<Modal>
+							<ModalHeader title="Lancer la partie"/>
+							<ModalBody>
+								<form className='flex flex-col text-center w-full gap-3'>
+									<p className=' block text-sm font-medium mb-5 primary-font-color'>Voulez-vous commencer la partie ?</p>
+									<button
+										type='submit'
+										className='bg-gradient-to-r from-[#4C49ED] to-[#0A06F4] modal-validate-button-style'
+										onClick={handleRedirection}>
 								Lancer
-							</button>
-							<button
-								className='modal-cancel-button-style'
-								onClick={() => setConfirmateModalOpen(false)}>
+									</button>
+									<button
+										className='modal-cancel-button-style'
+										onClick={() => setConfirmateModalOpen(false)}>
 								Annuler
-							</button>
-						</form>
-						</ModalBody>
-					</Modal>)}
+									</button>
+								</form>
+							</ModalBody>
+						</Modal>)}
 				</main>
 			</LayoutProf>
 		</SocketContext.Provider>

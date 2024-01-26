@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ClassElem from '../components/dashboard/ClassElem';
-import RoomElem from '../components/dashboard/RoomElem';
-import GameElem from '../components/dashboard/GameElem';
+import ClassElem from 'components/dashboard/ClassElem';
+import RoomElem from 'components/dashboard/RoomElem';
+import GameElem from 'components/dashboard/GameElem';
 import EmptyInfoBlock from 'components/dashboard/EmptyInfoBlock';
 
 import { randInt } from 'three/src/math/MathUtils';
-import LayoutProf from '../layouts/LayoutProf';
+import LayoutProf from 'layouts/LayoutProf';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
 
-import useCourses from '../hooks/useCourses';
-import useGames from '../hooks/useGames';
-import useRooms from '../hooks/useRooms';
+import useCourses from 'hooks/useCourses';
+import useGames from 'hooks/useGames';
+import useRooms from 'hooks/useRooms';
 
+/**
+ * Page du tableau de bord de l'enseignant
+ * @returns {Element}
+ * @constructor
+ */
 const Dashboard = () => {
 	//récupération des classes à l'aide du hook useCourses
 	const [courses] = useCourses();
@@ -164,10 +169,10 @@ const Dashboard = () => {
 						<div>
 							Flèches de navigation entre les classes
 							<button className="hover:blue-font-color" onClick={prevClass}>
-								<FaAngleLeft size={"1.5em"} />
+								<FaAngleLeft size={'1.5em'} />
 							</button>
 							<button className="hover:blue-font-color" onClick={nextClass}>
-								<FaAngleRight size={"1.5em"} />
+								<FaAngleRight size={'1.5em'} />
 							</button>
 						</div>
 					</div>
