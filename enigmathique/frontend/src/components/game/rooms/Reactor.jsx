@@ -287,7 +287,7 @@ export default function ReactorRoom(props) {
 						title='Panneau de contrôle'
 						enigmaId={1}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
-							<BasicEnigmaDisplay
+							<BasicDisplayTemplate
 								handleSubmitAnswer={handleSubmitAnswer}
 								description="Il faut éviter une autre surchauffe. Arrondir le volume du fluide caloporteur à l'entier le plus proche."
 								placeholder="Volume en L"
