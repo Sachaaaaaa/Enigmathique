@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { useEffect, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 
 import { Scene } from 'components/game/SceneManager';
 import { socket, SocketContext } from 'contexts/SocketContext';
@@ -9,13 +9,12 @@ import { RoomProvider } from '../contexts/RoomContext';
 import Timer from 'components/game/enigmas/Timer';
 import Rules from 'components/game/Rules';
 import Modal, { ModalBody, ModalHeader } from 'components/Modal';
-import E from '../assets/img/E.png';
+
 import logoNameNobg from '../assets/img/logo-name-enigmathique-white.png';
-import bglogo from '../assets/img/bg_logo.png';
+
 import { FiInfo } from 'react-icons/fi';
 import Notification from 'components/Notification';
 import toast from 'react-hot-toast';
-import { handleLoginError } from 'components/authform/handleError';
 
 const Game = () => {
 	// Recupère l'id de session dans l'url
@@ -149,12 +148,8 @@ const Game = () => {
 					}}/> */}
 
 					<div className='flex flex-col justify-center items-center'>
-						<h1 style={{
-							fontSize: '3em',
-							fontWeight: 'bold',
-							color: '#1affff',
-						}}>VOUS AVEZ FINI LA SALLE !</h1>
-						<p style={{ fontSize: '2em',fontWeight: 'bold',color: '#ffffff',}}>Profitez-en pour prendre une pose, vous l&apos;avez bien mérité.</p>
+						<h1 className = "font-[3em] text-[#1affff]">Vous avez fini la salle !</h1>
+						<p className='font-[2em] text-white'>Profitez-en pour prendre une pause, vous l&apos;avez bien mérité.</p>
 					</div>
 				</div>
 			)}
