@@ -157,9 +157,9 @@ exports.addScores = async(req, res, next) => {
 									nbBadAnswers: Joi.number().integer().max(150).required(),
 									nbHints: Joi.number().integer().max(150).required(),
 									isSolved: Joi.boolean().required(),
-									time: Joi.number().max(999999).required(),
-									startTime: Joi.number().max(999999).integer(),
-									endTime: Joi.number().max(999999).integer(),
+									time: Joi.number().required(),
+									startTime: Joi.number().integer(),
+									endTime: Joi.number().integer(),
 								})
 							)
 							.required(),
