@@ -8,6 +8,7 @@ import ContentHeader from 'components/dashboard/ContentHeader';
 import CreateButton from 'components/dashboard/CreateButton';
 import Textfield from 'components/authform/Textfield';
 import toast from "react-hot-toast";
+import EmptyPage from 'components/EmptyPage';
 
 const ListStudents = (props) => {
 	
@@ -66,12 +67,15 @@ const ListStudents = (props) => {
 				<SearchInput handleChangeText={handleChangeText}/>
 				<CreateButton title="Ajouter un élève" onClick={() => setCreateModalOpen(true)}/>
 			</ContentHeader> 
-
+			{filteredStudents.length != 0 && 
 			<ul className='flex flex-wrap gap-5 p-5 mt-10'>
 				{filteredStudents.map((student) => (
 					<StudentElement key={student.id} student={student} onChange={() => props.loadStudents()} />
 				))}
 			</ul>
+			}
+			{filteredStudents.length === 0 && <EmptyPage title="Aucun élève n'est enregistré !" />}		
+
 			{createModalOpen && (
 				<Modal setOpenModal={setCreateModalOpen}>
 					<ModalHeader title="Ajouter un élève"/>

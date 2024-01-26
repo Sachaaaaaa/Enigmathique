@@ -55,7 +55,7 @@ const Games = () => {
 
 	return (
 		<LayoutProf title="Mes parties">
-			<main>
+			<main >
 				<Notification></Notification>
 				<ContentHeader link='/dashboard'>
 					<SearchInput handleChangeText={handleTextChange}/>
@@ -63,10 +63,8 @@ const Games = () => {
 				</ContentHeader>
 				
 				<TableContainer headers={['Nom', 'Date', 'Classe', 'Taux de réussite', 'Action']}>
-				{/* {filteredGames.length === 0 ? (
-					<EmptyPage title="Vous n'avez pas encore de partie " />
-				) : ( 
-					<> */}
+				{filteredGames.length != 0 && 
+					<>
 					{filteredGames.map((game, index) => {							
 						return (
 							<GameRow
@@ -77,9 +75,10 @@ const Games = () => {
 							/>	
 							);
 						})}
-					{/* </>
-				)} */}
+					</>
+				}
 				</TableContainer>
+				{filteredGames.length === 0 && <EmptyPage title="Vous n'avez pas encore de partie !" />}
 
 			</main>
 		</LayoutProf>

@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 
 const EmptyPage = ({title}) => {
     return (
-        <section className='flex flex-col justify-center items-center'
-        style={{position: "absolute", left: "50%", transform: "translate(-40%,50%)"
-                }}>
+        <section className='flex flex-col justify-center items-center w-full pt-[10%]'>
             <div className="w-fit h-fit border-2 border-dashed border-blue-color rounded-full" 
             >
                 <div className='w-fit bg-purple-color rounded-full p-5 m-7'>
-                    <FiInbox size={75} className='primary-font-color' />
+                    <FiInbox size={80} className='primary-font-color' />
                 </div>
             
             </div>
