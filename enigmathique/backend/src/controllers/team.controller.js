@@ -23,6 +23,16 @@ const GameRooms = db.gameRooms;
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
 async function isClassBelongsProfessor(idCourse, req) {
 
+	// Récupère la classe en question
+	const course = await Course.findOne({ where: { id: idCourse} });
+
+	// Vérifie que l'élève existe bien
+	if(!course){
+		const error = new Error("La classe n'existe pas.");
+		error.statusCode = 404;  
+		throw error;
+	}
+		
 	// Récupère toutes les classes du professeur courant
 	const courses = await Course.findAll({ where: { idProfessor: req.tokenId } });
 
@@ -147,9 +157,9 @@ exports.addScores = async(req, res, next) => {
 									nbBadAnswers: Joi.number().integer().max(150).required(),
 									nbHints: Joi.number().integer().max(150).required(),
 									isSolved: Joi.boolean().required(),
-									time: Joi.number().max(999999).required(),
-									startTime: Joi.number().max(999999).integer(),
-									endTime: Joi.number().max(999999).integer(),
+									time: Joi.number().required(),
+									startTime: Joi.number().integer(),
+									endTime: Joi.number().integer(),
 								})
 							)
 							.required(),
@@ -200,7 +210,6 @@ exports.addScores = async(req, res, next) => {
 		}
 		res.status(201).json(result);
 	} catch(err) {
-		console.log(err)
 		next(err)
 	}
 

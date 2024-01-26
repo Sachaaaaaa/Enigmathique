@@ -8,7 +8,6 @@ const TokenDB = db.token;
 const Professor = db.professor;
 const Joi = require('joi');
 const { baseSchema } = require('./validationSchemas');
-const Op = db.Sequelize.Op;
 
 
 // Fonction générant un token JWT
@@ -149,7 +148,6 @@ exports.login = async (req, res, next) => {
 
 
 	} catch(err) {
-		console.log(err)
 		next(err)
 	}
 }

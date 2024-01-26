@@ -1,9 +1,5 @@
 "use strict";
 
-/**
- * Définition des opérations CRUD pour les classes
-*/
-
 const db = require("../models/db.js");
 const Course = db.course;
 const Student = db.student;
@@ -18,6 +14,16 @@ const { baseSchema } = require('./validationSchemas');
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
 async function isClassBelongsProfessor(idCourse, req) {
 
+	// Récupère la classe en question
+	const course = await Course.findOne({ where: { id: idCourse} });
+
+	// Vérifie que l'élève existe bien
+	if(!course){
+		const error = new Error("La classe n'existe pas.");
+		error.statusCode = 404;  
+		throw error;
+	}
+		
 	// Récupère toutes les classes du professeur courant
 	const courses = await Course.findAll({ where: { idProfessor: req.tokenId } });
 
@@ -33,7 +39,6 @@ async function isClassBelongsProfessor(idCourse, req) {
 
 }
 
-// Fonction vérifiant si la requête est conforme aux attentes
 // Fonction vérifiant si la requête est conforme aux attentes
 function isRequestCorrect(schema, req) {
 	const { error } = schema.validate(req.body);
@@ -85,7 +90,7 @@ exports.create = async (req, res, next) => {
 // 									 READ                                      //
 /////////////////////////////////////////////////////////////////////////////////
 
-// methode pour récuperer les classes du professeur
+// Récupère les classes d'un professeur
 exports.findAll = async (req, res, next) => {
 	try{
 		// Récupère toutes les classes du professeur connecté
@@ -100,14 +105,13 @@ exports.findAll = async (req, res, next) => {
 	}	
 }
 
-
+// Récupère une classe à partir de son id
 exports.findOne = async (req, res, next) => {
 
 	try {
 
 		// Vérifie que la classe appartient bien au professeur
 		await isClassBelongsProfessor(req.params.id, req)
-
 
 		// Récupèrer la classe
 		const course = await Course.findOne({ where: { id: req.params.id, idProfessor: req.tokenId } })
@@ -121,7 +125,7 @@ exports.findOne = async (req, res, next) => {
 }
 
 
-// methode pour récuperer les élèves d'une classe du professeur par son id
+// Récupère les élèves d'une classe
 exports.findStudents = async (req, res, next) => {
 
 	try{
@@ -145,7 +149,6 @@ exports.findStudents = async (req, res, next) => {
 // 									 UPDATE                                    //
 /////////////////////////////////////////////////////////////////////////////////
 
-// todo: verif qu'il y a au moins un truc à modifier 
 // methode pour mettre à jour une classe du professeur
 exports.update = async(req, res, next) => {
 	
@@ -199,10 +202,10 @@ exports.delete = async (req, res, next) => {
 		await isClassBelongsProfessor(req.params.id, req)
 
 		// Effectue la requête de delete
-		const destroyedRows = await Course.destroy({ where: { id: req.params.id, idProfessor: req.tokenId} })
+		const deletedRows = await Course.destroy({ where: { id: req.params.id, idProfessor: req.tokenId} })
 			
 		// Vérifie si la classe a bien été supprimé
-		if (destroyedRows == 0) {
+		if (deletedRows == 0) {
 			const error = new Error("Impossible de mettre à jour la classe.");
 			error.statusCode = 404;  
 			throw error;

@@ -93,7 +93,7 @@ const ClassDetails = ({idClass}) => {
 				return {
 					id: game.id,
 					name: game.name,
-					date: game.createdAt.toLocaleDateString(),
+					date: game.createdAt.toLocaleDateString('fr-Fr'),
 					winrate: winrate,
 				};
 				

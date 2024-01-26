@@ -10,21 +10,21 @@ import CourseModel from 'models/course.model';
  * @param {boolean} autoload 
  * @returns 
  */
-const useCourses = (id, autoload = true) => {
+const useCourse = (id, autoload = true) => {
 	const [course, setCourse] = useState(null);
 
-	const useCourse = async (id) => {
+	const loadCourse = async (id) => {
 		const data = await CourseModel.get(id);
 		setCourse(data);
 	};
 
 	useEffect(() => {
 		if (autoload) {
-			useCourse(id);
+			loadCourse(id);
 		}
 	}, []);
 
 	return [course, useCourse];
 };
 
-export default useCourses;
+export default useCourse;

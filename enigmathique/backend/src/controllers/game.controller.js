@@ -1,9 +1,5 @@
 "use strict";
 
-/**
- * Définition des opérations CRUD pour les classes
-*/
-
 const db = require("../models/db.js");
 const Joi = require('joi');
 const { baseSchema } = require('./validationSchemas');
@@ -11,7 +7,6 @@ const Game = db.game;
 const Course = db.course;
 const Team = db.team;
 const Score = db.score;
-const GameCode = db.gameCode;
 const Student = db.student;
 const GameRooms = db.gameRooms;
 const Op = db.Sequelize.Op;
@@ -37,6 +32,16 @@ function makeid(length) {
 // Fonction vérifiant si une classe, à partir de son id, appartiant au professeur
 async function isClassBelongsProfessor(idCourse, req) {
 
+	// Récupère la classe en question
+	const course = await Course.findOne({ where: { id: idCourse} });
+
+	// Vérifie que l'élève existe bien
+	if(!course){
+		const error = new Error("La classe n'existe pas.");
+		error.statusCode = 404;  
+		throw error;
+	}
+		
 	// Récupère toutes les classes du professeur courant
 	const courses = await Course.findAll({ where: { idProfessor: req.tokenId } });
 
@@ -46,7 +51,7 @@ async function isClassBelongsProfessor(idCourse, req) {
 	// Vérifie que la classe appartient bien au professeur
 	if(!ids.includes(parseInt(idCourse))){
 		const error = new Error("La classe n'appartient pas au professeur.");
-		error.statusCode = 403;
+		error.statusCode = 403;  
 		throw error;
 	}
 
@@ -60,12 +65,7 @@ async function isGameBelongsProfessor (idGame, req) {
 	// Récupère toutes les parties du professeur courant
 	const game = await Game.findOne({ where: { id: idGame} });
 
-	// Vérifie que la partie existe bien
-	if(!game){
-		const error = new Error("La partie n'existe pas.");
-		error.statusCode = 404;
-		throw error;
-	}
+	
 
 	try{
 		// Vérifie que la classe de la partie appartient bien au professeur
@@ -108,7 +108,7 @@ exports.create = async (req, res, next) => {
 		// Vérification des informations fournis
 		const gameSchema = baseSchema.keys({
 			idCourse: Joi.number().integer().required(),
-			teamSize: Joi.number().integer().required(),
+			teamSize: Joi.number().integer().max(150).required(),
 			name: Joi.string().max(150).required(),
 		});
 
@@ -125,7 +125,6 @@ exports.create = async (req, res, next) => {
 			teamSize: req.body.teamSize,
 			gameCode: null,
 		};
-
 	
 		// Enregistrer la partie dans la base de données
 		const createdGame = await Game.create(game)
@@ -140,44 +139,6 @@ exports.create = async (req, res, next) => {
 	}
 }
 
-//
-// Ajoute des salles à une partie
-exports.addRooms = async(req, res, next) => {
-
-	try{
-
-		// Vérification des informations fournis
-		const gameSchema = baseSchema.keys({
-			idGame: Joi.number().integer().max(150).required(),
-			roomName: Joi.array().max(150).items(
-				Joi.string().max(150).required()).required()
-		});
-
-		// Vérifie si le schéma correspond bien aux données fournis, renvoie une erreur sinon
-		isRequestCorrect(gameSchema, req)
-
-		// Vérifie que la partie appartient bien au professeur
-		await isGameBelongsProfessor(req.body.idGame, req);
-
-		// Récupère les noms des salles à ajouter
-		const roomNames = req.body.roomName;
-
-		// Map les noms de salles avec l'id de la game
-		const roomsToAdd = roomNames.map(currentRoomName => ({ idGame: req.body.idGame, roomName: currentRoomName }));
-
-		// Enregistrer les rooms dans la table GameRooms
-		const games = GameRooms.bulkCreate(roomsToAdd)
-
-		res.status(201).json(games);
-
-	// Gère les erreurs
-	}catch(err) {
-		next(err)
-	}
-
-
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////
 // 									 READ                                      //
@@ -190,6 +151,13 @@ exports.getIdFromCode = async (req, res, next) => {
 
 		// Récupère la classe courrespondant au code
 		const game = await Game.findOne({where: { gameCode: req.params.code }});
+		
+		// Vérifie que la partie existe bien
+		if(!game){
+			const error = new Error("La partie n'existe pas.");
+			error.statusCode = 404;
+			throw error;
+		}
 
 		return res.status(200).json(game.id);
 
@@ -284,8 +252,6 @@ exports.gameBelongsToProf = async (req, res, next) => {
 				isBelongsTo: false
 			});
 		}
-
-
 		next(err)
 	}
 }
@@ -296,6 +262,13 @@ exports.getState = async (req, res, next) => {
 	try{
 		// Récupère la partie souhaité
 		const game = await Game.findOne({ where: { id: req.params.id} })
+
+		// Vérifie que la partie existe bien
+		if(!game){
+			const error = new Error("La partie n'existe pas.");
+			error.statusCode = 404;
+			throw error;
+		}
 
 		return res.status(200).json(game.state);
 
@@ -311,6 +284,14 @@ exports.getMaxTeamSize = async(req, res, next) => {
 	try{
 		// Récupère la partie souhaité
 		const game = await Game.findOne({ where: { id: req.params.id} })
+
+		// Vérifie que la partie existe bien
+		if(!game){
+			const error = new Error("La partie n'existe pas.");
+			error.statusCode = 404;
+			throw error;
+		}
+
 		return res.status(200).json(game.teamSize);
 
 	// Gère les erreurs
@@ -487,7 +468,7 @@ exports.delete = async (req, res, next) => {
 			throw error;
 		}
 
-		return res.status(201).json("Partie supprimé avec succès");
+		return res.status(201).json("Partie suppriméE avec succès");
 
 	// Gère les erreurs
 	}catch(err) {
@@ -500,10 +481,8 @@ exports.backendDelete = async (req, res, next) => {
 
 	try{
 
-		// Ici pas besoins de vérifier l'appartenance de la partie, car il s'agit d'une méthode réservé pour la backend
-
 		// Enregistrer la classe dans la base de données
-		const destroyedRows = await Game.destroy({ where: { id: req.params.id}})
+		const deletedRows = await Game.destroy({ where: { id: req.params.id}})
 
 		// Vérifie que la colonne à effectivement été supprimé
 		if (deletedRows == 0) {
