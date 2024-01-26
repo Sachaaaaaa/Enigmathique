@@ -92,7 +92,7 @@ const ClassElement = ({classe, onChange, index}) => {
 			<td className="td-style text-right pr-5">
 				<div className='space-x-3'>
 					<ActionButton
-						title="Statistiques"
+						title="Détails"
 						link={`/class/stats/${classe.id}`}
 					/>
 					<ActionButton

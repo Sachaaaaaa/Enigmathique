@@ -1,7 +1,7 @@
 const axios = require('axios');
 const clc = require('cli-color');
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = process.env.API_URL;
 
 class ApiService {
 	static async sendRequest(method, endpoint, data) {

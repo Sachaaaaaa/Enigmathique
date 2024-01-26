@@ -14,7 +14,8 @@ const ComputerConsoleEnigma = ({closeEnigma}) => {
 		setInputCommand(event.target.value);
 	};
 
-	const handleExecuteCommand = () => {
+	const handleExecuteCommand = (e) => {
+		e.preventDefault();
 		switch (inputCommand.toLowerCase()) {
 		case 'ipconfig':
 			setOutputResponse('Adresse de l\'ordinateur : 126.144.100.242');
@@ -35,30 +36,52 @@ const ComputerConsoleEnigma = ({closeEnigma}) => {
 	};
 
 	return (
+		// <Html>
+		// 	<div className={`pop-up-container max-w-[500px]`}>
+		// 		<div className='flex justify-between items-start w-full '>
+		// 			<h1 className='pop-up-title p-3'>{"Console de l'ordinateur"} </h1>
+		// 			<ClosePopup onClick={closeEnigma}></ClosePopup>
+		// 		</div>
+
+		// 		<div className='flex flex-col w-full p-3 pt-0 h-fit'>
+		// 			<textarea
+		// 					placeholder="Entrez une commande..."
+		// 					maxLength={20}
+		// 					value={inputCommand}
+		// 					onChange={handleInputChange}
+		// 					className="bg-black text-white border p-2 resize-none">	
+		// 			</textarea>
+		// 			<button onSubmit={handleExecuteCommand} className="bg-black-color text-white p-2">
+		// 				Exécuter
+		// 			</button>
+
+		// 			<pre className="bg-black text-white border p-2 whitespace-pre-wrap h-[100px]">{outputResponse}</pre>
+		// 		</div>
+
+		// 	</div>
+
+		// </Html>
 		<Html>
-			<div className={`pop-up-container max-w-[500px]`}>
+			<div className={`pop-up-container w-[600px]`}>
 				<div className='flex justify-between items-start w-full '>
 					<h1 className='pop-up-title p-3'>{"Console de l'ordinateur"} </h1>
 					<ClosePopup onClick={closeEnigma}></ClosePopup>
 				</div>
-
-				<div className='flex flex-col w-full p-3 pt-0'>
-					<textarea
-							placeholder="Entrez une commande..."
-							maxLength={20}
-							value={inputCommand}
-							onChange={handleInputChange}
-							className="bg-black text-white border p-2 resize-none">	
-					</textarea>
-					<button onSubmit={handleExecuteCommand} className="bg-black-color text-white p-2">
+					<input
+						type ="text"
+						placeholder="Tapez une commande..."
+						value={inputCommand}
+						onChange={handleInputChange}
+						className="bg-black text-white border p-2 leading-snug focus:outline-none"
+						maxLength={30}
+					></input>
+					<button onClick={(e) =>handleExecuteCommand(e)} className="bg-black-color text-white p-2">
 						Exécuter
 					</button>
-
-					<pre className="bg-black text-white border p-2 whitespace-pre-wrap	">{outputResponse}</pre>
+				<div >
+					<pre className="bg-black text-white border p-2 w-full whitespace-pre-wrap	">{outputResponse}</pre>
 				</div>
-
 			</div>
-
 		</Html>
 	);
 };
