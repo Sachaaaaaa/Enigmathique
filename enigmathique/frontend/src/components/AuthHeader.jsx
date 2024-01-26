@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 import logo from '../assets/img/logo-name-enigmathique-black.png';
 import {Link} from 'react-router-dom';
 
+/**
+ * Entête des pages d'authentification + CGU
+ * @param title titre de la page
+ * @returns {Element}
+ * @constructor
+ */
 const AuthHeader = ({ title }) => {
     return (
         <header className='topbar-container flex justify-start h-[75px] bg-white'>
