@@ -106,7 +106,7 @@ const Game = () => {
 			<Notification />
 			<section className="absolute w-full h-20 border-y-0 top-0 topbar-container z-50 ">
 				<div className="w-11/12">
-					<img src={logoNameNobg} alt="logo" height={10}  />
+					<img src={logoNameNobg} alt="logo" style={{width : "300px"}}  />
 				</div>
 			</section>
 
