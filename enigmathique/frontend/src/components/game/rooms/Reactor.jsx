@@ -287,10 +287,10 @@ export default function ReactorRoom(props) {
 						title='Panneau de contrôle'
 						enigmaId={1}
 						enigmaDisplayTemplate={(data, hint, isSolved, handleSubmitAnswer, handleAskHint) => (
-							<EnigmaWithSlidersDisplay
+							<BasicEnigmaDisplay
 								handleSubmitAnswer={handleSubmitAnswer}
-								titreSlider='Volume H2O'
 								description="Il faut éviter une autre surchauffe. Arrondir le volume du fluide caloporteur à l'entier le plus proche."
+								placeholder="Volume en L"
 								image={data.image}
 								hint={hint}
 								handleAskHint={handleAskHint}
