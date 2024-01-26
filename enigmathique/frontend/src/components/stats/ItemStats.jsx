@@ -1,24 +1,29 @@
-import {FaDoorOpen, FaExclamationCircle, FaLightbulb, FaPuzzlePiece} from "react-icons/fa";
-import React from "react";
-import PropTypes from "prop-types";
+import { FaDoorOpen, FaExclamationCircle, FaLightbulb, FaPuzzlePiece } from 'react-icons/fa';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-function ItemStats ({text, logo, value, color}){
-	//TODO faire une map pour mettre les logos dedans
+function ItemStats({ text, logo, value, color }) {
+
+	// On définit des icônes associées à chaque logo
 	const Icons = {
-		indices : <FaLightbulb className="text-yellow-500 text-3xl" />,
-		erreurs : <FaExclamationCircle className="text-red-500 text-3xl" />,
-		sallesReussies :<FaDoorOpen className="text-blue-500 text-3xl" />,
-		enigmesResolues : <FaPuzzlePiece className="text-green-500 text-3xl" />
-	}
+		indices: <FaLightbulb className="text-yellow-500 text-3xl" />,
+		erreurs: <FaExclamationCircle className="text-red-500 text-3xl" />,
+		sallesReussies: <FaDoorOpen className="text-blue-500 text-3xl" />,
+		enigmesResolues: <FaPuzzlePiece className="text-green-500 text-3xl" />
+	};
+
+	// On définit des classes CSS de couleur associées à chaque couleur
 	const Colors = {
-		yellow : "bg-yellow-100",
-		red : "bg-red-100",
-		blue :"bg-blue-100",
-		green : "bg-green-100"
-	}
+		yellow: 'bg-yellow-100',
+		red: 'bg-red-100',
+		blue: 'bg-blue-100',
+		green: 'bg-green-100'
+	};
+
 	return (
 		<div className="flex items-center">
 			<div className={`p-4 rounded-full ${Colors[color]}`}>
+				{/* On affiche l'icône correspondante au logo */}
 				{Icons[logo]}
 			</div>
 			<div className="ml-3">
@@ -26,13 +31,15 @@ function ItemStats ({text, logo, value, color}){
 				<p className="text-lg">{value}</p>
 			</div>
 		</div>
-	)
+	);
 }
+
+// On définit les propTypes pour chaque propriété
 ItemStats.propTypes = {
 	text: PropTypes.string.isRequired,
 	logo: PropTypes.string.isRequired,
 	value: PropTypes.any.isRequired,
 	color: PropTypes.string.isRequired,
-}
+};
 
 export default ItemStats;

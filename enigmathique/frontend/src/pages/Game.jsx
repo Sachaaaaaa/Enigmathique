@@ -137,18 +137,10 @@ const Game = () => {
 			{/* TODO: Remettre quand fix, empeche de rejouer quand rotation */}
 			{(isFinished) && ( 
 				<div className='absolute top-0 left-0 w-full h-full flex justify-center items-center z-50' style={{background: 'rgba(0, 0, 0, 0.7)',}}>
-					
-					{/* <img src={bglogo} alt="logo" style={{
-						position: 'absolute',
-						width: '100vw',
-						height: '100vh',
-						top: '0',
-						left: '0',
-						zIndex: '-1',
-					}}/> */}
 
 					<div className='flex flex-col justify-center items-center'>
-						<h1 className = "font-[3em] text-[#1affff]">Vous avez fini la salle !</h1>
+						<h1 className='font-[3em]  text-[#1affff]'>
+						VOUS AVEZ FINI LA SALLE !</h1>
 						<p className='font-[2em] text-white'>Profitez-en pour prendre une pause, vous l&apos;avez bien mérité.</p>
 					</div>
 				</div>
