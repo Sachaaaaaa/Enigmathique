@@ -47,10 +47,22 @@ const TopBarProf = ({title, id}) => {
 		AuthService.logout();
 	};
 
+	const [displayMenu, setDisplayMenu] = useState("flex");
+	const handleMenu = () => {
+		document.getElementById('sidebar').style.display = displayMenu;
+		setDisplayMenu(displayMenu === "none" ? "flex" : "none");
+	}
+
 	return(
 		<section className="topbar-container p-5 flex justify-between h-fit">
 
-			<div >
+			<div className='flex items-center gap-3'>
+				<input id="toggle" type="checkbox" onClick={handleMenu}></input>
+				<label htmlFor="toggle" id="hamburger">
+					<div id="top-bun"></div>
+					<div id="meat"></div>
+					<div id="bottom-bun"></div>
+				</label>
 				<h1 className="primary-font-color text-2xl font-semibold ">{title}</h1>
 			</div>
 			

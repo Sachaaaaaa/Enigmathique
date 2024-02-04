@@ -125,11 +125,11 @@ const Dashboard = () => {
 	return (
 		<LayoutProf title='Tableau de bord'>
 			{/* Conteneur principal du tableau de bord */}
-			<main className="flex flex-wrap flex-grow gap-2 justify-between overflow-x-hidden">
+			<main className="flex flex-wrap grow justify-around overflow-x-hidden">
 				{/* Section de gauche (Parties récentes et salles) */}
 				<section className="section w-[45svw]">
 					{/* Parties récentes */}
-					<article className="flex flex-col">
+					<article className="flex flex-col h-1/2 justify-center">
 						<div className="title-container">
 							<h2 className="medium-title">Mes parties récentes</h2>
 							<Link to="/games" className="show-all-text">
@@ -144,7 +144,7 @@ const Dashboard = () => {
 					</article>
 
 					{/* Proposition de salles */}
-					<article className="flex flex-col pt-7">
+					<article className="flex flex-col pt-7 h-1/2">
 						<div className="title-container">
 							<h2 className="medium-title">Proposition de salles</h2>
 							<Link to="/rooms" className="show-all-text">

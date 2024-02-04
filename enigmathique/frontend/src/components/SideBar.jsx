@@ -36,8 +36,8 @@ const SideBar = () => {
 	}
 
 	return (
-		<nav className='flex flex-col items-center w-1/6 min-w-min h-full border-r-2 border-white-color box-border'>
-			<Link to='/dashboard' className='w-[172px] mt-7 mb-5'>
+		<nav id="sidebar">
+			<Link to='/dashboard' className='w-[170px] mt-7 mb-5'>
 				<img src={logo} alt='logo'/>
 			</Link>
 			<section className='flex flex-col justify-between items-center w-full h-full py-5 pr-2 whitespace-nowrap;'>
