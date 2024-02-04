@@ -187,10 +187,11 @@
 
         /* Conteneur global */
             .form-container-style {
-                @apply  grow flex flex-col justify-center items-center w-screen h-auto p-5 ;
+                @apply  grow flex flex-col justify-center items-center h-auto;
             }
+
             .form-style {
-                @apply flex flex-col justify-between items-center min-w-[450px] p-8 pb-0 bg-white primary-font-color shadow-md rounded
+                @apply flex flex-col justify-between items-center w-[30%] min-w-[400px] p-8 pb-0 bg-white primary-font-color shadow-md rounded
             }
 
         /* Titre des input */

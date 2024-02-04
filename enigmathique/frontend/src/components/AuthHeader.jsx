@@ -11,9 +11,9 @@ import {Link} from 'react-router-dom';
  */
 const AuthHeader = ({ title }) => {
     return (
-        <header className='topbar-container flex justify-start h-[75px] bg-white'>
-            <div className='flex items-center w-fit h-[75px] px-2 pt-2 border-r-2 box-border .border-white-color'>
-            <Link to='/' className='w-[172px]'>
+        <header className='topbar-container flex justify-start h-[10vh] min-h-[50px] bg-white'>
+            <div className='flex items-center w-fit h-[10vh] min-h-[50px] p-2 border-r-2 box-border .border-white-color'>
+            <Link to='/' className='w-[10vw] max-w-[180px] min-w-[120px]'>
 				<img src={logo} alt='logo'/>
 			</Link>
             </div>
