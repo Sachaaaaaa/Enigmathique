@@ -39,10 +39,9 @@ Nous avons dû prendre en compte plusieurs contraintes :
   - Conformité aux recommandations **OWASP** et **ANSSI**  
 - **Gestion de la sécurité applicative** :  
   - Vérification et validation stricte des entrées utilisateurs  
-  - Limitation du brute-force (rate limiting)  
   - Sécurisation des communications (HTTPS, TLS)  
 - **Documentation et collaboration** :  
-  - Rédaction d’une documentation technique claire via **Swagger/OpenAPI**  
+  - Rédaction d’une documentation technique claire via **Swagger**  
   - Organisation Agile (Scrum/Kanban), découpage en itérations  
   - Communication en équipe avec GitLab et Jira  
 
