@@ -34,9 +34,9 @@ Nous avons dû prendre en compte plusieurs contraintes :
   - SGBD robuste et mature (PostgreSQL vs alternatives)  
   - Frameworks adaptés (React, Express)  
 - **Création d’une API REST sécurisée** :  
-  - Authentification et autorisation via **OAuth2** et **JWT**  
+  - Utilisation de **JWT**  
   - Application du *Principle of Least Privilege*  
-  - Conformité aux recommandations **OWASP Top 10** et **ANSSI**  
+  - Conformité aux recommandations **OWASP** et **ANSSI**  
 - **Gestion de la sécurité applicative** :  
   - Vérification et validation stricte des entrées utilisateurs  
   - Limitation du brute-force (rate limiting)  
